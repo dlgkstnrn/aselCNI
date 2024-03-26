@@ -17,11 +17,12 @@
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    	<span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>${sessionScope.user_name }</h6>
+                            <h6>K. Anderson</h6>
                             <span>회원</span>
                         </li>
                         <li>
@@ -29,7 +30,7 @@
                         </li>
 
                         <li>
-			              <a class="dropdown-item d-flex align-items-center" href="myPage">
+			              <a class="dropdown-item d-flex align-items-center" href="#">
 			                <i class="bi bi-person"></i>
 			                <span>마이페이지</span>
 			              </a>
@@ -39,17 +40,7 @@
 			            </li>
 			            
 			            <li>
-			              <a class="dropdown-item d-flex align-items-center" href="askMain">
-			                <i class="bi bi-question-circle"></i>
-			                <span>문의하기</span>
-			              </a>
-			            </li>
-			            <li>
-			              <hr class="dropdown-divider">
-			            </li>
-			
-			            <li>
-			              <a class="dropdown-item d-flex align-items-center" href="userLogout">
+			              <a class="dropdown-item d-flex align-items-center" href="#">
 			                <i class="bi bi-box-arrow-right"></i>
 			                <span>로그아웃</span>
 			              </a>

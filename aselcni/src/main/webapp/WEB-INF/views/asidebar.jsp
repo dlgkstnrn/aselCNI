@@ -3,75 +3,112 @@
 <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/main">
-                    <i class="bi bi-grid"></i>
-                    <span>워크 스페이스</span>
-                </a>
-            </li><!-- End Dashboard Nav -->
-
-            <li class="nav-item">
-		        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-		          <i class="bi bi-envelope-fill"></i><span>쪽지</span><i class="bi bi-chevron-down ms-auto"></i>
+        
+			 <li class="nav-item">
+		        <a class="nav-link collapsed" data-bs-target="#standard-info-nav" data-bs-toggle="collapse" href="#">
+		          <i class="bi bi-credit-card-2-front-fill"></i>
+		          <span>기준 정보 관리</span>
+		          <i class="bi bi-chevron-down ms-auto"></i>
 		        </a>
-		        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+		        <ul id="standard-info-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 		          <li>
-		            <a href="msgReceivebox">
-		              <i class="bi bi-circle"></i><span>받은 쪽지함</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>사업장 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="msgSendbox">
-		              <i class="bi bi-circle"></i><span>보낸 쪽지함</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>거래처 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="msgStorebox">
-		              <i class="bi bi-circle"></i><span>쪽지 보관함</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>품목 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="msgTrashbox">
-		              <i class="bi bi-circle"></i><span>휴지통</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>공정 관리</span>
+		            </a>
+		          </li>
+		          <li>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>창고 관리</span>
 		            </a>
 		          </li>
 		        </ul>
-      		</li><!-- End Components Nav -->
-
-            <li class="nav-item">
-		        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-		          <i class="bi bi-layout-text-window-reverse"></i><span>정보게시판</span><i class="bi bi-chevron-down ms-auto"></i>
+      		</li>
+      		
+      		<li class="nav-item">
+		        <a class="nav-link collapsed" data-bs-target="#purchase-sales-nav" data-bs-toggle="collapse" href="#">
+		          <i class="bi bi-briefcase-fill"></i>
+		          <span>구매 / 영업 관리</span>
+		          <i class="bi bi-chevron-down ms-auto"></i>
 		        </a>
-		        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+		        <ul id="purchase-sales-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 		          <li>
-		            <a href="boardContest">
-		              <i class="bi bi-circle"></i><span>공모전</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>발주 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="boardStudy">
-		              <i class="bi bi-circle"></i><span>스터디</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>주문 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="boardFree">
-		              <i class="bi bi-circle"></i><span>자유게시판</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>출고 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="boardAsk">
-		              <i class="bi bi-circle"></i><span>질문게시판</span>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>반품 관리</span>
 		            </a>
 		          </li>
 		        </ul>
-		      </li><!-- End Forms Nav -->
-		
-		      <li class="nav-item">
-		        <a class="nav-link collapsed" href="address">
-		          <i class="bi bi-people-fill"></i><span>주소록</span>
+      		</li>
+      		
+      		<li class="nav-item">
+		        <a class="nav-link collapsed" data-bs-target="#material-nav" data-bs-toggle="collapse" href="#">
+		          <i class="bi bi-bricks"></i>
+		          <span>자재 관리</span>
+		          <i class="bi bi-chevron-down ms-auto"></i>
 		        </a>
-      		</li><!-- End Charts Nav -->
+		        <ul id="material-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+		          <li>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>입고 관리</span>
+		            </a>
+		          </li>
+		        </ul>
+      		</li>
+      		
+      		<li class="nav-item">
+		        <a class="nav-link collapsed" data-bs-target="#produce-nav" data-bs-toggle="collapse" href="#">
+		          <i class="bi bi-box-seam"></i>
+		          <span>생산 관리</span>
+		          <i class="bi bi-chevron-down ms-auto"></i>
+		        </a>
+		        <ul id="produce-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+		          <li>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>생산 계획</span>
+		            </a>
+		          </li>
+		          <li>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>생산 실적 관리</span>
+		            </a>
+		          </li>
+		          <li>
+		            <a href="#">
+		              <i class="bi bi-circle"></i><span>생산 지시</span>
+		            </a>
+		          </li>
+		        </ul>
+      		</li>
+      		 
         </ul>
 
     </aside>
