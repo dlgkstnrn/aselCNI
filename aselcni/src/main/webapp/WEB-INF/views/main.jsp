@@ -47,19 +47,11 @@
 
     <main id="main" class="main">
 
-        <div class="pagetitle">
-            <h1>기준 정보 관리</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">기준 정보 관리</a></li>
-                    <li class="breadcrumb-item active">사업장 관리</li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title -->
-
-        <section class="section dashboard">
-        
-        </section>
+        <section class="mainSection dashboard">
+			<div>
+				<img src="/assets/img/logo.png" alt="">
+			</div>
+		</section>
         
     </main>
     <!-- End #main -->

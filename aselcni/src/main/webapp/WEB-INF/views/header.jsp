@@ -29,16 +29,6 @@
                             <hr class="dropdown-divider">
                         </li>
 
-                        <li>
-			              <a class="dropdown-item d-flex align-items-center" href="#">
-			                <i class="bi bi-person"></i>
-			                <span>마이페이지</span>
-			              </a>
-			            </li>
-			            <li>
-			              <hr class="dropdown-divider">
-			            </li>
-			            
 			            <li>
 			              <a class="dropdown-item d-flex align-items-center" href="#">
 			                <i class="bi bi-box-arrow-right"></i>
