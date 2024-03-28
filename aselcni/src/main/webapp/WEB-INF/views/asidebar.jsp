@@ -5,12 +5,13 @@
         <ul class="sidebar-nav" id="sidebar-nav">
         
         	<li class="nav-item">
-                <a class="nav-link collapsed" href="/">
+                <a class="nav-link collapsed" href="/main">
                     <i class="bi bi-grid"></i>
                     <span>스마트 제조 시스템</span>
                 </a>
             </li>
         
+        	
 			 <li class="nav-item">
 		        <a class="nav-link collapsed" data-bs-target="#standard-info-nav" data-bs-toggle="collapse" href="#">
 		          <i class="bi bi-credit-card-2-front-fill"></i>
