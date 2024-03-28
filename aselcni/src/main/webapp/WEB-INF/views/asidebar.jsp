@@ -19,27 +19,27 @@
 		        </a>
 		        <ul id="standard-info-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 		          <li>
-		            <a href="#">
+		            <a href="/compmst">
 		              <i class="bi bi-circle"></i><span>사업장 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/custmst">
 		              <i class="bi bi-circle"></i><span>거래처 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/itemmst">
 		              <i class="bi bi-circle"></i><span>품목 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/procmst">
 		              <i class="bi bi-circle"></i><span>공정 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/whmst">
 		              <i class="bi bi-circle"></i><span>창고 관리</span>
 		            </a>
 		          </li>
@@ -54,22 +54,22 @@
 		        </a>
 		        <ul id="purchase-sales-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 		          <li>
-		            <a href="#">
+		            <a href="/purchase">
 		              <i class="bi bi-circle"></i><span>발주 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/order">
 		              <i class="bi bi-circle"></i><span>주문 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/outitem">
 		              <i class="bi bi-circle"></i><span>출고 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/return">
 		              <i class="bi bi-circle"></i><span>반품 관리</span>
 		            </a>
 		          </li>
@@ -84,7 +84,7 @@
 		        </a>
 		        <ul id="material-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 		          <li>
-		            <a href="#">
+		            <a href="/initem">
 		              <i class="bi bi-circle"></i><span>입고 관리</span>
 		            </a>
 		          </li>
@@ -99,17 +99,17 @@
 		        </a>
 		        <ul id="produce-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 		          <li>
-		            <a href="#">
+		            <a href="/prodplan">
 		              <i class="bi bi-circle"></i><span>생산 계획</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/proditem">
 		              <i class="bi bi-circle"></i><span>생산 실적 관리</span>
 		            </a>
 		          </li>
 		          <li>
-		            <a href="#">
+		            <a href="/workprod">
 		              <i class="bi bi-circle"></i><span>생산 지시</span>
 		            </a>
 		          </li>
