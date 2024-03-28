@@ -20,7 +20,14 @@ public class JtuController {
 	public String getMethodName(Model model) {
 		System.out.println("JtuController getMethodName Start... ");
 		
-		return "jtu/prodItemRegistry";
+		return "jtu/jtuProdItemRegistry";
+	}
+	
+	@RequestMapping("aaa")
+	public String aaa(Model model) {
+		System.out.println("JtuController getMethodName Start... ");
+		
+		return "jtu/aaa";
 	}
 	
 }
