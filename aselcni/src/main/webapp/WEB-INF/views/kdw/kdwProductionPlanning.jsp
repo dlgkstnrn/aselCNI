@@ -19,11 +19,11 @@
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <!-- <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
-    <!-- <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet"> -->
-    <!-- <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet"> -->
-    <!-- <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet"> -->
-    <!-- <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet"> -->
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
     <!-- CSS File -->
     <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
@@ -32,40 +32,50 @@
     <script defer src="assets/js/main.js"></script>
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+    
+    <!-- KDW Main CSS,JS,Script -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script src="assets/js/kdw/kdwProductionPlanning.js"></script>
+	<link href="assets/css/kdw/kdwProductionPlanning.css" rel="stylesheet">
 </head>
 
 <body>
 
     <!-- ======= Header ======= -->
-    <%@ include file="header.jsp" %>
+    <%@ include file="../header.jsp" %>
 
     <!-- ======= Sidebar ======= -->
-    <%@ include file="asidebar.jsp" %>
+    <%@ include file="../asidebar.jsp" %>
     
     <!-- End Sidebar-->
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>기준 정보 관리</h1>
+            <h1>생산 관리</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">기준 정보 관리</a></li>
-                    <li class="breadcrumb-item active">사업장 관리</li>
+                    <li class="breadcrumb-item"><a href="productionPlanning">생산 관리</a></li>
+                    <li class="breadcrumb-item active">생산 계획</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-
-        <section class="section dashboard">
-        
-        </section>
-        
-    </main>
+		<div class="card">
+			<section class="section prodPlan">
+				<div class="form-container">
+					<form id="productionPlanning-form" action="/productionPlanning" method="get">
+						<div class="calendar-group">
+							<div id='calendar'></div>
+						</div>
+					</form>
+				</div>
+			</section>
+		</div>
+	</main>
     <!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    <%@ include file="footer.jsp" %>
+    <%@ include file="../footer.jsp" %>
     <!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i

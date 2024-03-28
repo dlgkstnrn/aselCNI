@@ -1,0 +1,20 @@
+.card {
+	position:relative;
+	width: 100%;
+	min-width: 800px;
+	height: 770px;
+	min-height: 500px;
+	margin-bottom: 0;
+	box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+	border: none;
+	border-radius: 5px;
+}
+
+.form-container {
+	position:absolute;
+	width:100%;
+    background-color: #FFFFFF;   
+    border: none;
+    padding: 0 20px; /* 양쪽으로 10px의 패딩을 추가 */
+    margin-top: 60px;
+}
