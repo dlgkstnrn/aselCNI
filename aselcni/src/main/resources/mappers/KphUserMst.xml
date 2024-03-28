@@ -6,7 +6,21 @@
 		SELECT * 
 		FROM TB_USERMST
 		WHERE USER_ID = #{user_id}
-			AND USER_PW = #{user_pw}
+			AND USER_DELETE_CHECK = 0
 	</select>
+	
+	<insert id="KphUserAdd" parameterType="UserMst">
+		INSERT INTO TB_USERMST
+		VALUES(#{user_id}, 
+					#{user_nm}, 
+					#{user_pw}, 
+					#{user_phone}, 
+					#{user_tel},
+					#{user_email}, 
+					CONVERT(CHAR(10), GETDATE(), 23), 
+					NULL, 
+					#{user_comm_code}, 
+					0)
+	</insert>
 	
 </mapper>

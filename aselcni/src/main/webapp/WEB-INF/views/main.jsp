@@ -29,9 +29,9 @@
     <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
      
      <!-- Script -->
+     <script defer src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/main.js"></script>
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
 

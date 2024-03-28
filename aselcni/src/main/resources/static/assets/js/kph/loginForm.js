@@ -3,8 +3,6 @@ $('.login-btn').on('click', function (event) {
     const user_id = $('#user-id').val();
     const user_pw = $('#user-pw').val();
 
-    event.preventDefault();
-
     if(user_id == '') {
         $('.id-alert').css('display', 'block');
     }
@@ -23,9 +21,12 @@ $('.login-btn').on('click', function (event) {
             },
             dataType: "text",
             success: function (response) {
+				console.log('시발');
                 if(response == '성공') {
-                    $('#login-form').submit();
+					console.log('성공');
+                    window.location.href = '/main';
                 } else {
+					console.log(response);
                     alert('아이디 또는 비밀번호가 틀렸습니다.');
                 }
             }

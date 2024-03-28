@@ -30,10 +30,10 @@
     <link href="assets/css/kph/loginForm.css" rel="stylesheet" type="text/css">
      
      <!-- Script -->
+     <script defer src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/main.js"></script>
     <script defer src="assets/js/kph/loginForm.js"></script>
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
 
@@ -59,24 +59,25 @@
                         <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                       </div>
     
-                      <form id="login-form" method="get" action="/main" class="row g-3 needs-validation">
+                      	<div id="login-form" class="row g-3 needs-validation">
     
-                        <div class="col-12">
-                          <label for="user-id" class="form-label">ID</label>
-                          <input type="text" name="user_id" class="form-control" id="user-id" required>
-                          <div class="id-alert">ID를 입력하세요</div>
-                        </div>
-    
-                        <div class="col-12">
-                          <label for="user-pw" class="form-label">Password</label>
-                          <input type="password" name="user_pw" class="form-control" id="user-pw" required>
-                          <div class="pw-alert">비밀번호를 입력하세요</div>
-                        </div>
-    
-                        <div class="col-12">
-                          <button class="login-btn btn btn-primary w-100" type="submit">Login</button>
-                        </div>
-    
+	                        <div class="col-12">
+	                          <label for="user-id" class="form-label">ID</label>
+	                          <input type="text" name="user_id" class="form-control" id="user-id" required>
+	                          <div class="id-alert">ID를 입력하세요</div>
+	                        </div>
+	    
+	                        <div class="col-12">
+	                          <label for="user-pw" class="form-label">Password</label>
+	                          <input type="password" name="user_pw" class="form-control" id="user-pw" required>
+	                          <div class="pw-alert">비밀번호를 입력하세요</div>
+	                        </div>
+	    
+	                        <div class="col-12">
+	                          <button class="login-btn btn btn-primary w-100" type="button">Login</button>
+	                        </div>
+	                        
+    					</div>
                     </div>
                   </div>
     

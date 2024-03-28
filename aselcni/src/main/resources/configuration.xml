@@ -3,5 +3,6 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
+		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
 	</typeAliases>
 </configuration>
