@@ -38,21 +38,21 @@
 <body>
 
     <!-- ======= Header ======= -->
-    <%@ include file="header.jsp" %>
+    <%@ include file="../header.jsp" %>
 
     <!-- ======= Sidebar ======= -->
-    <%@ include file="asidebar.jsp" %>
+    <%@ include file="../asidebar.jsp" %>
     
     <!-- End Sidebar-->
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>기준 정보 관리</h1>
+            <h1>구매/영업 관리</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">기준 정보 관리</a></li>
-                    <li class="breadcrumb-item active">사업장 관리</li>
+                    <li class="breadcrumb-item"><a href="#">구매/영업 관리</a></li>
+                    <li class="breadcrumb-item active">출고 관리</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -65,7 +65,7 @@
     <!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    <%@ include file="footer.jsp" %>
+    <%@ include file="../footer.jsp" %>
     <!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i

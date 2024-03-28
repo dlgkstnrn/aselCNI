@@ -2,5 +2,13 @@
 <!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	
+		<typeAliases>
+		<typeAlias alias="UjmCust"   		type="com.aselcni.ujm.model.UjmCust"/> 
+		<typeAlias alias="UjmItem"   		type="com.aselcni.ujm.model.UjmItem"/> 
+		<typeAlias alias="UjmOrder"   		type="com.aselcni.ujm.model.UjmOrder"/> 
+		<typeAlias alias="UjmOutitem"   	type="com.aselcni.ujm.model.UjmOutitem"/> 
+		<typeAlias alias="UjmOutitemItem"   type="com.aselcni.ujm.model.UjmOutitemItem"/> 
+		<typeAlias alias="UjmReturn"   		type="com.aselcni.ujm.model.UjmReturn"/> 
+
+	</typeAliases>
 </configuration>
