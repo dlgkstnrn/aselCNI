@@ -12,6 +12,6 @@ public class UjmComp { //사업장
 	private String comp_addr; //주소
 	private String comp_tel; //전화번호
 	private String comp_fax; //팩스
-	private String comp_image; //이미지
+	private byte[] comp_image; //이미지
 	private String comp_update; //사업장수정일
 }
