@@ -1,0 +1,45 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, sans-serif;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid #ccc;
+	padding: 5px;
+}
+
+th {
+	text-align: center;
+}
+
+.center {
+	text-align: center;
+}
+
+/* 입력 칸 크기 조절 */
+.prodItemDate {
+	width: 130px;
+	height: 40px; 
+	font-size: 20px;
+	border: none;
+	display: flex-wrap; align-items: center; justify-content: space-between;
+	
+}
+
+.prodItemDate:hover {
+	cursor: pointer;
+}
+
+#prodEndDate{
+	width: 130px;
+}
+
+#main > div.card > section > table > tbody > tr:hover {
+	cursor: pointer;
+}
