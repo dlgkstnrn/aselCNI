@@ -33,7 +33,7 @@
 								<c:forEach var="menu" items="${menuList }" begin="1">
 									<li>
 							          <a href="/${menu.getUrl() }">
-							            <i class="${menu.getIcon() }"></i>
+							            <i class="bi bi-circle"></i>
 							            <span>${menu.getMenu_nm() }</span>
 							          </a>
 							        </li>
