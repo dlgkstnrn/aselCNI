@@ -17,6 +17,6 @@ public class UjmItem { //품목
 	private String  remark; //비고
 	private String  item_regdate; //품목등록일
 	private String  item_update; //품목수정일
-	private String  purc_emp_id; //품목담당자id ::::이름수정필요
+	private String  item_emp_id; //품목담당자ID
 	private int 	item_delete_chk; //품목삭제여부
 }
