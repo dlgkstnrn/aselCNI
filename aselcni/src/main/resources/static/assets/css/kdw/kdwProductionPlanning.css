@@ -1,0 +1,229 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+body {
+    font-family: 'NanumSquare', sans-serif;
+    }
+.card {
+	position:relative;
+	width: 100%;
+	min-width: 1550px;
+	height: 750px;
+	min-height: 500px;
+	margin-bottom: 0;
+	box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+	border: none;
+	border-radius: 7px;
+}
+
+.form-container {
+	position:absolute;
+	width:100%;
+    background-color: #FFFFFF;   
+    border: none;
+    padding: 0 30px; /* 양쪽으로 10px의 패딩을 추가 */
+    margin-top: 70px;
+}
+/* ============= 버튼 ============== */
+.btn-container {
+	position:absolute;
+	margin-top: -45px;
+	margin-right: 30px;
+	right:0;
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+ 	gap: 5px;
+}
+.btn-container .btn {
+	border: 1px solid #76818d;
+	color: #76818d;
+	background-color: white;
+	font-weight: 700;
+}
+.btn-container .btn:hover {
+	color:white;
+	background-color: #76818d;
+	border: 1px solid #76818d;
+}
+/* =========== End 버튼 ============ */
+
+/* ============= 캘린더 ============= */
+/* 캘린더 타이틀 */
+.form-container .calendar-group-title {
+	position:absolute;
+	width: 96%;
+	margin-top: 0px;
+	border-bottom: 1px solid #ced4da;
+}
+/* 캘린더 타이틀 텍스트 (생산계획표)*/
+.form-container .calendar-group-title .calendar-group-title-text {
+	position:absolute;
+	margin-top: -40px;
+	font-size: 25px;
+	font-weight: 600;
+}
+/* 캘린더그룹 */
+.calendar-group {
+	position:absolute;
+	width: 800px;
+	height: 700px;
+}
+/* Main 캘린더 */
+.calendar-group #calendar {
+	margin-top: 30px;
+	width: 800px;
+	height: 600px;
+	border-radius: 10px;
+}
+.fc-col-header-cell-cushion {
+	color: #0d6efd;
+}
+.fc-daygrid-day-number {
+	color: #0d6efd;
+}
+
+/* =========== End 캘린더 =========== */
+
+/* ======= 주문내역 & 생산계획 공통 ====== */
+.prodPlan-info {
+	position: absolute;
+	margin-top: 30px;
+	margin-right: 30px; 
+	width: 660px;
+	height: 600px;
+	right:0;
+	border: 1px solid #ced4da;
+	border-radius: 7px;
+	padding: 20px;
+}
+.referenceCode-group {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.referenceCode-prepend-text {
+	margin-right: 10px;
+	white-space: nowrap;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.referenceCode {
+  height: 25px;
+  border: 1px solid #ced4da;
+  flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+  padding: 0 7px;
+  font-size: 16px;
+}
+/* ======= End 주문내역 & 생산계획 공통 ====== */
+
+/* ============= 주문내역 ============ */
+#orderList-group {
+	margin-top: 15px;
+	width: 100%;
+	height: 250px;
+}
+.orderList-title {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #76818d;
+	background-color: #76818d;
+	color: white;
+	line-height: 1.8;
+	padding: 0 7px;
+	font-weight: 600;
+}
+.orderList-table {
+	margin-top: 5px;
+}
+.orderList-table thead th{
+	width: 100%;
+	padding: 0 7px;
+	font-size: 15px;
+	font-weight: 600;
+	border-bottom: 1px solid #ced4da;
+}
+.orderList-table thead th:first-child {
+    width: 500px; /* 고객사 */
+}
+.orderList-table thead th:nth-child(2) {
+    width: 45%; /* 제품명 */
+}
+.orderList-table thead th:last-child {
+    width: 9%; /* 수량 */
+}
+/* =========== End 주문내역 ========== */
+
+/* ============= 생산계획 ============ */
+#prodPlanList-group {
+	margin-top: 15px;
+	width: 100%;
+	height: 250px;
+}
+.prodPlanList-title {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #76818d;
+	background-color: #76818d;
+	color: white;
+	line-height: 1.8;
+	padding: 0 7px;
+	font-weight: 600;
+}
+.prodPlanList-table {
+	margin-top: 5px;
+}
+.prodPlanList-table thead th{
+	width: 100%;
+	padding: 0 7px;
+	font-size: 15px;
+	font-weight: 600;
+	border-bottom: 1px solid #ced4da;
+}
+.prodPlanList-table thead th:first-child {
+    width: 500px; /* 제품명 */
+}
+.prodPlanList-table thead th:nth-child(2) {
+    width: 42%; /* 수량 */
+}
+.prodPlanList-table thead th:last-child {
+    width: 12%; /* 작업일수 */
+}
+
+/* =========== End 생산계획 ========== */
+
+/* ============ 등록 모달창 =========== */
+.custom-modal-css  {
+	max-width: 800px;
+	min-width: 800px;
+	margin-top: -20px;
+}
+.modal-content {
+	padding: 0 15px;
+}
+/* ========== End 등록 모달창 ========= */
+
+/* ========= 제품 품목선택 모달창 ======== */
+.custom-nestedModal-css {
+	max-width: 600px;
+	min-width: 600px;
+	margin-top: -20px;
+	height: 500px;
+}
+.form-control.productNameInput {
+	width: 512px;
+}
+.btn.btn-secondary.productSelect {
+	margin-left: 15px;
+}
+.select-container {
+	margin-top: 5px;
+}
+.select2-selection__clear {
+    color: red;
+}
+/* ====== End 제품 품목선택 모달창 ======= */
+
+
+
