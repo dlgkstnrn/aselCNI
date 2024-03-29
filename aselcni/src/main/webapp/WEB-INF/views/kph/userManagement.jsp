@@ -32,7 +32,7 @@
      <!-- Script -->
     <script defer src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/main.js"></script>
-    <script defer src="assets/js/kph/userManagement.js"></script>
+    <script defer src="assets/js/kph/userManagement.js?ver=2"></script>
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
 
 </head>
@@ -71,8 +71,8 @@
 							</div>
 							<select name="search-filter" class="search-filter form-select">
 								<option value="all" selected>전체</option>
-								<option value="project_title">유저명</option>
-								<option value="task_title">유저아이디</option>
+								<option value="user_nm">유저명</option>
+								<option value="user_id">유저아이디</option>
 							</select>
 						</div>
 						<button type="button" id="user-add"
@@ -83,94 +83,43 @@
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>프로젝트명</th>
-									<th>과업명</th>
-									<th>시작일</th>
-									<th>종료일</th>
+									<th>아이디</th>
+									<th>이름</th>
+									<th>핸드폰</th>
+									<th>내선번호</th>
+									<th>이메일</th>
+									<th>권한</th>
+									<th>삭제</th>
 								</tr>
 							</thead>
+							<c:set var="num" value="${paging.start }"></c:set>
 							<tbody>
-								<tr>
-									<th>1</th>
-									<td><a href="#">Brandon Jacob</a></td>
-									<td>Designer</td>
-									<td>28</td>
-									<td>2016-05-25</td>
-								</tr>
-								<tr>
-									<th>2</th>
-									<td>Bridie Kessler</td>
-									<td>Developer</td>
-									<td>35</td>
-									<td>2014-12-05</td>
-								</tr>
-								<tr>
-									<th>3</th>
-									<td>Ashleigh Langosh</td>
-									<td>Finance</td>
-									<td>45</td>
-									<td>2011-08-12</td>
-								</tr>
-								<tr>
-									<th>4</th>
-									<td>Angus Grady</td>
-									<td>HR</td>
-									<td>34</td>
-									<td>2012-06-11</td>
-								</tr>
-								<tr>
-									<th>5</th>
-									<td>Raheem Lehner</td>
-									<td>Dynamic Division Officer</td>
-									<td>47</td>
-									<td>2011-04-19</td>
-								</tr>
-								<tr>
-									<th>6</th>
-									<td>Raheem Lehner</td>
-									<td>Dynamic Division Officer</td>
-									<td>47</td>
-									<td>2011-04-19</td>
-								</tr>
-								<tr>
-									<th>7</th>
-									<td>Raheem Lehner</td>
-									<td>Dynamic Division Officer</td>
-									<td>47</td>
-									<td>2011-04-19</td>
-								</tr>
-								<tr>
-									<th>8</th>
-									<td>Raheem Lehner</td>
-									<td>Dynamic Division Officer</td>
-									<td>47</td>
-									<td>2011-04-19</td>
-								</tr>
-								<tr>
-									<th>9</th>
-									<td>Raheem Lehner</td>
-									<td>Dynamic Division Officer</td>
-									<td>47</td>
-									<td>2011-04-19</td>
-								</tr>
-								<tr>
-									<th>10</th>
-									<td>Raheem Lehner</td>
-									<td>Dynamic Division Officer</td>
-									<td>47</td>
-									<td>2011-04-19</td>
-								</tr>
+								<c:forEach var="user" items="${userList}">
+									<tr>
+										<th>${num}</th>
+										<td><a class="user-id" href="/userUpdateForm?user_id=${user.user_id }">${user.user_id }</a></td>
+										<td>${user.user_nm }</td>
+										<td>${user.user_phone }</td>
+										<td>${user.user_tel }</td>
+										<td>${user.user_email }</td>
+										<td>${user.comm_content}</td>
+										<td><button type="button" class="user-delete btn btn-danger">삭제</button></td>
+									</tr>
+									<c:set var="num" value="${num + 1 }"></c:set>
+								</c:forEach>
 							</tbody>
 						</table>
 						<nav class="page-navigation">
 							<ul class="pagination">
-								<li class="page-item"><a class="page-link" href="#"> <span>&laquo;</span>
-								</a></li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#"> <span>&raquo;</span>
-								</a></li>
+								<c:if test="${paging.startPage > paging.pageBlock }">
+									<li class="page-item"><a class="page-link" href="/userManagement?currentPage=${paging.startPage-paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}"><span>&laquo;</span></a></li>
+								</c:if>
+								<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
+									<li class="page-item"><a class="page-link" href="/userManagement?currentPage=${i}&keyword=${keyword}&searchFilter=${searchFilter}">${i}</a></li>
+								</c:forEach>
+								<c:if test="${paging.endPage < paging.totalPage }">
+									<li class="page-item"><a class="page-link" href="/userManagement?currentPage=${paging.startPage+paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}"><span>&raquo;</span></a></li>
+								</c:if>
 							</ul>
 						</nav>
 					</div>
