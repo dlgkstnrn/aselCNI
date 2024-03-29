@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.KphMenuMstMapper">
+					
+	<select id="KphMenuGroupListByUserCommCode" parameterType="int" resultType="String">
+		SELECT tma.MENU_ID 
+		FROM TB_MENU_AUTHORITY tma, TB_MENUMST tm
+		WHERE tma.MENU_ID = tm.MENU_ID 
+			AND tma.COMM_CODE = #{user_comm_code}
+			AND tm.SEQ_NO = 0
+		GROUP BY tma.MENU_ID 
+		ORDER BY tma.MENU_ID ASC
+	</select>
+	
+	<select id="KphMenuListByMenuId" parameterType="String" resultType="MenuMst">
+		SELECT *
+		FROM TB_MENUMST
+		WHERE (MENU_ID = #{menuGroup} OR PARENT_ID = #{menuGroup})
+		ORDER BY MENU_ID ASC
+	</select>
+	
+</mapper>
