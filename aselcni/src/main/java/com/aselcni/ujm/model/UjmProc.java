@@ -11,5 +11,5 @@ public class UjmProc { //공정관리
 	private String proc_emp_id; //공정담당자ID
 	private String proc_regdate; //공정등록일
 	private String proc_update; //공정수정일
-	private int    proc_delete_chk; //공성삭제여부
+	private int    proc_delete_chk; //공정삭제여부
 }
