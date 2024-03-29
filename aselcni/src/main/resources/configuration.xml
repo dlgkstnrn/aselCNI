@@ -7,6 +7,8 @@
 		
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
 		
+		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
+		
 		<typeAlias alias="UjmCommon"   		type="com.aselcni.ujm.model.UjmCommon"/> 
 		<typeAlias alias="UjmComp"   		type="com.aselcni.ujm.model.UjmComp"/> 
 		<typeAlias alias="UjmCust"   		type="com.aselcni.ujm.model.UjmCust"/> 
