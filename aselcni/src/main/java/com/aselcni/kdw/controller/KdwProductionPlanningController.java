@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class KdwProductionPlanningController {
 	
-	// 계획생산 달력폼 이동
-	@GetMapping(value = "productionPlanning")
+	// 계획생산 리스트 조회(달력폼) 이동
+	@GetMapping(value = "prodplan")
 	public String getproductionPlanningForm(HttpServletRequest request, Model model) {
 		System.out.println("KdwProductionPlanningController getproductionPlanningForm Start...");
 		return "kdw/kdwProductionPlanning";
