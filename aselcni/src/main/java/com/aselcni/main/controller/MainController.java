@@ -1,11 +1,15 @@
 package com.aselcni.main.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.main.model.MenuMst;
 import com.aselcni.main.model.UserMst;
 import com.aselcni.main.service.MainService;
 
@@ -35,10 +39,11 @@ public class MainController {
 		
 		if(resultUser != null) {
 			if(bCryptPasswordEncoder.matches(user.getUser_pw(), resultUser.getUser_pw())) {
-				System.out.println(resultUser);
 				session.setAttribute("user_id", resultUser.getUser_id());
 				session.setAttribute("user_nm", resultUser.getUser_nm());
 				session.setAttribute("user_comm_code", resultUser.getUser_comm_code());
+				List<List<MenuMst>> menuListGroupByMenu = mainService.menuListGroupByMenu(resultUser.getUser_comm_code());
+				session.setAttribute("menuListGroupByMenu", menuListGroupByMenu);
 				result = "성공";
 			}
 		}
