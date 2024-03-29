@@ -12,5 +12,5 @@ public class UjmOrder { //주문
 	private String order_emp_id; //주문담당자ID
 	private String order_update; //주문수정일
 	private int    order_delete_chk; //주문삭제여부
-	
+	private int    outitem_end_chk; //출고완료여부
 }

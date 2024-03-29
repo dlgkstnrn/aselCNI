@@ -13,4 +13,5 @@ public class UjmPurchase { //발주
 	private String purc_emp_id; //발주담당자ID
 	private String purc_update; //발주수정일
 	private int    purc_delete_chk; //발주삭제여부
+	private int    initem_end_chk; //입고삭제여부
 }
