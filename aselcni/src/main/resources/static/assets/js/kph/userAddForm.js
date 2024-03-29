@@ -83,7 +83,7 @@ $(".form-control").on("input", function(event) {
 
 $(".form-select").on('change', function() {
 	const user_comm_code = $(".form-select").val();
-
+	
 	if (user_comm_code != '0') {
 		$(".user-comm-code-alert").css("display", "none");
 	}

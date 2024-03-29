@@ -27,5 +27,5 @@ public class AdminDaoImp implements AdminDao {
 		int result = session.insert("KphUserAdd", user);
 		return result;
 	}
-
+	
 }

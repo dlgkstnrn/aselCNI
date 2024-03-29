@@ -11,12 +11,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigure {
-
+	
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorize -> 
@@ -24,6 +24,6 @@ public class SecurityConfigure {
 		http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable());
 		return http.build();
 	}
-
-
+	
+	
 }

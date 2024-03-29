@@ -15,5 +15,5 @@ public class UserMst {
 	private String user_update;
 	private int user_comm_code;
 	private int user_delete_check;
-
+	
 }

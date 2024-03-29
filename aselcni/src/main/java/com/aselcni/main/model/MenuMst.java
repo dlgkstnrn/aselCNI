@@ -11,5 +11,5 @@ public class MenuMst {
 	private String parent_id;
 	private String url;
 	private String icon;
-
+	
 }

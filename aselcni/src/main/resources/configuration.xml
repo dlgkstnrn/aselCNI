@@ -4,9 +4,7 @@
 <configuration>
 		<typeAliases>
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
-		
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
-		
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
 		
 		<typeAlias alias="UjmCommon"   		type="com.aselcni.ujm.model.UjmCommon"/> 

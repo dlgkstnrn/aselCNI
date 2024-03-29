@@ -8,14 +8,14 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>스마트 제조 시스템</title>
-
+    
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
 
     <!-- Google Fonts -->
   	<link href="https://fonts.gstatic.com" rel="preconnect">
   	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+    
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -28,7 +28,7 @@
     <!-- CSS File -->
     <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
     <link href="assets/css/kph/userManagement.css" rel="stylesheet" type="text/css">
-
+     
      <!-- Script -->
     <script defer src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/main.js"></script>
@@ -44,7 +44,7 @@
 
     <!-- ======= Sidebar ======= -->
     <%@ include file="../asidebar.jsp" %>
-
+    
     <!-- End Sidebar-->
 
     <main id="main" class="main">
@@ -177,7 +177,7 @@
 				</div>
 			</div>
 		</section>
-
+        
     </main>
     <!-- End #main -->
 

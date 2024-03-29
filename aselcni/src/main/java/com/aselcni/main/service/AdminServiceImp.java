@@ -30,5 +30,5 @@ public class AdminServiceImp implements AdminService {
 		int result = adminDao.userAdd(user);
 		return result;
 	}
-
+	
 }
