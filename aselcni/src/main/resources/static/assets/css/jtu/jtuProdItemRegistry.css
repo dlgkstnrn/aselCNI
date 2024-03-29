@@ -22,12 +22,24 @@ th {
 	text-align: center;
 }
 
-.modal-xl {
-	max-width: 90%;
-	max-height: 90%;
+/* 입력 칸 크기 조절 */
+.prodItemDate {
+	width: 130px;
+	height: 40px; 
+	font-size: 20px;
+	border: none;
+	display: flex-wrap; align-items: center; justify-content: space-between;
+	
 }
 
-.modal-content {
-	max-width: 90%;
-	max-height: 90%;
+.prodItemDate:hover {
+	cursor: pointer;
+}
+
+#prodEndDate{
+	width: 130px;
+}
+
+#main > div.card > section > table > tbody > tr:hover {
+	cursor: pointer;
 }
