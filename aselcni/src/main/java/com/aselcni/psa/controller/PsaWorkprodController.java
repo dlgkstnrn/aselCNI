@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @org.springframework.stereotype.Controller
 @RequiredArgsConstructor
 
-public class Controller {
+public class PsaWorkprodController {
 
 	@RequestMapping(value = "workprod")
 	public String workprod() {
