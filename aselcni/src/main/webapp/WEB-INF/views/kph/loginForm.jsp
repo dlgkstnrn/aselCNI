@@ -27,38 +27,68 @@
 
     <!-- CSS File -->
     <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
+    <link href="assets/css/kph/loginForm.css" rel="stylesheet" type="text/css">
      
      <!-- Script -->
      <script defer src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/main.js"></script>
+    <script defer src="assets/js/kph/loginForm.js"></script>
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
 
-    <!-- ======= Header ======= -->
-    <%@ include file="header.jsp" %>
-
-    <!-- ======= Sidebar ======= -->
-    <%@ include file="asidebar.jsp" %>
+    <main>
+        <div class="container">
     
-    <!-- End Sidebar-->
-
-    <main id="main" class="main">
-
-        <section class="mainSection dashboard">
-			<div>
-				<img src="/assets/img/logo.png" alt="">
-			</div>
-		</section>
-        
-    </main>
-    <!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <%@ include file="footer.jsp" %>
-    <!-- End Footer -->
+          <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+    
+                  <div class="d-flex justify-content-center py-4">
+                    <img src="assets/img/logo.png" alt="">
+                  </div><!-- End Logo -->
+    
+                  <div class="card mb-3">
+    
+                    <div class="card-body">
+    
+                      <div class="pt-4 pb-2">
+                        <h5 class="card-title text-center pb-0 fs-4">Login</h5>
+                      </div>
+    
+                      	<div id="login-form" class="row g-3 needs-validation">
+    
+	                        <div class="col-12">
+	                          <label for="user-id" class="form-label">ID</label>
+	                          <input type="text" name="user_id" class="form-control" id="user-id" required>
+	                          <div class="id-alert">ID를 입력하세요</div>
+	                        </div>
+	    
+	                        <div class="col-12">
+	                          <label for="user-pw" class="form-label">Password</label>
+	                          <input type="password" name="user_pw" class="form-control" id="user-pw" required>
+	                          <div class="pw-alert">비밀번호를 입력하세요</div>
+	                        </div>
+	    
+	                        <div class="col-12">
+	                          <button class="login-btn btn btn-primary w-100" type="button">Login</button>
+	                        </div>
+	                        
+    					</div>
+                    </div>
+                  </div>
+    
+                </div>
+              </div>
+            </div>
+    
+          </section>
+    
+        </div>
+      </main><!-- End #main -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

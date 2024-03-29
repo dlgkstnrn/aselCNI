@@ -3,6 +3,10 @@
    "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 		<typeAliases>
+		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
+		
+		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
+		
 		<typeAlias alias="UjmCommon"   		type="com.aselcni.ujm.model.UjmCommon"/> 
 		<typeAlias alias="UjmComp"   		type="com.aselcni.ujm.model.UjmComp"/> 
 		<typeAlias alias="UjmCust"   		type="com.aselcni.ujm.model.UjmCust"/> 
@@ -29,6 +33,6 @@
 		<typeAlias alias="UjmWh"  		 	type="com.aselcni.ujm.model.UjmWh"/>
 		<typeAlias alias="UjmWorkItem"  	type="com.aselcni.ujm.model.UjmWorkItem"/>
 		<typeAlias alias="UjmWorkProc"  	type="com.aselcni.ujm.model.UjmWorkProc"/>
-		<typeAlias alias="UjmWorkProd"  	type="com.aselcni.ujm.model.UjmWorkProd"/>
+		<typeAlias alias="UjmWorkprod"  	type="com.aselcni.ujm.model.UjmWorkprod"/>
 	</typeAliases>
 </configuration>
