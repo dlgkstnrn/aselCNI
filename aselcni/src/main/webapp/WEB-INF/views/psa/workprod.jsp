@@ -38,12 +38,9 @@ pageEncoding="UTF-8"%>
     <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
 
     <!-- Script -->
-    <script defer src="assets/js/main.js"></script>
-    <script
-      src="https://kit.fontawesome.com/0b22ed6a9d.js"
-      crossorigin="anonymous"
-    ></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script defer src="assets/js/main.js"></script>
+    <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -260,23 +257,51 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">투입품</label>
 
-                    <div class="d-flex justify-content-between col-sm-9 mb-3">
-                      
+                    <div class="col-sm-9 mb-3">
                       <!-- 중첩모달 띄우는 버튼 -->
                       <!-- Vertically centered Modal -->
                       <button
                         type="button"
-                        class="btn btn-outline-success"
+                        class="btn btn-outline-success mb-3"
                         data-bs-toggle="modal"
                         data-bs-target="#addItem">투입품 추가</button>
+
+                      <!-- 선택된 투입품 리스트 -->
+                      <div class="card-body">
+                        <h5 class="card-title mb-1">선택한 투입품 목록</h5>
                       
-                      <!-- 투입수량 -->
-                      <div class="d-flex">
-                        <label for="qty" class="col-sm-3 col-form-label"
-                          >투입수량</label>
-                        <div class="col-sm-3 mx-2">
-                          <input type="number" class="form-control" id="qty" />
-                        </div>
+                        <!-- List group with custom content -->
+                        <ol class="list-group list-group-numbered">
+                          <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                              <div class="fw-bold">품목명</div>
+                              품목CD
+                            </div>
+                            <!-- 투입수량 -->
+                            <div class="d-flex">
+                              <label for="qty" class="col-sm-3 col-form-label"
+                                >투입수량</label>
+                              <div class="col-sm-3 mx-2">
+                                <input type="number" class="form-control" id="qty" />
+                              </div>
+                            </div>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                              <div class="fw-bold">${item_nm}</div>
+                              ${item_cd}
+                            </div>
+                            <span class="badge bg-primary rounded-pill">${in_qty}</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                              <div class="fw-bold">포장지</div>
+                              CD042516
+                            </div>
+                            <span class="badge bg-primary rounded-pill">55</span>
+                          </li>
+                        </ol><!-- End with custom content -->
+                      
                       </div>
 
                     </div>
@@ -287,7 +312,7 @@ pageEncoding="UTF-8"%>
                     <label for="work_dt" class="col-sm-3 col-form-label"
                       >작업일수</label
                     >
-                    <div class="col-sm-9">
+                    <div class="col-sm-2">
                       <input
                         type="number"
                         class="form-control"
@@ -297,9 +322,7 @@ pageEncoding="UTF-8"%>
                   </div>
                   <!-- 작업시 주의사항 -->
                   <div class="row mb-3">
-                    <label for="work_cmd" class="col-sm-6 col-form-label"
-                      >작업시 주의사항</label
-                    >
+                    <label for="work_cmd" class="col-sm-6 col-form-label">작업시 주의사항</label>
                     <div class="col-sm-12">
                       <textarea
                         name=""
@@ -339,7 +362,7 @@ pageEncoding="UTF-8"%>
                     등록
                   </button>
                   <button type="reset" class="btn btn-outline-secondary">
-                    취소
+                    Reset
                   </button>
                 </div>
               </form>
@@ -351,6 +374,21 @@ pageEncoding="UTF-8"%>
         <!-- End Vertically centered Modal -->
 
 
+
+
+        <script>
+          $(document).ready(function(){
+
+            $('#addItem .btn-secondary').on('click', function(){
+              $('#addItem').modal('hide');
+
+              setTimeout(function() {
+                $('#prodplan').modal('show');
+              }, 300); // 300ms(0.3초) 대기 후 이전 모달 표시
+            })
+
+          })
+        </script>
 
         <!-- 2. 중첩모달 (투입품 선택) -->
         <!-- Vertically centered Modal -->
@@ -447,7 +485,7 @@ pageEncoding="UTF-8"%>
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary">저장</button>
+                <button type="button" class="btn btn-success">저장</button>
               </div>
             </div>
           </div>
