@@ -12,14 +12,16 @@ table {
 th, td {
 	border: 1px solid #ccc;
 	padding: 5px;
-}
-
-th {
 	text-align: center;
+
 }
 
 .center {
 	text-align: center;
+}
+
+section{
+	padding: 20px;
 }
 
 /* 입력 칸 크기 조절 */
