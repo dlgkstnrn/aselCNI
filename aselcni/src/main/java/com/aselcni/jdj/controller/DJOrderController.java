@@ -12,7 +12,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DJOrderController {
 
 	@GetMapping("/order")
-	public String getMethodName() {
+	public String order() {
+		return "jdj/orderRegistration";
+	}
+	
+	@GetMapping("/orderList")
+	public String orderList() {
+		return "jdj/orderList";
+	}
+	
+	@GetMapping("/order2")
+	public String order2() {
 		return "jdj/DJOrder";
 	}
 	
