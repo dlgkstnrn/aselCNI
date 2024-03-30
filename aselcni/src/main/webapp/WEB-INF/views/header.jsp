@@ -28,7 +28,7 @@
                             		<span>관리자</span>
                             	</c:when>
                             	<c:otherwise>
-                            		<span>회원</span>
+                            		<span>${sessionScope.comm_content }</span>
                             	</c:otherwise>
                             </c:choose>
                         </li>
@@ -37,7 +37,7 @@
                         </li>
 
 			            <li>
-			              <a class="dropdown-item d-flex align-items-center" href="#">
+			              <a class="dropdown-item d-flex align-items-center" href="/userLogout">
 			                <i class="bi bi-box-arrow-right"></i>
 			                <span>로그아웃</span>
 			              </a>
