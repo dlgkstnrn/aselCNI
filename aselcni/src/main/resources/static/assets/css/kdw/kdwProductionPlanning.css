@@ -202,20 +202,73 @@ body {
 .modal-content {
 	padding: 0 15px;
 }
+/* 생산계획번호 */
+.prodPlanNoInput {
+	width: 400px;
+}
+
+/* 작업일수 */
+.prodPlanWorkingDaysLabel {
+	margin-left: 0;
+}
+.prodPlanWorkingDays {
+	margin-left: -61px;
+}
+.prodPlanWorkingDaysInput {
+	width: 100px;
+}
+
+/* 제품 등록 */
+.form-control.productNameInput {
+	width: 310px;
+}
+.btn.btn-secondary.productSelect {
+	margin-left: 0px;
+}
+.prodCount-input-class {
+	margin-left: -61px;
+}
+.prodCount-input {
+	width: 100px;
+}
+
+/* 투입자재 등록 */
+.form-control.productItemNameInput {
+	width: 310px;
+}
+.prodItemCount-input-class {
+	margin-left: -61px;
+}
+.prodItemCount-input {
+	width: 100px;
+}
+
+.col-form-label {
+	font-weight: 600;
+}
+/* 투입자재리스트 */
+.prodItem {
+	height: 150px;
+	width: 610px;
+	margin-top: -2px;
+	margin-left: 127px;
+	border: 1px solid #dee2e6;
+	border-radius: 7px;
+	text-align: center;
+	display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
 /* ========== End 등록 모달창 ========= */
 
 /* ========= 제품 품목선택 모달창 ======== */
 .custom-nestedModal-css {
-	max-width: 600px;
-	min-width: 600px;
-	margin-top: -20px;
-	height: 500px;
-}
-.form-control.productNameInput {
-	width: 512px;
-}
-.btn.btn-secondary.productSelect {
-	margin-left: 15px;
+	max-width: 800px;
+	min-width: 800px;
+	margin-top: 100px;
+	max-height: 500px;
+	min-height: 500px;
+	overflow-y: auto
 }
 .select-container {
 	margin-top: 5px;
@@ -223,7 +276,28 @@ body {
 .select2-selection__clear {
     color: red;
 }
+
+.select2-container .select2-selection--single {
+    max-width: 160px !important;
+    min-width: 160px !important;
+}
+
 /* ====== End 제품 품목선택 모달창 ======= */
 
+/* ======= 투입자재 품목선택 모달창 ======= */
+/* 모달 내부의 스크롤을 방지하고, Select2 드롭다운만 스크롤되도록 설정 */
+.select2-dropdown {
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: auto;
+    max-width: 160px;
+    white-space: nowrap;
+}
+.select2-results__options {
+	display: inline-block;
+    min-width: 100%;
+    max-height: 150px !important;
+    overflow-y: hidden !important;
+}
 
-
+/* ===== End 투입자재 품목선택 모달창 ===== */

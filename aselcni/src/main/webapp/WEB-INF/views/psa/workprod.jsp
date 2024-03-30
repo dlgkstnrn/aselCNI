@@ -68,34 +68,24 @@ pageEncoding="UTF-8"%>
       <!-- End Page Title -->
 
       <section class="section dashboard">
-        <div class="border-bottom d-flex align-items-center justify-content-between p-3">
+        <!-- <div class="border-bottom d-flex align-items-center justify-content-between p-3">
 
           <h5>생산지시</h5>
 
           <div>
-            <!-- 첫번째 모달 띄우는 버튼 : 신규 -->
-            <!-- Vertically centered Modal -->
+            
             <button
               type="button"
               class="btn btn-outline-success"
-              data-bs-toggle="modal"
-              data-bs-target="#verticalycentered">신규</button>
-
-            <button type="button" class="btn btn-outline-success">수정</button>
-            <button type="button" class="btn btn-outline-success">삭제</button>
+              >지시등록</button>
           </div>
 
-        </div>
+        </div> -->
 
         <!-- 조회할 생산일자 -->
         <div class="position-relative d-flex align-items-center p-3">
-          생산일자
-          <input
-            class="mx-2"
-            type="text"
-            name="workprod_dt"
-            readonly="readonly"
-          />
+          생산시작일자
+          <input class="mx-2" type="date" id="currentDate" name="workprod_dt"/>
           <button type="button" class="btn btn-success mx-2">
             <i class="bi bi-arrow-left"></i>
           </button>
@@ -104,50 +94,84 @@ pageEncoding="UTF-8"%>
           </button>
         </div>
 
-        <!-- 등록된 생산계획 리스트 -->
-        <div class="card-body border border-black border-opacity-50">
-          <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산계획</h5>
-          <table class="table table-hover p-2 text-center">
-            <thead class="p-2">
-              <tr>
-                <th scope="col">순서?</th>
-                <th scope="col">생산계획번호</th>
-                <th scope="col">제품명</th>
-                <th scope="col">생산수량</th>
-                <th scope="col">작업일수</th>
-                <th scope="col">지시여부</th>
-              </tr>
-            </thead>
-            <tbody class="p-2">
-              <tr>
-                <th scope="row">순서??</th>
-                <td>${prodplan_no}</td>
-                <td>${item.item_nm}</td>
-                <td>${qty}</td>
-                <td>${work_dt}</td>
-                <td>${workprod_delete-chk}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="d-flex justify-content-between">
+          
+          <div class="card-body border border-black border-opacity-50">
+            <!-- 등록된 생산계획 리스트 -->
+            <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산계획내역</h5>
+            <table class="table table-hover p-2 text-center">
+
+              <thead class="p-2">
+                <tr>
+                  <th scope="col">순서?</th>
+                  <th scope="col">생산계획번호</th>
+                  <th scope="col">제품명</th>
+                  <th scope="col">생산수량</th>
+                  <th scope="col">작업일수</th>
+                </tr>
+              </thead>
+
+              <tbody class="p-2">
+                <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
+                <!-- Vertically centered Modal -->
+                <tr data-bs-toggle="modal" data-bs-target="#prodplan">
+                  <th scope="row">순서??</th>
+                  <td>${prodplan_no}</td>
+                  <td>${item.item_nm}</td>
+                  <td>${qty}</td>
+                  <td>${work_dt}</td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+
+          <div class="card-body border border-black border-opacity-50">
+            <!-- 등록된 생산지시 리스트 -->
+            <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산지시내역</h5>
+            <table class="table table-hover p-2 text-center">
+              <thead class="p-2">
+                <tr>
+                  <th scope="col">순서?</th>
+                  <th scope="col">생산지시번호</th>
+                  <th scope="col">제품명</th>
+                  <th scope="col">생산수량</th>
+                  <th scope="col">작업일수</th>
+                </tr>
+              </thead>
+              <tbody class="p-2">
+                <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
+                <!-- Vertically centered Modal -->
+                <tr data-bs-toggle="modal" data-bs-target="#workprod">
+                  <th scope="row">순서??</th>
+                  <td>${workprod_no}</td>
+                  <td>${item.item_nm}</td>
+                  <td>${qty}</td>
+                  <td>${work_dt}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
 
 
         <!-- Modal -->
 
-        <!-- 첫번째 모달 -->
+        <!-- 1. 생산지시 등록 모달 -->
         <!-- Vertically centered Modal -->
         <div
           class="modal fade"
-          id="verticalycentered"
+          id="prodplan"
           tabindex="-1"
           aria-hidden="true"
           style="display: none"
         >
-          <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">생산지시</h5>
+                <h5 class="modal-title">생산지시등록</h5>
                 <button
                   type="button"
                   class="btn-close"
@@ -159,25 +183,25 @@ pageEncoding="UTF-8"%>
               <form action="">
                 <div class="modal-body">
                   <!-- 생산계획번호 -->
-                  <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"
+                  <div class="row mb-3 d-flex">
+                    <label class="col-sm-3 col-form-label"
                       >생산계획번호</label
                     >
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                       <input
                         type="text"
                         class="form-control"
                         value="${prodplan_no}"
-                        disabled
+                        readonly
                       />
                     </div>
                   </div>
                   <!-- 생산일자 -->
                   <div class="row mb-3">
-                    <label for="workprod_dt" class="col-sm-2 col-form-label"
+                    <label for="workprod_dt" class="col-sm-3 col-form-label"
                       >생산시작일자</label
                     >
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                       <input
                         type="date"
                         class="form-control"
@@ -185,24 +209,39 @@ pageEncoding="UTF-8"%>
                       />
                     </div>
                   </div>
-                  <!-- 제품명 -->
+
+                  <!-- 제품 -->
                   <div class="row mb-3">
-                    <label for="item_nm" class="col-sm-2 col-form-label"
-                      >제품명</label
-                    >
-                    <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        value="item_nm"
-                        disabled
-                      />
+                    
+                    <label for="item_nm" class="col-sm-3 col-form-label"
+                      >제품명</label>
+
+                    <div class="d-flex justify-content-between col-sm-9">
+                      <!-- <div class="col-sm-4"> -->
+                      <div class="col-sm-5">
+                        <input
+                          type="text"
+                          class="form-control"
+                          value="item_nm"
+                          readonly/>
+                      </div>
+
+                      <!-- 제품 생산수량 -->
+                      <div class="d-flex mb-3">
+                        <label for="qty" class="col-sm-3 col-form-label"
+                          >생산수량</label>
+                        <div class="col-sm-3 mx-2">
+                          <input type="number" class="form-control" id="qty" />
+                        </div>
+                      </div>
                     </div>
+
                   </div>
+
                   <!-- 공정 -->
                   <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label">공정</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-3 col-form-label">공정</label>
+                    <div class="col-sm-9">
                       <select
                         name=""
                         id=""
@@ -216,19 +255,12 @@ pageEncoding="UTF-8"%>
                       </select>
                     </div>
                   </div>
-                  <!-- 생산수량 -->
-                  <div class="row mb-3">
-                    <label for="qty" class="col-sm-2 col-form-label"
-                      >생산수량</label
-                    >
-                    <div class="col-sm-10">
-                      <input type="number" class="form-control" id="qty" />
-                    </div>
-                  </div>
+                  
                   <!-- 투입품 -->
                   <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label">투입품</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-3 col-form-label">투입품</label>
+
+                    <div class="d-flex justify-content-between col-sm-9 mb-3">
                       
                       <!-- 중첩모달 띄우는 버튼 -->
                       <!-- Vertically centered Modal -->
@@ -238,28 +270,24 @@ pageEncoding="UTF-8"%>
                         data-bs-toggle="modal"
                         data-bs-target="#addItem">투입품 추가</button>
                       
+                      <!-- 투입수량 -->
+                      <div class="d-flex">
+                        <label for="qty" class="col-sm-3 col-form-label"
+                          >투입수량</label>
+                        <div class="col-sm-3 mx-2">
+                          <input type="number" class="form-control" id="qty" />
+                        </div>
+                      </div>
+
                     </div>
                   </div>
                   
-                  <!-- 투입수량 -->
-                  <div class="row mb-3">
-                    <label for="in_qty" class="col-sm-2 col-form-label"
-                      >투입수량</label
-                    >
-                    <div class="col-sm-10">
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="in_qty"
-                      />
-                    </div>
-                  </div>
                   <!-- 작업일수 -->
                   <div class="row mb-3">
-                    <label for="work_dt" class="col-sm-2 col-form-label"
+                    <label for="work_dt" class="col-sm-3 col-form-label"
                       >작업일수</label
                     >
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                       <input
                         type="number"
                         class="form-control"
@@ -269,10 +297,10 @@ pageEncoding="UTF-8"%>
                   </div>
                   <!-- 작업시 주의사항 -->
                   <div class="row mb-3">
-                    <label for="work_cmd" class="col-sm-2 col-form-label"
+                    <label for="work_cmd" class="col-sm-6 col-form-label"
                       >작업시 주의사항</label
                     >
-                    <div class="col-sm-10">
+                    <div class="col-sm-12">
                       <textarea
                         name=""
                         id="work_cmd"
@@ -285,10 +313,10 @@ pageEncoding="UTF-8"%>
                   </div>
                   <!-- 비고 -->
                   <div class="row mb-3">
-                    <label for="remark" class="col-sm-2 col-form-label"
+                    <label for="remark" class="col-sm-3 col-form-label"
                       >비고</label
                     >
-                    <div class="col-sm-10">
+                    <div class="col-sm-12">
                       <textarea
                         name=""
                         id="remark"
@@ -304,12 +332,11 @@ pageEncoding="UTF-8"%>
                   <button
                     type="button"
                     class="btn btn-outline-secondary"
-                    data-bs-dismiss="modal"
-                  >
+                    data-bs-dismiss="modal">
                     닫기
                   </button>
                   <button type="submit" class="btn btn-success">
-                    저장
+                    등록
                   </button>
                   <button type="reset" class="btn btn-outline-secondary">
                     취소
@@ -320,47 +347,107 @@ pageEncoding="UTF-8"%>
             </div>
           </div>
         </div>
-        <!-- 첫번째 모달 끝 -->
+        <!-- 생산지시 등록 모달 끝 -->
         <!-- End Vertically centered Modal -->
 
 
 
-        <!-- 첫번째 모달의 중첩모달 -->
+        <!-- 2. 중첩모달 (투입품 선택) -->
         <!-- Vertically centered Modal -->
         <div class="modal fade"
           id="addItem"
           tabindex="-1"
           aria-hidden="true"
           style="display: none;">
-          <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">투입품 추가</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+
               <div class="modal-body">
-                송이버섯 대파 감자 마늘
+                <form action="#" method="get">
 
-                <form action="" method="get">
-                  학과 : <input type="text" name="st_department" list="itemList"><br>
-                  이름 : <input type="text" name="st_name"><br><br>
-                  <datalist id="itemList">
-                      <option value="컴퓨터공학과"></option>
-                      <option value="영어영문과"></option>
-                      <option value="경영학과"></option>
-                      <option value="사회체육과"></option>
+                  <div class="d-flex justify-content-around w-auto text-center align-items-center">
+                    <div>
+                      <p>대분류</p> 
+                      <input type="text" name="st_department" list="big_no">
+                    </div>
+
+                    <div>
+                      <p>중분류</p> 
+                      <input type="text" name="st_department" list="mid_no">
+                    </div>
+
+                    <div>
+                      <p>소분류</p> 
+                      <input type="text" name="st_department" list="sml_no">
+                    </div>
+                  </div>
+
+                  <!-- 대분류 리스트 -->
+                  <datalist id="big_no" class="w-auto">
+                    <!-- <option value="select">대분류</option> -->
+                    <option value="포장재"></option>
+                    <option value="식재료"></option>
                   </datalist>
-                  <button type="submit">제출하기</button>
+
+                  <!-- 중분류 리스트 -->
+                  <datalist id="mid_no" class="w-auto">
+                    <option value="컵"></option>
+                    <option value="봉지"></option>
+                    <option value="면"></option>
+                    <option value="스프"></option>
+                  </datalist>
+                  
+                  <!-- 소분류 리스트 -->
+                  <datalist id="sml_no" class="w-auto">
+                    <option value="밀가루"></option>
+                    <option value="물"></option>
+                    <option value="기름"></option>
+                    <option value="버섯"></option>
+                    <option value="대파"></option>
+                    <option value="마늘"></option>
+                    <option value="고춧가루"></option>
+                  </datalist>
+
+                  <!-- 조회된 품목 리스트 -->
+                  <div class="card-body mt-3">
+                    <h5 class="card-title">품목 선택</h5>
+      
+                    <!-- List group With Checkboxes and radios -->
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        First checkbox
+                      </li>
+                      <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Second checkbox
+                      </li>
+                      <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Third checkbox
+                      </li>
+                      <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fourth checkbox
+                      </li>
+                      <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fifth checkbox
+                      </li>
+                    </ul><!-- End List Checkboxes and radios -->
+      
+                  </div>
+
                 </form>
-
-
-
-
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary">저장</button>
               </div>
             </div>
           </div>
@@ -368,6 +455,187 @@ pageEncoding="UTF-8"%>
         <!-- 중첩모달 끝 -->
         <!-- End Vertically centered Modal -->
         
+
+
+        <!-- 3. 생산지시내역 조회 모달 -->
+        <!-- Vertically centered Modal -->
+        <div
+          class="modal fade"
+          id="workprod"
+          tabindex="-1"
+          aria-hidden="true"
+          style="display: none">
+          
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">생산지시내역</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+
+              <div class="modal-body">
+
+                <!-- 생산지시번호 -->
+                <div class="row mb-3 d-flex">
+                  <label class="col-sm-3 col-form-label">생산지시번호</label>
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="${workprod_no}"
+                      disabled/>
+                  </div>
+                </div>
+
+                <!-- 생산시작일자 -->
+                <div class="row mb-3">
+                  <label for="workprod_dt" class="col-sm-3 col-form-label">생산시작일자</label>
+                  <div class="col-sm-5">
+                    <input type="date" class="form-control" id="workprod_dt" disabled/>
+                  </div>
+                </div>
+
+                <!-- 제품 -->
+                <div class="row mb-3">
+                  <label for="item_nm" class="col-sm-3 col-form-label">제품명</label>
+                  <div class="d-flex justify-content-between col-sm-9">
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" value="item_nm" disabled/>
+                    </div>
+                    <!-- 제품 생산수량 -->
+                    <div class="d-flex mb-3">
+                      <label for="qty" class="col-sm-3 col-form-label">생산수량</label>
+                      <div class="col-sm-4 mx-2">
+                        <input type="number" class="form-control" id="qty" disabled/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 공정 -->
+                <div class="card-body mb-3">
+                  <h5 class="card-title">등록된 공정 목록</h5>
+                  <!-- Default Table -->
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">공정코드</th>
+                        <th scope="col">공정명</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>CD01</td>
+                        <td>튀김</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>CD02</td>
+                        <td>포장</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>CD03</td>
+                        <td>건조</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- End Default Table Example -->
+                </div>
+                
+                <!-- 투입품 -->
+                <div class="card-body mb-3">
+                  <h5 class="card-title">투입품 목록</h5>
+                  <!-- Default Table -->
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">품목코드</th>
+                        <th scope="col">품목명</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>CD01</td>
+                        <td>버섯</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>CD02</td>
+                        <td>소고기</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>CD03</td>
+                        <td>간장</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- End Default Table Example -->
+                </div>
+                
+                <!-- 작업일수 -->
+                <div class="row mb-3">
+                  <label for="work_dt" class="col-sm-3 col-form-label">작업일수</label>
+                  <div class="col-sm-3">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="work_dt"
+                      disabled/>
+                  </div>
+                </div>
+
+                <!-- 작업시 주의사항 -->
+                <div class="row mb-3">
+                  <label for="work_cmd" class="col-sm-6 col-form-label">작업시 주의사항</label>
+                  <div class="col-sm-12">
+                    <textarea
+                      name=""
+                      id="work_cmd"
+                      cols="30"
+                      rows="10"
+                      class="form-control"
+                      style="height: 100px"
+                      disabled></textarea>
+                  </div>
+                </div>
+
+                <!-- 비고 -->
+                <div class="row mb-3">
+                  <label for="remark" class="col-sm-3 col-form-label">비고</label>
+                  <div class="col-sm-12">
+                    <textarea
+                      name=""
+                      id="remark"
+                      cols="30"
+                      rows="10"
+                      class="form-control"
+                      style="height: 100px"
+                      disabled></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  닫기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 생산지시내역 조회 모달 끝 -->
+        <!-- End Vertically centered Modal -->
+
 
       </section>
     </main>
@@ -392,5 +660,20 @@ pageEncoding="UTF-8"%>
     <!-- <script src="assets/vendor/simple-datatables/simple-datatables.js"></script> -->
     <!-- <script src="assets/vendor/tinymce/tinymce.min.js"></script> -->
     <!-- <script src="assets/vendor/php-email-form/validate.js"></script> -->
+
+    <script>
+
+      // 생산일자는 오늘 날짜로 기본값으로 함
+      document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+
+      const today = new Date();
+      const tommorow = new Date(today);
+      const yesterday = new Date(today);
+
+      tommorow.setDate(today.getDate() + 1);
+      yesterday.setDate(today.getDate() - 1);
+
+    </script>
+
   </body>
 </html>
