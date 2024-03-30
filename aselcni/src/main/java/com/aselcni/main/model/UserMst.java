@@ -16,4 +16,12 @@ public class UserMst {
 	private int user_comm_code;
 	private int user_delete_check;
 	
+	// 조회용
+	private String comm_content; 
+	private String currentPage;
+	private int start;
+	private int end;
+	private String keyword;
+	private String searchFilter;
+	
 }
