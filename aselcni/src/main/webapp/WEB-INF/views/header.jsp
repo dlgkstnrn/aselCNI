@@ -28,7 +28,7 @@
                             		<span>관리자</span>
                             	</c:when>
                             	<c:otherwise>
-                            		<span>회원</span>
+                            		<span>${sessionScope.comm_content }</span>
                             	</c:otherwise>
                             </c:choose>
                         </li>

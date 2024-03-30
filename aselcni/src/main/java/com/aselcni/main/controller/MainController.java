@@ -45,6 +45,7 @@ public class MainController {
 				session.setAttribute("user_pw", user.getUser_pw());
 				session.setAttribute("user_nm", resultUser.getUser_nm());
 				session.setAttribute("user_comm_code", resultUser.getUser_comm_code());
+				session.setAttribute("comm_content", resultUser.getComm_content());
 				List<List<MenuMst>> menuListGroupByMenu = mainService.menuListGroupByMenu(resultUser.getUser_comm_code());
 				session.setAttribute("menuListGroupByMenu", menuListGroupByMenu);
 				result = "성공";

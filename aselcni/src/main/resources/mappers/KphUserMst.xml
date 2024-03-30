@@ -3,10 +3,11 @@
 <mapper namespace="com.aselcni.KphUserMstMapper">
 					
 	<select id="KphGetUser" parameterType="UserMst" resultType="UserMst">
-		SELECT * 
-		FROM TB_USERMST
-		WHERE USER_ID = #{user_id}
-			AND USER_DELETE_CHECK = 0
+		SELECT tu.*, tc.COMM_CONTENT 
+		FROM TB_USERMST tu, TB_COMMON tc
+		WHERE tu.USER_COMM_CODE = tc.COMM_CODE
+			AND tu.USER_ID = #{user_id}
+			AND tu.USER_DELETE_CHECK = 0
 	</select>
 	
 	<select id="KphIsUserExist" parameterType="UserMst" resultType="int">
