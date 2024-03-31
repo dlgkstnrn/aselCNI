@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>주문 등록</title>
+	<title>주문 상세</title>
 	<!-- Favicons -->
 	<link href="assets/img/favicon.png" rel="icon">
 	
@@ -50,27 +50,42 @@
 			font-family: 'NEXON Lv2 Gothic';
 		}
 	</style>
+
 </head>
 <body>
-	<!-- ======= Header ======= -->
+<!-- ======= Header ======= -->
     <%@ include file="../header.jsp" %>
     <!-- ======= Sidebar ======= -->
     <%@ include file="../asidebar.jsp" %>
     
     <main id="main" class="main">
     	 <div class="pagetitle">
-            <h1>주문 등록</h1>
+            <h1>주문 상세</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/orderList">주문 관리</a></li>
-                    <li class="breadcrumb-item active">주문 등록</li>
+                    <li class="breadcrumb-item active">주문 상세</li>
                 </ol>
             </nav>
         </div>
         
         <section class="section dashboard">
-        	<div class="card">
-        		<div class="card-body"><form><p>
+        	<div class="card">		
+
+        		<div class="card-body"><form>
+        		
+        		<!-- 체크하면 수정버전 -->
+        			<div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                      <label class="form-check-label" for="flexSwitchCheckChecked">읽기 전용</label>
+                	</div>
+        		
+        		
+        		<div class="d-grid gap-2 d-md-flex justify-content-md-end  py-2">
+					<button class="btn btn-outline-secondary btn px-4" type="button" style="display: none">취소</button>
+<!-- 					<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button" style="display: none">저장</button> -->
+					<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">수정</button>
+				</div>
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">주문번호</label>
 						<div class="col-sm-10">
@@ -109,15 +124,10 @@
 							<textarea class="form-control" style="height: 100px"></textarea>
 						</div>
 					</div><p>
-					<div class="d-flex gap-2 justify-content-center py-2">
-						<button class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button">저장</button>
-						<button class="btn btn-outline-secondary btn px-4 rounded-pill" type="button">취소</button>
-					</div>
-					<hr>
 					
-					<!-- 물품 추가해서 생기는 목록 -->
-					<div class="card-body">						
-						<table class="table table-hover text-center">
+					<div class="col-12">
+	                	<label for="inputNanme4" class="form-label">주문 품목 </label>
+	                 	<table class="table table-hover text-center">
 							<thead><tr>
 								<th scope="col"></th>
 								<th scope="col">제품코드</th>
@@ -179,6 +189,11 @@
 								</tr>
 							</tbody>
 						</table>
+	                </div>
+
+					<!-- 물품 추가해서 생기는 목록 -->
+					<div class="card-body">						
+						
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 							<button class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
 							<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop">

@@ -21,9 +21,9 @@ public class DJOrderController {
 		return "jdj/orderList";
 	}
 	
-	@GetMapping("/order2")
+	@GetMapping("/orderSpec")
 	public String order2() {
-		return "jdj/DJOrder";
+		return "jdj/orderSpec";
 	}
 	
 }
