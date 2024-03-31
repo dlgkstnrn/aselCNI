@@ -18,6 +18,10 @@ public class ProdPlan {
 	// 생산수량
 	private Integer qty;
 	// 작업일수
-	private Integer word_dt;
+	private Integer work_dt;
+	
+	// 조회용 (TB_ITEMMST)
+	// 품목명
+	private String item_nm;
 
 }
