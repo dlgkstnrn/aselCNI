@@ -79,7 +79,7 @@ pageEncoding="UTF-8"%>
                       type="button"
                       class="btn btn-primary"
                       data-bs-toggle="modal"
-                      data-bs-target="#prodplan"
+                      data-bs-target="#outitem"
                     >
                       등록
                     </button>
@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
                     <!-- Vertically centered Modal -->
                     <div
                       class="modal fade"
-                      id="prodplan"
+                      id="outitem"
                       tabindex="-1"
                       aria-hidden="true"
                       style="display: none"
@@ -142,7 +142,7 @@ pageEncoding="UTF-8"%>
                               <!-- 출고일자 -->
                               <div class="row mb-3">
                                 <label
-                                  for="workprod_dt"
+                                  for="outitem_dt"
                                   class="col-sm-3 col-form-label"
                                   >출고일자(달력)-주문일자보다 늦어야함</label
                                 >
@@ -150,7 +150,7 @@ pageEncoding="UTF-8"%>
                                   <input
                                     type="date"
                                     class="form-control"
-                                    id="workprod_dt"
+                                    id="outitem_dt"
                                   />
                                 </div>
                               </div>
