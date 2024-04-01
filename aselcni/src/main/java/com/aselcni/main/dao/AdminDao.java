@@ -11,4 +11,14 @@ public interface AdminDao {
 
 	int userAdd(UserMst user);
 
+	int totalUserCountByKeyword(UserMst user);
+
+	List<UserMst> userListByKeyword(UserMst user);
+
+	void userDelete(UserMst user);
+
+	int isUserExist(UserMst user);
+
+	void userUpdate(UserMst user);
+
 }

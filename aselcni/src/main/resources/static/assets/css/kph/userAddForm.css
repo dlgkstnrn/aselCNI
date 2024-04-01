@@ -40,3 +40,16 @@
 	color: red;
 	display: none;
 }
+
+.id-box {
+	display: flex;
+	justify-content: space-between;
+}
+
+.user-id {
+	width: 700px;
+}
+
+.duplication-chk {
+	width: 150px;
+}

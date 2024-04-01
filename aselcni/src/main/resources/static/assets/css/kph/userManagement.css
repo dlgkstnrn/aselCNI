@@ -86,16 +86,50 @@
     font-family: 'NanumSquare', sans-serif;
 }
 
+.table tr th:nth-child(1) {
+    width: 5%;
+}
+
 .table tr th:nth-child(2) {
-    width: 25%;
+    width: 12%;
+}
+
+.table tr th:nth-child(3) {
+    width: 12%;
 }
 
 .table tr th:nth-child(4) {
-    width: 13%;
+    width: 17%;
 }
 
 .table tr th:nth-child(5) {
-    width: 13%;
+    width: 17%;
+}
+
+.table tr th:nth-child(6) {
+    width: 20%;
+}
+
+.table tr th:nth-child(7) {
+    width: 10%;
+}
+
+.table tr th:nth-child(8) {
+    width: 7%;
+}
+
+tbody tr {
+	height: 30px;
+}
+
+tbody tr td, tbody tr th {
+	line-height: 30px;
+}
+
+.user-delete {
+	display: flex;
+	align-items: center;
+	height: 30px;
 }
 
 .page-navigation {

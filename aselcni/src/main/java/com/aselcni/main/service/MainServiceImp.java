@@ -28,7 +28,6 @@ public class MainServiceImp implements MainService {
 	public List<List<MenuMst>> menuListGroupByMenu(int user_comm_code) {
 		System.out.println(user_comm_code);
 		List<String> menuGroupList = mainDao.menuGroupListByUserCommCode(user_comm_code);
-		System.out.println(menuGroupList);
 		Iterator<String> menuGroupListIt = menuGroupList.iterator();
 		
 		List<List<MenuMst>> menuListGroupByMenu = new ArrayList<>();
