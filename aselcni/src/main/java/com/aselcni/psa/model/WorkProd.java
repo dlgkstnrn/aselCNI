@@ -23,13 +23,13 @@ public class WorkProd {
 	// 생산지시 담당자ID
 	private String workprod_emp_id;
 	// 생산시작일자
-	private String wordprod_dt;
+	private String workprod_dt;
 	// 순번
 	private Integer seq_no;
 	// 생산수량
 	private Integer qty;
 	// 작업일수
-	private Integer word_dt;
+	private Integer work_dt;
 	// 작업시 주의사항
 	private String work_cmd;
 	// 비고
@@ -38,6 +38,11 @@ public class WorkProd {
 	private String workprod_update;
 	// 생산지시 삭제여부
 	private Integer workprod_delete_chk;
+	
+	
+	// 조회용 (TB_ITEMMST)
+	// 품목명
+	private String item_nm;
 	
 	
 	// 2. 생산지시 투입품 테이블
