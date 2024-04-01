@@ -1,796 +1,892 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <title>스마트 제조 시스템</title>
-    
+
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/favicon.png" rel="icon" />
 
     <!-- Google Fonts -->
-  	<link href="https://fonts.gstatic.com" rel="preconnect">
-  	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-    
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
     <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-     <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet"> 
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet"> 
-     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet" />
 
     <!-- CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
-     
-     <!-- Script -->
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- Script -->
     <script defer src="assets/js/main.js"></script>
-    <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/0b22ed6a9d.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <!-- ======= Header ======= -->
     <%@ include file="../header.jsp" %>
 
     <!-- ======= Sidebar ======= -->
     <%@ include file="../asidebar.jsp" %>
-    
+
     <!-- End Sidebar-->
 
     <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>출고 관리</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">구매/영업 관리</li>
+            <li class="breadcrumb-item active">출고 관리</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
 
-        <div class="pagetitle">
-            <h1>출고 관리</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">구매/영업 관리</li>
-                    <li class="breadcrumb-item active">출고 관리</li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title -->
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <!-- 출고관리 -->
+                  <div id="upper-btn" style="float: right">
+                    <!-- Extra Large Modal -->
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#prodplan"
+                    >
+                      등록
+                    </button>
 
-        <section class="section">
-         <div class="row">
-        <div class="col-lg-12">
+                    <!-- 등록 Modal -->
+                    <!-- Vertically centered Modal -->
+                    <div
+                      class="modal fade"
+                      id="prodplan"
+                      tabindex="-1"
+                      aria-hidden="true"
+                      style="display: none"
+                    >
+                      <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">출고등록</h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <!-- Horizontal Form -->
+                          <form action="">
+                            <!-- 등록 폼 -->
+                            <div class="modal-body">
+                              <!-- 주문번호 -->
+                              <div class="row mb-3 d-flex">
+                                <label class="col-sm-3 col-form-label"
+                                  >주문번호(주문 테이블에서 가져와서 선택할 수
+                                  있게)</label
+                                >
+                                <div class="col-sm-9">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    value="${order_no}"
+                                    readonly
+                                  />
+                                </div>
+                              </div>
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">출고관리 <button>신규</button> </h5>
-              <p>주문번호:  <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
+                              <!-- 주문일자(단순조회) -->
+                              <div class="row mb-3 d-flex">
+                                <label class="col-sm-3 col-form-label"
+                                  >주문일자(단순조회)</label
+                                >
+                                <div class="col-sm-9">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    value="${order_no}"
+                                    readonly
+                                  />
+                                </div>
+                              </div>
 
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th>
-                      <b>N</b>ame
-                    </th>
-                    <th>Ext.</th>
-                    <th>City</th>
-                    <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                    <th>Completion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Unity Pugh</td>
-                    <td>9958</td>
-                    <td>Curicó</td>
-                    <td>2005/02/11</td>
-                    <td>37%</td>
-                  </tr>
-                  <tr>
-                    <td>Theodore Duran</td>
-                    <td>8971</td>
-                    <td>Dhanbad</td>
-                    <td>1999/04/07</td>
-                    <td>97%</td>
-                  </tr>
-                  <tr>
-                    <td>Kylie Bishop</td>
-                    <td>3147</td>
-                    <td>Norman</td>
-                    <td>2005/09/08</td>
-                    <td>63%</td>
-                  </tr>
-                  <tr>
-                    <td>Willow Gilliam</td>
-                    <td>3497</td>
-                    <td>Amqui</td>
-                    <td>2009/29/11</td>
-                    <td>30%</td>
-                  </tr>
-                  <tr>
-                    <td>Blossom Dickerson</td>
-                    <td>5018</td>
-                    <td>Kempten</td>
-                    <td>2006/11/09</td>
-                    <td>17%</td>
-                  </tr>
-                  <tr>
-                    <td>Elliott Snyder</td>
-                    <td>3925</td>
-                    <td>Enines</td>
-                    <td>2006/03/08</td>
-                    <td>57%</td>
-                  </tr>
-                  <tr>
-                    <td>Castor Pugh</td>
-                    <td>9488</td>
-                    <td>Neath</td>
-                    <td>2014/23/12</td>
-                    <td>93%</td>
-                  </tr>
-                  <tr>
-                    <td>Pearl Carlson</td>
-                    <td>6231</td>
-                    <td>Cobourg</td>
-                    <td>2014/31/08</td>
-                    <td>100%</td>
-                  </tr>
-                  <tr>
-                    <td>Deirdre Bridges</td>
-                    <td>1579</td>
-                    <td>Eberswalde-Finow</td>
-                    <td>2014/26/08</td>
-                    <td>44%</td>
-                  </tr>
-                  <tr>
-                    <td>Daniel Baldwin</td>
-                    <td>6095</td>
-                    <td>Moircy</td>
-                    <td>2000/11/01</td>
-                    <td>33%</td>
-                  </tr>
-                  <tr>
-                    <td>Phelan Kane</td>
-                    <td>9519</td>
-                    <td>Germersheim</td>
-                    <td>1999/16/04</td>
-                    <td>77%</td>
-                  </tr>
-                  <tr>
-                    <td>Quentin Salas</td>
-                    <td>1339</td>
-                    <td>Los Andes</td>
-                    <td>2011/26/01</td>
-                    <td>49%</td>
-                  </tr>
-                  <tr>
-                    <td>Armand Suarez</td>
-                    <td>6583</td>
-                    <td>Funtua</td>
-                    <td>1999/06/11</td>
-                    <td>9%</td>
-                  </tr>
-                  <tr>
-                    <td>Gretchen Rogers</td>
-                    <td>5393</td>
-                    <td>Moxhe</td>
-                    <td>1998/26/10</td>
-                    <td>24%</td>
-                  </tr>
-                  <tr>
-                    <td>Harding Thompson</td>
-                    <td>2824</td>
-                    <td>Abeokuta</td>
-                    <td>2008/06/08</td>
-                    <td>10%</td>
-                  </tr>
-                  <tr>
-                    <td>Mira Rocha</td>
-                    <td>4393</td>
-                    <td>Port Harcourt</td>
-                    <td>2002/04/10</td>
-                    <td>14%</td>
-                  </tr>
-                  <tr>
-                    <td>Drew Phillips</td>
-                    <td>2931</td>
-                    <td>Goes</td>
-                    <td>2011/18/10</td>
-                    <td>58%</td>
-                  </tr>
-                  <tr>
-                    <td>Emerald Warner</td>
-                    <td>6205</td>
-                    <td>Chiavari</td>
-                    <td>2002/08/04</td>
-                    <td>58%</td>
-                  </tr>
-                  <tr>
-                    <td>Colin Burch</td>
-                    <td>7457</td>
-                    <td>Anamur</td>
-                    <td>2004/02/01</td>
-                    <td>34%</td>
-                  </tr>
-                  <tr>
-                    <td>Russell Haynes</td>
-                    <td>8916</td>
-                    <td>Frascati</td>
-                    <td>2015/28/04</td>
-                    <td>18%</td>
-                  </tr>
-                  <tr>
-                    <td>Brennan Brooks</td>
-                    <td>9011</td>
-                    <td>Olmué</td>
-                    <td>2000/18/04</td>
-                    <td>2%</td>
-                  </tr>
-                  <tr>
-                    <td>Kane Anthony</td>
-                    <td>8075</td>
-                    <td>LaSalle</td>
-                    <td>2006/21/05</td>
-                    <td>93%</td>
-                  </tr>
-                  <tr>
-                    <td>Scarlett Hurst</td>
-                    <td>1019</td>
-                    <td>Brampton</td>
-                    <td>2015/07/01</td>
-                    <td>94%</td>
-                  </tr>
-                  <tr>
-                    <td>James Scott</td>
-                    <td>3008</td>
-                    <td>Meux</td>
-                    <td>2007/30/05</td>
-                    <td>55%</td>
-                  </tr>
-                  <tr>
-                    <td>Desiree Ferguson</td>
-                    <td>9054</td>
-                    <td>Gojra</td>
-                    <td>2009/15/02</td>
-                    <td>81%</td>
-                  </tr>
-                  <tr>
-                    <td>Elaine Bishop</td>
-                    <td>9160</td>
-                    <td>Petrópolis</td>
-                    <td>2008/23/12</td>
-                    <td>48%</td>
-                  </tr>
-                  <tr>
-                    <td>Hilda Nelson</td>
-                    <td>6307</td>
-                    <td>Posina</td>
-                    <td>2004/23/05</td>
-                    <td>76%</td>
-                  </tr>
-                  <tr>
-                    <td>Evangeline Beasley</td>
-                    <td>3820</td>
-                    <td>Caplan</td>
-                    <td>2009/12/03</td>
-                    <td>62%</td>
-                  </tr>
-                  <tr>
-                    <td>Wyatt Riley</td>
-                    <td>5694</td>
-                    <td>Cavaion Veronese</td>
-                    <td>2012/19/02</td>
-                    <td>67%</td>
-                  </tr>
-                  <tr>
-                    <td>Wyatt Mccarthy</td>
-                    <td>3547</td>
-                    <td>Patan</td>
-                    <td>2014/23/06</td>
-                    <td>9%</td>
-                  </tr>
-                  <tr>
-                    <td>Cairo Rice</td>
-                    <td>6273</td>
-                    <td>Ostra Vetere</td>
-                    <td>2016/27/02</td>
-                    <td>13%</td>
-                  </tr>
-                  <tr>
-                    <td>Sylvia Peters</td>
-                    <td>6829</td>
-                    <td>Arrah</td>
-                    <td>2015/03/02</td>
-                    <td>13%</td>
-                  </tr>
-                  <tr>
-                    <td>Kasper Craig</td>
-                    <td>5515</td>
-                    <td>Firenze</td>
-                    <td>2015/26/04</td>
-                    <td>56%</td>
-                  </tr>
-                  <tr>
-                    <td>Leigh Ruiz</td>
-                    <td>5112</td>
-                    <td>Lac Ste. Anne</td>
-                    <td>2001/09/02</td>
-                    <td>28%</td>
-                  </tr>
-                  <tr>
-                    <td>Athena Aguirre</td>
-                    <td>5741</td>
-                    <td>Romeral</td>
-                    <td>2010/24/03</td>
-                    <td>15%</td>
-                  </tr>
-                  <tr>
-                    <td>Riley Nunez</td>
-                    <td>5533</td>
-                    <td>Sart-Eustache</td>
-                    <td>2003/26/02</td>
-                    <td>30%</td>
-                  </tr>
-                  <tr>
-                    <td>Lois Talley</td>
-                    <td>9393</td>
-                    <td>Dorchester</td>
-                    <td>2014/05/01</td>
-                    <td>51%</td>
-                  </tr>
-                  <tr>
-                    <td>Hop Bass</td>
-                    <td>1024</td>
-                    <td>Westerlo</td>
-                    <td>2012/25/09</td>
-                    <td>85%</td>
-                  </tr>
-                  <tr>
-                    <td>Kalia Diaz</td>
-                    <td>9184</td>
-                    <td>Ichalkaranji</td>
-                    <td>2013/26/06</td>
-                    <td>92%</td>
-                  </tr>
-                  <tr>
-                    <td>Maia Pate</td>
-                    <td>6682</td>
-                    <td>Louvain-la-Neuve</td>
-                    <td>2011/23/04</td>
-                    <td>50%</td>
-                  </tr>
-                  <tr>
-                    <td>Macaulay Pruitt</td>
-                    <td>4457</td>
-                    <td>Fraser-Fort George</td>
-                    <td>2015/03/08</td>
-                    <td>92%</td>
-                  </tr>
-                  <tr>
-                    <td>Danielle Oconnor</td>
-                    <td>9464</td>
-                    <td>Neuwied</td>
-                    <td>2001/05/10</td>
-                    <td>17%</td>
-                  </tr>
-                  <tr>
-                    <td>Kato Carr</td>
-                    <td>4842</td>
-                    <td>Faridabad</td>
-                    <td>2012/11/05</td>
-                    <td>96%</td>
-                  </tr>
-                  <tr>
-                    <td>Malachi Mejia</td>
-                    <td>7133</td>
-                    <td>Vorst</td>
-                    <td>2007/25/04</td>
-                    <td>26%</td>
-                  </tr>
-                  <tr>
-                    <td>Dominic Carver</td>
-                    <td>3476</td>
-                    <td>Pointe-aux-Trembles</td>
-                    <td>2014/14/03</td>
-                    <td>71%</td>
-                  </tr>
-                  <tr>
-                    <td>Paki Santos</td>
-                    <td>4424</td>
-                    <td>Cache Creek</td>
-                    <td>2001/18/11</td>
-                    <td>82%</td>
-                  </tr>
-                  <tr>
-                    <td>Ross Hodges</td>
-                    <td>1862</td>
-                    <td>Trazegnies</td>
-                    <td>2010/19/09</td>
-                    <td>87%</td>
-                  </tr>
-                  <tr>
-                    <td>Hilda Whitley</td>
-                    <td>3514</td>
-                    <td>New Sarepta</td>
-                    <td>2011/05/07</td>
-                    <td>94%</td>
-                  </tr>
-                  <tr>
-                    <td>Roth Cherry</td>
-                    <td>4006</td>
-                    <td>Flin Flon</td>
-                    <td>2008/02/09</td>
-                    <td>8%</td>
-                  </tr>
-                  <tr>
-                    <td>Lareina Jones</td>
-                    <td>8642</td>
-                    <td>East Linton</td>
-                    <td>2009/07/08</td>
-                    <td>21%</td>
-                  </tr>
-                  <tr>
-                    <td>Joshua Weiss</td>
-                    <td>2289</td>
-                    <td>Saint-Léonard</td>
-                    <td>2010/15/01</td>
-                    <td>52%</td>
-                  </tr>
-                  <tr>
-                    <td>Kiona Lowery</td>
-                    <td>5952</td>
-                    <td>Inuvik</td>
-                    <td>2002/17/12</td>
-                    <td>72%</td>
-                  </tr>
-                  <tr>
-                    <td>Nina Rush</td>
-                    <td>7567</td>
-                    <td>Bo‘lhe</td>
-                    <td>2008/27/01</td>
-                    <td>6%</td>
-                  </tr>
-                  <tr>
-                    <td>Palmer Parker</td>
-                    <td>2000</td>
-                    <td>Stade</td>
-                    <td>2012/24/07</td>
-                    <td>58%</td>
-                  </tr>
-                  <tr>
-                    <td>Vielka Olsen</td>
-                    <td>3745</td>
-                    <td>Vrasene</td>
-                    <td>2016/08/01</td>
-                    <td>70%</td>
-                  </tr>
-                  <tr>
-                    <td>Meghan Cunningham</td>
-                    <td>8604</td>
-                    <td>Söke</td>
-                    <td>2007/16/02</td>
-                    <td>59%</td>
-                  </tr>
-                  <tr>
-                    <td>Iola Shaw</td>
-                    <td>6447</td>
-                    <td>Albany</td>
-                    <td>2014/05/03</td>
-                    <td>88%</td>
-                  </tr>
-                  <tr>
-                    <td>Imelda Cole</td>
-                    <td>4564</td>
-                    <td>Haasdonk</td>
-                    <td>2007/16/11</td>
-                    <td>79%</td>
-                  </tr>
-                  <tr>
-                    <td>Jerry Beach</td>
-                    <td>6801</td>
-                    <td>Gattatico</td>
-                    <td>1999/07/07</td>
-                    <td>36%</td>
-                  </tr>
-                  <tr>
-                    <td>Garrett Rocha</td>
-                    <td>3938</td>
-                    <td>Gavorrano</td>
-                    <td>2000/06/08</td>
-                    <td>71%</td>
-                  </tr>
-                  <tr>
-                    <td>Derek Kerr</td>
-                    <td>1724</td>
-                    <td>Gualdo Cattaneo</td>
-                    <td>2014/21/01</td>
-                    <td>89%</td>
-                  </tr>
-                  <tr>
-                    <td>Shad Hudson</td>
-                    <td>5944</td>
-                    <td>Salamanca</td>
-                    <td>2014/10/12</td>
-                    <td>98%</td>
-                  </tr>
-                  <tr>
-                    <td>Daryl Ayers</td>
-                    <td>8276</td>
-                    <td>Barchi</td>
-                    <td>2012/12/11</td>
-                    <td>88%</td>
-                  </tr>
-                  <tr>
-                    <td>Caleb Livingston</td>
-                    <td>3094</td>
-                    <td>Fatehpur</td>
-                    <td>2014/13/02</td>
-                    <td>8%</td>
-                  </tr>
-                  <tr>
-                    <td>Sydney Meyer</td>
-                    <td>4576</td>
-                    <td>Neubrandenburg</td>
-                    <td>2015/06/02</td>
-                    <td>22%</td>
-                  </tr>
-                  <tr>
-                    <td>Lani Lawrence</td>
-                    <td>8501</td>
-                    <td>Turnhout</td>
-                    <td>2008/07/05</td>
-                    <td>16%</td>
-                  </tr>
-                  <tr>
-                    <td>Allegra Shepherd</td>
-                    <td>2576</td>
-                    <td>Meeuwen-Gruitrode</td>
-                    <td>2004/19/04</td>
-                    <td>41%</td>
-                  </tr>
-                  <tr>
-                    <td>Fallon Reyes</td>
-                    <td>3178</td>
-                    <td>Monceau-sur-Sambre</td>
-                    <td>2005/15/02</td>
-                    <td>16%</td>
-                  </tr>
-                  <tr>
-                    <td>Karen Whitley</td>
-                    <td>4357</td>
-                    <td>Sluis</td>
-                    <td>2003/02/05</td>
-                    <td>23%</td>
-                  </tr>
-                  <tr>
-                    <td>Stewart Stephenson</td>
-                    <td>5350</td>
-                    <td>Villa Faraldi</td>
-                    <td>2003/05/07</td>
-                    <td>65%</td>
-                  </tr>
-                  <tr>
-                    <td>Ursula Reynolds</td>
-                    <td>7544</td>
-                    <td>Southampton</td>
-                    <td>1999/16/12</td>
-                    <td>61%</td>
-                  </tr>
-                  <tr>
-                    <td>Adrienne Winters</td>
-                    <td>4425</td>
-                    <td>Laguna Blanca</td>
-                    <td>2014/15/09</td>
-                    <td>24%</td>
-                  </tr>
-                  <tr>
-                    <td>Francesca Brock</td>
-                    <td>1337</td>
-                    <td>Oban</td>
-                    <td>2000/12/06</td>
-                    <td>90%</td>
-                  </tr>
-                  <tr>
-                    <td>Ursa Davenport</td>
-                    <td>7629</td>
-                    <td>New Plymouth</td>
-                    <td>2013/27/06</td>
-                    <td>37%</td>
-                  </tr>
-                  <tr>
-                    <td>Mark Brock</td>
-                    <td>3310</td>
-                    <td>Veenendaal</td>
-                    <td>2006/08/09</td>
-                    <td>41%</td>
-                  </tr>
-                  <tr>
-                    <td>Dale Rush</td>
-                    <td>5050</td>
-                    <td>Chicoutimi</td>
-                    <td>2000/27/03</td>
-                    <td>2%</td>
-                  </tr>
-                  <tr>
-                    <td>Shellie Murphy</td>
-                    <td>3845</td>
-                    <td>Marlborough</td>
-                    <td>2013/13/11</td>
-                    <td>72%</td>
-                  </tr>
-                  <tr>
-                    <td>Porter Nicholson</td>
-                    <td>4539</td>
-                    <td>Bismil</td>
-                    <td>2012/22/10</td>
-                    <td>23%</td>
-                  </tr>
-                  <tr>
-                    <td>Oliver Huber</td>
-                    <td>1265</td>
-                    <td>Hannche</td>
-                    <td>2002/11/01</td>
-                    <td>94%</td>
-                  </tr>
-                  <tr>
-                    <td>Calista Maynard</td>
-                    <td>3315</td>
-                    <td>Pozzuolo del Friuli</td>
-                    <td>2006/23/03</td>
-                    <td>5%</td>
-                  </tr>
-                  <tr>
-                    <td>Lois Vargas</td>
-                    <td>6825</td>
-                    <td>Cumberland</td>
-                    <td>1999/25/04</td>
-                    <td>50%</td>
-                  </tr>
-                  <tr>
-                    <td>Hermione Dickson</td>
-                    <td>2785</td>
-                    <td>Woodstock</td>
-                    <td>2001/22/03</td>
-                    <td>2%</td>
-                  </tr>
-                  <tr>
-                    <td>Dalton Jennings</td>
-                    <td>5416</td>
-                    <td>Dudzele</td>
-                    <td>2015/09/02</td>
-                    <td>74%</td>
-                  </tr>
-                  <tr>
-                    <td>Cathleen Kramer</td>
-                    <td>3380</td>
-                    <td>Crowsnest Pass</td>
-                    <td>2012/27/07</td>
-                    <td>53%</td>
-                  </tr>
-                  <tr>
-                    <td>Zachery Morgan</td>
-                    <td>6730</td>
-                    <td>Collines-de-l'Outaouais</td>
-                    <td>2006/04/09</td>
-                    <td>51%</td>
-                  </tr>
-                  <tr>
-                    <td>Yoko Freeman</td>
-                    <td>4077</td>
-                    <td>Lidköping</td>
-                    <td>2002/27/12</td>
-                    <td>48%</td>
-                  </tr>
-                  <tr>
-                    <td>Chaim Waller</td>
-                    <td>4240</td>
-                    <td>North Shore</td>
-                    <td>2010/25/07</td>
-                    <td>25%</td>
-                  </tr>
-                  <tr>
-                    <td>Berk Johnston</td>
-                    <td>4532</td>
-                    <td>Vergnies</td>
-                    <td>2016/23/02</td>
-                    <td>93%</td>
-                  </tr>
-                  <tr>
-                    <td>Tad Munoz</td>
-                    <td>2902</td>
-                    <td>Saint-Nazaire</td>
-                    <td>2010/09/05</td>
-                    <td>65%</td>
-                  </tr>
-                  <tr>
-                    <td>Vivien Dominguez</td>
-                    <td>5653</td>
-                    <td>Bargagli</td>
-                    <td>2001/09/01</td>
-                    <td>86%</td>
-                  </tr>
-                  <tr>
-                    <td>Carissa Lara</td>
-                    <td>3241</td>
-                    <td>Sherborne</td>
-                    <td>2015/07/12</td>
-                    <td>72%</td>
-                  </tr>
-                  <tr>
-                    <td>Hammett Gordon</td>
-                    <td>8101</td>
-                    <td>Wah</td>
-                    <td>1998/06/09</td>
-                    <td>20%</td>
-                  </tr>
-                  <tr>
-                    <td>Walker Nixon</td>
-                    <td>6901</td>
-                    <td>Metz</td>
-                    <td>2011/12/11</td>
-                    <td>41%</td>
-                  </tr>
-                  <tr>
-                    <td>Nathan Espinoza</td>
-                    <td>5956</td>
-                    <td>Strathcona County</td>
-                    <td>2002/25/01</td>
-                    <td>47%</td>
-                  </tr>
-                  <tr>
-                    <td>Kelly Cameron</td>
-                    <td>4836</td>
-                    <td>Fontaine-Valmont</td>
-                    <td>1999/02/07</td>
-                    <td>24%</td>
-                  </tr>
-                  <tr>
-                    <td>Kyra Moses</td>
-                    <td>3796</td>
-                    <td>Quenast</td>
-                    <td>1998/07/07</td>
-                    <td>68%</td>
-                  </tr>
-                  <tr>
-                    <td>Grace Bishop</td>
-                    <td>8340</td>
-                    <td>Rodez</td>
-                    <td>2012/02/10</td>
-                    <td>4%</td>
-                  </tr>
-                  <tr>
-                    <td>Haviva Hernandez</td>
-                    <td>8136</td>
-                    <td>Suwałki</td>
-                    <td>2000/30/01</td>
-                    <td>16%</td>
-                  </tr>
-                  <tr>
-                    <td>Alisa Horn</td>
-                    <td>9853</td>
-                    <td>Ucluelet</td>
-                    <td>2007/01/11</td>
-                    <td>39%</td>
-                  </tr>
-                  <tr>
-                    <td>Zelenia Roman</td>
-                    <td>7516</td>
-                    <td>Redwater</td>
-                    <td>2012/03/03</td>
-                    <td>31%</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
+                              <!-- 출고일자 -->
+                              <div class="row mb-3">
+                                <label
+                                  for="workprod_dt"
+                                  class="col-sm-3 col-form-label"
+                                  >출고일자(달력)-주문일자보다 늦어야함</label
+                                >
+                                <div class="col-sm-9">
+                                  <input
+                                    type="date"
+                                    class="form-control"
+                                    id="workprod_dt"
+                                  />
+                                </div>
+                              </div>
 
+                              <!-- 매입처이름 -->
+                              <div class="row mb-3">
+                                <label
+                                  for="workprod_dt"
+                                  class="col-sm-3 col-form-label"
+                                  >매입처이름</label
+                                >
+                                <div class="col-sm-9">
+                                  <p style="color: black">거래처이름 $</p>
+                                </div>
+                              </div>
+
+                              <!-- 거래처담당자 -->
+                              <div class="row mb-3">
+                                <label
+                                  for="workprod_dt"
+                                  class="col-sm-3 col-form-label"
+                                  >거래처담당자이름</label
+                                >
+                                <div class="col-sm-9">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id=""
+                                    placeholder="거래처담당자명 임의로 입력"
+                                    name="order_no"
+                                    autocomplete="off"
+                                    required="required"
+                                  />
+                                </div>
+                              </div>
+
+                              <!-- 주문상태 -->
+                              <div class="row mb-3">
+                                <label
+                                  for="workprod_dt"
+                                  class="col-sm-3 col-form-label"
+                                  >주문상태</label
+                                >
+                                <div class="col-sm-9">
+                                  <p style="color: black">
+                                    주문상태 : 조건 걸어서 다르게 보여줌
+                                  </p>
+                                </div>
+                              </div>
+
+                              <!-- 주문마감일 -->
+                              <div class="row mb-3">
+                                <label
+                                  for="workprod_dt"
+                                  class="col-sm-3 col-form-label"
+                                  >주문마감일</label
+                                >
+                                <div class="col-sm-9">
+                                  <p style="color: black">주문마감일 $</p>
+                                </div>
+                              </div>
+
+                              <!-- 출고할 제품 선택-->
+                              <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"
+                                  >제품명(거래처cd 가져와서)</label
+                                >
+
+                                <div class="col-sm-9 mb-3">
+                                  <!-- 중첩모달 띄우는 버튼 -->
+                                  <!-- Vertically centered Modal -->
+
+                                  <!-- 선택된 투입품 리스트 -->
+                                  <div class="card-body">
+                                    <h5 class="card-title mb-1"></h5>
+
+                                    <!-- List group with custom content -->
+                                    <ol class="list-group list-group-numbered">
+                                      <li
+                                        class="list-group-item d-flex justify-content-between align-items-start"
+                                      >
+                                        <div class="ms-2 me-auto">
+                                          <div class="fw-bold">제품명</div>
+                                          품목CD에서..
+                                        </div>
+                                        <!-- 현재재고 -->
+                                        <div class="d-flex">
+                                          <label
+                                            for="qty"
+                                            class="col-sm-3 col-form-label"
+                                            >현재재고</label
+                                          >
+                                          <div class="col-sm-3 mx-2">
+                                            <input
+                                              type="number"
+                                              class="form-control"
+                                              id="qty"
+                                              readonly
+                                            />
+                                          </div>
+                                        </div>
+                                        <div class="d-flex">
+                                          <label
+                                            for="qty"
+                                            class="col-sm-3 col-form-label"
+                                            >주문수량</label
+                                          >
+                                          <div class="col-sm-3 mx-2">
+                                            <input
+                                              type="number"
+                                              class="form-control"
+                                              id="qty"
+                                            />
+                                          </div>
+                                        </div>
+                                        <div class="d-flex">
+                                          <label
+                                            for="qty"
+                                            class="col-sm-3 col-form-label"
+                                            >출고수량(재고, 주문보다 많으면
+                                            안됨)</label
+                                          >
+                                          <div class="col-sm-3 mx-2">
+                                            <input
+                                              type="number"
+                                              class="form-control"
+                                              id="qty"
+                                            />
+                                          </div>
+                                        </div>
+                                        그 외 품목cd, 품목명, 분류번호, 규격,
+                                        단위, 수량, 단가 등을 가져옴 (단순조회)
+                                      </li>
+                                    </ol>
+                                    <!-- End with custom content -->
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- 비고 -->
+                              <div class="row mb-3">
+                                <label
+                                  for="workprod_dt"
+                                  class="col-sm-3 col-form-label"
+                                  >비고</label
+                                >
+                                <div class="col-sm-9">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id=""
+                                  />
+                                </div>
+                              </div>
+
+                              <!-- 출고삭제여부 -->
+                              <div class="row mb-3">
+                                <label
+                                  for="workprod_dt"
+                                  class="col-sm-3 col-form-label"
+                                  >출고삭제여부</label
+                                >
+                                <div class="col-sm-9">
+                                  <p style="color: black">
+                                    출고삭제여부(단순조회)
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- 신규버튼 modal의 하단 버튼 -->
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                닫기
+                              </button>
+                              <button type="submit" class="btn btn-success">
+                                등록
+                              </button>
+                              <button
+                                type="reset"
+                                class="btn btn-outline-secondary"
+                              >
+                                Reset
+                              </button>
+                            </div>
+                          </form>
+                          <!-- End Horizontal Form -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 등록 모달 끝 -->
+                  </div>
+                </h5>
+
+                <p style="display: inline">주문번호</p>
+
+                <form
+                  class="search-form d-flex align-items-center"
+                  method="POST"
+                  action="#"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    style="width: 200px"
+                  />
+                  <button class="btn" type="submit" title="Search">
+                    <i class="bi bi-search"></i>
+                  </button>
+                </form>
+
+                <p style="display: inline">출고번호</p>
+
+                <form
+                  class="search-form d-flex align-items-center"
+                  method="POST"
+                  action="#"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    style="width: 200px"
+                  />
+                  <button class="btn" type="submit" title="Search">
+                    <i class="bi bi-search"></i>
+                  </button>
+                </form>
+
+                <br />
+                일자 (달력 선택해 월별로 조회)
+                <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label"
+                    >Date</label
+                  >
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" />
+                  </div>
+                </div>
+
+                <br />
+                <br />
+
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="1"
+                    style="width: 200px"
+                  />
+                  <label for="floatingInput"
+                    >매입처 (클릭해 해당 매입처에 대한 출고정보만 아래 테이블에
+                    출력)</label
+                  >
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="1"
+                    style="width: 200px"
+                  />
+                  <label for="floatingTextarea"
+                    >제품/자재명 (클릭해 해당 제품에 대한 출고정보만 아래
+                    테이블에 출력)</label
+                  >
+                </div>
+
+                <div class="form-floating mb-3">
+                  <select
+                    class="form-select"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                    style="width: 200px"
+                  >
+                    <option selected>선택</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                  <label for="floatingSelect">출고관리자</label>
+                </div>
+
+                <br />
+
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 20px;
+                    margin: 20px 50px;
+                  "
+                >
+                  <button
+                    id="dateLeftBtn"
+                    type="button"
+                    class="btn btn-primary"
+                  >
+                    <i class="bi bi-caret-left-fill"></i>
+                  </button>
+                  <div>
+                    <label for="start"></label>
+                    <input
+                      type="date"
+                      class="prodItemDate"
+                      id="startDate"
+                      value="2024-03-01"
+                    />&nbsp;&nbsp;~&nbsp;&nbsp;<label for="end"></label>
+                    <input
+                      type="date"
+                      class="prodItemDate"
+                      id="endDate"
+                      value="2024-03-07"
+                    />
+                  </div>
+
+                  <button
+                    id="dateRightBtn"
+                    type="button"
+                    class="btn btn-primary"
+                  >
+                    <i class="bi bi-caret-right-fill"></i>
+                  </button>
+                </div>
+
+                <script>
+                  $(document).ready(function () {
+                    //닫기 버튼 클릭시 modal 입력 내용 클리어
+                    $(document).ready(function () {
+                      $('button[data-bs-dismiss="modal"]').on(
+                        "click",
+                        function () {
+                          modalContentClear();
+                        }
+                      );
+                    });
+                    //닫기 버튼 클릭시 modal 입력 내용 클리어
+                    function modalContentClear() {
+                      $("#workProdNoRegiModal").text("생산 지시 번호를 선택");
+                      $(".modal-content input").val("");
+                      $(".modal-content textarea").val("");
+                    }
+
+                    //날짜
+                    //시작 날짜와 종료 날짜 논리 일관성
+                    $(document).ready(function () {
+                      $("#startDate").on("input", function () {
+                        let startDate = $("#startDate").val();
+                        let endDate = $("#endDate").val();
+
+                        // 시작 날짜가 종료 날짜보다 뒤에 있는 경우
+                        if (startDate > endDate) {
+                          // 시작 날짜를 종료 날짜와 동일하게 설정합니다.
+                          $("#startDate").val(endDate);
+                        }
+                      });
+
+                      $("#endDate").on("input", function () {
+                        let startDate = $("#startDate").val();
+                        let endDate = $("#endDate").val();
+
+                        // 시작 날짜가 종료 날짜보다 뒤에 있는 경우
+                        if (startDate > endDate) {
+                          // 시작 날짜를 종료 날짜와 동일하게 설정
+                          $("#endDate").val(startDate);
+                        }
+                      });
+                    });
+
+                    // 좌우 버튼 누를 때마다 날짜 7일 단위로 바뀜
+                    $(document).ready(function () {
+                      $("#dateRightBtn").click(function () {
+                        dateShift("right");
+                      });
+
+                      $("#dateLeftBtn").click(function () {
+                        dateShift("left");
+                      });
+                    });
+
+                    // 날짜 조정 함수
+                    function dateShift(direction) {
+                      let startDateVal = $("#startDate").val();
+                      let endDateVal = $("#endDate").val();
+
+                      // Date 객체로 변환
+                      let startDate = new Date(startDateVal);
+                      let endDate = new Date(endDateVal);
+
+                      // 방향에 따라 날짜를 조정
+                      if (direction === "right") {
+                        startDate.setDate(startDate.getDate() + 7);
+                        endDate.setDate(endDate.getDate() + 7);
+                      } else if (direction === "left") {
+                        startDate.setDate(startDate.getDate() - 7);
+                        endDate.setDate(endDate.getDate() - 7);
+                      }
+
+                      // 새로운 날짜를 입력 필드에 설정
+                      $("#startDate").val(startDate.toISOString().slice(0, 10));
+                      $("#endDate").val(endDate.toISOString().slice(0, 10));
+                    }
+
+                    //dropdown 기능
+                    $(document).ready(function () {
+                      $("#workProdNoEditModal").dropdown();
+                      $("#workProdNoRegiModal").dropdown();
+
+                      $(document).ready(function () {
+                        $(".dropdown-menu a").on("click", function () {
+                          var selectedValue = $(this).attr("data-value");
+                          $("#workProdNoRegiModal").text(selectedValue);
+                        });
+                      });
+
+                      /*   $('tr[data-bs-toggle="modal"]').on('click', function() {
+    
+        }); */
+
+                      //조회 테이블 행 클릭시 modal 수정창으로 이동
+                      $('tr[data-bs-toggle="modal"]').on("click", function () {
+                        let prodNo = $(this).find("td:nth-child(2)").text();
+                        $("#workProdNoEditModal").val(prodNo);
+                      });
+                    });
+                  });
+                </script>
+
+                <style>
+                  .table-hover:hover {
+                    cursor: pointer;
+                  }
+                </style>
+                <!-- 테이블 -->
+                <!-- Table with stripped rows -->
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        <b>출고번호</b>
+                      </th>
+                      <th scope="col">순번?</th>
+                      <th scope="col">주문번호(fk, 가져옴)</th>
+                      <th scope="col">주문일자</th>
+                      <th scope="col">주문마감일</th>
+                      <th scope="col">출고일자</th>
+                      <th scope="col">매입처(고객사)(거래처 cd 가져와서)</th>
+                      <th scope="col">제품명</th>
+                      <th scope="col">주문상태</th>
+                      <th scope="col">출고수량</th>
+                      <th scope="col">제품단가</th>
+                      <th scope="col">출고관리자</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      data-bs-toggle="modal"
+                      data-bs-target="#prodItemEditModal"
+                    >
+                      <th scope="row">Unity Pugh</th>
+                      <td>9958</td>
+                      <td>Curicó</td>
+                      <td>2005/02/11</td>
+                      <td>37%</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+              </div>
+
+              <!-- Disabled and active states -->
+              <nav aria-label="..." style="margin: auto">
+                <ul class="pagination">
+                  <li class="page-item disabled">
+                    <a
+                      class="page-link"
+                      href="#"
+                      tabindex="-1"
+                      aria-disabled="true"
+                      >Previous</a
+                    >
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">2</a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav>
+              <!-- End Disabled and active states -->
             </div>
           </div>
-
         </div>
-      </div>
-    </section>
-        
+
+        <!-- 상세-->
+        <div
+          class="modal fade"
+          id="prodItemEditModal"
+          tabindex="-1"
+          style="display: none"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">출고 상세</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <!-- Start modal body -->
+                <form>
+                  <div class="modal-body">
+                    <!-- 주문번호 -->
+                    <div class="row mb-3 d-flex">
+                      <label class="col-sm-3 col-form-label"
+                        >주문번호(주문 테이블에서 가져와서 선택할 수
+                        있게)</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          value="${order_no}"
+                          readonly
+                        />
+                      </div>
+                    </div>
+
+                    <!-- 주문일자(단순조회) -->
+                    <div class="row mb-3 d-flex">
+                      <label class="col-sm-3 col-form-label"
+                        >주문일자(단순조회)</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          value="${order_no}"
+                          readonly
+                        />
+                      </div>
+                    </div>
+
+                    <!-- 출고일자 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label"
+                        >출고일자(달력)-주문일자보다 늦어야함</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="workprod_dt"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- 매입처이름 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label"
+                        >매입처이름</label
+                      >
+                      <div class="col-sm-9">
+                        <p style="color: black">거래처이름 $</p>
+                      </div>
+                    </div>
+
+                    <!-- 거래처담당자 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label"
+                        >거래처담당자이름</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id=""
+                          placeholder="거래처담당자명 임의로 입력"
+                          name="order_no"
+                          autocomplete="off"
+                          required="required"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- 주문상태 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label"
+                        >주문상태</label
+                      >
+                      <div class="col-sm-9">
+                        <p style="color: black">
+                          주문상태 : 조건 걸어서 다르게 보여줌
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- 주문마감일 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label"
+                        >주문마감일</label
+                      >
+                      <div class="col-sm-9">
+                        <p style="color: black">주문마감일 $</p>
+                      </div>
+                    </div>
+
+                    <!-- 출고할 제품 선택-->
+                    <div class="row mb-3">
+                      <label class="col-sm-3 col-form-label"
+                        >제품명(거래처cd 가져와서)</label
+                      >
+
+                      <div class="col-sm-9 mb-3">
+                        <!-- 중첩모달 띄우는 버튼 -->
+                        <!-- Vertically centered Modal -->
+
+                        <!-- 선택된 투입품 리스트 -->
+                        <div class="card-body">
+                          <h5 class="card-title mb-1"></h5>
+
+                          <!-- List group with custom content -->
+                          <ol class="list-group list-group-numbered">
+                            <li
+                              class="list-group-item d-flex justify-content-between align-items-start"
+                            >
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold">제품명</div>
+                                품목CD에서..
+                              </div>
+                              <!-- 현재재고 -->
+                              <div class="d-flex">
+                                <label for="qty" class="col-sm-3 col-form-label"
+                                  >현재재고</label
+                                >
+                                <div class="col-sm-3 mx-2">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    id="qty"
+                                    readonly
+                                  />
+                                </div>
+                              </div>
+                              <div class="d-flex">
+                                <label for="qty" class="col-sm-3 col-form-label"
+                                  >주문수량</label
+                                >
+                                <div class="col-sm-3 mx-2">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    id="qty"
+                                  />
+                                </div>
+                              </div>
+                              <div class="d-flex">
+                                <label for="qty" class="col-sm-3 col-form-label"
+                                  >출고수량(재고, 주문보다 많으면 안됨)</label
+                                >
+                                <div class="col-sm-3 mx-2">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    id="qty"
+                                  />
+                                </div>
+                              </div>
+                              그 외 품목cd, 품목명, 분류번호, 규격, 단위, 수량,
+                              단가 등을 가져옴 (단순조회)
+                            </li>
+                          </ol>
+                          <!-- End with custom content -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 비고 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label"
+                        >비고</label
+                      >
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="" />
+                      </div>
+                    </div>
+
+                    <!-- 출고삭제여부 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label"
+                        >출고삭제여부</label
+                      >
+                      <div class="col-sm-9">
+                        <p style="color: black">출고삭제여부(단순조회)</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 신규버튼 modal의 하단 버튼 -->
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      닫기
+                    </button>
+                    <button type="submit" class="btn btn-success">수정</button>
+                    <button type="submit" class="btn btn-outline-secondary">
+                      삭제
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- End modal body -->
+            </div>
+          </div>
+        </div>
+        <!-- End modal -->
+      </section>
     </main>
     <!-- End #main -->
 
@@ -798,19 +894,20 @@
     <%@ include file="../footer.jsp" %>
     <!-- End Footer -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
 
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script> 
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-     <script src="assets/vendor/chart.js/chart.umd.js"></script> 
-     <script src="assets/vendor/echarts/echarts.min.js"></script> 
-     <script src="assets/vendor/quill/quill.min.js"></script> 
- 	 <script src="assets/vendor/simple-datatables/simple-datatables.js"></script> 
-  	 <script src="assets/vendor/tinymce/tinymce.min.js"></script> 
-  	 <script src="assets/vendor/php-email-form/validate.js"></script> 
-
-</body>
-
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+  </body>
 </html>
