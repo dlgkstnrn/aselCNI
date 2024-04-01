@@ -45,3 +45,25 @@ section{
 #main > div.card > section > table > tbody > tr:hover {
 	cursor: pointer;
 }
+
+.label-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.moving-text {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  animation: none; /* 초기 상태에서는 애니메이션 없음 */
+}
+
+.moving-animation {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 5s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-60%); }
+}

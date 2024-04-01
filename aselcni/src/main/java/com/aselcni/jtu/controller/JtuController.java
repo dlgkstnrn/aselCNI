@@ -16,7 +16,7 @@ public class JtuController {
 	private final JtuService js;
 	
 	
-	@RequestMapping("prodItemRegistry")
+	@RequestMapping("proditem")
 	public String getMethodName(Model model) {
 		System.out.println("JtuController getMethodName Start... ");
 		
@@ -27,7 +27,7 @@ public class JtuController {
 	public String aaa(Model model) {
 		System.out.println("JtuController getMethodName Start... ");
 		
-		return "jtu/aaa";
+		return "psa/workprod";
 	}
 	
 }
