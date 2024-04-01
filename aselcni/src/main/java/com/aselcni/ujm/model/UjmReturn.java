@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UjmReturn { //반품
-	private String order_no; //반품번호, PK
+	private String return_no; //반품번호, PK
 	private String outitem_no; //출고번호, PK, fk
 	private int    return_seq_no; //순서
 	private String return_dt; //반품일자
@@ -17,4 +17,5 @@ public class UjmReturn { //반품
 	private int    qty; //수량
 	private String return_update; //반품수정일
 	private int    return_delete_chk; //반품삭제여부
+	private String cust_emp_phone; //거래처연락처
 }
