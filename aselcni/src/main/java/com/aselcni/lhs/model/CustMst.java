@@ -1,7 +1,5 @@
 package com.aselcni.lhs.model;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -16,9 +14,17 @@ public class CustMst {
 	private String biz_tel;
 	private String biz_fax;
 	private String emp_id;
-	private int blz_flag;
-	private Date cust_regdate;
-	private Date cust_update;
+	private String cust_regdate;
+	private String cust_update;
 	private int cust_delete_chk;
 	private int biz_flag;
+	
+	
+	//----------------조회용-------------------
+	private String comm_content; 
+	private String currentPage;
+	private int start;
+	private int end;
+	private String keyword;
+	private String searchFilter;
 }

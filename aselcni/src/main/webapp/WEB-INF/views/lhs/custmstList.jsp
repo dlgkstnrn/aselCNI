@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -58,9 +59,12 @@
 
      </style>
      <!-- Script -->
+     <script type="text/javascript">
+     	const custMst = ${custMst.biz_flag};
+     </script>
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script defer="defer" type="text/javascript" src="assets/js/lhs/custmstaddForm.js"></script>
+	<script defer="defer" type="text/javascript" src="assets/js/lhs/custmstList.js"></script>
 </head>
 
 <body>
@@ -90,58 +94,43 @@
         <div class="maindiv">
           <div class="topdiv d-flex justify-content-end">
             <div>
-            	<a href="custmstAddForm">
+            	<a href="custmstAddForm?biz_flag=${custMst.biz_flag}">
               		<button class="btn btn-primary">신규</button>
               	</a>
-              <button class="btn btn-primary">수정</button>
-              <button class="btn btn-primary">삭제</button>
             </div>
           </div>
           <div class="selectbtndiv">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
-                <button
-                  class="bordergray nav-link active wid150"
-                  id="pills-home-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-home"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-home"
-                  aria-selected="false"
-                  tabindex="-1"
-                >
-                  고객사
-                </button>
+	              <a href="custmst?biz_flag=2">
+	                <button class="bordergray wid150"  id="selBtn">
+	                  고객사
+	                </button>
+                   </a>
               </li>
               <li class="nav-item" role="presentation">
-                <button
-                  class="bordergray nav-link wid150"
-                  id="pills-profile-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-profile"
-                  aria-selected="true"
-                >
-                  구매처
-                </button>
+              	<a href="custmst?biz_flag=1">
+	                <button class="bordergray wid150" id="buyBtn">
+	                  구매처
+	                </button>
+                </a>
               </li>
             </ul>
           </div>
           <div class="searchdiv">
-            <form action="">
+            <form action="custmst">
               <div class="d-flex">
                 <select
                   class="form-select searchselect"
                   aria-label="Default select example"
+                  name="searchFilter"
                 >
                   <option selected="">검색옵션선택</option>
-                  <option value="1">코드</option>
-                  <option value="2">이름</option>
+                  <option value="cust_cd">코드</option>
+                  <option value="cust_nm">이름</option>
                 </select>
-                <input type="text" class="form-control searchinput" />
+                <input type="text" name="keyword" class="form-control searchinput" />
+                <input type="hidden" name="biz_flag" value="${custMst.biz_flag}">
                 <button type="submit" class="btn btn-primary">검색</button>
               </div>
             </form>
@@ -150,29 +139,131 @@
             <table id="tb" class="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col" style="width: 5%">No</th>
+                  <th scope="col" style="width: 10%">No</th>
                   <th scope="col" style="width: 10%">업체명</th>
                   <th scope="col" style="width: 10%">대표자명</th>
-                  <th scope="col" style="width: 20%">전화번호</th>
-                  <th scope="col" style="width: 20%">팩스 번호</th>
+                  <th scope="col" style="width: 15%">전화번호</th>
+                  <th scope="col" style="width: 15%">팩스번호</th>
                   <th scope="col" style="width: 10%">담당자</th>
-                  <th scope="col" style="width: 25%">이메일</th>
+                  <th scope="col" style="width: 30%">주소</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- <tr data-index="15">
-                  <th>1</th>
-                  <td>농심</td>
-                  <td>이한수</td>
-                  <td>010-0000-0000</td>
-                  <td>02-0000-0000</td>
-                  <td>김평화</td>
-                  <td>dlgkstnrn@naver.com</td>
-                </tr> -->
+              	<c:forEach items="${custList }" var="cust">
+	                <tr data-index="${cust.cust_cd}" data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
+	                  <th>${cust.cust_cd }</th>
+	                  <td>${cust.cust_nm }</td>
+	                  <td>${cust.president_nm }</td>
+	                  <td>${cust.biz_tel }</td>
+	                  <td>${cust.biz_fax }</td>
+	                  <td>${cust.emp_id }</td>
+	                  <td>${cust.biz_addr }</td>
+	                </tr> 
+               	</c:forEach>
               </tbody>
             </table>
           </div>
         </div>
+        
+        <!-- Start prodItemEditModal------------m2-------------------->
+		<div class="modal fade" id="prodItemEditModal" tabindex="-1"
+			style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-xl">
+				<div class="modal-content">
+				<form action="custmstUpdate" method="post">
+					<div class="modal-header">
+						<h1 class="modal-title">거래처 관리</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<!-- Start modal body -->
+							<input type="hidden" name="cust_cd" id="cust_cd">
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">업체 명</span></label>
+								<div class="col-sm-10">
+									<input name="cust_nm" id="cust_nm" type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">대표자명</span></label>
+								<div class="col-sm-10">
+									<input id="president_nm" name="president_nm" type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">사업자 번호</span></label>
+								<div class="col-sm-10">
+									<input id="biz_no" name="biz_no" type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">종목</span></label>
+								<div class="col-sm-10">
+									<input id="biz_cond" name="biz_cond" type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">업태</span></label>
+								<div class="col-sm-10">
+									<input id="biz_item" name="biz_item" type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">주소</span></label>
+								<div class="col-sm-10">
+									<input id="biz_addr" name="biz_addr" type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">전화번호</span></label>
+								<div class="col-sm-10">
+									<input id="biz_tel" name="biz_tel" type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="prodItemWHEditModal" class="col-sm-2 col-form-label label-marquee"><span class="moving-text">팩스</span></label>
+								<div class="col-sm-10">
+									<input id="biz_fax" name="biz_fax" type="text" class="form-control" value="">
+								</div>
+							</div>
+						</div>
+						<!-- End modal body -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+								<button id="delBtn" type="button" class="btn btn-danger">삭제</button>
+								<button type="submit" class="btn btn-primary">수정</button>
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- End modal -->
+        
+        <div class="d-flex justify-content-center">
+          <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <c:if test="${page.startPage>page.pageBlock }">
+                    <li class="page-item"><a class="page-link"
+                      href="custmst?currentPage=${page.startPage-page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}"><</a>
+                    </li>
+                  </c:if>
+                  <c:forEach var="i" begin="${page.startPage }"
+                    end="${page.endPage }">
+                    <li class="page-item"><a class="page-link"
+                      href="custmst?currentPage=${i }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}">${i }</a>
+                    </li>
+                  </c:forEach>
+                  <c:if test="${page.endPage < page.totalPage }">
+                    <li class="page-item"><a class="page-link"
+                      href="custmst?currentPage=${page.startPage+page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}">></a>
+                    </li>
+                  </c:if>
+              </ul>
+           </nav>
+        </div>
+        
       </section>
     </main>
     <!-- End #main -->

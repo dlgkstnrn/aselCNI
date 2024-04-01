@@ -1,5 +1,7 @@
 package com.aselcni.lhs.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -19,9 +21,29 @@ public class CustMstDaoImpl implements CustMstDao {
 	}
 	
 	@Override
-	public int selectCntTodayCust(int biz_flag) {
-		int todayCustCnt = session.selectOne("selectCntTodayCust",biz_flag);
+	public int selectCntCust(CustMst custmst) {
+		int todayCustCnt = session.selectOne("selectCntCust",custmst);
 		return todayCustCnt;
+	}
+	
+	@Override
+	public List<CustMst> selectListCust(CustMst custMst) {
+		return session.selectList("selectListCust", custMst);
+	}
+	
+	@Override
+	public CustMst selectOneCust(CustMst custmst) {
+		return session.selectOne("selectOneCust", custmst);
+	}
+	
+	@Override
+	public int deleteOneCust(CustMst custMst) {
+		return session.update("deleteOneCust", custMst);
+	}
+	
+	@Override
+	public int updateOneCust(CustMst custMst) {
+		return session.update("updateOneCust", custMst);
 	}
 
 }

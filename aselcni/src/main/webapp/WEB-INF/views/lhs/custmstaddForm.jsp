@@ -80,7 +80,7 @@
 
                 <!-- Horizontal Form -->
                 <form action="custmstAdd" method="post">
-                <input type="hidden" name="biz_flag" value="1">
+                <input type="hidden" name="biz_flag" value="${biz_flag}">
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
                       >업체 명</label
@@ -148,9 +148,11 @@
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary">저장</button>
-                    <button type="button" class="btn btn-secondary">
-                      취소
-                    </button>
+                    <a href="custmst">
+	                    <button type="button" class="btn btn-secondary">
+	                      취소
+	                    </button>
+                    </a>
                   </div>
                 </form>
                 <!-- End Horizontal Form -->

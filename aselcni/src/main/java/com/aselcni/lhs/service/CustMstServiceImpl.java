@@ -1,5 +1,7 @@
 package com.aselcni.lhs.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.aselcni.lhs.dao.CustMstDao;
@@ -19,9 +21,29 @@ public class CustMstServiceImpl implements CustMstService {
 	}
 	
 	@Override
-	public int selectCntTodayCust(int biz_flag) {
-		int todayCustCnt = mstDao.selectCntTodayCust(biz_flag);
+	public int selectCntCust(CustMst custmst) {
+		int todayCustCnt = mstDao.selectCntCust(custmst);
 		return todayCustCnt;
+	}
+	
+	@Override
+	public List<CustMst> selectListCust(CustMst custMst) {
+		return mstDao.selectListCust(custMst);
+	}
+	
+	@Override
+	public CustMst selectOneCust(CustMst custmst) {
+		return mstDao.selectOneCust(custmst);
+	}
+	
+	@Override
+	public int deleteOneCust(CustMst custMst) {
+		return mstDao.deleteOneCust(custMst);
+	}
+	
+	@Override
+	public int updateOneCust(CustMst custMst) {
+		return mstDao.updateOneCust(custMst);
 	}
 
 }
