@@ -13,4 +13,5 @@ public class UjmOrder { //주문
 	private String order_update; //주문수정일
 	private int    order_delete_chk; //주문삭제여부
 	private int    order_status_chk; //주문상태
+	private String order_end_dt; //주문마감일
 }
