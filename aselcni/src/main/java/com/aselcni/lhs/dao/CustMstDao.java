@@ -18,4 +18,6 @@ public interface CustMstDao {
 
 	int updateOneCust(CustMst custMst);
 
+	List<CustMst> selectListCustByFlag(int item_flag);
+
 }

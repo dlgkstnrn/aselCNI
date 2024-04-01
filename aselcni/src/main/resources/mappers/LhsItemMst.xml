@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.lhs.LhsCustMst">
+
+	<select id="selectListTypeBig" resultType="LhsTypeBig">
+		select *
+		from tb_type_big;
+	</select>
+	
+	<select id="selectListTypeMid" parameterType="LhsTypeMid" resultType="LhsTypeMid">
+		select *
+		from tb_type_mid
+		where big_no = #{big_no}
+	</select>
+	
+	<select id="selectListTypeSml" parameterType="LhsTypeSml" resultType="LhsTypeSml">
+		select *
+		from tb_type_sml
+		where big_no = #{big_no}
+		and mid_no = #{mid_no}
+	</select>
+	
+	<select id="selectItemCnt" parameterType="LhsItemMst" resultType="int">
+		select count(*)
+		from tb_itemmst
+		where item_cd = #{item_cd}
+	</select>
+	
+	<insert id="insertItem" parameterType="LhsItemMst">
+		insert into
+		tb_itemmst
+		values(
+			#{item_cd},
+			#{item_nm},
+			#{item_flag},
+			#{cust_cd},
+			#{big_no},
+			#{mid_no},
+			#{sml_no},
+			#{item_spec},
+			#{item_unit},
+			#{item_cost},
+			#{remark},
+			CONVERT(CHAR(10),GETDATE(),23),
+			null,
+			#{item_emp_id},
+			0
+		)
+	</insert>
+    
+</mapper>

@@ -21,7 +21,6 @@ public class CustMst {
 	
 	
 	//----------------조회용-------------------
-	private String comm_content; 
 	private String currentPage;
 	private int start;
 	private int end;

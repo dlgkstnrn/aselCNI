@@ -86,4 +86,10 @@
     	where cust_cd = #{cust_cd}
     </update>
     
+    <select id="selectListCustByFlag" parameterType="int" resultType="LhsCustMst">
+    	select *
+    	from tb_custmst
+    	where biz_flag = #{item_flag}
+    </select>
+    
 </mapper>

@@ -45,5 +45,10 @@ public class CustMstDaoImpl implements CustMstDao {
 	public int updateOneCust(CustMst custMst) {
 		return session.update("updateOneCust", custMst);
 	}
+	
+	@Override
+	public List<CustMst> selectListCustByFlag(int item_flag) {
+		return session.selectList("selectListCustByFlag", item_flag);
+	}
 
 }

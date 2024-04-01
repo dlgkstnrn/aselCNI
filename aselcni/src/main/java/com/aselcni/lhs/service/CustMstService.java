@@ -17,5 +17,7 @@ public interface CustMstService {
 	int deleteOneCust(CustMst custMst);
 
 	int updateOneCust(CustMst custMst);
+
+	List<CustMst> selectListCustByFlag(int item_flag);
 	
 }

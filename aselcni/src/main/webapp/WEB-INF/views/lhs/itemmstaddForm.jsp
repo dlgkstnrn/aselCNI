@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -35,14 +36,11 @@
 		.margin15{
 		    margin-right: 15px;
 		}
-		#componyCode {
-		  width: 400px;
-		}
      </style>
      <!-- Script -->
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script defer="defer" type="text/javascript" src="assets/js/lhs/custmstaddForm.js"></script>
+	<script defer="defer" type="text/javascript" src="assets/js/lhs/itemmstaddForm.js"></script>
 </head>
 
 <body>
@@ -57,15 +55,11 @@
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>거래처 관리</h1>
+        <h1>품목관리</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item active">
-              거래처 관리
-            </li>
-            <li class="breadcrumb-item active">
-              신규등록
-            </li>
+            <li class="breadcrumb-item active">품목관리</li>
+            <li class="breadcrumb-item active">신규</li>
           </ol>
         </nav>
       </div>
@@ -79,79 +73,136 @@
                 <h5 class="card-title">신규 등록</h5>
 
                 <!-- Horizontal Form -->
-                <form action="custmstAdd" method="post">
-                <input type="hidden" name="biz_flag" value="${biz_flag}">
+                <form action="itemmstAdd" method="post">
+                  <input type="hidden" name="item_flag" value="${item_flag}" />
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
-                      >업체 명</label
+                      >품목 코드</label
                     >
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="cust_nm" />
+                    <div class="col d-flex">
+                      <input
+                      	id="item_nm"
+                        type="text"
+                        class="form-control"
+                        name="item_cd"
+                        style="width: 400px; margin-right: 15px"
+                      />
+                      <input
+                        type="button"
+                        class="btn btn-primary"
+                        value="중복체크"
+                        id="chkBtn"
+                      />
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
-                      >대표자명</label
+                      >품목 명</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="president_nm" />
+                      <input type="text" class="form-control" name="item_nm" />
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
-                      >사업자 번호</label
+                      >거래처</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_no" />
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="cust_cd"
+                      >
+                        <option selected="">거래처선택</option>
+                        <c:forEach items="${custList }" var="cust">
+                        	<option value="${cust.cust_cd }">${cust.cust_nm}</option>
+                        </c:forEach>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-3 d-flex">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label"
+                      >분류</label
+                    >
+                    <div class="col">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="big_no" id="big">
+                        <option selected="">대분류</option>
+                        <c:forEach items="${bigList }" var="big">
+                        	<option value="${big.big_no }">${big.big_content }</option>
+                        </c:forEach>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="mid_no" id="mid">
+                        <option selected="">중분류</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="sml_no" id="sml">
+                        <option selected="">소분류</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label"
+                      >규격</label
+                    >
+                    <div class="col-sm-10">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="item_spec"
+                      />
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >종목</label
+                      >단위</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_cond" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="item_unit"
+                      />
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >업태</label
+                      >단가</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_item" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="item_cost"
+                      />
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >주소</label
+                      >비고</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_addr" />
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >전화번호</label
-                    >
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_tel" />
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >팩스</label
-                    >
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_fax" />
+                      <input type="text" class="form-control" name="remark" />
                     </div>
                   </div>
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary">저장</button>
-                    <a href="custmst">
-	                    <button type="button" class="btn btn-secondary">
-	                      취소
-	                    </button>
+                    <a href="itemmst">
+                      <button type="button" class="btn btn-secondary">
+                        취소
+                      </button>
                     </a>
                   </div>
                 </form>

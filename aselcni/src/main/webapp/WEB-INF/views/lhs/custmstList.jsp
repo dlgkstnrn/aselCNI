@@ -83,7 +83,7 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item active">
-              <a href="/userManagement">고객사</a>
+              거래처 관리
             </li>
           </ol>
         </nav>

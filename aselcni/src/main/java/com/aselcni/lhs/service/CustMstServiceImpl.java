@@ -45,5 +45,10 @@ public class CustMstServiceImpl implements CustMstService {
 	public int updateOneCust(CustMst custMst) {
 		return mstDao.updateOneCust(custMst);
 	}
+	
+	@Override
+	public List<CustMst> selectListCustByFlag(int item_flag) {
+		return mstDao.selectListCustByFlag(item_flag);
+	}
 
 }
