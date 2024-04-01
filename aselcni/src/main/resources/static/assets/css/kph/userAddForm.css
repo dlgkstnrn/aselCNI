@@ -1,0 +1,55 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+/*--------------------------------------------------------------
+# section
+--------------------------------------------------------------*/
+/* Card */
+.card {
+	margin: 0 auto;
+    margin-bottom: 30px;
+    width: 60%;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+  
+.card> p {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-family:'NanumSquare', sans-serif;
+    color: #486ef3;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.card form {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-family:'NanumSquare', sans-serif;
+}
+
+.card form div {
+    margin-bottom: 20px;
+}
+
+.card form div p {
+    margin-bottom: 5px;
+}
+
+.user-alert {
+	color: red;
+	display: none;
+}
+
+.id-box {
+	display: flex;
+	justify-content: space-between;
+}
+
+.user-id {
+	width: 700px;
+}
+
+.duplication-chk {
+	width: 150px;
+}
