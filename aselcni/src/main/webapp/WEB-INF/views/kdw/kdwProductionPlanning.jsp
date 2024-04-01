@@ -235,6 +235,9 @@
 													<option value="3">봉지라면</option>
 													<option value="4">봉지라면</option>
 													<option value="5">봉지라면</option>
+													<option value="6">봉지라면</option>
+													<option value="7">봉지라면</option>
+													<option value="8">봉지라면</option>
 													<!-- 소분류 옵션들 -->
 												</select>
 											</div>
@@ -283,7 +286,7 @@
 						<!-- 투입자재 중첩 모달 -->
 						<div class="modal fade" id="nestedItemModal" tabindex="-1"
 							aria-hidden="true" style="display: none;">
-							<div class="modal-dialog modal-dialog-centered custom-nestedModal-css">
+							<div class="modal-dialog modal-dialog-centered custom-nestedItemModal-css">
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title"
@@ -320,20 +323,23 @@
 												</select>
 											</div>
 											<!-- 소분류 선택 -->
-											<div class="me-2">
-												<label for="minorCategory2" class="form-label">소분류</label> 
-												<select class="form-control select2-secondModal" id="minorCategory2">
-													<option value="">소분류 선택</option>
-											        <option value="1">양파 분말</option>
-											        <option value="2">마늘 분말</option>
-											        <option value="3">돈사골 분말</option>
-											        <option value="4">건조 파</option>
-											        <option value="5">건조 새우</option>
-											        <option value="6">건조 쇠고기</option>
-											        <option value="7">후추</option>
-											        <option value="8">참기름</option>
-													<!-- 소분류 옵션들 -->
-												</select>
+											<div class="d-flex flex-row align-items-end">
+												<div class="me-2">
+													<label for="minorCategory2" class="form-label">소분류</label>
+													<select class="form-control select2-secondModal"
+														id="minorCategory2">
+														<option value="">소분류 선택</option>
+														<option value="1">양파 분말</option>
+														<option value="2">마늘 분말</option>
+														<option value="3">돈사골 분말</option>
+														<option value="4">건조 파</option>
+														<option value="5">건조 새우</option>
+														<option value="6">건조 쇠고기</option>
+														<option value="7">후추</option>
+														<option value="8">참기름</option>
+														<!-- 소분류 옵션들 -->
+													</select>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -345,33 +351,42 @@
 												<thead>
 													<tr>
 														<th scope="col">선택</th>
-														<th scope="col">제품코드</th>
-														<th scope="col">제품명</th>
-														<th scope="col">가격</th>
+														<th scope="col">자재코드</th>
+														<th scope="col" class="prodPlanItem-name">자재명</th>
+														<th scope="col" class="prodPlanItem-price">가격</th>
+														<th scope="col">수량</th>
 													</tr>
 												</thead>
 												<tbody>
 													<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
 													<tr>
-														<td><input type="radio" name="productSelect" value="제품1"></td>
+														<td class="checkbox-center"><input type="checkbox" name="productSelect" value="제품1"></td>
 														<th scope="row">1</th>
-														<td>제품 예시 1</td>
+														<td>자재 예시 1</td>
 														<td>1000원</td>
+														<td><input type="number" name="quantity1" min="1" style="width: 80px;"> 개</td>
 													</tr>
 													<tr>
-														<td><input type="radio" name="productSelect" value="제품2"></td>
+														<td class="checkbox-center"><input type="checkbox" name="productSelect" value="제품2"></td>
 														<th scope="row">2</th>
-														<td>제품 예시 2</td>
+														<td>자재 예시 2</td>
 														<td>2000원</td>
+														<td><input type="number" name="quantity2" min="1" style="width: 80px;"> 개</td>
 													</tr>
 												</tbody>
 											</table>
 										</div>
 									</div>
-									<div class="modal-footer">
-										<button type="reset" class="btn btn-secondary"
-											data-bs-dismiss="modal">취소</button>
-										<button type="button" class="btn btn-primary">저장</button>
+									<div class="modal-footer d-flex justify-content-between">
+									    <!-- 분류된 항목 개수 -->
+									    <div class="prodPlanItemCount d-flex">
+									        <label for="itemCountInput" class="form-label me-2 prodPlanItemCountLabel">항목 수</label>
+									        <input type="text" id="itemCountInput" readonly class="form-control prodPlanItemInput" style="width: 100px; display: inline-block;">
+									    </div>
+									    <div>
+									        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+									        <button type="button" class="btn btn-primary">저장</button>
+									    </div>
 									</div>
 								</div>
 							</div>
@@ -382,6 +397,7 @@
 							<div id='calendar'></div>
 						</div>
 						<!-- End Calendar -->
+						<!-- 주문내역 & 생산계획 리스트 -->
 						<div class="prodPlan-info">
 							<div class="referenceCode-group">
 								<div class="referenceCode-prepend-text">생산계획번호</div>
@@ -433,6 +449,7 @@
 									</table>
 								</div>
 							</div>
+							<!-- End 주문내역 & 생산계획 리스트 -->
 						</div>
 					</form>
 				</div>
