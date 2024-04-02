@@ -11,20 +11,18 @@
 	    FROM TB_PRODPLAN pp
 	    INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
 	    LEFT JOIN TB_ORDER od ON pp.ORDER_NO  = od.ORDER_NO
-	    ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO;
+	    ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO
 	</select>
+	
 	<!-- 생산계획 자재리스트 -->		
-	<select id="kdwProdPlanItemList" resultType="KdwProdPlan">
-	SELECT
-	    ip.ITEM_CD,
-	    ip.ProdPlan_no,
-	    ip.IN_QTY,
-	    im.ITEM_NM,
-	    im.ITEM_SPEC,
-	    im.ITEM_UNIT
-	FROM TB_ITEM_PROD ip
-	INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
-	WHERE ip.ProdPlan_no = ${prodplan_no};
+	<select id="kdwProdPlanItemList" resultType="KdwProdPlanItem">
+		SELECT
+		    ip.*,
+		    im.ITEM_NM,
+		    im.ITEM_SPEC,
+		    im.ITEM_UNIT
+		FROM TB_ITEM_PROD ip
+		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
 	</select>
 	
 </mapper>

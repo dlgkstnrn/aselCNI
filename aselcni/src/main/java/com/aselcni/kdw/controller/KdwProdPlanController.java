@@ -30,6 +30,9 @@ public class KdwProdPlanController {
 		// 자재 리스트(제품하나에 여러 자재)
 		List<TB_ITEM_PROD> prodItems = kdwProdPlanService.getProdItemList();
 		System.out.println("KdwProductionPlanningController getProdPlanMainForm prodItems.size(): " + prodItems.size());
+		
+	    model.addAttribute("prodPlans", prodPlans); // 제품정보
+	    model.addAttribute("prodItems", prodItems); // 자재정보
 		return "kdw/kdwProductionPlanning";
 	}
 }

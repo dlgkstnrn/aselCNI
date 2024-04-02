@@ -324,14 +324,24 @@ body {
 	min-height: 500px;
 	overflow-y: auto
 }
-/* 분류 항목 개수 */
+/* 분류된 투입자재 항목 개수 */
 .prodPlanItemCount {
 	margin-left: -10px;
 }
 .prodPlanItemCountLabel {
 	font-weight: 600;
 }
-.prodPlanItemInput {
+.prodPlanItemCountInput {
+	margin-top: -6px;
+}
+/* 투입자재 가격 총액 */
+.prodPlanItemTotalPrice {
+	margin-left: -270px;
+}
+.prodPlanItemTotalPriceLabel {
+	font-weight: 600;
+}
+.prodPlanItemTotalPriceInput {
 	margin-top: -6px;
 }
 /* 리스트 체크박스 */

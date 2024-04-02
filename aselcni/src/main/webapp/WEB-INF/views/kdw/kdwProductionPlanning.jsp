@@ -353,7 +353,7 @@
 														<th scope="col">선택</th>
 														<th scope="col">자재코드</th>
 														<th scope="col" class="prodPlanItem-name">자재명</th>
-														<th scope="col" class="prodPlanItem-price">가격</th>
+														<th scope="col" class="prodPlanItem-price">금액</th>
 														<th scope="col">수량</th>
 													</tr>
 												</thead>
@@ -381,7 +381,11 @@
 									    <!-- 분류된 항목 개수 -->
 									    <div class="prodPlanItemCount d-flex">
 									        <label for="itemCountInput" class="form-label me-2 prodPlanItemCountLabel">항목 수</label>
-									        <input type="text" id="itemCountInput" readonly class="form-control prodPlanItemInput" style="width: 100px; display: inline-block;">
+									        <input type="text" id="itemCountInput" readonly class="form-control prodPlanItemCountInput" style="width: 100px; display: inline-block;">
+									    </div>
+									    <div class="prodPlanItemTotalPrice d-flex">
+									        <label for="itemTotalPriceInput" class="form-label me-2 prodPlanItemTotalPriceLabel">합계금액</label>
+									        <input type="text" id="itemTotalPriceInput" readonly class="form-control prodPlanItemTotalPriceInput" style="width: 100px; display: inline-block;">
 									    </div>
 									    <div>
 									        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
