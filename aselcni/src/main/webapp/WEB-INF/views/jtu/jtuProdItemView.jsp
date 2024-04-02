@@ -194,7 +194,7 @@
 	$(document).ready(function() {
 	    $("#workProdNoRegiModal").click(function() {
 	        $.ajax({
-	            url : 'workProdNoRegiModal',
+	            url : 'getWorkProdNoRegiModalList',
 	            method : 'POST',
 	            dataType : 'json',
 	            success : function(wprList) {
@@ -220,10 +220,10 @@
         				$('#workProdNoRegiModal').text(selectedValue);
         				$('#hiddenWorkProdNoRegiModal').val(selectedValue);
         				
-        				let wprDate= new Date(foundWpr.workprod_dt);
-        				wprDate.setDate(wprDate.getDate() + foundWpr.work_dt);
-       				    let prodEndDate = wprDate.toISOString().slice(0, 10);
-       				    $('#prodEndDateRegiModal').val(prodEndDate);
+        				//let wprDate= new Date(foundWpr.workprod_dt);
+        				//wprDate.setDate(wprDate.getDate() + foundWpr.work_dt);
+       				    //let prodEndDate = wprDate.toISOString().slice(0, 10);
+       				    $('#workStartDateRegiModal').val(foundWpr.workprod_dt);
        				    
        				    $('#hiddenItemCdRegiModal').val(foundWpr.item_cd);
        				    $('#itemNameRegiModal').val(foundWpr.item_nm+"("+foundWpr.item_cd+")");
@@ -352,7 +352,7 @@
 							<div class="modal-body">
 
 								<!-- Start modal body -->
-								<form id=workProdRegiForm action="workProdNoRegiSubmit">
+								<form id=workProdRegiForm action="submitWorkProdNoRegiModal">
 
 									<div class="row mb-3">
 										<label class="col-sm-2 col-form-label label-marquee"><span
@@ -374,13 +374,12 @@
 											>
 											</ul>
 
-											<label for="prodEndDateRegiModal"
+											<label for="workStartDateRegiModal"
 												class="col-sm-2 col-form-label text-end label-marquee"
-											><span class="moving-text">생산 완료 일자</span></label>
+											><span class="moving-text">생산 지시 일자</span></label>
 											<div class="col-sm-5">
-												<input id="prodEndDateRegiModal" type="date"
-													name="proditem_end_dt"
-													class="form-control" value="2024-04-01" required
+												<input id="workStartDateRegiModal" type="date"
+													class="form-control" value="2024-04-01" required readonly
 												>
 											</div>
 
@@ -395,19 +394,19 @@
 											<div class="col-sm-4">
 												<input id="empRegiModal" type="text" class="form-control"
 													name="proditem_emp_id"
-													value="로그인 유저" readonly
+													value="jtu" readonly
 												>
 											</div>
 
 
-											<label for="modifyDateRegiModal"
+											<label for="prodEndDateRegiModal"
 												class="col-sm-2 col-form-label text-end label-marquee"
-											> <span class="moving-text">생산 실적 등록일</span>
+											> <span class="moving-text">생산 완료 일자</span>
 											</label>
 											<div class="col-sm-5">
-												<input id="modifyDateRegiModal" type="date"
-													name="proditem_update"
-													class="form-control" value="2024-04-15" readonly
+												<input id="prodEndDateRegiModal" type="date"
+													name="proditem_end_dt"
+													class="form-control" value="2024-04-15" required
 												>
 											</div>
 										</div>
@@ -422,11 +421,11 @@
 											<input id="hiddenProdItemWHCdRegiModal" type="hidden"
 												name="wh_cd"
 												class="form-control"
-												value="CAWH01"
+												value="WHS2404020001"
 											>
 											<input id="prodItemWHRegiModal" type="text"
 												class="form-control"
-												value="서울특별시 마포구 신촌로 176 창고(CAWH01)"
+												value="제품창고테스트(WHS2404020001)"
 											>
 										</div>
 									</div>
@@ -452,7 +451,7 @@
 											><span class="moving-text">예정 생산 수량</span></label>
 											<div class="col-sm-5">
 												<input id="expectedQtyRegiModal" type="number"
-													name="qty"
+													name="pln_qty"
 													class="form-control" readonly value="50000"
 												>
 											</div>

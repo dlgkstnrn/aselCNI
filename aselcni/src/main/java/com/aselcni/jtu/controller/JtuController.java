@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuWorkProd;
 import com.aselcni.jtu.service.JtuServiceInterface;
-import com.aselcni.psa.model.WorkProd;
 
 
 @Controller
@@ -23,27 +23,29 @@ public class JtuController {
 	@RequestMapping("proditem")
 	public String proditem(Model model) {
 		System.out.println("JtuController getMethodName Start... ");
+		
+		JtuProdItem jpri = js.getWhCode();
 
 		
 		return "jtu/jtuProdItemView";
 	}
 	
 	@ResponseBody
-	@RequestMapping("workProdNoRegiModal")
-	public List<WorkProd> getWprListAjax(Model model) {
+	@RequestMapping("getWorkProdNoRegiModalList")
+	public List<JtuWorkProd> getWprListAjax(Model model) {
 		System.out.println("JtuController getWprListAjax Start... ");
-		List<WorkProd> wprList =js.getWprList();
+		List<JtuWorkProd> wprList =js.getWprList();
 		System.out.println("JtuController getWprListAjax wpdList --> " + wprList);
 		
 		return wprList;
 	}
 	
-	@RequestMapping("workProdNoRegiSubmit")
-	public String setPriOne(Model model, JtuProdItem pri) {
+	@RequestMapping("submitWorkProdNoRegiModal")
+	public String setPriOne(Model model, JtuProdItem jpri) {
 		System.out.println("JtuController setPriOne Start... ");
-		System.out.println("JtuController setPriOne pri --> " + pri);
+		System.out.println("JtuController setPriOne jpri --> " + jpri);
 		
-		js.setPriOne();
+		js.setPriOne(jpri);
 		
 		return "jtu/jtuProdItemView";
 	}

@@ -1,4 +1,4 @@
-package com.aselcni.jtu.model;
+package com.aselcni.psa.model;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import lombok.Data;
 // 2. 생산지시 투입품 테이블
 // 3. 생산지시 공정 테이블
 // 4. 공정관리 테이블
-public class JtuProdItem {
+public class ProdItem {
 	
 
 	// 1. 생산지시 테이블
@@ -25,7 +25,7 @@ public class JtuProdItem {
 	private String item_cd;
 	
 	// 예정생산수량
-	private Integer pln_qty;
+	private Integer qty;
 	
 	// 실제생산수량
 	private Integer prod_qty;

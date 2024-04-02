@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.aselcni.jtu.dao.JtuDaoImple;
 import com.aselcni.jtu.dao.JtuDaoInterface;
-import com.aselcni.psa.model.WorkProd;
+import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuWorkProd;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,17 +16,26 @@ public class JtuServiceImple implements JtuServiceInterface{
 	private final JtuDaoInterface jd;
 
 	@Override
-	public List<WorkProd> getWprList() {
+	public List<JtuWorkProd> getWprList() {
 		System.out.println("JtuServiceImple getWprList Start... ");
-		List<WorkProd> wprList =jd.getWprList();
+		List<JtuWorkProd> wprList =jd.getWprList();
 		
 		return wprList;
 	}
 
 	@Override
-	public void setPriOne() {
+	public void setPriOne(JtuProdItem jpri) {
 		System.out.println("JtuServiceImple setPriOne Start... ");
-		jd.setPriOne();
+		
+		jd.setPriOne(jpri);
+	}
+
+	@Override
+	public JtuProdItem getWhCode() {
+		System.out.println("JtuServiceImple getWhCode Start... ");
+		JtuProdItem jpri = jd.getWhCode();
+		
+		return jpri;
 	}
 
 

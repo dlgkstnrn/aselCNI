@@ -2,12 +2,15 @@ package com.aselcni.jtu.service;
 
 import java.util.List;
 
-import com.aselcni.psa.model.WorkProd;
+import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuWorkProd;
 
 public interface JtuServiceInterface {
 
-	List<WorkProd> getWprList();
+	List<JtuWorkProd> getWprList();
 
-	void setPriOne();
+	void setPriOne(JtuProdItem jpri);
+
+	JtuProdItem getWhCode();
 
 }
