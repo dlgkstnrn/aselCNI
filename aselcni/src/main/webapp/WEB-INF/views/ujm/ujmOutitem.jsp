@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 
     <!-- CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/outitem.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/ujm/outitem.css" rel="stylesheet" type="text/css" />
 
     <!-- Script -->
     <script defer src="assets/js/main.js"></script>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
       crossorigin="anonymous"
     ></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
-    <script defer src="assets/js/outitem.js"></script>
+    <script defer src="assets/js/ujm/outitem.js"></script>
   </head>
 
   <body>
@@ -82,21 +82,27 @@ pageEncoding="UTF-8"%>
                       type="button"
                       class="btn btn-primary"
                       data-bs-toggle="modal"
-                      data-bs-target="#outitem"
-                    >
+                      data-bs-target="#outitem_insert" 
+                    > <!-- 등록버튼 -->
                       등록
                     </button>
 
                     <!-- 등록 Modal -->
                     <div
                       class="modal fade"
-                      id="outitem"
+                      id="outitem_insert"
                       tabindex="-1"
                       aria-hidden="true"
                       style="display: none"
-                    >
+                    > <!-- 등록모달 -->
                       <div class="modal-dialog modal-dialog-centered modal-xl">
-                        <div class="modal-content">
+
+
+
+                        <div class="modal-content"> <!-- 닫기버튼 눌렀을 때 
+                          이 부분의 input과 textarea의 val이 초기화 -->
+
+
                           <div class="modal-header">
                             <h5 class="modal-title">출고등록</h5>
                             <button
@@ -603,10 +609,11 @@ pageEncoding="UTF-8"%>
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <!-- Start modal body -->
+
+
+              <div class="modal-body"> <!-- Start modal body -->
                 <form>
-                  <div class="modal-body">
+    
                     <!-- 주문번호 -->
                     <div class="row mb-3 d-flex">
                       <label class="col-sm-3 col-form-label"
@@ -619,7 +626,8 @@ pageEncoding="UTF-8"%>
                           class="form-control"
                           value="${order_no}"
                           readonly
-                        />
+                          id="order_no_modal" 
+                        /> <!-- 닫기버튼 눌렀을때 이 부분이 주문번호 선택으로 변경 -->
                       </div>
                     </div>
 
@@ -797,21 +805,36 @@ pageEncoding="UTF-8"%>
 
                   <!-- 신규버튼 modal의 하단 버튼 -->
                   <div class="modal-footer">
+
+
+                    <!-- 닫기버튼 -->
                     <button
                       type="button"
                       class="btn btn-outline-secondary"
                       data-bs-dismiss="modal"
                     >
-                      닫기
+                      닫기버튼
                     </button>
+
+
+
+
                     <button type="submit" class="btn btn-success">수정</button>
+
+
+
                     <button type="submit" class="btn btn-outline-secondary">
                       삭제
                     </button>
+
+
+
                   </div>
                 </form>
-              </div>
-              <!-- End modal body -->
+              </div> <!-- End modal body -->
+
+
+
             </div>
           </div>
         </div>

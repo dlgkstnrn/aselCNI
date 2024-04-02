@@ -2,16 +2,17 @@
 $(document).ready(function () {
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   $(document).ready(function () {
+
     $('button[data-bs-dismiss="modal"]').on(
-      "click",
+      "click", //닫기버튼 누르면
       function () {
-        modalContentClear();
+        modalContentClear(); //아래
       }
     );
   });
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   function modalContentClear() {
-    $("#workProdNoRegiModal").text("생산 지시 번호를 선택");
+    $("#order_no_modal").text("주문 번호 선택");
     $(".modal-content input").val("");
     $(".modal-content textarea").val("");
   }
@@ -25,7 +26,7 @@ $(document).ready(function () {
 
       // 시작 날짜가 종료 날짜보다 뒤에 있는 경우
       if (startDate > endDate) {
-        // 시작 날짜를 종료 날짜와 동일하게 설정합니다.
+        // 시작 날짜를 종료 날짜와 동일하게 설정
         $("#startDate").val(endDate);
       }
     });
@@ -78,24 +79,26 @@ $(document).ready(function () {
 
   //dropdown 기능
   $(document).ready(function () {
-    $("#workProdNoEditModal").dropdown();
-    $("#workProdNoRegiModal").dropdown();
 
-    $(document).ready(function () {
-      $(".dropdown-menu a").on("click", function () {
+    $("#order_no_modal").dropdown();
+    /* 주문번호 부분이 드롭다운으로 내려오게 */
+
+/*     $("#outitem_insert").dropdown();
+     등록모달 */ 
+
+ /*      $(".dropdown-menu a").on("click", function () {
         var selectedValue = $(this).attr("data-value");
-        $("#workProdNoRegiModal").text(selectedValue);
-      });
-    });
+        $("#outitem_insert").text(selectedValue);
+      }); */
 
-    /*   $('tr[data-bs-toggle="modal"]').on('click', function() {
 
-}); */
+}); 
 
     //조회 테이블 행 클릭시 modal 수정창으로 이동
     $('tr[data-bs-toggle="modal"]').on("click", function () {
-      let prodNo = $(this).find("td:nth-child(2)").text();
-      $("#workProdNoEditModal").val(prodNo);
+      let orderNo = $(this).find("td:nth-child(2)").text();
+      $("#order_no_modal").val(orderNo);
     });
   });
-});
+
+
