@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.lhs.LhsCustMst">
+
+    <insert id="insertCust" parameterType="LhsCustMst">
+    	insert into
+    	tb_custmst
+    	values(
+    		#{cust_cd},
+    		#{cust_nm},
+    		#{president_nm},
+    		#{biz_no},
+    		#{biz_cond},
+    		#{biz_item},
+    		#{biz_addr},
+    		#{biz_tel},
+    		#{biz_fax},
+    		#{emp_id},
+    		#{biz_flag},
+    		CONVERT(CHAR(10),GETDATE(),23),
+    		null,
+    		0
+    	)
+    </insert>
+    
+    <select id="selectCntCustAll" parameterType="int" resultType="int">
+    	select count(*)
+    	from tb_custmst
+    	where biz_flag = #{biz_flag} 
+    </select>
+    
+    <select id="selectCntCust" parameterType="LhsCustMst" resultType="int">
+    	select count(*)
+		from tb_custmst
+		where biz_flag = #{biz_flag}
+		and cust_delete_chk = 0
+		<choose>
+			<when test="searchFilter=='cust_cd'">
+				and cust_cd like '%'+#{keyword}+'%'
+			</when>
+			<when test="searchFilter=='cust_nm'">
+				and cust_nm like '%'+#{keyword}+'%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+    </select>
+    
+    <select id="selectListCust" parameterType="LhsCustMst" resultType="LhsCustMst">
+    	select a.*
+		from (select ROW_NUMBER() over(order by (select 1)) as rn
+						,tc.*
+				from TB_CUSTMST tc
+				where tc.biz_flag=#{biz_flag}
+				and cust_delete_chk = 0
+				<choose>
+					<when test="searchFilter=='cust_cd'">
+						and tc.cust_cd like '%' + #{keyword} + '%'
+					</when>
+					<when test="searchFilter=='cust_nm'">
+						and tc.cust_nm like '%' + #{keyword} + '%'
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+				) a
+		where a.rn BETWEEN #{start} and #{end};
+    </select>
+    
+    <select id="selectOneCust" parameterType="LhsCustMst" resultType="LhsCustMst">
+    	select *
+    	from tb_custmst
+    	where cust_cd = #{cust_cd}
+    </select>
+    
+    <update id="deleteOneCust" parameterType="LhsCustMst">
+    	update tb_custmst set cust_delete_chk = 1
+    	where cust_cd = #{cust_cd}
+    </update>
+    
+    <update id="updateOneCust" parameterType="LhsCustMst">
+    	update tb_custmst set
+    		cust_nm = #{cust_nm},
+    		president_nm = #{president_nm},
+    		biz_no = #{biz_no},
+    		biz_cond = #{biz_cond},
+    		biz_item = #{biz_item},
+    		biz_addr = #{biz_addr},
+    		biz_tel = #{biz_tel},
+    		biz_fax = #{biz_fax},
+    		cust_update = CONVERT(CHAR(10),GETDATE(),23)
+    	where cust_cd = #{cust_cd}
+    </update>
+    
+    <select id="selectListCustByFlag" parameterType="int" resultType="LhsCustMst">
+    	select *
+    	from tb_custmst
+    	where biz_flag = #{item_flag}
+    </select>
+    
+</mapper>
