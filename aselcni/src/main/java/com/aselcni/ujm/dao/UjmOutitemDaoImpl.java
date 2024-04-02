@@ -1,13 +1,17 @@
 package com.aselcni.ujm.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import com.aselcni.ujm.model.UjmOutitem;
 
 import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class ujmOutitemDaoImpl implements ujmOutitemDao {
+public class UjmOutitemDaoImpl implements UjmOutitemDao {
 
 	private final SqlSession session;
 	
@@ -23,6 +27,22 @@ public class ujmOutitemDaoImpl implements ujmOutitemDao {
 		}
 		
 		return ujmTotalOutitemCnt;
+	}
+
+	@Override
+	public List<UjmOutitem> ujmListOutiem(UjmOutitem outitem) {
+		List<UjmOutitem> ujmListOutitems = null;
+		System.out.println("UjmOutitemDaoImpl ujmListOutiem 시작 ..." );
+		try {
+			//
+			ujmListOutitems = session.selectList("ujmListOutitemAll", outitem);
+			if(ujmListOutitems!=null) {
+				System.out.println("UjmOutitemDaoImpl ujmListOutitems ujmListOutitems.size()->"+ujmListOutitems.size());
+				}
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmListOutitems 오류:"+e.getMessage());
+		}
+		return ujmListOutitems;
 	}
 
 }

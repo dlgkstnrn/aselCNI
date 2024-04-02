@@ -526,6 +526,7 @@ pageEncoding="UTF-8"%>
 
 
                 <!-- 테이블 -->
+                <c:set var="num" value="${page.total-page.start+1 }"></c:set>
                 <!-- Table with stripped rows -->
                 <table class="table table-hover">
                   <thead>
@@ -548,9 +549,12 @@ pageEncoding="UTF-8"%>
                   </thead>
 
                   <tbody>
+
+                    <c:forEach var="emp" items="${listEmp }">
+                    
                     <tr
                       data-bs-toggle="modal"
-                      data-bs-target="#prodItemEditModal"
+                      data-bs-target="#outitemDetailModal"
                     >
                       <th scope="row">Unity Pugh</th>
                       <td>9958</td>
@@ -558,11 +562,29 @@ pageEncoding="UTF-8"%>
                       <td>2005/02/11</td>
                       <td>37%</td>
                     </tr>
+                    <c:set var="num" value="${num - 1 }"></c:set>
+
+                  </c:forEach>
+
                   </tbody>
                 </table>
+
+                <c:if test="${page.startPage > page.pageBlock }">
+                  <a href="listOutitem?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+                </c:if>
+                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+                  <a href="listOutitem?currentPage=${i}">[${i}]</a>
+                </c:forEach>
+                <c:if test="${page.endPage < page.totalPage }">
+                  <a href="listOutitem?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+                </c:if>
+
+
+
                 <!-- End Table with stripped rows -->
               </div>
 
+              <!-- 번호디자인 -->
               <!-- Disabled and active states -->
               <nav aria-label="..." style="margin: auto">
                 <ul class="pagination">
@@ -586,18 +608,29 @@ pageEncoding="UTF-8"%>
                 </ul>
               </nav>
               <!-- End Disabled and active states -->
+              <!-- 번호디자인 끝 -->
+
+              
+
             </div>
           </div>
         </div>
 
-        <!-- 상세-->
+
+
+
+
+
+
+        <!-- 상세, Detail 사용-->
         <div
           class="modal fade"
-          id="prodItemEditModal"
+          id="outitemDetailModal"
           tabindex="-1"
           style="display: none"
           aria-hidden="true"
-        >
+        > <!-- 상세 부분.. (수정,삭제에도 사용) -->
+
           <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
               <div class="modal-header">

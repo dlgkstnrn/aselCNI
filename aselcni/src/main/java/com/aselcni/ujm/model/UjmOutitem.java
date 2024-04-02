@@ -18,12 +18,13 @@ public class UjmOutitem { //출고
 	private int    outitem_delete_chk; //출고삭제여부
 	
 	
-	// 조회용 -> 실제로 db에 없어도 됨
+	// 조회용
 	private String 	search;
 	private String 	keyword;
 	private String 	pageNum;
 	private int 	start;
 	private int 	end;
-	// Page 정보 -> 실제로 db에 없어도 됨
-	private String 	currentPage;
+	
+	// Page 정보
+	private String 	currentPage; //유일하게 Page 객체에도
 }

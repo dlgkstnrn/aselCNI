@@ -1,11 +1,14 @@
 package com.aselcni.ujm.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aselcni.ujm.model.UjmOutitem;
 import com.aselcni.ujm.service.UjmOutitemService;
+import com.aselcni.ujm.service.UjmPaging;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UjmOutitemController {
 
-	private final UjmOutitemService ujmOutitemService;
+	private final UjmOutitemService uos;
 	
 	@RequestMapping(value = "ujmExample") 
 	public String ujmLoginForm(HttpServletRequest request) {
@@ -32,8 +35,21 @@ public class UjmOutitemController {
 			outitem.setCurrentPage("1");
 		}
 		
-		int ujmTotalOutitemCnt=ujmOutitemService.ujmTotalOutitemCnt();
+		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt();
 		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
+		model.addAttribute("totalOutitemCnt", ujmTotalOutitemCnt);
+		
+		UjmPaging page=new UjmPaging(ujmTotalOutitemCnt, outitem.getCurrentPage());
+		
+		outitem.setStart(page.getStart());
+		outitem.setEnd(page.getEnd());
+		
+		model.addAttribute("page", page);
+		
+		
+		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
+		model.addAttribute("listOutitem", ujmListOutitems);
+		//리스트 조회용
 		
 		//맨처음 리스트에 표시되는 outitemList
 //		model.addAttribute("outitemList",outitemList); 
