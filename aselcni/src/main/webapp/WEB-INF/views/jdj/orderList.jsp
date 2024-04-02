@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,44 +87,49 @@
 					        </div>
 					    </div>
 					    <div class="col-2 d-flex justify-content-end" style="width: 24.6%">
-					        <button type="button" class="btn btn-primary" onclick="location.href='/order'" style="height: 38px; width: 60px">신규</button>
+					        <button type="button" class="btn btn-primary" onclick="location.href='/orderSpec'" style="height: 38px; width: 60px">신규</button>
 					    </div>
 					</div> <%-- table-top --%>
 					<table class="table table-borderless datatable datatable-table text-center">
 						<thead><tr>
 							<th scope="col" class="text-center">No</th>
-							<th scope="col" class="text-center">주문번호</th>
-							<th scope="col" class="text-center">고객사</th>
-							<th scope="col" class="text-center">제품명</th>
+							<th scope="col" class="text-center" id="order_no">주문번호</th>
+							<th scope="col" class="text-center" id="cust_nm">고객사</th>
+							<!-- <th scope="col" class="text-center" id="">제품명</th> -->
 							<th scope="col" class="text-center">담당자</th>
 							<th scope="col" data-sortable="true">
-								<button class="datatable-sorter text-center"> Start Date </button></th>
+								<button class="datatable-sorter text-center"> 주문 일자 </button></th>
 							<th scope="col" data-sortable="true">
-								<button class="datatable-sorter text-center"> End Date </button></th>
+								<button class="datatable-sorter text-center"> 마감 기한 </button></th>
 							<th scope="col" class="text-center">진행상태</th>
 						</tr></thead>
 						<tbody>
-							<tr>
-								<th scope="row" class="text-center">1</th>
-								<td class="text-center">ORD20240330222</td>
-								<td>대한식품</td>
-								<td><a href="#" class="d-inline-block text-truncate" style="max-width: 100px;">
-									신라면매운맛이조으지</a></td>
-								<td>정다진</td>
-								<td class="datatable">2016-05-25</td>
-								<td class="datatable">2016-05-25</td>
-								<td class="green"><span class="badge bg-success">진행중</span></td>
-							</tr>
+							<c:forEach var = "order" items="${orders}" varStatus="status">
+								<tr>
+									<th scope="row" class="text-center">${status.index + 1}</th>
+									<td class="text-center">${order.order_no}</td>  <!-- ORD20240330222 -->
+									<td> ${custmst.cust_nm} </td><!-- 대한식품 -->
+									<td>${usermst_user_nm}</td> <!-- 담당 직원 -->
+									<td class="datatable"> ${order.order_dt} </td> <!-- 2016-05-25 -->
+									<td class="datatable"> ${order.order_end_dt} </td>
+									<td class="blue">
+										<c:when test="${order.order_status_chk == 1}"><span class="badge bg-primary">진행중</span></c:when>
+										<c:when test="${order.order_status_chk == 2}"><span class="badge bg-secondary">출고 완료</span></c:when>
+										<c:otherwise><span class="badge bg-light">주문 완료 </span></c:otherwise>
+									</td>								
+								</tr>
+							</c:forEach>
+						
+
 							<tr>
 								<th scope="row" class="text-center">2</th>
 								<td class="text-center">ORD20240331292</td>
 								<td>중앙제과</td>
-								<td><a href="#" class="d-inline-block text-truncate" style="max-width: 100px;">
-									비빔면이랑 짜파게티가 조으지 비빔면이랑 짜파게티가 조으지</a></td>
 								<td>정다진</td>
 								<td class="datatable">2014-12-05</td>
 								<td class="datatable">2014-12-05</td>
-								<td class="green"><span class="badge bg-success">진행중</span></td>
+								<!-- <td><span class="badge bg-success">진행중</span></td> -->
+								<td><span class="badge bg-secondary">출고완료</span></td>
 							</tr>
 						</tbody>
 					</table>
