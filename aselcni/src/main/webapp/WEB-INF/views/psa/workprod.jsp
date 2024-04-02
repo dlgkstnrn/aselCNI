@@ -126,7 +126,8 @@ pageEncoding="UTF-8"%>
               <c:forEach var="workList" varStatus="workStat" items="${workList}">
                 <tbody class="p-2">
                   <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
-                  <tr data-bs-toggle="modal" data-bs-target="#workprod" onclick="fnWorkProdModalInfo('${workList.workprod_no}')">
+                  <tr data-bs-toggle="modal" data-bs-target="#workprod">
+                  <!-- <tr data-bs-toggle="modal" data-bs-target="#workprod" onclick="fnWorkProdModalInfo('${workList.workprod_no}')"> -->
                     <!-- WorkProdModal Button : a tag-->
                     <!-- <tr onclick="fnWorkProdModalInfo('${workList.workprod_no}')"> -->
                       <!-- <a href="WorkProdModal.jsp?workprod_no=${workList.workprod_no}" onclick="fnWorkProdModalInfo('${workList.workprod_no}')"> -->

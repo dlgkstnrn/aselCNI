@@ -71,7 +71,9 @@ public class PsaWorkProdController {
 		WorkProd insertedWorkProd = new WorkProd();
 		// 생산일자가 오늘 날짜인 목록들에 생산지시번호도 세팅해줌
 		insertedWorkProd.setWorkprod_no(workProd.getWorkprod_no());
+		System.out.println("세팅한 WP: " + insertedWorkProd);
 		WorkProd selectedWorkProd = psaService.selectWorkProd(insertedWorkProd);
+		System.out.println("리턴된 WP: " + selectedWorkProd);
 		model.addAttribute("workProd", selectedWorkProd);
 		
 		

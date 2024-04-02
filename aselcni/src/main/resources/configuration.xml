@@ -7,8 +7,6 @@
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
 		<typeAlias alias="psaProdPlan" type="com.aselcni.psa.model.ProdPlan"/>
 		<typeAlias alias="psaWorkProd" type="com.aselcni.psa.model.WorkProd"/>
-		<typeAlias alias="MenuMst" type="com.aselcni.main.model.Kdw"/>
-		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
 		<typeAlias alias="KdwProdPlan"     type="com.aselcni.kdw.model.TB_PRODPLAN"/>
 		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD"/>
 	</typeAliases>
