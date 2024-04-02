@@ -26,8 +26,14 @@ public class UjmOutitemController {
 	}
 	
 	@RequestMapping(value = "outitem") 
-	public String ujmOutitemForm(HttpServletRequest request, Model model, HttpSession session) {
-		UjmOutitem outitem=new UjmOutitem();
+	public String ujmOutitemForm(UjmOutitem outitem, HttpServletRequest request, Model model, HttpSession session) {
+		System.out.println("출고페이지 접근");
+		if(outitem.getCurrentPage()==null) {
+			outitem.setCurrentPage("1");
+		}
+		
+		int ujmTotalOutitemCnt=ujmOutitemService.ujmTotalOutitemCnt();
+		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
 		
 		//맨처음 리스트에 표시되는 outitemList
 //		model.addAttribute("outitemList",outitemList); 
