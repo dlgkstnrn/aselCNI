@@ -5,4 +5,12 @@
 		select * from tb_order
 	</select>
 	
+	<select id="getCust_nm" parameterType="String" resultType="String">
+		select cust_nm from TB_CUSTMST where CUST_CD = #{cust_cd};
+	</select>
+	
+	<select id="getEmp_nm" parameterType="String" resultType="String">
+		select user_nm from TB_USERMST where user_id = #{order_emp_id};
+	</select>
+	
 </mapper>

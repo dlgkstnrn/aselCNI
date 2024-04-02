@@ -20,6 +20,7 @@ public class Order {
 	
 	String order_end_dt; 		// 주문마감일, 출고를 맞춰야하는 기간
 	
-	
+	String cust_nm; 			// 고객처 상호명
+	String order_emp_nm;
 	
 }

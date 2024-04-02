@@ -51,6 +51,13 @@
 		body {
 			font-family: 'NEXON Lv2 Gothic';
 		}
+		.button {
+        	display: inline-block;
+	        padding: 10px 20px;
+	        background-color: #f0f0f0;
+	        border: 1px solid #ccc;
+	        cursor: pointer;
+	    }
 	</style>
 
 </head>
@@ -72,6 +79,15 @@
         </div>
         
 		<section class="section dashboard">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ExtralargeModal">
+                Extra Large Modal
+              </button>
+              
+              
+              
+		
+
+		
         	<div class="card-body">
 				<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 					<div class="row datatable-top">
@@ -107,30 +123,40 @@
 							<c:forEach var = "order" items="${orders}" varStatus="status">
 								<tr>
 									<th scope="row" class="text-center">${status.index + 1}</th>
-									<td class="text-center">${order.order_no}</td>  <!-- ORD20240330222 -->
-									<td> ${custmst.cust_nm} </td><!-- 대한식품 -->
-									<td>${usermst_user_nm}</td> <!-- 담당 직원 -->
+									<%-- <td class="text-center">${order.order_no}</td> --%>  <!-- ORD20240330222 -->
+									<td><a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="text-center">${order.order_no}</a></td>
+									<td> ${order.cust_nm} </td><!-- 대한식품 -->
+									<td>${order.order_emp_nm}</td> <!-- 담당 직원 -->
 									<td class="datatable"> ${order.order_dt} </td> <!-- 2016-05-25 -->
 									<td class="datatable"> ${order.order_end_dt} </td>
 									<td class="blue">
-										<c:when test="${order.order_status_chk == 1}"><span class="badge bg-primary">진행중</span></c:when>
-										<c:when test="${order.order_status_chk == 2}"><span class="badge bg-secondary">출고 완료</span></c:when>
-										<c:otherwise><span class="badge bg-light">주문 완료 </span></c:otherwise>
+										<c:choose>
+											<c:when test="${order.order_status_chk == 1}"><span class="badge bg-primary">진행중</span></c:when>
+											<c:when test="${order.order_status_chk == 2}"><span class="badge bg-secondary">출고 완료</span></c:when>
+											<c:otherwise><span class="badge bg-warning text-dark">주문 완료 </span></c:otherwise>
+										</c:choose>
 									</td>								
 								</tr>
+	<!-- 모달고민중 -->							
+<%-- 								<div class="modal fade" id="ExtralargeModal" tabindex="-1" aria-hidden="true" style="display: none;">
+					                <div class="modal-dialog modal-xl">
+					                  <div class="modal-content">
+					                    <div class="modal-header">
+					                      <h5 class="modal-title">${order.order_no}</h5>
+					                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					                    </div>
+					                    <div class="modal-body">
+					                      Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
+					                    </div>
+					                    <div class="modal-footer">
+					                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					                      <button type="button" class="btn btn-primary">Save changes</button>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div> --%>
+					              
 							</c:forEach>
-						
-
-							<tr>
-								<th scope="row" class="text-center">2</th>
-								<td class="text-center">ORD20240331292</td>
-								<td>중앙제과</td>
-								<td>정다진</td>
-								<td class="datatable">2014-12-05</td>
-								<td class="datatable">2014-12-05</td>
-								<!-- <td><span class="badge bg-success">진행중</span></td> -->
-								<td><span class="badge bg-secondary">출고완료</span></td>
-							</tr>
 						</tbody>
 					</table>
 					<nav class="mt-0" aria-label="Page navigation example">
@@ -151,9 +177,17 @@
 						</ul>
 					</nav>
 				</div> <!-- datatable -->
+				
 			</div> <!-- card-body --> 
         </section>
     </main>
-    
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script> 
+    <script src="assets/vendor/echarts/echarts.min.js"></script> 
+    <script src="assets/vendor/quill/quill.min.js"></script> 
+ 	<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  	<script src="assets/vendor/tinymce/tinymce.min.js"></script> 
+  	<script src="assets/vendor/php-email-form/validate.js"></script> 
 </body>
 </html>

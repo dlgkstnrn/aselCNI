@@ -1,5 +1,7 @@
 package com.aselcni.jdj.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +22,17 @@ public class OrderController {
 	
 	@GetMapping("/order")
 	public String order(Model model) {
-		Order order = new Order();
-		
-		// service에게 order테이블 요청
-		order = os.getOrderLi();
-		
-	
+		System.out.println("[Order_Controller] start..");
+
+		List<Order> orders = null;		
+		try {
+			orders = os.getOrderLi();
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		 
+		model.addAttribute("orders", orders);
 		
 		return "jdj/orderList"; 
 	}
