@@ -2,24 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.KdwProdPlanMapper">
 
-	<!-- 생산계획 리스트 -->		
+	<!-- 생산계획 제품리스트 -->		
 	<select id="kdwProdPlanList" resultType="KdwProdPlan">
 		SELECT
 			pp.*,
-	        im.ITEM_NM,
-	        im.ITEM_FLAG,
-	        im.BIG_NO,
-	        im.MID_NO,
-	        im.SML_NO,
-	        im.ITEM_SPEC,
-	        im.ITEM_UNIT,
-	        im.ITEM_COST,
-	        ip.IN_QTY
+	        im.ITEM_NM, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
+	        im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST
 	    FROM TB_PRODPLAN pp
 	    INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
 	    LEFT JOIN TB_ORDER od ON pp.ORDER_NO  = od.ORDER_NO
-	    LEFT JOIN TB_ITEM_PROD ip ON pp.PRODPLAN_NO = ip.PRODPLAN_NO
 	    ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO;
+	</select>
+	<!-- 생산계획 자재리스트 -->		
+	<select id="kdwProdPlanList" resultType="KdwProdPlan">
+	SELECT
+	    ip.ITEM_CD,
+	    ip.ProdPlan_no,
+	    ip.IN_QTY,
+	    im.ITEM_NM,
+	    im.ITEM_SPEC,
+	    im.ITEM_UNIT
+	FROM TB_ITEM_PROD ip
+	INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
+	WHERE ip.ProdPlan_no = ${prodplan_no};
 	</select>
 	
 </mapper>

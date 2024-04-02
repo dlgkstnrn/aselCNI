@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	
 	private final SqlSession session;
 	
-	// 생산계획 리스트
+	// 생산계획 제품리스트
 	@Override
 	public List<TB_PRODPLAN> getProdPlanList() {
 		System.out.println("KdwProdPlanDaoImpl getProdPlanList Start...");
@@ -30,6 +31,20 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 			System.out.println("KdwProdPlanDaoImpl getProdPlanList e.getMessage(): " + e.getMessage());
 		}
 		return prodPlanList;
+	}
+	// 생산계획 투입자재리스트
+	@Override
+	public List<TB_ITEM_PROD> getProdPlanItemList() {
+		System.out.println("KdwProdPlanDaoImpl getProdPlanItemList Start...");
+		List<TB_ITEM_PROD> prodPlanItemList = null;
+		try {
+			prodPlanItemList = session.selectList("kdwProdPlanItemList");
+			System.out.println("KdwProdPlanDaoImpl getProdPlanItemList prodPlanItemList.size(): " + prodPlanItemList.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("KdwProdPlanDaoImpl getProdPlanItemList e.getMessage(): " + e.getMessage());
+		}
+		return prodPlanItemList;
 	}
 
 }
