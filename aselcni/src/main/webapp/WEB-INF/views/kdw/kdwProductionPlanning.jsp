@@ -32,6 +32,9 @@
 <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <!-- 제이쿼리에 의존하는 JS들이 있기 때문에 상단에 위치 해야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- 제이쿼리 UI(컬러피커에 사용) -->
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- 셀렉트박스에 Select2 CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -69,8 +72,9 @@
 			<h1>생산 계획</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="productionPlanning">생산
-							관리</a></li>
+					<li class="breadcrumb-item">
+						<a href="productionPlanning">생산 관리</a>
+					</li>
 					<li class="breadcrumb-item active">생산 계획</li>
 				</ol>
 			</nav>
@@ -400,6 +404,14 @@
 						<div class="calendar-group">
 							<div id='calendar'></div>
 						</div>
+						<div class="colorPicker-group">
+						    <!-- 캘린더 각 이벤트 컬러피커 -->
+							<div id="colorPickerDialog" title="색상 선택">
+								<input type="color" id="eventColorPicker">
+							</div>
+							<button id="changeColorButton" class="btn btn-primary colorPicker-btn">색상 변경</button>
+						</div>
+						
 						<!-- End Calendar -->
 						<!-- 주문내역 & 생산계획 리스트 -->
 						<div class="prodPlan-info">

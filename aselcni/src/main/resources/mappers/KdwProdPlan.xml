@@ -18,9 +18,7 @@
 	<select id="kdwProdPlanItemList" resultType="KdwProdPlanItem">
 		SELECT
 		    ip.*,
-		    im.ITEM_NM,
-		    im.ITEM_SPEC,
-		    im.ITEM_UNIT
+		    im.ITEM_NM, im.ITEM_SPEC, im.ITEM_UNIT
 		FROM TB_ITEM_PROD ip
 		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
 	</select>
