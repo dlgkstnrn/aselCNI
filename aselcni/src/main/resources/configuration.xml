@@ -2,6 +2,11 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst"/>
+		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst"/>
+		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig"/>
+		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid"/>
+		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml"/>
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
