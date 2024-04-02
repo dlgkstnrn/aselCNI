@@ -1,5 +1,5 @@
 $('#return-add').on('click', function () {  
-	window.location.href = 'returnAddForm';
+	window.location.href = '/returnAddForm';
 });
 
 $('#search-text').on('keyup', (event) => {

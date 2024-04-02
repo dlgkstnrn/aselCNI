@@ -5,5 +5,10 @@
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
+		<typeAlias alias="KphOutItem" type="com.aselcni.kph.model.KphOutItem"/>
+		<typeAlias alias="KphCustMst" type="com.aselcni.kph.model.KphCustMst"/>
+		<typeAlias alias="KphTypeBig" type="com.aselcni.kph.model.KphTypeBig"/>
+		<typeAlias alias="KphTypeMid" type="com.aselcni.kph.model.KphTypeMid"/>
+		<typeAlias alias="KphTypeSml" type="com.aselcni.kph.model.KphTypeSml"/>
 	</typeAliases>
 </configuration>
