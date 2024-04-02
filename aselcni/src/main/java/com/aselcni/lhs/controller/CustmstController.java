@@ -46,8 +46,9 @@ public class CustmstController {
 	@PostMapping("custmstAdd")
 	public String custAdd(CustMst custmst,HttpServletRequest request) {
 		custmst.setEmp_id(request.getSession().getAttribute("user_id").toString());
-		int cnt = mstService.selectCntCust(custmst);
-		String custCd = String.format("%04d", cnt);
+		int cnt = mstService.selectCntCustAll(custmst.getBiz_flag());
+		System.out.println("test : " + cnt);
+		String custCd = String.format("%04d", ++cnt);
 		if(custmst.getBiz_flag() == 1) {
 			custmst.setCust_cd("BUY"+custCd);
 		}else {

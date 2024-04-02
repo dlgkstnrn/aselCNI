@@ -23,7 +23,13 @@
     	)
     </insert>
     
-    <select id="selectCntCust" parameterType="int" resultType="int">
+    <select id="selectCntCustAll" parameterType="int" resultType="int">
+    	select count(*)
+    	from tb_custmst
+    	where biz_flag = #{biz_flag} 
+    </select>
+    
+    <select id="selectCntCust" parameterType="LhsCustMst" resultType="int">
     	select count(*)
 		from tb_custmst
 		where biz_flag = #{biz_flag}

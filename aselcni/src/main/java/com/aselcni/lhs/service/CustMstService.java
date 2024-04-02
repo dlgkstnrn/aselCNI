@@ -19,5 +19,7 @@ public interface CustMstService {
 	int updateOneCust(CustMst custMst);
 
 	List<CustMst> selectListCustByFlag(int item_flag);
+
+	int selectCntCustAll(int biz_flag);
 	
 }

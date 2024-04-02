@@ -33,3 +33,4 @@ $("#tb tbody tr").click(function () {
 $("#delBtn").click(function(){
 	location.href="custmstDelete?cust_cd="+document.getElementById("cust_cd").value;
 })
+

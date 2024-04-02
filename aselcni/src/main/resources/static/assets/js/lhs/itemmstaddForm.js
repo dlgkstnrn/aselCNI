@@ -10,6 +10,8 @@ const optionEle = function(value,content){
 $("#big").change(function(){
 	$("#mid").empty();
 	$("#mid").append(optionEle("","중분류"));
+	$("#sml").empty();
+	$("#sml").append(optionEle("","소분류"));
 	if($(this).val() != "대분류" ){
 		$.post("selectMid",{big_no:$(this).val()})
 		.done(function(data){

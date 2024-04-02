@@ -22,8 +22,8 @@ public class CustMstServiceImpl implements CustMstService {
 	
 	@Override
 	public int selectCntCust(CustMst custmst) {
-		int todayCustCnt = mstDao.selectCntCust(custmst);
-		return todayCustCnt;
+		int custCnt = mstDao.selectCntCust(custmst);
+		return custCnt;
 	}
 	
 	@Override
@@ -49,6 +49,11 @@ public class CustMstServiceImpl implements CustMstService {
 	@Override
 	public List<CustMst> selectListCustByFlag(int item_flag) {
 		return mstDao.selectListCustByFlag(item_flag);
+	}
+	
+	@Override
+	public int selectCntCustAll(int biz_flag) {
+		return mstDao.selectCntCustAll(biz_flag);
 	}
 
 }

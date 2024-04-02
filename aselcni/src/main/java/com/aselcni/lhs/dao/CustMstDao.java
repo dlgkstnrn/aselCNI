@@ -20,4 +20,6 @@ public interface CustMstDao {
 
 	List<CustMst> selectListCustByFlag(int item_flag);
 
+	int selectCntCustAll(int biz_flag);
+
 }

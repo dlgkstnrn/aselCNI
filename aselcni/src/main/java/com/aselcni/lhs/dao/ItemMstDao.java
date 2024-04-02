@@ -15,8 +15,18 @@ public interface ItemMstDao {
 
 	List<TypeSml> selectTypeSml(TypeSml typeSml);
 
-	int selectItemCnt(ItemMst itemMst);
+	int selectItemCntByitemCd(ItemMst itemMst);
 
 	int insertItem(ItemMst itemMst);
+
+	int selectItemCnt(ItemMst itemMst);
+
+	List<ItemMst> selectItemList(ItemMst itemMst);
+
+	ItemMst selectItemByitemCd(ItemMst itemMst);
+
+	int updateItem(ItemMst itemMst);
+
+	int deleteItem(ItemMst itemMst);
 
 }

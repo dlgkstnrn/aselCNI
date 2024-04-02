@@ -22,8 +22,8 @@ public class CustMstDaoImpl implements CustMstDao {
 	
 	@Override
 	public int selectCntCust(CustMst custmst) {
-		int todayCustCnt = session.selectOne("selectCntCust",custmst);
-		return todayCustCnt;
+		int custCnt = session.selectOne("selectCntCust",custmst);
+		return custCnt;
 	}
 	
 	@Override
@@ -49,6 +49,11 @@ public class CustMstDaoImpl implements CustMstDao {
 	@Override
 	public List<CustMst> selectListCustByFlag(int item_flag) {
 		return session.selectList("selectListCustByFlag", item_flag);
+	}
+	
+	@Override
+	public int selectCntCustAll(int biz_flag) {
+		return session.selectOne("selectCntCustAll", biz_flag);
 	}
 
 }

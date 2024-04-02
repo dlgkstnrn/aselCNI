@@ -61,12 +61,12 @@
 		}
      </style>
      <!-- Script -->
-     <!-- <script type="text/javascript">
-     	const custMst = ${custMst.biz_flag};
-     </script> -->
+      <script type="text/javascript">
+     	const itemMst = ${itemMst.item_flag};
+     </script> 
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<!-- <script defer="defer" type="text/javascript" src="assets/js/lhs/custmstList.js"></script> -->
+	<script defer="defer" type="text/javascript" src="assets/js/lhs/itemmstList.js"></script> 
 </head>
 
 <body>
@@ -96,7 +96,7 @@
         <div class="maindiv">
           <div class="topdiv d-flex justify-content-end">
             <div>
-              <a href="itemmstAddForm?item_flag=1">
+              <a href="itemmstAddForm?item_flag=${itemMst.item_flag }">
                 <button class="btn btn-primary">신규</button>
               </a>
             </div>
@@ -104,13 +104,13 @@
           <div class="selectbtndiv">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
-                <a href="custmst?biz_flag=2">
-                  <button class="bordergray wid150" id="selBtn">자재</button>
+                <a href="itemmst?item_flag=1">
+                  <button class="bordergray wid150" id="matBtn">자재</button>
                 </a>
               </li>
               <li class="nav-item" role="presentation">
-                <a href="custmst?biz_flag=1">
-                  <button class="bordergray wid150" id="buyBtn">제품</button>
+                <a href="itemmst?item_flag=2">
+                  <button class="bordergray wid150" id="proBtn">제품</button>
                 </a>
               </li>
             </ul>
@@ -121,31 +121,28 @@
                 <select
                   class="form-select wid150 h-100 m-r10"
                   aria-label="Default select example"
-                  name="searchFilter"
+                  name="big_no" id="searchBig"
                 >
-                  <option selected="">대분류</option>
-                  <option value="item_cd">코드</option>
-                  <option value="item_nm">이름</option>
+                  <option selected="" value="0">대분류</option>
+                  <c:forEach items="${bigList}" var="big">
+                  	<option value="${big.big_no }">${big.big_content}</option>
+                  </c:forEach>
                 </select>
 
                 <select
                   class="form-select wid150 h-100 m-r10"
                   aria-label="Default select example"
-                  name="searchFilter"
+                  name="mid_no" id="searchMid"
                 >
-                  <option selected="">중분류</option>
-                  <option value="item_cd">코드</option>
-                  <option value="item_nm">이름</option>
+                  <option selected="" value="0">중분류</option>
                 </select>
 
                 <select
                   class="form-select wid150 h-100 m-r10"
                   aria-label="Default select example"
-                  name="searchFilter"
+                  name="sml_no" id="searchSml"
                 >
-                  <option selected="">소분류</option>
-                  <option value="item_cd">코드</option>
-                  <option value="item_nm">이름</option>
+                  <option selected="" value="0">소분류</option>
                 </select>
 
                 <div class="d-flex">
@@ -165,8 +162,8 @@
                   />
                   <input
                     type="hidden"
-                    name="biz_flag"
-                    value="${custMst.biz_flag}"
+                    name="item_flag"
+                    value="${itemMst.item_flag}"
                   />
                   <button type="submit" class="btn btn-primary">검색</button>
                 </div>
@@ -177,25 +174,30 @@
             <table id="tb" class="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col" style="width: 20%">품목코드</th>
-                  <th scope="col" style="width: 25%">품목명</th>
-                  <th scope="col" style="width: 25%">거래처</th>
+                  <th scope="col" style="width: 10%">품목코드</th>
+                  <th scope="col" style="width: 30%">품목명</th>
+                  <th scope="col" style="width: 30%">거래처</th>
                   <th scope="col" style="width: 15%">규격</th>
                   <th scope="col" style="width: 15%">단가</th>
                 </tr>
               </thead>
               <tbody>
-                <c:forEach items="${custList }" var="cust">
+                <c:forEach items="${itemList }" var="item">
                   <tr
-                    data-index="${cust.cust_cd}"
+                    data-index="${item.item_cd}"
                     data-bs-toggle="modal"
                     data-bs-target="#prodItemEditModal"
                   >
-                    <th>${cust.cust_cd }</th>
-                    <td>${cust.cust_nm }</td>
-                    <td>${cust.president_nm }</td>
-                    <td>${cust.biz_tel }</td>
-                    <td>${cust.biz_fax }</td>
+                    <th>${item.item_cd }</th>
+                    <td>${item.item_nm }</td>
+                    <c:if test="${item.cust_nm ne null}">
+                    	<td>${item.cust_nm }(${ item.cust_cd})</td>
+                    </c:if>
+                    <c:if test="${item.cust_nm eq null}">
+                    	<td></td>
+                    </c:if>
+                    <td>${item.item_spec }</td>
+                    <td>${item.item_cost }</td>
                   </tr>
                 </c:forEach>
               </tbody>
@@ -213,9 +215,9 @@
         >
           <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-              <form action="custmstUpdate" method="post">
+              <form action="itemmstUpdate" method="post">
                 <div class="modal-header">
-                  <h1 class="modal-title">거래처 관리</h1>
+                  <h1 class="modal-title">품목 관리</h1>
                   <button
                     type="button"
                     class="btn-close"
@@ -225,17 +227,17 @@
                 </div>
                 <div class="modal-body">
                   <!-- Start modal body -->
-                  <input type="hidden" name="cust_cd" id="cust_cd" />
+                  <input type="hidden" name="item_cd" id="item_cd" />
                   <div class="row mb-3">
                     <label
                       for="prodItemWHEditModal"
                       class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">업체 명</span></label
+                      ><span class="moving-text">품목 명</span></label
                     >
                     <div class="col-sm-10">
                       <input
-                        name="cust_nm"
-                        id="cust_nm"
+                        name="item_nm"
+                        id="item_nm"
                         type="text"
                         class="form-control"
                         value=""
@@ -246,12 +248,63 @@
                     <label
                       for="prodItemWHEditModal"
                       class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">대표자명</span></label
+                      ><span class="moving-text">거래처</span></label
+                    >
+                    <div class="col-sm-10">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="cust_cd"
+                        id="cust_cd"
+                      >
+                        <option selected="">거래처선택</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label
+                      for="prodItemWHEditModal"
+                      class="col-sm-2 col-form-label label-marquee"
+                      ><span class="moving-text">분류</span></label
+                    >
+                    <div class="col">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="big_no" id="modalbig">
+                        <option selected="">대분류</option>
+                        <c:forEach items="${bigList}" var="big">
+		                  	<option class="modalbig" value="${big.big_no }">${big.big_content}</option>
+		                </c:forEach>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="mid_no" id="mid">
+                        <option selected="">중분류</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        name="sml_no" id="sml">
+                        <option selected="">소분류</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label
+                      for="prodItemWHEditModal"
+                      class="col-sm-2 col-form-label label-marquee"
+                      ><span class="moving-text">규격</span></label
                     >
                     <div class="col-sm-10">
                       <input
-                        id="president_nm"
-                        name="president_nm"
+                        id="item_spec"
+                        name="item_spec"
                         type="text"
                         class="form-control"
                         value=""
@@ -262,12 +315,12 @@
                     <label
                       for="prodItemWHEditModal"
                       class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">사업자 번호</span></label
+                      ><span class="moving-text">단위</span></label
                     >
                     <div class="col-sm-10">
                       <input
-                        id="biz_no"
-                        name="biz_no"
+                        id="item_unit"
+                        name="item_unit"
                         type="text"
                         class="form-control"
                         value=""
@@ -278,12 +331,12 @@
                     <label
                       for="prodItemWHEditModal"
                       class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">종목</span></label
+                      ><span class="moving-text">단가</span></label
                     >
                     <div class="col-sm-10">
                       <input
-                        id="biz_cond"
-                        name="biz_cond"
+                        id="item_cost"
+                        name="item_cost"
                         type="text"
                         class="form-control"
                         value=""
@@ -294,60 +347,12 @@
                     <label
                       for="prodItemWHEditModal"
                       class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">업태</span></label
+                      ><span class="moving-text">비고</span></label
                     >
                     <div class="col-sm-10">
                       <input
-                        id="biz_item"
-                        name="biz_item"
-                        type="text"
-                        class="form-control"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label
-                      for="prodItemWHEditModal"
-                      class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">주소</span></label
-                    >
-                    <div class="col-sm-10">
-                      <input
-                        id="biz_addr"
-                        name="biz_addr"
-                        type="text"
-                        class="form-control"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label
-                      for="prodItemWHEditModal"
-                      class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">전화번호</span></label
-                    >
-                    <div class="col-sm-10">
-                      <input
-                        id="biz_tel"
-                        name="biz_tel"
-                        type="text"
-                        class="form-control"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label
-                      for="prodItemWHEditModal"
-                      class="col-sm-2 col-form-label label-marquee"
-                      ><span class="moving-text">팩스</span></label
-                    >
-                    <div class="col-sm-10">
-                      <input
-                        id="biz_fax"
-                        name="biz_fax"
+                        id="remark"
+                        name="remark"
                         type="text"
                         class="form-control"
                         value=""
@@ -382,7 +387,7 @@
                 <li class="page-item">
                   <a
                     class="page-link"
-                    href="custmst?currentPage=${page.startPage-page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}"
+                    href="itemmst?currentPage=${page.startPage-page.pageBlock }&item_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
                     ><</a
                   >
                 </li>
@@ -395,7 +400,7 @@
                 <li class="page-item">
                   <a
                     class="page-link"
-                    href="custmst?currentPage=${i }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}"
+                    href="itemmst?currentPage=${i }&biz_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
                     >${i }</a
                   >
                 </li>
@@ -404,7 +409,7 @@
                 <li class="page-item">
                   <a
                     class="page-link"
-                    href="custmst?currentPage=${page.startPage+page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}"
+                    href="itemmst?currentPage=${page.startPage+page.pageBlock }&item_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
                     >></a
                   >
                 </li>

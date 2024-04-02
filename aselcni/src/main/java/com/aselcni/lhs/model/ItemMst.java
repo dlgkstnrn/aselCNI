@@ -26,4 +26,5 @@ public class ItemMst {
 	private int end;
 	private String keyword;
 	private String searchFilter;
+	private String cust_nm;
 }

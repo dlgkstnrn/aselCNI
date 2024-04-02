@@ -33,13 +33,38 @@ public class ItemMstDaoImpl implements ItemMstDao {
 	}
 	
 	@Override
-	public int selectItemCnt(ItemMst itemMst) {
-		return session.selectOne("selectItemCnt", itemMst);
+	public int selectItemCntByitemCd(ItemMst itemMst) {
+		return session.selectOne("selectItemCntByitemCd", itemMst);
 	}
 	
 	@Override
 	public int insertItem(ItemMst itemMst) {
 		return session.insert("insertItem", itemMst);
+	}
+	
+	@Override
+	public int selectItemCnt(ItemMst itemMst) {
+		return session.selectOne("selectItemCnt",itemMst);
+	}
+	
+	@Override
+	public List<ItemMst> selectItemList(ItemMst itemMst) {
+		return session.selectList("selectItem", itemMst);
+	}
+	
+	@Override
+	public ItemMst selectItemByitemCd(ItemMst itemMst) {
+		return session.selectOne("selectItemByitemCd", itemMst);
+	}
+	
+	@Override
+	public int updateItem(ItemMst itemMst) {
+		return session.update("updateItem",itemMst);
+	}
+	
+	@Override
+	public int deleteItem(ItemMst itemMst) {
+		return session.update("deleteItem",itemMst);
 	}
 
 }

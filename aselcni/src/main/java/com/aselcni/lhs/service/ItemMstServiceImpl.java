@@ -33,13 +33,38 @@ public class ItemMstServiceImpl implements ItemMstService {
 	}
 	
 	@Override
-	public int selectItemCnt(ItemMst itemMst) {
-		return itemMstDao.selectItemCnt(itemMst);
+	public int selectItemCntByitemCd(ItemMst itemMst) {
+		return itemMstDao.selectItemCntByitemCd(itemMst);
 	}
 	
 	@Override
 	public int insertItem(ItemMst itemMst) {
 		return itemMstDao.insertItem(itemMst);
+	}
+	
+	@Override
+	public int selectItemCnt(ItemMst itemMst) {
+		return itemMstDao.selectItemCnt(itemMst);
+	}
+	
+	@Override
+	public List<ItemMst> selectItemList(ItemMst itemMst) {
+		return itemMstDao.selectItemList(itemMst);
+	}
+	
+	@Override
+	public ItemMst selectItemByitemCd(ItemMst itemMst) {
+		return itemMstDao.selectItemByitemCd(itemMst);
+	}
+	
+	@Override
+	public int updateItem(ItemMst itemMst) {
+		return itemMstDao.updateItem(itemMst);
+	}
+	
+	@Override
+	public int deleteItem(ItemMst itemMst) {
+		return itemMstDao.deleteItem(itemMst);
 	}
 
 }
