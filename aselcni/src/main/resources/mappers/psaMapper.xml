@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.psaMapper">
+
+	<select id="psaGetPlanList" parameterType="psaProdPlan" resultType="psaProdPlan">
+		SELECT *
+		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu 
+		WHERE tp.ITEM_CD = ti.ITEM_CD
+			AND tp.PRODPLAN_EMP_ID = tu.USER_ID 
+			AND tp.PRODPLAN_DT = #{prodplan_dt}
+			AND tp.PRODPLAN_DELETE_CHK = 0
+	</select>
+	
+	<select id="psaGetWorkList" parameterType="psaWorkProd" resultType="psaWorkProd">
+		SELECT *
+		FROM TB_WORKPROD tw  , TB_ITEMMST ti , TB_USERMST tu 
+		WHERE tw.ITEM_CD = ti.ITEM_CD
+			AND tw.WORKPROD_EMP_ID  = tu.USER_ID 
+			AND tw.WORKPROD_DT  = #{workprod_dt}
+			AND tw.WORKPROD_DELETE_CHK  = 0
+	</select>
+	
+	<select id="psaGetWorkProd" parameterType="psaWorkProd" resultType="psaWorkProd">
+		SELECT *
+		FROM TB_WORKPROD tw  , TB_ITEMMST ti , TB_USERMST tu 
+		WHERE tw.ITEM_CD = ti.ITEM_CD
+			AND tw.WORKPROD_EMP_ID  = tu.USER_ID 
+			AND tw.WORKPROD_DT  = #{workprod_dt}
+			AND tw.WORKPROD_NO = #{workprod_no}
+			AND tw.WORKPROD_DELETE_CHK  = 0
+	</select>
+
+</mapper>

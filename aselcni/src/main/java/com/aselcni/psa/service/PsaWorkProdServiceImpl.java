@@ -29,10 +29,48 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("psa service error: "+e.getMessage());
+			System.out.println("psa getPlanList error: "+e.getMessage());
 		}
 		
 		return planList;
+	}
+
+	// 등록된 생산지시내역 리스트 조회
+	@Override
+	public List<WorkProd> getWorkList(WorkProd workProd) {
+		
+		List<WorkProd> workList = null;
+		System.out.println("psaService getWorkList Start!");
+		
+		try {
+			
+			workList = psaDao.getWorkList(workProd);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("psa getWorkList error: "+e.getMessage());
+		}
+		
+		return workList;
+	}
+
+	// 등록된 지시내역의 생산지시번호별 상세내용
+	@Override
+	public WorkProd selectWorkProd(WorkProd insertedWorkProd) {
+
+		WorkProd selectedWorkProd = null;
+		System.out.println("psaService selectWorkProd Start!");
+		
+		try {
+			
+			selectedWorkProd = psaDao.selectWorkProd(insertedWorkProd);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("psa selectWorkProd error: "+e.getMessage());
+		}
+		
+		return selectedWorkProd;
 	}
 
 }

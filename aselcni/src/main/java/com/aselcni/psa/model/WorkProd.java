@@ -44,6 +44,10 @@ public class WorkProd {
 	// 품목명
 	private String item_nm;
 	
+	// 조회용 (TB_USERMST)
+	// 생산지시 담당자명
+	private String user_nm;
+	
 	
 	// 2. 생산지시 투입품 테이블
 	// TB_WORK_ITEM

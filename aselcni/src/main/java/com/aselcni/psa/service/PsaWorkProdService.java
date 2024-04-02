@@ -9,4 +9,8 @@ public interface PsaWorkProdService {
 
 	List<ProdPlan> getPlanList(ProdPlan prodPlan);
 
+	List<WorkProd> getWorkList(WorkProd workProd);
+
+	WorkProd selectWorkProd(WorkProd insertedWorkProd);
+
 }

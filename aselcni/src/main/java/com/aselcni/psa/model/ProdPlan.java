@@ -19,9 +19,15 @@ public class ProdPlan {
 	private Integer qty;
 	// 작업일수
 	private Integer work_dt;
+	// 생산계획 담당자 코드
+	private String prodplan_emp_id;
 	
 	// 조회용 (TB_ITEMMST)
-	// 품목명
+	// 제품명
 	private String item_nm;
+	
+	// 조회용 (TB_USERMST)
+	// 생산계획 담당자명
+	private String user_nm;
 
 }
