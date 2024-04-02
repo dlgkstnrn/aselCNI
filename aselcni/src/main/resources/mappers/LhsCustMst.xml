@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.lhs.LhsCustMst">
+    <insert id="insertCust" parameterType="LhsCustMst">
+    	insert into
+    	tb_custmst
+    	values(
+    		#{cust_cd},
+    		#{cust_nm},
+    		#{president_nm},
+    		#{biz_no},
+    		#{biz_cond},
+    		#{biz_item},
+    		#{biz_addr},
+    		#{biz_tel},
+    		#{biz_fax},
+    		#{emp_id},
+    		#{biz_flag},
+    		CONVERT(CHAR(10),GETDATE(),23),
+    		null,
+    		0
+    	)
+    </insert>
+    <select id="selectCntTodayCust" parameterType="int" resultType="int">
+    	select count(*)
+		from tb_custmst
+		where CUST_REGDATE = CONVERT(CHAR(10),GETDATE(),23)
+		and biz_flag = #{biz_flag}
+    </select>
+</mapper>

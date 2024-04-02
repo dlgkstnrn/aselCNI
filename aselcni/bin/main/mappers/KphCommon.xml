@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.KphCommonMapper">
+					
+	<select id="KphGetAuthorityList" resultType="Common">
+		SELECT COMM_CODE, COMM_CONTENT 
+		FROM TB_COMMON
+		WHERE COMM_BCD = 100
+			AND COMM_MCD != 999
+	</select>
+	
+</mapper>
