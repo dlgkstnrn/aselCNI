@@ -14,7 +14,7 @@
 	    ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO;
 	</select>
 	<!-- 생산계획 자재리스트 -->		
-	<select id="kdwProdPlanList" resultType="KdwProdPlan">
+	<select id="kdwProdPlanItemList" resultType="KdwProdPlan">
 	SELECT
 	    ip.ITEM_CD,
 	    ip.ProdPlan_no,
