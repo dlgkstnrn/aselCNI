@@ -7,6 +7,7 @@ $(document).ready(function() {
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialView: 'dayGridMonth',
 		dayMaxEventRows: 4,
+		locale: 'ko',
 		events: function(fetchInfo, successCallback, failureCallback) {
 			$.ajax({
 				url: 'prodplanCalenderList', // 이벤트 데이터를 가져오는 URL
@@ -37,9 +38,13 @@ $(document).ready(function() {
 			// 이벤트 선택 시, 빨간 테두리 적용
 			calendar.getEvents().forEach(function(event) {
 				if (event.id === selectedEventId) {
-					event.setProp('borderColor', 'red');
+					event.setProp('borderColor', 'black');
 				} else {
 					event.setProp('borderColor', 'transparent');
+				}
+				$(event.el).removeClass('selected-event-shadow');
+				if (event.id === selectedEventId) {
+					$(event.el).addClass('selected-event-shadow');
 				}
 			});
 		},
@@ -53,6 +58,16 @@ $(document).ready(function() {
 	});
 
 	calendar.render();
+
+	// 랜덤 색상을 생성하는 함수
+	function getRandomColor() {
+		var letters = '0123456789ABCDEF';
+		var color = '#';
+		for (var i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
 
 	// 색상 변경 대화상자 초기화
 	$("#colorPickerDialog").dialog({

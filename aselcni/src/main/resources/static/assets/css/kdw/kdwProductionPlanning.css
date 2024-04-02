@@ -60,6 +60,17 @@ body {
 	margin-top: 0px;
 	border-bottom: 1px solid #ced4da;
 }
+
+.fc-col-header-cell.fc-day.fc-day-sun .fc-col-header-cell-cushion{
+	color: red !important;
+}
+/* 날짜 셀의 일요일에 해당하는 부분을 빨간색으로 변경 */
+.fc-daygrid-day.fc-day-sun .fc-daygrid-day-number {
+    color: red !important;
+}
+.fc-scroller {
+  overflow: auto !important;
+}
 /* 캘린더 타이틀 텍스트 (생산계획표)*/
 .form-container .calendar-group-title .calendar-group-title-text {
 	position: absolute;
@@ -71,16 +82,14 @@ body {
 .calendar-group {
 	position: absolute;
 	width: 800px;
-	height: 700px;
+	height: 600px;
 }
 /* Main 캘린더 */
 .calendar-group #calendar {
 	margin-top: 30px;
 	width: 800px;
 	height: 600px;
-	border-radius: 10px;
 }
-
 .fc-col-header-cell-cushion {
 	color: #0d6efd;
 }
@@ -105,7 +114,9 @@ body {
 	margin-left: 530px;
 	width: 95px;
 }
-
+.selected-event-shadow {
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.5) !important;
+}
 /* =========== End 캘린더 =========== */
 
 /* ======= 주문내역 & 생산계획 공통 ====== */
