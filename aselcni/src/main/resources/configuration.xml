@@ -5,5 +5,9 @@
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
+		<typeAlias alias="MenuMst" type="com.aselcni.main.model.Kdw"/>
+		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
+		<typeAlias alias="KdwProdPlan"     type="com.aselcni.kdw.model.TB_PRODPLAN"/>
+		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD"/>
 	</typeAliases>
 </configuration>
