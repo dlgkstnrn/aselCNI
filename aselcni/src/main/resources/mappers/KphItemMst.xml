@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.KphItemMstMapper">
+
+	<select id="KphGetItemList" parameterType="KphTypeSml" resultType="KphItemMst">
+		SELECT *
+		FROM TB_ITEMMST
+		WHERE BIG_NO = #{big_no}
+			AND MID_NO = #{mid_no}
+			AND SML_NO = #{sml_no}
+	</select>
+	
+</mapper>

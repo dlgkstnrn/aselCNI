@@ -5,6 +5,9 @@
 	<select id="KphGetTypeBigList" resultType="KphTypeBig">
 		SELECT *
 		FROM TB_TYPE_BIG
+		WHERE BIG_NO IN (SELECT BIG_NO 
+									FROM TB_ITEMMST
+									GROUP BY BIG_NO)
 	</select>
 	
 </mapper>

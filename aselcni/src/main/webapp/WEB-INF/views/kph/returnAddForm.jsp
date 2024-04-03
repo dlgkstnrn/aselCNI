@@ -66,19 +66,16 @@
 					<div>
 						<p>출고번호</p>
 						<div class="outitem-box box">
-							<input name="outitem_no" type="text" class="box-input outitem-no form-control">
+							<input name="outitem_no" type="text" class="box-input outitem-no form-control readonly" readonly />
 							<button id="is-outitem-btn" type="button" class="chk btn btn-secondary">출고 번호 조회</button>
 						</div>
-						<p class="return-alert outitem-no-alert">출고 번호를 입력하세요</p>
+						<p class="return-alert outitem-no-alert">출고 번호를 조회하세요</p>
 					</div>
 					<div>
 						<p>고객사</p>
-						<div class="cust-box box">
-							<input name="cust_cd" type="hidden" class="form-control" />
-							<input name="cust_nm" type="text" class="box-input cust_cd form-control readonly" readonly />
-							<button id="choose-cust-btn" type="button" class="chk btn btn-secondary">고객사 선택</button>
-						</div>
-						<p class="return-alert cust-cd-alert">고객사를 선택하세요</p>
+                        <input name="cust_cd" type="hidden" class="form-control" />
+						<input name="cust_nm" type="text" class="cust_cd form-control readonly" readonly />
+						<p class="return-alert cust-cd-alert">출고 번호를 조회하세요</p>
 					</div>
 					<div>
 						<p>고객사 담당자</p>
@@ -93,7 +90,7 @@
 						</div>
 						<p class="return-alert item-cd-alert">제품코드를 선택하세요</p>
 					</div>
-					<div>
+					<div class="item_nm">
 						<p>제품명</p>
 						<input name="item_nm" type="text" class="form-control readonly" readonly/>
 						<p class="return-alert item-cd-alert">제품코드를 선택하세요</p>
@@ -118,84 +115,51 @@
 					</div>
 				</form>
 			</div>
-			<div class="cust-choice-box">
-				<div class="cust-choice-box-title">고객사 선택</div>
-                <div class="cust-choice-box-body">
-                    <div class="cust-search-box">
-                        <input id="cust-search-text" type="text" placeholder="고객사명을 입력하세요">
-                        <button id="cust-search-btn">
-                            <i class="bi bi-search"></i>
-                        </button>
+			<div class="out-item-choice-box">
+                <div class="out-item-choice-box-title">출고 번호 조회</div>
+                <div class="out-item-choice-box-body">
+                    <div class="out-item-search-box">
+                        <div class="out-item-search-filter">
+                            <div class="out-item-no-search">
+                                <input id="out-item-no-search-text" type="text" placeholder="검색어를 입력하세요">
+                                <button id="out-item-no-search-btn">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                            <select name="search-filter" class="search-filter form-select">
+                                <option value="all" selected>전체</option>
+                                <option value="outitem_no">출고번호</option>
+                                <option value="order_no">주문번호</option>
+                                <option value="cust_nm">고객사명</option>
+                                <option value="outitem_emp_nm">담당자명</option>
+                            </select>
+                        </div>
+                        <select name="date-search-filter" class="date-search-filter form-select">
+                            <option value="all">전체</option>
+                            <option value="30day" selected>30일</option>
+                            <option value="7day">7일</option>
+                            <option value="1day">1일</option>
+                        </select>
                     </div>
-                    <div class="cust-list-box">
+                    <div class="out-item-list-box">
                         <ul>
                         </ul>
                     </div>
                 </div>
-                <div class="cust-btn-list text-center">
-                    <button type="button" class="cust-cancle-btn btn btn-secondary">취소</button>
+                <div class="out-item-btn-list text-center">
+                    <button type="button" class="out-item-cancle-btn btn btn-secondary">취소</button>
                 </div>
-			</div>
+            </div>
             <div class="item-choice-box">
                 <div class="item-choice-box-title">제품 선택</div>
                 <div class="item-category-search-box">
-                    <input id="item-search-text" type="text" placeholder="소분류를 입력하세요">
+                    <input id="item-search-text" type="text" placeholder="제품명을 입력하세요">
                     <button id="item-search-btn">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
-                <div class="item-category">
-                    <div class="big-category category-detail">
-                        <div class="category-detail-title">
-                            대분류
-                        </div>
-                        <ul>
-                        	<c:forEach var="typeBig" items="${typeBigList }">
-                        		<li>
-                        			<input name="big_no" type="radio" class="radio-btn form-check-input" value="${typeBig.big_no }" />${typeBig.big_content }
-                        		</li>
-                        	</c:forEach>
-                        </ul>
-                    </div>
-                    <div class="mid-category category-detail">
-                        <div class="category-detail-title">
-                            중분류
-                        </div>
-                        <ul>
-                            <li><input name="mid_no" type="radio" class="radio-btn form-check-input" />식품</li>
-                            <li><input name="mid_no" type="radio" class="radio-btn form-check-input" />식품</li>
-                            <li><input name="mid_no" type="radio" class="radio-btn form-check-input" />식품</li>
-                        </ul>
-                    </div>
-                    <div class="small-category category-detail">
-                        <div class="category-detail-title">
-                            소분류
-                        </div>
-                        <ul>
-                            <li><input name="sml_no" type="radio" class="radio-btn form-check-input" />식품</li>
-                            <li><input name="sml_no" type="radio" class="radio-btn form-check-input" />식품</li>
-                            <li><input name="sml_no" type="radio" class="radio-btn form-check-input" />식품</li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="item-list-box">
                     <ul>
-                        <li><input type="hidden" name="itme_cd" />
-                            <span class="item_nm">d</span>
-                            <span class="item_cd">(12345)</span>
-                        </li>
-                        <li><input type="hidden" name="itme_cd" />
-                            <span class="item_nm">d</span>
-                            <span class="item_cd">(12345)</span>
-                        </li>
-                        <li><input type="hidden" name="itme_cd" />
-                            <span class="item_nm">d</span>
-                            <span class="item_cd">(12345)</span>
-                        </li>
-                        <li><input type="hidden" name="itme_cd" />
-                            <span class="item_nm">d</span>
-                            <span class="item_cd">(12345)</span>
-                        </li>
                     </ul>
                 </div>
                 <div class="item-btn-list text-center">

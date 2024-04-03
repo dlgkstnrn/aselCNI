@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.aselcni.kph.dao.KphReturnDao;
 import com.aselcni.kph.model.KphCustMst;
+import com.aselcni.kph.model.KphItemMst;
+import com.aselcni.kph.model.KphOutItem;
 import com.aselcni.kph.model.KphTypeBig;
+import com.aselcni.kph.model.KphTypeMid;
+import com.aselcni.kph.model.KphTypeSml;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,29 +19,10 @@ import lombok.RequiredArgsConstructor;
 public class KphReturnServiceImp implements KphReturnService {
 
 	private final KphReturnDao kphReturnDao;
-
+	
 	@Override
-	public boolean isOutItem(String outitem_no) {
-		boolean isOutItem = false;
-		
-		int countOutItem = kphReturnDao.countOutItemByOutItemNo(outitem_no);
-		
-		if(countOutItem > 0) {
-			isOutItem = true;
-		}
-		
-		return isOutItem;
-	}
-
-	@Override
-	public List<KphCustMst> getCustList(KphCustMst cust) {
-		List<KphCustMst> custList = kphReturnDao.getCustList(cust);
-		return custList;
-	}
-
-	@Override
-	public List<KphTypeBig> getTypeBigList() {
-		return kphReturnDao.getTypeBigList();
+	public List<KphOutItem> outItemList(KphOutItem kphOutItem) {
+		return kphReturnDao.outItemList(kphOutItem);
 	}
 	
 }

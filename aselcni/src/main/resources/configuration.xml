@@ -10,5 +10,6 @@
 		<typeAlias alias="KphTypeBig" type="com.aselcni.kph.model.KphTypeBig"/>
 		<typeAlias alias="KphTypeMid" type="com.aselcni.kph.model.KphTypeMid"/>
 		<typeAlias alias="KphTypeSml" type="com.aselcni.kph.model.KphTypeSml"/>
+		<typeAlias alias="KphItemMst" type="com.aselcni.kph.model.KphItemMst"/>
 	</typeAliases>
 </configuration>

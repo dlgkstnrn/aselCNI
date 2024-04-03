@@ -18,4 +18,9 @@ public class KphOutItem {
 	private String outitem_update;
 	private int outitem_delete_chk;
 	
+	// 조회용
+	private String keyword;
+	private String searchFilter;
+	private String dateSearchFilter;
+	
 }

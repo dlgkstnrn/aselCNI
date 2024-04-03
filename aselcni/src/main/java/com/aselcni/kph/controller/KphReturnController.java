@@ -2,11 +2,16 @@ package com.aselcni.kph.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.aselcni.kph.model.KphCustMst;
+import com.aselcni.kph.model.KphItemMst;
+import com.aselcni.kph.model.KphOutItem;
 import com.aselcni.kph.model.KphTypeBig;
+import com.aselcni.kph.model.KphTypeMid;
+import com.aselcni.kph.model.KphTypeSml;
 import com.aselcni.kph.service.KphPaging;
 import com.aselcni.kph.service.KphReturnService;
 import com.aselcni.main.model.UserMst;
@@ -56,35 +61,18 @@ public class KphReturnController {
 		}
 		
 		if(user_comm_code == 10030) {
-			List<KphTypeBig> typeBigList = kphReturnService.getTypeBigList();
-			model.addAttribute("typeBigList", typeBigList);
 			resultPage = "kph/returnAddForm"; 
 		}
 		
 		return resultPage;
 	}
 	
-	@GetMapping("/isOutItem")
-	@ResponseBody
-	public String isOutItem(@RequestParam(value = "outitem_no") String outitem_no , HttpSession session) {
-		System.out.println("KphReturnController isOutItem start...");
-		String response = "없음";
-		
-		boolean isOutItem = kphReturnService.isOutItem(outitem_no);
-		
-		if(isOutItem == true) {
-			response = "있음";
-		}
-		
-		return response;
+	@GetMapping("/outItemList")
+	public List<KphOutItem> outItemList(KphOutItem kphOutItem) {
+		System.out.println("KphReturnController outItemList start...");
+		List<KphOutItem> outItemList = kphReturnService.outItemList(kphOutItem);
+		return outItemList;
 	}
 	
-	@GetMapping("/getCustList")
-	@ResponseBody
-	public List<KphCustMst> getCustList(KphCustMst cust) {
-		System.out.println("KphReturnController getCustList start...");
-		List<KphCustMst> custList = kphReturnService.getCustList(cust);
-		return custList;
-	}
 	
 }

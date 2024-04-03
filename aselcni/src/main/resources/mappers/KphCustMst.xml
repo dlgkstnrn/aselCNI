@@ -2,14 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.KphCustMstMapper">
 					
-	<select id="KphGetCustList" parameterType="KphCustMst" resultType="KphCustMst">
-		SELECT *
-		FROM TB_CUSTMST
-		WHERE BIZ_FLAG = 2
-			AND CUST_DELETE_CHK = 0
-			<if test="keyword != null">
-				AND CUST_NM LIKE '%' + #{keyword} + '%'
-			</if>
-	</select>
-	
 </mapper>
