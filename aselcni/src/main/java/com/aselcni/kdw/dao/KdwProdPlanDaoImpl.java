@@ -25,7 +25,7 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 		List<TB_PRODPLAN> prodPlanList = null;
 		try {
 			prodPlanList = session.selectList("kdwProdPlanList");
-			System.out.println("KdwProdPlanDaoImpl getProdPlanList prodPlanList.size()" + prodPlanList.size());
+			System.out.println("KdwProdPlanDaoImpl getProdPlanList prodPlanList.size(): " + prodPlanList.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("KdwProdPlanDaoImpl getProdPlanList e.getMessage(): " + e.getMessage());
