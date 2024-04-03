@@ -50,6 +50,12 @@ body {
 	background-color: #76818d;
 	border: 1px solid #76818d;
 }
+/* 색상 변경 */
+.colorPicker-btn {
+	font-size: 14px;
+	font-weight: 700;
+	padding: 8px;
+}
 /* =========== End 버튼 ============ */
 
 /* ============= 캘린더 ============= */
@@ -61,15 +67,13 @@ body {
 	border-bottom: 1px solid #ced4da;
 }
 
-.fc-col-header-cell.fc-day.fc-day-sun .fc-col-header-cell-cushion{
+/* 일요일 빨간색 */
+.fc-day-sun a {
 	color: red !important;
 }
-/* 날짜 셀의 일요일에 해당하는 부분을 빨간색으로 변경 */
-.fc-daygrid-day.fc-day-sun .fc-daygrid-day-number {
-    color: red !important;
-}
-.fc-scroller {
-  overflow: auto !important;
+/* 토요일 파란색 */
+.fc-day-sat a {
+	color: blue;
 }
 /* 캘린더 타이틀 텍스트 (생산계획표)*/
 .form-container .calendar-group-title .calendar-group-title-text {
@@ -87,35 +91,113 @@ body {
 /* Main 캘린더 */
 .calendar-group #calendar {
 	margin-top: 30px;
+	width: 100%;
+	height: 100%;
+}
+
+.fc-scroller {
+	overflow-y: auto !important;
+	overflow-x: auto !important;
+}
+
+.fc-scrollgrid-sync-table {
 	width: 800px;
 	height: 600px;
 }
+
 .fc-col-header-cell-cushion {
-	color: #0d6efd;
+	color: black;
 }
 
 .fc-daygrid-day-number {
-	color: #0d6efd;
+	color: black;
 }
 /* 캘린더 막대 css */
 .fc-event-title-container {
-    margin-left: 10px;
-    height: 20px; /* 이벤트 막대 높이 조정 */
+	margin-left: 10px;
+	height: 20px; /* 이벤트 막대 높이 조정 */
 	font-size: 12px; /* 이벤트 제목 글꼴 크기 조정 */
 }
+
 .event-title {
-    margin-left: 1px;
-    position: relative;
+	margin-left: 1px;
+	position: relative;
 }
 
 .colorPicker-group {
 	position: relative;
 	top: 30px;
-	margin-left: 530px;
+	margin-left: 550px;
 	width: 95px;
 }
-.selected-event-shadow {
-    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.5) !important;
+/* 막대 호버시 툴팁창 */
+.event-tooltip {
+	width: auto;
+	max-width: 300px;
+	height: auto;
+	background-color: rgba(0, 0, 0, 0.7);
+	border: 2px solid #0d6efd;
+	border-radius: 5px;
+	padding: 15px;
+	font-weight: 500; color : white;
+	z-index: 999;
+	overflow: hidden; /* 텍스트가 넘칠 경우 숨김 처리 */
+	white-space: nowrap;
+	color: white; /* 텍스트가 한 줄로 유지되도록 함 */
+}
+
+.event-tooltip p {
+	margin: 0; /* 문단 간격 제거 */
+	margin-bottom: 5px; /* 문단 아래 여백 */
+	text-overflow: ellipsis; /* 넘치는 텍스트에 대해 "..."으로 대체 */
+	overflow: hidden;
+	font-size: 14px !important;
+}
+
+.tooltip-title {
+	margin-bottom: 5px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #5598f4;
+}
+
+.tooltip-section-title {
+	color: #5598f4;
+	font-size: 15px;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+
+.prod-info {
+	border: 1px solid #5598f4;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.material-info {
+	border: 1px solid #5598f4;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 5px;
+}
+/* 툴팁 스위치 온오프 */
+.tooltip-switch-container {
+	position: absolute;
+	height: 70px;
+	margin-left: 500px;
+	margin-top: -20px;
+}
+.form-check-label {
+	margin-left: -35px;
+	margin-top: 10px;
+	color: black;
+	font-weight: 600;
+	font-size: 14px;
+}
+.form-check-input {
+	margin-top: 30px;
+	width: 40px !important;
+	height: 20px !important;
 }
 /* =========== End 캘린더 =========== */
 
@@ -356,9 +438,11 @@ body {
 .prodPlanItemCount {
 	margin-left: -10px;
 }
+
 .prodPlanItemCountLabel {
 	font-weight: 600;
 }
+
 .prodPlanItemCountInput {
 	margin-top: -6px;
 }
@@ -366,15 +450,17 @@ body {
 .prodPlanItemTotalPrice {
 	margin-left: -270px;
 }
+
 .prodPlanItemTotalPriceLabel {
 	font-weight: 600;
 }
+
 .prodPlanItemTotalPriceInput {
 	margin-top: -6px;
 }
 /* 리스트 체크박스 */
 .checkbox-center {
-    text-align: left;
+	text-align: left;
 }
 /* 분류 셀렉트박스 */
 .select2-dropdown {

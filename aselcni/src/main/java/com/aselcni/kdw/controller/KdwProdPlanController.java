@@ -45,8 +45,8 @@ public class KdwProdPlanController {
 	    List<TB_PRODPLAN> prodPlans = kdwProdPlanService.getProdPlanList();
 	    List<TB_ITEM_PROD> prodItems = kdwProdPlanService.getProdItemList();
 	    Map<String, Object> responseProdPlans = new HashMap<>();
-	    responseProdPlans.put("prodPlans", prodPlans);
-	    responseProdPlans.put("prodItems", prodItems);
+	    responseProdPlans.put("prodPlans", prodPlans); // 제품정보
+	    responseProdPlans.put("prodItems", prodItems); // 자재정보
 	    return responseProdPlans;
 	}
 }

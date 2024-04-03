@@ -48,10 +48,9 @@
 <script defer src="assets/js/main.js"></script>
 <script src="https://kit.fontawesome.com/0b22ed6a9d.js"
 	crossorigin="anonymous"></script>
-
-
-<!-- KDW Main CSS,JS,Script -->
+<!-- 풀캘린더 API -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<!-- KDW Main CSS,JS,Script -->
 <script src="assets/js/kdw/kdwProductionPlanning.js"></script>
 <link href="assets/css/kdw/kdwProductionPlanning.css" rel="stylesheet">
 </head>
@@ -409,9 +408,13 @@
 							<div id="colorPickerDialog" title="색상 선택">
 								<input type="color" id="eventColorPicker">
 							</div>
-							<button id="changeColorButton" class="btn btn-primary colorPicker-btn">색상 변경</button>
+							<button id="changeColorButton" class="btn btn-primary colorPicker-btn">색상변경</button>
 						</div>
-						
+						<!-- 스위치 토글 버튼 -->
+						<div class="form-check form-switch tooltip-switch-container">
+							<label class="form-check-label" for="flexSwitchCheckChecked">툴 팁</label>
+							<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> 
+						</div>
 						<!-- End Calendar -->
 						<!-- 주문내역 & 생산계획 리스트 -->
 						<div class="prodPlan-info">

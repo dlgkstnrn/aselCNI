@@ -1,8 +1,10 @@
 $(document).ready(function() {
 	// ========== 캘린더 ==========
-	var selectedEventId = null; // 선택된 이벤트 ID 저장
-	var eventColors = {}; // 이벤트 ID를 키로, 색상을 값으로 저장하는 객체
-
+	var selectedEventId = null;
+	var eventColors = {};
+	var responseProdPlans;
+	var isTooltipEnabled = true; // 툴팁 기본 활성상태
+	
 	var calendarEl = document.getElementById('calendar');
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialView: 'dayGridMonth',
@@ -10,10 +12,11 @@ $(document).ready(function() {
 		locale: 'ko',
 		events: function(fetchInfo, successCallback, failureCallback) {
 			$.ajax({
-				url: 'prodplanCalenderList', // 이벤트 데이터를 가져오는 URL
+				url: 'prodplanCalenderList',
 				type: 'GET',
 				dataType: 'json',
 				success: function(response) {
+					responseProdPlans = response;
 					var events = response.prodPlans.map(function(plan) {
 						return {
 							id: plan.prodPlan_no,
@@ -34,40 +37,133 @@ $(document).ready(function() {
 			});
 		},
 		eventClick: function(info) {
-			selectedEventId = info.event.id;
-			// 이벤트 선택 시, 빨간 테두리 적용
-			calendar.getEvents().forEach(function(event) {
-				if (event.id === selectedEventId) {
-					event.setProp('borderColor', 'black');
-				} else {
-					event.setProp('borderColor', 'transparent');
-				}
-				$(event.el).removeClass('selected-event-shadow');
-				if (event.id === selectedEventId) {
-					$(event.el).addClass('selected-event-shadow');
-				}
-			});
+			if (selectedEventId === info.event.id) {
+				selectedEventId = null; // 클릭 상태 해제
+			} else {
+				selectedEventId = info.event.id;
+			}
+			calendar.refetchEvents();
 		},
 		eventDidMount: function(info) {
-			// 이미 변경된 색상이 있으면 적용
 			if (eventColors[info.event.id]) {
 				$(info.el).css('background-color', eventColors[info.event.id]);
 				$(info.el).css('border-color', eventColors[info.event.id]);
 			}
+			if (info.event.id === selectedEventId) {
+				info.el.style.fontWeight = 'bold';
+				info.el.style.border = '2px solid black';
+			}
+		},
+		eventMouseEnter: function(info) {
+			// 툴팁이 비활성화되어 있으면 아무 것도 하지 않음
+			if (!isTooltipEnabled) {
+				return;
+			}
+			// 기존 툴팁 제거
+			$('.event-tooltip').remove();
+
+			var event = info.event;
+			var prodPlanCode = event.id;
+
+			var prodPlan = responseProdPlans.prodPlans.find(function(plan) {
+				return plan.prodPlan_no === prodPlanCode;
+			});
+
+			var prodItems = responseProdPlans.prodItems.filter(function(item) {
+				return item.prodPlan_no === prodPlanCode;
+			});
+
+			// 자재 정보가 최대 두 개까지만 표시되도록 조정
+			var displayedProdItems = prodItems.slice(0, 2);
+			var moreItemsText = prodItems.length > 2 ? `<p>그 외 ${prodItems.length - 2}개의 자재...</p>` : '';
+
+			// 자재 합계 금액 계산 (전체 자재에 대한 합계)
+			var totalMaterialCost = prodItems.reduce((total, item) => total + (item.in_qty * item.item_cost), 0);
+
+			var eventInfo = `
+			  <div>
+			    <div class="tooltip-title">[ 생산 계획 ]</div>
+			    <p>주문 번호: ${prodPlan.order_no}</p>
+			    <p>생산계획코드: ${prodPlan.prodPlan_no}[${prodPlan.seq_no}]</p>
+			    <p>시작 일자: ${prodPlan.prodPlan_dt}</p>
+			    <p>완료 일자: ${prodPlan.prodPlan_end_dt}</p>
+			    <p>작업 일수: ${prodPlan.work_dt} 일</p>
+			    <p>비고: ${prodPlan.remark}</p>
+			    <li class="tooltip-section-title">제 품</li>
+			    <div class="prod-info">
+				    <p>제품 코드: ${prodPlan.item_cd}</p>
+				    <p>제품 명: ${prodPlan.item_nm}</p>
+				    <p>제품 수량: ${prodPlan.qty} 개</p>
+				    <p>제품 단가: ${prodPlan.item_cost} 원</p>
+			    </div><p>
+			    <p>제품 합계 금액: ${prodPlan.qty * prodPlan.item_cost} 원</p>
+			    <li class="tooltip-section-title">투입 자재</li>
+		        ${displayedProdItems.map(item => `
+		          <div class="material-info">
+		            <p>자재 코드: ${item.item_cd}</p>
+		            <p>자재 명: ${item.item_nm}</p>
+		            <p>자재 수량: ${item.in_qty} 개</p>
+		            <p>자재 단가: ${item.item_cost} 원</p>
+		            <p>자재 금액: ${item.in_qty * item.item_cost} 원</p>
+		          </div>
+		        `).join('')}
+		        ${moreItemsText}
+		        <p>자재 합계 금액: ${totalMaterialCost} 원</p>
+			  </div>
+			`;
+
+			// 툴팁 위치 계산 및 생성 코드
+			var initialTopPosition = info.el.getBoundingClientRect().top + window.scrollY - 300;
+			var initialLeftPosition = info.el.getBoundingClientRect().right + window.scrollX + 2;
+
+			var tooltip = document.createElement('div');
+			tooltip.classList.add('event-tooltip');
+			tooltip.style.position = 'absolute';
+			tooltip.innerHTML = eventInfo;
+
+			// 툴팁을 문서에 추가하기 전에 초기 위치 설정
+			tooltip.style.top = initialTopPosition + 'px';
+			tooltip.style.left = initialLeftPosition + 'px';
+
+			// 툴팁을 문서에 추가
+			document.body.appendChild(tooltip);
+
+			// 추가된 툴팁의 크기와 위치를 계산
+			var tooltipRect = tooltip.getBoundingClientRect();
+
+			// 화면의 너비와 높이를 사용하여 경계를 체크
+			if (tooltipRect.bottom > window.innerHeight && tooltipRect.top < window.scrollY) {
+				// 화면 상하 중앙에 위치시키기
+				tooltip.style.top = (window.scrollY + (window.innerHeight - tooltipRect.height) / 2) + 'px';
+			} else {
+				if (tooltipRect.bottom > window.innerHeight) {
+					// 화면 하단으로 넘어가는 경우, 위로 이동
+					tooltip.style.top = (window.innerHeight - tooltipRect.height - 20) + 'px';
+				}
+				if (tooltipRect.top < window.scrollY) {
+					// 화면 상단으로 넘어가는 경우, 아래로 이동
+					tooltip.style.top = (window.scrollY + 50) + 'px';
+				}
+			}
+		},
+		eventMouseLeave: function(info) {
+			// 툴팁이 비활성화되어 있으면 아무 것도 하지 않음
+			if (!isTooltipEnabled) {
+				return;
+			}
+			$('.event-tooltip').remove(); // 툴팁 제거
 		}
 	});
 
 	calendar.render();
 
-	// 랜덤 색상을 생성하는 함수
-	function getRandomColor() {
-		var letters = '0123456789ABCDEF';
-		var color = '#';
-		for (var i = 0; i < 6; i++) {
-			color += letters[Math.floor(Math.random() * 16)];
+	$('#flexSwitchCheckChecked').change(function() {
+		isTooltipEnabled = $(this).is(':checked');
+		if (!isTooltipEnabled) {
+			// 툴팁이 비활성화되면 모든 툴팁 제거
+			$('.event-tooltip').remove();
 		}
-		return color;
-	}
+	});
 
 	// 색상 변경 대화상자 초기화
 	$("#colorPickerDialog").dialog({
