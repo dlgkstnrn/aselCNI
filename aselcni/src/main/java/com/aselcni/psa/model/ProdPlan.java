@@ -11,8 +11,12 @@ public class ProdPlan {
 	
 	// 생산계획번호 (Foreign Key)
 	private String prodplan_no;
+	// 순번
+	private Integer seq_no;
 	// 생산시작일자
 	private String prodplan_dt;
+	// 생산계획완료일자
+	private String prodplan_end_dt;
 	// 품목CD(제품코드) (Foreign Key)
 	private String item_cd;
 	// 생산수량

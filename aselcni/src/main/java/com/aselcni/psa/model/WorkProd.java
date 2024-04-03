@@ -1,5 +1,7 @@
 package com.aselcni.psa.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -14,7 +16,7 @@ public class WorkProd {
 	// TB_WORKPROD
 	
 	// 생산지시번호 (Primary Key)
-	// PK 규칙 : WPR + 날짜 6글자 + 날짜 기준 count 4글자
+	// PK 규칙 : WPR + 날짜 8글자 + 날짜 기준 count 3글자
 	private String workprod_no;
 	// 품목CD(제품코드) (Foreign Key)
 	private String item_cd;
@@ -52,12 +54,20 @@ public class WorkProd {
 	// 2. 생산지시 투입품 테이블
 	// TB_WORK_ITEM
 	
+//	private List<WorkItem> workItems;
+	
+	// 조회용
+	// 투입품명
+	private String in_item_nm;
+	
 	// 투입수량
 	private Integer in_qty;
 	
 	
 	// 3. 생산지시 공정 테이블
 	// TB_WORK_PROC
+	
+//	private List<WorkProc> workProcs;
 	
 	// 공정CD
 	private String proc_cd;

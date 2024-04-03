@@ -80,30 +80,33 @@ pageEncoding="UTF-8"%>
           <!-- 등록된 생산계획 리스트 -->
           <div class="card-body border border-black border-opacity-50">
             <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산계획내역</h5>
-            <table class="table table-hover p-2 text-center">
+            <table class="table table-hover p-2 text-center" id="prodplanTB">
 
               <thead class="p-2">
                 <tr>
-                  <th scope="col">#</th>
+                  <!-- <th scope="col">#</th> -->
                   <th scope="col">생산계획번호</th>
+                  <th scope="col">동일 계획번호 내 순번</th>
                   <th scope="col">제품명</th>
                   <th scope="col">생산수량</th>
                   <th scope="col">작업일수</th>
                 </tr>
               </thead>
 
-              <c:forEach var="planList" varStatus="planStat" items="${planList}">
-                <tbody class="p-2">
+              <tbody class="p-2">
+                <c:forEach var="planList" varStatus="planStat" items="${planList}">
+
                   <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
-                  <tr data-bs-toggle="modal" data-bs-target="#prodplan">
-                    <th scope="row">${planStat.count}</th>
-                    <td>${planList.prodplan_no}</td>
+                  <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}">
+                    <!-- <th scope="row">${planStat.count}</th> -->
+                    <th scope="row">${planList.prodplan_no}</th>
+                    <td>${planList.seq_no}</td>
                     <td>${planList.item_nm}</td>
                     <td>${planList.qty}</td>
                     <td>${planList.work_dt}</td>
                   </tr>
-                </tbody>
-              </c:forEach>
+                </c:forEach>
+              </tbody>
 
             </table>
           </div>
@@ -111,56 +114,44 @@ pageEncoding="UTF-8"%>
           <!-- 등록된 생산지시 리스트 -->
           <div class="card-body border border-black border-opacity-50">
             <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산지시내역</h5>
-            <table class="table table-hover p-2 text-center">
+            <table class="table table-hover p-2 text-center" id="workprodTB">
 
               <thead class="p-2">
                 <tr>
                   <th scope="col">생산지시번호</th>
-                  <th scope="col">순번</th>
+                  <th scope="col">동일 지시번호 내 순번</th>
                   <th scope="col">제품명</th>
                   <th scope="col">생산수량</th>
                   <th scope="col">작업일수</th>
                 </tr>
               </thead>
 
-              <c:forEach var="workList" varStatus="workStat" items="${workList}">
-                <tbody class="p-2">
+              <tbody class="p-2">
+                <c:forEach var="workList" varStatus="workStat" items="${workList}">
+
                   <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
-                  <tr data-bs-toggle="modal" data-bs-target="#workprod">
-                  <!-- <tr data-bs-toggle="modal" data-bs-target="#workprod" onclick="fnWorkProdModalInfo('${workList.workprod_no}')"> -->
-                    <!-- WorkProdModal Button : a tag-->
-                    <!-- <tr onclick="fnWorkProdModalInfo('${workList.workprod_no}')"> -->
-                      <!-- <a href="WorkProdModal.jsp?workprod_no=${workList.workprod_no}" onclick="fnWorkProdModalInfo('${workList.workprod_no}')"> -->
-                      <!-- <a onclick="fnWorkProdModalInfo('${workList.workprod_no}')"> -->
-                        <th scope="row">${workList.workprod_no}</th>
-                        <td>${workList.seq_no}</td>
-                        <td>${workList.item_nm}</td>
-                        <td>${workList.qty}</td>
-                        <td>${workList.work_dt}</td>
-                      <!-- </a> -->
-                    <!-- </tr> -->
+                  <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" >
+                    <th scope="row">${workList.workprod_no}</th>
+                    <td>${workList.seq_no}</td>
+                    <td>${workList.item_nm}</td>
+                    <td>${workList.qty}</td>
+                    <td>${workList.work_dt}</td>
                   </tr>
-                </tbody>
-              </c:forEach>
+                </c:forEach>
+              </tbody>
 
             </table>
           </div>
 
         </div>
 
-        <script>
-          function fnWorkProdModalInfo(str) {
-            $('#workprod .modal-content').load("WorkProdModal?workprod_no=" + str);
-            $('#workprod').modal();
-          }
-        </script>
 
 
 
-        <!-- Modal -->
+
+        <!-- Modal 3개 -->
 
         <!-- 1. 생산지시 등록 모달 -->
-        <!-- Vertically centered Modal -->
         <div class="modal fade" id="prodplan" tabindex="-1" aria-hidden="true" style="display: none">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -172,7 +163,7 @@ pageEncoding="UTF-8"%>
               </div>
 
               <!-- 모달 내용 작성부분 -->
-              <!-- Horizontal Form -->
+              <!-- Form -->
               <form action="workprodInsert">
                 <div class="modal-body">
 
@@ -180,8 +171,8 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3 d-flex">
                     <label class="col-sm-3 col-form-label">지시 담당자</label>
                     <div class="col-sm-9">
-                      <input type="hidden" class="form-control" name="${prodplan_emp_id}" readonly/>
-                      <input type="text" class="form-control" value="${user_nm}" readonly/>
+                      <input type="hidden" class="form-control" id="prodplan_emp_id" name="${prodplan_emp_id}" readonly/>
+                      <input type="text" class="form-control" id="prp_user_nm" readonly/>
                     </div>
                   </div>
 
@@ -189,7 +180,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3 d-flex">
                     <label class="col-sm-3 col-form-label">생산계획번호</label>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" name="${prodplan_no}" readonly/>
+                      <input type="text" class="form-control" id="prodplan_no" name="${prodplan_no}" readonly/>
                     </div>
                   </div>
 
@@ -197,7 +188,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="workprod_dt" class="col-sm-3 col-form-label">생산시작일자</label>
                     <div class="col-sm-9">
-                      <input type="date" class="form-control" name="workprod_dt"/>
+                      <input type="date" class="form-control" id="prp_prodplan_dt" name="prodplan_dt"/>
                     </div>
                   </div>
 
@@ -207,13 +198,13 @@ pageEncoding="UTF-8"%>
                     <div class="d-flex justify-content-between col-sm-9">
                       <!-- 제품명 -->
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" name="item_nm" readonly/>
+                        <input type="text" class="form-control" id="prp_item_nm" name="item_nm" readonly/>
                       </div>
                       <!-- 제품 생산수량 -->
                       <div class="d-flex mb-3">
                         <label for="qty" class="col-sm-3 col-form-label">생산수량</label>
                         <div class="col-sm-3 mx-2">
-                          <input type="number" class="form-control" name="qty" />
+                          <input type="number" class="form-control" id="prp_qty" name="qty" />
                         </div>
                       </div>
                     </div>
@@ -223,7 +214,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">공정</label>
                     <div class="col-sm-9">
-                      <select name="proc_nm" id="" class="form-select" aria-label="Default select example">
+                      <select name="proc_nm" id="proc_nm" class="form-select" aria-label="Default select example">
                         <option selected>적용할 공정을 선택하세요.</option>
                         <option value="1">반죽</option>
                         <option value="2">튀김</option>
@@ -236,58 +227,45 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">투입품</label>
 
+                    <!-- 중첩모달 띄우는 버튼 -->
                     <div class="col-sm-9 mb-3">
-                      <!-- 중첩모달 띄우는 버튼 -->
-                      <!-- Vertically centered Modal -->
                       <button type="button" class="btn btn-outline-success mb-3" 
                         id="btn-submit"
                         data-bs-toggle="modal"
                         data-bs-target="#addItem">투입품 추가</button>
-
-                      <!-- 선택된 투입품 리스트 -->
-                      <div class="card-body">
-                        <h5 class="card-title mb-2">선택한 투입품 목록</h5>
-                      
-                        <!-- List group with custom content -->
-                        <ol class="list-group list-group-numbered">
-                          <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                              <div class="fw-bold">품목명</div>
-                              품목CD
-                            </div>
-                            <!-- 투입수량 -->
-                            <div class="d-flex">
-                              <label for="qty" class="col-sm-3 col-form-label">투입수량</label>
-                              <div class="col-sm-3 mx-2">
-                                <input type="number" class="form-control" id="qty" />
-                              </div>
-                            </div>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                              <div class="fw-bold">${item_nm}</div>
-                              ${item_cd}
-                            </div>
-                            <span class="badge bg-primary rounded-pill">${in_qty}</span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                              <div class="fw-bold">포장지</div>
-                              CD042516
-                            </div>
-                            <span class="badge bg-primary rounded-pill">55</span>
-                          </li>
-                        </ol><!-- End with custom content -->
-                      
-                      </div>
                     </div>
+
+                    <!-- 선택된 투입품 리스트 테이블 -->
+                    <div class="card-body mb-3">
+                      <h5 class="card-title mb-2">선택한 투입품 목록</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">품목코드</th>
+                            <th scope="col">품목명</th>
+                            <th scope="col">투입수량</th>
+                          </tr>
+                        </thead>
+                        <tbody id="prp_item_tbody">
+                          <tr id="prp_item_tr">
+                            <th scope="row"></th>
+                            <td></td>
+                            <td></td>
+                            <td><input type="number" class="form-control" id="in_qty"/></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                      
                   </div>
+                  
                   
                   <!-- 작업일수 -->
                   <div class="row mb-3">
                     <label for="work_dt" class="col-sm-3 col-form-label">작업일수</label>
                     <div class="col-sm-9">
-                      <input type="number" class="form-control" id="work_dt"/>
+                      <input type="number" id="prp_work_dt" class="form-control"/>
                     </div>
                   </div>
 
@@ -295,7 +273,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="work_cmd" class="col-sm-6 col-form-label">작업시 주의사항</label>
                     <div class="col-sm-12">
-                      <textarea name="work_cmd" id="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
+                      <textarea name="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
                     </div>
                   </div>
 
@@ -303,7 +281,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="remark" class="col-sm-3 col-form-label">비고</label>
                     <div class="col-sm-12">
-                      <textarea name="remark" id="remark" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
+                      <textarea id="prp_remark" name="remark" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
                     </div>
                   </div>
                 </div>
@@ -316,12 +294,12 @@ pageEncoding="UTF-8"%>
                 </div>
 
               </form>
-              <!-- End Horizontal Form -->
+              <!-- End Form -->
+
             </div>
           </div>
         </div>
         <!-- 생산지시 등록 모달 끝 -->
-        <!-- End Vertically centered Modal -->
 
 
 
@@ -432,11 +410,140 @@ pageEncoding="UTF-8"%>
 
 
         <!-- 3. 생산지시내역 조회 모달 -->
-        <div class="modal fade" id="workprod" tabindex="-1" role="dialog" aria-labelledby="WorkProdModal" aria-hidden="true" style="display: none">
+        <div class="modal fade" id="workprod" tabindex="-1" aria-hidden="true" style="display: none">
           
-          <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
+
               <!-- WorkProdModal.jsp 호출 -->
+
+              <!-- 3. 생산지시내역 조회 모달 내용 -->
+              <div class="modal-header">
+                  <h5 class="modal-title">생산지시내역</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <div class="modal-body">
+
+                  <!-- 생산지시 담당자 -->
+                  <div class="row mb-3 d-flex">
+                    <label class="col-sm-3 col-form-label">지시 담당자명</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="user_nm" disabled/>
+                    </div>
+                  </div>
+
+                  <!-- 생산지시번호 -->
+                  <div class="row mb-3 d-flex">
+                    <label class="col-sm-3 col-form-label">생산지시번호</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="workprod_no" disabled/>
+                    </div>
+                  </div>
+
+                  <!-- 생산시작일자 -->
+                  <div class="row mb-3">
+                    <label for="workprod_dt" class="col-sm-3 col-form-label">생산시작일자</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="workprod_dt" disabled/>
+                    </div>
+                  </div>
+
+                  <!-- 제품 -->
+                  <div class="row mb-3">
+                    <!-- 제품명 -->
+                    <label for="item_nm" class="col-sm-3 col-form-label">제품명</label>
+                    <div class="d-flex justify-content-between col-sm-9">
+                      <div class="col-sm-5">
+                        <input type="text" class="form-control" id="item_nm" disabled/>
+                      </div>
+                      <!-- 제품 생산수량 -->
+                      <div class="d-flex mb-3">
+                        <label for="qty" class="col-sm-3 col-form-label">생산수량</label>
+                        <div class="col-sm-4 mx-2">
+                          <input type="text" class="form-control" id="qty" disabled/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 공정 -->
+                  <div class="card-body mb-3">
+                    <h5 class="card-title">등록된 공정 목록</h5>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">공정코드</th>
+                          <th scope="col">공정명</th>
+                        </tr>
+                      </thead>
+                      <tbody id="proc_tbody">
+                        <tr id="proc_tr">
+                          <th scope="row"></th>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                
+                  <!-- 투입품 -->
+                  <div class="card-body mb-3">
+                    <h5 class="card-title">투입품 목록</h5>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">품목코드</th>
+                          <th scope="col">품목명</th>
+                          <th scope="col">투입수량</th>
+                        </tr>
+                      </thead>
+                      <tbody id="in_item_tbody">
+                        <tr id="in_item_tr">
+                          <th scope="row"></th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                
+                  <!-- 작업일수 -->
+                  <div class="row mb-3">
+                    <label for="work_dt" class="col-sm-3 col-form-label">작업일수</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="work_dt" disabled/>
+                    </div>
+                  </div>
+
+                  <!-- 작업시 주의사항 -->
+                  <div class="row mb-3">
+                    <label for="work_cmd" class="col-sm-6 col-form-label">작업시 주의사항</label>
+                    <div class="col-sm-12">
+                      <textarea id="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px" disabled>
+                      </textarea>
+                    </div>
+                  </div>
+
+                  <!-- 비고 -->
+                  <div class="row mb-3">
+                    <label for="remark" class="col-sm-3 col-form-label">비고</label>
+                    <div class="col-sm-12">
+                      <textarea id="remark" cols="30" rows="10" class="form-control" style="height: 100px" disabled>
+                      </textarea>
+                    </div>
+                  </div>
+              </div>
+              <!-- End modal-body -->
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+              </div>
+              <!-- End modal-footer -->
+
             </div>
           </div>
         </div>
@@ -447,6 +554,157 @@ pageEncoding="UTF-8"%>
     </main>
     <!-- End #main -->
 
+    <script>
+
+      // 생산계획내역 조회 모달 이벤트
+      // tr 클릭했을때 이벤트 발생
+      $('#prodplanTB tbody tr').click(function() {
+
+        let prodplan_emp_id = document.getElementById('prodplan_emp_id');
+        let prp_user_nm = document.getElementById('prp_user_nm');
+        let prodplan_no = document.getElementById('prodplan_no');
+        let prp_prodplan_dt = document.getElementById('prp_prodplan_dt');
+        let prp_item_nm = document.getElementById('prp_item_nm');
+        let prp_qty = document.getElementById('prp_qty');
+        let prp_work_dt = document.getElementById('prp_work_dt');
+        let prp_remark = document.getElementById('prp_remark');
+
+        // 공정 select box
+        let proc_nm = document.getElementById('proc_nm');
+
+        // 투입품
+        let in_item_nm = document.getElementById('in_item_nm');
+        let in_item_cd = document.getElementById('in_item_cd');
+        let in_qty = document.getElementById('in_qty');
+
+        const prpParam = {
+          prodplan_no : $(this).data().index
+        }
+
+        console.log(prpParam);
+
+        // ajax 1
+        // 생산계획번호별 상세내용 조회 (공정, 투입품 제외)
+        $.ajax({
+          url: "prpInfoModal",
+          type: 'post',
+          data: JSON.stringify(prpParam),
+          contentType: 'application/json; charset=utf-8',
+          success: function(result) {
+            console.log(result);
+
+            prodplan_emp_id.value = result.prodplan_emp_id;
+            prp_user_nm.value = result.user_nm;
+            prodplan_no.value = result.prodplan_no;
+            prp_prodplan_dt.value = result.prodplan_dt;
+            prp_item_nm.value = result.item_nm;
+            prp_qty.value = result.qty;
+            prp_work_dt.value = result.work_dt;
+            prp_remark.value = result.remark;
+          }
+        });
+
+        // ajax 2 ?? 공정???
+
+        // ajax 3
+        // 생산계획에서 등록해둔 투입품 리스트 조회
+      });
+
+
+     
+      // 생산지시내역 조회 모달 이벤트
+      // tr 클릭했을때 이벤트 발생
+      $('#workprodTB tbody tr').click(function() {
+
+        let user_nm = document.getElementById('user_nm');
+        let workprod_no = document.getElementById('workprod_no');
+        let workprod_dt = document.getElementById('workprod_dt');
+        let item_nm = document.getElementById('item_nm');
+        let qty = document.getElementById('qty');
+        let work_dt = document.getElementById('work_dt');
+        let work_cmd = document.getElementById('work_cmd');
+        let remark = document.getElementById('remark');
+
+        const wprParam = {
+          workprod_no : $(this).data().index
+        }
+
+        console.log(wprParam);
+
+        // ajax 1
+        // 등록된 지시내역의 생산지시번호별 상세내용 조회 (공정, 투입품 제외)
+        $.ajax({
+          url: 'wprInfoModal',
+          type: 'POST',
+          data: JSON.stringify(wprParam),
+          contentType: 'application/json; charset=utf-8',
+          success : function(result) {
+            console.log(result);
+
+            user_nm.value = result.user_nm;
+            workprod_no.value = result.workprod_no;
+            workprod_dt.value = result.workprod_dt;
+            item_nm.value = result.item_nm;
+            qty.value = result.qty;
+            work_dt.value = result.work_dt;
+            work_cmd.value = result.work_cmd;
+            remark.value = result.remark;
+          }
+        });
+
+        // ajax 2
+	      // 등록된 지시내역의 생산지시번호별 공정 리스트 조회
+        $.ajax({
+          url: 'workProcList',
+          type: 'POST',
+          data: JSON.stringify(wprParam),
+          contentType: 'application/json; charset=utf-8',
+          success : function(result) {
+            console.log(result);
+
+            $("#proc_tr").each(function(index, element){
+
+              for(let i=0; i<result.length; i++) {
+
+                console.log(result[i]);
+
+                $('#proc_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
+                                        result[i].proc_cd+'</td><td>'+
+                                          result[i].proc_nm+'</td></tr>');
+
+              }
+            })
+          }
+        });
+
+        // ajax 3
+	      // 등록된 지시내역의 생산지시번호별 투입품 리스트 조회
+        $.ajax({
+          url: 'workItemList',
+          type: 'POST',
+          data: JSON.stringify(wprParam),
+          contentType: 'application/json; charset=utf-8',
+          success : function(result) {
+            console.log(result);
+
+            $("#in_item_tr").each(function(index, element){
+
+              for(let i=0; i<result.length; i++) {
+              
+                console.log(result[i]);
+              
+                $('#in_item_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
+                                          result[i].item_cd+'</td><td>'+
+                                            result[i].item_nm+'</td><td>'+
+                                              result[i].in_qty+'</td></tr>');
+                                      
+              }
+            })
+          }
+        });
+
+      });
+    </script>
     <!-- ======= Footer ======= -->
     <%@ include file="../footer.jsp" %>
     <!-- End Footer -->

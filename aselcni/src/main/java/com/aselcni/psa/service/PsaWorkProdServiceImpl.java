@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.aselcni.psa.dao.PsaWorkProdDao;
 import com.aselcni.psa.model.ProdPlan;
+import com.aselcni.psa.model.WorkItem;
+import com.aselcni.psa.model.WorkProc;
 import com.aselcni.psa.model.WorkProd;
 
 import lombok.RequiredArgsConstructor;
@@ -54,12 +56,13 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		return workList;
 	}
 
-	// 등록된 지시내역의 생산지시번호별 상세내용
+	// ajax 1
+	// 등록된 지시내역의 생산지시번호별 상세내용 조회
 	@Override
 	public WorkProd selectWorkProd(WorkProd insertedWorkProd) {
 
 		WorkProd selectedWorkProd = null;
-		System.out.println("psaService selectWorkProd Start!");
+//		System.out.println("psaService selectWorkProd Start!");
 		
 		try {
 			
@@ -71,6 +74,24 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		}
 		
 		return selectedWorkProd;
+	}
+
+	// ajax 2
+	// 등록된 지시내역의 생산지시번호별 공정 리스트 조회
+	@Override
+	public List<WorkProc> getWorkProcList(WorkProd workProd) {
+
+		List<WorkProc> workProcList = psaDao.getWorkProcList(workProd);
+		return workProcList;
+	}
+
+	// ajax 3
+	// 등록된 지시내역의 생산지시번호별 투입품 리스트 조회
+	@Override
+	public List<WorkItem> getWorkItemList(WorkProd workProd) {
+		
+		List<WorkItem> workItemList = psaDao.getWorkItemList(workProd);
+		return workItemList;
 	}
 
 }
