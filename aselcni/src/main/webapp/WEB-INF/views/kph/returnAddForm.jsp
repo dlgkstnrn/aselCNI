@@ -67,14 +67,14 @@
 						<p>출고번호</p>
 						<div class="outitem-box box">
 							<input name="outitem_no" type="text" class="box-input outitem-no form-control readonly" readonly />
-							<button id="is-outitem-btn" type="button" class="chk btn btn-secondary">출고 번호 조회</button>
+							<button id="outitem-choice-btn" type="button" class="chk btn btn-secondary">출고 번호 조회</button>
 						</div>
 						<p class="return-alert outitem-no-alert">출고 번호를 조회하세요</p>
 					</div>
 					<div>
 						<p>고객사</p>
-                        <input name="cust_cd" type="hidden" class="form-control" />
-						<input name="cust_nm" type="text" class="cust_cd form-control readonly" readonly />
+                        <input name="cust_cd" type="hidden" class="cust-cd form-control" />
+						<input name="cust_nm" type="text" class="cust-nm form-control readonly" readonly />
 						<p class="return-alert cust-cd-alert">출고 번호를 조회하세요</p>
 					</div>
 					<div>
@@ -85,19 +85,20 @@
 					<div>
 						<p>제품코드</p>
 						<div class="item-box box">
-							<input name="item_cd" type="text" class="box-input item_cd form-control readonly" readonly/>
+							<input name="item_cd" type="text" class="box-input item-cd form-control readonly" readonly/>
 							<button id="choose-item-btn" type="button" class="chk btn btn-secondary">제품 선택</button>
 						</div>
 						<p class="return-alert item-cd-alert">제품코드를 선택하세요</p>
 					</div>
-					<div class="item_nm">
+					<div class="item-nm-box">
 						<p>제품명</p>
 						<input name="item_nm" type="text" class="form-control readonly" readonly/>
 						<p class="return-alert item-cd-alert">제품코드를 선택하세요</p>
 					</div>
 					<div>
 						<p>반품수량</p>
-						<input name="qty" type="text" class="form-control" />
+						<input name="max_qty" type="hidden" class="max-qty form-control" value="0" />
+						<input name="qty" type="text" class="item_qty form-control readonly" readonly />
 						<p class="return-alert qty-alert">반품 수량을 입력하세요</p>
 					</div>
 					<div>

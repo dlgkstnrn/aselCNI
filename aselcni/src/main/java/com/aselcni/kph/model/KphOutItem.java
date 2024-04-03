@@ -12,7 +12,6 @@ public class KphOutItem {
 	private String cust_cd;
 	private String cust_emp;
 	private String item_cd;
-	private int outitem_qty;
 	private String remark;
 	private String outitem_emp_id;
 	private String outitem_update;
@@ -22,5 +21,7 @@ public class KphOutItem {
 	private String keyword;
 	private String searchFilter;
 	private String dateSearchFilter;
+	private String cust_nm;
+	private String user_nm;
 	
 }
