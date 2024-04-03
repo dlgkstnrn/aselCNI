@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class CSG_TB_TYPE_BIG {
 	
-	private int BIG_NO; //대분류번호 pk
+	private int big_no; //대분류번호 pk
 	
-	private String BIG_CONTENT; //대분류내용
+	private String big_content; //대분류내용
 	
 }

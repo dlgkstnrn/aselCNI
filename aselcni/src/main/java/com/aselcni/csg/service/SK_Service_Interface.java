@@ -11,5 +11,9 @@ public interface SK_Service_Interface {
 
 	List<CSG_TB_TYPE_BIG> findBigTypelist();
 
+	List<CSG_TB_TYPE_MID> CSG_MidType(CSG_TB_TYPE_MID csgMid);
+
+	List<CSG_TB_TYPE_SML> CSG_SmlType(CSG_TB_TYPE_SML csgSml);
+
 
 }

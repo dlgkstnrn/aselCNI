@@ -38,7 +38,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
   	<script src="assets/js/csg/purchaseSave.js"></script> <!-- 발주등록폼에서 저장 누르면 폼 저장 -->
-  	<script src="assets/js/csg/modalCategory.js"></script> <!-- 모달 대중소분류 -->
+  	<script defer src="assets/js/csg/modalCategory.js"></script> <!-- 모달 대중소분류 -->
   </head>
 
   <body>
@@ -204,8 +204,9 @@
 								        <div class="form-group">
 								            <label for="BigType">대분류</label>
 									            <select class="form-control" id="BigType" style="color: black; background-color: white;">
+										            <option selected="selected" value="">대분류 선택</option>
 										            <c:forEach var="bigType" items="${bigTypeList}">
-										                <option value="${bigType.BIG_CONTENT}">${bigType.BIG_CONTENT}</option>
+										                <option value="${bigType.big_no}">${bigType.big_content}</option>
 											         </c:forEach>
 									            </select>
 								        </div>
@@ -221,6 +222,11 @@
 							                <option>5</option>
 							            </select>										    
 							        </div>
+							        
+							        		<!-- <option selected="selected" value="">중분류 선택</option>
+								            <c:forEach var="midType" items="${midTypeList}">
+								                <option value="${midType.mid_no}">${midType.mid_content}</option>
+									         </c:forEach>  -->
 							        
 							        <div class="col">
 										<label for="smlType">소분류</label>

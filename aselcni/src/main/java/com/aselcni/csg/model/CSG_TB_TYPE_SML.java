@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class CSG_TB_TYPE_SML {
 	
-	private int SML_NO; //소분류번호 pk - 복합키
-	private int MID_NO;	//중분류 번호 복합키
-	private int BIG_NO; //대분류 번호 복합키 
-	private String SML_CONTENT; //소분류 내용
+	private int sml_no; //소분류번호 pk - 복합키
+	private int mid_no;	//중분류 번호 복합키
+	private int big_no; //대분류 번호 복합키 
+	private String sml_content; //소분류 내용
 
 }

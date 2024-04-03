@@ -24,6 +24,22 @@ public class SK_Service implements SK_Service_Interface {
 		return bigTypeList;
 	}
 
+	@Override
+	public List<CSG_TB_TYPE_MID> CSG_MidType(CSG_TB_TYPE_MID csgMid) {
+		System.out.println("service에서 대분류 선택하고 중분류 애들 골라보자");
+		List<CSG_TB_TYPE_MID> midTypeList = sk_Dao_Interface.CSG_MidType(csgMid);
+		
+		return midTypeList;
+	}
+
+	@Override
+	public List<CSG_TB_TYPE_SML> CSG_SmlType(CSG_TB_TYPE_SML csgSml) {
+		System.out.println("service에서 중분류 선택하고 소분류 애들 골라보자");
+		List<CSG_TB_TYPE_SML> smlTypeList = sk_Dao_Interface.CSG_SmlType(csgSml);
+
+		return smlTypeList;
+	}
+
 
 
 }

@@ -39,15 +39,46 @@ public class SK_Controller {
 	
 	//CSG_purchase에서 신규등록을 누르면 a태그로 옮기게 되는 발주등록 및 자재목록 나오게 되는 폼
 	@RequestMapping(value="purchaseItemForm")
-	public String Sk_PurchasList() {
+	public String Sk_PurchasList(Model model) {
 		System.out.println("자재 입력해보자구");
+		
+		System.out.println("대분류 불러오자");
+		
+		//모달 대분류 디비에서 불러오는거 
+		List<CSG_TB_TYPE_BIG> bigTypeList = sk_ServicInterface.findBigTypelist();
+		System.out.println("컨트롤러 DB에서 받아온 bigTypeList.size() ==>"+bigTypeList.size());
+		model.addAttribute("bigTypeList", bigTypeList);
+		
+		
 		return "csg/CSG_purchaseItem2";
 	}
-
 	
-	//purchaseItem2Form ==> 자재선택(모달) => 대분류 불러오기  => 불러와보장!!!!!!!!!!!!!!!
+	//모달 중분류 ajax로 modalCategory.js로 불러오기
 	@ResponseBody
-	@RequestMapping(value="modalBig")
+	@GetMapping("modalMid")
+	public List<CSG_TB_TYPE_MID> CSG_MidType(CSG_TB_TYPE_MID csgMid){
+		System.out.println("컨트롤러 ==> 대분류애들 값 가지고 중분류애들 분류해보자");
+		List<CSG_TB_TYPE_MID> midTypeList = sk_ServicInterface.CSG_MidType(csgMid);
+		System.out.println("컨트롤러에서 받아온 중분류 것 들 midTypeList ===> " + midTypeList);
+
+		return midTypeList;
+	}
+	
+	//모달 소분류 ajax로 modalCategory.js로 불러오기
+	@ResponseBody
+	@GetMapping("modalSml")
+	public List<CSG_TB_TYPE_SML> CSG_SmlType(CSG_TB_TYPE_SML csgSml){
+		System.out.println("컨트롤러 ==> 중분류애들 값 가지고 소분류애들 분류해보자");
+		List<CSG_TB_TYPE_SML> smlTypeList = sk_ServicInterface.CSG_SmlType(csgSml);
+		
+		System.out.println("컨트롤러에서 받아온 소분류 것 들 smlTypeList ===> " + smlTypeList);
+		
+		return smlTypeList;
+	}
+	
+	/*//purchaseItem2Form ==> 자재선택(모달) => 대분류 불러오기  => 불러와보장!!!!!!!!!!!!!!!
+	@ResponseBody
+	@RequestMapping(value="modalMid")
 	//public String CSG_BigType (CSG_TB_TYPE_BIG bigType, Model model) {
 	public List<CSG_TB_TYPE_BIG> CSG_BigType (Model model) {
 		System.out.println("대분류 불러오자");
@@ -57,7 +88,7 @@ public class SK_Controller {
 		model.addAttribute("bigTypeList", bigTypeList);
 		
 		return bigTypeList;
-	}
+	}*/
 	
 	/*
 	//중분류 불러오기
