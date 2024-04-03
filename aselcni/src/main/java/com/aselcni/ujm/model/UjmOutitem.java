@@ -10,7 +10,6 @@ public class UjmOutitem { //출고
 	private String outitem_dt; //출고일자
 	private String cust_cd; //거래처CD(고객사), fk
 	private String cust_emp; //담당자명(거래처)
-	private int    outitem_qty; //출고수량
 	private String remark; //비고
 	private String outitem_emp_id; //출고담당자ID
 	private String outitem_update; //출고수정일

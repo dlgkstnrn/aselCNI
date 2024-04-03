@@ -13,7 +13,7 @@ public class UjmItem { //품목
 	private int 	sml_no; //소분류번호, fk
 	private String  item_spec; //규격
 	private String  item_unit; //단위
-	private String  item_cost; //단가(가격)
+	private int     item_cost; //단가(가격)
 	private String  remark; //비고
 	private String  item_regdate; //품목등록일
 	private String  item_update; //품목수정일
