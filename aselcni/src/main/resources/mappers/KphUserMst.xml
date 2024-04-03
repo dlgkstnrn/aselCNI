@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.KphUserMstMapper">
+					
+	<select id="KphGetUser" parameterType="UserMst" resultType="UserMst">
+		SELECT tu.*, tc.COMM_CONTENT 
+		FROM TB_USERMST tu, TB_COMMON tc
+		WHERE tu.USER_COMM_CODE = tc.COMM_CODE
+			AND tu.USER_ID = #{user_id}
+			AND tu.USER_DELETE_CHECK = 0
+	</select>
+	
+	<select id="KphIsUserExist" parameterType="UserMst" resultType="int">
+		SELECT COUNT(USER_ID)
+		FROM TB_USERMST
+		WHERE USER_ID = #{user_id}
+	</select>
+	
+	<insert id="KphUserAdd" parameterType="UserMst">
+		INSERT INTO TB_USERMST
+		VALUES(#{user_id}, 
+					#{user_nm}, 
+					#{user_pw}, 
+					#{user_phone}, 
+					#{user_tel},
+					#{user_email}, 
+					CONVERT(CHAR(10), GETDATE(), 23), 
+					NULL, 
+					#{user_comm_code}, 
+					0)
+	</insert>
+	
+	<select id="KphTotalUserCountByKeyword" parameterType="UserMst" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_USERMST
+		WHERE USER_DELETE_CHECK = 0
+			AND USER_ID != 'admin'
+			<choose>
+				<when test="searchFilter=='all'">
+					AND (USER_NM LIKE  '%' + #{keyword} + '%' OR USER_ID LIKE  '%' + #{keyword} + '%')
+				</when>
+				<when test="searchFilter=='user_nm'">
+					AND USER_NM LIKE  '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='user_id'">
+					AND USER_ID LIKE  '%' + #{keyword} + '%'
+				</when>
+			</choose>
+	</select>
+	
+	<select id="KphUserListByKeyword" parameterType="UserMst" resultType="UserMst">
+		SELECT *
+		FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY USER_REGDATE DESC) AS rn, u.*, tc.COMM_CONTENT
+				FROM TB_USERMST u, TB_COMMON tc
+				WHERE u.USER_COMM_CODE = tc.COMM_CODE
+					AND USER_DELETE_CHECK = 0
+					AND USER_ID != 'admin'
+					<choose>
+						<when test="searchFilter=='all'">
+							AND (USER_NM LIKE  '%' + #{keyword} + '%' OR USER_ID LIKE  '%' + #{keyword} + '%')
+						</when>
+						<when test="searchFilter=='user_nm'">
+							AND USER_NM LIKE  '%' + #{keyword} + '%'
+						</when>
+						<when test="searchFilter=='user_id'">
+							AND USER_ID LIKE  '%' + #{keyword} + '%'
+						</when>
+					</choose>
+				) u2
+		WHERE u2.rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<update id="KphUserDelete" parameterType="UserMst">
+		UPDATE TB_USERMST
+		SET USER_DELETE_CHECK = 1, USER_UPDATE = CONVERT(CHAR(10), GETDATE(), 23)
+		WHERE USER_ID = #{user_id}
+	</update>
+	
+	<update id="KphUserUpdate" parameterType="UserMst">
+		UPDATE TB_USERMST
+		SET USER_PW = #{user_pw}, 
+  			  USER_NM = #{user_nm}, 
+			  USER_PHONE = #{user_phone},
+			  USER_TEL = #{user_tel},
+			  USER_EMAIL = #{user_email},
+			  USER_COMM_CODE = #{user_comm_code},
+			  USER_UPDATE = CONVERT(CHAR(10), GETDATE(), 23)
+		WHERE USER_ID = #{user_id}
+	</update>
+	
+</mapper>
