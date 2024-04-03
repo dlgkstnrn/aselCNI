@@ -1,5 +1,7 @@
 package com.aselcni.jtu.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -55,32 +57,29 @@ public class JtuProdItem {
 	// 조회용 (TB_ITEMMST)
 	// 품목명
 	private String item_nm;
-	
 	// 창고명
 	private String wh_nm;
-	
 	// 01자재02제품
 	private Integer item_flag;
-	
 	// 대분류번호
 	private Integer big_no;
 	// 대분류내용
 	private String big_content;
-	
-	
 	// 중분류번호
 	private Integer mid_no;
 	// 중분류내용
 	private String mid_content;
-
-	
 	// 소분류번호
 	private Integer sml_no;
 	// 소분류내용
 	private String sml_content;
 
+	// 창고 리스트
+	private List<JtuWH> whList;
 	
-	
+	//전달용
+	private String startDate;
+	private String endDate;
 	
 
 	

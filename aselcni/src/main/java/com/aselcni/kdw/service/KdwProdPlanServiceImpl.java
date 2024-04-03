@@ -25,7 +25,7 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 	public List<TB_PRODPLAN> getProdPlanList() {
 		System.out.println("KdwProdPlanServiceImpl getProdPlanList Start...");
 		List<TB_PRODPLAN> prodPlanList = kdwProdPlanDao.getProdPlanList();
-		System.out.println("KdwProdPlanServiceImpl getProdPlanList prodPlanList.size()" + prodPlanList.size());
+		System.out.println("KdwProdPlanServiceImpl getProdPlanList prodPlanList.size(): " + prodPlanList.size());
 		return prodPlanList;
 	}
 	// 생산계획 자재리스트
@@ -33,7 +33,7 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 	public List<TB_ITEM_PROD> getProdItemList() {
 		System.out.println("KdwProdPlanServiceImpl getProdItemList Start...");
 		List<TB_ITEM_PROD> prodPlanItemList = kdwProdPlanDao.getProdPlanItemList();
-		System.out.println("KdwProdPlanServiceImpl getProdItemList prodPlanItemList.size()" + prodPlanItemList.size());
+		System.out.println("KdwProdPlanServiceImpl getProdItemList prodPlanItemList.size(): " + prodPlanItemList.size());
 		return prodPlanItemList;
 	}
 	

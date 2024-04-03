@@ -32,6 +32,9 @@
 <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <!-- 제이쿼리에 의존하는 JS들이 있기 때문에 상단에 위치 해야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- 제이쿼리 UI(컬러피커에 사용) -->
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- 셀렉트박스에 Select2 CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -45,10 +48,9 @@
 <script defer src="assets/js/main.js"></script>
 <script src="https://kit.fontawesome.com/0b22ed6a9d.js"
 	crossorigin="anonymous"></script>
-
-
-<!-- KDW Main CSS,JS,Script -->
+<!-- 풀캘린더 API -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<!-- KDW Main CSS,JS,Script -->
 <script src="assets/js/kdw/kdwProductionPlanning.js"></script>
 <link href="assets/css/kdw/kdwProductionPlanning.css" rel="stylesheet">
 </head>
@@ -69,8 +71,9 @@
 			<h1>생산 계획</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="productionPlanning">생산
-							관리</a></li>
+					<li class="breadcrumb-item">
+						<a href="productionPlanning">생산 관리</a>
+					</li>
 					<li class="breadcrumb-item active">생산 계획</li>
 				</ol>
 			</nav>
@@ -400,12 +403,24 @@
 						<div class="calendar-group">
 							<div id='calendar'></div>
 						</div>
+						<div class="colorPicker-group">
+						    <!-- 캘린더 각 이벤트 컬러피커 -->
+							<div id="colorPickerDialog" title="색상 선택">
+								<input type="color" id="eventColorPicker">
+							</div>
+							<button id="changeColorButton" class="btn btn-primary colorPicker-btn">색상변경</button>
+						</div>
+						<!-- 스위치 토글 버튼 -->
+						<div class="form-check form-switch tooltip-switch-container">
+							<label class="form-check-label" for="flexSwitchCheckChecked">툴 팁</label>
+							<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> 
+						</div>
 						<!-- End Calendar -->
 						<!-- 주문내역 & 생산계획 리스트 -->
 						<div class="prodPlan-info">
-							<div class="referenceCode-group">
-								<div class="referenceCode-prepend-text">생산계획번호</div>
-								<div class="referenceCode"></div>
+							<div class="referenceDate-group">
+								<div class="referenceDate-prepend-text">기준일자</div>
+								<div class="referenceDate"></div>
 							</div>
 							<div class="orderDetails-info">
 								<div id='orderList-group'>
@@ -418,14 +433,7 @@
 												<th>수 량</th>
 											</tr>
 										</thead>
-										<tbody>
-											<c:forEach var="orderList" items="${orderList }">
-												<tr class="orderList-item">
-													<td class="customer"></td>
-													<td class="order-item"></td>
-													<td class="order-item-count"></td>
-												</tr>
-											</c:forEach>
+										<tbody class="orderList-item">
 										</tbody>
 									</table>
 								</div>
@@ -441,14 +449,7 @@
 												<th>작업일수</th>
 											</tr>
 										</thead>
-										<tbody>
-											<c:forEach var="prodPlanList" items="${prodPlanList }">
-												<tr class="prodPlanList-item">
-													<td class="prodPlan-item"></td>
-													<td class="prodPlan-item-count"></td>
-													<td class="prodPlan-workingDays"></td>
-												</tr>
-											</c:forEach>
+										<tbody class="prodPlanList-item">
 										</tbody>
 									</table>
 								</div>

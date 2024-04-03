@@ -3,6 +3,7 @@ package com.aselcni.jtu.service;
 import java.util.List;
 
 import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
 
 public interface JtuServiceInterface {
@@ -11,6 +12,8 @@ public interface JtuServiceInterface {
 
 	void setPriOne(JtuProdItem jpri);
 
-	JtuProdItem getWhCode();
+	List<JtuWH> getWhCode();
+
+	List<JtuProdItem> getPriList(JtuProdItem jpri);
 
 }

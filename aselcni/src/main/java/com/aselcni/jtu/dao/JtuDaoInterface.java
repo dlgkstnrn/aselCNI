@@ -3,6 +3,7 @@ package com.aselcni.jtu.dao;
 import java.util.List;
 
 import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
 
 public interface JtuDaoInterface {
@@ -11,6 +12,8 @@ public interface JtuDaoInterface {
 
 	void setPriOne(JtuProdItem jpri);
 
-	JtuProdItem getWhCode();
+	List<JtuWH> getWhCode();
+
+	List<JtuProdItem> getPriList(JtuProdItem jpri);
 
 }
