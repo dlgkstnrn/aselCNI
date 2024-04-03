@@ -48,9 +48,16 @@
 <script src="assets/js/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
+	let startDate = $('#startDate').val();
+	let endDate = $('#endDate').val();
+	const data = {
+		startDate,
+		endDate
+	}
+
+
 	//modal 예상수량-실제수량=불량수량
-	$(document).ready(
-			function() {
+	$(document).ready(function() {
 				// RegiModal에 대한 설정
 				setupModalQty("#expectedQtyRegiModal", "#actualQtyRegiModal",
 						"#defectiveQtyRegiModal");
@@ -59,47 +66,48 @@
 				setupModalQty("#expectedQtyEditModal", "#actualQtyEditModal",
 						"#defectiveQtyEditModal");
 			});
-
-	function setupModalQty(expectedQtySelector, actualQtySelector,
-			defectiveQtySelector) {
+	//예상수량-실제수량=불량수량 함수
+	function setupModalQty(expQty, actQty, defQty) {
 		// expectedQty, actualQty 값이 변경될 때마다 defectiveQty를 업데이트
-		$(expectedQtySelector + ", " + actualQtySelector)
-				.on(
-						"input",
+		$(expQty + ", " + actQty).on("input",
 						function() {
-							let expectedQty = parseInt($(expectedQtySelector)
+							let expectedQty = parseInt($(expQty)
 									.val()) || 0;
-							let actualQty = parseInt($(actualQtySelector).val()) || 0;
+							let actualQty = parseInt($(actQty).val()) || 0;
 							let defectiveQty = expectedQty - actualQty;
-							$(defectiveQtySelector).val(defectiveQty);
+							$(defQty).val(defectiveQty);
 						});
 
 		// defectiveQty 값이 변경될 때마다 actualQty를 업데이트
-		$(defectiveQtySelector).on("input", function() {
-			let expectedQty = parseInt($(expectedQtySelector).val()) || 0;
+		$(defQty).on("input", function() {
+			let expectedQty = parseInt($(expQty).val()) || 0;
 			let defectiveQty = parseInt($(this).val()) || 0;
 			let actualQty = expectedQty - defectiveQty;
-			$(actualQtySelector).val(actualQty);
+			$(actQty).val(actualQty);
 		});
 	}
 
+	
 	//닫기 버튼 클릭시 modal 입력 내용 클리어
 	$(document).ready(function() {
 		$('button[data-bs-dismiss="modal"]').on('click', function() {
 			modalContentClear();
 		});
 	});
-	//닫기 버튼 클릭시 modal 입력 내용 클리어
+	
+	//클리어 함수
 	function modalContentClear() {
 		$('#workProdNoRegiModal').text("생산 지시 번호를 선택");
 		$(".modal-content input").val('');
 		$(".modal-content textarea").val('');
 	}
 
+	
 	//dropdown 기능 
 	$(document).ready(function() {
 		$('#workProdNoEditModal').dropdown();
 		$('#workProdNoRegiModal').dropdown();
+		$('#prodItemWHRegiModal').dropdown();
 
 		//조회 테이블 행 클릭시 modal 수정창으로 이동 
 		$('tr[data-bs-toggle="modal"]').on('click', function() {
@@ -108,32 +116,46 @@
 		});
 	});
 
-	//시작 날짜와 종료 날짜 논리 일관성
+	//로딩시 날짜 설정
 	$(document).ready(function() {
-		$('#startDate').on('input', function() {
-			let startDate = $('#startDate').val();
-			let endDate = $('#endDate').val();
+		inputToday("#startDate");
+		
+		startDate = $('#startDate').val();
+		endDate = $('#endDate').val();
+		
+		let startDt = new Date(startDate);
+		let endDt = new Date(startDate);
+		
+		endDt.setDate(startDt.getDate()+7);
+		
+		endDate = endDt.toISOString().slice(0,10);
+		$('#endDate').val(endDate);
+		
+		console.log("endDt",endDt);
+		console.log("endDate",endDate);
+		
+		//시작 날짜와 종료 날짜 논리 일관성
+		$('#startDate').on('change', function() {
+			 startDate = $('#startDate').val();
+			 endDate = $('#endDate').val();
 
-			// 시작 날짜가 종료 날짜보다 뒤에 있는 경우
 			if (startDate > endDate) {
-				// 시작 날짜를 종료 날짜와 동일하게 설정합니다.
 				$('#startDate').val(endDate);
 			}
 		});
+		
+		//시작 날짜와 종료 날짜 논리 일관성
+		$('#endDate').on('change', function() {
+			 startDate = $('#startDate').val();
+			 endDate = $('#endDate').val();
 
-		$('#endDate').on('input', function() {
-			let startDate = $('#startDate').val();
-			let endDate = $('#endDate').val();
-
-			// 시작 날짜가 종료 날짜보다 뒤에 있는 경우
 			if (startDate > endDate) {
-				// 시작 날짜를 종료 날짜와 동일하게 설정
 				$('#endDate').val(startDate);
 			}
 		});
 	});
 
-	// 좌우 버튼 누를 때마다 날짜 7일 단위로 바뀜
+	// 좌우 버튼 누를 때마다 날짜 7일 단위로 바뀜, 
 	$(document).ready(function() {
 		$('#dateRightBtn').click(function() {
 			dateShift('right');
@@ -143,28 +165,30 @@
 			dateShift('left');
 		});
 	});
+	
+	
 
 	// 날짜 조정 함수
 	function dateShift(direction) {
-		let startDateVal = $('#startDate').val();
-		let endDateVal = $('#endDate').val();
+		startDate = $('#startDate').val();
+		endDate = $('#endDate').val();
 
 		// Date 객체로 변환
-		let startDate = new Date(startDateVal);
-		let endDate = new Date(endDateVal);
+		let startDt = new Date(startDate);
+		let endDt = new Date(endDate);
 
 		// 방향에 따라 날짜를 조정
 		if (direction === 'right') {
-			startDate.setDate(startDate.getDate() + 7);
-			endDate.setDate(endDate.getDate() + 7);
+			startDt.setDate(startDt.getDate() + 7);
+			endDt.setDate(endDt.getDate() + 7);
 		} else if (direction === 'left') {
-			startDate.setDate(startDate.getDate() - 7);
-			endDate.setDate(endDate.getDate() - 7);
+			startDt.setDate(startDt.getDate() - 7);
+			endDt.setDate(endDt.getDate() - 7);
 		}
 
 		// 새로운 날짜를 입력 필드에 설정
-		$('#startDate').val(startDate.toISOString().slice(0, 10));
-		$('#endDate').val(endDate.toISOString().slice(0, 10));
+		$('#startDate').val(startDt.toISOString().slice(0, 10));
+		$('#endDate').val(endDt.toISOString().slice(0, 10));
 	}
 
 	//모달 창이 좁아지면 텍스트가 움직이게 설정
@@ -176,6 +200,8 @@
 		$('#workProdRegiModal').on('shown.bs.modal', adjustMarquee);
 		$('#prodItemEditModal').on('shown.bs.modal', adjustMarquee);
 	});
+	
+	
 	//모달 창이 좁아지면 텍스트가 움직이게하는 함수
 	function adjustMarquee() {
 		$('.label-marquee').each(function() {
@@ -190,7 +216,9 @@
 			}
 		});
 	}
-
+	
+	
+	//생산 지시번호를 선택하면 리스트 불러오고, 자동 텍스트 입력
 	$(document).ready(function() {
 	    $("#workProdNoRegiModal").click(function() {
 	        $.ajax({
@@ -199,7 +227,7 @@
 	            dataType : 'json',
 	            success : function(wprList) {
 	                console.log("wprList", wprList);
-	                let ulTag = $("ul[aria-labelledby='workProdNoRegiModal']");
+	                let ulTag = $("#workProdNoRegiModalList");
 	                ulTag.empty(); 
 	                $.each(wprList, function(index, wpr) {
 	                    let liTag = $("<li></li>");
@@ -213,7 +241,7 @@
 	                    ulTag.append(liTag); // 완성된 <li> 태그를 <ul> 태그에 추가
 	                });//each
                     
-        			$('.dropdown-menu a').on('click', function() {
+        			$('#workProdNoRegiModalList a').on('click', function() {
         				let selectedValue = $(this).attr('data-value');
         				let foundWpr = wprList.find(wpr => wpr.workprod_no == selectedValue);
         				console.log("foundWpr", foundWpr);
@@ -235,13 +263,108 @@
 	            },//success
 	            error : function(xhr, status, error) {
 	            }
-	        });
+	        });//ajax
+	       
 	    });
 	});
 	
 
+	//등록버튼 눌렀을때
+	$(document).ready(function() {
+	    $("#regiModalBtn").click(function() {
+	    	//오늘날짜
+	    	inputToday("#prodEndDateRegiModal",);
+	    	
+	    	//창고 리스트 RegiModal에 넣어줌
+	    	getWHMstListRegiModalList();
+	    })
+	})
 	
+	//오늘 날짜 넣어주는 함수
+	function inputToday(tagId){
+		let todayLong= new Date();
+		let today = todayLong.toISOString().slice(0,10)
+		
+/* 		let offset = new Date().getTimezoneOffset() * 60000;
+		$(tagId).val(new Date(Date.now() - offset).toISOString().substring(0, 10)); */
+		
+		$(tagId).val(today);
+	}
 	
+	//창고 리스트 RegiModal에 넣는 함수
+	function getWHMstListRegiModalList() {
+		$("#prodItemWHList").find("li").remove();
+        $.ajax({
+            url: 'getWHMstListRegiModalList',
+            method: 'POST',
+            dataType: 'json',
+            success: function(whList) {
+            	console.log("whList", whList);
+                let ulTag = $('#prodItemWHList'); 
+                $.each(whList, function(index, wh) {
+                	let liTag = $("<li></li>");
+                    let aTag = $("<a></a>", {
+                        "class": "dropdown-item",
+                        "href": "#",
+                        "data-val": wh.wh_cd,
+                        "text": wh.wh_nm + '(' + wh.wh_cd + ')'
+                    });
+	                    
+                    liTag.append(aTag); 
+                    ulTag.append(liTag);
+                });//each
+                
+                $("#prodItemWHList a").click(function(){
+                    $("#prodItemWHRegiModal").text($(this).text());
+                    $("#hiddenProdItemWHCdRegiModal").val($(this).data('val'));
+                    
+                    console.log("hiddenProdItemWHCdRegiModal", $("#hiddenProdItemWHCdRegiModal").val());
+                });
+            },
+            error : function(xhr, status, error) {
+            }
+        });//ajax
+   	}
+	
+
+	
+	function getPriListAjax(){
+		data.startDate = $('#startDate').val();
+		data.endDate = $('#endDate').val();
+
+		console.log("data.startDate", data.startDate);
+		console.log("data.endDate", data.endDate);
+
+		$.ajax({
+			url : "getPriListAjax",
+			method : "POST",
+			data,
+			dataType : "json",
+			success : function(priList){
+	            let tbody = $("#prodItemTbody");
+	            // 기존 tbody 내용을 비웁니다.
+	            tbody.empty();
+	            // 받은 데이터로 새로운 내용을 생성합니다.
+	            $.each(priList, function(index, pri) {
+	                // 예시로 item 객체의 일부 속성을 사용합니다.
+	                // 실제 속성 이름은 priList의 객체 구조에 따라 다를 수 있습니다.
+	                tbody.append(
+	                    '<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal">' +
+	                    '<th scope="row">' + pri.proditem_end_dt + '</th>' +
+	                    '<td>' + pri.workprod_no + '</td>' +
+	                    '<td>' + pri.item_nm + '</td>' +
+	                    '<td>' + pri.pln_qty + '</td>' +
+	                    '<td>' + pri.bad_qty + '</td>' +
+	                    '</tr>'
+	                );
+	            });
+				
+			},//success
+            error : function(xhr, status, error) {
+            }
+		});//ajax
+	}
+
 </script>
 
 
@@ -277,6 +400,10 @@
 				<!--등록  버튼  -->
 
 				<div class="col-sm-1 text-end" style="margin-left: auto;">
+					<button id="tempBtn" type="button"
+						onclick="getPriListAjax()"
+						class="btn btn-outline-primary" 
+					>임시</button>
 					<button id="regiModalBtn" type="button"
 						class="btn btn-outline-primary" data-bs-toggle="modal"
 						data-bs-target="#workProdRegiModal"
@@ -295,9 +422,9 @@
 					</button>
 					<div>
 						<label for="start"></label> <input type="date"
-							class="prodItemDate" id="startDate" value="2024-03-01"
+							class="prodItemDate" id="startDate" 
 						>&nbsp;&nbsp;~&nbsp;&nbsp;<label for="end"></label> <input
-							type="date" class="prodItemDate" id="endDate" value="2024-03-07"
+							type="date" class="prodItemDate" id="endDate" 
 						>
 					</div>
 
@@ -305,7 +432,7 @@
 						<i class="bi bi-caret-right-fill"></i>
 					</button>
 				</div>
-
+				
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -316,23 +443,17 @@
 							<th scope="col">불량 수량</th>
 						</tr>
 					</thead>
-					<tbody>
+					<c:forEach var="pri" items="${jpriList}">
+					<tbody id ="prodItemTbody" >
 						<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
-							<th scope="row">2024-04-12</th>
-							<td>WPR202404120001</td>
-							<td>불닭</td>
-							<td>28</td>
-							<td>4</td>
-
-						</tr>
-						<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
-							<th scope="row">2024-04-13</th>
-							<td>WPR202404120002</td>
-							<td>참깨</td>
-							<td>35</td>
-							<td>6</td>
+							<th scope="row">${pri.proditem_end_dt}</th>
+							<td>${pri.workprod_no}</td>
+							<td>${pri.item_nm} (${pri.item_cd})</td>
+							<td>${pri.pln_qty}</td>
+							<td>${pri.bad_qty}</td>
 						</tr>
 					</tbody>
+					</c:forEach>
 				</table>
 
 
@@ -368,8 +489,11 @@
 											>
 												<span class="moving-text">생산 지시 번호 선택</span>
 											</button>
-											<input id="hiddenWorkProdNoRegiModal" type="hidden" name="workprod_no">
-											<ul class="dropdown-menu col-sm-3"
+											<input id="hiddenWorkProdNoRegiModal" type="hidden"
+												name="workprod_no"
+											>
+											<ul id="workProdNoRegiModalList"
+												class="dropdown-menu col-sm-3"
 												aria-labelledby="workProdNoRegiModal"
 											>
 											</ul>
@@ -393,8 +517,7 @@
 										<div class="d-flex justify-content-between col-sm-10">
 											<div class="col-sm-4">
 												<input id="empRegiModal" type="text" class="form-control"
-													name="proditem_emp_id"
-													value="jtu" readonly
+													name="proditem_emp_id" value="jtu" readonly
 												>
 											</div>
 
@@ -405,8 +528,7 @@
 											</label>
 											<div class="col-sm-5">
 												<input id="prodEndDateRegiModal" type="date"
-													name="proditem_end_dt"
-													class="form-control" value="2024-04-15" required
+													name="proditem_end_dt" class="form-control" required
 												>
 											</div>
 										</div>
@@ -419,14 +541,22 @@
 										><span class="moving-text">입고 창고 이름</span></label>
 										<div class="col-sm-10">
 											<input id="hiddenProdItemWHCdRegiModal" type="hidden"
-												name="wh_cd"
-												class="form-control"
-												value="WHS2404020001"
+												name="wh_cd" class="form-control" value="WHS2404020001"
 											>
-											<input id="prodItemWHRegiModal" type="text"
-												class="form-control"
-												value="제품창고테스트(WHS2404020001)"
+											<button
+												class="btn btn-secondary dropdown-toggle col-sm-12 label-marquee"
+												type="button" id="prodItemWHRegiModal"
+												data-bs-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false"
 											>
+												<span class="moving-text moving-animation">제품을 넣어둘
+													창고를 선택</span>
+											</button>
+											<ul id="prodItemWHList" class="dropdown-menu col-sm-9"
+												aria-labelledby="prodItemWHRegiModal"
+											>
+											</ul>
+
 										</div>
 									</div>
 
@@ -437,10 +567,8 @@
 										<div class="d-flex justify-content-between col-sm-10">
 											<div class="col-sm-4">
 												<input id="hiddenItemCdRegiModal" type="hidden"
-													name="item_cd"
-													class="form-control" value="buldak001"
-												>
-												<input id="itemNameRegiModal" type="text"
+													name="item_cd" class="form-control" value="buldak001"
+												> <input id="itemNameRegiModal" type="text"
 													class="form-control" value="붉닭라면(buldak001)" readonly
 												>
 											</div>
@@ -451,8 +579,7 @@
 											><span class="moving-text">예정 생산 수량</span></label>
 											<div class="col-sm-5">
 												<input id="expectedQtyRegiModal" type="number"
-													name="pln_qty"
-													class="form-control" readonly value="50000"
+													name="pln_qty" class="form-control" readonly value="50000"
 												>
 											</div>
 										</div>
@@ -465,8 +592,7 @@
 
 										<div class="d-flex justify-content-between col-sm-10">
 											<div class="col-sm-4">
-												<input id="actualQtyRegiModal" type="number"
-													name="prod_qty"
+												<input id="actualQtyRegiModal" type="number" name="prod_qty"
 													class="form-control" required value="49990"
 												>
 											</div>
@@ -475,8 +601,7 @@
 											><span class="moving-text">불량 생산 수량</span></label>
 											<div class="col-sm-5">
 												<input id="defectiveQtyRegiModal" type="number"
-													name="bad_qty"
-													class="form-control" required
+													name="bad_qty" class="form-control" required
 												>
 											</div>
 										</div>
@@ -488,8 +613,7 @@
 										><span class="moving-text">불량 내역</span></label>
 										<div class="col-sm-10">
 											<textarea id="defectiveLogRegiModal" class="form-control"
-												name="bad_res"
-												style="height: 100px"
+												name="bad_res" style="height: 100px"
 											>불닭이 너무매움</textarea>
 										</div>
 									</div>
@@ -498,8 +622,7 @@
 										<label for="remarkRegiModal" class="col-sm-2 col-form-label">비고</label>
 										<div class="col-sm-10">
 											<textarea id="remarkRegiModal" class="form-control"
-												name="remark"
-												style="height: 100px"
+												name="remark" style="height: 100px"
 											>비고 비었음</textarea>
 										</div>
 									</div>
@@ -513,7 +636,9 @@
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal"
 								>닫기</button>
-								<button type="submit" form="workProdRegiForm" class="btn btn-primary">등록</button>
+								<button type="submit" form="workProdRegiForm"
+									class="btn btn-primary"
+								>등록</button>
 							</div>
 						</div>
 					</div>

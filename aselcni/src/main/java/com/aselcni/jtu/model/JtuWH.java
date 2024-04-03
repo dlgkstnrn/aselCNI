@@ -3,21 +3,25 @@ package com.aselcni.jtu.model;
 import lombok.Data;
 
 @Data
-// 품목 테이블
+// 창고 테이블
 public class JtuWH {
 	
-	// 품목 테이블
-	// TB_ITEMMST
+	// 창고 테이블
+	// TB_WHMST
 
-	// 품목CD
-	private String item_cd;
-	// 품목명
-	private String item_nm;
-	// 대분류번호
-	private Integer big_no;
-	// 중분류번호
-	private Integer mid_no;
-	// 소분류번호
-	private Integer sml_no;
+	private String wh_cd;
+	private String wh_nm;
+	private String remark;
 	
+	private Integer wh_type1;
+	private Integer wh_type2;
+	private Integer wh_type3;
+	private Integer use_flag;
+	
+	private String wh_regdate;
+	private String wh_update;
+	private String wh_emp_id;
+	
+	private Integer wh_delete_chk;
+
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.aselcni.jtu.dao.JtuDaoInterface;
 import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
 
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JtuServiceImple implements JtuServiceInterface{
 	private final JtuDaoInterface jd;
+	
+	@Override
+	public List<JtuProdItem> getPriList(JtuProdItem jpri) {
+		System.out.println("JtuServiceImple getPriList Start... ");
+		List<JtuProdItem> jpriList = jd.getPriList(jpri);
+		
+		return jpriList;
+	}
 
 	@Override
 	public List<JtuWorkProd> getWprList() {
@@ -31,11 +40,11 @@ public class JtuServiceImple implements JtuServiceInterface{
 	}
 
 	@Override
-	public JtuProdItem getWhCode() {
+	public List<JtuWH> getWhCode() {
 		System.out.println("JtuServiceImple getWhCode Start... ");
-		JtuProdItem jpri = jd.getWhCode();
+		List<JtuWH> jwhList = jd.getWhCode();
 		
-		return jpri;
+		return jwhList;
 	}
 
 
