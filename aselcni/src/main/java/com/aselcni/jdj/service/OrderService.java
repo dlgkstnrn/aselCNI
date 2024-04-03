@@ -2,7 +2,9 @@ package com.aselcni.jdj.service;
 
 import java.util.List;
 
+import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.Order;
+import com.aselcni.jdj.model.OrderItem;
 
 public interface OrderService {
 
@@ -10,5 +12,9 @@ public interface OrderService {
 	 List<Order> getOrderLi();
 
 	String getCust_nm();
+
+	Order getOrdSpec(String order_sec_num);
+	
+	List<OrderItem> getOrdItems(String order_no);
 	
 }

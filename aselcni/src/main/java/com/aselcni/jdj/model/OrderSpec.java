@@ -1,10 +1,7 @@
 package com.aselcni.jdj.model;
 
-import lombok.Data;
+public class OrderSpec {
 
-@Data
-public class Order {
-	
 	String order_no;			// 주문번호, 주문코드
 	String order_dt;			// 주문날짜
 	String cust_cd;				// 고객처 번호, 코드
@@ -22,15 +19,11 @@ public class Order {
 	String order_sec_no; 	// 변환한 주문 번호
 	
 	
-//  custMst 일부
 	String cust_nm; 			// 고객처 상호명
 
-//	userMst 일부
-	String user_nm;		// 담당 직원명
 	String order_emp_nm;
 	
 	String item_cd;
 	int qty;
 	int cost;
-	
 }

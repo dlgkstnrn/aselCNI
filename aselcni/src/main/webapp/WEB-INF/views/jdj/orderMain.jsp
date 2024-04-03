@@ -66,7 +66,6 @@
     <%@ include file="../header.jsp" %>
     <!-- ======= Sidebar ======= -->
     <%@ include file="../asidebar.jsp" %>
-    
     <main id="main" class="main">
     	 <div class="pagetitle">
             <h1>주문 조회</h1>
@@ -77,17 +76,9 @@
                 </ol>
             </nav>
         </div>
-        
-		<section class="section dashboard">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ExtralargeModal">
-                Extra Large Modal
-              </button>
-              
-              
-              
-		
 
-		
+
+		<section class="section dashboard">		
         	<div class="card-body">
 				<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 					<div class="row datatable-top">
@@ -124,7 +115,7 @@
 								<tr>
 									<th scope="row" class="text-center">${status.index + 1}</th>
 									<%-- <td class="text-center">${order.order_no}</td> --%>  <!-- ORD20240330222 -->
-									<td><a href="#" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" class="text-center">${order.order_no}</a></td>
+									<td><a href="/orderSpec?detailView=${order.order_sec_no}" <%-- %>data-bs-toggle="modal" --%>   data-bs-target="#ExtralargeModal" class="text-center">${order.order_no}</a></td>
 									<td> ${order.cust_nm} </td><!-- 대한식품 -->
 									<td>${order.order_emp_nm}</td> <!-- 담당 직원 -->
 									<td class="datatable"> ${order.order_dt} </td> <!-- 2016-05-25 -->

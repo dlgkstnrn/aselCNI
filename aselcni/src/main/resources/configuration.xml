@@ -12,5 +12,7 @@
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
 		<typeAlias alias="Order" type="com.aselcni.jdj.model.Order"/>
+		<typeAlias alias="Item" type="com.aselcni.jdj.model.Item"/>
+		<typeAlias alias="OrderItem" type="com.aselcni.jdj.model.OrderItem"/>
 	</typeAliases>
 </configuration>
