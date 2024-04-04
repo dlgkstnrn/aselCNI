@@ -1,61 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst"/>
-		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst"/>
-		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig"/>
-		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid"/>
-		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml"/>
-		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
-		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
-		<typeAlias alias="PJHInitem" type="com.aselcni.pjh.model.PJHInitem"/>
-		<typeAlias alias="PJHInitemItem" type="com.aselcni.pjh.model.PJHInitemItem"/>
-		<typeAlias alias="PJHPurchase" type="com.aselcni.pjh.model.PJHPurchase"/>
-		<typeAlias alias="PJHPurchaseItem" type="com.aselcni.pjh.model.PJHPurchaseItem"/>
-		<typeAlias alias="PJHWhmst" type="com.aselcni.pjh.model.PJHWhmst"/>
-		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
-		<typeAlias alias="Order" type="com.aselcni.jdj.model.Order"/>
-		<typeAlias alias="Item" type="com.aselcni.jdj.model.Item"/>
-		<typeAlias alias="OrderItem" type="com.aselcni.jdj.model.OrderItem"/>
+		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst" />
+		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst" />
+		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig" />
+		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid" />
+		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml" />
+		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst" />
+		<typeAlias alias="Common" type="com.aselcni.main.model.Common" />
+		<typeAlias alias="PJHInitem" type="com.aselcni.pjh.model.PJHInitem" />
+		<typeAlias alias="PJHInitemItem"
+			type="com.aselcni.pjh.model.PJHInitemItem" />
+		<typeAlias alias="PJHPurchase" type="com.aselcni.pjh.model.PJHPurchase" />
+		<typeAlias alias="PJHPurchaseItem"
+			type="com.aselcni.pjh.model.PJHPurchaseItem" />
+		<typeAlias alias="PJHWhmst" type="com.aselcni.pjh.model.PJHWhmst" />
+		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst" />
+		<typeAlias alias="Order" type="com.aselcni.jdj.model.Order" />
+		<typeAlias alias="Item" type="com.aselcni.jdj.model.Item" />
+		<typeAlias alias="OrderItem" type="com.aselcni.jdj.model.OrderItem" />
+
+		<typeAlias alias="KphOutItem" type="com.aselcni.kph.model.KphOutItem" />
+		<typeAlias alias="KphOutItemItem"
+			type="com.aselcni.kph.model.KphOutItemItem" />
+		<typeAlias alias="KphReturn" type="com.aselcni.kph.model.KphReturn" />
 
 
-		<typeAlias alias="psaProdPlan" type="com.aselcni.psa.model.ProdPlan"/>
-		<typeAlias alias="psaWorkProd" type="com.aselcni.psa.model.WorkProd"/>
-		<typeAlias alias="KdwProdPlan" type="com.aselcni.kdw.model.TB_PRODPLAN"/>
-		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD"/>
-		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem"/>
-		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd"/>
-		<typeAlias alias="Procmst" type="com.aselcni.hsh.model.Procmst"/>
-	
-		<typeAlias alias="UjmCommon"   		type="com.aselcni.ujm.model.UjmCommon"/> 
-		<typeAlias alias="UjmComp"   		type="com.aselcni.ujm.model.UjmComp"/> 
-		<typeAlias alias="UjmCust"   		type="com.aselcni.ujm.model.UjmCust"/> 
-		<typeAlias alias="UjmInitem"   		type="com.aselcni.ujm.model.UjmInitem"/>
-		<typeAlias alias="UjmInitemItem"   	type="com.aselcni.ujm.model.UjmInitemItem"/> 
-		<typeAlias alias="UjmItem"   		type="com.aselcni.ujm.model.UjmItem"/>
-		<typeAlias alias="UjmItemProd"   	type="com.aselcni.ujm.model.UjmItemProd"/>  
-		<typeAlias alias="UjmMenu"   		type="com.aselcni.ujm.model.UjmMenu"/>
-		<typeAlias alias="UjmMenuAuthority" type="com.aselcni.ujm.model.UjmMenuAuthority"/>
-		<typeAlias alias="UjmOrder"   		type="com.aselcni.ujm.model.UjmOrder"/>
-		<typeAlias alias="UjmOrderItem"   	type="com.aselcni.ujm.model.UjmOrderItem"/> 
-		<typeAlias alias="UjmOutitem"   	type="com.aselcni.ujm.model.UjmOutitem"/> 
-		<typeAlias alias="UjmOutitemItem"   type="com.aselcni.ujm.model.UjmOutitemItem"/> 
-		<typeAlias alias="UjmProc" 			type="com.aselcni.ujm.model.UjmProc"/>
-		<typeAlias alias="UjmProditem" 		type="com.aselcni.ujm.model.UjmProditem"/>
-		<typeAlias alias="UjmProdplan" 		type="com.aselcni.ujm.model.UjmProdplan"/>
-		<typeAlias alias="UjmPurchase" 		type="com.aselcni.ujm.model.UjmPurchase"/>
-		<typeAlias alias="UjmPurchaseItem"	type="com.aselcni.ujm.model.UjmPurchaseItem"/>    
-		<typeAlias alias="UjmReturn"   		type="com.aselcni.ujm.model.UjmReturn"/>
-		<typeAlias alias="UjmTypeBig"   	type="com.aselcni.ujm.model.UjmTypeBig"/> 
-		<typeAlias alias="UjmTypeMid"   	type="com.aselcni.ujm.model.UjmTypeMid"/>
-		<typeAlias alias="UjmTypeSml"   	type="com.aselcni.ujm.model.UjmTypeSml"/>
-		<typeAlias alias="UjmUser"  	 	type="com.aselcni.ujm.model.UjmUser"/>
-		<typeAlias alias="UjmWh"  		 	type="com.aselcni.ujm.model.UjmWh"/>
-		<typeAlias alias="UjmWorkItem"  	type="com.aselcni.ujm.model.UjmWorkItem"/>
-		<typeAlias alias="UjmWorkProc"  	type="com.aselcni.ujm.model.UjmWorkProc"/>
-		<typeAlias alias="UjmWorkprod"  	type="com.aselcni.ujm.model.UjmWorkprod"/>
+		<typeAlias alias="PsaProdPlan" type="com.aselcni.psa.model.ProdPlan" />
+		<typeAlias alias="PsaWorkProd" type="com.aselcni.psa.model.WorkProd" />
+		<typeAlias alias="PsaWorkProc" type="com.aselcni.psa.model.WorkProc" />
+		<typeAlias alias="PsaWorkItem" type="com.aselcni.psa.model.WorkItem" />
+		<typeAlias alias="PsaProdItem" type="com.aselcni.psa.model.ProdItem" />
+		<typeAlias alias="PsaItem" type="com.aselcni.psa.model.Item" />
+
+		<typeAlias alias="KdwProdPlan" type="com.aselcni.kdw.model.TB_PRODPLAN" />
+		<typeAlias alias="KdwProdPlanItem"
+			type="com.aselcni.kdw.model.TB_ITEM_PROD" />
+		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem" />
+		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd" />
+		<typeAlias alias="Procmst" type="com.aselcni.hsh.model.Procmst" />
+
+		<typeAlias alias="UjmCommon" type="com.aselcni.ujm.model.UjmCommon" />
+		<typeAlias alias="UjmComp" type="com.aselcni.ujm.model.UjmComp" />
+		<typeAlias alias="UjmCust" type="com.aselcni.ujm.model.UjmCust" />
+		<typeAlias alias="UjmInitem" type="com.aselcni.ujm.model.UjmInitem" />
+		<typeAlias alias="UjmInitemItem"
+			type="com.aselcni.ujm.model.UjmInitemItem" />
+		<typeAlias alias="UjmItem" type="com.aselcni.ujm.model.UjmItem" />
+		<typeAlias alias="UjmItemProd" type="com.aselcni.ujm.model.UjmItemProd" />
+		<typeAlias alias="UjmMenu" type="com.aselcni.ujm.model.UjmMenu" />
+		<typeAlias alias="UjmMenuAuthority"
+			type="com.aselcni.ujm.model.UjmMenuAuthority" />
+		<typeAlias alias="UjmOrder" type="com.aselcni.ujm.model.UjmOrder" />
+		<typeAlias alias="UjmOrderItem"
+			type="com.aselcni.ujm.model.UjmOrderItem" />
+		<typeAlias alias="UjmOutitem" type="com.aselcni.ujm.model.UjmOutitem" />
+		<typeAlias alias="UjmOutitemItem"
+			type="com.aselcni.ujm.model.UjmOutitemItem" />
+		<typeAlias alias="UjmProc" type="com.aselcni.ujm.model.UjmProc" />
+		<typeAlias alias="UjmProditem" type="com.aselcni.ujm.model.UjmProditem" />
+		<typeAlias alias="UjmProdplan" type="com.aselcni.ujm.model.UjmProdplan" />
+		<typeAlias alias="UjmPurchase" type="com.aselcni.ujm.model.UjmPurchase" />
+		<typeAlias alias="UjmPurchaseItem"
+			type="com.aselcni.ujm.model.UjmPurchaseItem" />
+		<typeAlias alias="UjmReturn" type="com.aselcni.ujm.model.UjmReturn" />
+		<typeAlias alias="UjmTypeBig" type="com.aselcni.ujm.model.UjmTypeBig" />
+		<typeAlias alias="UjmTypeMid" type="com.aselcni.ujm.model.UjmTypeMid" />
+		<typeAlias alias="UjmTypeSml" type="com.aselcni.ujm.model.UjmTypeSml" />
+		<typeAlias alias="UjmUser" type="com.aselcni.ujm.model.UjmUser" />
+		<typeAlias alias="UjmWh" type="com.aselcni.ujm.model.UjmWh" />
+		<typeAlias alias="UjmWorkItem" type="com.aselcni.ujm.model.UjmWorkItem" />
+		<typeAlias alias="UjmWorkProc" type="com.aselcni.ujm.model.UjmWorkProc" />
+		<typeAlias alias="UjmWorkprod" type="com.aselcni.ujm.model.UjmWorkprod" />
+
+		<typeAlias alias="CSG_TB_CUSTMST"
+			type="com.aselcni.csg.model.CSG_TB_CUSTMST" />
+		<typeAlias alias="CSG_TB_ITEMMST"
+			type="com.aselcni.csg.model.CSG_TB_ITEMMST" />
+		<typeAlias alias="CSG_TB_PURCHASE_ITEM"
+			type="com.aselcni.csg.model.CSG_TB_PURCHASE_ITEM" />
+		<typeAlias alias="CSG_TB_PURCHASE"
+			type="com.aselcni.csg.model.CSG_TB_PURCHASE" />
+		<typeAlias alias="CSG_TB_TYPE_BIG"
+			type="com.aselcni.csg.model.CSG_TB_TYPE_BIG" />
+		<typeAlias alias="CSG_TB_TYPE_MID"
+			type="com.aselcni.csg.model.CSG_TB_TYPE_MID" />
+		<typeAlias alias="CSG_TB_TYPE_SML"
+			type="com.aselcni.csg.model.CSG_TB_TYPE_SML" />
+		<typeAlias alias="CSG_CategoryData"
+			type="com.aselcni.csg.model.CSG_CategoryData" />
 
 
 	</typeAliases>
