@@ -16,4 +16,6 @@ public interface JtuDaoInterface {
 
 	List<JtuProdItem> getPriList(JtuProdItem jpri);
 
+	JtuProdItem getPriOneAjax(JtuProdItem paraJpri);
+
 }

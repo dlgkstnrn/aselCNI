@@ -4,10 +4,13 @@
 
 	<select id="jtuGetWprList" resultType="JtuWorkProd">
 		select *
-		from TB_WORKPROD w
+		from TB_WORKPROD w 
 		join TB_ITEMMST i
 		on w.ITEM_CD= i.ITEM_CD
-		where WORKPROD_DELETE_CHK =0
+		left outer join TB_PRODITEM p
+		on w.WORKPROD_NO = p.WORKPROD_NO
+		where w.WORKPROD_DELETE_CHK =0
+		and w.WORKPROD_NO NOT in (select tp.WORKPROD_NO from TB_PRODITEM tp)
 	</select>
 
 

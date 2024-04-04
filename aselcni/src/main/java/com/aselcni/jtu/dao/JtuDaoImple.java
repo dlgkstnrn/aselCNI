@@ -73,5 +73,18 @@ public class JtuDaoImple implements JtuDaoInterface{
 	}
 
 
+	@Override
+	public JtuProdItem getPriOneAjax(JtuProdItem paraJpri) {
+		System.out.println("JtuDaoImple getPriOneAjax Start... ");
+		JtuProdItem jpri = null;
+		try {
+			jpri = session.selectOne("", jpri);
+		} catch (Exception e) {
+			System.out.println("getPriOneAjax exception->" + e.getMessage());
+		}
+		return jpri;
+	}
+
+
 
 }
