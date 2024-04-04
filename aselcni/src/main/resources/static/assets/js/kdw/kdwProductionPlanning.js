@@ -4,7 +4,7 @@ $(document).ready(function() {
 	var eventColors = {};
 	var responseProdPlans;
 	var isTooltipEnabled = true; // 툴팁 기본 활성상태
-	
+
 	var calendarEl = document.getElementById('calendar');
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialView: 'dayGridMonth',
@@ -152,11 +152,81 @@ $(document).ready(function() {
 				return;
 			}
 			$('.event-tooltip').remove(); // 툴팁 제거
-		}
+		},
+		dateClick: function(info) {
+			// 선택된 날짜에 해당하는 이벤트 찾기
+			var dateEvents = responseProdPlans.prodPlans.filter(function(plan) {
+				return plan.prodPlan_dt === info.dateStr ||
+					(plan.prodPlan_dt <= info.dateStr && plan.prodPlan_end_dt >= info.dateStr);
+			});
+
+			// 주문내역 & 생산계획 리스트 HTML 요소 찾기
+			var referenceDateElement = document.querySelector('.referenceDate');
+			var orderListElement = document.querySelector('.orderList-item');
+			var prodPlanListElement = document.querySelector('.prodPlanList-item');
+
+			// 리스트 초기화
+			referenceDateElement.innerHTML = info.dateStr;
+			orderListElement.innerHTML = '';
+			prodPlanListElement.innerHTML = '';
+
+			// 중복 제품 처리를 위한 객체
+			var productQuantities = {};
+
+			// 찾은 이벤트를 HTML 요소에 표시
+			dateEvents.forEach(function(event) {
+				var productKey = event.cust_nm + '-' + event.item_nm; // 고객사와 제품명을 키로 사용
+				if (!productQuantities[productKey]) {
+					productQuantities[productKey] =
+						{ qty: 0, cust_nm: event.cust_nm, item_nm: event.item_nm };
+				}
+				productQuantities[productKey].qty += event.qty; // 수량 누적
+
+				// 생산계획 리스트에 이벤트 정보 추가
+				var prodPlanListItem = document.createElement('tr');
+				prodPlanListItem.innerHTML = `
+					<td>${event.item_nm}</td>
+					<td>${event.qty}</td>
+					<td>${event.work_dt} 일</td>`;
+				prodPlanListElement.appendChild(prodPlanListItem);
+			});
+
+			// 주문내역 리스트에 중복 처리된 제품 정보 추가
+			for (var key in productQuantities) {
+				var product = productQuantities[key];
+				var orderListItem = document.createElement('tr');
+				orderListItem.innerHTML = `
+					<td>${product.cust_nm}</td>
+					<td>${product.item_nm}</td>
+					<td>${product.qty}</td>`;
+				orderListElement.appendChild(orderListItem);
+			}
+		},
+		dayCellDidMount: function(info) {
+			// 마우스 호버 시 커서 변경
+			info.el.style.cursor = 'pointer';
+			// 마우스 호버 이벤트
+			info.el.addEventListener('mouseenter', function() {
+				var dayNumberElement = this.querySelector('.fc-daygrid-day-number');
+				if (dayNumberElement) {
+					dayNumberElement.style.color = 'skyblue'; // 텍스트 색상 변경
+					dayNumberElement.style.fontWeight = 'bold'; // 텍스트 두께 변경
+				}
+			});
+
+			// 마우스가 셀에서 벗어났을 때의 이벤트
+			info.el.addEventListener('mouseleave', function() {
+				var dayNumberElement = this.querySelector('.fc-daygrid-day-number');
+				if (dayNumberElement) {
+					dayNumberElement.style.color = ''; // 원래 텍스트 색상
+					dayNumberElement.style.fontWeight = ''; // 원래 텍스트 두께
+				}
+			});
+		},
 	});
 
 	calendar.render();
-
+	// 툴팁창 On/Off 스위치 버튼
 	$('#flexSwitchCheckChecked').change(function() {
 		isTooltipEnabled = $(this).is(':checked');
 		if (!isTooltipEnabled) {

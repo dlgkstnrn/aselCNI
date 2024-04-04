@@ -214,20 +214,20 @@ body {
 	padding: 20px;
 }
 
-.referenceCode-group {
+.referenceDate-group {
 	display: flex;
 	align-items: center;
 	width: 100%;
 }
 
-.referenceCode-prepend-text {
+.referenceDate-prepend-text {
 	margin-right: 10px;
 	white-space: nowrap;
 	font-size: 17px;
 	font-weight: 600;
 }
 
-.referenceCode {
+.referenceDate {
 	height: 25px;
 	border: 1px solid #ced4da;
 	flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */

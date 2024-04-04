@@ -418,9 +418,9 @@
 						<!-- End Calendar -->
 						<!-- 주문내역 & 생산계획 리스트 -->
 						<div class="prodPlan-info">
-							<div class="referenceCode-group">
-								<div class="referenceCode-prepend-text">생산계획번호</div>
-								<div class="referenceCode"></div>
+							<div class="referenceDate-group">
+								<div class="referenceDate-prepend-text">기준일자</div>
+								<div class="referenceDate"></div>
 							</div>
 							<div class="orderDetails-info">
 								<div id='orderList-group'>
@@ -433,14 +433,7 @@
 												<th>수 량</th>
 											</tr>
 										</thead>
-										<tbody>
-											<c:forEach var="orderList" items="${orderList }">
-												<tr class="orderList-item">
-													<td class="customer"></td>
-													<td class="order-item"></td>
-													<td class="order-item-count"></td>
-												</tr>
-											</c:forEach>
+										<tbody class="orderList-item">
 										</tbody>
 									</table>
 								</div>
@@ -456,14 +449,7 @@
 												<th>작업일수</th>
 											</tr>
 										</thead>
-										<tbody>
-											<c:forEach var="prodPlanList" items="${prodPlanList }">
-												<tr class="prodPlanList-item">
-													<td class="prodPlan-item"></td>
-													<td class="prodPlan-item-count"></td>
-													<td class="prodPlan-workingDays"></td>
-												</tr>
-											</c:forEach>
+										<tbody class="prodPlanList-item">
 										</tbody>
 									</table>
 								</div>
