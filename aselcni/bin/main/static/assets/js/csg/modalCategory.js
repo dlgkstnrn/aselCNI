@@ -158,6 +158,69 @@ function fillTableWithItems(items) {
 }
 
 
+/*
+//모달에서 저장을 누르면 임시로 저장이 되고, 발주등록 폼으로 데이터를 넘기면서 table을 만들어주는 코드
+let tempItems = []; // 임시 저장할 배열
+
+// 모달에서 '저장' 버튼 클릭 시 실행되는 함수
+function onSaveModal() {
+    // 선택된 아이템 정보와 수량을 객체로 생성
+    let selectedItem = {
+        custCd: $('#custCd').val(),
+        itemName: $('#itemName').val(),
+        spec: $('#spec').val(),
+        unit: $('#unit').val(),
+        quantity: $('#quantity').val(),
+        cost: $('#cost').val()
+    };
+
+    // 임시 배열에 추가
+    tempItems.push(selectedItem);
+
+    // 다른 폼의 테이블을 업데이트하는 함수 호출
+    updateFormTable();
+}
+
+
+// 다른 폼의 테이블을 업데이트하는 함수
+function updateFormTable() {
+    const tableBody = $('#anotherFormTable tbody');
+    tableBody.empty(); // 기존 내용을 비우기
+
+    // 임시 배열에 저장된 아이템으로 테이블 행 생성
+    tempItems.forEach(function(item, index) {
+        const row = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.custCd}</td>
+                <td>${item.itemName}</td>
+                <td>${item.spec}</td>
+                <td>${item.unit}</td>
+                <td>${item.quantity}</td>
+                <td>${item.cost}</td>
+            </tr>
+        `;
+        tableBody.append(row);
+    });
+}
+
+// 최종 '저장' 버튼 클릭 시 서버에 데이터 전송
+function onFinalSave() {
+    $.ajax({
+        type: 'POST',
+        url: '/saveItems', // 서버의 데이터 저장 엔드포인트
+        contentType: 'application/json',
+        data: JSON.stringify(tempItems),
+        success: function(response) {
+            // 성공 처리 로직
+        },
+        error: function() {
+            // 오류 처리 로직
+        }
+    });
+}
+*/
+
 
 
 
