@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.JdjOrderMapper">
+	<select id="getOrderLi" resultType="Order">
+		select * from tb_order
+	</select>
+	<select id="getOrders" resultType="Order">
+		SELECT to2.order_no, to2.order_dt, to2.CUST_EMP , to2.REMARK , to2.ORDER_STATUS_CHK , to2.ORDER_END_DT , to2.ORDER_SEC_NO , tc.CUST_NM , tu.USER_NM 
+		from TB_ORDER to2
+		inner join TB_CUSTMST tc on to2.CUST_CD = tc.CUST_CD 
+		inner join TB_USERMST tu on to2.ORDER_EMP_ID = tu.USER_ID
+	</select>
+	
+	<select id="getCust_nm" parameterType="String" resultType="String">
+		select cust_nm from TB_CUSTMST where CUST_CD = #{cust_cd};
+	</select>
+	
+	<select id="getEmp_nm" parameterType="String" resultType="String">
+		select user_nm from TB_USERMST where user_id = #{order_emp_id};
+	</select>
+	
+	<select id="getOrdSpec" parameterType="String" resultType="Order">
+		SELECT to2.ORDER_NO , to2.ORDER_DT , to2.ORDER_END_DT , tc.CUST_NM, to2.REMARK , tu.USER_NM 
+		from TB_ORDER to2 
+		inner join TB_CUSTMST tc on to2.CUST_CD = tc.CUST_CD 
+		inner join TB_USERMST tu on to2.ORDER_EMP_ID = tu.USER_ID
+		WHERE to2.ORDER_sec_no = #{order_sec_num};
+	</select>
+	
+	<select id="getItemLi" parameterType="String" resultType = "Order">
+		SELECT *
+		FROM TB_ORDER_ITEM
+		WHERE ORDER_NO = #{order_no};
+	</select>
+	
+	<select id="getOrdItems" parameterType="String" resultType = "OrderItem">
+		SELECT toi.order_no, toi.qty , toi.cost , ti.item_nm , ti.item_unit , toi.item_cd 
+		from TB_ORDER_ITEM toi 
+		inner join TB_ITEMMST ti 
+		on toi.ITEM_CD = ti.ITEM_CD 
+		WHERE toi.order_no = #{order_no};
+	</select>
+	
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.CsgItemMapper">
+					
+	<select id="SK_bigTypeList" resultType="CSG_TB_TYPE_BIG">
+		select DISTINCT  ttb.*
+		from TB_ITEMMST ti, TB_TYPE_BIG ttb 
+		where ti.BIG_NO = ttb.BIG_NO 
+		and ti.ITEM_FLAG = 01
+	</select>
+	
+	<select id="SK_MidTypeList" parameterType="CSG_TB_TYPE_MID" resultType="CSG_TB_TYPE_MID">
+		SELECT DISTINCT ttm.*
+		FROM TB_TYPE_MID ttm
+		INNER JOIN TB_ITEMMST ti ON ti.BIG_NO = ttm.BIG_NO  AND  ti.MID_NO = ttm.MID_NO 
+		WHERE ttm.BIG_NO = #{big_no}
+		and ti.ITEM_FLAG = 1
+	</select>
+	
+	<select id="SK_smlTypeList" parameterType="CSG_TB_TYPE_SML" resultType="CSG_TB_TYPE_SML">
+		SELECT DISTINCT tts.*
+		FROM TB_TYPE_SML tts
+		INNER JOIN TB_ITEMMST ti ON ti.BIG_NO = tts.BIG_NO  AND ti.MID_NO = tts.MID_NO AND ti.SML_NO = tts.SML_NO 
+		WHERE tts.BIG_NO = #{big_no}
+		AND tts.MID_NO = #{mid_no}
+		and ti.ITEM_FLAG = 1
+	</select>
+	
+	<select id="selectedItemsList" parameterType="CSG_TB_ITEMMST" resultType="CSG_TB_ITEMMST">
+		SELECT ti.*
+		FROM TB_ITEMMST ti
+		JOIN TB_TYPE_SML tts ON ti.BIG_NO = tts.BIG_NO AND ti.MID_NO = tts.MID_NO AND ti.SML_NO = tts.SML_NO
+		WHERE ti.BIG_NO = #{big_no} 
+		  AND ti.MID_NO = #{mid_no} 
+		  AND ti.SML_NO = #{sml_no}
+		  AND ti.ITEM_FLAG = 1;
+
+	
+	</select>
+	
+</mapper>
