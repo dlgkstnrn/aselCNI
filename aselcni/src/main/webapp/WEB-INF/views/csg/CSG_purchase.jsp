@@ -86,7 +86,7 @@
 		            <!-- Table -->
 		            <div class="card shadow-sm rounded-lg">
 		                <div class="card-body">
-		                    <table class="table table-striped">
+		                    <table class="table table-striped" id="jajeinsertTable">
 		                        <thead>
 		                            <tr>
 		                                <th>선택</th>

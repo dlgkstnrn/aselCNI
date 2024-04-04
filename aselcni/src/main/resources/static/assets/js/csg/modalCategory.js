@@ -1,33 +1,3 @@
-/*
-$(document).ready(function() {
-    var isLoaded = false; // 데이터가 이미 로딩되었는지 여부를 체크하는 플래그
-
-    $('#BigType').on('focus', function() {
-        // 데이터가 이미 로딩되었다면, 추가 로딩을 방지
-        if (!isLoaded) {
-            $.ajax({
-                type: 'GET',
-                url: '/modalBig',
-                success: function(data) {
-					console.log(data);
-                    $('#BigType').empty(); // 대분류 셀렉트 박스 비우기
-                    $.each(data, function(index, item) {
-                        $('#BigType').append($('<option>', {
-                            value: item.BIG_NO,
-                            text: item.BIG_CONTENT
-                        }));
-                    });
-                    isLoaded = true; // 데이터 로딩 완료 플래그 설정
-                },
-                error: function() {
-                    console.log('Error occurred while loading BigType.');
-                }
-            });
-        }
-    });
-});
-*/
-
 //중분류애들 => 대분류 선택시 값 넘어가는것 + 중분류
 $('#BigType').on('change',(event) => {
 	console.log(event.target.value);
@@ -127,7 +97,6 @@ $('#smlType').on('change', function(event) {
         success: function(response) {
             // 테이블에 데이터 채우기
             fillTableWithItems(response);
-            updateTable(response);
         },
         error: function() {
             alert("데이터를 불러오는데 실패했습니다.");
@@ -158,7 +127,7 @@ function fillTableWithItems(items) {
 }
 
 
-/*
+
 //모달에서 저장을 누르면 임시로 저장이 되고, 발주등록 폼으로 데이터를 넘기면서 table을 만들어주는 코드
 let tempItems = []; // 임시 저장할 배열
 
@@ -184,7 +153,7 @@ function onSaveModal() {
 
 // 다른 폼의 테이블을 업데이트하는 함수
 function updateFormTable() {
-    const tableBody = $('#anotherFormTable tbody');
+    const tableBody = $('#jajeinsertTable tbody');
     tableBody.empty(); // 기존 내용을 비우기
 
     // 임시 배열에 저장된 아이템으로 테이블 행 생성
@@ -204,6 +173,7 @@ function updateFormTable() {
     });
 }
 
+/*
 // 최종 '저장' 버튼 클릭 시 서버에 데이터 전송
 function onFinalSave() {
     $.ajax({
@@ -213,6 +183,7 @@ function onFinalSave() {
         data: JSON.stringify(tempItems),
         success: function(response) {
             // 성공 처리 로직
+            updateFormTable(response);
         },
         error: function() {
             // 오류 처리 로직

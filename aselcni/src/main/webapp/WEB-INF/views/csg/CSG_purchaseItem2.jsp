@@ -181,10 +181,12 @@
 
 			    </form>
 			    
+<!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
 			   
-			   
-			   
+<!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
 			    <form action="CSG_purchaseItem2Form" >
+<!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
+
 			    <!-- 모달 애들 -->
 	                <div class="modal fade" id="jajeinputModal" tabindex="-1" aria-labelledby="jajeinputModalLabel"
 	                    aria-hidden="true">
@@ -192,9 +194,6 @@
 	                      <div class="modal-content">
 	                        <div class="modal-header">
 	                          <h5 class="modal-title" id="jajeinputModalLabel">자재 정보</h5>
-	                          여기 부분은 form action으로 처리해야하고 불러오는것만 ajax로 처리하자. 자재들 불러오는 부분
-	                          자재코드는 js로 코드 13글자 나오도록 해야함
-	                          자재명은 item_table 에서 상태값이 제품인 부분
 	                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                        </div>
 	                        <div class="flex modal-body "> <!-- 여기다가 대중소분류를 줘야함 -->
@@ -215,11 +214,7 @@
 							        <div class="col">
 										<label for="midType" >중분류</label>
 							            <select class="form-control" id="midType">
-							                <option>DB에서 값을 불러오자구</option>
-							                <option>2</option>
-							                <option>3</option>
-							                <option>4</option>
-							                <option>5</option>
+							            		<option selected="selected" value="">중분류 선택</option>
 							            </select>										    
 							        </div>
 							        
@@ -231,11 +226,7 @@
 							        <div class="col">
 										<label for="smlType">소분류</label>
 							            <select class="form-control" id="smlType">
-							                <option>DB에서 값을 불러오자구</option>
-							                <option>2</option>
-							                <option>3</option>
-							                <option>4</option>
-							                <option>5</option>
+							            		<option selected="selected" value="">중분류 선택</option>
 							            </select>										    
 							        </div>
 							        
@@ -282,7 +273,10 @@
 	                    </div>
 	                  </div>
 	               </div>
+<!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
 	    		</form>
+<!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
+
 			</section>
 
         </main>
