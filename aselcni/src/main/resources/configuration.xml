@@ -21,6 +21,7 @@
 		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD"/>
 		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem"/>
 		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd"/>
+		<typeAlias alias="Procmst" type="com.aselcni.hsh.model.Procmst"/>
 		
 	</typeAliases>
 </configuration>
