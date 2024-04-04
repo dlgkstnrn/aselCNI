@@ -17,11 +17,54 @@ const data = {
 // 입력값 변경 시 전달 객체 최신화 함수
 const changeData = function (elem) {
     data[elem.id] = elem.value;
+    data.currentPage = '1';
     console.log(data);
 }
 
 // 검색
 const searchInitem = function () {
     // 검색 기능
+    $.ajax({
+        type: "GET",
+        url: "/searchInitems",
+        data,
+        success: (res) => {
+            console.log(res);
+            /*
+            if (res.length == 0) {
+                alert('조회가능한 정보가 없습니다.');
+                return;
+            }
+            $('#itemTableBody').empty();
+            res.forEach((ele, idx) => {
+                if (!ele['qty'])
+                    return;
+                $('#itemTableBody').append(
+                    `<tr>
+                        <th scope="row"><input type="checkbox"></th>
+                        <td id="initemNo${idx}">${ele['item_cd']}</td>
+                        <td>${ele['item_nm']}</td>
+                        <td>${ele['item_spec']}</td>
+                        <td>${ele['item_unit']}</td>
+                        <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" placeholder="입고수량" style="width: 75px"></td>
+                        <td>${ele['purc_cost']}</td>
+                      </tr>`
+                )
+            });
+            */
+        },
+        beforeSend: () => {
+            $('body').append(
+                `
+                <div id="ajaxLoadingImg" style="z-index:1091;" class="spinner-border text-primary position-absolute top-50 start-50" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                `
+            )
+        },
+        complete: () => {
+            $('#ajaxLoadingImg').remove();
+        }
 
+    });
 }

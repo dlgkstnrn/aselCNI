@@ -50,6 +50,16 @@ public class PJHController {
 		return "pjh/initemView";
 	}
 	
+	
+	@ResponseBody
+	@GetMapping("searchInitems")
+	public List<PJHInitem> searchInitems(PJHInitem initem){
+		System.out.println("PJHController searchInitems start...");
+		System.out.println("PJHController searchInitems param->"+ initem);
+		
+		return null;
+	}
+	
 	private Paging pagination(PJHInitem initem) {
 		System.out.println("PJHController pagination start...");
 		System.out.println("PJHController pagination param->"+ initem);
