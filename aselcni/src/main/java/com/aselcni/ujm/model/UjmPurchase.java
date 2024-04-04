@@ -8,7 +8,6 @@ public class UjmPurchase { //발주
 	private String purc_dt; //발주일자
 	private String cust_cd; //거래처CD(매입처), fk
 	private String cust_emp; //담당자명(상대편)
-	private int    purc_cost; //공급가액(가격,단가통일)
 	private String remark; //비고
 	private String purc_emp_id; //발주담당자ID
 	private String purc_update; //발주수정일
