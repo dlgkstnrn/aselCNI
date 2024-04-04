@@ -1,0 +1,740 @@
+!SESSION 2024-04-02 14:25:48.329 -----------------------------------------------
+eclipse.buildId=4.22.0.202403071427
+java.version=17.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=aarch64, WS=cocoa, NL=ko_KR
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4 -keyring /Users/djinii/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch aarch64 -product org.springframework.boot.ide.branding.sts4 -keyring /Users/djinii/.eclipse_keyring
+
+!ENTRY org.eclipse.emf.ecore 2 0 2024-04-02 14:25:49.505
+!MESSAGE Both 'org.eclipse.jst.j2ee.core' and 'org.eclipse.jst.j2ee.core' register a package for 'application.xmi'
+
+!ENTRY ch.qos.logback.classic 1 0 2024-04-02 14:25:49.575
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-04-02 14:26:49.912
+!MESSAGE Logback config file: /Users/djinii/Desktop/aselCNI/aselcni/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.6.0.20240217-1525.xml
+
+!ENTRY org.eclipse.ui 2 0 2024-04-02 14:26:50.004
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-04-02 14:26:50.004
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2024-04-02 14:26:50.152
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-04-02 14:26:50.152
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui.ide 4 0 2024-04-02 14:27:24.550
+!MESSAGE Could not import project located at /Users/djinii/Desktop/aselCNI/aselcni
+!STACK 0
+org.eclipse.ui.internal.wizards.datatransfer.CouldNotImportProjectException: Could not import project located at /Users/djinii/Desktop/aselCNI/aselcni
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:555)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.run(SmartImportJob.java:246)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.createOrImportProject(SmartImportJob.java:594)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:542)
+	... 2 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:28:39.656
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:28:39.695
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:28:53.408
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:28:53.476
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:28:57.809
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:28:57.883
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:07.582
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:07.656
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.043
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.106
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.229
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.296
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.396
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.464
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.552
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.623
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.720
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.789
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.925
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:08.992
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:09.895
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.buildship.core 2 1 2024-04-02 14:29:09.957
+!MESSAGE Synchronize project aselCNI failed due to an error while importing the root project.
+!STACK 0
+org.eclipse.buildship.core.internal.ImportRootProjectException: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:53)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.runInToolingApi(DefaultGradleBuild.java:230)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager$WorkspaceRunnableAdapter.run(DefaultToolingApiOperationManager.java:58)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2473)
+	at org.eclipse.buildship.core.internal.operation.DefaultToolingApiOperationManager.run(DefaultToolingApiOperationManager.java:39)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild$SynchronizeOperation.run(DefaultGradleBuild.java:197)
+	at org.eclipse.buildship.core.internal.DefaultGradleBuild.synchronize(DefaultGradleBuild.java:105)
+	at org.eclipse.buildship.ui.internal.wizard.project.ProjectImportWizardController$5.run(ProjectImportWizardController.java:213)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: org.eclipse.buildship.core.internal.GradlePluginsRuntimeException: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:128)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.importRootProject(ImportRootProjectOperation.java:95)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation$1.run(ImportRootProjectOperation.java:68)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2468)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.runInWorkspace(ImportRootProjectOperation.java:58)
+	at org.eclipse.buildship.core.internal.workspace.ImportRootProjectOperation.run(ImportRootProjectOperation.java:51)
+	... 9 more
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.buildship.core.internal.workspace.DefaultWorkspaceOperations.createProject(DefaultWorkspaceOperations.java:113)
+	... 15 more
+
+!ENTRY org.eclipse.ui.ide 4 0 2024-04-02 14:29:51.765
+!MESSAGE Could not import project located at /Users/djinii/Desktop/aselCNI/aselcni
+!STACK 0
+org.eclipse.ui.internal.wizards.datatransfer.CouldNotImportProjectException: Could not import project located at /Users/djinii/Desktop/aselCNI/aselcni
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:555)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.run(SmartImportJob.java:246)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:211)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:95)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:305)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:291)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.createOrImportProject(SmartImportJob.java:594)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:542)
+	... 2 more
