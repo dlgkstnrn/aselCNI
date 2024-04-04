@@ -23,6 +23,7 @@
 		    u.user_nm
 		    
 		    FROM TB_OUTITEM ou
+		    
 		    INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
 		    INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
 		    INNER JOIN TB_OUTITEM_ITEM oi ON ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
