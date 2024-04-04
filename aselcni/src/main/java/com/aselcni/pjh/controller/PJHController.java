@@ -41,10 +41,7 @@ public class PJHController {
 		PJHInitem initem = new PJHInitem();
 		Paging page = pagination(initem);
 		
-		List<PJHInitem> initems = service.getInitemList(initem);
-		System.out.println("PJHController initemView initems->"+ initems);
-		
-		model.addAttribute("initems", initems);
+		model.addAttribute("initems",getInItemList(initem, page));
 		model.addAttribute("page",page);
 		
 		return "pjh/initemView";
@@ -53,11 +50,17 @@ public class PJHController {
 	
 	@ResponseBody
 	@GetMapping("searchInitems")
-	public List<PJHInitem> searchInitems(PJHInitem initem){
+	public Map<String, Object> searchInitems(PJHInitem initem){
 		System.out.println("PJHController searchInitems start...");
 		System.out.println("PJHController searchInitems param->"+ initem);
 		
-		return null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		Paging page = pagination(initem);
+		response.put("page", page);
+		response.put("initems", getInItemList(initem, page));
+		
+		System.out.println("PJHController searchInitems response->"+ response);
+		return response;
 	}
 	
 	private Paging pagination(PJHInitem initem) {
@@ -77,6 +80,15 @@ public class PJHController {
 		System.out.println("PJHController pagination initem->"+ initem);
 		
 		return page;
+	}
+	
+	private List<PJHInitem> getInItemList(PJHInitem initem, Paging page){
+		System.out.println("PJHController getInItemList start...");
+		List<PJHInitem> initems = new ArrayList<PJHInitem>();
+		if(page.getTotal() != 0)
+			initems = service.getInitemList(initem);
+		System.out.println("PJHController getInItemList initems->"+ initems);
+		return initems;
 	}
 	
 	@RequestMapping("/initemWrite")
