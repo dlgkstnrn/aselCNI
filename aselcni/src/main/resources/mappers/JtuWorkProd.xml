@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.JtumWorkProdMapper">
+
+	<select id="jtuGetWprList" resultType="JtuWorkProd">
+		select *
+		from TB_WORKPROD w
+		join TB_ITEMMST i
+		on w.ITEM_CD= i.ITEM_CD
+		where WORKPROD_DELETE_CHK =0
+	</select>
+
+
+
+</mapper>

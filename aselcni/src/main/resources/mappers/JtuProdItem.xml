@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.JtumProdItemMapper">
+
+	<insert id="jtuInsertPri" parameterType="JtuProdItem">
+		insert into TB_PRODITEM
+		(WORKPROD_NO, PRODITEM_END_DT, ITEM_CD, PLN_QTY, PROD_QTY, BAD_QTY, BAD_RES, 
+					REMARK, WH_CD, PRODITEM_EMP_ID, PRODITEM_UPDATE, PRODITEM_DELETE_CHK)
+					
+		values(#{workprod_no}, #{proditem_end_dt}, #{item_cd}, #{pln_qty}, #{prod_qty}, #{bad_qty}, #{bad_res}, 
+					#{remark}, #{wh_cd}, #{proditem_emp_id}, CONVERT(CHAR(10),GETDATE(), 23), 0)
+		
+	</insert>
+	
+
+	<resultMap id="WHResultMap"
+		type="com.aselcni.jtu.model.JtuWH">
+		<result property="wh_cd"	column="WH_CD" />
+		<result property="wh_nm"	column="WH_NM" />
+		<result property="remark"	column="REMARK" />
+		
+		<result property="wh_type1"	column="WH_TYPE1" />
+		<result property="wh_type2"	column="WH_TYPE2" />
+		<result property="wh_type3"	column="WH_TYPE3" />
+		<result property="use_flag"	column="USE_FLAG" />
+		
+		<result property="wh_regdate"	column="WH_REGDATE" />
+		<result property="wh_update"	column="WH_UPDATE" />
+		<result property="wh_emp_id"	column="WH_EMP_ID" />
+		
+		<result property="wh_delete_chk"	column="WH_DELETE_CHK" />
+	</resultMap>
+
+	<select id="jtuGetWHList" resultMap="WHResultMap">
+		select * 
+		from TB_WHMST
+		where WH_DELETE_CHK=0
+	</select>
+	
+	<select id="JtuGetPriList" parameterType="JtuProdItem" resultType="JtuProdItem">
+		select * 
+		from TB_PRODITEM p 
+		join TB_ITEMMST i on p.ITEM_CD = i.ITEM_CD
+		join TB_WHMST w	on p.WH_CD = w.WH_CD
+		where p.PRODITEM_DELETE_CHK=0
+		and CONVERT(DATE, p.PRODITEM_END_DT, 23) between CONVERT(DATE, #{startDate}, 23) and CONVERT(DATE, #{endDate}, 23)
+	</select>
+
+
+
+
+</mapper>
