@@ -24,8 +24,12 @@ public class CompmstController {
 	@GetMapping("compmst")
 	public String compmst(Model model) {
 		Compmst compmst = compmstService.compmstSelect();
-		model.addAttribute("compmst", compmst);
-		model.addAttribute("compImage", "data:image/png;base64,"+ new String(Base64.getEncoder().encodeToString(compmst.getComp_image())));
+		if(compmst != null) {
+			model.addAttribute("compmst", compmst);
+			if(compmst.getComp_image() != null) {
+				model.addAttribute("compImage", "data:image/png;base64,"+ new String(Base64.getEncoder().encodeToString(compmst.getComp_image())));
+			}
+		}
 		return "lhs/compmst";
 	}
 	
