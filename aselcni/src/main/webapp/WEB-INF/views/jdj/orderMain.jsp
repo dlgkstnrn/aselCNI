@@ -94,7 +94,7 @@
 					        </div>
 					    </div>
 					    <div class="col-2 d-flex justify-content-end" style="width: 24.6%">
-					        <button type="button" class="btn btn-primary" onclick="location.href='/orderSpec'" style="height: 38px; width: 60px">신규</button>
+					        <button type="button" class="btn btn-primary" onclick="location.href='/orderReg'" style="height: 38px; width: 60px">신규</button>
 					    </div>
 					</div> <%-- table-top --%>
 					<table class="table table-borderless datatable datatable-table text-center">

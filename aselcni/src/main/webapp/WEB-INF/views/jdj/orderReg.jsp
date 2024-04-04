@@ -71,23 +71,7 @@
         <section class="section dashboard">
         	<div class="card">
         		<div class="card-body"><form><p>
-					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label">주문번호</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" value="ORD2403280001" disabled="true">
-						</div>
-					</div>
-					
-					<div class="row mb-3">
-						<label for="inputDate" class="col-sm-2 col-form-label">착수일</label>
-						<div class="col-sm-4">
-							<input type="date" class="form-control">
-						</div>
-						<label for="inputDate" class="col-sm-2 col-form-label">납기일</label>
-						<div class="col-sm-4">
-							<input type="date" class="form-control">
-						</div>
-					</div>
+
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">매입처</label>
 						<div class="col-sm-4">
@@ -101,6 +85,17 @@
 						<label for="inputText" class="col-sm-2 col-form-label">담당자명</label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control" value="거래처 담당자명">
+						</div>
+					</div>
+					
+					<div class="row mb-3">
+						<label for="inputDate" class="col-sm-2 col-form-label">착수일</label>
+						<div class="col-sm-4">
+							<input type="date" class="form-control">
+						</div>
+						<label for="inputDate" class="col-sm-2 col-form-label">납기일</label>
+						<div class="col-sm-4">
+							<input type="date" class="form-control">
 						</div>
 					</div>
 					<div class="row mb-3">

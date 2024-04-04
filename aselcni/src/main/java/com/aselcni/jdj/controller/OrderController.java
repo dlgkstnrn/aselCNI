@@ -1,7 +1,5 @@
 package com.aselcni.jdj.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.jdj.model.Cust;
 import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
@@ -52,6 +51,12 @@ public class OrderController {
 //	등록
 	@GetMapping("/orderReg")
 	public String orderReg() {
+		System.out.println("check");
+		List<Cust> getCustLi = null;
+		
+		
+		
+		
 		return "jdj/orderReg";
 	}
 		
