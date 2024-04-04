@@ -76,7 +76,7 @@ public class JtuController {
 	
 	
 	@ResponseBody
-	@RequestMapping("getWHMstListRegiModalList")
+	@RequestMapping("getWHListRegiModal")
 	// 창고 리스트 불러오기
 	public List<JtuWH> getWHListAjax(Model model) {
 		System.out.println("JtuController getWHListListAjax Start... ");

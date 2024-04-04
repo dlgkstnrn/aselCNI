@@ -209,9 +209,9 @@
 	
 	//dropdown 기능 
 	$(document).ready(function() {
-		//$('#workProdNoEditModal').dropdown();
 		$('#workProdNoRegiModal').dropdown();
 		$('#prodItemWHRegiModal').dropdown();
+		$('#prodItemWHEditModal').dropdown();
 	});
 	
 
@@ -222,7 +222,7 @@
 	    	inputToday("#prodEndDateRegiModal",);
 	    	
 	    	//창고 리스트 RegiModal에 넣어줌
-	    	getWHMstListRegiModalList();
+	    	getWHListRegiModal("RegiModal");
 	    })
 	})
 	
@@ -239,41 +239,55 @@
 	}
 	
 	//창고 리스트 RegiModal에 넣는 함수
-	function getWHMstListRegiModalList() {
-		$("#prodItemWHList").find("li").remove();
-        $.ajax({
-            url: 'getWHMstListRegiModalList',
-            method: 'POST',
-            dataType: 'json',
-            success: function(whList) {
-            	console.log("whList", whList);
-                let ulTag = $('#prodItemWHList'); 
-                $.each(whList, function(index, wh) {
-                	let liTag = $("<li></li>");
-                    let aTag = $("<a></a>", {
-                        "class": "dropdown-item",
-                        "href": "#",
-                        "data-val": wh.wh_cd,
-                        "text": wh.wh_nm + '(' + wh.wh_cd + ')'
-                    });
-	                    
-                    liTag.append(aTag); 
-                    ulTag.append(liTag);
-                });//each
-                
-                $("#prodItemWHList a").click(function(){
-                    $("#prodItemWHRegiModal").text($(this).text());
-                    $("#hiddenProdItemWHCdRegiModal").val($(this).data('val'));
-                    
-                    console.log("hiddenProdItemWHCdRegiModal", $("#hiddenProdItemWHCdRegiModal").val());
-                });
-            },
-            error : function(xhr, status, error) {
-            }
-        });//ajax
-   	}
+	function getWHListRegiModal(modalType) {
+	    var ulSelector = "";
+	    var itemSelector = "";
+	    var hiddenSelector = "";
 	
+	    if (modalType === "RegiModal") {
+	        ulSelector = "#whListRegiModal";
+	        itemSelector = "#prodItemWHRegiModal";
+	        hiddenSelector = "#hiddenProdItemWHCdRegiModal";
+	    } else if (modalType === "EditModal") {
+	        ulSelector = "#whListEditModal";
+	        itemSelector = "#prodItemWHEditModal";
+	        hiddenSelector = "#hiddenProdItemWHCdEditModal";
+	    }
 	
+	    $(ulSelector).find("li").remove();
+	    $.ajax({
+	        url: 'getWHListRegiModal',
+	        method: 'POST',
+	        dataType: 'json',
+	        success: function(whList) {
+	            console.log("whList", whList);
+	            let ulTag = $(ulSelector); 
+	            $.each(whList, function(index, wh) {
+	                let liTag = $("<li></li>");
+	                let aTag = $("<a></a>", {
+	                    "class": "dropdown-item",
+	                    "href": "#",
+	                    "data-val": wh.wh_cd,
+	                    "text": wh.wh_nm + '(' + wh.wh_cd + ')'
+	                });
+	
+	                liTag.append(aTag); 
+	                ulTag.append(liTag);
+	            });
+	
+	            $(ulSelector + " a").click(function(){
+	                $(itemSelector).text($(this).text());
+	                $(hiddenSelector).val($(this).data('val'));
+	
+	                console.log(hiddenSelector, $(hiddenSelector).val());
+	            });
+	        },
+	        error : function(xhr, status, error) {
+	            console.error("Error occurred: " + error);
+	        }
+	    });
+	}
+
 	//리스트 불러오고 생산 지시번호를 선택하면, 자동 텍스트 입력
 	$(document).ready(function() {
 	    $("#workProdNoRegiModal").click(function() {
@@ -397,9 +411,10 @@
             }
 		});//ajax
 	}
-
+	
+	//수정 버튼 눌렀을 때 로직
 	$(document).ready(function() {
-		$("#editModalupdateBtn").click(function(){
+		$("#editModalEditBtn").click(function(){
 			$("#empEditModal").prop("readonly", false);
 			$("#prodEndDateEditModal").prop("readonly", false);
 			
@@ -408,6 +423,21 @@
 			$("#defectiveLogEditModal").prop("readonly", false);
 			$("#remarkEditModal").prop("readonly", false);
 			
+			$("#prodItemWHEditModal").attr("data-bs-toggle","dropdown");
+			getWHListRegiModal("EditModal");
+			
+			$("#editModalEditBtn").hide();
+			$("#editModalUpdateBtn").show();
+		})
+	})
+	
+	//닫기 버튼 or X 버튼 눌렀을 때 로직
+	$(document).ready(function() {
+		  $('#prodItemEditModal').on('hidden.bs.modal', function () {
+			$("#editModalEditBtn").show();
+			$("#editModalUpdateBtn").hide();
+			
+			$("#prodItemWHEditModal").attr("data-bs-toggle","");
 		})
 	})
 	
@@ -598,7 +628,7 @@
 												<span class="moving-text moving-animation">제품을 넣어둘
 													창고를 선택</span>
 											</button>
-											<ul id="prodItemWHList" class="dropdown-menu col-sm-9"
+											<ul id="whListRegiModal" class="dropdown-menu col-sm-9"
 												aria-labelledby="prodItemWHRegiModal"
 											>
 											</ul>
@@ -696,7 +726,7 @@
 
 				<!-- Start prodItemEditModal------------m2-------------------->
 				<div class="modal fade" id="prodItemEditModal" tabindex="-1"
-					style="display: none;" aria-hidden="true"
+					style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
 				>
 					<div class="modal-dialog modal-dialog-centered modal-xl">
 						<div class="modal-content">
@@ -778,6 +808,10 @@
 											>
 												<span class="moving-text moving-animation"></span>
 											</button>
+											<ul id="whListEditModal" class="dropdown-menu col-sm-9"
+												aria-labelledby="prodItemWHEditModal"
+											>
+											</ul>
 										</div>
 									</div>
 
@@ -858,7 +892,8 @@
 									data-bs-dismiss="modal"
 								>닫기</button>
 								<button id="editModaldeleteBtn" type="button" class="btn btn-primary">삭제</button>
-								<button id="editModalupdateBtn" type="button" class="btn btn-primary">수정</button>
+								<button id="editModalEditBtn" type="button" class="btn btn-primary">수정</button>
+								<button id="editModalUpdateBtn" type="button" class="btn btn-primary" style="display: none;">저장</button>
 							</div>
 						</div>
 					</div>
