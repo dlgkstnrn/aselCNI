@@ -99,11 +99,11 @@
 		INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
-		<if test="searchItemNm != null and searchItemNm != ''">
-			AND ti2.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
+		<if test="item_nm != null and item_nm != ''">
+			AND ti2.ITEM_NM LIKE '%'+#{item_nm}+'%'
 		</if>
-		<if test="searchCustNm != null and searchCustNm != ''">
-			AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
+		<if test="cust_nm != null and cust_nm != ''">
+			AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
 		</if>
 	</select>
 	
@@ -115,13 +115,13 @@
 		INNER JOIN (SELECT DISTINCT tii2.INITEM_NO
 							FROM TB_INITEM_ITEM tii2
 							INNER JOIN TB_ITEMMST ti4 ON ti4.ITEM_CD = tii2.ITEM_CD
-							<if test="searchItemNm != null and searchItemNm != ''">
-							WHERE ti4.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
+							<if test="item_nm != null and item_nm != ''">
+							WHERE ti4.ITEM_NM LIKE '%'+#{item_nm}+'%'
 							</if>
 							) AS sub ON ti.INITEM_NO = sub.INITEM_NO
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
-		<if test="searchCustNm != null and searchCustNm != ''">
-		AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
+		<if test="cust_nm != null and cust_nm != ''">
+		AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
 		</if>
 		ORDER BY ti.INITEM_DT DESC
 		OFFSET #{start} ROW FETCH NEXT #{rowPage} ROW ONLY	

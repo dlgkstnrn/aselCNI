@@ -25,8 +25,8 @@ public class PJHInitem {
 	private String item_nm;
 	private String start_date;
 	private String end_date;
-	private String searchItemNm;
-	private String searchCustNm;
+	//private String searchItemNm;
+	//private String searchCustNm;
 	
 	// page 정보
 	private int startPage; // 시작 페이지
