@@ -16,4 +16,7 @@ public interface JtuServiceInterface {
 
 	List<JtuProdItem> getPriList(JtuProdItem jpri);
 
+
+	JtuProdItem getPriOneAjax(JtuProdItem paraJpri);
+
 }

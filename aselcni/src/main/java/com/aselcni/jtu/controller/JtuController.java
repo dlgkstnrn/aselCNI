@@ -41,13 +41,26 @@ public class JtuController {
 
 	@ResponseBody
 	@RequestMapping("getPriListAjax")
-	// 생산 지시 리스트 불러오기
+	// 생산 실적 리스트 불러오기
 	public List<JtuProdItem> getPriListAjax(Model model, JtuProdItem jpri) {
 		System.out.println("JtuController getPriListAjax Start... ");
 		System.out.println("JtuController getPriListAjax jpri --> " + jpri);
 		List<JtuProdItem> jpriListAjax = js.getPriList(jpri);
 
 		return jpriListAjax;
+	}
+
+	
+	@ResponseBody
+	@RequestMapping("getPriOneAjax")
+	// 생산 실적 상세 불러오기
+	public JtuProdItem getPriOneAjax(Model model, JtuProdItem paraJpri) {
+		System.out.println("JtuController getWHListListAjax Start... ");
+		
+		JtuProdItem jpri = js.getPriOneAjax(paraJpri);
+		System.out.println("JtuController getPriOneAjax jpri --> " + jpri);
+		
+		return jpri;
 	}
 
 	@ResponseBody
@@ -60,11 +73,12 @@ public class JtuController {
 
 		return jwprList;
 	}
-
+	
+	
 	@ResponseBody
 	@RequestMapping("getWHMstListRegiModalList")
 	// 창고 리스트 불러오기
-	public List<JtuWH> getWHListListAjax(Model model) {
+	public List<JtuWH> getWHListAjax(Model model) {
 		System.out.println("JtuController getWHListListAjax Start... ");
 
 		List<JtuWH> jwhList = js.getWhCode();
@@ -72,8 +86,9 @@ public class JtuController {
 
 		return jwhList;
 	}
-
-	@RequestMapping("submitWorkProdNoRegiModal")
+	
+	
+	@RequestMapping("submitWorkProdRegiModal")
 	public String setPriOne(Model model, JtuProdItem jpri) {
 		System.out.println("JtuController setPriOne Start... ");
 		System.out.println("JtuController setPriOne jpri --> " + jpri);
