@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst"/>
@@ -9,6 +9,11 @@
 		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml"/>
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
+		<typeAlias alias="PJHInitem" type="com.aselcni.pjh.model.PJHInitem"/>
+		<typeAlias alias="PJHInitemItem" type="com.aselcni.pjh.model.PJHInitemItem"/>
+		<typeAlias alias="PJHPurchase" type="com.aselcni.pjh.model.PJHPurchase"/>
+		<typeAlias alias="PJHPurchaseItem" type="com.aselcni.pjh.model.PJHPurchaseItem"/>
+		<typeAlias alias="PJHWhmst" type="com.aselcni.pjh.model.PJHWhmst"/>
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
 	</typeAliases>
 </configuration>
