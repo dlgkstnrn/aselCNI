@@ -1,0 +1,142 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+/*--------------------------------------------------------------
+# section
+--------------------------------------------------------------*/
+.card {
+	margin-bottom: 10px;
+	background-color: white;
+	width: 100%;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.card-body {
+	padding: 20px 20px 20px 20px;
+}
+
+.card-body .nav {
+    margin-bottom: 30px;
+    border-bottom: 0;
+    font-family: 'NanumSquare', sans-serif;
+    font-weight: 600;
+}
+
+.controller {
+    display: flex;
+    justify-content: space-between;
+}
+
+.controller .user-add {
+	width: 100px;
+	height: 40px;
+	font-family: 'NanumSquare', sans-serif;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-form {
+	display: flex;
+	justify-content: space-between;
+    font-size: 14px;
+    color: #012970;
+    border: 1px solid rgba(1, 41, 112, 0.2);
+    padding: 7px 10px 7px 8px;
+    border-radius: 5px;
+    transition: 0.3s;
+    width: 250px;
+}
+
+.search-form input {
+	outline: none;
+	font-family: 'NanumSquare', sans-serif;
+	border: 0;
+}
+
+.search-form:focus-within,
+.search-form:hover {
+  box-shadow: 0 0 10px 0 rgba(1, 41, 112, 0.15);
+  border: 1px solid rgba(1, 41, 112, 0.3);
+}
+
+.search-form button {
+	border: 0;
+	padding: 0;
+	background: none;
+}
+
+.search-form button i {
+	color: #012970;
+}
+
+.search-bar .search-filter {
+    margin-left: 10px;
+    border: 1px solid rgba(1, 41, 112, 0.2);
+    height: 40px;
+    width: 130px;
+    font-family: 'NanumSquare', sans-serif;
+}
+
+.table {
+    font-family: 'NanumSquare', sans-serif;
+}
+
+.table tr th:nth-child(1) {
+    width: 5%;
+}
+
+.table tr th:nth-child(2) {
+    width: 12%;
+}
+
+.table tr th:nth-child(3) {
+    width: 12%;
+}
+
+.table tr th:nth-child(4) {
+    width: 17%;
+}
+
+.table tr th:nth-child(5) {
+    width: 17%;
+}
+
+.table tr th:nth-child(6) {
+    width: 20%;
+}
+
+.table tr th:nth-child(7) {
+    width: 10%;
+}
+
+.table tr th:nth-child(8) {
+    width: 7%;
+}
+
+tbody tr {
+	height: 30px;
+}
+
+tbody tr td, tbody tr th {
+	line-height: 30px;
+}
+
+.user-delete {
+	display: flex;
+	align-items: center;
+	height: 30px;
+}
+
+.page-navigation {
+    display: flex;
+    justify-content: center;
+}
+
+.page-navigation .pagination {
+    margin-bottom: 0;
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.KphOutItemMapper">
+					
+	<select id="KphOutItemList" parameterType="KphOutItem" resultType="KphOutItem">
+		SELECT ou.*, tc.CUST_NM , tu.USER_NM 
+		FROM TB_OUTITEM ou, TB_CUSTMST tc , TB_USERMST tu 
+		WHERE ou.CUST_CD = tc.CUST_CD 
+		   	AND ou.OUTITEM_EMP_ID = tu.USER_ID
+		   	AND ou.OUTITEM_DELETE_CHK = 0
+		   	<choose>
+		   	<when test="searchFilter=='all'">
+					AND (ou.OUTITEM_NO LIKE '%' + #{keyword} + '%'
+							OR ou.OUTITEM_NO LIKE '%' + #{keyword} + '%'
+							OR ou.ORDER_NO LIKE '%' + #{keyword} + '%'
+							OR tc.CUST_NM LIKE '%' + #{keyword} + '%'
+							OR ou.OUTITEM_EMP_ID LIKE '%' + #{keyword} + '%'
+							)
+				</when>
+				<when test="searchFilter=='outitem_no'">
+					AND ou.OUTITEM_NO LIKE '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='order_no'">
+					AND ou.ORDER_NO LIKE '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='cust_nm'">
+					AND tc.CUST_NM LIKE '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='outitem_emp_nm'">
+					AND ou.OUTITEM_EMP_ID LIKE '%' + #{keyword} + '%'
+				</when>
+			</choose>
+			<choose>
+				<when test="dateSearchFilter=='all'">
+					AND (ou.OUTITEM_DT BETWEEN CONVERT(CHAR(10), GETDATE()-30, 23) AND CONVERT(CHAR(10), GETDATE(), 23)
+							OR ou.OUTITEM_DT BETWEEN CONVERT(CHAR(10), GETDATE()-7, 23) AND CONVERT(CHAR(10), GETDATE(), 23)
+							OR ou.OUTITEM_DT = CONVERT(CHAR(10), GETDATE(), 23)
+							)
+				</when>
+				<when test="dateSearchFilter=='30day'">
+					AND ou.OUTITEM_DT BETWEEN CONVERT(CHAR(10), GETDATE()-30, 23) AND CONVERT(CHAR(10), GETDATE(), 23)
+				</when>
+				<when test="dateSearchFilter=='7day'">
+					AND ou.OUTITEM_DT BETWEEN CONVERT(CHAR(10), GETDATE()-7, 23) AND CONVERT(CHAR(10), GETDATE(), 23)
+				</when>
+				<when test="dateSearchFilter=='1day'">
+					AND ou.OUTITEM_DT = CONVERT(CHAR(10), GETDATE(), 23)
+				</when>
+			</choose>
+		 ORDER BY ou.OUTITEM_NO DESC
+	</select>
+	
+</mapper>
