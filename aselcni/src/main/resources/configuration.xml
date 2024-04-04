@@ -47,13 +47,7 @@
 		<typeAlias alias="CSG_TB_TYPE_MID" 		type="com.aselcni.csg.model.CSG_TB_TYPE_MID"/>
 		<typeAlias alias="CSG_TB_TYPE_SML" 		type="com.aselcni.csg.model.CSG_TB_TYPE_SML"/>
 		<typeAlias alias="CSG_CategoryData" 	type="com.aselcni.csg.model.CSG_CategoryData"/>
-	
-	</typeAliases>
-</configuration>
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>
-	<typeAliases>
+
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst"/>
 		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst"/>
 		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig"/>

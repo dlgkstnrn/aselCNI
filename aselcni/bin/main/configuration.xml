@@ -47,6 +47,17 @@
 		<typeAlias alias="CSG_TB_TYPE_MID" 		type="com.aselcni.csg.model.CSG_TB_TYPE_MID"/>
 		<typeAlias alias="CSG_TB_TYPE_SML" 		type="com.aselcni.csg.model.CSG_TB_TYPE_SML"/>
 		<typeAlias alias="CSG_CategoryData" 	type="com.aselcni.csg.model.CSG_CategoryData"/>
-	
+
+		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst"/>
+		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst"/>
+		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig"/>
+		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid"/>
+		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml"/>
+		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
+		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
+		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
+		<typeAlias alias="KphOutItem" type="com.aselcni.kph.model.KphOutItem"/>
+		<typeAlias alias="KphOutItemItem" type="com.aselcni.kph.model.KphOutItemItem"/>
+		<typeAlias alias="KphReturn" type="com.aselcni.kph.model.KphReturn"/>
 	</typeAliases>
 </configuration>
