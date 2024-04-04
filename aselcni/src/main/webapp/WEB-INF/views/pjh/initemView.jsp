@@ -79,14 +79,14 @@
 										<div class="col-md-7">
 											<div class="input-group">
 												<span class="input-group-text">조회기간</span>
-												<input id="start_date" onchange="changeData(this)" type="date" aria-label="startDate" class="form-control">
-												<input id="end_date" onchange="changeData(this)" type="date" aria-label="endDate" class="form-control">
+												<input id="start_date" type="date" aria-label="startDate" class="form-control">
+												<input id="end_date" type="date" aria-label="endDate" class="form-control">
 											</div>
 										</div>
 										<div class="col-md-5">
 											<div class="input-group">
 												<span class="input-group-text">매입처</span>
-												<input id="cust_nm" onchange="changeData(this)" type="text" class="form-control" placeholder="매입처명"
+												<input id="cust_nm" type="text" class="form-control" placeholder="매입처명"
 													aria-label="매입처명" aria-describedby="button-addon2">
 												<!-- <button class="btn btn-outline-secondary" type="button"
 													id="button-addon2"><i class="bi bi-search"></i></button> -->
@@ -98,7 +98,7 @@
 										<div class="col-md-5">
 											<div class="input-group">
 												<span class="input-group-text">입고번호</span>
-												<input id="initem_no" onchange="changeData(this)" type="text" class="form-control" placeholder="입고번호"
+												<input id="initem_no" type="text" class="form-control" placeholder="입고번호"
 													aria-label="입고번호" aria-describedby="button-addon3">
 												<!-- <button class="btn btn-outline-secondary" type="button"
 													id="button-addon3"><i class="bi bi-search"></i></button> -->
@@ -107,7 +107,7 @@
 										<div class="col-md-6">
 											<div class="input-group">
 												<span class="input-group-text">자재명</span>
-												<input id="item_nm" onchange="changeData(this)" type="text" class="form-control" placeholder="자재명"
+												<input id="item_nm" type="text" class="form-control" placeholder="자재명"
 													aria-label="자재명" aria-describedby="button-addon4">
 												<!-- <button class="btn btn-outline-secondary" type="button"
 													id="button-addon4"><i class="bi bi-search"></i></button> -->
@@ -147,17 +147,17 @@
 								<nav aria-label="Page navigation example">
 									<ul class="pagination justify-content-center">
 										<li class="page-item">
-											<a class="page-link" href="#" aria-label="Previous">
+											<button class="page-link" onclick="prevPage()"  aria-label="Previous">
 												<span aria-hidden="true">«</span>
-											</a>
+											</button>
 										</li>
 										<c:forEach var="i" begin="${page.startPage}" end="${page.endPage }">
-										<li class="page-item"><a class="page-link" href="#">${i }</a></li>
+										<li class="page-item pageNum"><button class="page-link" onclick="goPage('${i}')">${i }</button></li>
 										</c:forEach>
-										<li class="page-item">
-											<a class="page-link" href="#" aria-label="Next">
+										<li id="nextPageLi" class="page-item">
+											<button id="nextPageBtn" class="page-link" onclick="nextPage(this)" data-total-page="${page.totalPage }" aria-label="Next">
 												<span aria-hidden="true">»</span>
-											</a>
+											</button>
 										</li>
 									</ul>
 								</nav>

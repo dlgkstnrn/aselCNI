@@ -14,15 +14,19 @@ const data = {
     initem_no: $('initem_no').val()
 }
 
-// 입력값 변경 시 전달 객체 최신화 함수
-const changeData = function (elem) {
-    data[elem.id] = elem.value;
-    data.currentPage = '1';
-    console.log(data);
-}
-
 // 검색
 const searchInitem = function () {
+    data.currentPage = '1';
+    data.start_date = $('#start_date').val();
+    data.end_date = $('#end_date').val();
+    data.cust_nm = $('#cust_nm').val();
+    data.item_nm = $('#item_nm').val();
+    data.initem_no = $('initem_no').val();
+    getTableRow();
+}
+
+// 테이블 리스트 ajax
+const getTableRow = function () {
     // 검색 기능
     $.ajax({
         type: "GET",
@@ -38,6 +42,7 @@ const searchInitem = function () {
 
             const tbody = $('#initemListTable');
             tbody.empty();
+            $('.pageNum').remove();
             res.initems.forEach((item, idx) => {
                 tbody.append(
                     `
@@ -51,30 +56,14 @@ const searchInitem = function () {
                     `
                 )
             });
-
-
-            /*
-            if (res.length == 0) {
-                alert('조회가능한 정보가 없습니다.');
-                return;
+            for (let i = res.page.startPage; i <= res.page.endPage; i++) {
+                $('#nextPageLi').before(
+                    `
+                    <li class="page-item pageNum"><button class="page-link" onclick="goPage('${i}')">${i}</button></li>
+                    `
+                );
             }
-            $('#itemTableBody').empty();
-            res.forEach((ele, idx) => {
-                if (!ele['qty'])
-                    return;
-                $('#itemTableBody').append(
-                    `<tr>
-                        <th scope="row"><input type="checkbox"></th>
-                        <td id="initemNo${idx}">${ele['item_cd']}</td>
-                        <td>${ele['item_nm']}</td>
-                        <td>${ele['item_spec']}</td>
-                        <td>${ele['item_unit']}</td>
-                        <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" placeholder="입고수량" style="width: 75px"></td>
-                        <td>${ele['purc_cost']}</td>
-                      </tr>`
-                )
-            });
-            */
+            document.getElementById('nextPageBtn').dataset.totalPage = res.page.totalPage;
         },
         beforeSend: () => {
             $('body').append(
@@ -90,4 +79,28 @@ const searchInitem = function () {
         }
 
     });
+}
+
+// 페이지 이동함수
+const goPage = function (i) {
+    data.currentPage = i;
+    getTableRow();
+}
+
+const nextPage = function (element) {
+    if (data.currentPage >= element.dataset.totalPage) {
+        alert('마지막 페이지 입니다.');
+        return;
+    }
+    data.currentPage = data.currentPage * 1 + 1;
+    getTableRow();
+}
+
+const prevPage = function () {
+    if (data.currentPage == '1') {
+        alert('첫 페이지 입니다.');
+        return;
+    }
+    data.currentPage = '' + (data.currentPage * 1 - 1);
+    getTableRow();
 }
