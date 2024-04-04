@@ -31,31 +31,29 @@
 <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <!-- 제이쿼리에 의존하는 JS들이 있기 때문에 상단에 위치 해야함 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- 제이쿼리 UI(컬러피커에 사용) -->
-<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-	rel="stylesheet">
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<!-- 주문선택 데이터피커 라이브러리 css, js, locale(한글)-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"></script>
+
 <!-- 셀렉트박스에 Select2 CSS -->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
-	rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <!-- Select2 JS -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <!-- CSS File -->
 <link href="assets/css/style.css" rel="stylesheet" type="text/css">
 
 <!-- Script -->
 <script defer src="assets/js/main.js"></script>
-<script src="https://kit.fontawesome.com/0b22ed6a9d.js"
-	crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
 <!-- 풀캘린더 API -->
-<script
-	src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 <!-- KDW Main CSS,JS,Script -->
 <script src="assets/js/kdw/kdwProductionPlanning.js"></script>
 <link href="assets/css/kdw/kdwProductionPlanning.css" rel="stylesheet">
@@ -111,7 +109,7 @@
 						<div class="prodPlan-modal">
 							<div class="modal fade" id="verticalycentered" tabindex="-1"
 								style="display: none;" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered custom-modal-css">
+								<div class="modal-dialog modal-dialog-centered insert-modal-css">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title"
@@ -441,8 +439,7 @@
 						<!-- 주문번호 중첩 모달 -->
 						<div class="modal fade" id="oderModal" tabindex="-1"
 							aria-hidden="true" style="display: none;">
-							<div
-								class="modal-dialog modal-dialog-centered custom-oderModal-css">
+							<div class="modal-dialog modal-dialog-centered custom-oderModal-css modal-lg">
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title"
@@ -452,28 +449,44 @@
 									</div>
 									<!-- 중첩 모달 내용 -->
 									<div class="modal-body">
-										<!-- 년월 선택기 -->
 										<div class="input-group date" id="monthPicker">
-											<input type="text" class="form-control"> 
-											<span class="input-group-append">
-											 <span class="input-group-text">
-												<i class="fa fa-calendar"></i></span>
-											</span>
+										    <input type="text" class="form-control"> 
+										    <span class="input-group-append">
+										        <span class="input-group-text date">
+										        <i class="fa fa-calendar" id="dateIcon"></i></span>
+										    </span>
 										</div>
-										<!-- 주문번호 리스트 표시 -->
-										<ul id="orderList" class="mt-3 list-unstyled">123123123</ul>
+										<!-- 주문번호 리스트 표시 테이블 -->
+										<table class="table" id="orderListTable">
+											<thead>
+												<tr>
+													<th>선택</th>
+													<th>주문코드</th>
+													<th>고객사</th>
+													<th>비고</th>
+													<th>주문일자</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-bs-dismiss="modal">취소</button>
-										<button type="button" class="btn btn-primary"
-											id="saveOrderButton">저장</button>
+										<!-- 검색 필드 -->
+									    <div class="input-group mb-3 oderModal-search">
+									        <span class="input-group-text" id="basic-addon1">
+									            <i class="bi bi-search"></i>
+									        </span>
+									        <input type="text" class="form-control oderModal-search-input" id="searchInput" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon1">
+									    </div>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+										<button type="button" class="btn btn-primary" id="saveOrderButton">선택</button>
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- End 주문번호 중첩 모달 -->
-
+ 
 						<!-- Calendar -->
 						<div class="calendar-group">
 							<div id='calendar'></div>

@@ -40,6 +40,7 @@
 		<typeAlias alias="KdwProdPlanItem"
 			type="com.aselcni.kdw.model.TB_ITEM_PROD" />
 		<typeAlias alias="KdwProdOrder" type="com.aselcni.kdw.model.KDW_TB_ORDER" />
+		<typeAlias alias="KdwProdOrderItem" type="com.aselcni.kdw.model.KDW_TB_ORDER_ITEM" />
 			
 		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem" />
 		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd" />

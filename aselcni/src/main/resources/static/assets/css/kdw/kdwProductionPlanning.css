@@ -289,6 +289,7 @@ body {
 .orderList-table thead th:last-child {
 	width: 12%; /* 수량 */
 }
+
 .orderList-item td {
 	padding: 0 7px;
 }
@@ -335,16 +336,20 @@ body {
 .prodPlanList-table thead th:last-child {
 	width: 13%; /* 작업일수 */
 }
+
 .prodPlanList-item td {
 	padding: 0 7px;
 }
 /* =========== End 생산계획 ========== */
 
 /* ============ 등록 모달창 =========== */
-.custom-modal-css {
+.insert-modal-css .modal-content {
 	max-width: 800px;
 	min-width: 800px;
+	max-height: 700px;
+	min-height: 700px;
 	margin-top: -20px;
+	overflow-y: auto;
 }
 
 .modal-content {
@@ -417,12 +422,12 @@ body {
 /* ========== End 등록 모달창 ========= */
 
 /* ========= 제품 품목선택 모달창 ======== */
-.custom-nestedModal-css {
+.custom-nestedModal-css .modal-content {
 	max-width: 800px;
 	min-width: 800px;
-	margin-top: 100px;
-	max-height: 500px;
-	min-height: 500px;
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
 	overflow-y: auto;
 }
 
@@ -444,12 +449,13 @@ body {
 /* ======= 투입자재 품목선택 모달창 ======= */
 /* 모달 내부의 스크롤을 방지하고, Select2 드롭다운만 스크롤되도록 설정 */
 /* 적용 안되는 중 */
-.custom-nestedItemModal-css {
+.custom-nestedItemModal-css .modal-content {
 	max-width: 800px;
 	min-width: 800px;
-	max-height: 500px;
-	min-height: 500px;
-	overflow-y: auto
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
+	overflow-y: auto;
 }
 /* 분류된 투입자재 항목 개수 */
 .prodPlanItemCount {
@@ -509,12 +515,66 @@ body {
 /* ===== End 투입자재 품목선택 모달창 ===== */
 
 /* ========= 주문번호 선택 모달창 ======== */
-.custom-oderModal-css {
+#oderModal .custom-oderModal-css .modal-content {
 	max-width: 800px;
 	min-width: 800px;
-	margin-top: 100px;
-	max-height: 500px;
-	min-height: 500px;
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
 	overflow-y: auto;
+}
+
+.input-group-text.date {
+	width: 50px;
+	height: 50px;
+	border-top-left-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
+}
+
+#dateIcon {
+	margin-left: 5px;
+}
+#orderListTable {
+	font-size: 14px;
+	margin-top: 10px;
+}
+#orderListTable tbody {
+	display: block;
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+#orderListTable thead, #orderListTable tbody tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+#orderListTable thead th:first-child,
+#orderListTable tbody td:first-child {
+	width: 60px;
+}
+#orderListTable thead th:nth-child(2),
+#orderListTable tbody td:nth-child(2) {
+	width: 250px;
+}
+#orderListTable tbody td, #orderListTable thead th {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.modal-footer {
+	padding: 0px 3px;
+}
+
+.oderModal-search {
+	width: 250px;
+	margin-right: 374px;
+	margin-top: 17px;
+}
+
+.oderModal-search-input {
+	width: 100%;
 }
 /* ======= End 주문번호 선택 모달창 ======= */

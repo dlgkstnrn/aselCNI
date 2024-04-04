@@ -26,9 +26,14 @@
 	
 	<!-- 주문 리스트: 등록할때 주문당 생산계획짜야됨 -->	
 	<select id="kdwProdPlanOrderList" resultType="KdwProdOrder">
-		SELECT *
-		FROM TB_ORDER
+		SELECT od.*, tc.CUST_NM AS cust_nm
+		FROM TB_ORDER od
+		INNER JOIN TB_CUSTMST tc ON od.CUST_CD = tc.CUST_CD
 	</select>
-	
+	<select id="kdwProdPlanOrderItemList" resultType="KdwProdOrderItem">
+		SELECT toi.*, ti.ITEM_NM AS item_nm
+		FROM TB_ORDER_ITEM toi
+		INNER JOIN TB_ITEMMST ti ON toi.ITEM_CD = ti.ITEM_CD
+	</select>
 	
 </mapper>

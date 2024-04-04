@@ -18,6 +18,7 @@ $(document).ready(function() {
 				dataType: 'json',
 				success: function(response) {
 					responseProdPlans = response;
+					updateOrderList(defaultMonth);
 					var events = response.prodPlans.map(function(plan) {
 						return {
 							id: plan.prodPlan_no,
@@ -330,53 +331,84 @@ $(document).ready(function() {
 	// ========== End 셀렉트2(제품모달, 투입자재모달) ==========
 
 	// ============= 주문번호 선택 중첩모달 ==============
-	// 날짜 선택기 초기화
-	$('#monthPicker').datepicker({
-		format: "yyyy-mm",
-		startView: "months",
-		minViewMode: "months",
-		autoclose: true
-	}).on('changeDate', function(e) {
+	// 날짜 선택기에서 날짜가 변경될 때마다 실행될 이벤트 핸들러
+	// 현재 날짜를 기반으로 yyyy-mm 형식의 문자열 생성
+	var today = new Date();
+	var currentYear = today.getFullYear();
+	var currentMonth = today.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
+	var formattedMonth = currentMonth < 10 ? '0' + currentMonth : currentMonth;
+	var defaultMonth = currentYear + '-' + formattedMonth;
+
+	function initializeDatePicker() {
+		$('#monthPicker').datepicker({
+			language: 'ko',
+			format: "yyyy-mm",
+			startView: "months",
+			minViewMode: "months",
+			autoclose: true,
+			container: '#oderModal .modal-body'
+		}).datepicker('update', defaultMonth);
+	}
+
+	initializeDatePicker(); // 달력 초기화 함수 호출
+
+	$('#monthPicker').on('changeDate', function(e) {
 		var selectedMonth = e.format(0, "yyyy-mm");
 		updateOrderList(selectedMonth);
 	});
-
-	var selectedOrderNo; // 사용자가 선택한 주문번호 저장
-
-	// 선택된 년월에 따라 주문번호 리스트 업데이트
+	// 페이지 로드 시 현재 월에 해당하는 주문 리스트 표시
 	function updateOrderList(selectedMonth) {
-		var orders = responseProdPlans.prodOrderList;
-		var filteredOrders = orders.filter(order => order.order_dt.startsWith(selectedMonth));
+		// 주문번호 중첩 모달 내 주문 리스트를 나타낼 테이블의 tbody 찾기
+		var $orderListTbody = $("#orderListTable tbody");
+		$orderListTbody.empty(); // 기존 리스트를 비움
 
-		console.log("Filtered Orders for month " + selectedMonth + ": ", filteredOrders); // 콘솔에 필터링된 주문번호 리스트 출력
+		// responseProdPlans 내에서 해당 월에 해당하는 주문 데이터 필터링
+		var filteredOrders = responseProdPlans.prodOrderList.filter(function(order) {
+			return order.order_dt.startsWith(selectedMonth);
+		});
 
-		var $orderList = $('#orderList');
-		$orderList.empty(); // 리스트 초기화
-
+		// 필터링된 주문 데이터를 테이블에 추가
 		filteredOrders.forEach(function(order) {
-			var $li = $('<li>')
-				.text(order.order_no)
-				.css('cursor', 'pointer')
-				.on('click', function() {
-					selectedOrderNo = order.order_no; // 선택된 주문번호 저장
-					console.log("Selected Order No: ", selectedOrderNo); // 콘솔에 선택된 주문번호 출력
-					$orderList.find('li').removeClass('selected');
-					$(this).addClass('selected'); // 선택된 항목 강조
-				});
-			$orderList.append($li);
+			var $row = $('<tr>').append(
+				$('<td>').append($('<input>').attr({ type: 'radio', name: 'selectedOrder', value: order.order_no })),
+				$('<td>').text(order.order_no),
+				$('<td>').text(order.cust_nm),
+				$('<td>').text(order.remark),
+				$('<td>').text(order.order_dt)
+			);
+			$orderListTbody.append($row);
 		});
 	}
 
 	// "저장" 버튼 클릭 이벤트
 	$('#saveOrderButton').on('click', function() {
+		var selectedOrderNo = $('input[name="selectedOrder"]:checked').val();
 		if (selectedOrderNo) {
 			// 선택된 주문번호를 이전 모달의 주문번호 입력 필드에 설정
 			$('#prodPlanNoInput').val(selectedOrderNo);
 			// 주문번호 선택 모달 닫기
-			$('#orderModal').modal('hide');
+			$('#oderModal').modal('hide');
 		} else {
 			alert('주문번호를 선택해주세요.');
 		}
 	});
-
+	// 이전 모달을 다시 열기
+	$('#oderModal').on('hidden.bs.modal', function() {
+		// 모달이 닫힐 때 라디오 선택 초기화
+		$('input[name="selectedOrder"]:checked').prop('checked', false);
+		// 달력을 현재 월로 초기화
+		initializeDatePicker();
+		// 주문 리스트 초기화
+		updateOrderList(defaultMonth);
+		$("#searchInput").val(""); // 검색 필드 초기화
+		$("#orderListTable tbody tr").show(); // 모든 테이블 행 표시
+		$('#verticalycentered').modal('show');
+	});
+	// 주문번호 모달 검색기능
+	$("#searchInput").on("keyup", function() {
+		var value = $(this).val().toLowerCase();
+		$("#orderListTable tbody tr").filter(function() {
+			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
 }); // !! 건들지말것 !!

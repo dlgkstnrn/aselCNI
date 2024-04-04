@@ -17,4 +17,6 @@ public class KDW_TB_ORDER {
 	private String order_end_dt; 	 // 주문 종료일자
 	private String order_sec_no; 	 // 주문 순서
 	
+	// 저장용
+	private String cust_nm; // 고객사
 }
