@@ -97,5 +97,14 @@ public class PsaWorkProdDaoImpl implements PsaWorkProdDao {
 		return workItemList;
 	}
 
+	// 생산지시 등록 (페이지 이동 버전)
+	// 지시 등록할 생산계획 조회
+	@Override
+	public ProdPlan getPlan(ProdPlan prodPlan) {
+		
+		ProdPlan getPlan = session.selectOne("psaGetPlan", prodPlan);
+		return getPlan;
+	}
+
 
 }

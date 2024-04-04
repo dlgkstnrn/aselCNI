@@ -96,6 +96,7 @@ pageEncoding="UTF-8"%>
               <tbody class="p-2">
                 <c:forEach var="planList" varStatus="planStat" items="${planList}">
 
+                  <!-- Modal Version -->
                   <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
                   <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}">
                     <!-- <th scope="row">${planStat.count}</th> -->
@@ -105,6 +106,18 @@ pageEncoding="UTF-8"%>
                     <td>${planList.qty}</td>
                     <td>${planList.work_dt}</td>
                   </tr>
+
+                  <!-- .jsp Version -->
+                  <!-- tr 전체를 a 태그로 -->
+                  <!-- <a href="/insertWPR.jsp?prodplan_no=${planList.prodplan_no}">
+                    <tr>
+                      <th scope="row">${planList.prodplan_no}</th>
+                      <td>${planList.seq_no}</td>
+                      <td>${planList.item_nm}</td>
+                      <td>${planList.qty}</td>
+                      <td>${planList.work_dt}</td>
+                    </tr>
+                  </a> -->
                 </c:forEach>
               </tbody>
 
@@ -227,7 +240,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">투입품</label>
 
-                    <!-- 중첩모달 띄우는 버튼 -->
+                    <!-- 투입품 선택 모달 띄우는 버튼 -->
                     <div class="col-sm-9 mb-3">
                       <button type="button" class="btn btn-outline-success mb-3" 
                         id="btn-submit"
@@ -303,8 +316,7 @@ pageEncoding="UTF-8"%>
 
 
 
-        <!-- 2. 중첩모달 (투입품 선택) -->
-        <!-- Vertically centered Modal -->
+        <!-- 2. 투입품 선택 모달 -->
         <div class="modal fade"
           id="addItem"
           tabindex="-1"
@@ -404,8 +416,7 @@ pageEncoding="UTF-8"%>
             </div>
           </div>
         </div>
-        <!-- 중첩모달 끝 -->
-        <!-- End Vertically centered Modal -->
+        <!-- 투입품 선택 모달 끝 -->
         
 
 

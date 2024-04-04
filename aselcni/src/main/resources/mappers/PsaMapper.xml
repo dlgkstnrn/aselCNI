@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.psaMapper">
 
-	<select id="TTTTTTTTTTTpsaGetPlanList" parameterType="PsaProdPlan"
-		resultType="PsaProdPlan">
+	<select id="TTTTTTTTTTTpsaGetPlanList" parameterType="PsaProdPlan" resultType="PsaProdPlan">
 		SELECT *
 		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tp.ITEM_CD = ti.ITEM_CD
@@ -13,8 +12,7 @@
 		AND tp.PRODPLAN_DELETE_CHK = 0
 	</select>
 
-	<select id="psaGetPlanList" parameterType="PsaProdPlan"
-		resultType="PsaProdPlan">
+	<select id="psaGetPlanList" parameterType="PsaProdPlan" resultType="PsaProdPlan">
 		SELECT *
 		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tp.PRODPLAN_DELETE_CHK = 0
@@ -23,8 +21,7 @@
 		AND tp.PRODPLAN_EMP_ID = tu.USER_ID
 	</select>
 
-	<select id="TTTTTTTTTTTTTTpsaGetWorkList" parameterType="PsaWorkProd"
-		resultType="PsaWorkProd">
+	<select id="TTTTTTTTTTTTTTpsaGetWorkList" parameterType="PsaWorkProd" resultType="PsaWorkProd">
 		SELECT *
 		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tw.ITEM_CD = ti.ITEM_CD
@@ -33,8 +30,7 @@
 		AND tw.WORKPROD_DELETE_CHK = 0
 	</select>
 
-	<select id="psaGetWorkList" parameterType="PsaWorkProd"
-		resultType="PsaWorkProd">
+	<select id="psaGetWorkList" parameterType="PsaWorkProd" resultType="PsaWorkProd">
 		SELECT *
 		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tw.WORKPROD_DELETE_CHK = 0
@@ -44,8 +40,7 @@
 		AND tw.WORKPROD_EMP_ID = tu.USER_ID
 	</select>
 
-	<select id="psaGetWorkProd" parameterType="PsaWorkProd"
-		resultType="PsaWorkProd">
+	<select id="psaGetWorkProd" parameterType="PsaWorkProd" resultType="PsaWorkProd">
 		SELECT *
 		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tw.WORKPROD_NO = #{workprod_no}
@@ -54,16 +49,14 @@
 		AND tw.WORKPROD_EMP_ID = tu.USER_ID
 	</select>
 
-	<select id="psaGetWorkProcList" parameterType="PsaWorkProd"
-		resultType="PsaWorkProc">
+	<select id="psaGetWorkProcList" parameterType="PsaWorkProd" resultType="PsaWorkProc">
 		SELECT *
 		FROM TB_WORK_PROC twp , TB_PROCMST tp
 		WHERE twp.WORKPROD_NO = #{workprod_no}
 		AND twp.PROC_CD = tp.PROC_CD
 	</select>
 
-	<select id="psaGetWorkItemList" parameterType="PsaWorkProd"
-		resultType="PsaWorkItem">
+	<select id="psaGetWorkItemList" parameterType="PsaWorkProd" resultType="PsaWorkItem">
 		SELECT *
 		FROM TB_WORK_ITEM twi , TB_ITEMMST ti
 		WHERE twi.WORKPROD_NO = #{workprod_no}
@@ -71,8 +64,7 @@
 	</select>
 
 
-	<select id="XXXXXXXXXpsaGetWorkProd" parameterType="PsaWorkProd"
-		resultType="PsaWorkProd">
+	<select id="XXXXXXXXXpsaGetWorkProd" parameterType="PsaWorkProd" resultType="PsaWorkProd">
 		SELECT *
 		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu,
 
@@ -92,8 +84,7 @@
 		AND tw.WORKPROD_EMP_ID = tu.USER_ID
 	</select>
 
-	<select id="XXXXXXXXXXpsaGetWorkProd" parameterType="PsaWorkProd"
-		resultType="PsaWorkProd">
+	<select id="XXXXXXXXXXpsaGetWorkProd" parameterType="PsaWorkProd" resultType="PsaWorkProd">
 		SELECT *
 
 		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu,
@@ -114,6 +105,14 @@
 		AND tw.WORKPROD_DELETE_CHK = 0
 		AND tw.ITEM_CD = ti.ITEM_CD
 		AND tw.WORKPROD_EMP_ID = tu.USER_ID
+	</select>
+	
+	<select id="psaGetPlan" parameterType="PsaProdPlan" resultType="PsaProdPlan">
+		SELECT *
+		FROM TB_PRODPLAN tp, TB_USERMST tu , TB_ITEMMST ti 
+		WHERE tp.PRODPLAN_NO = #{prodplan_no}
+			AND tp.PRODPLAN_EMP_ID = tu.USER_ID 
+			AND tp.ITEM_CD = ti.ITEM_CD
 	</select>
 
 </mapper>

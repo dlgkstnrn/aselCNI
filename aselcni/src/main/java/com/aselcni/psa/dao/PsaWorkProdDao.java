@@ -19,4 +19,6 @@ public interface PsaWorkProdDao {
 
 	List<WorkItem> getWorkItemList(WorkProd workProd);
 
+	ProdPlan getPlan(ProdPlan prodPlan);
+
 }

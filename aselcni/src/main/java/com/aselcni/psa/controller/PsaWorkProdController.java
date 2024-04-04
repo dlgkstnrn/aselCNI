@@ -31,7 +31,7 @@ public class PsaWorkProdController {
 	
 	// 생산지시 메인 페이지
 	@RequestMapping(value = "workprod")
-	public String workprod(HttpServletRequest request, ProdPlan prodPlan, WorkProd workProd, Model model) {
+	public String workprod(ProdPlan prodPlan, WorkProd workProd, Model model) {
 		
 		System.out.println("psa 생산지시 메인 페이지 시작!");
 
@@ -53,13 +53,6 @@ public class PsaWorkProdController {
 //		workProd.setWorkprod_dt(prodplan_dt);
 		
 		
-		
-		// 로그인 유저아이디(담당자) 억지로 세팅
-//		String user_id = "psa";
-//		prodPlan.setProdplan_emp_id(user_id);
-		
-
-		
 		// 지시 대기중인 생산계획 리스트 조회
 		// (생산지시에 등록되지 않았고, 삭제 안 된 것들)
 		List<ProdPlan> planList = psaService.getPlanList(prodPlan);
@@ -74,24 +67,17 @@ public class PsaWorkProdController {
 		System.out.println("WorkProd List size: " + workList.size());
 		model.addAttribute("workList", workList);
 		
-		
-		// 생산지시 등록 모달 내용
-		// 해당 생산계획번호에 맞는 정보 조회
-//		ProdPlan prodPlan2 = new ProdPlan();
-//		prodPlan2.setProdplan_no(prodPlan.getProdplan_no());
-		
-		
 		return "psa/workprod";
 		
 	}
 	
-	// ajax 1
+	// ajax 1 - 생산지시
 	// 등록된 지시내역의 생산지시번호별 상세내용 조회 (공정, 투입품 제외)
 	@RequestMapping(value ="wprInfoModal")
 	@ResponseBody
 	public WorkProd wprInfoModal(@RequestBody WorkProd insertedWorkProd) {
 		
-		System.out.println("wprInfoModal 내용 조회");
+		System.out.println("등록된 생산지시 내용 조회");
 		System.out.println("param workprod_no: " + insertedWorkProd.getWorkprod_no());
 		System.out.println("param: "+insertedWorkProd);	
 		
@@ -101,7 +87,7 @@ public class PsaWorkProdController {
 		return wprInfoModal;
 	}
 	
-	// ajax 2
+	// ajax 2 - 생산지시 - 공정 리스트
 	// 등록된 지시내역의 생산지시번호별 공정 리스트 조회
 	@RequestMapping("workProcList")
 	@ResponseBody
@@ -116,7 +102,7 @@ public class PsaWorkProdController {
 		
 	}
 	
-	// ajax 3
+	// ajax 3 - 생산지시 - 투입품 리스트
 	// 등록된 지시내역의 생산지시번호별 투입품 리스트 조회
 	@RequestMapping("workItemList")
 	@ResponseBody
@@ -132,12 +118,57 @@ public class PsaWorkProdController {
 	
 	
 	
+	// ajax 1 - 생산계획
+	// 생산계획번호별 상세내용 조회 (공정, 투입품 제외)
+	@RequestMapping("prpInfoModal")
+	@ResponseBody
+	public ProdPlan prpInfoModal(@RequestBody ProdPlan insertedProdPlan) {
+		
+		System.out.println("등록된 생산계획 내용 조회");
+		System.out.println("param prodplan_no: " + insertedProdPlan.getProdplan_no());
+		System.out.println("param Obj: " + insertedProdPlan);
+		
+		ProdPlan prpInfoModal = psaService.selectProdPlan(insertedProdPlan);
+		System.out.println("returned ProdPlan: " + prpInfoModal);
+		
+		return prpInfoModal;
+	}
+	
+	// ajax 추가합시다아아
 	
 	
 	
 	
 	
-	// 생산지시 등록
+	
+	
+	// 생산지시 등록 (페이지 이동 버전)
+	@RequestMapping("insertWPR")
+	public String insertWPR(@RequestParam("prodplan_no") String prodplan_no, ProdPlan prodPlan, Model model) {
+		
+		System.out.println("생산지시 등록하기");
+		System.out.println("param prodplan_no: " + prodplan_no);
+		
+		// 지시 등록할 생산계획 조회
+		prodPlan.setProdplan_no(prodplan_no);
+//		ProdPlan getPlan = psaService.getPlan(prodPlan);
+//		System.out.println("returned getPlan: " + getPlan);
+		
+//		model.addAttribute("getPlan", getPlan);
+		
+		// 생산계획에 등록된 투입품 리스트 조회
+		
+		
+		
+		return "psa/insertWPR";
+	}
+	
+	
+	
+	
+	
+	
+	// 생산지시 등록 (Modal version)
 	@RequestMapping(value = "workprodInsert")
 	public void workprodInsert(@ModelAttribute WorkProd workProd) {
 		
