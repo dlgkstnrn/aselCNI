@@ -24,4 +24,11 @@
 		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
 	</select>
 	
+	<!-- 주문 리스트: 등록할때 주문당 생산계획짜야됨 -->	
+	<select id="kdwProdPlanOrderList" resultType="KdwProdOrder">
+		SELECT *
+		FROM TB_ORDER
+	</select>
+	
+	
 </mapper>

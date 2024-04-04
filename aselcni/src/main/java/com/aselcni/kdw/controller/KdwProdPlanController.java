@@ -45,10 +45,13 @@ public class KdwProdPlanController {
 	public Map<String, Object> getProdPlanData() {
 	    List<TB_PRODPLAN> prodPlans = kdwProdPlanService.getProdPlanList();
 	    List<TB_ITEM_PROD> prodItems = kdwProdPlanService.getProdItemList();
-	    // List<KDW_TB_ORDER> prodOderList = kdwProdPlanService.getProdOrderList();
+	    List<KDW_TB_ORDER> prodOderList = kdwProdPlanService.getProdOrderList();
 	    Map<String, Object> responseProdPlans = new HashMap<>();
 	    responseProdPlans.put("prodPlans", prodPlans); // 제품정보
 	    responseProdPlans.put("prodItems", prodItems); // 자재정보
+	    responseProdPlans.put("prodOderList", prodOderList); // 주문정보
 	    return responseProdPlans;
 	}
+	
+	
 }

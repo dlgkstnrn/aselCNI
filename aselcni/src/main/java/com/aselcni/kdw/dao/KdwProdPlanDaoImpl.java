@@ -16,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
-	
+
 	private final SqlSession session;
-	
+
 	// 생산계획 제품리스트
 	@Override
 	public List<TB_PRODPLAN> getProdPlanList() {
@@ -33,6 +33,7 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 		}
 		return prodPlanList;
 	}
+
 	// 생산계획 투입자재리스트
 	@Override
 	public List<TB_ITEM_PROD> getProdPlanItemList() {
@@ -40,28 +41,29 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 		List<TB_ITEM_PROD> prodPlanItemList = null;
 		try {
 			prodPlanItemList = session.selectList("kdwProdPlanItemList");
-			System.out.println("KdwProdPlanDaoImpl getProdPlanItemList prodPlanItemList.size(): " + prodPlanItemList.size());
+			System.out.println(
+					"KdwProdPlanDaoImpl getProdPlanItemList prodPlanItemList.size(): " + prodPlanItemList.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("KdwProdPlanDaoImpl getProdPlanItemList e.getMessage(): " + e.getMessage());
 		}
 		return prodPlanItemList;
 	}
+
+	// 주문번호 리스트
 	@Override
 	public List<KDW_TB_ORDER> getprodPlanOrderList() {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("KdwProdPlanDaoImpl getprodPlanOrderList Start...");
+		List<KDW_TB_ORDER> prodPlanOrderList = null;
+		try {
+			prodPlanOrderList = session.selectList("kdwProdPlanOrderList");
+			System.out.println(
+					"KdwProdPlanDaoImpl getprodPlanOrderList prodPlanOrderList.size(): " + prodPlanOrderList.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("KdwProdPlanDaoImpl getprodPlanOrderList e.getMessage(): " + e.getMessage());
+		}
+		return prodPlanOrderList;
 	}
-	// 주문번호 리스트
-	/*
-	 * @Override public List<KDW_TB_ORDER> getprodPlanOrderList() {
-	 * System.out.println("KdwProdPlanDaoImpl getprodPlanOrderList Start...");
-	 * List<KDW_TB_ORDER> prodPlanOrderList = null; try { prodPlanOrderList =
-	 * session.selectList("kdwProdPlanOrderList"); System.out.
-	 * println("KdwProdPlanDaoImpl getprodPlanOrderList prodPlanOrderList.size(): "
-	 * + prodPlanOrderList.size()); } catch (Exception e) { e.printStackTrace();
-	 * System.out.println("KdwProdPlanDaoImpl getprodPlanOrderList e.getMessage(): "
-	 * + e.getMessage()); } return prodPlanOrderList; }
-	 */
 
 }

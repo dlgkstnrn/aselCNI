@@ -328,4 +328,55 @@ $(document).ready(function() {
 	});
 
 	// ========== End 셀렉트2(제품모달, 투입자재모달) ==========
+
+	// ============= 주문번호 선택 중첩모달 ==============
+	// 날짜 선택기 초기화
+	$('#monthPicker').datepicker({
+		format: "yyyy-mm",
+		startView: "months",
+		minViewMode: "months",
+		autoclose: true
+	}).on('changeDate', function(e) {
+		var selectedMonth = e.format(0, "yyyy-mm");
+		updateOrderList(selectedMonth);
+	});
+
+	var selectedOrderNo; // 사용자가 선택한 주문번호 저장
+
+	// 선택된 년월에 따라 주문번호 리스트 업데이트
+	function updateOrderList(selectedMonth) {
+		var orders = responseProdPlans.prodOrderList;
+		var filteredOrders = orders.filter(order => order.order_dt.startsWith(selectedMonth));
+
+		console.log("Filtered Orders for month " + selectedMonth + ": ", filteredOrders); // 콘솔에 필터링된 주문번호 리스트 출력
+
+		var $orderList = $('#orderList');
+		$orderList.empty(); // 리스트 초기화
+
+		filteredOrders.forEach(function(order) {
+			var $li = $('<li>')
+				.text(order.order_no)
+				.css('cursor', 'pointer')
+				.on('click', function() {
+					selectedOrderNo = order.order_no; // 선택된 주문번호 저장
+					console.log("Selected Order No: ", selectedOrderNo); // 콘솔에 선택된 주문번호 출력
+					$orderList.find('li').removeClass('selected');
+					$(this).addClass('selected'); // 선택된 항목 강조
+				});
+			$orderList.append($li);
+		});
+	}
+
+	// "저장" 버튼 클릭 이벤트
+	$('#saveOrderButton').on('click', function() {
+		if (selectedOrderNo) {
+			// 선택된 주문번호를 이전 모달의 주문번호 입력 필드에 설정
+			$('#prodPlanNoInput').val(selectedOrderNo);
+			// 주문번호 선택 모달 닫기
+			$('#orderModal').modal('hide');
+		} else {
+			alert('주문번호를 선택해주세요.');
+		}
+	});
+
 }); // !! 건들지말것 !!
