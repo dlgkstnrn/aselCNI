@@ -56,9 +56,9 @@ public class JtuController {
 	// 생산 실적 상세 불러오기
 	public JtuProdItem getPriOneAjax(Model model, JtuProdItem paraJpri) {
 		System.out.println("JtuController getWHListListAjax Start... ");
+		System.out.println("JtuController getPriOneAjax paraJpri --> " + paraJpri);
 		
 		JtuProdItem jpri = js.getPriOneAjax(paraJpri);
-		System.out.println("JtuController getPriOneAjax jpri --> " + jpri);
 		
 		return jpri;
 	}

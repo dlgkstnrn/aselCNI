@@ -45,6 +45,18 @@
 		where p.PRODITEM_DELETE_CHK=0
 		and CONVERT(DATE, p.PRODITEM_END_DT, 23) between CONVERT(DATE, #{startDate}, 23) and CONVERT(DATE, #{endDate}, 23)
 	</select>
+	
+	
+	<select id="jtuGetPriOne" parameterType="JtuProdItem" resultType="JtuProdItem">
+		select * 
+		from TB_PRODITEM p 
+		join TB_ITEMMST i on p.ITEM_CD = i.ITEM_CD
+		join TB_WHMST w	on p.WH_CD = w.WH_CD
+		where p.PRODITEM_DELETE_CHK=0
+		and p.WORKPROD_NO = #{workprod_no}
+	</select>
+	
+	
 
 
 
