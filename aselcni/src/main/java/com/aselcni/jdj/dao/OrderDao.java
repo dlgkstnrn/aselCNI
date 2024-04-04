@@ -8,7 +8,7 @@ import com.aselcni.jdj.model.OrderItem;
 
 public interface OrderDao {
 
-	List<Order> getOrdLi();
+	List<Order> getOrders();
 
 	Order getOrdSpec(String order_sec_num);
 

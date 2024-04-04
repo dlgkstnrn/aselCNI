@@ -38,7 +38,7 @@ public class OrderController {
 
 		List<Order> orders = null;		
 		try {
-			orders = os.getOrderLi();
+			orders = os.getOrders();
 			
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -52,32 +52,9 @@ public class OrderController {
 //	등록
 	@GetMapping("/orderReg")
 	public String orderReg() {
-		return "jdj/orderRegistration";
+		return "jdj/orderReg";
 	}
-	
-////	상세 보기
-//	@GetMapping("/orderSpec")
-//	public String orderSpec(@RequestParam(value = "detailView") String order_sec_num, Model model) {
-//		System.out.println("[Order_Controller /orderSpec -> sec_num " + order_sec_num);
-//		Order orderSpec = null;
-//		List<Order> items = null;
-//		try {
-//			
-//			orderSpec = os.getOrderSpec(order_sec_num);
-//			items = os.getOrdItems(orderSpec.getOrder_no());
-//			
-//			System.out.println("Controller get Items-> " + items);
-//			
-//		} catch (Exception e) {
-//			System.err.println(e.getMessage());
-//		}
-//		
-//		model.addAttribute("orderSpec",orderSpec);
-//		model.addAttribute("items",items);
-//
-//		return "jdj/orderSpec";
-//	}
-	
+		
 	@GetMapping("/orderSpec")
 	public String orderSpecString(@RequestParam(value = "detailView") String order_sec_num, Model model) {
 		Order orderSpec = null;

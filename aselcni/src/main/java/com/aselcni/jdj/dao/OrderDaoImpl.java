@@ -4,6 +4,8 @@ package com.aselcni.jdj.dao;
 import org.antlr.v4.runtime.misc.Pair;
 import org.apache.ibatis.session.SqlSession;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,24 +23,15 @@ import lombok.RequiredArgsConstructor;
 public class OrderDaoImpl implements OrderDao {
 
 	private final SqlSession session;
-	
+
 	@Override
-	public List<Order> getOrdLi() {
-		System.out.println("[Order_Dao] getOrdLi Start");		
+	public List<Order> getOrders() {
 		List<Order> orders = null;
-		String cust_nm = null;
-		String emp_nm = null; 
+		System.out.println("od_getOrders start!");
 		
-		 try {
-			 
-			orders = session.selectList("getOrderLi", orders);
-			System.out.println("[Order_Dao orderLi -> " + orders);
-
-			for (Order order : orders) {
-				cust_nm = session.selectOne("getCust_nm",order.getCust_cd());
-				emp_nm = session.selectOne("getEmp_nm",order.getOrder_emp_id());
-		    }
-
+		try {
+			orders = session.selectList("getOrders");
+			System.out.println("od_getOrders -> " + orders);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}

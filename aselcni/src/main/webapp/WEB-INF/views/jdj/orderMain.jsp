@@ -117,7 +117,7 @@
 									<%-- <td class="text-center">${order.order_no}</td> --%>  <!-- ORD20240330222 -->
 									<td><a href="/orderSpec?detailView=${order.order_sec_no}" <%-- %>data-bs-toggle="modal" --%>   data-bs-target="#ExtralargeModal" class="text-center">${order.order_no}</a></td>
 									<td> ${order.cust_nm} </td><!-- 대한식품 -->
-									<td>${order.order_emp_nm}</td> <!-- 담당 직원 -->
+									<td>${order.user_nm}</td> <!-- 담당 직원 -->
 									<td class="datatable"> ${order.order_dt} </td> <!-- 2016-05-25 -->
 									<td class="datatable"> ${order.order_end_dt} </td>
 									<td class="blue">

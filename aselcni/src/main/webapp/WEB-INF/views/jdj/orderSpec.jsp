@@ -96,11 +96,11 @@
 						</div>
         		
 						<div class="row mb-3">
-							<label for="inputDate" class="col-sm-2 col-form-label">착수일</label>
+							<label for="order_dt" class="col-sm-2 col-form-label">착수일</label>
 							<div class="col-sm-4">
 								<input type="date" class="form-control"  value=${orderSpec.order_dt} readonly="readonly" >
 							</div>
-							<label for="inputDate" class="col-sm-2 col-form-label">납기일</label>
+							<label for="order_end_dt" class="col-sm-2 col-form-label">납기일</label>
 							<div class="col-sm-4">
 								<input type="date" class="form-control" value=${orderSpec.order_end_dt}>
 							</div>

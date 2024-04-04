@@ -24,33 +24,16 @@ public class OrderServiceImpl implements OrderService {
 	public String ord_code  = "ORD"; 
 	
 	@Override
-	public List<Order> getOrderLi() {
-		
-		System.out.println("[Order_Service Start...");
+	public List<Order> getOrders(){
+		System.out.println("[OS_getOrdLi Start...");
 		List<Order> orders = null;
-		
-		//추후 Insert메소드로 옮겨야함
-		String sec_no = ordTo16(ord_code);	// 변환한 코드 저장
-		
-		System.out.println("ordTo16 , sec_no -> " + sec_no);
-		
-		try {			
-			orders = od.getOrdLi();
+		try {
+			orders = od.getOrders();
+			System.out.println("os_getOrdLi -> " + orders);
 			
-			for(Order order : orders) {
-				// 16진수 변환 메소드로 전달
-				sec_no = strTo16(order.getOrder_no());
-				
-				// 결과값을 sec_no에 저장
-				order.setOrder_sec_no(sec_no);
-				
-			}
-
-			System.out.println("add dateTo16 -> " + orders);
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			System.out.println(e.getMessage());
 		}
-		
 		return orders;
 	}
 	
@@ -117,13 +100,6 @@ public class OrderServiceImpl implements OrderService {
 		
 		return rt_ord_code;
 	}
-
-	@Override
-	public String getCust_nm() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }
                                      

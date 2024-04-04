@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Order {
-	
+//	order 테이블
 	String order_no;			// 주문번호, 주문코드
 	String order_dt;			// 주문날짜
 	String cust_cd;				// 고객처 번호, 코드
@@ -27,10 +27,4 @@ public class Order {
 
 //	userMst 일부
 	String user_nm;		// 담당 직원명
-	String order_emp_nm;
-	
-	String item_cd;
-	int qty;
-	int cost;
-	
 }
