@@ -87,21 +87,77 @@ $('#midType').on('change',(event) => {
 			})
 			$('#smlType').attr('bigNo',rsp[0].big_no);
 			$('#smlType').attr('midNo',rsp[0].mid_no);
-			/*
+			
+/*
 	컨트롤러에서 받아온 소분류 것 들 smlTypeList ===> 
 [	$('#smlType').attr('bigNo',rsp[0].big_no);는 맨 윗줄에 해당하는 sml_no와 mid_no를 가져온거임(박력분)
 	CSG_TB_TYPE_SML(sml_no=1, mid_no=3, big_no=1, sml_content=박력분), 
 	CSG_TB_TYPE_SML(sml_no=2, mid_no=3, big_no=1, sml_content=중력분), 
 	CSG_TB_TYPE_SML(sml_no=3, mid_no=3, big_no=1, sml_content=강력분)
 ]
+*/
 
-			
-			*/
-			
-			
-			
-			
 		}
 		
 	})
 })
+
+//소분류로 가져온 애들로 이제 리스트 만들어주자 ajax
+// 소분류 선택 시 실행되는 이벤트 핸들러
+$('#smlType').on('change', function(event) {
+    const sml_no = $(this).val(); // 선택된 소분류 번호 가져오기
+	const mid_no = $(this).find(':selected').data('mid-no');
+    const big_no = $(this).find(':selected').data('big-no');
+
+    if (!sml_no) {
+        alert("소분류를 선택해주세요.");
+        return;
+    }
+
+    // AJAX 요청을 통해 선택된 소분류에 해당하는 데이터 불러오기
+    $.ajax({
+        type: 'GET',
+        url: '/getItemsBySmlType', // 서버의 해당 소분류 데이터를 불러오는 엔드포인트
+        data: {
+            sml_no: sml_no, // 전송할 데이터 (여기서는 선택된 소분류 번호)
+            mid_no : mid_no,
+            big_no: big_no
+
+        },
+        success: function(response) {
+            // 테이블에 데이터 채우기
+            fillTableWithItems(response);
+            updateTable(response);
+        },
+        error: function() {
+            alert("데이터를 불러오는데 실패했습니다.");
+        }
+    });
+});
+
+// 테이블에 데이터를 채우는 함수
+function fillTableWithItems(items) {
+    const tableBody = $('#jajeTable tbody');
+    tableBody.empty(); // 테이블의 이전 내용을 비우기
+
+    // 불러온 데이터로 테이블 행 생성
+    items.forEach(function(item) {
+        const row = `
+            <tr>
+                <td><input type="checkbox" id="itemSelect${item.cust_cd}" name="itemSelect"></td>
+                <td>${item.cust_cd}</td>
+                <td>${item.item_nm}</td>
+                <td>${item.item_spec}</td>
+                <td>${item.item_unit}</td>
+                <td><input type="number" value="${item.quantity}" min="1"></td>
+                <td>${item.item_cost}원</td>
+            </tr>
+        `;
+        tableBody.append(row);
+    });
+}
+
+
+
+
+

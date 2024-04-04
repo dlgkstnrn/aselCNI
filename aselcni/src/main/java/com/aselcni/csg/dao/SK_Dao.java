@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
 import com.aselcni.csg.model.CSG_TB_TYPE_SML;
@@ -56,6 +57,24 @@ public class SK_Dao implements SK_Dao_Interface {
 		}
 		
 		return smlTypeList;
+	}
+
+	//모달에서 대중소분류 선택 후에 선택된 아이템리스트들 가져오기
+	@Override
+	public List<CSG_TB_ITEMMST> CSG_SelectedItems(CSG_TB_TYPE_SML items) {
+		System.out.println("dao에서 모달에서 선택된 아이템 리스트 DB로 보내기전 items @@@@@====>"+items);
+		
+		List<CSG_TB_ITEMMST> selectedItemList = null;
+		try {
+			selectedItemList = session.selectList("selectedItemsList", items);
+			System.out.println("아이템리스트들을 잘 불러왔니?? selectedItemList==>"+selectedItemList);
+		}catch (Exception e) {
+			System.out.println(selectedItemList);
+		}
+		
+		System.out.println("dao에서 모달에서 선택된 아이템 리스트 DB에서 가져왔니?? ----->");
+
+		return selectedItemList;
 	}
 	
 

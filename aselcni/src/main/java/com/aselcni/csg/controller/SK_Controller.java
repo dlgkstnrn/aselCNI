@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aselcni.csg.model.CSG_CategoryData;
+import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_PURCHASE_ITEM;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
@@ -74,6 +75,20 @@ public class SK_Controller {
 		System.out.println("컨트롤러에서 받아온 소분류 것 들 smlTypeList ===> " + smlTypeList);
 		
 		return smlTypeList;
+	}
+	
+	//모달안에 테이블 리스트를 뿌려주자
+	@ResponseBody
+	@RequestMapping(value = "/getItemsBySmlType")
+	public List<CSG_TB_ITEMMST> CSG_modalList(@ModelAttribute CSG_TB_TYPE_SML items) {
+		//밑에는 대, 중, 소분류 id를 가져오게 된 코드임
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+items); //여긴 대중소분류 id만 있어야됨
+		System.out.println("컨트롤러 : 소분류 아이디를 잘 가져왔냐??????????????????????????????"+items.getBig_no());
+		
+		List<CSG_TB_ITEMMST> selectedItemList = sk_ServicInterface.CSG_SelectedItems(items);
+		System.out.println("컨트롤러 : 대중소번호로 아이템리스트들을 잘 가져왔냐??????????????????????????????"+selectedItemList);
+
+		return selectedItemList;
 	}
 	
 	/*//purchaseItem2Form ==> 자재선택(모달) => 대분류 불러오기  => 불러와보장!!!!!!!!!!!!!!!

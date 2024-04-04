@@ -26,4 +26,16 @@
 		and ti.ITEM_FLAG = 1
 	</select>
 	
+	<select id="selectedItemsList" parameterType="CSG_TB_ITEMMST" resultType="CSG_TB_ITEMMST">
+		SELECT ti.*
+		FROM TB_ITEMMST ti
+		JOIN TB_TYPE_SML tts ON ti.BIG_NO = tts.BIG_NO AND ti.MID_NO = tts.MID_NO AND ti.SML_NO = tts.SML_NO
+		WHERE ti.BIG_NO = #{big_no} 
+		  AND ti.MID_NO = #{mid_no} 
+		  AND ti.SML_NO = #{sml_no}
+		  AND ti.ITEM_FLAG = 1;
+
+	
+	</select>
+	
 </mapper>

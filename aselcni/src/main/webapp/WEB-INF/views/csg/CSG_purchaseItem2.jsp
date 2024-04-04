@@ -251,7 +251,7 @@
 							                    <th scope="col">단가</th>
 							                </tr>
 							            </thead>
-							            <tbody>
+							            <tbody id = "jajaTableBody">
 							                <tr>
 							                    <td><input type="checkbox" id="itemSelect1" name="itemSelect"></td>
 							                    <td>11012ba</td>
