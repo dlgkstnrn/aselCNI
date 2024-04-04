@@ -79,8 +79,10 @@
 										<div class="col-md-7">
 											<div class="input-group">
 												<span class="input-group-text">조회기간</span>
-												<input id="start_date" type="date" aria-label="startDate" class="form-control">
-												<input id="end_date" type="date" aria-label="endDate" class="form-control">
+												<input id="start_date" type="date" aria-label="startDate"
+													class="form-control">
+												<input id="end_date" type="date" aria-label="endDate"
+													class="form-control">
 											</div>
 										</div>
 										<div class="col-md-5">
@@ -98,8 +100,9 @@
 										<div class="col-md-5">
 											<div class="input-group">
 												<span class="input-group-text">입고번호</span>
-												<input id="initem_no" type="text" class="form-control" placeholder="입고번호"
-													aria-label="입고번호" aria-describedby="button-addon3">
+												<input id="initem_no" type="text" class="form-control"
+													placeholder="입고번호" aria-label="입고번호"
+													aria-describedby="button-addon3">
 												<!-- <button class="btn btn-outline-secondary" type="button"
 													id="button-addon3"><i class="bi bi-search"></i></button> -->
 											</div>
@@ -114,7 +117,8 @@
 											</div>
 										</div>
 										<div class="col-md-1 px-0">
-											<button class="btn btn-primary btn-sm" style="height:100%;" onclick="searchInitem()">조회</button>
+											<button class="btn btn-primary btn-sm" style="height:100%;"
+												onclick="searchInitem()">조회</button>
 										</div>
 									</div>
 								</div>
@@ -132,30 +136,32 @@
 										</tr>
 									</thead>
 									<tbody id="initemListTable">
-									<c:forEach var="item" varStatus="status" items="${initems}">
-										<tr onclick="console.log('${item.initem_no}')" style="cursor:pointer;">
-											<th scope="row">${status.count+(page.currentPage-1)*page.rowPage}</th>
-											<td>${item.initem_no}</td>
-											<td>${item.initem_dt }</td>
-											<td>${item.cust_nm }</td>
-											<td>${item.item_nm }</td>
-										</tr>
-									</c:forEach>
-										
+										<c:forEach var="item" varStatus="status" items="${initems}">
+											<tr onclick="detailView('${item.initem_no}')" style="cursor:pointer;">
+												<th scope="row">${status.count+(page.currentPage-1)*page.rowPage}</th>
+												<td>${item.initem_no}</td>
+												<td>${item.initem_dt }</td>
+												<td>${item.cust_nm }</td>
+												<td>${item.item_nm }</td>
+											</tr>
+										</c:forEach>
+
 									</tbody>
 								</table>
 								<nav aria-label="Page navigation example">
 									<ul class="pagination justify-content-center">
 										<li class="page-item">
-											<button class="page-link" onclick="prevPage()"  aria-label="Previous">
+											<button class="page-link" onclick="prevPage()" aria-label="Previous">
 												<span aria-hidden="true">«</span>
 											</button>
 										</li>
 										<c:forEach var="i" begin="${page.startPage}" end="${page.endPage }">
-										<li class="page-item pageNum"><button class="page-link" onclick="goPage('${i}')">${i }</button></li>
+											<li class="page-item pageNum"><button class="page-link"
+													onclick="goPage('${i}')">${i }</button></li>
 										</c:forEach>
 										<li id="nextPageLi" class="page-item">
-											<button id="nextPageBtn" class="page-link" onclick="nextPage(this)" data-total-page="${page.totalPage }" aria-label="Next">
+											<button id="nextPageBtn" class="page-link" onclick="nextPage(this)"
+												data-total-page="${page.totalPage }" aria-label="Next">
 												<span aria-hidden="true">»</span>
 											</button>
 										</li>
@@ -166,6 +172,56 @@
 					</section>
 				</main>
 				<!-- End #main -->
+
+				<!-- 상세조회 모달 -->
+				<div class="modal fade" id="detailModal" tabindex="-1">
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">입고 상세 조회</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo ducimus sit
+									temporibus? Voluptas blanditiis cupiditate, libero totam accusamus cumque soluta,
+									dignissimos ea vero, delectus aperiam fugit perferendis tenetur possimus esse?
+									Dolorum quis officia quod doloremque consequatur vel non dolorem id similique nobis
+									placeat modi, commodi numquam expedita, sapiente esse quam eveniet natus odit? Quod
+									doloribus accusamus pariatur vel eligendi assumenda.
+									Nobis, modi veritatis. Et perferendis, praesentium, nobis facilis corrupti qui
+									nostrum eveniet ducimus nihil at laudantium doloribus amet modi dicta. Sapiente
+									nobis, possimus fugit porro similique ut voluptatem. Distinctio, expedita.
+									Earum perspiciatis, veniam alias voluptatibus esse optio eaque dolor reiciendis
+									quaerat ad ducimus eum vel consequuntur ullam ea obcaecati ratione illum sunt cumque
+									at recusandae! A corrupti amet quidem laudantium?
+									Cum labore fuga, architecto eveniet exercitationem nisi veniam rem, animi
+									consequuntur voluptate aut, voluptas explicabo blanditiis harum aspernatur. Illo,
+									vel. Consectetur labore facilis cupiditate quis soluta repellendus praesentium
+									maiores delectus!
+									Autem maxime, similique est ipsum reprehenderit laboriosam delectus, aliquam
+									suscipit incidunt velit consequuntur error architecto labore. Voluptas aliquid
+									laboriosam aliquam ipsum distinctio expedita, nesciunt possimus? Quisquam
+									accusantium pariatur corrupti. Autem!
+									Fugiat facilis accusamus totam hic tempore porro eius aspernatur non? Minima ut
+									beatae cupiditate soluta eum, ex, facilis sunt iure ipsam et quam? Accusamus minima
+									deleniti cupiditate doloremque unde tenetur.
+									Omnis odit eius qui harum facilis et quidem suscipit voluptas ab explicabo fuga
+									architecto voluptate eum officia voluptates, non nostrum quasi ipsam vitae atque
+									consequatur quo autem. Animi, nemo nam?
+									Atque vero nisi alias adipisci ratione, quia distinctio, cupiditate facere, nobis
+									reprehenderit illo autem asperiores exercitationem harum sequi impedit dolor
+									pariatur. Deserunt aperiam recusandae, debitis hic doloribus accusantium architecto
+									ducimus!
+									Mollitia, quo aliquid delectus repudiandae at asperiores. Incidunt minus nesciunt
+									consectetur assumenda saepe laboriosam eos. Qui quod unde aspernatur velit
+									recusandae eaque vitae deleniti sequi nulla? Repellendus architecto perferendis
+									optio.</p>
+							</div>
+						</div>
+					</div>
+				</div><!-- End detailModall-->
+
 
 				<!-- ======= Footer ======= -->
 				<%@ include file="../footer.jsp" %>

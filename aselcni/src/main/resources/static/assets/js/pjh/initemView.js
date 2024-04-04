@@ -46,7 +46,7 @@ const getTableRow = function () {
             res.initems.forEach((item, idx) => {
                 tbody.append(
                     `
-                    <tr onclick="console.log('${item.initem_no}')" style="cursor:pointer;">
+                    <tr onclick="detailView('${item.initem_no}')" style="cursor:pointer;">
                         <th scope="row">${idx + 1 + (res.page.currentPage - 1) * res.page.rowPage}</th>
                         <td>${item.initem_no}</td>
                         <td>${item.initem_dt}</td>
@@ -103,4 +103,9 @@ const prevPage = function () {
     }
     data.currentPage = '' + (data.currentPage * 1 - 1);
     getTableRow();
+}
+
+
+const detailView = function (initem_no) {
+    $('#detailModal').modal('show');
 }
