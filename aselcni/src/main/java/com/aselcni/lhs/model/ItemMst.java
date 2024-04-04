@@ -13,7 +13,7 @@ public class ItemMst {
 	private int sml_no;
 	private String item_spec;
 	private String item_unit;
-	private String item_cost;
+	private int item_cost;
 	private String remark;
 	private String item_regdate;
 	private String item_update;

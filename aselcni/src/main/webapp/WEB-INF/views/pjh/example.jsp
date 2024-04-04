@@ -38,10 +38,10 @@
 <body>
 
     <!-- ======= Header ======= -->
-    <%@ include file="header.jsp" %>
+    <%@ include file="../header.jsp" %>
 
     <!-- ======= Sidebar ======= -->
-    <%@ include file="asidebar.jsp" %>
+    <%@ include file="../asidebar.jsp" %>
     
     <!-- End Sidebar-->
 
@@ -65,7 +65,7 @@
     <!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    <%@ include file="footer.jsp" %>
+    <%@ include file="../footer.jsp" %>
     <!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i

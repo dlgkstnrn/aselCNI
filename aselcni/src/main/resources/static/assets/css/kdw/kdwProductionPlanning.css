@@ -1,0 +1,492 @@
+@import
+	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
+	;
+
+body {
+	font-family: 'NanumSquare', sans-serif;
+}
+
+.card {
+	position: relative;
+	width: 100%;
+	min-width: 1550px;
+	height: 750px;
+	min-height: 500px;
+	margin-bottom: 0;
+	box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+	border: none;
+	border-radius: 7px;
+}
+
+.form-container {
+	position: absolute;
+	width: 100%;
+	background-color: #FFFFFF;
+	border: none;
+	padding: 0 30px; /* 양쪽으로 10px의 패딩을 추가 */
+	margin-top: 70px;
+}
+/* ============= 버튼 ============== */
+.btn-container {
+	position: absolute;
+	margin-top: -45px;
+	margin-right: 30px;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+
+.btn-container .btn {
+	border: 1px solid #76818d;
+	color: #76818d;
+	background-color: white;
+	font-weight: 700;
+}
+
+.btn-container .btn:hover {
+	color: white;
+	background-color: #76818d;
+	border: 1px solid #76818d;
+}
+/* 색상 변경 */
+.colorPicker-btn {
+	font-size: 14px;
+	font-weight: 700;
+	padding: 8px;
+}
+/* =========== End 버튼 ============ */
+
+/* ============= 캘린더 ============= */
+/* 캘린더 타이틀 */
+.form-container .calendar-group-title {
+	position: absolute;
+	width: 96%;
+	margin-top: 0px;
+	border-bottom: 1px solid #ced4da;
+}
+
+/* 일요일 빨간색 */
+.fc-day-sun a {
+	color: red !important;
+}
+/* 토요일 파란색 */
+.fc-day-sat a {
+	color: blue;
+}
+/* 캘린더 타이틀 텍스트 (생산계획표)*/
+.form-container .calendar-group-title .calendar-group-title-text {
+	position: absolute;
+	margin-top: -40px;
+	font-size: 25px;
+	font-weight: 600;
+}
+/* 캘린더그룹 */
+.calendar-group {
+	position: absolute;
+	width: 800px;
+	height: 600px;
+}
+/* Main 캘린더 */
+.calendar-group #calendar {
+	margin-top: 30px;
+	width: 100%;
+	height: 100%;
+}
+
+.fc-scroller {
+	overflow-y: auto !important;
+	overflow-x: auto !important;
+}
+
+.fc-scrollgrid-sync-table {
+	width: 800px;
+	height: 600px;
+}
+
+.fc-col-header-cell-cushion {
+	color: black;
+}
+
+.fc-daygrid-day-number {
+	color: black;
+}
+/* 캘린더 막대 css */
+.fc-event-title-container {
+	margin-left: 10px;
+	height: 20px; /* 이벤트 막대 높이 조정 */
+	font-size: 12px; /* 이벤트 제목 글꼴 크기 조정 */
+}
+
+.event-title {
+	margin-left: 1px;
+	position: relative;
+}
+
+.colorPicker-group {
+	position: relative;
+	top: 30px;
+	margin-left: 550px;
+	width: 95px;
+}
+/* 막대 호버시 툴팁창 */
+.event-tooltip {
+	width: auto;
+	max-width: 300px;
+	height: auto;
+	background-color: rgba(0, 0, 0, 0.7);
+	border: 2px solid #0d6efd;
+	border-radius: 5px;
+	padding: 15px;
+	font-weight: 500; color : white;
+	z-index: 999;
+	overflow: hidden; /* 텍스트가 넘칠 경우 숨김 처리 */
+	white-space: nowrap;
+	color: white; /* 텍스트가 한 줄로 유지되도록 함 */
+}
+
+.event-tooltip p {
+	margin: 0; /* 문단 간격 제거 */
+	margin-bottom: 5px; /* 문단 아래 여백 */
+	text-overflow: ellipsis; /* 넘치는 텍스트에 대해 "..."으로 대체 */
+	overflow: hidden;
+	font-size: 14px !important;
+}
+
+.tooltip-title {
+	margin-bottom: 5px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #5598f4;
+}
+
+.tooltip-section-title {
+	color: #5598f4;
+	font-size: 15px;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+
+.prod-info {
+	border: 1px solid #5598f4;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.material-info {
+	border: 1px solid #5598f4;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 5px;
+}
+/* 툴팁 스위치 온오프 */
+.tooltip-switch-container {
+	position: absolute;
+	height: 70px;
+	margin-left: 500px;
+	margin-top: -20px;
+}
+.form-check-label {
+	margin-left: -35px;
+	margin-top: 10px;
+	color: black;
+	font-weight: 600;
+	font-size: 14px;
+}
+.form-check-input {
+	margin-top: 30px;
+	width: 40px !important;
+	height: 20px !important;
+}
+/* =========== End 캘린더 =========== */
+
+/* ======= 주문내역 & 생산계획 공통 ====== */
+.prodPlan-info {
+	position: absolute;
+	margin-top: -6px;
+	margin-right: 30px;
+	width: 660px;
+	height: 600px;
+	right: 0;
+	border: 1px solid #ced4da;
+	border-radius: 7px;
+	padding: 20px;
+}
+
+.referenceDate-group {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.referenceDate-prepend-text {
+	margin-right: 10px;
+	white-space: nowrap;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.referenceDate {
+	height: 25px;
+	border: 1px solid #ced4da;
+	flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+	padding: 0 7px;
+	font-size: 16px;
+}
+/* ======= End 주문내역 & 생산계획 공통 ====== */
+
+/* ============= 주문내역 ============ */
+#orderList-group {
+	margin-top: 15px;
+	width: 100%;
+	height: 250px;
+}
+
+.orderList-title {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #76818d;
+	background-color: #76818d;
+	color: white;
+	line-height: 1.8;
+	padding: 0 7px;
+	font-weight: 600;
+}
+
+.orderList-table {
+	margin-top: 5px;
+}
+
+.orderList-table thead th {
+	width: 100%;
+	padding: 0 7px;
+	font-size: 15px;
+	font-weight: 600;
+	border-bottom: 1px solid #ced4da;
+}
+
+.orderList-table thead th:first-child {
+	width: 500px; /* 고객사 */
+}
+
+.orderList-table thead th:nth-child(2) {
+	width: 45%; /* 제품명 */
+}
+
+.orderList-table thead th:last-child {
+	width: 9%; /* 수량 */
+}
+/* =========== End 주문내역 ========== */
+
+/* ============= 생산계획 ============ */
+#prodPlanList-group {
+	margin-top: 15px;
+	width: 100%;
+	height: 250px;
+}
+
+.prodPlanList-title {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #76818d;
+	background-color: #76818d;
+	color: white;
+	line-height: 1.8;
+	padding: 0 7px;
+	font-weight: 600;
+}
+
+.prodPlanList-table {
+	margin-top: 5px;
+}
+
+.prodPlanList-table thead th {
+	width: 100%;
+	padding: 0 7px;
+	font-size: 15px;
+	font-weight: 600;
+	border-bottom: 1px solid #ced4da;
+}
+
+.prodPlanList-table thead th:first-child {
+	width: 500px; /* 제품명 */
+}
+
+.prodPlanList-table thead th:nth-child(2) {
+	width: 42%; /* 수량 */
+}
+
+.prodPlanList-table thead th:last-child {
+	width: 12%; /* 작업일수 */
+}
+
+/* =========== End 생산계획 ========== */
+
+/* ============ 등록 모달창 =========== */
+.custom-modal-css {
+	max-width: 800px;
+	min-width: 800px;
+	margin-top: -20px;
+}
+
+.modal-content {
+	padding: 0 15px;
+}
+/* 생산계획번호 */
+.prodPlanNoInput {
+	width: 400px;
+}
+
+/* 작업일수 */
+.prodPlanWorkingDaysLabel {
+	margin-left: 0;
+}
+
+.prodPlanWorkingDays {
+	margin-left: -61px;
+}
+
+.prodPlanWorkingDaysInput {
+	width: 100px;
+}
+
+/* 제품 등록 */
+.form-control.productNameInput {
+	width: 310px;
+}
+
+.btn.btn-secondary.productSelect {
+	margin-left: 0px;
+}
+
+.prodCount-input-class {
+	margin-left: -61px;
+}
+
+.prodCount-input {
+	width: 100px;
+}
+
+/* 투입자재 등록 */
+.form-control.productItemNameInput {
+	width: 310px;
+}
+
+.prodItemCount-input-class {
+	margin-left: -61px;
+}
+
+.prodItemCount-input {
+	width: 100px;
+}
+
+.col-form-label {
+	font-weight: 600;
+}
+/* 투입자재리스트 */
+.prodItem {
+	height: 150px;
+	width: 610px;
+	margin-top: -2px;
+	margin-left: 127px;
+	border: 1px solid #dee2e6;
+	border-radius: 7px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+}
+/* ========== End 등록 모달창 ========= */
+
+/* ========= 제품 품목선택 모달창 ======== */
+.custom-nestedModal-css {
+	max-width: 800px;
+	min-width: 800px;
+	margin-top: 100px;
+	max-height: 500px;
+	min-height: 500px;
+	overflow-y: auto
+}
+
+.select-container {
+	margin-top: 5px;
+}
+
+.select2-selection__clear {
+	color: red;
+}
+
+.select2-container .select2-selection--single {
+	max-width: 160px !important;
+	min-width: 160px !important;
+}
+
+/* ====== End 제품 품목선택 모달창 ======= */
+
+/* ======= 투입자재 품목선택 모달창 ======= */
+/* 모달 내부의 스크롤을 방지하고, Select2 드롭다운만 스크롤되도록 설정 */
+/* 적용 안되는 중 */
+.custom-nestedItemModal-css {
+	max-width: 800px;
+	min-width: 800px;
+	max-height: 500px;
+	min-height: 500px;
+	overflow-y: auto
+}
+/* 분류된 투입자재 항목 개수 */
+.prodPlanItemCount {
+	margin-left: -10px;
+}
+
+.prodPlanItemCountLabel {
+	font-weight: 600;
+}
+
+.prodPlanItemCountInput {
+	margin-top: -6px;
+}
+/* 투입자재 가격 총액 */
+.prodPlanItemTotalPrice {
+	margin-left: -270px;
+}
+
+.prodPlanItemTotalPriceLabel {
+	font-weight: 600;
+}
+
+.prodPlanItemTotalPriceInput {
+	margin-top: -6px;
+}
+/* 리스트 체크박스 */
+.checkbox-center {
+	text-align: left;
+}
+/* 분류 셀렉트박스 */
+.select2-dropdown {
+	max-height: 160px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.select2-results__options {
+	max-height: none !important;
+	overflow-y: visible !important; /* 내부스크롤 비활성화 */
+}
+
+.select2-results__option {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+}
+
+/* 분류 리스트 셀 너비 */
+.prodPlanItem-name {
+	width: 350px;
+}
+
+.prodPlanItem-price {
+	width: 120px;
+}
+/* ===== End 투입자재 품목선택 모달창 ===== */

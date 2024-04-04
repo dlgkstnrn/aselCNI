@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.psaMapper">
+
+	<select id="TTTTTTTTTTTpsaGetPlanList" parameterType="PsaProdPlan"
+		resultType="PsaProdPlan">
+		SELECT *
+		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu
+		WHERE tp.ITEM_CD = ti.ITEM_CD
+		AND tp.PRODPLAN_EMP_ID = tu.USER_ID
+		AND tp.PRODPLAN_DT >= CONVERT (DATE, CONVERT(CHAR(10), #{prodplan_dt},
+		23))
+		AND tp.PRODPLAN_DELETE_CHK = 0
+	</select>
+
+	<select id="psaGetPlanList" parameterType="PsaProdPlan"
+		resultType="PsaProdPlan">
+		SELECT *
+		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu
+		WHERE tp.PRODPLAN_DELETE_CHK = 0
+		AND tp.PRODPLAN_NO NOT IN (SELECT tw.PRODPLAN_NO FROM TB_WORKPROD tw)
+		AND tp.ITEM_CD = ti.ITEM_CD
+		AND tp.PRODPLAN_EMP_ID = tu.USER_ID
+	</select>
+
+	<select id="TTTTTTTTTTTTTTpsaGetWorkList" parameterType="PsaWorkProd"
+		resultType="PsaWorkProd">
+		SELECT *
+		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu
+		WHERE tw.ITEM_CD = ti.ITEM_CD
+		AND tw.WORKPROD_EMP_ID = tu.USER_ID
+		AND tw.WORKPROD_DT = #{workprod_dt}
+		AND tw.WORKPROD_DELETE_CHK = 0
+	</select>
+
+	<select id="psaGetWorkList" parameterType="PsaWorkProd"
+		resultType="PsaWorkProd">
+		SELECT *
+		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu
+		WHERE tw.WORKPROD_DELETE_CHK = 0
+		AND tw.WORKPROD_DT >= CONVERT (DATE, CONVERT(CHAR(10), #{workprod_dt},
+		23))
+		AND tw.ITEM_CD = ti.ITEM_CD
+		AND tw.WORKPROD_EMP_ID = tu.USER_ID
+	</select>
+
+	<select id="psaGetWorkProd" parameterType="PsaWorkProd"
+		resultType="PsaWorkProd">
+		SELECT *
+		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu
+		WHERE tw.WORKPROD_NO = #{workprod_no}
+		AND tw.WORKPROD_DELETE_CHK = 0
+		AND tw.ITEM_CD = ti.ITEM_CD
+		AND tw.WORKPROD_EMP_ID = tu.USER_ID
+	</select>
+
+	<select id="psaGetWorkProcList" parameterType="PsaWorkProd"
+		resultType="PsaWorkProc">
+		SELECT *
+		FROM TB_WORK_PROC twp , TB_PROCMST tp
+		WHERE twp.WORKPROD_NO = #{workprod_no}
+		AND twp.PROC_CD = tp.PROC_CD
+	</select>
+
+	<select id="psaGetWorkItemList" parameterType="PsaWorkProd"
+		resultType="PsaWorkItem">
+		SELECT *
+		FROM TB_WORK_ITEM twi , TB_ITEMMST ti
+		WHERE twi.WORKPROD_NO = #{workprod_no}
+		AND twi.ITEM_CD = ti.ITEM_CD
+	</select>
+
+
+	<select id="XXXXXXXXXpsaGetWorkProd" parameterType="PsaWorkProd"
+		resultType="PsaWorkProd">
+		SELECT *
+		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu,
+
+		(SELECT tp.PROC_NM
+		FROM TB_WORK_PROC twp , TB_PROCMST tp
+		WHERE twp.WORKPROD_NO = #{workprod_no}
+		AND twp.PROC_CD = tp.PROC_CD) AS proc_nm,
+
+		(SELECT twi.ITEM_CD , ti.ITEM_NM
+		FROM TB_WORK_ITEM twi , TB_ITEMMST ti
+		WHERE twi.WORKPROD_NO = #{workprod_no}
+		AND twi.ITEM_CD = ti.ITEM_CD) AS wi
+
+		WHERE tw.WORKPROD_NO = #{workprod_no}
+		AND tw.WORKPROD_DELETE_CHK = 0
+		AND tw.ITEM_CD = ti.ITEM_CD
+		AND tw.WORKPROD_EMP_ID = tu.USER_ID
+	</select>
+
+	<select id="XXXXXXXXXXpsaGetWorkProd" parameterType="PsaWorkProd"
+		resultType="PsaWorkProd">
+		SELECT *
+
+		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu,
+
+		(SELECT STRING_AGG(tp.PROC_NM, ', ') as PROC_NM
+		FROM TB_WORK_PROC twp
+		inner join TB_PROCMST tp
+		on twp.PROC_CD = tp.PROC_CD
+		WHERE twp.WORKPROD_NO = #{workprod_no}) AS proc_nm,
+
+		(SELECT STRING_AGG(ti.ITEM_NM, ', ') as IN_ITEM_NM
+		FROM TB_WORK_ITEM twi
+		inner join TB_ITEMMST ti
+		on twi.ITEM_CD = ti.ITEM_CD
+		WHERE twi.WORKPROD_NO = #{workprod_no}) AS in_item_nm
+
+		WHERE tw.WORKPROD_NO = #{workprod_no}
+		AND tw.WORKPROD_DELETE_CHK = 0
+		AND tw.ITEM_CD = ti.ITEM_CD
+		AND tw.WORKPROD_EMP_ID = tu.USER_ID
+	</select>
+
+</mapper>

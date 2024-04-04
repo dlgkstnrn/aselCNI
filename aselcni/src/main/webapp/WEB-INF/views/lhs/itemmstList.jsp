@@ -66,6 +66,7 @@
      </script> 
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script defer="defer" src="assets/js/main.js" type="text/javascript"></script>
 	<script defer="defer" type="text/javascript" src="assets/js/lhs/itemmstList.js"></script> 
 </head>
 
