@@ -25,4 +25,13 @@ public class UjmOutitem { //출고
 	
 	// Page 정보
 	private String 	currentPage; //유일하게 Page 객체에도
+	
+	//조인
+	private String cust_nm;
+	private String order_dt;
+	private String order_end_dt;
+	private int    order_status_chk;
+	private String item_nm;
+	private int    qty;
+	private String user_nm;
 }

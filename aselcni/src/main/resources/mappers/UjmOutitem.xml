@@ -13,12 +13,24 @@
 	
 	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
 		<![CDATA[
-			SELECT a.outitem_no, a.seq_no, a.ord FROM (
-    			SELECT ROW_NUMBER() OVER (ORDER BY outitem_no) AS rn, a.*
-    			FROM TB_OUTITEM a
-    			WHERE a.outitem_delete_chk = 0
-				) AS sub
-				WHERE rn >= #{start} AND rn <= #{end}
+		SELECT *
+		FROM (
+		    SELECT ROW_NUMBER() OVER (ORDER BY ou.outitem_no) AS rn, 
+		    ou.*, c.cust_nm, 
+		    ord.order_dt, ord.order_end_dt, ord.order_status_chk, 
+		    i.item_nm, 
+		    oi.qty,
+		    u.user_nm
+		    
+		    FROM TB_OUTITEM ou
+		    INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
+		    INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
+		    INNER JOIN TB_OUTITEM_ITEM oi ON ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
+		    INNER JOIN TB_ITEMMST i ON oi.item_cd = i.item_cd
+		    INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
+		    WHERE ou.outitem_delete_chk = 0
+		) AS sub
+		WHERE rn >= #{start} AND rn <= #{end}
 		]]> 
 	</select>
 	
