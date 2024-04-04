@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.KphOutItemItemMapper">
+					
+	<select id="KphOutItemItemList" parameterType="KphOutItem" resultType="KphOutItemItem">
+		SELECT it.ITEM_CD, it.ITEM_NM, oi.QTY 
+		FROM TB_OUTITEM_ITEM oi , TB_ITEMMST it
+		WHERE oi.ITEM_CD = it.ITEM_CD
+			AND OUTITEM_NO = #{outitem_no}
+			<if test="keyword != null">
+				AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
+			</if>
+	</select>
+	
+</mapper>
