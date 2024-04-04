@@ -1,0 +1,24 @@
+package com.aselcni.pjh.service;
+
+import java.util.List;
+
+import com.aselcni.pjh.model.PJHInitem;
+import com.aselcni.pjh.model.PJHPurchase;
+import com.aselcni.pjh.model.PJHPurchaseItem;
+import com.aselcni.pjh.model.PJHWhmst;
+
+public interface PJHServiceInterface {
+
+	List<PJHPurchase> searchPurc(PJHPurchase purchase);
+
+	List<PJHPurchaseItem> getItemsByPurc(String purc_no);
+
+	List<PJHWhmst> getWhList();
+
+	int registInitem(PJHInitem initem);
+
+	int getTotalInitemNum(PJHInitem initem);
+
+	List<PJHInitem> getInitemList(PJHInitem initem);
+
+}

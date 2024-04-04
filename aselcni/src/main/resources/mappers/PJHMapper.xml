@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.PJHMapper">
+
+	<select id="pjhSearchPurc" parameterType="PJHPurchase" resultType="PJHPurchase">
+		SELECT *
+		FROM TB_PURCHASE purc
+		INNER JOIN TB_CUSTMST cus ON purc.CUST_CD = cus.CUST_CD
+		WHERE purc.PURC_STATUS_CHK IN (0,1)
+		<if test="period != 0">
+			AND purc.PURC_DT >= #{purc_dt}
+		</if>
+		<if test="cust_nm != null and cust_nm != ''">
+			AND cus.CUST_NM like '%'+#{cust_nm}+'%'
+		</if>
+		<if test="purc_no != null and purc_no != ''">
+			AND purc.PURC_NO like '%'+#{purc_no}+'%'
+		</if>
+		ORDER BY purc.PURC_DT DESC
+	</select>
+	
+	<select id="pjhItemsByPurc" parameterType="String" resultType="PJHPurchaseItem">
+		SELECT tpi.PURC_NO, tpi.ITEM_CD, (tpi.QTY - ISNULL(ii.QTY,0)) AS QTY, tpi.PURC_COST / ISNULL(tpi.QTY,1) AS PURC_COST, ti.*
+		FROM TB_PURCHASE_ITEM tpi
+		LEFT JOIN 
+			(SELECT tii.PURC_NO, tii.ITEM_CD, ISNULL(SUM(ISNULL(tii.QTY,0)),0) AS QTY
+			FROM TB_INITEM_ITEM tii 
+			GROUP BY tii.PURC_NO,tii.ITEM_CD
+			) AS ii
+		ON (tpi.PURC_NO = ii.PURC_NO AND tpi.ITEM_CD = ii.ITEM_CD)
+		INNER JOIN TB_ITEMMST ti ON tpi.ITEM_CD = ti.ITEM_CD
+		WHERE tpi.PURC_NO = #{purc_no}
+	</select>
+	
+	<select id="pjhWhs" parameterType="PJHWhmst" resultType="PJHWhmst">
+		SELECT *
+		FROM TB_WHMST
+		WHERE USE_FLAG = 1
+		AND wh_delete_chk = 0
+	</select>
+	
+	<select id="pjhCreateInitemNo" parameterType="PJHInitem" resultType="String">
+		SELECT CONCAT('INI', RIGHT(REPLACE(#{initem_dt},'-',''),6) , FORMAT(ISNULL(COUNT(ti.INITEM_NO),0)+1, '0000')) AS INITEM_NO
+		FROM TB_INITEM ti
+		WHERE ti.INITEM_DT = #{initem_dt};
+	</select>
+	
+	<insert id="pjhRegistInitem" parameterType="PJHInitem">
+		INSERT INTO TB_INITEM 
+			(INITEM_NO
+			,SEQ_NO
+			,INITEM_DT
+			,PURC_NO
+			,CUST_EMP
+			,REMARK
+			,WH_CD
+			,INITEM_EMP_ID
+			,INITEM_DELETE_CHK)
+		VALUES (#{initem_no}
+						,(SELECT ISNULL(MAX(ti.SEQ_NO),0)+1 FROM TB_INITEM ti WHERE ti.PURC_NO = #{purc_no})
+						,#{initem_dt}
+						,#{purc_no}
+						,#{cust_emp}
+						,#{remark}
+						,#{wh_cd}
+						,#{initem_emp_id}
+						,0
+						)
+	</insert>
+	
+	<insert id="pjhInsertInitems" parameterType="PJHInitemItem">
+		INSERT INTO TB_INITEM_ITEM
+				(
+				INITEM_NO
+				,PURC_NO
+				,ITEM_CD
+				,QTY
+				)
+		VALUES (
+						#{initem_no}
+						,#{purc_no}
+						,#{item_cd}
+						,#{qty}
+					 )
+	</insert>
+	
+	<update id="pjhChangePurcStatus" parameterType="PJHInitem">
+		UPDATE  TB_PURCHASE
+		SET PURC_STATUS_CHK = #{status}
+		WHERE PURC_NO = #{purc_no}
+	</update>
+	
+	
+	<select id="pjhTotalInitem" parameterType="PJHInitem" resultType="int">
+		SELECT COUNT(DISTINCT ti.INITEM_NO)
+		FROM TB_INITEM ti
+		INNER JOIN TB_INITEM_ITEM tii ON ti.INITEM_NO = tii.INITEM_NO
+		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO
+		INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD 
+		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
+		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
+		<if test="searchItemNm != null and searchItemNm != ''">
+			AND ti2.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
+		</if>
+		<if test="searchCustNm != null and searchCustNm != ''">
+			AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
+		</if>
+	</select>
+	
+	<select id="pjhInitemList" parameterType="PJHInitem" resultType="PJHInitem">
+		SELECT ti.*,tc.CUST_NM  , (SELECT STRING_AGG(ti2.ITEM_NM, ',') FROM TB_INITEM_ITEM tii INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD WHERE ti.INITEM_NO = tii.INITEM_NO) AS ITEM_NM
+		FROM TB_INITEM ti
+		INNER JOIN TB_PURCHASE tp ON tp.PURC_NO = ti.PURC_NO 
+		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
+		INNER JOIN (SELECT DISTINCT tii2.INITEM_NO
+							FROM TB_INITEM_ITEM tii2
+							INNER JOIN TB_ITEMMST ti4 ON ti4.ITEM_CD = tii2.ITEM_CD
+							<if test="searchItemNm != null and searchItemNm != ''">
+							WHERE ti4.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
+							</if>
+							) AS sub ON ti.INITEM_NO = sub.INITEM_NO
+		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
+		<if test="searchCustNm != null and searchCustNm != ''">
+		AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
+		</if>
+		ORDER BY ti.INITEM_DT DESC
+		OFFSET #{start} ROW FETCH NEXT #{rowPage} ROW ONLY	
+	</select>
+	
+</mapper>
