@@ -93,9 +93,10 @@ pageEncoding="UTF-8"%>
                       id="outitem_insert"
                       tabindex="-1"
                       aria-hidden="true"
-                      style="display: none"
-                    > <!-- 등록모달 -->
-                      <div class="modal-dialog modal-dialog-centered modal-xl">
+                      style="display: none"> 
+                      <!-- 등록모달 -->
+                      
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
 
 
 
@@ -114,7 +115,7 @@ pageEncoding="UTF-8"%>
                           </div>
 
                             <!-- 등록 폼 -->
-                          <form action="">
+                          <form action="insertOutitem">
 
                             <div class="modal-body">
 
