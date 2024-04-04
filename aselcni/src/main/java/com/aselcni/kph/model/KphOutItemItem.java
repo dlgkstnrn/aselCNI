@@ -12,5 +12,6 @@ public class KphOutItemItem {
 	
 	// 조회용
 	private String item_nm;
+	private int usable_qty;
 	
 }

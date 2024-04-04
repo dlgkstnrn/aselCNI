@@ -3,13 +3,28 @@
 <mapper namespace="com.aselcni.KphOutItemMapper">
 					
 	<select id="KphOutItemList" parameterType="KphOutItem" resultType="KphOutItem">
+		<![CDATA[
 		SELECT ou.*, tc.CUST_NM , tu.USER_NM 
-		FROM TB_OUTITEM ou, TB_CUSTMST tc , TB_USERMST tu 
-		WHERE ou.CUST_CD = tc.CUST_CD 
-		   	AND ou.OUTITEM_EMP_ID = tu.USER_ID
-		   	AND ou.OUTITEM_DELETE_CHK = 0
+		FROM TB_OUTITEM ou
+		INNER JOIN TB_CUSTMST tc 
+					ON ou.CUST_CD = tc.CUST_CD 
+		INNER JOIN TB_USERMST tu 
+					ON ou.OUTITEM_EMP_ID = tu.USER_ID
+		WHERE ou.OUTITEM_DELETE_CHK = 0
+			AND ou.OUTITEM_NO NOT IN (
+														SELECT oi.OUTITEM_NO
+														FROM TB_OUTITEM_ITEM oi 
+														LEFT OUTER JOIN (SELECT OUTITEM_NO, ITEM_CD, SUM(QTY) RETURN_QTY
+																						FROM TB_RETURN
+																						WHERE RETURN_DELETE_CHK = 0
+																						GROUP BY OUTITEM_NO, ITEM_CD
+																						) tr 
+																				ON oi.OUTITEM_NO = tr.OUTITEM_NO
+																				AND oi.ITEM_CD = tr.ITEM_CD
+														WHERE (oi.QTY - tr.RETURN_QTY) <= 0
+														)
 		   	<choose>
-		   	<when test="searchFilter=='all'">
+		   		<when test="searchFilter=='all'">
 					AND (ou.OUTITEM_NO LIKE '%' + #{keyword} + '%'
 							OR ou.OUTITEM_NO LIKE '%' + #{keyword} + '%'
 							OR ou.ORDER_NO LIKE '%' + #{keyword} + '%'
@@ -48,6 +63,7 @@
 				</when>
 			</choose>
 		 ORDER BY ou.OUTITEM_NO DESC
+		 ]]>
 	</select>
 	
 </mapper>

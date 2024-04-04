@@ -74,6 +74,7 @@ public class KphReturnController {
 	public List<KphOutItemItem> outItemItemList(KphOutItem outItem) {
 		System.out.println("KphReturnController outItemItemList start...");
 		List<KphOutItemItem> itemList = kphReturnService.outItemItemList(outItem);
+		System.out.println(itemList);
 		return itemList;
 	}
 	
