@@ -7,6 +7,7 @@
 		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig"/>
 		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid"/>
 		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml"/>
+		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst"/>
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
 		<typeAlias alias="PJHInitem" type="com.aselcni.pjh.model.PJHInitem"/>
