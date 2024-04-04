@@ -131,7 +131,7 @@
 											<th scope="col">자재명</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody id="initemListTable">
 									<c:forEach var="item" varStatus="status" items="${initems}">
 										<tr onclick="console.log('${item.initem_no}')" style="cursor:pointer;">
 											<th scope="row">${status.count+(page.currentPage-1)*page.rowPage}</th>

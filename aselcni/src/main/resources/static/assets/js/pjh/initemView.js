@@ -30,6 +30,29 @@ const searchInitem = function () {
         data,
         success: (res) => {
             console.log(res);
+
+            if (res.initems.length == 0) {
+                alert('조회가능한 정보가 없습니다.');
+                return;
+            }
+
+            const tbody = $('#initemListTable');
+            tbody.empty();
+            res.initems.forEach((item, idx) => {
+                tbody.append(
+                    `
+                    <tr onclick="console.log('${item.initem_no}')" style="cursor:pointer;">
+                        <th scope="row">${idx + 1 + (res.page.currentPage - 1) * res.page.rowPage}</th>
+                        <td>${item.initem_no}</td>
+                        <td>${item.initem_dt}</td>
+                        <td>${item.cust_nm}</td>
+                        <td>${item.item_nm}</td>
+                    </tr>
+                    `
+                )
+            });
+
+
             /*
             if (res.length == 0) {
                 alert('조회가능한 정보가 없습니다.');
