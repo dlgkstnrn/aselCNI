@@ -2,18 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.KphReturnMapper">
 
-	<select id="KphReturnCountByOutItemNo" parameterType="KphReturn" resultType="int">
+	<insert id="KphReturnAdd" parameterType="KphReturn">
+		INSERT INTO TB_RETURN 
+		VALUES (('RET' + FORMAT(GETDATE(), 'yyMMdd') + FORMAT((SELECT COUNT(RETURN_NO) + 1 
+																							FROM TB_RETURN 
+																							WHERE RETURN_DT = CONVERT(CHAR(10), GETDATE(), 23)
+																							), '0000')),
+						#{outitem_no},
+						((SELECT COUNT(OUTITEM_NO)	FROM TB_RETURN WHERE OUTITEM_NO = #{outitem_no})+1),
+						CONVERT(CHAR(10), GETDATE(), 23),
+						#{cust_cd},
+						#{cust_emp},
+						#{item_cd},
+						#{res_rtn},
+						<choose>
+							<when test="remark == null or remark == ''">
+								NULL,
+							</when>
+							<otherwise>
+								#{remark},	
+							</otherwise>
+						</choose>
+						#{return_emp_id},
+						#{qty},
+						NULL,
+						0
+						)
+	</insert>		
+	
+	<select id="KphTotalReturnCount" parameterType="KphReturn">
 		SELECT COUNT(RETURN_NO)
 		FROM TB_RETURN
 		WHERE RETURN_DELETE_CHK = 0
-			AND OUTITEM_NO = #{outitem_no}
-	</select>
-
-	<insert id="KphReturnAdd" parameterType="KphReturn">
-		INSERT INTO TB_RETURN
-		VALUES (
-					 
-					)
-	</insert>					
+			<choose>
+				<when test="searchFilter=='all'">
+					AND (USER_NM LIKE  '%' + #{keyword} + '%' OR USER_ID LIKE  '%' + #{keyword} + '%')
+				</when>
+				<when test="searchFilter=='return_no'">
+					AND USER_NM LIKE  '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='outitem_no'">
+					AND USER_ID LIKE  '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='outitem_no'">
+					AND USER_ID LIKE  '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='outitem_no'">
+					AND USER_ID LIKE  '%' + #{keyword} + '%'
+				</when>
+			</choose>
+	</select>			
 	
 </mapper>

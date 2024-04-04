@@ -3,7 +3,6 @@
 <mapper namespace="com.aselcni.KphOutItemMapper">
 					
 	<select id="KphOutItemList" parameterType="KphOutItem" resultType="KphOutItem">
-		<![CDATA[
 		SELECT ou.*, tc.CUST_NM , tu.USER_NM 
 		FROM TB_OUTITEM ou
 		INNER JOIN TB_CUSTMST tc 
@@ -21,7 +20,7 @@
 																						) tr 
 																				ON oi.OUTITEM_NO = tr.OUTITEM_NO
 																				AND oi.ITEM_CD = tr.ITEM_CD
-														WHERE (oi.QTY - tr.RETURN_QTY) <= 0
+														WHERE (oi.QTY - tr.RETURN_QTY) <![CDATA[<=]]> 0
 														)
 		   	<choose>
 		   		<when test="searchFilter=='all'">
@@ -63,7 +62,6 @@
 				</when>
 			</choose>
 		 ORDER BY ou.OUTITEM_NO DESC
-		 ]]>
 	</select>
 	
 </mapper>

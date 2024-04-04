@@ -33,16 +33,12 @@ public class KphReturnDaoImp implements KphReturnDao {
 	
 	@Override
 	public void returnAdd(KphReturn kphReturn) {
-		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
-		
-		try {
-			int returnCount = session.selectOne("KphReturnCountByOutItemNo", kphReturn);
-			session.insert("KphReturnAdd", kphReturn);
-			transactionManager.commit(txStatus);
-		} catch (Exception e) {
-			e.printStackTrace();
-			transactionManager.rollback(txStatus);
-		}
+		session.insert("KphReturnAdd", kphReturn);
+	}
+	
+	@Override
+	public int totalReturnCount(KphReturn kphReturn) {
+		return session.selectOne("KphTotalReturnCount", kphReturn);
 	}
 
 }

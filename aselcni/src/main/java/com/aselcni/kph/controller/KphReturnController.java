@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aselcni.kph.model.KphOutItem;
 import com.aselcni.kph.model.KphOutItemItem;
 import com.aselcni.kph.model.KphReturn;
+import com.aselcni.kph.service.KphPaging;
 import com.aselcni.kph.service.KphReturnService;
 
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +25,7 @@ public class KphReturnController {
 	private final KphReturnService kphReturnService;
 	
 	@GetMapping("/return")
-	public String returnForm(HttpSession session) {
+	public String returnForm(KphReturn kphReturn, HttpSession session, Model model) {
 		System.out.println("KphReturnController returnForm start...");
 		
 		int user_comm_code = 0;
@@ -36,6 +37,14 @@ public class KphReturnController {
 		}
 		
 		if(user_comm_code == 10030) {
+			int totalReturnCount = kphReturnService.totalReturnCount(kphReturn);
+			KphPaging paging = new KphPaging(totalReturnCount, kphReturn.getCurrentPage());
+			
+			kphReturn.setStart(paging.getStart());
+			kphReturn.setEnd(paging.getEnd());
+			List<KphReturn> returnList = kphReturnService.returnList(kphReturn);
+			model.addAttribute("returnList", returnList);
+			model.addAttribute("paging", paging);
 			resultPage = "kph/return"; 
 		}
 		

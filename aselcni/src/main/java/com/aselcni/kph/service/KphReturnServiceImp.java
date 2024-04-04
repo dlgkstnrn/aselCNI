@@ -33,4 +33,9 @@ public class KphReturnServiceImp implements KphReturnService {
 		kphReturnDao.returnAdd(kphReturn);
 	}
 	
+	@Override
+	public int totalReturnCount(KphReturn kphReturn) {
+		return kphReturnDao.totalReturnCount(kphReturn);
+	}
+	
 }

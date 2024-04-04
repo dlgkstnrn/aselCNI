@@ -19,4 +19,13 @@ public class KphReturn {
 	private String retrun_update;
 	private String return_delete_chk;
 	
+	// 조회용
+	private String currentPage;
+	private int start;
+	private int end;
+	private String keyword;
+	private String search_filter;
+	private String start_day;
+	private String end_day;
+	
 }

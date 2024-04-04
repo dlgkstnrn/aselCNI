@@ -5,21 +5,21 @@
 	<select id="KphOutItemItemList" parameterType="KphOutItem" resultType="KphOutItemItem">
 		SELECT *
 		FROM (SELECT oi.OUTITEM_NO, oi.ITEM_CD , it.ITEM_NM, oi.QTY , (oi.QTY - tr.RETURN_QTY) AS USABLE_QTY
-					FROM TB_OUTITEM_ITEM oi 
-					INNER JOIN TB_ITEMMST it
-								ON oi.ITEM_CD = it.ITEM_CD
-					LEFT OUTER JOIN (SELECT OUTITEM_NO, ITEM_CD, SUM(QTY) RETURN_QTY
-													FROM TB_RETURN
-													WHERE RETURN_DELETE_CHK = 0
-													GROUP BY OUTITEM_NO
-													) tr 
-										ON oi.OUTITEM_NO = tr.OUTITEM_NO
-										AND oi.ITEM_CD = tr.ITEM_CD
-					WHERE oi.OUTITEM_NO = #{outitem_no}
-						<if test="keyword != null">
-							AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
-						</if>
-						) res
+				FROM TB_OUTITEM_ITEM oi 
+				INNER JOIN TB_ITEMMST it
+							ON oi.ITEM_CD = it.ITEM_CD
+				LEFT OUTER JOIN (SELECT OUTITEM_NO, ITEM_CD, SUM(QTY) RETURN_QTY
+										FROM TB_RETURN
+										WHERE RETURN_DELETE_CHK = 0
+										GROUP BY OUTITEM_NO, ITEM_CD
+										) tr 
+									ON oi.OUTITEM_NO = tr.OUTITEM_NO
+									AND oi.ITEM_CD = tr.ITEM_CD
+				WHERE oi.OUTITEM_NO = #{outitem_no}
+					<if test="keyword != null">
+						AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
+					</if>
+					) res
 		WHERE (res.USABLE_QTY > 0 OR res.USABLE_QTY IS NULL)
 	</select>
 	

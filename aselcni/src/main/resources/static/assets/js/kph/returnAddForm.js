@@ -146,11 +146,12 @@ $(".out-item-list-box").on('click', 'li', function () {
 	$('.cust-cd').val(cust_cd);
 	$('.cust-nm').val(cust_nm);
 
-	$('.item_cd').val('');
-	$('.item_nm').find('input').val('');
+	$('.item-cd').val('');
+	$('.item-nm-box').find('input').val('');
 	$('.max-qty').val('');
 	$('.item_qty').val('');
 	$('.item_qty').prop('readonly', true);
+	$('.item_qty').addClass('readonly');
 
 	outitem_choice_chk = 1;
 
@@ -220,7 +221,10 @@ $('#item-search-btn').on('click', function () {
 $('.item-list-box ul').on('click', 'li', function () {  
 	const item_nm = $(this).find('input[name=item_nm]').val();
 	const item_cd = $(this).find('input[name=item_cd]').val();
-	const max_qty = $(this).find('input[name=usable_qty]').val();
+	let max_qty = $(this).find('input[name=usable_qty]').val();
+	if(max_qty == 0) {
+		max_qty = $(this).find('input[name=qty]').val();
+	}
 	$('.item-nm-box').find('input').val(item_nm);
 	$('.item-cd').val(item_cd);
 	$('.max-qty').val(max_qty);
