@@ -95,6 +95,5 @@
 		<typeAlias alias="CSG_CategoryData"
 			type="com.aselcni.csg.model.CSG_CategoryData" />
 
-
 	</typeAliases>
 </configuration>

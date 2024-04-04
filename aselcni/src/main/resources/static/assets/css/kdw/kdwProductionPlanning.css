@@ -69,7 +69,7 @@ body {
 
 /* 일요일 빨간색 */
 .fc-day-sun a {
-	color: red !important;
+	color: red;
 }
 /* 토요일 파란색 */
 .fc-day-sat a {
@@ -117,6 +117,7 @@ body {
 	margin-left: 10px;
 	height: 20px; /* 이벤트 막대 높이 조정 */
 	font-size: 12px; /* 이벤트 제목 글꼴 크기 조정 */
+	cursor: default !important;
 }
 
 .event-title {
@@ -130,6 +131,14 @@ body {
 	margin-left: 550px;
 	width: 95px;
 }
+/* 막대 셀 스타일 */
+.clicked-cell-style {
+	color: skyblue !important;
+}
+/* 셀에만 적용되는 클래스에 cursor: pointer를 설정 */
+.clicked-cell-style {
+	cursor: pointer;
+}
 /* 막대 호버시 툴팁창 */
 .event-tooltip {
 	width: auto;
@@ -139,7 +148,8 @@ body {
 	border: 2px solid #0d6efd;
 	border-radius: 5px;
 	padding: 15px;
-	font-weight: 500; color : white;
+	font-weight: 500;
+	color: white;
 	z-index: 999;
 	overflow: hidden; /* 텍스트가 넘칠 경우 숨김 처리 */
 	white-space: nowrap;
@@ -187,6 +197,7 @@ body {
 	margin-left: 500px;
 	margin-top: -20px;
 }
+
 .form-check-label {
 	margin-left: -35px;
 	margin-top: 10px;
@@ -194,6 +205,7 @@ body {
 	font-weight: 600;
 	font-size: 14px;
 }
+
 .form-check-input {
 	margin-top: 30px;
 	width: 40px !important;
@@ -275,7 +287,10 @@ body {
 }
 
 .orderList-table thead th:last-child {
-	width: 9%; /* 수량 */
+	width: 12%; /* 수량 */
+}
+.orderList-item td {
+	padding: 0 7px;
 }
 /* =========== End 주문내역 ========== */
 
@@ -318,9 +333,11 @@ body {
 }
 
 .prodPlanList-table thead th:last-child {
-	width: 12%; /* 작업일수 */
+	width: 13%; /* 작업일수 */
 }
-
+.prodPlanList-item td {
+	padding: 0 7px;
+}
 /* =========== End 생산계획 ========== */
 
 /* ============ 등록 모달창 =========== */
@@ -334,8 +351,8 @@ body {
 	padding: 0 15px;
 }
 /* 생산계획번호 */
-.prodPlanNoInput {
-	width: 400px;
+.oderCodeInput {
+	width: 310px;
 }
 
 /* 작업일수 */
@@ -406,7 +423,7 @@ body {
 	margin-top: 100px;
 	max-height: 500px;
 	min-height: 500px;
-	overflow-y: auto
+	overflow-y: auto;
 }
 
 .select-container {
@@ -490,3 +507,14 @@ body {
 	width: 120px;
 }
 /* ===== End 투입자재 품목선택 모달창 ===== */
+
+/* ========= 주문번호 선택 모달창 ======== */
+.custom-oderModal-css {
+	max-width: 800px;
+	min-width: 800px;
+	margin-top: 100px;
+	max-height: 500px;
+	min-height: 500px;
+	overflow-y: auto;
+}
+/* ======= End 주문번호 선택 모달창 ======= */

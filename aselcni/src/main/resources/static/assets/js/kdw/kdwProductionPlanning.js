@@ -4,6 +4,7 @@ $(document).ready(function() {
 	var eventColors = {};
 	var responseProdPlans;
 	var isTooltipEnabled = true; // 툴팁 기본 활성상태
+	var lastClickedCell = null; // 마지막으로 클릭된 셀을 저장할 변수
 
 	var calendarEl = document.getElementById('calendar');
 	var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -201,31 +202,39 @@ $(document).ready(function() {
 					<td>${product.qty}</td>`;
 				orderListElement.appendChild(orderListItem);
 			}
+
+			// 클릭된 셀의 .fc-daygrid-day-number 요소 찾기
+			var currentClickedElement = info.dayEl.querySelector('.fc-daygrid-day-number');
+
+			// 이전에 클릭된 셀이 있고, 현재 클릭된 셀이 이전에 클릭된 셀과 동일한 경우
+			if (lastClickedCell && currentClickedElement === lastClickedCell) {
+				// 클릭된 셀의 스타일을 초기화하고 lastClickedCell 참조를 null로 설정
+				$(currentClickedElement).removeClass('clicked-cell-style');
+				lastClickedCell = null;
+
+				// HTML 내용 초기화 또는 업데이트 필요한 경우 여기에 로직 추가
+				referenceDateElement.innerHTML = '';
+				orderListElement.innerHTML = '';
+				prodPlanListElement.innerHTML = '';
+			} else {
+				// 새로운 셀을 클릭한 경우, 이전에 클릭된 셀의 스타일을 초기화
+				if (lastClickedCell) {
+					$(lastClickedCell).removeClass('clicked-cell-style');
+				}
+				// 현재 클릭된 셀에 스타일 적용
+				$(currentClickedElement).addClass('clicked-cell-style');
+				// 마지막으로 클릭된 셀 업데이트
+				lastClickedCell = currentClickedElement;
+			}
 		},
 		dayCellDidMount: function(info) {
-			// 마우스 호버 시 커서 변경
+			// 각 일자 셀이 마운트될 때 커서 스타일 적용
 			info.el.style.cursor = 'pointer';
-			// 마우스 호버 이벤트
-			info.el.addEventListener('mouseenter', function() {
-				var dayNumberElement = this.querySelector('.fc-daygrid-day-number');
-				if (dayNumberElement) {
-					dayNumberElement.style.color = 'skyblue'; // 텍스트 색상 변경
-					dayNumberElement.style.fontWeight = 'bold'; // 텍스트 두께 변경
-				}
-			});
-
-			// 마우스가 셀에서 벗어났을 때의 이벤트
-			info.el.addEventListener('mouseleave', function() {
-				var dayNumberElement = this.querySelector('.fc-daygrid-day-number');
-				if (dayNumberElement) {
-					dayNumberElement.style.color = ''; // 원래 텍스트 색상
-					dayNumberElement.style.fontWeight = ''; // 원래 텍스트 두께
-				}
-			});
 		},
 	});
 
 	calendar.render();
+
 	// 툴팁창 On/Off 스위치 버튼
 	$('#flexSwitchCheckChecked').change(function() {
 		isTooltipEnabled = $(this).is(':checked');

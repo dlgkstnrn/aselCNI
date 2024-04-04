@@ -1,17 +1,18 @@
 package com.aselcni.kdw.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 import com.aselcni.kdw.service.KdwProdPlanService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,7 @@ public class KdwProdPlanController {
 	public Map<String, Object> getProdPlanData() {
 	    List<TB_PRODPLAN> prodPlans = kdwProdPlanService.getProdPlanList();
 	    List<TB_ITEM_PROD> prodItems = kdwProdPlanService.getProdItemList();
+	    // List<KDW_TB_ORDER> prodOderList = kdwProdPlanService.getProdOrderList();
 	    Map<String, Object> responseProdPlans = new HashMap<>();
 	    responseProdPlans.put("prodPlans", prodPlans); // 제품정보
 	    responseProdPlans.put("prodItems", prodItems); // 자재정보

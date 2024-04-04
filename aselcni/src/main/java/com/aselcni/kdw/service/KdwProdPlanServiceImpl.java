@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aselcni.kdw.dao.KdwProdPlanDao;
+import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -35,6 +36,14 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 		List<TB_ITEM_PROD> prodPlanItemList = kdwProdPlanDao.getProdPlanItemList();
 		System.out.println("KdwProdPlanServiceImpl getProdItemList prodPlanItemList.size(): " + prodPlanItemList.size());
 		return prodPlanItemList;
+	}
+	// 주문번호 리스트
+	@Override
+	public List<KDW_TB_ORDER> getProdOrderList() {
+		System.out.println("KdwProdPlanServiceImpl getProdOrderList Start...");
+		List<KDW_TB_ORDER> prodPlanOrderList = kdwProdPlanDao.getprodPlanOrderList();
+		System.out.println("KdwProdPlanServiceImpl getProdOrderList prodPlanOrderList.size(): " + prodPlanOrderList.size());
+		return prodPlanOrderList;
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -46,5 +47,21 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 		}
 		return prodPlanItemList;
 	}
+	@Override
+	public List<KDW_TB_ORDER> getprodPlanOrderList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	// 주문번호 리스트
+	/*
+	 * @Override public List<KDW_TB_ORDER> getprodPlanOrderList() {
+	 * System.out.println("KdwProdPlanDaoImpl getprodPlanOrderList Start...");
+	 * List<KDW_TB_ORDER> prodPlanOrderList = null; try { prodPlanOrderList =
+	 * session.selectList("kdwProdPlanOrderList"); System.out.
+	 * println("KdwProdPlanDaoImpl getprodPlanOrderList prodPlanOrderList.size(): "
+	 * + prodPlanOrderList.size()); } catch (Exception e) { e.printStackTrace();
+	 * System.out.println("KdwProdPlanDaoImpl getprodPlanOrderList e.getMessage(): "
+	 * + e.getMessage()); } return prodPlanOrderList; }
+	 */
 
 }

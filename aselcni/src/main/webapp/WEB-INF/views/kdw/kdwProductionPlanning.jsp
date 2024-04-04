@@ -115,10 +115,14 @@
 												data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-											<div class="row mb-3 prodPlanNo">
-											    <label for="prodPlanNoInput" class="col-sm-2 col-form-label">생산계획번호</label>
-											    <div class="col-sm-7">
-											        <input type="text" id="prodPlanNoInput" class="form-control prodPlanNoInput">
+											<div class="row mb-3 oderCode">
+											    <label for="oderCodeInput" class="col-sm-2 col-form-label">주문번호</label>
+											    <div class="col-sm-5">
+											        <input type="text" id="prodPlanNoInput" class="form-control oderCodeInput">
+											    </div>
+											    <!-- 주문번호 선택 버튼 -->
+											    <div class="col-sm-2">
+											        <button type="button" class="btn btn-primary OderCodeSelect" data-bs-toggle="modal" data-bs-target="#oderModal">주문선택</button>
 											    </div>
 											    <!-- 작업일수 -->
 											    <label for="prodPlanWorkingDaysInput" class="col-sm-2 col-form-label prodPlanWorkingDaysLabel">작업일수</label>
@@ -398,7 +402,62 @@
 								</div>
 							</div>
 						</div>
-						<!-- End 투입자재 중첩 모달 -->						
+						<!-- End 투입자재 중첩 모달 -->
+						<!-- 주문번호 중첩 모달 -->
+						<div class="modal fade" id="oderModal" tabindex="-1"
+							aria-hidden="true" style="display: none;">
+							<div class="modal-dialog modal-dialog-centered custom-oderModal-css">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title"
+											style="font-weight: 700; margin-top: 10px;">주문번호 선택</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<!-- 중첩 모달 내용 -->
+									<div class="modal-body">
+									</div>
+									<!-- 분류될 리스트 -->
+									<div class="row">
+										<div class="col-12">
+											<table class="table category-search-list" 
+												   style="border-top: 1px solid #dee2e6; padding-top: 10px;">
+												<thead>
+													<tr>
+														<th scope="col">선택</th>
+														<th scope="col">제품코드</th>
+														<th scope="col">제품명</th>
+														<th scope="col">가격</th>
+													</tr>
+												</thead>
+												<tbody>
+													<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
+													<tr>
+														<td><input type="radio" name="productSelect" value="제품1"></td>
+														<th scope="row">1</th>
+														<td>제품 예시 1</td>
+														<td>1000원</td>
+													</tr>
+													<tr>
+														<td><input type="radio" name="productSelect" value="제품2"></td>
+														<th scope="row">2</th>
+														<td>제품 예시 2</td>
+														<td>2000원</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="reset" class="btn btn-secondary"
+											data-bs-dismiss="modal">취소</button>
+										<button type="button" class="btn btn-primary">저장</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- End 주문번호 중첩 모달 -->
+										
 						<!-- Calendar -->
 						<div class="calendar-group">
 							<div id='calendar'></div>
