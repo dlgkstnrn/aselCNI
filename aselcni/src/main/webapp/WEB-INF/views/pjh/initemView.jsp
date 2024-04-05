@@ -174,7 +174,7 @@
 				<!-- End #main -->
 
 				<!-- 상세조회 모달 -->
-				<div class="modal fade" id="detailModal" tabindex="-1">
+				<div class="modal fade" id="detailModal" data-bs-backdrop="static" tabindex="-1">
 					<div class="modal-dialog modal-xl">
 						<div class="modal-content">
 							<div class="modal-header">
