@@ -349,7 +349,7 @@ body {
 	max-height: 700px;
 	min-height: 700px;
 	margin-top: -20px;
-	overflow-y: auto;
+	margin-left: -150px;
 }
 
 .modal-content {
@@ -428,7 +428,7 @@ body {
 	max-height: 700px;
 	min-height: 700px;
 	margin-top: -20px;
-	overflow-y: auto;
+	margin-left: -150px;
 }
 
 .select-container {
@@ -455,7 +455,7 @@ body {
 	max-height: 700px;
 	min-height: 700px;
 	margin-top: -20px;
-	overflow-y: auto;
+	margin-left: -150px;
 }
 /* 분류된 투입자재 항목 개수 */
 .prodPlanItemCount {
@@ -521,7 +521,6 @@ body {
 	max-height: 700px;
 	min-height: 700px;
 	margin-top: -20px;
-	overflow-y: auto;
 }
 
 .input-group-text.date {
@@ -564,7 +563,7 @@ body {
 	text-overflow: ellipsis;
 }
 
-.modal-footer {
+.modal-footer.oderModal {
 	padding: 0px 3px;
 }
 

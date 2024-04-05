@@ -198,7 +198,7 @@
 												<label for="inputPassword" class="col-sm-2 col-form-label">비고</label>
 												<div class="col-sm-10">
 													<textarea class="form-control"
-														style="min-height: 150px; max-height: 150px;"></textarea>
+														style="min-height: 135px; max-height: 135px;"></textarea>
 												</div>
 											</div>
 										</div>
@@ -471,7 +471,7 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="modal-footer">
+									<div class="modal-footer oderModal">
 										<!-- 검색 필드 -->
 									    <div class="input-group mb-3 oderModal-search">
 									        <span class="input-group-text" id="basic-addon1">
