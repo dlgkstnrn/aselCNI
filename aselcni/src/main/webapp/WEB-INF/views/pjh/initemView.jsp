@@ -93,6 +93,23 @@
 									<div class="row mt-1">
 										<div class="col-md-6">
 											<div class="input-group">
+												<span class="input-group-text">발주번호</span>
+												<input id="purc_no" type="text" class="form-control"
+													placeholder="입고번호" aria-label="입고번호">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="input-group">
+												<span class="input-group-text">담당자(발주)</span>
+												<input id=purc_emp_nm type="text" class="form-control" placeholder="발주번호"
+													aria-label="발주번호">
+											</div>
+										</div>
+									</div>
+
+									<div class="row mt-1">
+										<div class="col-md-6">
+											<div class="input-group">
 												<span class="input-group-text">입고번호</span>
 												<input id="initem_no" type="text" class="form-control"
 													placeholder="입고번호" aria-label="입고번호">
@@ -100,23 +117,23 @@
 										</div>
 										<div class="col-md-6">
 											<div class="input-group">
-												<span class="input-group-text">발주번호</span>
-												<input id="purc_no" type="text" class="form-control" placeholder="발주번호"
+												<span class="input-group-text">담당자(입고)</span>
+												<input id="initem_emp_nm" type="text" class="form-control" placeholder="발주번호"
 													aria-label="발주번호">
 											</div>
 										</div>
 									</div>
 									
 									<div class="row mt-1">
-										<div class="col-md-9">
+										<div class="col-md-10">
 											<div class="input-group">
 												<span class="input-group-text">자재명</span>
 												<input id="item_nm" type="text" class="form-control" placeholder="자재명"
 													aria-label="자재명">
 											</div>
 										</div>
-										<div class="col-md-3 col-md-push-9 px-0">
-											<button class="btn btn-primary btn-sm " style="height:100%;"
+										<div class="col-md-2">
+											<button class="btn btn-primary btn-sm float-right" style="height:100%;"
 												onclick="searchInitem()">조회</button>
 										</div>
 									</div>
@@ -129,6 +146,9 @@
 										<tr>
 											<th scope="col">No.</th>
 											<th scope="col">입고번호</th>
+											<th scope="col">담당자(입고)</th>
+											<th scope="col">발주번호</th>
+											<th scope="col">담당자(발주)</th>
 											<th scope="col">입고일자</th>
 											<th scope="col">매입처</th>
 											<th scope="col">자재명</th>
@@ -139,6 +159,9 @@
 											<tr onclick="detailView('${item.initem_no}')" style="cursor:pointer;">
 												<th scope="row">${status.count+(page.currentPage-1)*page.rowPage}</th>
 												<td>${item.initem_no}</td>
+												<td>${item.initem_emp_nm}</td>
+												<td>${item.purc_no}</td>
+												<td>${item.purc_emp_nm}</td>
 												<td>${item.initem_dt }</td>
 												<td>${item.cust_nm }</td>
 												<td>${item.item_nm }</td>

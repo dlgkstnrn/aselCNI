@@ -25,6 +25,8 @@ public class PJHInitem {
 	private String item_nm;
 	private String start_date;
 	private String end_date;
+	private String initem_emp_nm;
+	private String purc_emp_nm;
 	//private String searchItemNm;
 	//private String searchCustNm;
 	

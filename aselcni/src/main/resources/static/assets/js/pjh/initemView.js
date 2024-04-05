@@ -10,10 +10,13 @@ let data = {
     start_date: $('#start_date').val(),
     end_date: $('#end_date').val(),
     cust_nm: $('#cust_nm').val(),
-    item_nm: $('#item_nm').val(),
-    initem_no: $('initem_no').val()
+    purc_no: $('#purc_no').val(),
+    purc_emp_nm: $('#purc_emp_nm').val(),
+    initem_no: $('#initem_no').val(),
+    initem_emp_nm: $('#initem_emp_nm').val(),
+    item_nm: $('#item_nm').val()
 };
-
+// 이전 검색 정보
 let tempData = {};
 // 검색
 const searchInitem = function () {
@@ -22,8 +25,12 @@ const searchInitem = function () {
     data.start_date = $('#start_date').val();
     data.end_date = $('#end_date').val();
     data.cust_nm = $('#cust_nm').val();
+    data.purc_no = $('#purc_no').val();
+    data.purc_emp_nm = $('#purc_emp_nm').val();
+    data.initem_no = $('#initem_no').val();
+    data.initem_emp_nm = $('#initem_emp_nm').val();
     data.item_nm = $('#item_nm').val();
-    data.initem_no = $('initem_no').val();
+    console.log(data);
     getTableRow();
 }
 
@@ -40,6 +47,14 @@ const getTableRow = function () {
             if (res.initems.length == 0) {
                 alert('조회가능한 정보가 없습니다.');
                 data = tempData;
+                $('#start_date').val(data.start_date);
+                $('#end_date').val(data.end_date);
+                $('#cust_nm').val(data.cust_nm);
+                $('#purc_no').val(data.purc_no);
+                $('#purc_emp_nm').val(data.purc_emp_nm);
+                $('#initem_no').val(data.initem_no);
+                $('#initem_emp_nm').val(data.initem_emp_nm);
+                $('#item_nm').val(data.item_nm);
                 return;
             }
 
@@ -52,6 +67,9 @@ const getTableRow = function () {
                     <tr onclick="detailView('${item.initem_no}')" style="cursor:pointer;">
                         <th scope="row">${idx + 1 + (res.page.currentPage - 1) * res.page.rowPage}</th>
                         <td>${item.initem_no}</td>
+                        <td>${item.initem_emp_nm}</td>
+                        <td>${item.purc_no}</td>
+                        <td>${item.purc_emp_nm}</td>
                         <td>${item.initem_dt}</td>
                         <td>${item.cust_nm}</td>
                         <td>${item.item_nm}</td>

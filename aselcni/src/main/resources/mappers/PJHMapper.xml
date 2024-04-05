@@ -98,17 +98,33 @@
 		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO
 		INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
+		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
+		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
-		<if test="item_nm != null and item_nm != ''">
-			AND ti2.ITEM_NM LIKE '%'+#{item_nm}+'%'
+		<if test="initem_no != null and initem_no != ''">
+			AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
 		</if>
 		<if test="cust_nm != null and cust_nm != ''">
 			AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
 		</if>
+		<if test="purc_no != null and purc_no != ''">
+			AND ti.PURC_NO LIKE '%'+#{purc_no}+'%'
+		</if>
+		<if test="purc_emp_nm != null and purc_emp_nm != ''">
+			AND puser.USER_NM LIKE '%'+#{purc_emp_nm}+'%'
+		</if>
+		<if test="initem_emp_nm != null and initem_emp_nm != ''">
+			AND inuser.USER_NM LIKE '%'+#{initem_emp_nm}+'%'
+		</if>
+		<if test="item_nm != null and item_nm != ''">
+			AND ti2.ITEM_NM LIKE '%'+#{item_nm}+'%'
+		</if>
+		
 	</select>
 	
 	<select id="pjhInitemList" parameterType="PJHInitem" resultType="PJHInitem">
-		SELECT ti.*,tc.CUST_NM  , (SELECT STRING_AGG(ti2.ITEM_NM, ',') FROM TB_INITEM_ITEM tii INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD WHERE ti.INITEM_NO = tii.INITEM_NO) AS ITEM_NM
+		SELECT ti.*,tc.CUST_NM,inuser.USER_NM AS INITEM_EMP_NM,puser.USER_NM AS PURC_EMP_NM 
+					, (SELECT STRING_AGG(ti2.ITEM_NM, ',') FROM TB_INITEM_ITEM tii INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD WHERE ti.INITEM_NO = tii.INITEM_NO) AS ITEM_NM
 		FROM TB_INITEM ti
 		INNER JOIN TB_PURCHASE tp ON tp.PURC_NO = ti.PURC_NO 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
@@ -119,9 +135,23 @@
 							WHERE ti4.ITEM_NM LIKE '%'+#{item_nm}+'%'
 							</if>
 							) AS sub ON ti.INITEM_NO = sub.INITEM_NO
+		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
+		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
+		<if test="initem_no != null and initem_no != ''">
+		AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
+		</if>
 		<if test="cust_nm != null and cust_nm != ''">
 		AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
+		</if>
+		<if test="purc_no != null and purc_no != ''">
+		AND ti.PURC_NO LIKE '%'+#{purc_no}+'%'
+		</if>
+		<if test="purc_emp_nm != null and purc_emp_nm != ''">
+		AND puser.USER_NM LIKE '%'+#{purc_emp_nm}+'%'
+		</if>
+		<if test="initem_emp_nm != null and initem_emp_nm != ''">
+		AND inuser.USER_NM LIKE '%'+#{initem_emp_nm}+'%'
 		</if>
 		ORDER BY ti.INITEM_DT DESC
 		OFFSET #{start} ROW FETCH NEXT #{rowPage} ROW ONLY	
