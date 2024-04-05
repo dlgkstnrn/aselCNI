@@ -580,41 +580,35 @@ pageEncoding="UTF-8"%>
                   </tbody>
                 </table>
 ${page}
-                <c:if test="${page.startPage > page.pageBlock }">
-                  <a href="outitem?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
-                </c:if>
-                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                  <a href="outitem?currentPage=${i}">[${i}]</a>
-                </c:forEach>
-                <c:if test="${page.endPage < page.totalPage }">
-                  <a href="outitem?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-                </c:if>
-
-
-
+               
                 <!-- End Table with stripped rows -->
               </div>
+
+
+              
+                
+             
+
+
+
+
 
               <!-- 번호디자인 -->
               <!-- Disabled and active states -->
               <nav aria-label="..." style="margin: auto">
                 <ul class="pagination">
-                  <li class="page-item disabled">
-                    <a
-                      class="page-link"
-                      href="#"
-                      tabindex="-1"
-                      aria-disabled="true"
-                      >Previous</a
-                    >
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">2</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+
                   <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                    <a class="page-link" href="outitem?currentPage=${startPage}">Start</a>
+                  </li>
+
+                  <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+                  <li class="page-item">
+                    <a class="page-link" href="outitem?currentPage=${i}">${i}</a>
+                  </li>
+                  </c:forEach>
+                  <li class="page-item">
+                    <a class="page-link" href="outitem?currentPage=${endPage}">End</a>
                   </li>
                 </ul>
               </nav>
