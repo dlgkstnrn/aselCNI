@@ -1,3 +1,64 @@
+//대분류애들 선택시에 Cust_cd 가지고 넘어가는 aajx
+let custCd = ""; // 전역 변수로 custCd 값을 저장
+
+$(document).ready(function() {
+    $('#supplier').on('change', function() {
+        custCd = $(this).val(); // 선택된 매입처의 cust_cd 값
+
+        // AJAX 요청 시작
+        $.ajax({
+            type: 'GET',
+            url: '/modalBig', // 대분류 데이터를 조회하는 서버의 URL
+            data: { cust_cd: custCd }, // 서버에 전송할 데이터
+            success: function(response) {
+                // 성공 시 처리 로직
+                console.log(response);
+                // 예: 대분류 선택을 위한 <select> 태그에 조회된 데이터를 기반으로 옵션 추가
+                $('#BigType').empty().append('<option selected="selected" value="">대분류 선택</option>');
+                $.each(response, function(i, item) {
+                    $('#BigType').append($('<option>', { 
+                        value: item.big_no,
+                        text : item.big_content 
+                    }));
+                });
+                
+                // 매입처 선택 후 비활성화
+                $('#supplier').prop('disabled', true);
+            },
+            error: function(xhr, status, error) {
+                // 오류 시 처리 로직
+                console.error("Error: " + error);
+                alert("대분류 데이터 조회에 실패했습니다.");
+            }
+        });
+        // AJAX 요청 끝
+    });
+});
+
+//발주등록폼에서 발주담당자를 보여주자 
+$(document).ready(function() {
+    $('#supplier').on('change', function() {
+        var custCd = $(this).val(); // 선택된 매입처의 cust_cd 값
+
+        // 거래처 담당자 정보 조회를 위한 AJAX 요청
+        $.ajax({
+            type: 'GET',
+            url: '/getSupplierEmployee', // 거래처 담당자 정보를 조회하는 서버의 URL
+            data: { cust_cd: custCd }, // 서버에 전송할 데이터
+            success: function(response) {
+                // 성공 시 처리 로직
+                // 거래처 담당자 정보를 입력 필드에 반영
+                $('#manager-name').val(response.CUST_EMP);
+            },
+            error: function(xhr, status, error) {
+                // 오류 시 처리 로직
+                console.error("Error: " + error);
+                alert("거래처 담당자 정보 조회에 실패했습니다.");
+            }
+        });
+    });
+});
+
 //중분류애들 => 대분류 선택시 값 넘어가는것 + 중분류
 $('#BigType').on('change',(event) => {
 	console.log(event.target.value);
@@ -10,11 +71,15 @@ $('#BigType').on('change',(event) => {
 		type: 'GET',
 		url: '/modalMid',
 		data: {
-			big_no: bigType
+			big_no: bigType,
+			cust_cd: custCd
 		},
 		success: (rsp)=>{
 			console.log(rsp);
 			$('#midType').empty();
+			$('#midType').append(
+					`<option value="">"중분류를 선택해주세요"</option>`
+				);
 			rsp.forEach((item)=>{
 				$('#midType').append(
 					`<option value="${item.mid_no}">${item.mid_content}</option>`
@@ -34,6 +99,8 @@ $('#midType').on('change',(event) => {
 	//주석처리한게 진형님 코드
 	const big_no = mid.getAttribute('bigNo');
 	console.log('big_no:',big_no);
+	console.log('mid_no:',mid_no);
+
     //const big_no = $('#midType').find(':selected').data('big-no');
     
 	if(mid_no==null||mid_no==''){
@@ -45,11 +112,15 @@ $('#midType').on('change',(event) => {
 		url: '/modalSml',
 		data: {
 			mid_no,
-			big_no
+			big_no,
+			cust_cd: custCd
 		},
 		success: (rsp)=>{
 			console.log(rsp);
 			$('#smlType').empty();
+			$('#smlType').append(
+					'<option value="">"소분류룰 선택하세요"</option>'
+				)
 			rsp.forEach((item)=>{
 				$('#smlType').append(
 					`<option value="${item.sml_no}" data-mid-no="${item.mid_no}" data-big-no="${item.big_no}">${item.sml_content}</option>`
@@ -57,16 +128,6 @@ $('#midType').on('change',(event) => {
 			})
 			$('#smlType').attr('bigNo',rsp[0].big_no);
 			$('#smlType').attr('midNo',rsp[0].mid_no);
-			
-/*
-	컨트롤러에서 받아온 소분류 것 들 smlTypeList ===> 
-[	$('#smlType').attr('bigNo',rsp[0].big_no);는 맨 윗줄에 해당하는 sml_no와 mid_no를 가져온거임(박력분)
-	CSG_TB_TYPE_SML(sml_no=1, mid_no=3, big_no=1, sml_content=박력분), 
-	CSG_TB_TYPE_SML(sml_no=2, mid_no=3, big_no=1, sml_content=중력분), 
-	CSG_TB_TYPE_SML(sml_no=3, mid_no=3, big_no=1, sml_content=강력분)
-]
-*/
-
 		}
 		
 	})
@@ -92,7 +153,8 @@ $('#smlType').on('change', function(event) {
         data: {
             sml_no: sml_no, // 전송할 데이터 (여기서는 선택된 소분류 번호)
             mid_no : mid_no,
-            big_no: big_no
+            big_no: big_no,
+			cust_cd: custCd
 
         },
         success: function(response) {
@@ -100,9 +162,6 @@ $('#smlType').on('change', function(event) {
 				alert('조회가능한 데이터가 없습니다.');
 				return;
 			}
-            
-            
-            
             
             // 테이블에 데이터 채우기
             fillTableWithItems(response);
@@ -203,84 +262,6 @@ $(document).ready(function() {
         $this.closest('tr').find('.purc-cost').text(`${purcCost}원`);
     });
 });
-
-
-/*
-// 모달에서 '저장' 버튼 클릭 시 이벤트 리스너 설정
-$('#modalSaveButton').on('click', function(event) {
-    onSaveModal(); // 저장 버튼 클릭 시 함수 실행
-});
-
-// 다른 폼의 테이블을 업데이트하는 함수
-function updateFormTable() {
-    const tableBody = $('#jajeinsertTable tbody');
-    tableBody.empty(); // 기존 내용을 비우기
-
-    // 임시 배열에 저장된 아이템으로 테이블 행 생성
-    tempItems.forEach(function(item, index) {
-        const row = `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${item.item_cd}</td>
-                <td>${item.item_nm}</td>
-                <td>${item.item_spec}</td>
-                <td>${item.item_unit}</td>
-                <td>${item.item_qty}</td>
-                <td>${item.item_cost}</td>
-                <td>${item.purc_cost}</td>
-            </tr>
-        `;
-        tableBody.append(row);
-    });
-}
-
-
-// '저장' 버튼 클릭 이벤트 핸들러
-$('#modalSaveButton').on('click', function() {
-	console.log('저장버튼 클릭됨');
-	
-    const checkedItems = $('#jajeTable tbody input[type="checkbox"]:checked');
-    
-    // 선택된 항목들을 기반으로 새로운 테이블 행 생성
-    checkedItems.each(function() {
-        const row = $(this).closest('tr');
-        const itemData = {
-            cust_cd: row.find('td:nth-child(2)').text(),
-            item_nm: row.find('td:nth-child(3)').text(),
-            item_spec: row.find('td:nth-child(4)').text(),
-            item_unit: row.find('td:nth-child(5)').text(),
-            qty: row.find('td:nth-child(6)').text().replace('개', ''),
-            item_cost: row.find('td:nth-child(7)').text().replace('원', ''),
-            purc_cost: row.find('td:nth-child(8)').text().replace('원', '')
-        };
-
-        // 전역 변수에 데이터 저장 (예시)
-        jajeData[itemData.cust_cd] = itemData;
-        
-        // 새로운 테이블에 선택된 항목 추가
-        $('#newTable tbody').append(`
-            <tr>
-                <td>${itemData.cust_cd}</td>
-                <td>${itemData.item_nm}</td>
-                <td>${itemData.item_spec}</td>
-                <td>${itemData.item_unit}</td>
-                <td>${itemData.qty}</td>
-                <td>${itemData.item_cost}</td>
-                <td>${itemData.purc_cost}</td>
-            </tr>
-        `);
-    });
-
-    // 필요한 경우 추가 작업 수행
-});
-*/
-
-
-
-
-
-
-
 
 
 

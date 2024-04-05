@@ -11,7 +11,9 @@ import com.aselcni.csg.model.CSG_TB_TYPE_SML;
 
 public interface SK_Service_Interface {
 
-	List<CSG_TB_TYPE_BIG> findBigTypelist();
+	List<CSG_TB_CUSTMST> findCustlist();
+
+	List<CSG_TB_TYPE_BIG> findBigTypelist(String custCd);
 
 	List<CSG_TB_TYPE_MID> CSG_MidType(CSG_TB_TYPE_MID csgMid);
 
@@ -19,7 +21,7 @@ public interface SK_Service_Interface {
 
 	List<CSG_TB_ITEMMST> CSG_SelectedItems(CSG_TB_TYPE_SML items);
 
-	List<CSG_TB_CUSTMST> findCustlist();
+
 
 
 }

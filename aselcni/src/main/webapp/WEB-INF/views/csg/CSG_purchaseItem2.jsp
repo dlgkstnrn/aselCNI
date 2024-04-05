@@ -76,61 +76,46 @@
 			                        <i class="fas fa-clipboard-list fa-lg text-primary"></i>
 			                        발주 등록
 			                    </h2>
-			
 			                    <!-- 입력 필드 그룹 -->
 			                    <div class="row row-cols-2 g-4">
 			
-			                        <!-- 발주번호 -->
-			                        <div class="border border-green-500">
-			                            <label for="order-number" class="form-label text-lg text-gray-700 font-bold mb-2">발주번호</label>
-			                            <input id="order-number" type="text" placeholder="발주번호는 뷰에서 생성해주고 여기는 readOnly가 되야함"
-			                                class="form-control">
-			                        </div>
-		
 			                        <!-- 매입처 -->
 			                        <div class="border border-green-500">
 			                            <label for="supplier" class="form-label text-lg text-gray-700 font-bold mb-2">매입처</label>
 			                            <select id="supplier" class="form-select">
-			                            	<option selected="selected" value="">대분류 선택</option>
+			                            	<option selected="selected" value="">매입처 선택</option>
 				                            	<c:forEach var="cust" items="${custList}">
-				                               		<option>${cust.cust_nm}</option>
+				                               		<option  value="${cust.cust_cd}">${cust.cust_nm}</option>
 				                        		</c:forEach>
 				                            </select>
+			                        </div>
+			                        
+			                        <!-- 거래처 담당자 -->
+			                        <div class="border border-green-500">
+			                            <label for="manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">거래처 발주담당자 TB_PURCHASE의 CUST_EMP</label>
+			                            <input id="manager-name" type="text" placeholder="거래처 담당자 입력" class="form-control" value="${cust.CUST_EMP}" readonly>
 			                        </div>
 			                        
 			                        <!-- 발주 담당자 -->
 			                        <div class="border border-green-500">
 			                            <label for="com_manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">발주 담당자</label>
 										<input id="com_manager-name" type="text" placeholder="발주 담당자 입력" class="form-control" value="${sessionScope.user_nm}" readonly>
- 
 			                        </div>
-			
-			                        <!-- 거래처 담당자 -->
-			                        <div class="border border-green-500">
-			                            <label for="manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">거래처 발주담당자 TB_PURCHASE의 CUST_EMP</label>
-			                            <input id="manager-name" type="text" placeholder="거래처 담당자 입력" class="form-control">
-			                        </div>
-			
+
 			                        <!-- 비고 -->
 			                        <div class="border border-green-500">
 			                            <label for="remark" class="form-label text-lg text-gray-700 font-bold mb-2">비고</label>
 			                            <input id="remark" type="text" placeholder="필요한 내용을 입력" class="form-control">
 			                        </div>
-			
 			                    </div>
-			
-
 			                </div>
-
-							
-							
 			        
 						    <div id="materialsTableSection" class="container w-7/8 p-4">
 						        <h2 class="text-2xl font-bold mb-4">
 						            <i class="fas fa-clipboard-list fa-lg text-primary"></i>
 						            자재 목록
 						       		<div class="d-flex justify-content-end">
-										<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#jajeinputModal">자재선택</button>
+										<button id="jajeSelect" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#jajeinputModal">자재선택</button>
 									</div>
 						        </h2>
 						

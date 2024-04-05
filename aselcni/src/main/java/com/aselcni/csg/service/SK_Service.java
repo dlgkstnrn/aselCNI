@@ -21,9 +21,9 @@ public class SK_Service implements SK_Service_Interface {
 
 	//첫 발주등록 폼에서 보이는 대분류 불러오기(모달안에 미리 불러오는거)
 	@Override
-	public List<CSG_TB_TYPE_BIG> findBigTypelist() {
+	public List<CSG_TB_TYPE_BIG> findBigTypelist(String custCd) {
 		System.out.println("Service에서 bigType을 불러오자고");
-		List<CSG_TB_TYPE_BIG> bigTypeList = sk_Dao_Interface.findBigTypelist();
+		List<CSG_TB_TYPE_BIG> bigTypeList = sk_Dao_Interface.findBigTypelist(custCd);
 		return bigTypeList;
 	}
 
@@ -64,7 +64,7 @@ public class SK_Service implements SK_Service_Interface {
 
 		return selectedItemList;
 	}
-	
+
 
 
 

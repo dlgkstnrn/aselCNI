@@ -39,18 +39,13 @@ public class SK_Controller {
 	//발주관리 에서 테이블에 발주된 애들 불러오는 쿼리
 	
 	
-	//CSG_purchase에서 신규등록을 누르면 a태그로 옮기게 되는 발주등록 및 자재목록 나오게 되는 폼
+	//CSG_purchase에서 신규등록을 누르면 a태그로 옮기게 되는 발주등록 및 자재목록 나오게 되는 폼 + 업체들 불러오기
 	@RequestMapping(value="purchaseItemForm")
 	public String Sk_PurchasList(Model model) {
 		System.out.println("자재 입력해보자구");
 		
 		System.out.println("대분류 불러오자");
-		
-		//모달 대분류 디비에서 불러오는거 
-		List<CSG_TB_TYPE_BIG> bigTypeList = sk_ServicInterface.findBigTypelist();
-		System.out.println("컨트롤러 DB에서 받아온 bigTypeList.size() ==>"+bigTypeList.size());
-		model.addAttribute("bigTypeList", bigTypeList);
-		
+
 		// 업체들을 불러오자 
 		List<CSG_TB_CUSTMST> cusList = sk_ServicInterface.findCustlist();
 		System.out.println("컨트롤러 : 업체들을 잘 불러왔니 ? => "+cusList);
@@ -60,12 +55,27 @@ public class SK_Controller {
 	}
 	
 	
+	//발주 등록 폼에서 거래처를 불러온 다음에 cust_cd를 통해서 대분류 불러오기
+	@ResponseBody
+	@GetMapping("modalBig")
+	public List<CSG_TB_TYPE_BIG> CSG_BigType(@RequestParam("cust_cd") String custCd,
+											 Model model) {
+		System.out.println("컨트롤러 : cust_cd를 가져온뒤에 bigType불러오자 custCd : " + custCd);
+		//모달 대분류 디비에서 불러오는거 
+		List<CSG_TB_TYPE_BIG> bigTypeList = sk_ServicInterface.findBigTypelist(custCd);
+		System.out.println("컨트롤러 DB에서 받아온 bigTypeList.size() ==>"+bigTypeList.size());
+		//model.addAttribute("bigTypeList", bigTypeList);
+		return bigTypeList;
+		
+	}
 	
 	//모달 중분류 ajax로 modalCategory.js로 불러오기
 	@ResponseBody
 	@GetMapping("modalMid")
 	public List<CSG_TB_TYPE_MID> CSG_MidType(CSG_TB_TYPE_MID csgMid){
 		System.out.println("컨트롤러 ==> 대분류애들 값 가지고 중분류애들 분류해보자");
+		System.out.println("컨트롤러 : 야 cust_cd받아왔냐?? csgMid.get.getCust_cd() ====> "+csgMid.getCust_cd());
+		System.out.println("컨트롤러 : 야 cust_cd받아왔냐?? csgMid.get.getCust_cd() ====> "+csgMid.getCust_cd());
 		List<CSG_TB_TYPE_MID> midTypeList = sk_ServicInterface.CSG_MidType(csgMid);
 		System.out.println("컨트롤러에서 받아온 중분류 것 들 midTypeList ===> " + midTypeList);
 
@@ -77,6 +87,7 @@ public class SK_Controller {
 	@GetMapping("modalSml")
 	public List<CSG_TB_TYPE_SML> CSG_SmlType(CSG_TB_TYPE_SML csgSml){
 		System.out.println("컨트롤러 ==> 중분류애들 값 가지고 소분류애들 분류해보자");
+		System.out.println("컨트롤러 ==> csgSml ==>"+csgSml);
 		List<CSG_TB_TYPE_SML> smlTypeList = sk_ServicInterface.CSG_SmlType(csgSml);
 		
 		System.out.println("컨트롤러에서 받아온 소분류 것 들 smlTypeList ===> " + smlTypeList);
@@ -103,11 +114,11 @@ public class SK_Controller {
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	//모달에서 값을 다 불러온다음에 그 모달의 저장을 누르면 여기로 오는건가??
 	//purchaseItem2.jsp에서 모달 => 저장버튼 후 => purchaseItem2.jsp로 다시 돌아오는 로직
-	@RequestMapping(value="modalSaveToTable")
-	public String SK_modalSave(/*@RequestBody 객체로 받아주자고 여기는 이제 DB select하면됨*/) {
+	/*@RequestMapping(value="modalSaveToTable")
+	public String SK_modalSave(/*@RequestBody 객체로 받아주자고 여기는 이제 DB select하면됨) {
 		System.out.println("모달에서 자재 선택후에 CSG_purchaseItem2.jsp뷰로 돌아오기");
 		return null;
-	}
+	}*/
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

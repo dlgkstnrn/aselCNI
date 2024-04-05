@@ -21,10 +21,10 @@ public class SK_Dao implements SK_Dao_Interface {
 
 	//모달의 대분류 카테고리들 만들기
 	@Override
-	public List<CSG_TB_TYPE_BIG> findBigTypelist() {
+	public List<CSG_TB_TYPE_BIG> findBigTypelist(String custCd) {
 		System.out.println("dao에서 bigType을 불러오자고");
 		
-		List<CSG_TB_TYPE_BIG> bigTypeList = session.selectList("SK_bigTypeList");
+		List<CSG_TB_TYPE_BIG> bigTypeList = session.selectList("SK_bigTypeList", custCd);
 		System.out.println("DB에서 불러오게 된 bigTypeList ==>"+bigTypeList);
 		
 		return bigTypeList;
@@ -50,7 +50,7 @@ public class SK_Dao implements SK_Dao_Interface {
 	public List<CSG_TB_TYPE_SML> CSG_SmlType(CSG_TB_TYPE_SML csgSml) {
 		
 		List<CSG_TB_TYPE_SML> smlTypeList = null;
-		System.out.println(csgSml.getBig_no());
+		System.out.println("2가 나오는게 너냐?"+csgSml.getBig_no());
 		try {
 			smlTypeList = session.selectList("SK_smlTypeList", csgSml);
 		} catch (Exception e) {
@@ -92,6 +92,8 @@ public class SK_Dao implements SK_Dao_Interface {
 		
 		return csgCustlist;
 	}
+
+
 	
 
 }

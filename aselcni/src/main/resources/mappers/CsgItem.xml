@@ -2,20 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.CsgItemMapper">
 					
-	<select id="SK_bigTypeList" resultType="CSG_TB_TYPE_BIG">
-		select DISTINCT  ttb.*
-		from TB_ITEMMST ti, TB_TYPE_BIG ttb 
-		where ti.BIG_NO = ttb.BIG_NO 
-		and ti.ITEM_FLAG = 01
-	</select>
-	
-	
-	
 	<select id="custList" resultType = "CSG_TB_CUSTMST">
- 		select DISTINCT tc.* 
+		select DISTINCT tc.*, tp.CUST_EMP
 		from TB_ITEMMST ti
 		inner JOin TB_CUSTMST tc on tc.CUST_CD  = ti.CUST_CD 
+		inner JoIn TB_PURCHASE tp on tp.CUST_CD = tc.CUST_CD
+	</select>
 	
+	<select id="findCustEmpByCustCd" parameterType="String" resultType="String">
+        SELECT CUST_EMP
+        FROM TB_CUSTMST
+        WHERE CUST_CD = #{custCd}
+    </select>
+	
+	
+	<select id="SK_bigTypeList" parameterType="String" resultType="CSG_TB_TYPE_BIG">
+		SELECT DISTINCT  ttb.*, tc.cust_nm
+		from TB_ITEMMST ti
+		Inner join TB_TYPE_BIG ttb on ti.BIG_NO = ttb.BIG_NO
+		Inner join TB_CUSTMST tc on tc.CUST_CD = ti.CUST_CD
+		where ti.CUST_CD = #{cust_cd}
+		
 	</select>
 	
 	<select id="SK_MidTypeList" parameterType="CSG_TB_TYPE_MID" resultType="CSG_TB_TYPE_MID">
@@ -23,15 +30,19 @@
 		FROM TB_TYPE_MID ttm
 		INNER JOIN TB_ITEMMST ti ON ti.BIG_NO = ttm.BIG_NO  AND  ti.MID_NO = ttm.MID_NO 
 		WHERE ttm.BIG_NO = #{big_no}
+		and ti.CUST_CD = #{cust_cd}
 		and ti.ITEM_FLAG = 1
 	</select>
 	
 	<select id="SK_smlTypeList" parameterType="CSG_TB_TYPE_SML" resultType="CSG_TB_TYPE_SML">
 		SELECT DISTINCT tts.*
 		FROM TB_TYPE_SML tts
-		INNER JOIN TB_ITEMMST ti ON ti.BIG_NO = tts.BIG_NO  AND ti.MID_NO = tts.MID_NO AND ti.SML_NO = tts.SML_NO 
+		INNER JOIN TB_ITEMMST ti ON ti.BIG_NO = tts.BIG_NO  
+			AND ti.MID_NO = tts.MID_NO 
+			AND ti.SML_NO = tts.SML_NO 
 		WHERE tts.BIG_NO = #{big_no}
-		AND tts.MID_NO = #{mid_no}
+		AND ti.MID_NO = #{mid_no}
+		and ti.CUST_CD =  #{cust_cd}
 		and ti.ITEM_FLAG = 1
 	</select>
 	
@@ -43,6 +54,7 @@
 	WHERE ti.BIG_NO = #{big_no} 
 	  AND ti.MID_NO = #{mid_no} 
 	  AND ti.SML_NO = #{sml_no}
+	  and ti.CUST_CD = #{cust_cd}
 	  AND ti.ITEM_FLAG = 1;
 </select>
 
