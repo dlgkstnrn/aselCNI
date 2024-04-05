@@ -532,9 +532,6 @@ pageEncoding="UTF-8"%>
                 <table class="table table-hover">
                   <thead>
                     <tr>
-  <!--                     <th scope="col">
-                        <b>출고번호</b>
-                      </th> -->
                       <th scope="col">출고번호</th>
                       <th scope="col">순번</th>
                       <th scope="col">주문번호</th>
@@ -543,8 +540,9 @@ pageEncoding="UTF-8"%>
                       <th scope="col">출고일자</th>
                       <th scope="col">매입처</th>
                       <th scope="col">제품명</th>
-                      <th scope="col">주문상태</th>
                       <th scope="col">출고수량</th>
+                      <th scope="col">주문상태</th>
+
                       <th scope="col">비고</th>
                       <th scope="col">출고관리자</th>
                     </tr>
@@ -565,12 +563,13 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.outitem_dt}</td>
                       <td>${outitem.cust_nm}</td>
                       <td>${outitem.item_nm}</td>
+                      <td>${outitem.qty}</td>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
                         <c:if test="${outitem.order_status_chk==1}">일부 출고</c:if>
                         <c:if test="${outitem.order_status_chk==2}">전체 출고 완료</c:if>
                       </td>
-                      <td>${outitem.qty}</td>
+
                       <td>${outitem.remark}</td>
                       <td>${outitem.user_nm}</td>
                     </tr>
@@ -580,15 +579,15 @@ pageEncoding="UTF-8"%>
 
                   </tbody>
                 </table>
-
+${page}
                 <c:if test="${page.startPage > page.pageBlock }">
-                  <a href="listOutitem?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+                  <a href="outitem?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
                 </c:if>
                 <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                  <a href="listOutitem?currentPage=${i}">[${i}]</a>
+                  <a href="outitem?currentPage=${i}">[${i}]</a>
                 </c:forEach>
                 <c:if test="${page.endPage < page.totalPage }">
-                  <a href="listOutitem?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+                  <a href="outitem?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
                 </c:if>
 
 
