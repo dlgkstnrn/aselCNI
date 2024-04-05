@@ -57,6 +57,8 @@ public class KphReturnController {
 			List<KphReturn> returnList = kphReturnService.returnList(kphReturn);
 			model.addAttribute("returnList", returnList);
 			model.addAttribute("paging", paging);
+			model.addAttribute("searchFilter", kphReturn.getSearch_filter());
+			//model.add
 			resultPage = "kph/return"; 
 		}
 		
