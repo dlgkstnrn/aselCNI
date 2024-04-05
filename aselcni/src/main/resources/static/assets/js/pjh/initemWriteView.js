@@ -50,7 +50,7 @@ const getItemList = function () {
 	                    <td>${ele['item_nm']}</td>
 	                    <td>${ele['item_spec']}</td>
 	                    <td>${ele['item_unit']}</td>
-	                    <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" placeholder="입고수량" style="width: 75px"></td>
+	                    <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" min="1" placeholder="입고수량" style="width: 75px"></td>
 	                    <td>${ele['purc_cost']}</td>
 	                  </tr>`
                 )
