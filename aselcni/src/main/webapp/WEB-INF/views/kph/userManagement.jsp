@@ -64,7 +64,7 @@
 					<div class="controller">
 						<div class="search-bar">
 							<div class="search-form">
-								<input id="search-text" type="text" placeholder="검색어를 입력하세요">
+								<input id="search-text" type="text" placeholder="검색어를 입력하세요" value="${keyword }">
 								<button id="search-btn">
 									<i class="bi bi-search"></i>
 								</button>

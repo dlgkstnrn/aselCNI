@@ -52,6 +52,8 @@ public class AdminController {
 			List<UserMst> userList = adminService.userListByKeyword(user);
 			model.addAttribute("userList", userList);
 			model.addAttribute("paging", paging);
+			model.addAttribute("searchFilter", user.getSearchFilter());
+			model.addAttribute("keyword", user.getKeyword());
 			resultPage = "kph/userManagement"; 
 		}
 		
