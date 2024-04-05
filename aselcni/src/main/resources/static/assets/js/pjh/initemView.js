@@ -5,17 +5,19 @@ $('#end_date').val(now);
 
 
 // 검색 시 서버에 전달할 객체
-const data = {
+let data = {
     currentPage: '1',
     start_date: $('#start_date').val(),
     end_date: $('#end_date').val(),
     cust_nm: $('#cust_nm').val(),
     item_nm: $('#item_nm').val(),
     initem_no: $('initem_no').val()
-}
+};
 
+let tempData = {};
 // 검색
 const searchInitem = function () {
+    tempData = { ...data };
     data.currentPage = '1';
     data.start_date = $('#start_date').val();
     data.end_date = $('#end_date').val();
@@ -37,6 +39,7 @@ const getTableRow = function () {
 
             if (res.initems.length == 0) {
                 alert('조회가능한 정보가 없습니다.');
+                data = tempData;
                 return;
             }
 

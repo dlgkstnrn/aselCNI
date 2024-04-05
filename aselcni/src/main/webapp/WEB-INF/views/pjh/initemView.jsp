@@ -65,10 +65,6 @@
 									<span class="h5 align-baseline me-auto">입고 관리</span>
 									<div>
 										<a href="/initemWrite" type="button" class="btn btn-primary btn-sm">신규</a>
-										<!-- 
-		              	<button type="button" class="btn btn-primary btn-sm">수정</button>
-		              	<button type="button" class="btn btn-primary btn-sm">삭제</button>
-		              	 -->
 									</div>
 								</div>
 								<hr class="my-3">
@@ -89,35 +85,38 @@
 											<div class="input-group">
 												<span class="input-group-text">매입처</span>
 												<input id="cust_nm" type="text" class="form-control" placeholder="매입처명"
-													aria-label="매입처명" aria-describedby="button-addon2">
-												<!-- <button class="btn btn-outline-secondary" type="button"
-													id="button-addon2"><i class="bi bi-search"></i></button> -->
+													aria-label="매입처명">
 											</div>
 										</div>
 									</div>
 
 									<div class="row mt-1">
-										<div class="col-md-5">
+										<div class="col-md-6">
 											<div class="input-group">
 												<span class="input-group-text">입고번호</span>
 												<input id="initem_no" type="text" class="form-control"
-													placeholder="입고번호" aria-label="입고번호"
-													aria-describedby="button-addon3">
-												<!-- <button class="btn btn-outline-secondary" type="button"
-													id="button-addon3"><i class="bi bi-search"></i></button> -->
+													placeholder="입고번호" aria-label="입고번호">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="input-group">
-												<span class="input-group-text">자재명</span>
-												<input id="item_nm" type="text" class="form-control" placeholder="자재명"
-													aria-label="자재명" aria-describedby="button-addon4">
-												<!-- <button class="btn btn-outline-secondary" type="button"
-													id="button-addon4"><i class="bi bi-search"></i></button> -->
+												<span class="input-group-text">발주번호</span>
+												<input id="purc_no" type="text" class="form-control" placeholder="발주번호"
+													aria-label="발주번호">
 											</div>
 										</div>
-										<div class="col-md-1 px-0">
-											<button class="btn btn-primary btn-sm" style="height:100%;"
+									</div>
+									
+									<div class="row mt-1">
+										<div class="col-md-9">
+											<div class="input-group">
+												<span class="input-group-text">자재명</span>
+												<input id="item_nm" type="text" class="form-control" placeholder="자재명"
+													aria-label="자재명">
+											</div>
+										</div>
+										<div class="col-md-3 col-md-push-9 px-0">
+											<button class="btn btn-primary btn-sm " style="height:100%;"
 												onclick="searchInitem()">조회</button>
 										</div>
 									</div>
