@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aselcni.csg.model.CSG_CategoryData;
+import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_PURCHASE_ITEM;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
@@ -50,9 +51,15 @@ public class SK_Controller {
 		System.out.println("컨트롤러 DB에서 받아온 bigTypeList.size() ==>"+bigTypeList.size());
 		model.addAttribute("bigTypeList", bigTypeList);
 		
+		// 업체들을 불러오자 
+		List<CSG_TB_CUSTMST> cusList = sk_ServicInterface.findCustlist();
+		System.out.println("컨트롤러 : 업체들을 잘 불러왔니 ? => "+cusList);
+		model.addAttribute("custList", cusList);
 		
 		return "csg/CSG_purchaseItem2";
 	}
+	
+	
 	
 	//모달 중분류 ajax로 modalCategory.js로 불러오기
 	@ResponseBody
@@ -91,48 +98,22 @@ public class SK_Controller {
 		return selectedItemList;
 	}
 	
-	/*//purchaseItem2Form ==> 자재선택(모달) => 대분류 불러오기  => 불러와보장!!!!!!!!!!!!!!!
-	@ResponseBody
-	@RequestMapping(value="modalMid")
-	//public String CSG_BigType (CSG_TB_TYPE_BIG bigType, Model model) {
-	public List<CSG_TB_TYPE_BIG> CSG_BigType (Model model) {
-		System.out.println("대분류 불러오자");
-		
-		List<CSG_TB_TYPE_BIG> bigTypeList = sk_ServicInterface.findBigTypelist();
-		System.out.println("컨트롤러 DB에서 받아온 bigTypeList.size() ==>"+bigTypeList.size());
-		model.addAttribute("bigTypeList", bigTypeList);
-		
-		return bigTypeList;
-	}*/
-	
-	/*
-	//중분류 불러오기
-	public String CSG_BigType (CSG_TB_TYPE_MID midType, Model model) {
-		System.out.println("대분류 불러오자");
-		List<CSG_TB_TYPE_MID> bigTypeList = sk_ServicInterface.findMidTypelist(midType);
-		System.out.println("컨트롤러에서 midTypeTypeList");
-		model.addAttribute("midTypeList", midTypeTypeList);
-		
-		return "csg/CSG_purchaseItem2";
-	}	
-	//소분류 불러오기
-	public String CSG_BigType (CSG_TB_TYPE_SML bigType, Model model) {
-		System.out.println("대분류 불러오자");
-		List<CSG_TB_TYPE_SML> smlTypeList = sk_ServicInterface.findSmlTypelist(bigType);
-		System.out.println("컨트롤러에서 smlTypeList");
-		model.addAttribute("smlTypeList", smlTypeList);
-		
-		return "csg/CSG_purchaseItem2";
-	}	*/
-	
-	
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//@@@@@@@@@@@@@@@@@@@@@ajax로 바꿔주고 CSG_purchaseItem2.jsp에서 모달을 form으로 감싼 부분을 바꿔서 처리할것 !
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	//모달에서 값을 다 불러온다음에 그 모달의 저장을 누르면 여기로 오는건가??
 	//purchaseItem2.jsp에서 모달 => 저장버튼 후 => purchaseItem2.jsp로 다시 돌아오는 로직
-	@RequestMapping(value="CSG_purchaseItem2Form")
+	@RequestMapping(value="modalSaveToTable")
 	public String SK_modalSave(/*@RequestBody 객체로 받아주자고 여기는 이제 DB select하면됨*/) {
 		System.out.println("모달에서 자재 선택후에 CSG_purchaseItem2.jsp뷰로 돌아오기");
-		return "csg/CSG_purchaseItem2";
+		return null;
 	}
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	
+	
 	
 	
 	//모달까지 완료한 뒤 발쥬등록 화면에서 저장 ==> 저장한뒤에 발주화면으로 이동

@@ -78,7 +78,7 @@
 			                    </h2>
 			
 			                    <!-- 입력 필드 그룹 -->
-			                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+			                    <div class="row row-cols-2 g-4">
 			
 			                        <!-- 발주번호 -->
 			                        <div class="border border-green-500">
@@ -91,15 +91,18 @@
 			                        <div class="border border-green-500">
 			                            <label for="supplier" class="form-label text-lg text-gray-700 font-bold mb-2">매입처</label>
 			                            <select id="supplier" class="form-select">
-			                                <option>TB_CUSTMST에서 CUST_NM</option>
-			                                <option>업체A</option>
-			                                <option>업체B</option>
-			                                <option>업체B</option>
-			                                <option>업체B</option>
-			                                <option>업체B</option>
-			                                <option>업체B</option>
-			                                <!-- 추가 업체 옵션 -->
-			                            </select>
+			                            	<option selected="selected" value="">대분류 선택</option>
+				                            	<c:forEach var="cust" items="${custList}">
+				                               		<option>${cust.cust_nm}</option>
+				                        		</c:forEach>
+				                            </select>
+			                        </div>
+			                        
+			                        <!-- 발주 담당자 -->
+			                        <div class="border border-green-500">
+			                            <label for="com_manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">발주 담당자</label>
+										<input id="com_manager-name" type="text" placeholder="발주 담당자 입력" class="form-control" value="${sessionScope.user_nm}" readonly>
+ 
 			                        </div>
 			
 			                        <!-- 거래처 담당자 -->
@@ -144,27 +147,8 @@
 						                    <th scope="col">공급가액(단가 TB_PURCHASE_ITEM</th>
 						                </tr>
 						            </thead>
-						            <tbody>
-						                <tr>
-						                    <td>1</td>
-						                    <td>11012ba</td>
-						                    <td>건더기스프</td>
-						                    <td>10mg</td>
-						                    <td>mg</td>
-						                    <td>100개</td>
-						                    <td>500원</td>
-						                    <td>공급가액(단가)</td>
-						                </tr>
-						                <tr>
-						                    <td>2</td>
-						                    <td>ITEM_CD</td>
-						                    <td>CUST_NM</td>
-						                    <td>ITEM_SPEC</td>
-						                    <td>ITEM_UNIT</td>
-						                    <td>TB_PURCHASE_ITEM QTY</td>
-						                    <td>ITEM_COST원</td>
-						                    <td>TB_PURCHASE_ITEM의 PURC_COST</td>
-						                </tr>
+						            <tbody id="jajeInputBody">
+
 						            </tbody>
 						        </table>
 						    </div>
@@ -184,7 +168,6 @@
 <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
 			   
 <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
-			    <form action="CSG_purchaseItem2Form" >
 <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
 
 			    <!-- 모달 애들 -->
@@ -238,29 +221,11 @@
 							                    <th scope="col">자재명</th>
 							                    <th scope="col">규격</th>
 							                    <th scope="col">단위</th>
-							                    <th scope="col">수량</th>
 							                    <th scope="col">단가</th>
 							                </tr>
 							            </thead>
-							            <tbody id = "jajaTableBody">
-							                <tr>
-							                    <td><input type="checkbox" id="itemSelect1" name="itemSelect"></td>
-							                    <td>11012ba</td>
-							                    <td>건더기스프</td>
-							                    <td>10mg</td>
-							                    <td>mg</td>
-       												<td><input type="number" id="quantity1" name="quantity1" min="1" value="100"></td>
-							                    <td>500원</td>
-							                </tr>
-							                <tr>
-							                    <td><input type="checkbox" id="itemSelect2" name="itemSelect"></td>
-							                    <td>11012bb</td>
-							                    <td>너네리상사</td>
-							                    <td>스프용 버섯(소분류?)</td>
-							                    <td>mg</td>
-        												<td><input type="number" id="quantity2" name="quantity1" min="1" value="100"></td>
-							                    <td>300원</td>
-							                </tr>
+							            <tbody id = "jajeTableBody">
+
 							            </tbody>
 							        </table>
 	                        </div>
@@ -274,7 +239,6 @@
 	                  </div>
 	               </div>
 <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
-	    		</form>
 <!--  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->		   
 
 			</section>

@@ -9,6 +9,15 @@
 		and ti.ITEM_FLAG = 01
 	</select>
 	
+	
+	
+	<select id="custList" resultType = "CSG_TB_CUSTMST">
+ 		select DISTINCT tc.* 
+		from TB_ITEMMST ti
+		inner JOin TB_CUSTMST tc on tc.CUST_CD  = ti.CUST_CD 
+	
+	</select>
+	
 	<select id="SK_MidTypeList" parameterType="CSG_TB_TYPE_MID" resultType="CSG_TB_TYPE_MID">
 		SELECT DISTINCT ttm.*
 		FROM TB_TYPE_MID ttm
@@ -26,16 +35,16 @@
 		and ti.ITEM_FLAG = 1
 	</select>
 	
-	<select id="selectedItemsList" parameterType="CSG_TB_ITEMMST" resultType="CSG_TB_ITEMMST">
-		SELECT ti.*
-		FROM TB_ITEMMST ti
-		JOIN TB_TYPE_SML tts ON ti.BIG_NO = tts.BIG_NO AND ti.MID_NO = tts.MID_NO AND ti.SML_NO = tts.SML_NO
-		WHERE ti.BIG_NO = #{big_no} 
-		  AND ti.MID_NO = #{mid_no} 
-		  AND ti.SML_NO = #{sml_no}
-		  AND ti.ITEM_FLAG = 1;
+<select id="selectedItemsList" parameterType="CSG_TB_ITEMMST" resultType="CSG_TB_ITEMMST">
+	SELECT ti.*, pi.*
+	FROM TB_ITEMMST ti
+	JOIN TB_TYPE_SML tts ON ti.BIG_NO = tts.BIG_NO AND ti.MID_NO = tts.MID_NO AND ti.SML_NO = tts.SML_NO
+	JOIN TB_PURCHASE_ITEM pi ON ti.ITEM_CD = pi.ITEM_CD
+	WHERE ti.BIG_NO = #{big_no} 
+	  AND ti.MID_NO = #{mid_no} 
+	  AND ti.SML_NO = #{sml_no}
+	  AND ti.ITEM_FLAG = 1;
+</select>
 
-	
-	</select>
 	
 </mapper>

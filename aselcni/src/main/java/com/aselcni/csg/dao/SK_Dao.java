@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
@@ -75,6 +76,21 @@ public class SK_Dao implements SK_Dao_Interface {
 		System.out.println("dao에서 모달에서 선택된 아이템 리스트 DB에서 가져왔니?? ----->");
 
 		return selectedItemList;
+	}
+
+	@Override
+	public List<CSG_TB_CUSTMST> findCustlist() {
+		System.out.println("발주 등록폼에서 처음에 업체들 미리 불러오기..");
+		
+		List<CSG_TB_CUSTMST> csgCustlist = null;
+		try {
+			csgCustlist = session.selectList("custList");
+			System.out.println("csgCustlist를 잘 불러온거니 ??"+csgCustlist);
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return csgCustlist;
 	}
 	
 

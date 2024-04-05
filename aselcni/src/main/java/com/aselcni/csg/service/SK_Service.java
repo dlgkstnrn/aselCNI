@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aselcni.csg.dao.SK_Dao_Interface;
+import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
@@ -18,6 +19,7 @@ public class SK_Service implements SK_Service_Interface {
 	
 	private final SK_Dao_Interface sk_Dao_Interface;
 
+	//첫 발주등록 폼에서 보이는 대분류 불러오기(모달안에 미리 불러오는거)
 	@Override
 	public List<CSG_TB_TYPE_BIG> findBigTypelist() {
 		System.out.println("Service에서 bigType을 불러오자고");
@@ -25,6 +27,15 @@ public class SK_Service implements SK_Service_Interface {
 		return bigTypeList;
 	}
 
+	//발주 등록 폼에서 업체들 드랍다운박스에 불러오기
+	@Override
+	public List<CSG_TB_CUSTMST> findCustlist() {
+		List<CSG_TB_CUSTMST> custList = sk_Dao_Interface.findCustlist();
+		return custList;
+	}
+	
+	
+	//ajax(modalCategory) 대분류-> 중분류 불러오기
 	@Override
 	public List<CSG_TB_TYPE_MID> CSG_MidType(CSG_TB_TYPE_MID csgMid) {
 		System.out.println("service에서 대분류 선택하고 중분류 애들 골라보자");
@@ -32,7 +43,9 @@ public class SK_Service implements SK_Service_Interface {
 		
 		return midTypeList;
 	}
+	
 
+	//ajax로 받아온 (대분류-중분류) -> 소분류 불러오기
 	@Override
 	public List<CSG_TB_TYPE_SML> CSG_SmlType(CSG_TB_TYPE_SML csgSml) {
 		System.out.println("service에서 중분류 선택하고 소분류 애들 골라보자");
@@ -41,6 +54,7 @@ public class SK_Service implements SK_Service_Interface {
 		return smlTypeList;
 	}
 
+	//대중소분류 선택된 아이템들 가져오기
 	@Override
 	public List<CSG_TB_ITEMMST> CSG_SelectedItems(CSG_TB_TYPE_SML items) {
 		System.out.println("서비스에서 모달에서 대중소분류 선택된 아이템테이블 가져와보자");
@@ -50,6 +64,8 @@ public class SK_Service implements SK_Service_Interface {
 
 		return selectedItemList;
 	}
+	
+
 
 
 
