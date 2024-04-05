@@ -127,10 +127,9 @@ pageEncoding="UTF-8"%>
                                 <div class="col-sm-9">
                                   <select
                                     class="form-select"
-                                    id="floatingSelect"
-                                    aria-label="Floating label select example"
+                                    id="selectOrderId"
                                   style="width: 200px"
-                                  name="${order.no}"
+                                  name="selectOrderId"
                                   >
 
                                   <option selected>선택</option>

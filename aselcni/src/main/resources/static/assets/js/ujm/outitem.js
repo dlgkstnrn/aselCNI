@@ -1,7 +1,6 @@
 
 $(document).ready(function () {
   //닫기 버튼 클릭시 modal 입력 내용 클리어
-  $(document).ready(function () {
 
     $('button[data-bs-dismiss="modal"]').on(
       "click", //닫기버튼 누르면
@@ -9,7 +8,7 @@ $(document).ready(function () {
         modalContentClear(); //아래
       }
     );
-  });
+
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   function modalContentClear() {
     $("#order_no_modal").text("주문 번호 선택");
@@ -19,7 +18,6 @@ $(document).ready(function () {
 
   //날짜
   //시작 날짜와 종료 날짜 논리 일관성
-  $(document).ready(function () {
     $("#startDate").on("input", function () {
       let startDate = $("#startDate").val();
       let endDate = $("#endDate").val();
@@ -41,10 +39,9 @@ $(document).ready(function () {
         $("#endDate").val(startDate);
       }
     });
-  });
+
 
   // 좌우 버튼 누를 때마다 날짜 7일 단위로 바뀜
-  $(document).ready(function () {
     $("#dateRightBtn").click(function () {
       dateShift("right");
     });
@@ -52,7 +49,7 @@ $(document).ready(function () {
     $("#dateLeftBtn").click(function () {
       dateShift("left");
     });
-  });
+
 
   // 날짜 조정 함수
   function dateShift(direction) {
@@ -78,8 +75,6 @@ $(document).ready(function () {
   }
 
   //dropdown 기능
-  $(document).ready(function () {
-
     $("#order_no_modal").dropdown();
     /* 주문번호 부분이 드롭다운으로 내려오게 */
 
@@ -92,13 +87,32 @@ $(document).ready(function () {
       }); */
 
 
-}); 
-
     //조회 테이블 행 클릭시 modal 수정창으로 이동
     $('tr[data-bs-toggle="modal"]').on("click", function () {
       let orderNo = $(this).find("td:nth-child(2)").text();
       $("#order_no_modal").val(orderNo);
     });
+
+
+    //상세 누를 시 주문번호 불러오기
+    $.ajax({
+      url: "/ujmGetAllOrderList",
+      type: "GET",
+      success: function(response) {
+          var orders = response.orders;
+          var selectBox = $('#selectOrderId');
+          $.each(orders, function(index, order) {
+              selectBox.append($('<option>').val(order.id).text(order.name));
+          });
+      },
+      error: function(xhr, status, error) {
+          console.error(error);
+      }
+  });
+
+
+
+
   });
 
 

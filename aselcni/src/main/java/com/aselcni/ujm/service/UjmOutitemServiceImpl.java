@@ -32,7 +32,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		 System.out.println("UjmOutitemServiceImpl ujmListOutiem Start..." );
 		 ujmListOutitems = uod.ujmListOutiem(outitem);
 		 if(ujmListOutitems!=null) {
-			 System.out.println("EmpServiceImpl listEmp empList.size()->" +ujmListOutitems.size()); 
+			 System.out.println("UjmOutitemServiceImpl ujmListOutitem ujmListOutitems.size()->" +ujmListOutitems.size()); 
 		 }
 		 return ujmListOutitems;
 	}

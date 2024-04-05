@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.aselcni.ujm.model.UjmOrder;
 import com.aselcni.ujm.model.UjmOutitem;
 import com.aselcni.ujm.service.UjmOutitemService;
 import com.aselcni.ujm.service.UjmPaging;
@@ -55,6 +56,14 @@ public class UjmOutitemController {
 //		model.addAttribute("outitemList",outitemList); 
 		
 		return "ujm/ujmOutitem"; 
+	}
+	
+	//출고 상세
+	@RequestMapping(value = "ujmGetAllOrderList")
+	public List<UjmOrder> ujmGetAllOrderList() {
+		System.out.println("ujmGetOrderList 컨트롤러 ujmGetAllOrderList 시작");
+		List<UjmOrder> ujmGetAllOrderList=uos.ujmGetAllOrderList();
+		return ujmGetAllOrderList;
 	}
 	
 	//출고 등록
