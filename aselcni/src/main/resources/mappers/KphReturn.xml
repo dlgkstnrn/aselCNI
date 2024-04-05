@@ -30,7 +30,7 @@
 						)
 	</insert>		
 	
-	<select id="KphTotalReturnCount" parameterType="KphReturn">
+	<select id="KphTotalReturnCount" parameterType="KphReturn" resultType="int">
 		SELECT COUNT(rt.RETURN_NO)
 		FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
 		WHERE rt.ITEM_CD = it.ITEM_CD 
@@ -105,5 +105,31 @@
 				) rt2
 		WHERE rt2.rn BETWEEN #{start} AND #{end}
 	</select>		
+	
+	<select id="KphGetReturn" parameterType="KphReturn" resultType="KphReturn">
+		SELECT rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM
+		FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
+		WHERE rt.ITEM_CD = it.ITEM_CD 
+			AND rt.CUST_CD = tc.CUST_CD 
+			AND rt.RETURN_EMP_ID = us.USER_ID
+			AND rt.RETURN_NO = #{return_no}
+	</select>
+	
+	<update id="KphReturnDelete" parameterType="KphReturn">
+		UPDATE TB_RETURN
+		SET RETURN_DELETE_CHK = 1
+		WHERE RETURN_NO = #{return_no}
+	</update>
+	
+	<update id="KphReturnUpdate" parameterType="KphReturn">
+		UPDATE TB_RETURN 
+		SET CUST_EMP = #{cust_emp}, 
+				ITEM_CD = #{item_cd}, 
+				RES_RTN = #{res_rtn}, 
+				RETURN_EMP_ID = #{return_emp_id}, 
+				QTY = #{qty}, 
+				RETURN_UPDATE = CONVERT(CHAR(10), GETDATE(), 23)
+		WHERE RETURN_NO = #{return_no}
+	</update>
 	
 </mapper>

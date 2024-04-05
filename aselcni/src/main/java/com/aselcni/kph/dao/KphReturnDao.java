@@ -18,4 +18,12 @@ public interface KphReturnDao {
 
 	List<KphReturn> returnList(KphReturn kphReturn);
 
+	KphReturn getReturn(KphReturn kphReturn);
+
+	void returnDelete(KphReturn kphReturn);
+
+	int getUsableOutItemQty(KphReturn kphReturn);
+
+	void returnUpdate(KphReturn kphReturn);
+
 }

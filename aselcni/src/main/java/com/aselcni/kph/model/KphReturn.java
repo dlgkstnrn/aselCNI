@@ -16,7 +16,7 @@ public class KphReturn {
 	private String remark;
 	private String return_emp_id;
 	private String qty;
-	private String retrun_update;
+	private String return_update;
 	private String return_delete_chk;
 	
 	// 조회용
@@ -24,11 +24,12 @@ public class KphReturn {
 	private int start;
 	private int end;
 	private String keyword;
-	private String search_filter;
+	private String searchFilter;
 	private String start_day;
 	private String end_day;
 	private String cust_nm;
 	private String item_nm;
 	private String user_nm;
+	private int max_qty; 
 	
 }

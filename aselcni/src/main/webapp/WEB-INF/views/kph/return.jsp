@@ -64,21 +64,65 @@
 				  <div class="controller">
 					<div class="search-bar">
 					  <div class="search-form">
-						<input id="search-text" type="text" placeholder="검색어를 입력하세요">
+						<input id="search-text" type="text" placeholder="검색어를 입력하세요" value="${keyword }">
 						<button id="search-btn"><i class="bi bi-search"></i></button>
 					  </div>
 					  <select name="search-filter" class="search-filter form-select">
-						<option value="all" selected>전체</option>
-						<option value="return_no">반품번호</option>
-						<option value="outitem_no">출고번호</option>
-						<option value="cust_nm">고객사</option>
-						<option value="item_nm">제품명</option>
-						<option value="user_nm">담당자명</option>
+					  	<c:choose>
+							<c:when test="${searchFilter == 'return_no'}">
+								<option value="all">전체</option>
+								<option value="return_no" selected >반품번호</option>
+								<option value="outitem_no">출고번호</option>
+								<option value="cust_nm">고객사</option>
+								<option value="item_nm">제품명</option>
+								<option value="user_nm">담당자명</option>
+							</c:when>
+							<c:when test="${searchFilter == 'outitem_no'}">
+								<option value="all">전체</option>
+								<option value="return_no">반품번호</option>
+								<option value="outitem_no" selected>출고번호</option>
+								<option value="cust_nm">고객사</option>
+								<option value="item_nm">제품명</option>
+								<option value="user_nm">담당자명</option>
+							</c:when>
+							<c:when test="${searchFilter == 'cust_nm'}">
+								<option value="all">전체</option>
+								<option value="return_no">반품번호</option>
+								<option value="outitem_no">출고번호</option>
+								<option value="cust_nm" selected>고객사</option>
+								<option value="item_nm">제품명</option>
+								<option value="user_nm">담당자명</option>
+							</c:when>
+							<c:when test="${searchFilter == 'item_nm'}">
+								<option value="all">전체</option>
+								<option value="return_no">반품번호</option>
+								<option value="outitem_no">출고번호</option>
+								<option value="cust_nm">고객사</option>
+								<option value="item_nm" selected>제품명</option>
+								<option value="user_nm">담당자명</option>
+							</c:when>
+							<c:when test="${searchFilter == 'user_nm'}">
+								<option value="all">전체</option>
+								<option value="return_no">반품번호</option>
+								<option value="outitem_no">출고번호</option>
+								<option value="cust_nm">고객사</option>
+								<option value="item_nm">제품명</option>
+								<option value="user_nm" selected>담당자명</option>
+							</c:when>
+							<c:otherwise>
+								<option value="all" selected>전체</option>
+								<option value="return_no">반품번호</option>
+								<option value="outitem_no">출고번호</option>
+								<option value="cust_nm">고객사</option>
+								<option value="item_nm">제품명</option>
+								<option value="user_nm">담당자명</option>
+							</c:otherwise>
+						</c:choose>
 					  </select>
 					  <div class="start-end-day">
-						<input name="start_day" type="date" class="start-day form-control">
+						<input name="start_day" type="date" class="start-day form-control" value="${start_day }">
 						<span>~</span>
-					  	<input name="end_day" type="date" class="end-day form-control">
+					  	<input name="end_day" type="date" class="end-day form-control" value="${end_day }">
 					  </div>
 					</div>
 					<button type="button" id="return-add" class="return-add btn btn-primary">신규</button>
@@ -100,23 +144,25 @@
 						</thead>
 						<c:set var="num" value="${paging.start }"></c:set>
 						<tbody>
-							<c:forEach var="return" items="${returnList }">
-								<th>${num}</th>
-								<td><a class="return-no" href="/returnUpdateForm?return_no=${return.return_no }">${return.return_no }</a></td>
-								<td>${return.outitem_no }</td>
-								<td>${return.cust_nm }</td>
-								<td>${return.item_nm }</td>
-								<td>${return.res_rtn }</td>
-								<c:choose>
-									<c:when test="${return.return_update != null }">
-										<td>${return.return_update }</td>	
-									</c:when>
-									<c:otherwise>
-										<td>${return.return_dt }</td>
-									</c:otherwise>
-								</c:choose>
-								<td>${return.user_nm }</td>
-								<td>${return.qty }</td>
+							<c:forEach var="returnObj" items="${returnList }">
+								<tr>
+									<th>${num}</th>
+									<td><div class="return-no" >${returnObj.return_no }</div></td>
+									<td>${returnObj.outitem_no }</td>
+									<td>${returnObj.cust_nm }</td>
+									<td>${returnObj.item_nm }</td>
+									<td>${returnObj.res_rtn }</td>
+									<c:choose>
+										<c:when test="${returnObj.return_update != null }">
+											<td>${returnObj.return_update }</td>	
+										</c:when>
+										<c:otherwise>
+											<td>${returnObj.return_dt }</td>
+										</c:otherwise>
+									</c:choose>
+									<td>${returnObj.user_nm }</td>
+									<td>${returnObj.qty }</td>
+								</tr>
 								<c:set var="num" value="${num + 1 }"></c:set>
 							</c:forEach>
 						</tbody>
@@ -124,13 +170,13 @@
 					<nav class="page-navigation">
 					  <ul class="pagination">
 						<c:if test="${paging.startPage > paging.pageBlock }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}"><span>&laquo;</span></a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}"><span>&laquo;</span></a></li>
 						</c:if>
 						<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&keyword=${keyword}&searchFilter=${searchFilter}">${i}</a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}">${i}</a></li>
 						</c:forEach>
 						<c:if test="${paging.endPage < paging.totalPage }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}"><span>&raquo;</span></a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}"><span>&raquo;</span></a></li>
 						</c:if>
 					  </ul>
 					</nav>
@@ -138,7 +184,17 @@
 				</div>
 			  </div>
 		</section>
-        
+        <div class="return-detail">
+			<div class="return-detail-title">반품 상세</div>
+			<div class="return-detail-body">
+			
+			</div>
+			<div class="return-detail-btn-list text-center">
+				<button id="return-detail-update" type="button" class="btn btn-primary">수정</button>
+				<button id="return-detail-delete" type="button" class="btn btn-danger">삭제</button>
+				<button id="return-detail-cancle" type="button" class="btn btn-secondary">닫기</button>
+			</div>
+		</div>
     </main>
     <!-- End #main -->
 

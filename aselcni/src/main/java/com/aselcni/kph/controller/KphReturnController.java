@@ -2,7 +2,9 @@ package com.aselcni.kph.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,10 @@ import com.aselcni.kph.service.KphReturnService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 
 @Controller
@@ -57,13 +63,45 @@ public class KphReturnController {
 			List<KphReturn> returnList = kphReturnService.returnList(kphReturn);
 			model.addAttribute("returnList", returnList);
 			model.addAttribute("paging", paging);
-			model.addAttribute("searchFilter", kphReturn.getSearch_filter());
-			//model.add
+			model.addAttribute("searchFilter", kphReturn.getSearchFilter());
+			model.addAttribute("keyword", kphReturn.getKeyword());
+			model.addAttribute("start_day", kphReturn.getStart_day());
+			model.addAttribute("end_day", kphReturn.getEnd_day());
 			resultPage = "kph/return"; 
 		}
 		
 		return resultPage;
 	}
+	
+	@GetMapping("/returnSearch")
+	@ResponseBody
+	public Map<String, Object> returnSearch(KphReturn kphReturn) {
+		System.out.println("KphReturnController returnSearch start...");
+		
+		int totalReturnCount = kphReturnService.totalReturnCount(kphReturn);
+		KphPaging paging = new KphPaging(totalReturnCount, kphReturn.getCurrentPage());
+		
+		kphReturn.setStart(paging.getStart());
+		kphReturn.setEnd(paging.getEnd());
+		
+		if(kphReturn.getStart_day() == null && kphReturn.getEnd_day() == null) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String today = LocalDate.now().format(formatter);
+			String oneMonthAgo = LocalDate.now().minusMonths(1).format(formatter); 
+			
+			kphReturn.setStart_day(oneMonthAgo);
+			kphReturn.setEnd_day(today);
+		}
+		
+		List<KphReturn> returnList = kphReturnService.returnList(kphReturn);
+		System.out.println(returnList);
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("paging", paging);
+		response.put("returnList", returnList);
+		return response;
+	}
+	
 	
 	@GetMapping("/returnAddForm")
 	public String returnAddForm(HttpSession session, Model model) {
@@ -115,6 +153,62 @@ public class KphReturnController {
 		if(user_comm_code == 10030) {
 			kphReturn.setReturn_emp_id((String)session.getAttribute("user_id"));
 			kphReturnService.returnAdd(kphReturn);
+			resultPage = "redirect:/return"; 
+		}
+		
+		return resultPage;
+	}
+	
+	@GetMapping("/getReturn")
+	@ResponseBody
+	public KphReturn getReturn(KphReturn kphReturn) {
+		System.out.println("KphReturnController getReturn start...");
+		return kphReturnService.getReturn(kphReturn);
+	}
+	
+	@PostMapping("/returnDelete")
+	@ResponseBody
+	public void returnDelete(KphReturn kphReturn) {
+		System.out.println("KphReturnController returnDelete start...");
+		kphReturnService.returnDelete(kphReturn);
+	}
+	
+	@GetMapping("/returnUpdateForm")
+	public String returnUpdateForm(KphReturn kphReturn, HttpSession session, Model model) {
+		System.out.println("KphReturnController returnUpdateForm start...");
+		int user_comm_code = 0;
+		String resultPage = "redirect:/";
+		
+		if(session.getAttribute("user_comm_code") != null) {
+			user_comm_code = (Integer)session.getAttribute("user_comm_code");
+			resultPage = "redirect:/main";
+		}
+		
+		if(user_comm_code == 10030) {
+			KphReturn returnObj = kphReturnService.getReturn(kphReturn);
+			model.addAttribute("returnObj", returnObj);
+			model.addAttribute("url", "returnUpdateForm");
+			resultPage = "kph/returnUpdateForm"; 
+		}
+		
+		return resultPage;
+	}
+	
+	@PostMapping("/returnUpdate")
+	public String returnUpdate(KphReturn kphReturn, HttpSession session) {
+		System.out.println("KphReturnController returnUpdate start...");
+		int user_comm_code = 0;
+		String resultPage = "redirect:/";
+		
+		if(session.getAttribute("user_comm_code") != null) {
+			user_comm_code = (Integer)session.getAttribute("user_comm_code");
+			resultPage = "redirect:/main";
+		}
+		
+		if(user_comm_code == 10030) {
+			System.out.println(kphReturn);
+			kphReturn.setReturn_emp_id((String)session.getAttribute("user_id"));
+			kphReturnService.returnUpdate(kphReturn);
 			resultPage = "redirect:/return"; 
 		}
 		

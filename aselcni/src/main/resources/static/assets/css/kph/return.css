@@ -161,3 +161,74 @@ tbody tr td, tbody tr th {
 .page-navigation .pagination {
     margin-bottom: 0;
 }
+
+/* return-datail */
+.return-detail {
+	position: absolute;
+    display: none;
+	top: 20%;
+	left: 43%;
+	background-color: white;
+	margin: 0 auto;
+	padding: 20px;
+    width: 30%;
+    border: 1px solid rgba(128, 128, 128, 0.562);
+    border-radius: 5px;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+	z-index: 1;
+}
+
+.return-detail .return-detail-title {
+	text-align: center;
+    font-family: 'NanumSquare', sans-serif;
+    color: #486ef3;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.return-detail .return-detail-body {
+	font-family: 'NanumSquare', sans-serif;
+}
+
+.return-detail-body> div {
+	display: flex;
+	justify-content: space-between;
+}
+
+.return-detail-body> div:last-child {
+	display: block;
+}
+
+.return-detail-body> div> .return-detail-content:first-child {
+	margin-right: 10px;
+}
+
+.return-detail-body .return-detail-content {
+	border-bottom: 1px solid rgba(128, 128, 128, 0.486);
+	height: 50px;
+	line-height: 50px;
+	width: 45%;
+}
+
+.return-detail-content span:first-child {
+	margin-right: 10px;
+	font-weight: 700;
+}
+
+.return-detail  .return-detail-btn-list {
+	display: flex;
+	justify-content: space-between;
+	width: 40%;
+	margin: 0 auto;
+	margin-top: 20px;
+	font-family: 'NanumSquare', sans-serif;
+}
+
+.return-no {
+	color: #717ff5;
+}
+
+.return-no:hover {
+	cursor: pointer;
+}

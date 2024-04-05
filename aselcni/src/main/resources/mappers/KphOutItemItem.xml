@@ -11,6 +11,9 @@
 				LEFT OUTER JOIN (SELECT OUTITEM_NO, ITEM_CD, SUM(QTY) RETURN_QTY
 										FROM TB_RETURN
 										WHERE RETURN_DELETE_CHK = 0
+										<if test="url='returnUpdateForm'">
+											AND RETURN_NO != #{return_no}
+										</if>
 										GROUP BY OUTITEM_NO, ITEM_CD
 										) tr 
 									ON oi.OUTITEM_NO = tr.OUTITEM_NO
@@ -21,6 +24,21 @@
 					</if>
 					) res
 		WHERE (res.USABLE_QTY > 0 OR res.USABLE_QTY IS NULL)
+	</select>
+	
+	<select id="KphGetUsableOutItemQty" parameterType="KphReturn" resultType="int">
+		SELECT (oii.QTY - tr.QTY) MAX_QTY
+		FROM TB_OUTITEM_ITEM oii , (
+													SELECT OUTITEM_NO, ITEM_CD , SUM(QTY) AS QTY
+													FROM TB_RETURN
+													WHERE OUTITEM_NO = #{outitem_no}
+														AND ITEM_CD = #{item_cd}
+														AND RETURN_NO != #{return_no}
+														AND RETURN_DELETE_CHK = 0
+													GROUP BY OUTITEM_NO , ITEM_CD
+													) tr 
+		WHERE oii.OUTITEM_NO = tr.OUTITEM_NO 
+			AND oii.ITEM_CD = tr.ITEM_CD
 	</select>
 	
 </mapper>

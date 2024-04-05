@@ -45,5 +45,25 @@ public class KphReturnDaoImp implements KphReturnDao {
 	public List<KphReturn> returnList(KphReturn kphReturn) {
 		return session.selectList("KphReturnList", kphReturn);
 	}
+	
+	@Override
+	public KphReturn getReturn(KphReturn kphReturn) {
+		return session.selectOne("KphGetReturn", kphReturn);
+	}
+	
+	@Override
+	public void returnDelete(KphReturn kphReturn) {
+		session.update("KphReturnDelete", kphReturn);
+	}
+	
+	@Override
+	public int getUsableOutItemQty(KphReturn kphReturn) {
+		return session.selectOne("KphGetUsableOutItemQty", kphReturn);
+	}
+	
+	@Override
+	public void returnUpdate(KphReturn kphReturn) {
+		session.update("KphReturnUpdate", kphReturn);
+	}
 
 }
