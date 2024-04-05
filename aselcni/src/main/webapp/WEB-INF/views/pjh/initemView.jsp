@@ -125,15 +125,15 @@
 									</div>
 									
 									<div class="row mt-1">
-										<div class="col-md-10">
+										<div class="col-md-11">
 											<div class="input-group">
 												<span class="input-group-text">자재명</span>
 												<input id="item_nm" type="text" class="form-control" placeholder="자재명"
 													aria-label="자재명">
 											</div>
 										</div>
-										<div class="col-md-2">
-											<button class="btn btn-primary btn-sm float-right" style="height:100%;"
+										<div class="col-md-1 text-end">
+											<button class="btn btn-primary btn-sm w-100 px-0" style="height:100%;"
 												onclick="searchInitem()">조회</button>
 										</div>
 									</div>
