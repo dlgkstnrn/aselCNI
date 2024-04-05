@@ -76,9 +76,9 @@
 						<option value="user_nm">담당자명</option>
 					  </select>
 					  <div class="start-end-day">
-						<input type="date" class="start-day form-control">
+						<input name="start_day" type="date" class="start-day form-control">
 						<span>~</span>
-					  	<input type="date" class="end-day form-control">
+					  	<input name="end_day" type="date" class="end-day form-control">
 					  </div>
 					</div>
 					<button type="button" id="return-add" class="return-add btn btn-primary">신규</button>
@@ -95,38 +95,43 @@
 								<th>반품사유</th>
 								<th>반품등록일</th>
 								<th>담당자</th>
-								<th>삭제</th>
+								<th>반품수량</th>
 							</tr>
 						</thead>
+						<c:set var="num" value="${paging.start }"></c:set>
 						<tbody>
-							<tr>
-								<th>1</th>
-								<td><a class="return-no" href="#">RET2403200001</a></td>
-								<td>OUT2403200001</td>
-								<td>(주)농심</td>
-								<td>라면땅</td>
-								<td>맛이없음</td>
-								<td>2024-12-31</td>
-								<td>김평화</td>
-								<td><button type="button" class="return-delete btn btn-danger">삭제</button></td>
-							</tr>
+							<c:forEach var="return" items="${returnList }">
+								<th>${num}</th>
+								<td><a class="return-no" href="/returnUpdateForm?return_no=${return.return_no }">${return.return_no }</a></td>
+								<td>${return.outitem_no }</td>
+								<td>${return.cust_nm }</td>
+								<td>${return.item_nm }</td>
+								<td>${return.res_rtn }</td>
+								<c:choose>
+									<c:when test="${return.return_update != null }">
+										<td>${return.return_update }</td>	
+									</c:when>
+									<c:otherwise>
+										<td>${return.return_dt }</td>
+									</c:otherwise>
+								</c:choose>
+								<td>${return.user_nm }</td>
+								<td>${return.qty }</td>
+								<c:set var="num" value="${num + 1 }"></c:set>
+							</c:forEach>
 						</tbody>
 					</table>
 					<nav class="page-navigation">
 					  <ul class="pagination">
-						<li class="page-item">
-						  <a class="page-link" href="#">
-							<span>&laquo;</span>
-						  </a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-						  <a class="page-link" href="#">
-							<span>&raquo;</span>
-						  </a>
-						</li>
+						<c:if test="${paging.startPage > paging.pageBlock }">
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}"><span>&laquo;</span></a></li>
+						</c:if>
+						<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&keyword=${keyword}&searchFilter=${searchFilter}">${i}</a></li>
+						</c:forEach>
+						<c:if test="${paging.endPage < paging.totalPage }">
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}"><span>&raquo;</span></a></li>
+						</c:if>
 					  </ul>
 					</nav>
 				  </div>

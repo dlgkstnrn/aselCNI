@@ -16,4 +16,6 @@ public interface KphReturnDao {
 
 	int totalReturnCount(KphReturn kphReturn);
 
+	List<KphReturn> returnList(KphReturn kphReturn);
+
 }

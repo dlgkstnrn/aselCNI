@@ -1,5 +1,7 @@
 package com.aselcni.kph.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,16 @@ public class KphReturnController {
 			
 			kphReturn.setStart(paging.getStart());
 			kphReturn.setEnd(paging.getEnd());
+			
+			if(kphReturn.getStart_day() == null && kphReturn.getEnd_day() == null) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				String today = LocalDate.now().format(formatter);
+				String oneMonthAgo = LocalDate.now().minusMonths(1).format(formatter); 
+				
+				kphReturn.setStart_day(oneMonthAgo);
+				kphReturn.setEnd_day(today);
+			}
+			
 			List<KphReturn> returnList = kphReturnService.returnList(kphReturn);
 			model.addAttribute("returnList", returnList);
 			model.addAttribute("paging", paging);

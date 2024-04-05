@@ -40,5 +40,10 @@ public class KphReturnDaoImp implements KphReturnDao {
 	public int totalReturnCount(KphReturn kphReturn) {
 		return session.selectOne("KphTotalReturnCount", kphReturn);
 	}
+	
+	@Override
+	public List<KphReturn> returnList(KphReturn kphReturn) {
+		return session.selectList("KphReturnList", kphReturn);
+	}
 
 }

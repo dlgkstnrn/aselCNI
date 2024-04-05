@@ -38,4 +38,9 @@ public class KphReturnServiceImp implements KphReturnService {
 		return kphReturnDao.totalReturnCount(kphReturn);
 	}
 	
+	@Override
+	public List<KphReturn> returnList(KphReturn kphReturn) {
+		return kphReturnDao.returnList(kphReturn);
+	}
+	
 }

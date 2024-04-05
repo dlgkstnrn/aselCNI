@@ -27,5 +27,8 @@ public class KphReturn {
 	private String search_filter;
 	private String start_day;
 	private String end_day;
+	private String cust_nm;
+	private String item_nm;
+	private String user_nm;
 	
 }

@@ -31,26 +31,79 @@
 	</insert>		
 	
 	<select id="KphTotalReturnCount" parameterType="KphReturn">
-		SELECT COUNT(RETURN_NO)
-		FROM TB_RETURN
-		WHERE RETURN_DELETE_CHK = 0
+		SELECT COUNT(rt.RETURN_NO)
+		FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
+		WHERE rt.ITEM_CD = it.ITEM_CD 
+			AND rt.CUST_CD = tc.CUST_CD 
+			AND rt.RETURN_EMP_ID = us.USER_ID
+			AND rt.RETURN_DELETE_CHK = 0
+			AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
 			<choose>
 				<when test="searchFilter=='all'">
-					AND (USER_NM LIKE  '%' + #{keyword} + '%' OR USER_ID LIKE  '%' + #{keyword} + '%')
+					AND (
+							rt.RETURN_NO LIKE '%' + #{keyword} + '%'
+							OR rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
+							OR tc.CUST_NM LIKE '%' + #{keyword} + '%'
+							OR it.ITEM_NM LIKE '%' + #{keyword} + '%'
+							OR us.USER_NM LIKE '%' + #{keyword} + '%'
+							)
 				</when>
 				<when test="searchFilter=='return_no'">
-					AND USER_NM LIKE  '%' + #{keyword} + '%'
+					AND rt.RETURN_NO LIKE '%' + #{keyword} + '%'
 				</when>
 				<when test="searchFilter=='outitem_no'">
-					AND USER_ID LIKE  '%' + #{keyword} + '%'
+					AND rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
 				</when>
-				<when test="searchFilter=='outitem_no'">
-					AND USER_ID LIKE  '%' + #{keyword} + '%'
+				<when test="searchFilter=='cust_nm'">
+					AND tc.CUST_NM LIKE '%' + #{keyword} + '%'
 				</when>
-				<when test="searchFilter=='outitem_no'">
-					AND USER_ID LIKE  '%' + #{keyword} + '%'
+				<when test="searchFilter=='item_nm'">
+					AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
+				</when>
+				<when test="searchFilter=='user_nm'">
+					AND us.USER_NM LIKE '%' + #{keyword} + '%'
 				</when>
 			</choose>
-	</select>			
+	</select>	
+	
+	<select id="KphReturnList" parameterType="KphReturn" resultType="KphReturn">
+		SELECT *
+		FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY RETURN_NO DESC) AS rn, rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM
+				FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
+				WHERE rt.ITEM_CD = it.ITEM_CD 
+					AND rt.CUST_CD = tc.CUST_CD 
+					AND rt.RETURN_EMP_ID = us.USER_ID
+					AND rt.RETURN_DELETE_CHK = 0
+					AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
+					<choose>
+						<when test="searchFilter=='all'">
+							AND (
+									rt.RETURN_NO LIKE '%' + #{keyword} + '%'
+									OR rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
+									OR tc.CUST_NM LIKE '%' + #{keyword} + '%'
+									OR it.ITEM_NM LIKE '%' + #{keyword} + '%'
+									OR us.USER_NM LIKE '%' + #{keyword} + '%'
+									)
+						</when>
+						<when test="searchFilter=='return_no'">
+							AND rt.RETURN_NO LIKE '%' + #{keyword} + '%'
+						</when>
+						<when test="searchFilter=='outitem_no'">
+							AND rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
+						</when>
+						<when test="searchFilter=='cust_nm'">
+							AND tc.CUST_NM LIKE '%' + #{keyword} + '%'
+						</when>
+						<when test="searchFilter=='item_nm'">
+							AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
+						</when>
+						<when test="searchFilter=='user_nm'">
+							AND us.USER_NM LIKE '%' + #{keyword} + '%'
+						</when>
+					</choose>
+				) rt2
+		WHERE rt2.rn BETWEEN #{start} AND #{end}
+	</select>		
 	
 </mapper>
