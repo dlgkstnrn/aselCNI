@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UjmOutitemController { 
 
-	private final UjmOutitemService uos;
+	private final UjmOutitemService uos; //
 	
 	@RequestMapping(value = "ujmExample") 
 	public String ujmLoginForm(HttpServletRequest request) {
