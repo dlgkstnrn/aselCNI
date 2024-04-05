@@ -37,10 +37,12 @@
 		<typeAlias alias="PsaItem" type="com.aselcni.psa.model.Item" />
 
 		<typeAlias alias="KdwProdPlan" type="com.aselcni.kdw.model.TB_PRODPLAN" />
-		<typeAlias alias="KdwProdPlanItem"
-			type="com.aselcni.kdw.model.TB_ITEM_PROD" />
+		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD" />
 		<typeAlias alias="KdwProdOrder" type="com.aselcni.kdw.model.KDW_TB_ORDER" />
 		<typeAlias alias="KdwProdOrderItem" type="com.aselcni.kdw.model.KDW_TB_ORDER_ITEM" />
+		<typeAlias alias="KdwProdItemTypeBig" type="com.aselcni.kdw.model.KDW_TB_TYPE_BIG" />
+		<typeAlias alias="KdwProdItemTypeMid" type="com.aselcni.kdw.model.KDW_TB_TYPE_MID" />
+		<typeAlias alias="KdwProdItemTypeSml" type="com.aselcni.kdw.model.KDW_TB_TYPE_SML" />
 			
 		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem" />
 		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd" />

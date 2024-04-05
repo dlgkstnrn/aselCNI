@@ -5,7 +5,17 @@ $(document).ready(function() {
 	var responseProdPlans;
 	var isTooltipEnabled = true; // 툴팁 기본 활성상태
 	var lastClickedCell = null; // 마지막으로 클릭된 셀을 저장할 변수
-
+	// 기본 색상 정의
+	var baseColors = [
+		"rgba(191, 0, 35, 0.7)",
+		"rgba(0, 81, 212, 0.7)",
+		"rgba(217, 4, 114, 0.7)",
+		"rgba(219, 90, 4, 0.7)",
+		"rgba(0, 165, 168, 0.7)",
+		"rgba(204, 170, 0, 0.7)",
+		"rgba(0, 92, 9, 0.7)",
+		"rgba(99, 0, 145, 0.7)",
+	];
 	var calendarEl = document.getElementById('calendar');
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialView: 'dayGridMonth',
@@ -19,13 +29,16 @@ $(document).ready(function() {
 				success: function(response) {
 					responseProdPlans = response;
 					updateOrderList(defaultMonth);
-					var events = response.prodPlans.map(function(plan) {
+					var events = response.prodPlans.map(function(plan, index) {
+						// 색상 배열에서 순환하며 색상 선택
+						var colorIndex = index % baseColors.length;
+						var eventColor = baseColors[colorIndex];
 						return {
 							id: plan.prodPlan_no,
 							title: plan.prodPlan_no + ' (' + plan.remark + ')',
 							start: plan.prodPlan_dt,
 							end: plan.prodPlan_end_dt,
-							backgroundColor: eventColors[plan.prodPlan_no] || "rgba(13, 110, 253, 0.7)",
+							backgroundColor: eventColors[plan.prodPlan_no] || eventColor,
 							borderColor: 'transparent',
 							textColor: '#ffffff',
 						};
@@ -75,13 +88,15 @@ $(document).ready(function() {
 				return item.prodPlan_no === prodPlanCode;
 			});
 
-			// 자재 정보가 최대 두 개까지만 표시되도록 조정
-			var displayedProdItems = prodItems.slice(0, 2);
-			var moreItemsText = prodItems.length > 2 ? `<p>그 외 ${prodItems.length - 2}개의 자재...</p>` : '';
-
-			// 자재 합계 금액 계산 (전체 자재에 대한 합계)
-			var totalMaterialCost = prodItems.reduce((total, item) => total + (item.in_qty * item.item_cost), 0);
-
+			/*			// 자재정보까지 툴팁으로 넣으면 너무 화면이 난잡해지기때문에 자재정보는 뺐다
+						// 툴팁답게 필요한 정보들만 보이게 해야함 : 대신 더블클릭시 상세페이지 뜨게 구현해야함
+						// 자재 정보가 최대 두 개까지만 표시되도록 조정
+						var displayedProdItems = prodItems.slice(0, 2);
+						var moreItemsText = prodItems.length > 2 ? `<p>그 외 ${prodItems.length - 2}개의 자재...</p>` : '';
+			
+						// 자재 합계 금액 계산 (전체 자재에 대한 합계)
+						var totalMaterialCost = prodItems.reduce((total, item) => total + (item.in_qty * item.item_cost), 0);
+			*/
 			var eventInfo = `
 			  <div>
 			    <div class="tooltip-title">[ 생산 계획 ]</div>
@@ -99,23 +114,11 @@ $(document).ready(function() {
 				    <p>제품 단가: ${prodPlan.item_cost} 원</p>
 			    </div><p>
 			    <p>제품 합계 금액: ${prodPlan.qty * prodPlan.item_cost} 원</p>
-			    <li class="tooltip-section-title">투입 자재</li>
-		        ${displayedProdItems.map(item => `
-		          <div class="material-info">
-		            <p>자재 코드: ${item.item_cd}</p>
-		            <p>자재 명: ${item.item_nm}</p>
-		            <p>자재 수량: ${item.in_qty} 개</p>
-		            <p>자재 단가: ${item.item_cost} 원</p>
-		            <p>자재 금액: ${item.in_qty * item.item_cost} 원</p>
-		          </div>
-		        `).join('')}
-		        ${moreItemsText}
-		        <p>자재 합계 금액: ${totalMaterialCost} 원</p>
 			  </div>
 			`;
 
 			// 툴팁 위치 계산 및 생성 코드
-			var initialTopPosition = info.el.getBoundingClientRect().top + window.scrollY - 300;
+			var initialTopPosition = info.el.getBoundingClientRect().top + window.scrollY - 200;
 			var initialLeftPosition = info.el.getBoundingClientRect().right + window.scrollX + 2;
 
 			var tooltip = document.createElement('div');
@@ -291,27 +294,93 @@ $(document).ready(function() {
 	// ========== End 캘린더 ==========
 
 	// ========== 셀렉트2(제품모달, 투입자재모달) ==========
-	// 제품선택 중첩모달 셀렉트에 Select2 적용
-	$('#nestedModal .select2-firstModal').select2({
-		dropdownParent: $('#nestedModal'), // 부모지정으로 셀렉트박스가 모달창뒤로 가는것을 방지
-		placeholder: "선택해주세요", // 드롭다운의 플레이스홀더 텍스트 설정
-		allowClear: true, // 선택된 항목을 지울 수 있는 버튼 표시
-	}).on("select2:open", function() {
-		// 검색 필드에 포커스가 있을 때 플레이스홀더 유지
-		$(".select2-search__field").attr("placeholder", "검색어 입력");
+	// 제품 대중소 데이터가져오기
+	// AJAX 요청으로 대중소 분류 데이터 가져오기
+	// 서버로부터 모든 카테고리 데이터 가져오기
+	$.ajax({
+		url: '/categories', // 서버 엔드포인트 주소 조정 필요
+		type: 'GET',
+		success: function(data) {
+
+		}
 	});
 
-	$('#nestedItemModal .select2-secondModal').select2({
-		dropdownParent: $('#nestedItemModal'),
-		placeholder: "선택해주세요",
-		allowClear: true,
-		language: {
-			noResults: function() {
-				return "검색 결과가 없습니다";
-			}
+	// 제품선택 중첩모달 셀렉트에 Select2 적용
+	$('#nestedModal .select2-firstModal').each(function() {
+		var placeholderText;
+		switch (this.id) {
+			case 'majorCategory1':
+				placeholderText = "선택해주세요";
+				break;
+			case 'middleCategory1':
+				placeholderText = "대분류를 선택해주세요";
+				break;
+			case 'minorCategory1':
+				placeholderText = "중분류를 선택해주세요";
+				break;
 		}
-	}).on("select2:open", function() {
-		$(".select2-search__field").attr("placeholder", "검색어 입력");
+		$(this).select2({
+			dropdownParent: $('#nestedModal'), // 부모 지정
+			placeholder: placeholderText,
+			allowClear: true,
+			language: {
+				noResults: function() {
+					return "검색 결과가 없습니다";
+				}
+			}
+		}).on("select2:open", function() {
+			// 검색 필드에 포커스가 있을 때 플레이스홀더 유지
+			$(".select2-search__field").attr("placeholder", "검색어 입력");
+		});
+	});
+
+	$('#nestedItemModal .select2-secondModal').each(function() {
+		var placeholderText;
+		switch (this.id) {
+			case 'majorCategory2':
+				placeholderText = "선택해주세요";
+				break;
+			case 'middleCategory2':
+				placeholderText = "대분류를 선택해주세요";
+				break;
+			case 'minorCategory2':
+				placeholderText = "중분류를 선택해주세요";
+				break;
+		}
+		$(this).select2({
+			dropdownParent: $('#nestedItemModal'),
+			placeholder: placeholderText,
+			allowClear: true,
+			language: {
+				noResults: function() {
+					return "검색 결과가 없습니다";
+				}
+			}
+		}).on("select2:open", function() {
+			$(".select2-search__field").attr("placeholder", "검색어 입력");
+		});
+	});
+	// 중분류와 소분류 초기 비활성화
+	$('#middleCategory1, #middleCategory2').prop('disabled', true);
+	$('#minorCategory1, #minorCategory2').prop('disabled', true);
+
+	// 대분류 변경 시 중분류 활성화/비활성화 및 초기화
+	$('#majorCategory1, #majorCategory2').change(function() {
+		var majorVal = $(this).val();
+		if (majorVal) {
+			$('#middleCategory1, #middleCategory2').prop('disabled', false);
+		} else {
+			$('#middleCategory1, #middleCategory2').prop('disabled', true).val('').trigger('change');
+		}
+	});
+	// 중분류 변경 시 소분류 활성화/비활성화 및 초기화
+	$('#middleCategory1, #middleCategory2').change(function() {
+		var middleVal = $(this).val();
+		if (middleVal) {
+			$('#minorCategory1, #minorCategory2').prop('disabled', false);
+		} else {
+			$('#minorCategory1, #minorCategory2').prop('disabled', true).val('').trigger('change');
+		}
 	});
 
 	// 모달이 닫힐 때 Select2 초기화 및 폼 리셋
@@ -404,6 +473,7 @@ $(document).ready(function() {
 		$("#orderListTable tbody tr").show(); // 모든 테이블 행 표시
 		$('#verticalycentered').modal('show');
 	});
+
 	// 주문번호 모달 검색기능
 	$("#searchInput").on("keyup", function() {
 		var value = $(this).val().toLowerCase();
@@ -411,9 +481,52 @@ $(document).ready(function() {
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		});
 	});
-	
-	// ========== 등록 모달 ==========
 
-    
-    
+	// ========== 등록 모달 ==========
+	// 시작예정일자 & 완료예정일자
+	$('.productStartDateInput').change(function() {
+		var startDate = new Date($(this).val());
+		var today = new Date();
+		today.setHours(0, 0, 0, 0); // 시간을 00:00:00.000으로 설정
+
+		if (startDate < today) {
+			alert('시작예정일자는 오늘 일자보다 이전으로 설정할 수 없습니다.');
+			$(this).val('');
+		}
+	});
+
+	$('.productEndDateInput').change(function() {
+		var endDate = new Date($(this).val());
+		var startDate = new Date($('.productStartDateInput').val());
+
+		if (!$('.productStartDateInput').val()) {
+			alert('먼저 시작예정일자를 선택해주세요.');
+			$(this).val('');
+		} else if (endDate < startDate) {
+			alert('완료예정일자는 시작예정일자 이전으로 설정할 수 없습니다.');
+			$(this).val('');
+		}
+	});
+	// 작업일수
+	$('.prodPlanWorkingDaysInput').on('input', function() {
+		var value = parseInt($(this).val(), 10);
+		if (value > 99999) {
+			$(this).val(99999);
+			alert('작업일수는 최대 99999개까지입니다.');
+		} else if (value < -99999) {
+			$(this).val(-99999);
+			alert('작업일수는 최소 -99999개까지입니다.');
+		}
+	});
+	// 생상수량
+	$('.prodCount-input').on('input', function() {
+		var value = parseInt($(this).val(), 10);
+		if (value > 99999) {
+			$(this).val(99999);
+			alert('생산수량은 최대 99999개까지입니다.');
+		} else if (value < -99999) {
+			$(this).val(-99999);
+			alert('생산수량은 최소 -99999개까지입니다.');
+		}
+	});
 }); // !! 건들지말것 !!

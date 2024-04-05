@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
+import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
+import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
+import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -80,6 +83,47 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 			System.out.println("KdwProdPlanDaoImpl getprodPlanOrderItemList e.getMessage(): " + e.getMessage());
 		}
 		return prodPlanOrderItemList;
+	}
+	
+	// 제품, 자재 대중소 분류리스트
+	@Override
+	public List<KDW_TB_TYPE_BIG> getProdPlanItemTypeBigList() {
+		System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeBigList Start...");
+		List<KDW_TB_TYPE_BIG> prodPlanItemTypeBigList = null;
+		try {
+			prodPlanItemTypeBigList = session.selectList("kdwProdPlanItemTypeBigList");
+			System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeBigList prodPlanItemTypeBigList.size(): " + prodPlanItemTypeBigList.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeBigList e.getMessage(): " + e.getMessage());
+		}
+		return prodPlanItemTypeBigList;
+	}
+	@Override
+	public List<KDW_TB_TYPE_MID> getProdPlanItemTypeMidList() {
+		System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeMidList Start...");
+		List<KDW_TB_TYPE_MID> prodPlanItemTypeMidList = null;
+		try {
+			prodPlanItemTypeMidList = session.selectList("kdwProdPlanItemTypeMidList");
+			System.out.println("KdwProdPlanDaoImpl getprodPlanOrderItemList prodPlanItemTypeMidList.size(): " + prodPlanItemTypeMidList.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("KdwProdPlanDaoImpl getprodPlanOrderItemList e.getMessage(): " + e.getMessage());
+		}
+		return prodPlanItemTypeMidList;
+	}
+	@Override
+	public List<KDW_TB_TYPE_SML> getProdPlanItemTypeSmlList() {
+		System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeSmlList Start...");
+		List<KDW_TB_TYPE_SML> prodPlanItemTypeSmlList = null;
+		try {
+			prodPlanItemTypeSmlList = session.selectList("kdwProdPlanItemTypeSmlList");
+			System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeSmlList prodPlanItemTypeSmlList.size(): " + prodPlanItemTypeSmlList.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeSmlList e.getMessage(): " + e.getMessage());
+		}
+		return prodPlanItemTypeSmlList;
 	}
 
 }

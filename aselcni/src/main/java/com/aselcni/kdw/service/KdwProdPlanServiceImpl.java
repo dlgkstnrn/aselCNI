@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aselcni.kdw.dao.KdwProdPlanDao;
 import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
+import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
+import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
+import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -53,5 +56,27 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 		List<KDW_TB_ORDER_ITEM> prodPlanOrderItemList = kdwProdPlanDao.getprodPlanOrderItemList();
 		System.out.println("KdwProdPlanServiceImpl getProdOrderItemList prodPlanOrderItemList.size(): " + prodPlanOrderItemList.size());
 		return prodPlanOrderItemList;
+	}
+	// 제품, 자재 대중소 분류리스트
+	@Override
+	public List<KDW_TB_TYPE_BIG> getProdPlanItemTypeBigList() {
+		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeBigList Start...");
+		List<KDW_TB_TYPE_BIG> prodPlanItemTypeBigList = kdwProdPlanDao.getProdPlanItemTypeBigList();
+		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeBigList prodPlanItemTypeBigList.size(): " + prodPlanItemTypeBigList.size());
+		return prodPlanItemTypeBigList;
+	}
+	@Override
+	public List<KDW_TB_TYPE_MID> getProdPlanItemTypeMidList() {
+		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeMidList Start...");
+		List<KDW_TB_TYPE_MID> prodPlanItemTypeMidList = kdwProdPlanDao.getProdPlanItemTypeMidList();
+		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeMidList prodPlanItemTypeMidList.size(): " + prodPlanItemTypeMidList.size());
+		return prodPlanItemTypeMidList;
+	}
+	@Override
+	public List<KDW_TB_TYPE_SML> getProdPlanItemTypeSmlList() {
+		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeSmlList Start...");
+		List<KDW_TB_TYPE_SML> prodPlanItemTypeSmlList = kdwProdPlanDao.getProdPlanItemTypeSmlList();
+		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeSmlList prodPlanItemTypeSmlList.size(): " + prodPlanItemTypeSmlList.size());
+		return prodPlanItemTypeSmlList;
 	}
 }

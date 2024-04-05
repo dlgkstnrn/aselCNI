@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
+import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
+import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
+import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -16,5 +19,10 @@ public interface KdwProdPlanDao {
 	List<KDW_TB_ORDER> getprodPlanOrderList();
 	// 주문번호 제품 리스트
 	List<KDW_TB_ORDER_ITEM> getprodPlanOrderItemList();
+	
+	// 제품 대중소 분류
+	List<KDW_TB_TYPE_BIG> getProdPlanItemTypeBigList();
+	List<KDW_TB_TYPE_MID> getProdPlanItemTypeMidList();
+	List<KDW_TB_TYPE_SML> getProdPlanItemTypeSmlList();
 
 }

@@ -36,4 +36,20 @@
 		INNER JOIN TB_ITEMMST ti ON toi.ITEM_CD = ti.ITEM_CD
 	</select>
 	
+	<!-- 대중소 분류-->
+	<select id="kdwProdPlanItemTypeBigList" resultType="KdwProdItemTypeBig">
+		SELECT *
+		FROM TB_TYPE_BIG
+	</select>
+	<select id="kdwProdPlanItemTypeMidList" resultType="KdwProdItemTypeMid">
+		SELECT *
+		FROM TB_TYPE_MID
+	</select>
+	<select id="kdwProdPlanItemTypeSmlList" resultType="KdwProdItemTypeSml">
+		SELECT *
+		FROM TB_TYPE_SML
+	</select>
+	
+	
+	
 </mapper>

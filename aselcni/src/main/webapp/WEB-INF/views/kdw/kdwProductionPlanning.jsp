@@ -122,7 +122,7 @@
 												<label for="oderCodeInput" class="col-sm-2 col-form-label">주문번호</label>
 												<div class="col-sm-5">
 													<input type="text" id="prodPlanNoInput"
-														class="form-control oderCodeInput">
+														class="form-control oderCodeInput" readonly>
 												</div>
 												<!-- 주문번호 선택 버튼 -->
 												<div class="col-sm-2">
@@ -134,33 +134,44 @@
 												<label for="prodPlanWorkingDaysInput"
 													class="col-sm-2 col-form-label prodPlanWorkingDaysLabel">작업일수</label>
 												<div class="col-sm-1 prodPlanWorkingDays">
-													<input type="text" id="prodPlanWorkingDaysInput"
-														class="form-control prodPlanWorkingDaysInput">
+													<input type="number" class="form-control prodPlanWorkingDaysInput" 
+															id="prodPlanWorkingDaysInput" min="-99999" max="99999">
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="inputDate" class="col-sm-2 col-form-label">생산일자</label>
-												<div class="col-sm-10">
-													<input type="date" class="form-control">
+												<label for="inputDate" class="col-sm-2 col-form-label">시작예정일자</label>
+												<div class="col-sm-7">
+													<input type="date" class="form-control productStartDateInput">
+												</div>
+												<label for="productEmp" class="col-sm-2 col-form-label">담당자</label>
+												<div class="col-sm-1">
+													<input type="text" class="form-control productEmpInput" 
+															id="productEmp" name="productEmp" value="${sessionScope.user_nm }" readonly> <!-- 헤더부분 세션값 가져옴 -->
 												</div>
 											</div>
+											<div class="row mb-3">
+												<label for="inputDate" class="col-sm-2 col-form-label">완료예정일자</label>
+												<div class="col-sm-5">
+													<input type="date" class="form-control productEndDateInput">
+												</div>
+												<!-- 생산수량 입력 필드 -->
+												<label for="productionQuantity"
+													class="col-sm-4 col-form-label prodCount">생산수량</label>
+												<div class="col-sm-1 prodCount-input-class">
+													<input type="number" class="form-control prodCount-input" 
+															id="productionQuantity" min="-99999" max="99999">
+												</div>
+											</div>
+											<!-- 제품 -->
 											<div class="row mb-3">
 												<label for="productName" class="col-sm-2 col-form-label">제품명</label>
-												<div class="col-sm-5">
-													<input type="text" class="form-control productNameInput"
-														id="productName">
+												<div class="col-sm-8">
+													<input type="text" class="form-control productNameInput" id="productName">
 												</div>
 												<!-- 품목선택 버튼 -->
 												<div class="col-sm-2">
 													<button type="button" class="btn btn-primary productSelect"
 														data-bs-toggle="modal" data-bs-target="#nestedModal">품목선택</button>
-												</div>
-												<!-- 생산수량 입력 필드 -->
-												<label for="productionQuantity"
-													class="col-sm-2 col-form-label prodCount">생산수량</label>
-												<div class="col-sm-1 prodCount-input-class">
-													<input type="text" class="form-control prodCount-input"
-														id="productionQuantity">
 												</div>
 											</div>
 											<!-- 투입자재 -->
@@ -198,7 +209,7 @@
 												<label for="inputPassword" class="col-sm-2 col-form-label">비고</label>
 												<div class="col-sm-10">
 													<textarea class="form-control"
-														style="min-height: 135px; max-height: 135px;"></textarea>
+														style="min-height: 80px; max-height: 80px;"></textarea>
 												</div>
 											</div>
 										</div>
@@ -230,7 +241,7 @@
 										<div class="d-flex flex-row justify-content-between">
 											<!-- 대분류 선택 -->
 											<div class="me-2 category">
-												<label for="majorCategory1" class="form-label">대분류</label> <select
+												<label for="majorCategory1" class="form-label" style="font-weight: 700;">대분류</label> <select
 													class="form-control select2-firstModal" id="majorCategory1">
 													<option value="">대분류 선택</option>
 													<option value="1">국내 라면</option>
@@ -240,7 +251,7 @@
 											</div>
 											<!-- 중분류 선택 -->
 											<div class="me-2">
-												<label for="middleCategory1" class="form-label">중분류</label>
+												<label for="middleCategory1" class="form-label" style="font-weight: 700;">중분류</label>
 												<select class="form-control select2-firstModal"
 													id="middleCategory1">
 													<option value="">중분류 선택</option>
@@ -251,7 +262,7 @@
 											</div>
 											<!-- 소분류 선택 -->
 											<div class="me-2">
-												<label for="minorCategory1" class="form-label">소분류</label> <select
+												<label for="minorCategory1" class="form-label" style="font-weight: 700;">소분류</label> <select
 													class="form-control select2-firstModal" id="minorCategory1">
 													<option value="">소분류 선택</option>
 													<option value="1">아아아아아주맛있는컵라면</option>
@@ -266,38 +277,38 @@
 												</select>
 											</div>
 										</div>
-									</div>
-									<!-- 분류될 리스트 -->
-									<div class="row">
-										<div class="col-12">
-											<table class="table category-search-list"
-												style="border-top: 1px solid #dee2e6; padding-top: 10px;">
-												<thead>
-													<tr>
-														<th scope="col">선택</th>
-														<th scope="col">제품코드</th>
-														<th scope="col">제품명</th>
-														<th scope="col">가격</th>
-													</tr>
-												</thead>
-												<tbody>
-													<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
-													<tr>
-														<td><input type="radio" name="productSelect"
-															value="제품1"></td>
-														<th scope="row">1</th>
-														<td>제품 예시 1</td>
-														<td>1000원</td>
-													</tr>
-													<tr>
-														<td><input type="radio" name="productSelect"
-															value="제품2"></td>
-														<th scope="row">2</th>
-														<td>제품 예시 2</td>
-														<td>2000원</td>
-													</tr>
-												</tbody>
-											</table>
+										<!-- 분류될 리스트 -->
+										<div class="row category-search-list-container">
+											<div class="col-12">
+												<table class="table category-search-list"
+													style="border-top: 1px solid #dee2e6; padding-top: 10px;">
+													<thead>
+														<tr>
+															<th scope="col">선택</th>
+															<th scope="col">제품코드</th>
+															<th scope="col">제품명</th>
+															<th scope="col">가격</th>
+														</tr>
+													</thead>
+													<tbody>
+														<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
+														<tr>
+															<td><input type="radio" name="productSelect"
+																value="제품1"></td>
+															<th scope="row">1</th>
+															<td>제품 예시 1</td>
+															<td>1000원</td>
+														</tr>
+														<tr>
+															<td><input type="radio" name="productSelect"
+																value="제품2"></td>
+															<th scope="row">2</th>
+															<td>제품 예시 2</td>
+															<td>2000원</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -327,7 +338,7 @@
 										<div class="d-flex flex-row justify-content-between">
 											<!-- 대분류 선택 -->
 											<div class="me-2 prodPlanItem-category">
-												<label for="majorCategory2" class="form-label">대분류</label> <select
+												<label for="majorCategory2" class="form-label" style="font-weight: 700;">대분류</label> <select
 													class="form-control select2-secondModal"
 													id="majorCategory2">
 													<option value="">대분류 선택</option>
@@ -340,7 +351,7 @@
 											</div>
 											<!-- 중분류 선택 -->
 											<div class="me-2">
-												<label for="middleCategory2" class="form-label">중분류</label>
+												<label for="middleCategory2" class="form-label" style="font-weight: 700;">중분류</label>
 												<select class="form-control select2-secondModal"
 													id="middleCategory2">
 													<option value="">중분류 선택</option>
@@ -354,7 +365,7 @@
 											<!-- 소분류 선택 -->
 											<div class="d-flex flex-row align-items-end">
 												<div class="me-2">
-													<label for="minorCategory2" class="form-label">소분류</label>
+													<label for="minorCategory2" class="form-label" style="font-weight: 700;">소분류</label>
 													<select class="form-control select2-secondModal"
 														id="minorCategory2">
 														<option value="">소분류 선택</option>
@@ -371,43 +382,43 @@
 												</div>
 											</div>
 										</div>
-									</div>
-									<!-- 분류될 리스트 -->
-									<div class="row">
-										<div class="col-12">
-											<table class="table category-search-list"
-												style="border-top: 1px solid #dee2e6; padding-top: 10px;">
-												<thead>
-													<tr>
-														<th scope="col">선택</th>
-														<th scope="col">자재코드</th>
-														<th scope="col" class="prodPlanItem-name">자재명</th>
-														<th scope="col" class="prodPlanItem-price">금액</th>
-														<th scope="col">수량</th>
-													</tr>
-												</thead>
-												<tbody>
-													<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
-													<tr>
-														<td class="checkbox-center"><input type="checkbox"
-															name="productSelect" value="제품1"></td>
-														<th scope="row">1</th>
-														<td>자재 예시 1</td>
-														<td>1000원</td>
-														<td><input type="number" name="quantity1" min="1"
-															style="width: 80px;"> 개</td>
-													</tr>
-													<tr>
-														<td class="checkbox-center"><input type="checkbox"
-															name="productSelect" value="제품2"></td>
-														<th scope="row">2</th>
-														<td>자재 예시 2</td>
-														<td>2000원</td>
-														<td><input type="number" name="quantity2" min="1"
-															style="width: 80px;"> 개</td>
-													</tr>
-												</tbody>
-											</table>
+										<!-- 분류될 리스트 -->
+										<div class="row category-search-list-container">
+											<div class="col-12">
+												<table class="table category-search-list"
+													style="border-top: 1px solid #dee2e6; padding-top: 10px;">
+													<thead>
+														<tr>
+															<th scope="col">선택</th>
+															<th scope="col">자재코드</th>
+															<th scope="col" class="prodPlanItem-name">자재명</th>
+															<th scope="col" class="prodPlanItem-price">금액</th>
+															<th scope="col">수량</th>
+														</tr>
+													</thead>
+													<tbody>
+														<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
+														<tr>
+															<td class="checkbox-center"><input type="checkbox"
+																name="productSelect" value="제품1"></td>
+															<th scope="row">1</th>
+															<td>자재 예시 1</td>
+															<td>1000원</td>
+															<td><input type="number" name="quantity1" min="1"
+																style="width: 80px;"> 개</td>
+														</tr>
+														<tr>
+															<td class="checkbox-center"><input type="checkbox"
+																name="productSelect" value="제품2"></td>
+															<th scope="row">2</th>
+															<td>자재 예시 2</td>
+															<td>2000원</td>
+															<td><input type="number" name="quantity2" min="1"
+																style="width: 80px;"> 개</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer d-flex justify-content-between">
