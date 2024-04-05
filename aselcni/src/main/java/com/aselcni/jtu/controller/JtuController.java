@@ -94,7 +94,26 @@ public class JtuController {
 		System.out.println("JtuController setPriOne jpri --> " + jpri);
 
 		js.setPriOne(jpri);
-		return "jtu/jtuProdItemView";
+		return "redirect:/proditem";
+	}
+	
+	@RequestMapping("submitProdItemEditModal")
+	public String updatePriOne(Model model, JtuProdItem jpri) {
+		System.out.println("JtuController updatePriOne Start... ");
+		System.out.println("JtuController updatePriOne jpri --> " + jpri);
+		
+		js.updatePriOne(jpri);
+		return "redirect:/proditem";
+	}
+	
+	@RequestMapping("deleteProdItemEditModal")
+	public String deletePriOne(Model model, JtuProdItem jpri) {
+		System.out.println("JtuController deletePriOne Start... ");
+		System.out.println("JtuController deletePriOne jpri --> " + jpri);
+		
+		js.deletePriOne(jpri);
+		
+		return "redirect:/proditem";
 	}
 
 }

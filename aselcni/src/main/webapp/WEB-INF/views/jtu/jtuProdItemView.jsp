@@ -318,15 +318,9 @@
         				
         				$('#workProdNoRegiModal').text(selectedValue);
         				$('#hiddenWorkProdNoRegiModal').val(selectedValue);
-        				
-        				//let wprDate= new Date(foundWpr.workprod_dt);
-        				//wprDate.setDate(wprDate.getDate() + foundWpr.work_dt);
-       				    //let prodEndDate = wprDate.toISOString().slice(0, 10);
        				    $('#workStartDateRegiModal').val(foundWpr.workprod_dt);
-       				    
        				    $('#hiddenItemCdRegiModal').val(foundWpr.item_cd);
        				    $('#itemNameRegiModal').val(foundWpr.item_nm+"("+foundWpr.item_cd+")");
-       				    
        				    $('#expectedQtyRegiModal').val(foundWpr.qty);
        				    
         				
@@ -343,7 +337,6 @@
 	//조회 테이블 행 클릭시 modal 수정창으로 이동
 	$(document).on('click', 'tr[data-bs-target="#prodItemEditModal"]', function() {
 	    let prodNo = $(this).find('td:nth-child(2)').text();
-	    $('#workProdNoEditModal').text(prodNo);
 	    getPriOneAjax(prodNo);
 	});
 	
@@ -358,16 +351,27 @@
 			data,
 			dataType : "json",
 			success : function(pri){
+				$('#workProdNoEditModal').text(prodNo);
+				$('#hiddenWorkProdNoEditModal').val(pri.workprod_no);
 				$('#proditemUpdateEditModal').val(pri.proditem_update);
 				$('#empEditModal').val(pri.proditem_emp_id);
 				$('#prodEndDateEditModal').val(pri.proditem_end_dt);
 				$('#prodItemWHEditModal').text(pri.wh_nm+'('+pri.wh_cd+')');
+				$('#hiddenProdItemWHCdEditModal').val(pri.wh_cd);
 				$('#itemNameEditModal').val(pri.item_nm+'('+pri.item_cd+')');
-				$('#expectedQtyEditModal').val(pri.pln_qty);1
+				$('#hiddenItemCdEditModal').val(pri.item_cd);
+				$('#expectedQtyEditModal').val(pri.pln_qty);
 				$('#actualQtyEditModal').val(pri.prod_qty);
 				$('#defectiveQtyEditModal').val(pri.bad_qty);
 				$('#defectiveLogEditModal').val(pri.bad_res);
 				$('#remarkEditModal').val(pri.remark);
+				
+				let disabledList=[$('#workProdNoEditModal'),$('#proditemUpdateEditModal'),$('#empEditModal'),$('#prodEndDateEditModal'),$('#prodItemWHEditModal'),$('#itemNameEditModal'),
+					$('#expectedQtyEditModal'),$('#actualQtyEditModal'),$('#defectiveQtyEditModal'),$('#defectiveLogEditModal'),$('#remarkEditModal')];
+				
+				disabledOnoff(disabledList, true)
+				
+
 				
 				
 			},//success
@@ -375,6 +379,12 @@
             }
 		})//ajax
 		
+	}
+	
+	function disabledOnoff(list, isDisabled) {
+	    list.forEach(item => {
+	        item.prop("disabled", isDisabled);
+	    });
 	}
 
 	//priList 가져오는 함수
@@ -415,15 +425,13 @@
 	//수정 버튼 눌렀을 때 로직
 	$(document).ready(function() {
 		$("#editModalEditBtn").click(function(){
-			$("#empEditModal").prop("readonly", false);
-			$("#prodEndDateEditModal").prop("readonly", false);
+			let disabledList=[$('#empEditModal'),$('#prodEndDateEditModal'),$('#prodItemWHEditModal'),
+				$('#actualQtyEditModal'),$('#defectiveQtyEditModal'),$('#defectiveLogEditModal'),$('#remarkEditModal')];
 			
-			$("#actualQtyEditModal").prop("readonly", false);
-			$("#defectiveQtyEditModal").prop("readonly", false);
-			$("#defectiveLogEditModal").prop("readonly", false);
-			$("#remarkEditModal").prop("readonly", false);
+			disabledOnoff(disabledList, false);
 			
 			$("#prodItemWHEditModal").attr("data-bs-toggle","dropdown");
+			$("#expectedQtyEditModal").attr("readonly","");
 			getWHListRegiModal("EditModal");
 			
 			$("#editModalEditBtn").hide();
@@ -434,10 +442,39 @@
 	//닫기 버튼 or X 버튼 눌렀을 때 로직
 	$(document).ready(function() {
 		  $('#prodItemEditModal').on('hidden.bs.modal', function () {
-			$("#editModalEditBtn").show();
-			$("#editModalUpdateBtn").hide();
+			$("#empEditModal").prop("readonly", true);
+			$("#prodEndDateEditModal").prop("readonly", true);
+			
+			$("#actualQtyEditModal").prop("readonly", true);
+			$("#defectiveQtyEditModal").prop("readonly", true);
+			$("#defectiveLogEditModal").prop("readonly", true);
+			$("#remarkEditModal").prop("readonly", true);
 			
 			$("#prodItemWHEditModal").attr("data-bs-toggle","");
+			
+			$("#editModalEditBtn").show();
+			$("#editModalUpdateBtn").hide();
+		})
+	})
+	
+	//삭제 버튼 눌렀을 때 로직
+	$(document).ready(function() {
+		$("#editModaldeleteBtn").click(function(){
+			alert("생산 실적 삭제는 관리자를 호출해주세요.");
+			data.workprod_no=$("#hiddenWorkProdNoEditModal").val();
+			
+			$.ajax({
+				url : "deleteProdItemEditModal",
+				method : 'POST',
+				data,
+				dataType : "json",
+				success : function(){
+					
+				},//success
+					error : function(xhr, status, error) {
+					    console.error("Error occurred: " + error);
+					}
+			})
 		})
 	})
 	
@@ -468,441 +505,498 @@
 			</nav>
 		</div>
 		<!-- End Page Title -->
-		<div class="card">
-			<section class="section dashboard">
-
-
-
-				<!--등록  버튼  -->
-
-				<div class="col-sm-1 text-end" style="margin-left: auto;">
-					<button id="tempBtn" type="button"
-						onclick="getPriListAjax()"
-						class="btn btn-outline-primary" 
-					>임시</button>
-					<button id="regiModalBtn" type="button"
-						class="btn btn-outline-primary" data-bs-toggle="modal"
-						data-bs-target="#workProdRegiModal"
-					>등록</button>
-				</div>
+		<section class="section dashboard h-max">
+			<div class="card">
+				<div class="card-body">
 
 
 
 
-				<div
-					style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 50px;"
-				>
+					<!--등록  버튼  -->
 
-					<button id="dateLeftBtn" type="button" class="btn btn-primary">
-						<i class="bi bi-caret-left-fill"></i>
-					</button>
-					<div>
-						<label for="start"></label> <input type="date"
-							class="prodItemDate" id="startDate" 
-						>&nbsp;&nbsp;~&nbsp;&nbsp;<label for="end"></label> <input
-							type="date" class="prodItemDate" id="endDate" 
-						>
+					<div class="col-sm-1 text-end" style="margin-left: auto;">
+						<button id="tempBtn" type="button" onclick="getPriListAjax()"
+							class="btn btn-outline-primary"
+						>임시</button>
+						<button id="regiModalBtn" type="button"
+							class="btn btn-outline-primary" data-bs-toggle="modal"
+							data-bs-target="#workProdRegiModal"
+						>등록</button>
 					</div>
 
-					<button id="dateRightBtn" type="button" class="btn btn-primary">
-						<i class="bi bi-caret-right-fill"></i>
-					</button>
-				</div>
-				
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">생산 완료 일자</th>
-							<th scope="col">등록된 생산 지시 번호</th>
-							<th scope="col">제품명</th>
-							<th scope="col">예정 수량</th>
-							<th scope="col">불량 수량</th>
-						</tr>
-					</thead>
-					<c:forEach var="pri" items="${jpriList}">
-					<tbody id ="prodItemTbody" >
-						<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
-							<th scope="row">${pri.proditem_end_dt}</th>
-							<td>${pri.workprod_no}</td>
-							<td>${pri.item_nm} (${pri.item_cd})</td>
-							<td>${pri.pln_qty}</td>
-							<td>${pri.bad_qty}</td>
-						</tr>
-					</tbody>
-					</c:forEach>
-				</table>
 
 
 
-				<!-- Start workProdRegiModal ----m1-->
-				<div class="modal fade" id="workProdRegiModal" tabindex="-1"
-					style="display: none;" aria-hidden="true"
-				>
-					<div class="modal-dialog modal-dialog-centered modal-xl">
-						<div class="modal-content p-16">
-							<div class="modal-header">
-								<h1 class="modal-title">생산 실적 등록</h1>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"
-								></button>
+
+					<!-- 검색 s1 -->
+					<div class="container text-center m-4">
+						<div class="row">
+							<div class="col-md-7">
+								<div class="input-group">
+									<button id="dateLeftBtn" type="button" class="btn btn-primary">
+										<i class="bi bi-caret-left-fill"></i>
+									</button>
+
+									<input id="startDate" type="date" aria-label="startDate"
+										class="form-control prodItemDate"
+									> <input id="endDate" type="date" aria-label="endDate"
+										class="form-control prodItemDate"
+									>
+									<button id="dateRightBtn" type="button" class="btn btn-primary">
+										<i class="bi bi-caret-right-fill"></i>
+									</button>
+								</div>
 							</div>
-							<div class="modal-body">
-
-								<!-- Start modal body -->
-								<form id="workProdRegiForm" action="submitWorkProdRegiModal">
-
-									<div class="row mb-3">
-										<label class="col-sm-2 col-form-label label-marquee"><span
-											class="moving-text"
-										>생산 지시 번호</span></label>
-										<div class="d-flex justify-content-between col-sm-10">
-
-											<button
-												class="btn btn-secondary dropdown-toggle col-sm-4 label-marquee"
-												type="button" id="workProdNoRegiModal"
-												data-bs-toggle="dropdown" aria-haspopup="true"
-												aria-expanded="false"
-											>
-												<span class="moving-text">생산 지시 번호 선택</span>
-											</button>
-											<input id="hiddenWorkProdNoRegiModal" type="hidden"
-												name="workprod_no"
-											>
-											<ul id="workProdNoRegiModalList"
-												class="dropdown-menu col-sm-3"
-												aria-labelledby="workProdNoRegiModal"
-											>
-											</ul>
-
-											<label for="workStartDateRegiModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											><span class="moving-text">생산 지시 일자</span></label>
-											<div class="col-sm-5">
-												<input id="workStartDateRegiModal" type="date"
-													class="form-control" value="2024-04-01" required readonly
-												>
-											</div>
-
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label for="empRegiModal"
-											class="col-sm-2 col-form-label label-marquee"
-										> <span class="moving-text">생산 실적 담당자</span></label>
-										<div class="d-flex justify-content-between col-sm-10">
-											<div class="col-sm-4">
-												<input id="empRegiModal" type="text" class="form-control"
-													name="proditem_emp_id" value="jtu" readonly
-												>
-											</div>
-
-
-											<label for="prodEndDateRegiModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											> <span class="moving-text">생산 완료 일자</span>
-											</label>
-											<div class="col-sm-5">
-												<input id="prodEndDateRegiModal" type="date"
-													name="proditem_end_dt" class="form-control" required
-												>
-											</div>
-										</div>
-									</div>
-
-
-									<div class="row mb-3">
-										<label for="prodItemWHRegiModal"
-											class="col-sm-2 col-form-label label-marquee"
-										><span class="moving-text">입고 창고</span></label>
-										<div class="col-sm-10">
-											<input id="hiddenProdItemWHCdRegiModal" type="hidden"
-												name="wh_cd" class="form-control" value="WHS2404020001"
-											>
-											<button
-												class="btn btn-secondary dropdown-toggle col-sm-12 label-marquee"
-												type="button" id="prodItemWHRegiModal"
-												data-bs-toggle="dropdown" aria-haspopup="true"
-												aria-expanded="false"
-											>
-												<span class="moving-text moving-animation">제품을 넣어둘
-													창고를 선택</span>
-											</button>
-											<ul id="whListRegiModal" class="dropdown-menu col-sm-9"
-												aria-labelledby="prodItemWHRegiModal"
-											>
-											</ul>
-
-										</div>
-									</div>
-
-
-									<div class="row mb-3">
-										<label for="itemNameRegiModal" class="col-sm-2 col-form-label">제품명</label>
-
-										<div class="d-flex justify-content-between col-sm-10">
-											<div class="col-sm-4">
-												<input id="hiddenItemCdRegiModal" type="hidden"
-													name="item_cd" class="form-control" value="buldak001"
-												> <input id="itemNameRegiModal" type="text"
-													class="form-control" value="붉닭라면(buldak001)" readonly
-												>
-											</div>
-
-
-											<label for="expectedQtyRegiModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											><span class="moving-text">예정 생산 수량</span></label>
-											<div class="col-sm-5">
-												<input id="expectedQtyRegiModal" type="number"
-													name="pln_qty" class="form-control" readonly value="50000"
-												>
-											</div>
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label for="actualQtyRegiModal"
-											class="col-sm-2 col-form-label label-marquee"
-										><span class="moving-text">실제 생산 수량</span></label>
-
-										<div class="d-flex justify-content-between col-sm-10">
-											<div class="col-sm-4">
-												<input id="actualQtyRegiModal" type="number" name="prod_qty"
-													class="form-control" required value="49990"
-												>
-											</div>
-											<label for="defectiveQtyRegiModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											><span class="moving-text">불량 생산 수량</span></label>
-											<div class="col-sm-5">
-												<input id="defectiveQtyRegiModal" type="number"
-													name="bad_qty" class="form-control" required
-												>
-											</div>
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label for="defectiveLogRegiModal"
-											class="col-sm-2 col-form-label"
-										><span class="moving-text">불량 내역</span></label>
-										<div class="col-sm-10">
-											<textarea id="defectiveLogRegiModal" class="form-control"
-												name="bad_res" style="height: 100px"
-											>불닭이 너무매움</textarea>
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label for="remarkRegiModal" class="col-sm-2 col-form-label">비고</label>
-										<div class="col-sm-10">
-											<textarea id="remarkRegiModal" class="form-control"
-												name="remark" style="height: 100px"
-											>비고 비었음</textarea>
-										</div>
-									</div>
-
-								</form>
-
+							<div class="col-md-5">
+								<div class="input-group">
+									<span class="input-group-text">매입처</span> <input id="cust_nm"
+										onchange="changeData(this)" type="text" class="form-control"
+										placeholder="매입처명" aria-label="매입처명"
+										aria-describedby="button-addon2"
+									>
+									<!-- <button class="btn btn-outline-secondary" type="button"
+													id="button-addon2"><i class="bi bi-search"></i></button> -->
+								</div>
 							</div>
-							<!-- End modal body -->
+						</div>
 
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal"
-								>닫기</button>
-								<button type="submit" form="workProdRegiForm"
-									class="btn btn-primary"
-								>등록</button>
+						<div class="row mt-1">
+							<div class="col-md-5">
+								<div class="input-group">
+									<span class="input-group-text">입고번호</span> <input
+										id="initem_no" onchange="changeData(this)" type="text"
+										class="form-control" placeholder="입고번호" aria-label="입고번호"
+										aria-describedby="button-addon3"
+									>
+									<!-- <button class="btn btn-outline-secondary" type="button"
+													id="button-addon3"><i class="bi bi-search"></i></button> -->
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="input-group">
+									<span class="input-group-text">자재명</span> <input id="item_nm"
+										onchange="changeData(this)" type="text" class="form-control"
+										placeholder="자재명" aria-label="자재명"
+										aria-describedby="button-addon4"
+									>
+									<!-- <button class="btn btn-outline-secondary" type="button"
+													id="button-addon4"><i class="bi bi-search"></i></button> -->
+								</div>
+							</div>
+							<div class="col-md-1 px-0">
+								<button class="btn btn-primary btn-sm" style="height: 100%;"
+									onclick="searchInitem()"
+								>조회</button>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- End modal -->
+
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">생산 완료 일자</th>
+								<th scope="col">등록된 생산 지시 번호</th>
+								<th scope="col">제품명</th>
+								<th scope="col">예정 수량</th>
+								<th scope="col">불량 수량</th>
+							</tr>
+						</thead>
+						<c:forEach var="pri" items="${jpriList}">
+							<tbody id="prodItemTbody">
+								<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
+									<th scope="row">${pri.proditem_end_dt}</th>
+									<td>${pri.workprod_no}</td>
+									<td>${pri.item_nm}(${pri.item_cd})</td>
+									<td>${pri.pln_qty}</td>
+									<td>${pri.bad_qty}</td>
+								</tr>
+							</tbody>
+						</c:forEach>
+					</table>
 
 
 
+					<!-- Start workProdRegiModal ----m1-->
+					<div class="modal fade" id="workProdRegiModal" tabindex="-1"
+						style="display: none;" aria-hidden="true"
+					>
+						<div class="modal-dialog modal-dialog-centered modal-xl">
+							<div class="modal-content p-16">
+								<div class="modal-header">
+									<h1 class="modal-title">생산 실적 등록</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"
+									></button>
+								</div>
+								<div class="modal-body">
 
-				<!-- Start prodItemEditModal------------m2-------------------->
-				<div class="modal fade" id="prodItemEditModal" tabindex="-1"
-					style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
-				>
-					<div class="modal-dialog modal-dialog-centered modal-xl">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h1 class="modal-title">생산 실적 상세</h1>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"
-								></button>
-							</div>
-							<div class="modal-body p-4">
+									<!-- Start modal body -->
+									<form id="workProdRegiForm" action="submitWorkProdRegiModal"
+										method="post"
+									>
 
-								<!-- Start prodItemEditModal body -->
-								<form id="prodItemEditForm" action="submitProdItemEditModal">
+										<div class="row mb-3">
+											<label class="col-sm-2 col-form-label label-marquee"><span
+												class="moving-text"
+											>생산 지시 번호</span></label>
+											<div class="d-flex justify-content-between col-sm-10">
 
-									<div class="row mb-3">
-										<label class="col-sm-2 col-form-label label-marquee"><span
-											class="moving-text"
-										>생산 지시 번호</span></label>
-										<div class="d-flex justify-content-between col-sm-10">
-
-											<button
-												class="btn btn-secondary col-sm-4 label-marquee"
-												type="button" id="workProdNoEditModal"
-											>
-												<span class="moving-text">생산 지시 번호 선택</span>
-											</button>
-											<input id="hiddenWorkProdNoEditModal" type="hidden"
-												name="workprod_no"
-											>
-
-											<label for="proditemUpdateEditModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											><span class="moving-text">생산 실적 등록 및 수정일</span></label>
-											<div class="col-sm-5">
-												<input id="proditemUpdateEditModal" type="date"
-													class="form-control" value="2024-04-01" required readonly
+												<button
+													class="btn btn-secondary dropdown-toggle col-sm-4 label-marquee"
+													type="button" id="workProdNoRegiModal"
+													data-bs-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false"
 												>
-											</div>
-
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label for="empEditModal"
-											class="col-sm-2 col-form-label label-marquee"
-										> <span class="moving-text">생산 실적 담당자</span></label>
-										<div class="d-flex justify-content-between col-sm-10">
-											<div class="col-sm-4">
-												<input id="empEditModal" type="text" class="form-control"
-													name="proditem_emp_id" value="jtu" readonly
+													<span class="moving-text">생산 지시 번호 선택</span>
+												</button>
+												<input id="hiddenWorkProdNoRegiModal" type="hidden"
+													name="workprod_no"
 												>
-											</div>
-
-
-											<label for="prodEndDateEditModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											> <span class="moving-text">생산 완료 일자</span>
-											</label>
-											<div class="col-sm-5">
-												<input id="prodEndDateEditModal" type="date"
-													name="proditem_end_dt" class="form-control" required readonly
+												<ul id="workProdNoRegiModalList"
+													class="dropdown-menu col-sm-3"
+													aria-labelledby="workProdNoRegiModal"
 												>
-											</div>
-										</div>
-									</div>
+												</ul>
 
+												<label for="workStartDateRegiModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												><span class="moving-text">생산 지시 일자</span></label>
+												<div class="col-sm-5">
+													<input id="workStartDateRegiModal" type="date"
+														class="form-control" value="2024-04-01" required readonly
+													>
+												</div>
 
-									<div class="row mb-3">
-										<label for="prodItemWHEditModal"
-											class="col-sm-2 col-form-label label-marquee"
-										><span class="moving-text">입고 창고</span></label>
-										<div class="col-sm-10">
-											<input id="hiddenProdItemWHCdEditModal" type="hidden"
-												name="wh_cd" class="form-control" value=""
-											>
-											<button
-												class="btn btn-secondary col-sm-12 label-marquee"
-												type="button" id="prodItemWHEditModal"
-											>
-												<span class="moving-text moving-animation"></span>
-											</button>
-											<ul id="whListEditModal" class="dropdown-menu col-sm-9"
-												aria-labelledby="prodItemWHEditModal"
-											>
-											</ul>
-										</div>
-									</div>
-
-
-									<div class="row mb-3">
-										<label for="itemNameEditModal" class="col-sm-2 col-form-label">제품명</label>
-
-										<div class="d-flex justify-content-between col-sm-10">
-											<div class="col-sm-4">
-												<input id="hiddenItemCdEditModal" type="hidden"
-													name="item_cd" class="form-control" value=""
-												> <input id="itemNameEditModal" type="text"
-													class="form-control" value="" readonly
-												>
-											</div>
-
-
-											<label for="expectedQtyEditModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											><span class="moving-text">예정 생산 수량</span></label>
-											<div class="col-sm-5">
-												<input id="expectedQtyEditModal" type="number"
-													name="pln_qty" class="form-control" value="" readonly
-												>
 											</div>
 										</div>
-									</div>
 
-									<div class="row mb-3">
-										<label for="actualQtyEditModal"
-											class="col-sm-2 col-form-label label-marquee"
-										><span class="moving-text">실제 생산 수량</span></label>
+										<div class="row mb-3">
+											<label for="empRegiModal"
+												class="col-sm-2 col-form-label label-marquee"
+											> <span class="moving-text">생산 실적 담당자</span></label>
+											<div class="d-flex justify-content-between col-sm-10">
+												<div class="col-sm-4">
+													<input id="empRegiModal" type="text" class="form-control"
+														name="proditem_emp_id" value="jtu"
+													>
+												</div>
 
-										<div class="d-flex justify-content-between col-sm-10">
-											<div class="col-sm-4">
-												<input id="actualQtyEditModal" type="number" name="prod_qty"
-													class="form-control" value="" required readonly
-												>
+
+												<label for="prodEndDateRegiModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												> <span class="moving-text">생산 완료 일자</span>
+												</label>
+												<div class="col-sm-5">
+													<input id="prodEndDateRegiModal" type="date"
+														name="proditem_end_dt" class="form-control" required
+													>
+												</div>
 											</div>
-											<label for="defectiveQtyEditModal"
-												class="col-sm-2 col-form-label text-end label-marquee"
-											><span class="moving-text">불량 생산 수량</span></label>
-											<div class="col-sm-5">
-												<input id="defectiveQtyEditModal" type="number"
-													name="bad_qty" class="form-control" required readonly
+										</div>
+
+
+										<div class="row mb-3">
+											<label for="prodItemWHRegiModal"
+												class="col-sm-2 col-form-label label-marquee"
+											><span class="moving-text">입고 창고</span></label>
+											<div class="col-sm-10">
+												<input id="hiddenProdItemWHCdRegiModal" type="hidden"
+													name="wh_cd" class="form-control" value="WHS2404020001"
 												>
+												<button
+													class="btn btn-secondary dropdown-toggle col-sm-12 label-marquee"
+													type="button" id="prodItemWHRegiModal"
+													data-bs-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false"
+												>
+													<span class="moving-text moving-animation">제품을 넣어둘
+														창고를 선택</span>
+												</button>
+												<ul id="whListRegiModal" class="dropdown-menu col-sm-9"
+													aria-labelledby="prodItemWHRegiModal"
+												>
+												</ul>
+
 											</div>
 										</div>
-									</div>
 
-									<div class="row mb-3">
-										<label for="defectiveLogEditModal"
-											class="col-sm-2 col-form-label"
-										><span class="moving-text">불량 내역</span></label>
-										<div class="col-sm-10">
-											<textarea id="defectiveLogEditModal" class="form-control"
-												name="bad_res" style="height: 100px" readonly
-											>불닭이 너무매움</textarea>
+
+										<div class="row mb-3">
+											<label for="itemNameRegiModal"
+												class="col-sm-2 col-form-label"
+											>제품명</label>
+
+											<div class="d-flex justify-content-between col-sm-10">
+												<div class="col-sm-4">
+													<input id="hiddenItemCdRegiModal" type="hidden"
+														name="item_cd" class="form-control" value="buldak001"
+													> <input id="itemNameRegiModal" type="text"
+														class="form-control" value="붉닭라면(buldak001)" readonly
+													>
+												</div>
+
+
+												<label for="expectedQtyRegiModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												><span class="moving-text">예정 생산 수량</span></label>
+												<div class="col-sm-5">
+													<input id="expectedQtyRegiModal" type="number"
+														name="pln_qty" class="form-control" readonly value="50000"
+													>
+												</div>
+											</div>
 										</div>
-									</div>
 
-									<div class="row mb-3">
-										<label for="remarkEditModal" class="col-sm-2 col-form-label">비고</label>
-										<div class="col-sm-10">
-											<textarea id="remarkEditModal" class="form-control"
-												name="remark" style="height: 100px" readonly
-											>비고 비었음</textarea>
+										<div class="row mb-3">
+											<label for="actualQtyRegiModal"
+												class="col-sm-2 col-form-label label-marquee"
+											><span class="moving-text">실제 생산 수량</span></label>
+
+											<div class="d-flex justify-content-between col-sm-10">
+												<div class="col-sm-4">
+													<input id="actualQtyRegiModal" type="number"
+														name="prod_qty" class="form-control" required
+														value="49990"
+													>
+												</div>
+												<label for="defectiveQtyRegiModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												><span class="moving-text">불량 생산 수량</span></label>
+												<div class="col-sm-5">
+													<input id="defectiveQtyRegiModal" type="number"
+														name="bad_qty" class="form-control" required
+													>
+												</div>
+											</div>
 										</div>
-									</div>
 
-								</form>
+										<div class="row mb-3">
+											<label for="defectiveLogRegiModal"
+												class="col-sm-2 col-form-label"
+											><span class="moving-text">불량 내역</span></label>
+											<div class="col-sm-10">
+												<textarea id="defectiveLogRegiModal" class="form-control"
+													name="bad_res" style="height: 100px"
+												>불닭이 너무매움</textarea>
+											</div>
+										</div>
 
-							</div>
-							<!-- End modal body -->
+										<div class="row mb-3">
+											<label for="remarkRegiModal" class="col-sm-2 col-form-label">비고</label>
+											<div class="col-sm-10">
+												<textarea id="remarkRegiModal" class="form-control"
+													name="remark" style="height: 100px"
+												>비고 비었음</textarea>
+											</div>
+										</div>
 
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal"
-								>닫기</button>
-								<button id="editModaldeleteBtn" type="button" class="btn btn-primary">삭제</button>
-								<button id="editModalEditBtn" type="button" class="btn btn-primary">수정</button>
-								<button id="editModalUpdateBtn" type="button" class="btn btn-primary" style="display: none;">저장</button>
+									</form>
+
+								</div>
+								<!-- End modal body -->
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal"
+									>닫기</button>
+									<button type="submit" form="workProdRegiForm"
+										class="btn btn-primary"
+									>등록</button>
+								</div>
 							</div>
 						</div>
 					</div>
+					<!-- End modal -->
+
+
+
+
+					<!-- Start prodItemEditModal------------m2-------------------->
+					<div class="modal fade" id="prodItemEditModal" tabindex="-1"
+						style="display: none;" aria-hidden="true"
+						data-bs-backdrop="static" data-bs-keyboard="false"
+					>
+						<div class="modal-dialog modal-dialog-centered modal-xl">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title">생산 실적 상세</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"
+									></button>
+								</div>
+								<div class="modal-body p-4">
+
+									<!-- Start prodItemEditModal body -->
+									<form id="prodItemEditForm" action="submitProdItemEditModal"
+										method="post"
+									>
+
+										<div class="row mb-3">
+											<label class="col-sm-2 col-form-label label-marquee"><span
+												class="moving-text"
+											>생산 지시 번호</span></label>
+											<div class="d-flex justify-content-between col-sm-10">
+
+												<button class="btn btn-secondary col-sm-4 label-marquee"
+													type="button" id="workProdNoEditModal"
+												>
+													<span class="moving-text">생산 지시 번호 선택</span>
+												</button>
+												<input id="hiddenWorkProdNoEditModal" type="hidden"
+													name="workprod_no"
+												> <label for="proditemUpdateEditModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												><span class="moving-text">생산 실적 등록 및 수정일</span></label>
+												<div class="col-sm-5">
+													<input id="proditemUpdateEditModal" type="date"
+														class="form-control" value="2024-04-01" required
+													>
+												</div>
+
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="empEditModal"
+												class="col-sm-2 col-form-label label-marquee"
+											> <span class="moving-text">생산 실적 담당자</span></label>
+											<div class="d-flex justify-content-between col-sm-10">
+												<div class="col-sm-4">
+													<input id="empEditModal" type="text" class="form-control"
+														name="proditem_emp_id" value="jtu"
+													>
+												</div>
+
+
+												<label for="prodEndDateEditModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												> <span class="moving-text">생산 완료 일자</span>
+												</label>
+												<div class="col-sm-5">
+													<input id="prodEndDateEditModal" type="date"
+														name="proditem_end_dt" class="form-control" required
+													>
+												</div>
+											</div>
+										</div>
+
+
+										<div class="row mb-3">
+											<label for="prodItemWHEditModal"
+												class="col-sm-2 col-form-label label-marquee"
+											><span class="moving-text">입고 창고</span></label>
+											<div class="col-sm-10">
+												<input id="hiddenProdItemWHCdEditModal" type="hidden"
+													name="wh_cd" class="form-control" value=""
+												>
+												<button class="btn btn-secondary col-sm-12 label-marquee"
+													type="button" id="prodItemWHEditModal"
+												>
+													<span class="moving-text moving-animation"></span>
+												</button>
+												<ul id="whListEditModal" class="dropdown-menu col-sm-9"
+													aria-labelledby="prodItemWHEditModal"
+												>
+												</ul>
+											</div>
+										</div>
+
+
+										<div class="row mb-3">
+											<label for="itemNameEditModal"
+												class="col-sm-2 col-form-label"
+											>제품명</label>
+
+											<div class="d-flex justify-content-between col-sm-10">
+												<div class="col-sm-4">
+													<input id="hiddenItemCdEditModal" type="hidden"
+														name="item_cd" class="form-control" value=""
+													> <input id="itemNameEditModal" type="text"
+														class="form-control" value=""
+													>
+												</div>
+
+
+												<label for="expectedQtyEditModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												><span class="moving-text">예정 생산 수량</span></label>
+												<div class="col-sm-5">
+													<input id="expectedQtyEditModal" type="number"
+														name="pln_qty" class="form-control" value=""
+													>
+												</div>
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="actualQtyEditModal"
+												class="col-sm-2 col-form-label label-marquee"
+											><span class="moving-text">실제 생산 수량</span></label>
+
+											<div class="d-flex justify-content-between col-sm-10">
+												<div class="col-sm-4">
+													<input id="actualQtyEditModal" type="number"
+														name="prod_qty" class="form-control" value="" required
+													>
+												</div>
+												<label for="defectiveQtyEditModal"
+													class="col-sm-2 col-form-label text-end label-marquee"
+												><span class="moving-text">불량 생산 수량</span></label>
+												<div class="col-sm-5">
+													<input id="defectiveQtyEditModal" type="number"
+														name="bad_qty" class="form-control" required
+													>
+												</div>
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="defectiveLogEditModal"
+												class="col-sm-2 col-form-label"
+											><span class="moving-text">불량 내역</span></label>
+											<div class="col-sm-10">
+												<textarea id="defectiveLogEditModal" class="form-control"
+													name="bad_res" style="height: 100px"
+												>불닭이 너무매움</textarea>
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="remarkEditModal" class="col-sm-2 col-form-label">비고</label>
+											<div class="col-sm-10">
+												<textarea id="remarkEditModal" class="form-control"
+													name="remark" style="height: 100px"
+												>비고 비었음</textarea>
+											</div>
+										</div>
+
+									</form>
+
+								</div>
+								<!-- End modal body -->
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal"
+									>닫기</button>
+									<button id="editModaldeleteBtn" type="button"
+										class="btn btn-primary"
+									>삭제</button>
+									<button id="editModalEditBtn" type="button"
+										class="btn btn-primary"
+									>수정</button>
+									<button id="editModalUpdateBtn" type="submit"
+										form="prodItemEditForm" class="btn btn-primary"
+										style="display: none;"
+									>저장</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End modal -->
 				</div>
-				<!-- End modal -->
-
-
-			</section>
-		</div>
+			</div>
+		</section>
 	</main>
 	<!-- End #main -->
 

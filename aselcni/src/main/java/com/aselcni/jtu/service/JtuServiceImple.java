@@ -32,12 +32,6 @@ public class JtuServiceImple implements JtuServiceInterface{
 		return wprList;
 	}
 
-	@Override
-	public void setPriOne(JtuProdItem jpri) {
-		System.out.println("JtuServiceImple setPriOne Start... ");
-		
-		jd.setPriOne(jpri);
-	}
 
 	@Override
 	public List<JtuWH> getWhCode() {
@@ -53,6 +47,26 @@ public class JtuServiceImple implements JtuServiceInterface{
 		JtuProdItem jpri = jd.getPriOneAjax(paraJpri);
 		
 		return jpri;
+	}
+
+	@Override
+	public void setPriOne(JtuProdItem jpri) {
+		System.out.println("JtuServiceImple setPriOne Start... ");
+		
+		jd.setPriOne(jpri);
+	}
+	
+	@Override
+	public void updatePriOne(JtuProdItem jpri) {
+		System.out.println("JtuServiceImple updatePriOne Start... ");
+		
+		jd.updatePriOne(jpri);
+	}
+
+	@Override
+	public void deletePriOne(JtuProdItem jpri) {
+		System.out.println("JtuServiceImple deletePriOne Start... ");
+		jd.deletePriOne(jpri);
 	}
 
 

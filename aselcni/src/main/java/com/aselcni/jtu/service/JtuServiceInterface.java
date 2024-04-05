@@ -19,4 +19,8 @@ public interface JtuServiceInterface {
 
 	JtuProdItem getPriOneAjax(JtuProdItem paraJpri);
 
+	void updatePriOne(JtuProdItem jpri);
+
+	void deletePriOne(JtuProdItem jpri);
+
 }

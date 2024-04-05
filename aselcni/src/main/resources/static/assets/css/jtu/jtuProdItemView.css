@@ -10,7 +10,6 @@ table {
 }
 
 th, td {
-	border: 1px solid #ccc;
 	padding: 5px;
 	text-align: center;
 
@@ -20,12 +19,9 @@ th, td {
 	text-align: center;
 }
 
-section{
-	padding: 20px;
-}
 
 /* 입력 칸 크기 조절 */
-.prodItemDate {
+/* .prodItemDate {
 	width: 130px;
 	height: 40px; 
 	font-size: 20px;
@@ -33,7 +29,8 @@ section{
 	display: flex-wrap; align-items: center; justify-content: space-between;
 	
 }
-
+ */
+ 
 .prodItemDate:hover {
 	cursor: pointer;
 }

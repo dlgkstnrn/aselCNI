@@ -87,5 +87,31 @@ public class JtuDaoImple implements JtuDaoInterface{
 	}
 
 
+	@Override
+	public void updatePriOne(JtuProdItem jpri) {
+		System.out.println("JtuDaoImple updatePriOne Start... ");
+		try {
+			int rs =session.update("jtuUpdatePriOne",jpri);
+			System.out.println("JtuDaoImple updatePriOne rs --> " + rs);
+			
+		} catch (Exception e) {
+			System.out.println("updatePriOne exception->" + e.getMessage());
+		}
+	}
+
+
+	@Override
+	public void deletePriOne(JtuProdItem jpri) {
+		System.out.println("JtuDaoImple deletePriOne Start... ");
+		try {
+			int rs =session.update("jtuDeletePriOne",jpri);
+			System.out.println("JtuDaoImple deletePriOne rs --> " + rs);
+			
+		} catch (Exception e) {
+			System.out.println("deletePriOne exception->" + e.getMessage());
+		}
+	}
+
+
 
 }
