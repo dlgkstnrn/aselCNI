@@ -197,7 +197,7 @@
 															<div id="prodItem-bar" class="prodItem-bar"
 																style="display: none;">
 																<span id="delete_all" style="cursor: pointer;">X</span>
-																<span>투입자재명</span> <span>수량</span>
+																<span>투입자재</span> <span>수량</span>
 															</div>
 															<!-- 선택된 자재 목록 -->
 															<ul id="prodItem-list" class="prodItem-list"></ul>
@@ -243,9 +243,6 @@
 											<div class="me-2 category">
 												<label for="majorCategory1" class="form-label" style="font-weight: 700;">대분류</label> <select
 													class="form-control select2-firstModal" id="majorCategory1">
-													<option value="">대분류 선택</option>
-													<option value="1">국내 라면</option>
-													<option value="2">해외 라면</option>
 													<!-- 대분류 옵션들 -->
 												</select>
 											</div>
@@ -254,9 +251,6 @@
 												<label for="middleCategory1" class="form-label" style="font-weight: 700;">중분류</label>
 												<select class="form-control select2-firstModal"
 													id="middleCategory1">
-													<option value="">중분류 선택</option>
-													<option value="1">매운 맛</option>
-													<option value="2">순한 맛</option>
 													<!-- 중분류 옵션들 -->
 												</select>
 											</div>
@@ -264,15 +258,7 @@
 											<div class="me-2">
 												<label for="minorCategory1" class="form-label" style="font-weight: 700;">소분류</label> <select
 													class="form-control select2-firstModal" id="minorCategory1">
-													<option value="">소분류 선택</option>
-													<option value="1">아아아아아주맛있는컵라면</option>
-													<option value="2">봉지라면</option>
-													<option value="3">봉지라면</option>
-													<option value="4">봉지라면</option>
-													<option value="5">봉지라면</option>
-													<option value="6">봉지라면</option>
-													<option value="7">봉지라면</option>
-													<option value="8">봉지라면</option>
+
 													<!-- 소분류 옵션들 -->
 												</select>
 											</div>
@@ -292,20 +278,6 @@
 													</thead>
 													<tbody>
 														<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
-														<tr>
-															<td><input type="radio" name="productSelect"
-																value="제품1"></td>
-															<th scope="row">1</th>
-															<td>제품 예시 1</td>
-															<td>1000원</td>
-														</tr>
-														<tr>
-															<td><input type="radio" name="productSelect"
-																value="제품2"></td>
-															<th scope="row">2</th>
-															<td>제품 예시 2</td>
-															<td>2000원</td>
-														</tr>
 													</tbody>
 												</table>
 											</div>
@@ -314,7 +286,7 @@
 									<div class="modal-footer">
 										<button type="reset" class="btn btn-secondary"
 											data-bs-dismiss="modal">취소</button>
-										<button type="button" class="btn btn-primary">저장</button>
+										<button type="button" class="btn btn-primary prodplan-item-save">저장</button>
 									</div>
 								</div>
 							</div>
@@ -341,11 +313,6 @@
 												<label for="majorCategory2" class="form-label" style="font-weight: 700;">대분류</label> <select
 													class="form-control select2-secondModal"
 													id="majorCategory2">
-													<option value="">대분류 선택</option>
-													<option value="1">분말스프</option>
-													<option value="2">건더기스프</option>
-													<option value="3">면류</option>
-													<option value="4">맛 기름</option>
 													<!-- 대분류 옵션들 -->
 												</select>
 											</div>
@@ -354,11 +321,6 @@
 												<label for="middleCategory2" class="form-label" style="font-weight: 700;">중분류</label>
 												<select class="form-control select2-secondModal"
 													id="middleCategory2">
-													<option value="">중분류 선택</option>
-													<option value="1">야채</option>
-													<option value="2">육류</option>
-													<option value="3">해산물</option>
-													<option value="4">향신료</option>
 													<!-- 중분류 옵션들 -->
 												</select>
 											</div>
@@ -368,15 +330,6 @@
 													<label for="minorCategory2" class="form-label" style="font-weight: 700;">소분류</label>
 													<select class="form-control select2-secondModal"
 														id="minorCategory2">
-														<option value="">소분류 선택</option>
-														<option value="1">양파 분말</option>
-														<option value="2">마늘 분말</option>
-														<option value="3">돈사골 분말</option>
-														<option value="4">건조 파</option>
-														<option value="5">건조 새우</option>
-														<option value="6">건조 쇠고기</option>
-														<option value="7">후추</option>
-														<option value="8">참기름</option>
 														<!-- 소분류 옵션들 -->
 													</select>
 												</div>
@@ -385,7 +338,7 @@
 										<!-- 분류될 리스트 -->
 										<div class="row category-search-list-container">
 											<div class="col-12">
-												<table class="table category-search-list"
+												<table class="table category-search-material-list"
 													style="border-top: 1px solid #dee2e6; padding-top: 10px;">
 													<thead>
 														<tr>
@@ -397,25 +350,6 @@
 														</tr>
 													</thead>
 													<tbody>
-														<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
-														<tr>
-															<td class="checkbox-center"><input type="checkbox"
-																name="productSelect" value="제품1"></td>
-															<th scope="row">1</th>
-															<td>자재 예시 1</td>
-															<td>1000원</td>
-															<td><input type="number" name="quantity1" min="1"
-																style="width: 80px;"> 개</td>
-														</tr>
-														<tr>
-															<td class="checkbox-center"><input type="checkbox"
-																name="productSelect" value="제품2"></td>
-															<th scope="row">2</th>
-															<td>자재 예시 2</td>
-															<td>2000원</td>
-															<td><input type="number" name="quantity2" min="1"
-																style="width: 80px;"> 개</td>
-														</tr>
 													</tbody>
 												</table>
 											</div>
@@ -440,7 +374,7 @@
 										<div>
 											<button type="reset" class="btn btn-secondary"
 												data-bs-dismiss="modal">취소</button>
-											<button type="button" class="btn btn-primary">저장</button>
+											<button type="button" class="btn btn-primary prodplan-material-save">저장</button>
 										</div>
 									</div>
 								</div>

@@ -5,6 +5,7 @@ $(document).ready(function() {
 	var responseProdPlans;
 	var isTooltipEnabled = true; // 툴팁 기본 활성상태
 	var lastClickedCell = null; // 마지막으로 클릭된 셀을 저장할 변수
+	var selectedMaterialsInfo = []; // 선택된 자재 정보를 저장할 배열
 	// 기본 색상 정의
 	var baseColors = [
 		"rgba(191, 0, 35, 0.7)",
@@ -88,7 +89,7 @@ $(document).ready(function() {
 				return item.prodPlan_no === prodPlanCode;
 			});
 
-			/*			// 자재정보까지 툴팁으로 넣으면 너무 화면이 난잡해지기때문에 자재정보는 뺐다
+			/*			// 자재정보까지 툴팁으로 넣으면 너무 화면이 난잡해지기때문에 자재정보는 뺌
 						// 툴팁답게 필요한 정보들만 보이게 해야함 : 대신 더블클릭시 상세페이지 뜨게 구현해야함
 						// 자재 정보가 최대 두 개까지만 표시되도록 조정
 						var displayedProdItems = prodItems.slice(0, 2);
@@ -297,14 +298,130 @@ $(document).ready(function() {
 	// 제품 대중소 데이터가져오기
 	// AJAX 요청으로 대중소 분류 데이터 가져오기
 	// 서버로부터 모든 카테고리 데이터 가져오기
+	var categoriesData = {
+		itemMajorCategories: [],
+		itemMiddleCategories: [],
+		itemMinorCategories: []
+	};
+	// 페이지 로딩 시 서버로부터 모든 카테고리 데이터 가져오기
 	$.ajax({
-		url: '/categories', // 서버 엔드포인트 주소 조정 필요
+		url: '/categories',
 		type: 'GET',
 		success: function(data) {
+			// 받아온 데이터를 categoriesData 객체에 저장
+			categoriesData.itemMajorCategories = data.itemMajorCategories;
+			categoriesData.itemMiddleCategories = data.itemMiddleCategories;
+			categoriesData.itemMinorCategories = data.itemMinorCategories;
 
+			// 제품 대분류 셀렉트 박스에 데이터 채우기
+			fillProductCategorySelectBox('#majorCategory1', categoriesData.itemMajorCategories, 'big');
+			fillMaterialCategorySelectBox('#majorCategory2', categoriesData.itemMajorCategories, 'big');
+		},
+		error: function(xhr, status, error) {
+			console.error("카테고리 에러: " + status + ", " + error);
 		}
 	});
+	// 제품 셀렉트 박스 리스트채우기
+	function fillProductCategorySelectBox(selectBoxId, categories, categoryType) {
+		var $selectBox = $(selectBoxId);
+		$selectBox.empty().append('<option value="">선택</option>');
+		categories.forEach(category => {
+			var value, text;
+			if (categoryType === 'big') {
+				value = category.big_no;
+				text = category.big_content;
+				// big_no가 1 또는 2인 항목만 추가 if (value === 1 || value === 2)
+				if (value === 1) {
+					$selectBox.append($('<option>', { value: value, text: text }));
+				}
+			} else if (categoryType === 'mid') {
+				value = category.mid_no;
+				text = category.mid_content;
+				if (value === 1) {
+					$selectBox.append($('<option>', { value: value, text: text }));
+				}
+			} else if (categoryType === 'sml') {
+				value = category.sml_no;
+				text = category.sml_content;
+				$selectBox.append($('<option>', { value: value, text: text }));
+			}
+		});
+	}
+	// 자재 셀렉트 박스 리스트채우기
+	function fillMaterialCategorySelectBox(selectBoxId, categories, categoryType) {
+		var $selectBox = $(selectBoxId);
+		$selectBox.empty().append('<option value="">선택</option>');
+		categories.forEach(category => {
+			var value, text;
+			if (categoryType === 'big') {
+				value = category.big_no;
+				text = category.big_content;
+				$selectBox.append($('<option>', { value: value, text: text }));
+			} else if (categoryType === 'mid') {
+				value = category.mid_no;
+				text = category.mid_content;
+				$selectBox.append($('<option>', { value: value, text: text }));
+			} else if (categoryType === 'sml') {
+				value = category.sml_no;
+				text = category.sml_content;
+				$selectBox.append($('<option>', { value: value, text: text }));
+			}
+		});
+	}
 
+	// 대분류 선택 시 중분류 채우기
+	$('#majorCategory1, #majorCategory2').change(function() {
+		let selectedBigNo = $(this).val();
+		let isMaterialSelect = $(this).attr('id') === 'majorCategory2'; // 자재 대분류 셀렉트 박스인지 확인
+		let targetCategory = isMaterialSelect ? '#middleCategory2' : '#middleCategory1'; // 대상 중분류 셀렉트 박스 결정
+
+		let filteredCategories = categoriesData.itemMiddleCategories.filter(category => {
+			return category.big_no.toString() === selectedBigNo;
+		});
+		if (isMaterialSelect && selectedBigNo === '1') {
+			// 대분류가 1이고 자재 선택일 때, 중분류 1을 제외
+			filteredCategories = filteredCategories.filter(category => category.mid_no !== 1);
+		}
+		let fillFunction = isMaterialSelect ? fillMaterialCategorySelectBox : fillProductCategorySelectBox;
+		fillFunction(targetCategory, filteredCategories, 'mid');
+	});
+
+	// 중분류 선택 시 소분류 채우기
+	$('#middleCategory1, #middleCategory2').change(function() {
+		let selectedBigNo = $(this).is('#middleCategory1') ? $('#majorCategory1').val() : $('#majorCategory2').val();
+		let selectedMidNo = $(this).val();
+		let targetMinorCategory = $(this).is('#middleCategory1') ? '#minorCategory1' : '#minorCategory2';
+
+		let filteredMinorCategories = categoriesData.itemMinorCategories.filter(category => {
+			return category.big_no.toString() === selectedBigNo &&
+				category.mid_no.toString() === selectedMidNo;
+		});
+
+		// 함수명을 적절히 선택해야 합니다.
+		let fillFunction = $(this).is('#middleCategory1') ? fillProductCategorySelectBox : fillMaterialCategorySelectBox;
+
+		fillFunction(targetMinorCategory, filteredMinorCategories, 'sml');
+	});
+
+	// 소분류 선택시 리스트 불러오기
+	$('#minorCategory1, #minorCategory2').change(function() {
+		let bigNo = $(this).is('#minorCategory1') ? $('#majorCategory1').val() : $('#majorCategory2').val();
+		let midNo = $(this).is('#minorCategory1') ? $('#middleCategory1').val() : $('#middleCategory2').val();
+		let smlNo = $(this).val();
+
+		// 제품 카테고리의 소분류 선택인 경우
+		if ($(this).is('#minorCategory1')) {
+			if (bigNo && midNo && smlNo) {
+				categoriesSearchList(bigNo, midNo, smlNo, 'product');
+			}
+		}
+		// 자재 카테고리의 소분류 선택인 경우
+		else if ($(this).is('#minorCategory2')) {
+			if (bigNo && midNo && smlNo) {
+				categoriesSearchList(bigNo, midNo, smlNo, 'material');
+			}
+		}
+	});
 	// 제품선택 중첩모달 셀렉트에 Select2 적용
 	$('#nestedModal .select2-firstModal').each(function() {
 		var placeholderText;
@@ -364,13 +481,15 @@ $(document).ready(function() {
 	$('#middleCategory1, #middleCategory2').prop('disabled', true);
 	$('#minorCategory1, #minorCategory2').prop('disabled', true);
 
-	// 대분류 변경 시 중분류 활성화/비활성화 및 초기화
+	// 대분류 변경 시 중분류 활성화/비활성화 및 초기화, 소분류도 초기화
 	$('#majorCategory1, #majorCategory2').change(function() {
 		var majorVal = $(this).val();
 		if (majorVal) {
 			$('#middleCategory1, #middleCategory2').prop('disabled', false);
+			$('#minorCategory1, #minorCategory2').prop('disabled', true).val('').trigger('change');
 		} else {
 			$('#middleCategory1, #middleCategory2').prop('disabled', true).val('').trigger('change');
+			$('#minorCategory1, #minorCategory2').prop('disabled', true).val('').trigger('change');
 		}
 	});
 	// 중분류 변경 시 소분류 활성화/비활성화 및 초기화
@@ -389,13 +508,217 @@ $(document).ready(function() {
 		$('.select2-firstModal', this).val(null).trigger('change');
 		$(this).find('form').trigger('reset');
 		$('#verticalycentered').modal('show');
+		$('.category-search-list tbody').empty();
 	});
 
 	$('#nestedItemModal').on('hidden.bs.modal', function() {
 		$('.select2-secondModal', this).val(null).trigger('change');
 		$(this).find('form').trigger('reset');
 		$('#verticalycentered').modal('show');
+		$('.category-search-material-list tbody').empty();
+		$("#itemCountInput").val('0 / 0'); // 항목수 초기화
+		$("#itemTotalPriceInput").val('0원'); // 합계금액 초기화
 	});
+	$('#nestedItemModal').on('show.bs.modal', function() {
+		// 항목수와 합계금액을 초기 상태로 설정
+		$("#itemCountInput").val('0 / 0');
+		$("#itemTotalPriceInput").val('0원');
+	});
+	// 분류된 카테고리 정보를 서버로부터 가져오기 (제품 또는 자재)
+	function categoriesSearchList(bigNo, midNo, smlNo, type) {
+		console.log("big: " + bigNo, ", mid: " + midNo, ", sml: " + smlNo + ", type: " + type);
+		if (!bigNo || !midNo || !smlNo || !type) {
+			console.error("모든 카테고리를 선택해주세요.");
+			return;
+		}
+		$.ajax({
+			url: '/categoriesSearchList',
+			type: 'GET',
+			data: { bigNo: bigNo, midNo: midNo, smlNo: smlNo },
+			success: function(data) {
+				if (type === 'product') {
+					populateItemsTable(data);
+				} else if (type === 'material') {
+					populateMaterialsTable(data);
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error("리스트 조회 에러: " + status + ", " + error);
+			}
+		});
+	}
+	// 대중소분류된 제품 리스트 뿌려주기
+	function populateItemsTable(items) {
+		var tableBody = $('.category-search-list tbody');
+		tableBody.empty();
+
+		items.forEach(function(item) {
+			var row = `<tr>
+            <td><input type="radio" 
+            	 name="productSelect" value="${item.item_cd}" 
+            	 data-product-name="${item.item_nm}">
+            </td>
+            <th scope="row">${item.item_cd}</th>
+            <td>${item.item_nm}</td>
+            <td>${item.item_cost}원</td>
+        </tr>`;
+			tableBody.append(row);
+		});
+	}
+
+	// 대중소분류된 자재 리스트 뿌려주기
+	function populateMaterialsTable(materials) {
+		var tableBody = $('.category-search-material-list tbody');
+		tableBody.empty();
+
+		materials.forEach(function(material, index) {
+			var row = `<tr>
+            <td class="checkbox-center"><input type="checkbox" 
+                 name="materialSelect" value="${material.item_cd}"></td>
+            <th scope="row">${material.item_cd}</th>
+            <td>${material.item_nm}</td>
+            <td>${material.item_cost}원</td>
+            <td><input type="number" class="quantity-input" name="quantity${index + 1}" min="1" 
+                 style="width: 80px;"> 개</td>
+        </tr>`;
+			tableBody.append(row);
+		});
+		updateItemCount();
+	}
+
+	// 자재 생상수량
+	$('.category-search-material-list').on('input', '.quantity-input', function() {
+		var value = parseInt($(this).val(), 10);
+		if (value > 99999) {
+			$(this).val(99999);
+			alert('수량은 최대 99999개까지입니다.');
+		} else if (value < -99999) {
+			$(this).val(-99999);
+			alert('수량은 최소 -99999개까지입니다.');
+		}
+	});
+
+	// 제품 저장 버튼 클릭 이벤트 처리
+	$(".btn.btn-primary.prodplan-item-save").click(function() {
+		// 선택된 라디오 버튼을 가져옴
+		var selectedRadio = $("input[type='radio'][name='productSelect']:checked");
+		// 선택된 라디오 버튼의 값이 있는지 확인
+		if (selectedRadio.length) {
+			// 제품 코드와 이름을 가져와서 처리
+			var productCode = selectedRadio.val();
+			var productName = selectedRadio.data('productName');
+			$(".productNameInput").val(productCode + " (" + productName + ")");
+		}
+		$('#nestedModal').modal('hide');
+		$('#verticalycentered').modal('show');
+	});
+
+	// 투입자재 저장 버튼 클릭 이벤트 처리
+	$(".prodplan-material-save").click(function() {
+		var selectedMaterials = $("input[type='checkbox'][name='materialSelect']:checked");
+
+		if (selectedMaterials.length > 0) {
+			selectedMaterials.each(function() {
+				var tr = $(this).closest('tr');
+				var materialCode = tr.find("th").text();
+				var materialName = tr.find("td").eq(1).text();
+				var quantity = tr.find("input[type='number']").val();
+
+				// 선택된 자재 정보를 배열에 추가
+				selectedMaterialsInfo.push({
+					code: materialCode,
+					name: materialName,
+					quantity: quantity
+				});
+			});
+			// 자재 목록 모달 닫기
+			$('#nestedItemModal').modal('hide');
+		} else {
+			alert('적어도 하나 이상의 자재를 선택해야 합니다.');
+		}
+		// 등록 모달에 선택된 자재 정보 표시
+		displaySelectedMaterials();
+	});
+	// 등록 모달에 선택된 자재 정보 표시 및 기본 문구 관리
+	function displaySelectedMaterials() {
+		$("#prodItem-list").empty(); // 기존 목록 초기화
+
+		if (selectedMaterialsInfo.length > 0) {
+			// 자재가 선택된 경우, 기본 문구 숨김
+			$("#initial_message").hide();
+			selectedMaterialsInfo.forEach(function(material, index) {
+				var listItem = $(`<li>
+                <span class="delete-selected-material" data-index="${index}">X</span>
+                <span>${material.code} (${material.name})</span>
+                <span>${material.quantity} 개</span>
+            </li>`);
+				$("#prodItem-list").append(listItem);
+			});
+		} else {
+			// 선택된 자재가 없는 경우, 기본 문구 표시
+			$("#initial_message").show();
+		}
+
+		// 자재 목록 상단 바 표시 상태 관리
+		updateProdItemBarVisibility();
+	}
+
+	// 개별 삭제 버튼 클릭 이벤트
+	$("#prodItem-list").on("click", ".delete-selected-material", function() {
+		var index = $(this).data("index"); // 삭제할 자재 정보의 인덱스
+		selectedMaterialsInfo.splice(index, 1); // 배열에서 삭제
+		displaySelectedMaterials(); // 목록 다시 표시
+	});
+
+	// 자재 목록 상단 바 표시 상태 업데이트
+	function updateProdItemBarVisibility() {
+		if (selectedMaterialsInfo.length > 0) {
+			$("#prodItem-bar").show();
+		} else {
+			$("#prodItem-bar").hide();
+		}
+	}
+	// 자재 전체 삭제 기능 구현
+	$("#delete_all").click(function() {
+		$("#prodItem-list").empty(); // 선택된 자재 목록 삭제
+		$('#prodItem-bar').hide(); // 선택된 자재 목록 상단 바 숨김
+		$('#initial_message').show();
+	});
+	// 모달 내의 체크박스 상태 및 입력 필드 초기화
+	$('#nestedItemModal').on('hidden.bs.modal', function() {
+		$(this).find("input[type='checkbox']").prop('checked', false);
+		$(this).find("input[type='number']").val('');
+	});
+
+	// 자재리스트 항목수 업데이트
+	function updateItemCount() {
+		var totalItems = $(".category-search-material-list tbody tr").length;
+		var checkedItems = $(".category-search-material-list tbody input[type='checkbox']:checked").length;
+		$("#itemCountInput").val(checkedItems + " / " + totalItems);
+	}
+	// 체크박스 상태 변경 또는 수량 입력 변경 시 합계 금액, 항목 수 업데이트
+	$(".category-search-material-list").on("change", "input[type='checkbox'], input[type='number']", function() {
+		updateTotalPrice();
+		updateItemCount();
+	});
+
+	// 자재리스트 합계금액 업데이트
+	function updateTotalPrice() {
+		var totalPrice = 0;
+		$(".category-search-material-list tbody tr").each(function() {
+			var $checkbox = $(this).find("input[type='checkbox']");
+			if ($checkbox.is(":checked")) {
+				var quantity = parseInt($(this).find("input[type='number']").val()) || 0;
+				var priceText = $(this).find("td").eq(2).text();
+				// '원' 단위 제거 및 숫자만 추출
+				var price = parseFloat(priceText.replace(/원/g, "").trim());
+				console.log(`Quantity: ${quantity}, PriceText: ${priceText}, Price: ${price}`);
+				totalPrice += price * quantity;
+			}
+		});
+
+		$("#itemTotalPriceInput").val(`${totalPrice.toLocaleString()}원`);
+	}
 
 	// ========== End 셀렉트2(제품모달, 투입자재모달) ==========
 
@@ -429,7 +752,7 @@ $(document).ready(function() {
 	function updateOrderList(selectedMonth) {
 		// 주문번호 중첩 모달 내 주문 리스트를 나타낼 테이블의 tbody 찾기
 		var $orderListTbody = $("#orderListTable tbody");
-		$orderListTbody.empty(); // 기존 리스트를 비움
+		$orderListTbody.empty();
 
 		// responseProdPlans 내에서 해당 월에 해당하는 주문 데이터 필터링
 		var filteredOrders = responseProdPlans.prodOrderList.filter(function(order) {

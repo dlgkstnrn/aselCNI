@@ -8,8 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.kdw.model.KDW_TB_ITEMMST;
 import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
 import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
@@ -60,7 +63,7 @@ public class KdwProdPlanController {
 	    responseProdPlans.put("prodOrderItemList", prodOrderItemList); // 주문제품정보
 	    return responseProdPlans;
 	}
-	// 제품, 자재 대중소 분류리스트
+	// 제품, 자재 대중소 분류
 	@ResponseBody
     @GetMapping(value = "categories")
     public Map<String, Object> getAllCategories() {
@@ -70,13 +73,21 @@ public class KdwProdPlanController {
         List<KDW_TB_TYPE_BIG> itemMajorCategories = kdwProdPlanService.getProdPlanItemTypeBigList();
         List<KDW_TB_TYPE_MID> itemMiddleCategories = kdwProdPlanService.getProdPlanItemTypeMidList();
         List<KDW_TB_TYPE_SML> itemMinorCategories = kdwProdPlanService.getProdPlanItemTypeSmlList();
-
-        itemCategories.put("itemMajorCategories", itemMajorCategories);
-        itemCategories.put("itemMiddleCategories", itemMiddleCategories);
-        itemCategories.put("itemMinorCategories", itemMinorCategories);
+        
+        itemCategories.put("itemMajorCategories", itemMajorCategories); // 대분류정보
+        itemCategories.put("itemMiddleCategories", itemMiddleCategories); // 중분류정보
+        itemCategories.put("itemMinorCategories", itemMinorCategories); // 소분류정보
 
         return itemCategories;
     }
-
-	
+	// 제품, 자재 대중소 분류된 리스트 가져오기
+	@ResponseBody
+    @GetMapping(value = "categoriesSearchList")
+    public List<KDW_TB_ITEMMST> getItemsByCategory(@RequestParam(name = "bigNo") int bigNo, @RequestParam(name = "midNo") int midNo, @RequestParam(name = "smlNo") int smlNo) {
+    	System.out.println("KdwProductionPlanningController getItemsByCategory Start...");
+        // 해당 분류에 맞는 아이템 리스트 조회 로직 호출
+        List<KDW_TB_ITEMMST> itemCategoriesSearchList = kdwProdPlanService.getItemCategoriesSearchList(bigNo, midNo, smlNo);
+        System.out.println("KdwProductionPlanningController itemCategoriesSearchList.size(): " + itemCategoriesSearchList.size());
+        return itemCategoriesSearchList;
+    }
 }

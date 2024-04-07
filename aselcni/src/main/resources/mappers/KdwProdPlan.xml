@@ -50,6 +50,14 @@
 		FROM TB_TYPE_SML
 	</select>
 	
-	
-	
+	<!-- 아이템 리스트 -->
+	<select id="kdwProdItemCategoriesSearchList" resultType="KdwProdItemList">
+	    SELECT *
+	    FROM TB_ITEMMST
+	    WHERE item_delete_chk = 0
+	      AND big_no = #{bigNo}
+	      AND mid_no = #{midNo}
+	      AND sml_no = #{smlNo}
+	</select>
+
 </mapper>

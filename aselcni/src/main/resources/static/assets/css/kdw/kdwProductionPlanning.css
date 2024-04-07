@@ -399,6 +399,7 @@ body {
 	margin-left: 111px;
 	margin-right: -111px;
 }
+
 .prodCount-input-class {
 	margin-left: -61px;
 }
@@ -407,6 +408,7 @@ body {
 	width: 100px;
 	margin-left: 0px;
 }
+
 .prodCount-text {
 	margin-top: 30px;
 	margin-left: 85px;
@@ -441,6 +443,38 @@ body {
 	flex-direction: column;
 	overflow-y: auto;
 }
+/* 분류된 자재 리스트 상단바 */
+.prodItem-bar {
+	width: 100%;
+	padding: 0 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f9f9f9;
+	border-bottom: 1px solid #dddddd;
+	height: 30px;
+}
+
+.prodItem-list {
+	list-style-type: none; /* 불릿 포인트(li 앞에 점) 제거 */
+	padding: 0 10px;
+	font-size: 15px;
+}
+
+.prodItem-list li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px; /* 항목 사이의 여백 */
+	padding: 0, 10px;
+}
+
+.delete-selected-material {
+	cursor: pointer;
+	color: red;
+	margin-right: 10px;
+}
+
 /* ========== End 등록 모달창 ========= */
 
 /* ========= 제품 품목선택 모달창 ======== */
@@ -468,19 +502,24 @@ body {
 	min-height: 35px !important;
 	font-size: 14px;
 }
+
 .select2-selection__rendered {
 	line-height: 35px !important;
 }
+
 .select2-selection__arrow {
 	max-height: 35px !important;
 	min-height: 35px !important;
 }
+
 .select2-selection__arrow b {
 	margin-top: -3px !important;
 }
+
 .select2-results__option {
 	font-size: 14px;
 }
+
 .category-search-list-container {
 	margin-top: 15px;
 }
@@ -573,10 +612,12 @@ body {
 #dateIcon {
 	margin-left: 5px;
 }
+
 #orderListTable {
 	font-size: 15px;
 	margin-top: 10px;
 }
+
 #orderListTable tbody {
 	display: block;
 	max-height: 400px;
@@ -589,14 +630,16 @@ body {
 	table-layout: fixed;
 }
 
-#orderListTable thead th:first-child,
-#orderListTable tbody td:first-child {
+#orderListTable thead th:first-child, #orderListTable tbody td:first-child
+	{
 	width: 60px;
 }
-#orderListTable thead th:nth-child(2),
-#orderListTable tbody td:nth-child(2) {
+
+#orderListTable thead th:nth-child(2), #orderListTable tbody td:nth-child(2)
+	{
 	width: 250px;
 }
+
 #orderListTable tbody td, #orderListTable thead th {
 	white-space: nowrap;
 	overflow: hidden;

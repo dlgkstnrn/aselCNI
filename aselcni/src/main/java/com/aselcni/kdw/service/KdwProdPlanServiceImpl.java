@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aselcni.kdw.dao.KdwProdPlanDao;
+import com.aselcni.kdw.model.KDW_TB_ITEMMST;
 import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
 import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
@@ -57,7 +58,7 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 		System.out.println("KdwProdPlanServiceImpl getProdOrderItemList prodPlanOrderItemList.size(): " + prodPlanOrderItemList.size());
 		return prodPlanOrderItemList;
 	}
-	// 제품, 자재 대중소 분류리스트
+	// 제품, 자재 대중소 카테고리리스트
 	@Override
 	public List<KDW_TB_TYPE_BIG> getProdPlanItemTypeBigList() {
 		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeBigList Start...");
@@ -78,5 +79,13 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 		List<KDW_TB_TYPE_SML> prodPlanItemTypeSmlList = kdwProdPlanDao.getProdPlanItemTypeSmlList();
 		System.out.println("KdwProdPlanServiceImpl getProdPlanItemTypeSmlList prodPlanItemTypeSmlList.size(): " + prodPlanItemTypeSmlList.size());
 		return prodPlanItemTypeSmlList;
+	}
+	// 대중소 분류된 제품리스트 
+	@Override
+	public List<KDW_TB_ITEMMST> getItemCategoriesSearchList(int bigNo, int midNo, int smlNo) {
+		System.out.println("KdwProdPlanServiceImpl getItemCategoriesSearchList Start...");
+		List<KDW_TB_ITEMMST> prodItemCategoriesSearchList = kdwProdPlanDao.getItemCategoriesSearchList(bigNo, midNo, smlNo);
+		System.out.println("KdwProdPlanServiceImpl getItemCategoriesSearchList prodItemCategoriesSearchList.size(): " + prodItemCategoriesSearchList.size());
+		return prodItemCategoriesSearchList;
 	}
 }

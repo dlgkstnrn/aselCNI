@@ -1,10 +1,13 @@
 package com.aselcni.kdw.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.kdw.model.KDW_TB_ITEMMST;
 import com.aselcni.kdw.model.KDW_TB_ORDER;
 import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
 import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
@@ -85,7 +88,7 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 		return prodPlanOrderItemList;
 	}
 	
-	// 제품, 자재 대중소 분류리스트
+	// 제품, 자재 대중소 카테고리리스트
 	@Override
 	public List<KDW_TB_TYPE_BIG> getProdPlanItemTypeBigList() {
 		System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeBigList Start...");
@@ -124,6 +127,24 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 			System.out.println("KdwProdPlanDaoImpl getProdPlanItemTypeSmlList e.getMessage(): " + e.getMessage());
 		}
 		return prodPlanItemTypeSmlList;
+	}
+	// 대중소 분류된 제품리스트
+	@Override
+	public List<KDW_TB_ITEMMST> getItemCategoriesSearchList(int bigNo, int midNo, int smlNo) {
+	    System.out.println("KdwProdPlanDaoImpl getItemCategoriesSearchList Start...");
+	    List<KDW_TB_ITEMMST> prodItemCategoriesSearchList = null;
+	    try {
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("bigNo", bigNo);
+	        params.put("midNo", midNo);
+	        params.put("smlNo", smlNo);
+	        prodItemCategoriesSearchList = session.selectList("kdwProdItemCategoriesSearchList", params);
+	        System.out.println("KdwProdPlanDaoImpl getItemCategoriesSearchList prodItemCategoriesSearchList.size(): " + prodItemCategoriesSearchList.size());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("KdwProdPlanDaoImpl getItemCategoriesSearchList e.getMessage(): " + e.getMessage());
+	    }
+	    return prodItemCategoriesSearchList;
 	}
 
 }

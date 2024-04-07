@@ -43,6 +43,7 @@
 		<typeAlias alias="KdwProdItemTypeBig" type="com.aselcni.kdw.model.KDW_TB_TYPE_BIG" />
 		<typeAlias alias="KdwProdItemTypeMid" type="com.aselcni.kdw.model.KDW_TB_TYPE_MID" />
 		<typeAlias alias="KdwProdItemTypeSml" type="com.aselcni.kdw.model.KDW_TB_TYPE_SML" />
+		<typeAlias alias="KdwProdItemList" type="com.aselcni.kdw.model.KDW_TB_ITEMMST" />
 			
 		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem" />
 		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd" />
