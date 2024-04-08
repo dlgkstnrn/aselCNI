@@ -64,6 +64,14 @@
 		WHERE tts.BIG_NO = #{big_no}
 			AND tts.MID_NO = #{mid_no}
 	</select>
+	
+	<select id="psaGetItemList" resultType="PsaItem">
+		SELECT *
+		FROM TB_ITEMMST ti 
+		WHERE ti.BIG_NO = #{big_no}
+			AND ti.MID_NO = #{mid_no}
+			AND ti.SML_NO = #{sml_no}
+	</select>
 
 	<select id="psaGetWorkProd" parameterType="PsaWorkProd" resultType="PsaWorkProd">
 		SELECT *

@@ -330,7 +330,6 @@ pageEncoding="UTF-8"%>
                   <div class="d-flex justify-content-around w-auto text-center align-items-center">
                     <div>
                       <p>대분류</p> 
-                      <!-- <input type="text" name="st_department" list="big_no"> -->
                       <select name="big_no" id="big_no" class="form-select" aria-label="Default select example">
                         <option selected>대분류 선택</option>
                         <c:forEach var="big" items="${bigList}">
@@ -341,10 +340,8 @@ pageEncoding="UTF-8"%>
 
                     <div>
                       <p>중분류</p> 
-                      <!-- <input type="text" name="st_department" list="mid_no"> -->
                       <select name="mid_no" id="mid_no" class="form-select" aria-label="Default select example">
-                        <!-- <option selected>중분류 선택</option> -->
-                        <option>중분류 선택</option>
+                        <option selected>중분류 선택</option>
                       </select>
                     </div>
 
@@ -352,73 +349,37 @@ pageEncoding="UTF-8"%>
                       <p>소분류</p> 
                       <!-- <input type="text" name="st_department" list="sml_no"> -->
                       <select name="sml_no" id="sml_no" class="form-select" aria-label="Default select example">
-                        <!-- <option selected>소분류 선택</option> -->
-                        <option>소분류 선택</option>
+                        <option selected>소분류 선택</option>
                       </select>
                     </div>
                   </div>
 
-                  <!-- 대분류 리스트 -->
-                  <!-- <datalist id="big_no" class="w-auto">
-                    <select name="" id="">
-                    <option value="select">대분류</option>
-                    <option value="포장재"></option>
-                    <option value="식재료"></option>
-                    </select>
-                  </datalist> -->
-
-                  <!-- 중분류 리스트 -->
-                  <!-- <datalist id="mid_no" class="w-auto">
-                    <option value="컵"></option>
-                    <option value="봉지"></option>
-                    <option value="면"></option>
-                    <option value="스프"></option>
-                  </datalist> -->
-                  
-                  <!-- 소분류 리스트 -->
-                  <!-- <datalist id="sml_no" class="w-auto">
-                    <option value="밀가루"></option>
-                    <option value="물"></option>
-                    <option value="기름"></option>
-                    <option value="버섯"></option>
-                    <option value="대파"></option>
-                    <option value="마늘"></option>
-                    <option value="고춧가루"></option>
-                  </datalist> -->
-
                   <!-- 조회된 품목 리스트 -->
                   <div class="card-body mt-3">
                     <h5 class="card-title mb-2">품목 선택</h5>
-      
-                    <!-- List group With Checkboxes and radios -->
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        First checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Second checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Third checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Fourth checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Fifth checkbox
-                      </li>
-                    </ul><!-- End List Checkboxes and radios -->
-      
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col">품목코드</th>
+                          <th scope="col">품목명</th>
+                          <th scope="col">투입수량</th>
+                        </tr>
+                      </thead>
+                      <tbody id="addItem_tbody">
+                        <tr id="addItem_tr">
+                          <!-- <th scope="row"></th>
+                          <td></td>
+                          <td></td>
+                          <td></td> -->
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
 
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="submit" class="btn btn-success">등록</button>
+                    <button type="submit" class="btn btn-success" id="addItemSave">등록</button>
                     <button type="reset" class="btn btn-outline-secondary">Reset</button>
                   </div>
 
@@ -655,8 +616,6 @@ pageEncoding="UTF-8"%>
         });
       });
 
-
-
       // 대분류에 맞는 중분류 조회
       $('#big_no').on('change', function() {
 
@@ -675,7 +634,7 @@ pageEncoding="UTF-8"%>
           success : function(result) {
             console.log('result: ' + result);
 
-            $('#mid_no').empty().append('<option>선택하세요.</option>');
+            $('#mid_no').empty().append('<option>중분류 선택</option>');
 
             result.forEach((element) => {
 
@@ -685,10 +644,6 @@ pageEncoding="UTF-8"%>
               $('#mid_no').append('<option value="' + element.mid_no + '">' +
                                   element.mid_content + "</option>");
               
-
-              // $('#mid_no').append(
-				      // 	`<option value="${element.mid_no}">${element.mid_content}</option>`
-				      // );
             });
 
             // 속성 추가
@@ -698,9 +653,8 @@ pageEncoding="UTF-8"%>
 
       });
 
-
       // 대분류, 중분류에 맞는 소분류 조회
-      $('mid_no').on('change',(event) => {
+      $('#mid_no').on('change',(event) => {
 
         let mid = event.target;
         let mid_no = mid.value;
@@ -723,14 +677,16 @@ pageEncoding="UTF-8"%>
           success : function(result) {
             console.log('result: ' + result);
 
-            $('#sml_no').empty();
+            $('#sml_no').empty().append('<option>소분류 선택</option>');;
 
             result.forEach((element) => {
-              console.log(element);
 
-              $('#sml_no').append(
-				      	`<option value="${element.sml_no}">${element.sml_content}</option>`
-				      );
+              console.log(element);
+              console.log(element.sml_content);
+
+              $('#sml_no').append('<option value="' + element.sml_no + '">' +
+                                  element.sml_content + "</option>");
+
             });
 
             // 속성 추가
@@ -739,6 +695,65 @@ pageEncoding="UTF-8"%>
 
           }
         });
+      });
+
+      // 대분류, 중분류, 소분류에 맞는 품목 리스트 조회 radio
+      $('#sml_no').on('change', function() {
+
+        let big_no = $("#big_no option:selected").val();
+        let mid_no = $("#mid_no option:selected").val();
+        let sml_no = $("#sml_no option:selected").val();
+
+        const itemParam = {
+          big_no : big_no,
+          mid_no : mid_no,
+          sml_no : sml_no
+        }
+
+        $.ajax({
+          url: 'addItemList',
+          type: 'post',
+          data: JSON.stringify(itemParam),
+          contentType: 'application/json; charset=utf-8',
+
+          success: function(array) {
+            console.log(array);
+
+            // $('#addItem_tbody').empty().append('<tr><th>엠티 꼭해야함?</th><td>?</td><td>?</td></tr>');
+
+            array.forEach(element => {
+
+              console.log(element);
+              console.log(element.item_nm);
+              console.log(element.in_qty);
+
+              $('#addItem_tbody').append('<tr><td>'+
+                  '<input type="radio" name="addItem" id="addItem" value="'+element.item_cd+'"/>'+'</td><th>'+
+                    element.item_cd+'</th><td>'+
+                      element.item_nm+'</td><td>'+
+                        '<input type="number" class="form_control" id="'+
+                          element.in_qty+'"/>'+'</td></tr>');
+            });
+
+          }
+        });
+      });
+
+      // 투입품 저장 버튼 클릭 이벤트
+      $('#addItemSave').click(function() {
+
+        // 선택한 radio value
+        let addedItem = $('#addItem option:checked').val();
+        // 값 잘 가져왓는가 콘솔에 보기
+        console.log('선택한 투입품 값: ' + addedItem);
+
+        $('#prp_item_tbody').append('<tr><th>'+('이미존재하는 length+1 연산')+'</th><td>'+
+                                          result[i].item_cd+'</td><td>'+
+                                            result[i].item_nm+'</td><td>'+
+                                              '<input type="number" value="'+
+                                              result[i].in_qty+'"/>'+
+                                              '</td></tr>');
+
       });
 
      
@@ -791,20 +806,16 @@ pageEncoding="UTF-8"%>
           contentType: 'application/json; charset=utf-8',
           success : function(result) {
             console.log(result);
-            alert('each 전이다'); 
 
             $("#proc_tr").each(function(index, element){
 
               for(let i=0; i<result.length; i++) {
 
                 console.log(result[i]);
-                alert('어펜드 전이다');
 
                 $('#proc_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
                                         result[i].proc_cd+'</td><td>'+
                                           result[i].proc_nm+'</td></tr>');
-
-                alert('어펜드를 햇다');
 
               }
             })

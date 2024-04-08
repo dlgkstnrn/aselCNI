@@ -120,6 +120,24 @@ public class PsaWorkProdController {
 		return smlList;
 	}
 	
+	// 품목 리스트 ajax
+	// select box 에서 선택한 대/중/소 분류에 맞는 리스트
+	@RequestMapping("addItemList")
+	@ResponseBody
+	public List<Item> getItemList(@RequestBody Item item) {
+		
+		System.out.println("대중소 분류된 품목 리스트 조회");
+		System.out.println("대분류 param: " + item.getBig_no());
+		System.out.println("중분류 param: " + item.getMid_no());
+		System.out.println("소분류 param: " + item.getSml_no());
+		
+		List<Item> itemList = psaService.getItemList(item);
+		System.out.println("필터링된 품목리스트 사이즈: " + itemList.size());
+		System.out.println("returned 품목 리스트: " + itemList);
+		
+		return itemList;
+	}
+	
 	// ajax 1 - 생산지시
 	// 등록된 지시내역의 생산지시번호별 상세내용 조회 (공정, 투입품 제외)
 	@RequestMapping(value ="wprInfoModal")

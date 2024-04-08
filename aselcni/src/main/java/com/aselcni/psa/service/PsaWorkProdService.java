@@ -22,6 +22,8 @@ public interface PsaWorkProdService {
 	List<Item> getMidList(Item item);
 	
 	List<Item> getSmlList(Item item);
+	
+	List<Item> getItemList(Item item);
 
 	WorkProd selectWorkProd(WorkProd insertedWorkProd);
 

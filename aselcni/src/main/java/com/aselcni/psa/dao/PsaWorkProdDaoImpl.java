@@ -93,6 +93,15 @@ public class PsaWorkProdDaoImpl implements PsaWorkProdDao {
 		return smlList;
 	}
 
+	// 품목 리스트 ajax
+	// select box 에서 선택한 대/중/소 분류에 맞는 리스트
+	@Override
+	public List<Item> getItemList(Item item) {
+		
+		List<Item> itemList = session.selectList("psaGetItemList", item);
+		return itemList;
+	}
+
 	// ajax 1
 	// 등록된 지시내역의 생산지시번호별 상세내용 조회
 	@Override
@@ -158,10 +167,5 @@ public class PsaWorkProdDaoImpl implements PsaWorkProdDao {
 		List<ProdItem> planItemList = session.selectList("psaGetPlanItemList", prodPlan);
 		return planItemList;
 	}
-
-
-
-
-
 
 }
