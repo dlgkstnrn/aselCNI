@@ -1,10 +1,35 @@
 let chkResult = 0;
-
+const numberReg = /^\d+$/;
 const optionEle = function(value,content){
 	const option = document.createElement("option");
 	option.value = value;
 	option.innerText = content;
 	return option;
+}
+
+const submitChk = function(){
+	if(chkResult == 0){
+		alert("중복체크를 해주세요");
+		return false;
+	}
+	if($("#big").val() == "대분류" || $("#big").val()==""){
+		alert("분류를 선택해주세요");
+		return false;
+	}
+	if($("#mid").val() == "중분류" || $("#mid").val()==""){
+		alert("분류를 선택해주세요");
+		return false;
+	}
+	if($("#sml").val() == "소분류" || $("#sml").val()==""){
+		alert("분류를 선택해주세요");
+		return false;
+	}
+	if(numberReg.test(document.getElementById("item_cost").value)){
+		return true
+	}else{
+		alert("가격에 숫자만 입력해주세요");
+		return false;
+	}	
 }
 
 $("#big").change(function(){
