@@ -75,7 +75,7 @@
 			SELECT CONCAT(
 			    'PRP',
 			    CONVERT(CHAR(6), GETDATE(), 12),
-			    (SELECT RIGHT('0000' + CAST((COUNT(*) + 1) AS VARCHAR), 4)
+			    (SELECT FORMAT(COUNT(*) + 1, '0000')
 			     FROM TB_PRODPLAN
 			     WHERE SUBSTRING(prodPlan_no, 4, 6) = CONVERT(CHAR(6), GETDATE(), 12))
 			)
