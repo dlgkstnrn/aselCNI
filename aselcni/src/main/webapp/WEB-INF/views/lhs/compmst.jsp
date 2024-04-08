@@ -92,8 +92,6 @@
 			<div class="d-flex justify-content-center">
 				<div class="card width1200">
 					<div class="card-body">
-						<h5 class="card-title">사업장 관리</h5>
-
 						<!-- Vertical Form -->
 						<form class="row g-3" action="compmstUpdate" enctype="multipart/form-data" method="post">
 							<div class="d-flex">

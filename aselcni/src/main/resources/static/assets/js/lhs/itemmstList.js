@@ -18,6 +18,8 @@ $("#tb tbody tr").click(function(){
 	$("#mid").append(optionEle('0','중분류'));
 	$("#sml").empty();
 	$("#sml").append(optionEle('0','소분류'));
+	$("#cust_cd").empty();
+	$("#cust_cd").append(optionEle('','거래처선택'));
 	const itemNm = document.getElementById("item_nm");
 	const itemSpec = document.getElementById("item_spec");
 	const itemUnit = document.getElementById("item_unit");
@@ -26,7 +28,6 @@ $("#tb tbody tr").click(function(){
 	const itemCd = document.getElementById("item_cd");
 	$.post("itemmstSelectByitemCd",{item_cd : $(this).data().index})
 	.done(function(data){
-		console.log(data);
 		data['custList'].forEach(function(cust){
 			$('#cust_cd').append(optionEle(cust.cust_cd,cust.cust_nm));
 		});
@@ -36,7 +37,9 @@ $("#tb tbody tr").click(function(){
 		data['smlList'].forEach(function(sml){
 			$('#sml').append(optionEle(sml.sml_no,sml.sml_content));
 		});
-		document.querySelector(`#cust_cd option[value="${data['item'].cust_cd}"]`).setAttribute('selected',true);
+		if(data['item'].cust_cd){
+			document.querySelector(`#cust_cd option[value="${data['item'].cust_cd}"]`).setAttribute('selected',true);
+		}
 		document.querySelector(`.modalbig[value='${data['item'].big_no}']`).setAttribute('selected',true);
 		document.querySelector(`#mid option[value="${data['item'].mid_no}"]`).setAttribute('selected',true);
 		document.querySelector(`#sml option[value="${data['item'].sml_no}"]`).setAttribute('selected',true);

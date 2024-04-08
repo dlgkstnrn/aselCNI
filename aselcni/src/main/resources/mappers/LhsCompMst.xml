@@ -17,7 +17,9 @@
 		 	comp_addr = #{comp_addr},
 		 	comp_tel = #{comp_tel},
 		 	comp_fax = #{comp_fax},
-		 	comp_image = CONVERT(image,#{comp_image}),
+		 	<if test="comp_image != null">
+		 		comp_image = CONVERT(image,#{comp_image}),
+		 	</if>
 		 	comp_update = CONVERT(CHAR(10),GETDATE(),23)
 		 
 		when not matched then
@@ -31,7 +33,12 @@
 		 	#{comp_addr},
 		 	#{comp_tel},
 		 	#{comp_fax},
-		 	CONVERT(image,#{comp_image}),
+		 	<if test="comp_image != null">
+		 		CONVERT(image,#{comp_image}),
+		 	</if>
+		 	<if test="comp_image == null">
+		 		null,
+		 	</if>
 		 	null
 		 );
 	</update>
