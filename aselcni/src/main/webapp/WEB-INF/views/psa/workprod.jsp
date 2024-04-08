@@ -681,8 +681,8 @@ pageEncoding="UTF-8"%>
 
               console.log(element);
               console.log(element.mid_content);
-              
-              $('#mid_no').append('<option value="' + element.mid_no + '"' +
+
+              $('#mid_no').append('<option value="' + element.mid_no + '">' +
                                   element.mid_content + "</option>");
               
 
@@ -791,16 +791,20 @@ pageEncoding="UTF-8"%>
           contentType: 'application/json; charset=utf-8',
           success : function(result) {
             console.log(result);
+            alert('each 전이다'); 
 
             $("#proc_tr").each(function(index, element){
 
               for(let i=0; i<result.length; i++) {
 
                 console.log(result[i]);
+                alert('어펜드 전이다');
 
                 $('#proc_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
                                         result[i].proc_cd+'</td><td>'+
                                           result[i].proc_nm+'</td></tr>');
+
+                alert('어펜드를 햇다');
 
               }
             })
