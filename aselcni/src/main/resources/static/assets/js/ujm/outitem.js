@@ -8,7 +8,6 @@ $(document).ready(function () {
         modalContentClear(); //아래
       }
     );
-
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   function modalContentClear() {
     $("#order_no_modal").text("주문 번호 선택");
@@ -49,7 +48,6 @@ $(document).ready(function () {
     $("#dateLeftBtn").click(function () {
       dateShift("left");
     });
-
 
   // 날짜 조정 함수
   function dateShift(direction) {

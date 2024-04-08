@@ -29,9 +29,6 @@
     <!-- CSS File -->
     <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
      <style type="text/css">
-     	.topdiv {
-		  height: 40px;
-		}
 		.selectbtndiv {
 		  padding: 0px 10px;
 		}
@@ -92,78 +89,104 @@
       <!-- End Page Title -->
 
       <section class="section">
-        <div class="maindiv">
-          <div class="topdiv d-flex justify-content-end">
-            <div>
-            	<a href="custmstAddForm?biz_flag=${custMst.biz_flag}">
-              		<button class="btn btn-primary">신규</button>
-              	</a>
-            </div>
-          </div>
-          <div class="selectbtndiv">
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-	              <a href="custmst?biz_flag=2">
-	                <button class="bordergray wid150"  id="selBtn">
-	                  고객사
-	                </button>
-                   </a>
-              </li>
-              <li class="nav-item" role="presentation">
-              	<a href="custmst?biz_flag=1">
-	                <button class="bordergray wid150" id="buyBtn">
-	                  구매처
-	                </button>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="searchdiv">
-            <form action="custmst">
-              <div class="d-flex">
-                <select
-                  class="form-select searchselect"
-                  aria-label="Default select example"
-                  name="searchFilter"
-                >
-                  <option selected="">검색옵션선택</option>
-                  <option value="cust_cd">코드</option>
-                  <option value="cust_nm">이름</option>
-                </select>
-                <input type="text" name="keyword" class="form-control searchinput" />
-                <input type="hidden" name="biz_flag" value="${custMst.biz_flag}">
-                <button type="submit" class="btn btn-primary">검색</button>
-              </div>
-            </form>
-          </div>
-          <div class="tablediv">
-            <table id="tb" class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col" style="width: 10%">No</th>
-                  <th scope="col" style="width: 10%">업체명</th>
-                  <th scope="col" style="width: 10%">대표자명</th>
-                  <th scope="col" style="width: 15%">전화번호</th>
-                  <th scope="col" style="width: 15%">팩스번호</th>
-                  <th scope="col" style="width: 10%">담당자</th>
-                  <th scope="col" style="width: 30%">주소</th>
-                </tr>
-              </thead>
-              <tbody>
-              	<c:forEach items="${custList }" var="cust">
-	                <tr data-index="${cust.cust_cd}" data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
-	                  <th>${cust.cust_cd }</th>
-	                  <td>${cust.cust_nm }</td>
-	                  <td>${cust.president_nm }</td>
-	                  <td>${cust.biz_tel }</td>
-	                  <td>${cust.biz_fax }</td>
-	                  <td>${cust.emp_id }</td>
-	                  <td>${cust.biz_addr }</td>
-	                </tr> 
-               	</c:forEach>
-              </tbody>
-            </table>
-          </div>
+        <div class="maindiv card">
+	        <div class="card-body">
+	          <div class="selectbtndiv d-flex justify-content-between">
+		          <div>
+			          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+			              <li class="nav-item" role="presentation">
+				              <a href="custmst?biz_flag=2">
+				                <button class="bordergray wid150"  id="selBtn">
+				                  고객사
+				                </button>
+			                   </a>
+			              </li>
+			              <li class="nav-item" role="presentation">
+			              	<a href="custmst?biz_flag=1">
+				                <button class="bordergray wid150" id="buyBtn">
+				                  구매처
+				                </button>
+			                </a>
+			              </li>
+			           </ul>
+	               </div>
+	            <div>
+	            	<a href="custmstAddForm?biz_flag=${custMst.biz_flag}">
+	              		<button class="btn btn-primary">신규</button>
+	              	</a>
+	            </div>
+	          </div>
+	          <div class="searchdiv d-flex justify-content-end">
+	          	<div>
+		            <form action="custmst">
+		              <div class="d-flex">
+		                <select
+		                  class="form-select searchselect"
+		                  aria-label="Default select example"
+		                  name="searchFilter"
+		                >
+		                  <option selected="">검색옵션선택</option>
+		                  <option value="cust_cd">코드</option>
+		                  <option value="cust_nm">이름</option>
+		                </select>
+		                <input type="text" name="keyword" class="form-control searchinput" />
+		                <input type="hidden" name="biz_flag" value="${custMst.biz_flag}">
+		                <button type="submit" class="btn btn-primary">검색</button>
+		              </div>
+		            </form>
+	            </div>
+	          </div>
+	          <div class="tablediv">
+	            <table id="tb" class="table table-hover">
+	              <thead>
+	                <tr>
+	                  <th scope="col" style="width: 10%">No</th>
+	                  <th scope="col" style="width: 10%">업체명</th>
+	                  <th scope="col" style="width: 10%">대표자명</th>
+	                  <th scope="col" style="width: 15%">전화번호</th>
+	                  <th scope="col" style="width: 15%">팩스번호</th>
+	                  <th scope="col" style="width: 10%">담당자</th>
+	                  <th scope="col" style="width: 30%">주소</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	              	<c:forEach items="${custList }" var="cust">
+		                <tr data-index="${cust.cust_cd}" data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
+		                  <th>${cust.cust_cd }</th>
+		                  <td>${cust.cust_nm }</td>
+		                  <td>${cust.president_nm }</td>
+		                  <td>${cust.biz_tel }</td>
+		                  <td>${cust.biz_fax }</td>
+		                  <td>${cust.emp_id }</td>
+		                  <td>${cust.biz_addr }</td>
+		                </tr> 
+	               	</c:forEach>
+	              </tbody>
+	            </table>
+	          </div>
+	       </div>
+	       <div class="d-flex justify-content-center">
+	          <nav aria-label="Page navigation example">
+	                <ul class="pagination">
+	                  <c:if test="${page.startPage>page.pageBlock }">
+	                    <li class="page-item"><a class="page-link"
+	                      href="custmst?currentPage=${page.startPage-page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}"><</a>
+	                    </li>
+	                  </c:if>
+	                  <c:forEach var="i" begin="${page.startPage }"
+	                    end="${page.endPage }">
+	                    <li class="page-item"><a class="page-link"
+	                      href="custmst?currentPage=${i }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}">${i }</a>
+	                    </li>
+	                  </c:forEach>
+	                  <c:if test="${page.endPage < page.totalPage }">
+	                    <li class="page-item"><a class="page-link"
+	                      href="custmst?currentPage=${page.startPage+page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}">></a>
+	                    </li>
+	                  </c:if>
+	              </ul>
+	           </nav>
+	        </div>
         </div>
         
         <!-- Start prodItemEditModal------------m2-------------------->
@@ -241,30 +264,6 @@
 			</div>
 		</div>
 		<!-- End modal -->
-        
-        <div class="d-flex justify-content-center">
-          <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                  <c:if test="${page.startPage>page.pageBlock }">
-                    <li class="page-item"><a class="page-link"
-                      href="custmst?currentPage=${page.startPage-page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}"><</a>
-                    </li>
-                  </c:if>
-                  <c:forEach var="i" begin="${page.startPage }"
-                    end="${page.endPage }">
-                    <li class="page-item"><a class="page-link"
-                      href="custmst?currentPage=${i }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}">${i }</a>
-                    </li>
-                  </c:forEach>
-                  <c:if test="${page.endPage < page.totalPage }">
-                    <li class="page-item"><a class="page-link"
-                      href="custmst?currentPage=${page.startPage+page.pageBlock }&biz_flag=${custMst.biz_flag}&searchFilter=${custMst.searchFilter}&keyword=${custMst.keyword}">></a>
-                    </li>
-                  </c:if>
-              </ul>
-           </nav>
-        </div>
-        
       </section>
     </main>
     <!-- End #main -->

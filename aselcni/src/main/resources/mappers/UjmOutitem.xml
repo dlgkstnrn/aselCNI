@@ -50,7 +50,6 @@
 		    INNER JOIN TB_OUTITEM_ITEM oi ON ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
 		    INNER JOIN TB_ITEMMST i ON oi.item_cd = i.item_cd
 		    INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
-
 		    WHERE ou.outitem_delete_chk = 0
 		) AS sub
 		WHERE rn >= #{start} AND rn <= #{end}
