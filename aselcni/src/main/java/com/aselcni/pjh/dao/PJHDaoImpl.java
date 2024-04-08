@@ -3,6 +3,7 @@ package com.aselcni.pjh.dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.hibernate.service.spi.Stoppable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -137,6 +138,22 @@ public class PJHDaoImpl implements PJHDaoInterface {
 			e.printStackTrace();
 		}
 		return initems;
+	}
+
+	@Override
+	public PJHInitem detailInitem(PJHInitem initem) {
+		System.out.println("PJHDaoImpl detailInitem start...");
+		System.out.println("PJHDaoImpl detailInitem initem->"+ initem);
+		PJHInitem resultInitem = null;
+		try {
+			resultInitem = session.selectOne("pjhInitemByNo", initem.getInitem_no());
+			resultInitem.setInItems(session.selectList("pjhInitems", resultInitem.getInitem_no()));
+			resultInitem.setWhs(session.selectList("pjhWhs"));
+			System.out.println("PJHDaoImpl detailInitem result->"+ resultInitem);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultInitem;
 	}
 	
 }

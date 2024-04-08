@@ -128,5 +128,27 @@ const prevPage = function () {
 
 
 const detailView = function (initem_no) {
-    $('#detailModal').modal('show');
+    $.ajax({
+		type: "GET",
+		url: "detailInitem",
+		data: {initem_no},
+		success: (res) => {
+			console.log(res);
+			
+			
+		    $('#detailModal').modal('show');
+		},
+		beforeSend: () => {
+            $('body').append(
+                `
+                <div id="ajaxLoadingImg" style="z-index:1091;" class="spinner-border text-primary position-absolute top-50 start-50" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                `
+            )
+        },
+        complete: () => {
+            $('#ajaxLoadingImg').remove();
+        }
+	})
 }

@@ -91,6 +91,17 @@ public class PJHController {
 		return initems;
 	}
 	
+	@ResponseBody
+	@GetMapping("/detailInitem")
+	public PJHInitem detailInitem(PJHInitem initem) {
+		System.out.println("PJHController detailInitem start...");
+		System.out.println("PJHController detailInitem param->"+ initem);
+		PJHInitem resultInitem = service.detailInitem(initem);
+		System.out.println("PJHController detailInitem result->"+ resultInitem);
+		return resultInitem;
+	}
+	
+	
 	@RequestMapping("/initemWrite")
 	public String initemWriteView(HttpServletRequest request, Model model) {
 		if(request.getSession().getAttribute("user_id") == null) {

@@ -25,6 +25,8 @@
 		LEFT JOIN 
 			(SELECT tii.PURC_NO, tii.ITEM_CD, ISNULL(SUM(ISNULL(tii.QTY,0)),0) AS QTY
 			FROM TB_INITEM_ITEM tii 
+			INNER JOIN TB_INITEM ti ON tii.INITEM_NO = ti.INITEM_NO
+			WHERE ti.INITEM_DELETE_CHK != 1
 			GROUP BY tii.PURC_NO,tii.ITEM_CD
 			) AS ii
 		ON (tpi.PURC_NO = ii.PURC_NO AND tpi.ITEM_CD = ii.ITEM_CD)
@@ -155,6 +157,22 @@
 		</if>
 		ORDER BY ti.INITEM_DT DESC
 		OFFSET #{start} ROW FETCH NEXT #{rowPage} ROW ONLY	
+	</select>
+	
+	<select id="pjhInitemByNo" parameterType="String" resultType="PJHInitem">
+		SELECT ti.*, tc.CUST_NM , iu.USER_NM AS initem_emp_nm, pu.USER_NM AS purc_emp_nm
+		FROM TB_INITEM ti
+		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO 
+		INNER JOIN TB_USERMST iu ON ti.INITEM_EMP_ID = iu.USER_ID
+		INNER JOIN TB_USERMST pu ON  tp.PURC_EMP_ID = pu.USER_ID 
+		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD 
+		WHERE ti.INITEM_NO = #{initem_no}
+	</select>
+	
+	<select id="pjhInitems" parameterType="String" resultType="PJHInitemItem">
+		SELECT tii.*
+		FROM TB_INITEM_ITEM tii
+		WHERE tii.INITEM_NO = #{initem_no}
 	</select>
 	
 </mapper>

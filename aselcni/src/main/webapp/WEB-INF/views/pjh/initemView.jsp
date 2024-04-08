@@ -95,14 +95,14 @@
 											<div class="input-group">
 												<span class="input-group-text">발주번호</span>
 												<input id="purc_no" type="text" class="form-control"
-													placeholder="입고번호" aria-label="입고번호">
+													placeholder="발주번호" aria-label="발주번호">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="input-group">
 												<span class="input-group-text">담당자(발주)</span>
-												<input id=purc_emp_nm type="text" class="form-control" placeholder="발주번호"
-													aria-label="발주번호">
+												<input id=purc_emp_nm type="text" class="form-control" placeholder="발주 담당자"
+													aria-label="발주담당자">
 											</div>
 										</div>
 									</div>
@@ -118,8 +118,8 @@
 										<div class="col-md-6">
 											<div class="input-group">
 												<span class="input-group-text">담당자(입고)</span>
-												<input id="initem_emp_nm" type="text" class="form-control" placeholder="발주번호"
-													aria-label="발주번호">
+												<input id="initem_emp_nm" type="text" class="form-control" placeholder="입고 담당자"
+													aria-label="입고담당지">
 											</div>
 										</div>
 									</div>
@@ -205,41 +205,106 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo ducimus sit
-									temporibus? Voluptas blanditiis cupiditate, libero totam accusamus cumque soluta,
-									dignissimos ea vero, delectus aperiam fugit perferendis tenetur possimus esse?
-									Dolorum quis officia quod doloremque consequatur vel non dolorem id similique nobis
-									placeat modi, commodi numquam expedita, sapiente esse quam eveniet natus odit? Quod
-									doloribus accusamus pariatur vel eligendi assumenda.
-									Nobis, modi veritatis. Et perferendis, praesentium, nobis facilis corrupti qui
-									nostrum eveniet ducimus nihil at laudantium doloribus amet modi dicta. Sapiente
-									nobis, possimus fugit porro similique ut voluptatem. Distinctio, expedita.
-									Earum perspiciatis, veniam alias voluptatibus esse optio eaque dolor reiciendis
-									quaerat ad ducimus eum vel consequuntur ullam ea obcaecati ratione illum sunt cumque
-									at recusandae! A corrupti amet quidem laudantium?
-									Cum labore fuga, architecto eveniet exercitationem nisi veniam rem, animi
-									consequuntur voluptate aut, voluptas explicabo blanditiis harum aspernatur. Illo,
-									vel. Consectetur labore facilis cupiditate quis soluta repellendus praesentium
-									maiores delectus!
-									Autem maxime, similique est ipsum reprehenderit laboriosam delectus, aliquam
-									suscipit incidunt velit consequuntur error architecto labore. Voluptas aliquid
-									laboriosam aliquam ipsum distinctio expedita, nesciunt possimus? Quisquam
-									accusantium pariatur corrupti. Autem!
-									Fugiat facilis accusamus totam hic tempore porro eius aspernatur non? Minima ut
-									beatae cupiditate soluta eum, ex, facilis sunt iure ipsam et quam? Accusamus minima
-									deleniti cupiditate doloremque unde tenetur.
-									Omnis odit eius qui harum facilis et quidem suscipit voluptas ab explicabo fuga
-									architecto voluptate eum officia voluptates, non nostrum quasi ipsam vitae atque
-									consequatur quo autem. Animi, nemo nam?
-									Atque vero nisi alias adipisci ratione, quia distinctio, cupiditate facere, nobis
-									reprehenderit illo autem asperiores exercitationem harum sequi impedit dolor
-									pariatur. Deserunt aperiam recusandae, debitis hic doloribus accusantium architecto
-									ducimus!
-									Mollitia, quo aliquid delectus repudiandae at asperiores. Incidunt minus nesciunt
-									consectetur assumenda saepe laboriosam eos. Qui quod unde aspernatur velit
-									recusandae eaque vitae deleniti sequi nulla? Repellendus architecto perferendis
-									optio.</p>
+								<div class="row mb-1">
+									<div class="col">
+										<div class="input-group">
+											<span class="input-group-text">입고번호</span>
+											<input id="moal_initem_no" type="text" class="form-control"
+												placeholder="입고번호" aria-label="입고번호" readonly>
+										</div>
+									</div>
+									<div class="col">
+										<div class="input-group">
+											<span class="input-group-text">담당자(입고)</span>
+											<input id="modal_initem_emp_nm" type="text" class="form-control" placeholder="입고 담당자"
+												aria-label="입고담당자" readonly>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col">
+										<div class="input-group">
+											<span class="input-group-text">발주번호</span>
+											<input id="moal_purc_no" type="text" class="form-control"
+												placeholder="발주번호" aria-label="발주번호" readonly>
+										</div>
+									</div>
+									<div class="col">
+										<div class="input-group">
+											<span class="input-group-text">담당자(발주)</span>
+											<input id="modal_purc_emp_nm" type="text" class="form-control" placeholder="발주 담당자"
+												aria-label="발주담당자" readonly>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col">
+										<div class="input-group">
+											<span class="input-group-text">입고일자</span>
+											<input id="moal_initem_dt" type="date" class="form-control"
+												placeholder="입고일" aria-label="입고일">
+										</div>
+									</div>
+								</div>
+				                 <div class="row mb-1">
+									<div class="col">
+										<div class="input-group">
+											<span class="input-group-text">매입처</span>
+											<input id="moal_initem_dt" type="text" class="form-control"
+												placeholder="매입처" aria-label="매입처" readonly>
+										</div>
+									</div>
+									<div class="col mb-1">
+										<div class="input-group">
+											<span class="input-group-text">담당자(매입처)</span>
+											<input id="moal_initem_dt" type="text" class="form-control"
+												placeholder="매입처 담당자" aria-label="매입처담당자">
+										</div>
+									</div>
+								</div>
+								<div class="row mt-1">
+				              		<div class="col">
+				              			<div class="input-group">
+										  <span class="input-group-text">창고</span>
+										  <select id="wh_cd" class="form-select">
+											  	<option value="${wh.wh_cd}">${wh.wh_nm}</option>
+										  </select>
+										</div>
+				              		</div>
+				              	</div>
+				              	
+				              	<div class="row mt-1">
+				              		<div class="col">
+				              			<div class="input-group">
+										  <span class="input-group-text">비고</span>
+										  <textarea id="remark" rows="4" class="form-control"></textarea>
+										</div>
+				              		</div>
+				              	</div>
+								
+								<hr>
+								
+								<table class="table table-hover">
+					                <thead>
+					                  <tr>
+					                    <th scope="col">자재 코드</th>
+					                    <th scope="col">자재명</th>
+					                    <th scope="col">규격</th>
+					                    <th scope="col">단위</th>
+					                    <th scope="col">수량</th>
+					                    <th scope="col">단가</th>
+					                  </tr>
+					                </thead>
+					                <tbody id="itemTableBody">
+					                </tbody>
+					            </table>
+								
 							</div>
+							<div class="modal-footer">
+			                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			                  <button id="delBtn" type="button" class="btn btn-danger">삭제</button>
+			                  <button type="submit" class="btn btn-primary">수정</button>
+			                </div>
 						</div>
 					</div>
 				</div><!-- End detailModall-->
