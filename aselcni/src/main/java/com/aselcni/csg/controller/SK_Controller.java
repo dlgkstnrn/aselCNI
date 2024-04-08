@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aselcni.csg.model.CSG_CategoryData;
 import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_PURCHASE;
@@ -20,8 +19,8 @@ import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
 import com.aselcni.csg.model.CSG_TB_TYPE_SML;
 import com.aselcni.csg.service.SK_Service_Interface;
+import com.aselcni.csg.service.csg_Paging;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -30,10 +29,30 @@ public class SK_Controller {
 	
 	private final SK_Service_Interface sk_ServicInterface;
 	
-	//네비바에서 메인페이지로 이동 ==> 발주관리 메인페이지 => 발주현황 나오는곳 + 신규등록, 삭제, 검색하는곳 + 페이징
+	//네비바에서 메인페이지로 이동 ==> 발주관리 메인페이지 
+	//발주현황 나오는곳 + 신규등록, 삭제, 검색하는곳 + 페이징  수정도 할 수 있으면 해보자고
 	@RequestMapping(value="purchase")
-	public String Sk_Purchase() {
-		System.out.println("사이드에서 발주폼에 연결이 드디어 되었습니다요");
+	public String Sk_Purchase(Model model, CSG_TB_PURCHASE csg_TB_PURCHASE) {
+		System.out.println("사이드에서 발주폼에 연결이 드디어 되었습니다");
+		
+		//전체발주 개수 가져오기
+		int totalPurchase = sk_ServicInterface.totalPurchase();
+		System.out.println("컨트롤러 : paing을 위한 totalPurchas는 잘 가져왔니? = >"+totalPurchase);
+		
+		//Paging
+		csg_Paging paging = new csg_Paging(totalPurchase, csg_TB_PURCHASE.getCurrentPage());
+		System.out.println("paging 하기전에 CurrentPage가 나온거니?? ==> "+ csg_TB_PURCHASE.getCurrentPage());
+		csg_TB_PURCHASE.setStart(paging.getStart()); //시작 1
+		csg_TB_PURCHASE.setEnd(paging.getEnd());	 //끝 5
+		
+		//발주테이블에서 조회를 해보자. 
+		List<CSG_TB_PURCHASE> purchaseList = sk_ServicInterface.findAllPurchase(csg_TB_PURCHASE);
+		System.out.println("발주화면에 처음 나올떄 발주 리스트를 가져오자구 purchaseList ==>" + purchaseList);
+		
+		model.addAttribute("purchaseList", purchaseList);
+		model.addAttribute("totalPUrchase", totalPurchase);
+		model.addAttribute("page", paging);
+		
 		return "csg/CSG_purchase";
 	}
 	
@@ -43,7 +62,6 @@ public class SK_Controller {
 	//CSG_purchase에서 신규등록을 누르면 a태그로 옮기게 되는 발주등록 및 자재목록 나오게 되는 폼 + 업체들 불러오기
 	@RequestMapping(value="purchaseItemForm")
 	public String Sk_PurchasList(Model model) {
-		System.out.println("자재 입력해보자구");
 		
 		System.out.println("대분류 불러오자");
 

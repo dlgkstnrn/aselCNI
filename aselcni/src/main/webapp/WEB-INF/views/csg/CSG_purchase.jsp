@@ -59,7 +59,7 @@
           </div><!-- End Page Title -->
 
           <section class="section dashboard">
-		    <div class="container-fluid">
+		    <div class="container-fluid bg-white p-4 shadow-lg">
 		        <!-- Navbar -->
 		        <nav class="navbar navbar-light bg-light shadow-sm rounded-lg">
 		            <div class="container-fluid">
@@ -72,17 +72,20 @@
 		
 		        <!-- Main Content -->
 		        <main class="flex-grow-1">
-		            <div class="row align-items-center py-3">
-		                <div class="col-md-6">
-		                    <input type="search" placeholder="검색" class="form-control">
-		                </div>
-		                <div class="col-md-6">
-		                    <button class="btn btn-primary">검색</button>
-		                    <a href="/purchaseItemForm" class="btn btn-success">신규등록</a>
-		                    <button class="btn btn-danger">삭제</button>
-		                </div>
-		            </div>
-		
+			            <div class="col d-flex justify-content-end ">
+			                <a href="/purchaseItemForm" class="btn btn-success row mb-4 me-3">신규등록</a>
+			                <button class="btn btn-danger mb-4">삭제</button>
+			            </div>
+			        
+			  	      <!-- 검색창과 검색 버튼을 포함하는 row -->
+						<div class="col d-flex justify-content-end mb-4">
+						    <div class="input-group" style="width: auto;"> <!-- 또는 필요한 너비 지정 -->
+						        <input type="search" class="form-control" style="width: 250px;" placeholder="검색">
+						        <button class="btn btn-primary" type="button">검색</button>
+						    </div>
+						</div>
+
+					
 		            <!-- Table -->
 		            <div class="card shadow-sm rounded-lg">
 		                <div class="card-body">
@@ -90,38 +93,33 @@
 		                        <thead>
 		                            <tr>
 		                                <th>선택</th>
-		                                <th>발주번호 TB_PURCHASE PURC_NO</th>
-		                                <th>발주번호 TB_PURCHASED에서 PURC_NO</th>
-		                                <th>매입처(거래처)TB_CUSTMST-TB_PURCHASED조인 CUST_CD로 CUST_NM불러오기</th>
-		                                <th>자재명 TB_ITEMMST에서 ITEM_NM불러오는데 ITEM_FLAG가 01인애들</th>
-		                                <th>발주일자 TB_PURCHASE의 PURC_DT</th>
+		                                <th>번호</th>
+		                                <th>발주번호</th>
+		                                <th>매입처</th>
+		                                <th>자재명</th>
+		                                <th>개수</th>
+		                                <th>단가 </th>
+		                                <th>공급가액</th>
+		                                <th>발주등록일자</th>
 		                            </tr>
 		                        </thead>
 		                        <tbody>
-		                            <tr>
-		                                <td><input type="checkbox" id="itemSelect1" name="itemSelect"></td>
-		                                <td>1</td>
-		                                <td>11012ba</td>
-		                                <td>우리상사</td>
-		                                <td>비닐봉지(소분류?)</td>
-		                                <td>2024-04-01</td>
-		                            </tr>
-		                            <tr>
-		                                <td><input type="checkbox" id="itemSelect2" name="itemSelect"></td>
-		                                <td>2</td>
-		                                <td>11012bb</td>
-		                                <td>너네리상사</td>
-		                                <td>스프용 버섯(소분류?)</td>
-		                                <td>2024-04-01</td>
-		                            </tr>
-		                            <tr>
-		                                <td><input type="checkbox" id="itemSelect3" name="itemSelect"></td>
-		                                <td>3</td>
-		                                <td>11012bc</td>
-		                                <td>하늘공사</td>
-		                                <td>물감(소분류?)</td>
-		                                <td>2024-04-01</td>
-		                            </tr>
+									<c:forEach var="purchase" items="${purchaseList}" varStatus="status">
+									    <tr>
+									        <!-- 체크박스를 포함하는 셀 -->
+									        <td><input type="checkbox" id="itemSelect${status.index + 1}" name="itemSelect"></td>
+									        <!-- 다른 데이터를 포함하는 셀들 -->
+									        <td>${status.index + 1}</td> <!-- 행 번호를 동적으로 생성 -->
+									        <td>${purchase.purc_no}</td>
+									        <td>${purchase.cust_nm}</td>
+									        <td>${purchase.item_nm}</td>
+											<td><fmt:formatNumber value="${purchase.qty}" pattern="#,##0'개'"/></td>
+   											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.item_cost}</fmt:formatNumber></td>
+   											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.purc_cost}</fmt:formatNumber></td>
+									        <td>${purchase.purc_dt}</td>
+									    </tr>
+									</c:forEach>
+
 		                        </tbody>
 		                    </table>
 		                </div>

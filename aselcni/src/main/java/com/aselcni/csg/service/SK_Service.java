@@ -20,6 +20,31 @@ public class SK_Service implements SK_Service_Interface {
 	
 	private final SK_Dao_Interface sk_Dao_Interface;
 
+	//네비바 => 발주화면 클릭
+	//첫 발주화면에서 발주리스트를 가져오자
+	@Override
+	public List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE) {
+		List<CSG_TB_PURCHASE> purchaseList = sk_Dao_Interface.findAllPurchase(csg_TB_PURCHASE);
+		System.out.println("Service : 발주리스트 잘 가져왔냐 ?? + resultMap잘 된거니?? + purchaseList ==>"+purchaseList);
+		
+		return purchaseList;
+	}
+	
+
+	//발주관리 화면 페이징 하기위해서 전체 발주 개수 가져오기
+	@Override
+	public int totalPurchase() {
+		System.out.println("service : 전체발주 개수 가져오기 paging 사전작업");
+		int totalPurchase = 0;
+		totalPurchase = sk_Dao_Interface.totalPurchase();
+		System.out.println("service : 전체 페이징 개수는 잘 가져왔니? totalPurchase => "+ totalPurchase);
+		
+		return totalPurchase;
+	}
+
+
+	
+	
 	//첫 발주등록 폼에서 보이는 대분류 불러오기(모달안에 미리 불러오는거)
 	@Override
 	public List<CSG_TB_TYPE_BIG> findBigTypelist(String custCd) {
@@ -73,6 +98,7 @@ public class SK_Service implements SK_Service_Interface {
 		CSG_TB_PURCHASE custEmployee = sk_Dao_Interface.findCustEmployeeByCustCd(custCd);
 	    return custEmployee;
 	}
+
 
 
 

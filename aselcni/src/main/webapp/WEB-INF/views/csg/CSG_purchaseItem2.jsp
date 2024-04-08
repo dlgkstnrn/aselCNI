@@ -69,7 +69,7 @@
 			        <!--<div id="SK_itemForm" class="flex items-center justify-center min-h-screen bg-red-800"> 외부배경 회색-->
 			        <div id="SK_itemForm" class="min-h-screen w-full"> <!-- 외부배경 회색 -->
 			
-			            <div id="content" class="bg-white p-4 shadow-lg rounded boarder-8 border-red-500">
+			            <div id="content" class="bg-white p-4 shadow-lg" >
 			                <!-- 발주 등록 섹션 -->
 			                <div id="orderRegistration" class="container p-4">
 			                    <h2 class="text-2xl font-bold mb-4">
@@ -89,6 +89,9 @@
 				                        		</c:forEach>
 				                            </select>
 			                        </div>
+			                        <!-- 발주담당자 id로 받아와서 세션으로 값을 넘겨주자 -->
+			                        <input type="hidden" name="purc_emp_id" value="${sessionScope.user_id}">
+			                        
 			                        
 			                        <!-- 거래처 담당자 -->
 			                        <div class="border border-green-500">

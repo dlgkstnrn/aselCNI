@@ -25,6 +25,10 @@ public interface SK_Dao_Interface {
 
 	CSG_TB_PURCHASE findCustEmployeeByCustCd(String custCd);
 
+	List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE);
+
+	int totalPurchase();
+
 
 
 

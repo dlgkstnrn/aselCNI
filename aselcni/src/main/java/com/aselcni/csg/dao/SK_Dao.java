@@ -19,6 +19,40 @@ import lombok.RequiredArgsConstructor;
 public class SK_Dao implements SK_Dao_Interface {
 	
 	private final SqlSession session;
+	
+	//첫 발주화면이 나타날때 발주리스트를 불러와보자고
+	@Override
+	public List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE) {
+		List<CSG_TB_PURCHASE> purchaseList = null;
+		try {
+		//발주리스트 불러오기 + pageing작업까지
+		purchaseList = session.selectList("SK_findAllPurchase",csg_TB_PURCHASE);
+		System.out.println("DAO + DB : 확실히 purchaseList를 잘 가져온거니??==>"+purchaseList);
+		} catch (Exception e) {
+			System.out.println("왜 또 오류가 쳐 나는거야.. + e 나 먹어라"+e);
+		}
+		
+		return purchaseList;
+	}
+	
+	//paging작업을 위해 전체 발주 개수 가져오기 
+	@Override
+	public int totalPurchase() {
+		System.out.println("DAO : 전체발주 개수 가져오기 paging 사전작업");
+		int totalPurchase = 0;
+		
+		try {
+		totalPurchase = session.selectOne("SK_totalPurchase");
+		System.out.println("전체 페이징 개수는 잘 가져왔니? totalPurchase => "+ totalPurchase);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return totalPurchase;
+	}
+
+
+	
 
 	//모달의 대분류 카테고리들 만들기
 	@Override
@@ -68,7 +102,7 @@ public class SK_Dao implements SK_Dao_Interface {
 		
 		List<CSG_TB_ITEMMST> selectedItemList = null;
 		try {
-			selectedItemList = session.selectList("selectedItemsList", items);
+			selectedItemList = session.selectList("SK_selectedItemsList", items);
 			System.out.println("아이템리스트들을 잘 불러왔니?? selectedItemList==>"+selectedItemList);
 		}catch (Exception e) {
 			System.out.println(selectedItemList);
@@ -79,13 +113,14 @@ public class SK_Dao implements SK_Dao_Interface {
 		return selectedItemList;
 	}
 
+	//발주등록폼에서 업체리스트 가져오기
 	@Override
 	public List<CSG_TB_CUSTMST> findCustlist() {
 		System.out.println("발주 등록폼에서 처음에 업체들 미리 불러오기..");
 		
 		List<CSG_TB_CUSTMST> csgCustlist = null;
 		try {
-			csgCustlist = session.selectList("custList");
+			csgCustlist = session.selectList("SK_custList");
 			System.out.println("csgCustlist를 잘 불러온거니 ??"+csgCustlist);
 		}catch (Exception e) {
 			System.out.println(e);
@@ -100,7 +135,7 @@ public class SK_Dao implements SK_Dao_Interface {
 		System.out.println("Dao : ajax를 통해서 선택된 발주업체에서 발주담당자를 가져오자 custCd ==> "+custCd);
 		CSG_TB_PURCHASE custEmployee = null;
 		try {
-		custEmployee = session.selectOne("findCustEmpByCustCd",custCd);
+		custEmployee = session.selectOne("SK_findCustEmpByCustCd",custCd);
 	    System.out.println("DB에서 거래처 발주담당자 잘 가져왔냐 @@@@@@@@@@@@@@@@@@@@@@@@ ==> "+ custEmployee);
 		}catch (Exception e) {
 			System.out.println("오류가 발생하였습니다 ==> " + e);
@@ -109,6 +144,7 @@ public class SK_Dao implements SK_Dao_Interface {
 		return custEmployee;
 		
 	}
+
 
 
 	

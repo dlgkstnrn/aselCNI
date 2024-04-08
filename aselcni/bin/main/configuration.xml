@@ -94,7 +94,7 @@
 			type="com.aselcni.csg.model.CSG_TB_TYPE_SML" />
 		<typeAlias alias="CSG_CategoryData"
 			type="com.aselcni.csg.model.CSG_CategoryData" />
-
+		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst" />
 
 	</typeAliases>
 </configuration>
