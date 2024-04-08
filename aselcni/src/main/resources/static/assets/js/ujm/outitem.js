@@ -100,9 +100,9 @@ $(document).ready(function () {
       type: "GET",
       success: function(response) {
           var orders = response.orders;
-          var selectBox = $('#selectOrderId');
+          var selectBox = $('#selectOrderNo');
           $.each(orders, function(index, order) {
-              selectBox.append($('<option>').val(order.id).text(order.name));
+              selectBox.append($('<option>').val(order_no).text(${order.order_no} (제품:${item_nm}, 주문처:${cust_nm})));
           });
       },
       error: function(xhr, status, error) {

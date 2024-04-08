@@ -59,16 +59,17 @@ public class UjmOutitemController {
 	}
 	
 	//출고 상세
-	@RequestMapping(value = "ujmGetAllOrderList")
-	public List<UjmOrder> ujmGetAllOrderList() {
-		System.out.println("ujmGetOrderList 컨트롤러 ujmGetAllOrderList 시작");
-		List<UjmOrder> ujmGetAllOrderList=uos.ujmGetAllOrderList();
-		return ujmGetAllOrderList;
-	}
+//	@RequestMapping(value = "ujmGetAllOrderList")
+//	public List<UjmOrder> ujmGetAllOrderList() {
+//		System.out.println("ujmOutItem 컨트롤러 ujmGetAllOrderList 시작");
+//		List<UjmOrder> ujmGetAllOrderList=uos.ujmGetAllOrderList();
+//		return ujmGetAllOrderList;
+//	}
 	
 	//출고 등록
 	@RequestMapping(value = "insertOutitem") 
 	public String ujmInsertOutitem(HttpServletRequest request, Model model, HttpSession session) {
+		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
 		UjmOutitem outitem=new UjmOutitem();
 		
 		//맨처음 리스트에 표시되는 outitemList

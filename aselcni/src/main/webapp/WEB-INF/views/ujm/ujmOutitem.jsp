@@ -127,15 +127,12 @@ pageEncoding="UTF-8"%>
                                 <div class="col-sm-9">
                                   <select
                                     class="form-select"
-                                    id="selectOrderId"
+                                    id="selectOrderNo"
                                   style="width: 200px"
-                                  name="selectOrderId"
+                                  name="order_no"
                                   >
+                                  <option value="order_no">${order.order_no} (제품:${item_nm}, 기업:${cust_nm})</option>
 
-                                  <option selected>선택</option>
-                                  <option value="1">${order.order_no} (제품:${item_nm}, 기업:${cust_nm})</option>
-                                  <option value="2">Two</option>
-                                  <option value="3">Three</option>
                                 </div>
                               </div>
 
