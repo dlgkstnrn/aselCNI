@@ -134,6 +134,38 @@ const detailView = function (initem_no) {
 		data: {initem_no},
 		success: (res) => {
 			console.log(res);
+			$('#modal_initem_no').val(res.initem_no);
+			$('#modal_initem_emp_nm').val(res.initem_emp_nm);
+			$('#modal_purc_no').val(res.purc_no);
+			$('#modal_purc_emp_nm').val(res.purc_emp_nm);
+			$('#modal_initem_dt').val(res.initem_dt);
+			$('#modal_cust_nm').val(res.cust_nm);
+			$('#modal_cust_emp').val(res.cust_emp);
+			res.whs.forEach((wh)=>{
+				$('#modal_wh_cd').append(
+					`
+					<option value="${wh.wh_cd}" ${wh.wh_cd == res.wh_cd ? 'selected':''}>${wh.wh_nm}</option>
+					`
+				);
+			})
+			$('#modal_remark').val(res.remark);
+			
+			$('#modal_itemTableBody').empty();
+			res.inItems.forEach((ele,idx)=>{
+				if (!ele['qty'])
+                    return;
+				$('#modal_itemTableBody').append(
+					`<tr>
+	                    <td id="initemNo${idx}">${ele['item_cd']}</td>
+	                    <td>${ele['item_nm']}</td>
+	                    <td>${ele['item_spec']}</td>
+	                    <td>${ele['item_unit']}</td>
+	                    <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" min="1" placeholder="입고수량" style="width: 75px"></td>
+	                    <td>${ele['item_cost']}</td>
+	                    <td>${ele.qty * ele.item_cost}</td>
+	                  </tr>`
+				)
+			})
 			
 			
 		    $('#detailModal').modal('show');

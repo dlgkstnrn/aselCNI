@@ -170,8 +170,9 @@
 	</select>
 	
 	<select id="pjhInitems" parameterType="String" resultType="PJHInitemItem">
-		SELECT tii.*
+		SELECT *
 		FROM TB_INITEM_ITEM tii
+		INNER JOIN TB_ITEMMST ti ON tii.ITEM_CD = ti.ITEM_CD
 		WHERE tii.INITEM_NO = #{initem_no}
 	</select>
 	

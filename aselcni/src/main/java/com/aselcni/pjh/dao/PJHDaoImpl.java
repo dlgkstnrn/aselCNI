@@ -149,6 +149,7 @@ public class PJHDaoImpl implements PJHDaoInterface {
 			resultInitem = session.selectOne("pjhInitemByNo", initem.getInitem_no());
 			resultInitem.setInItems(session.selectList("pjhInitems", resultInitem.getInitem_no()));
 			resultInitem.setWhs(session.selectList("pjhWhs"));
+			System.out.println("PJHDaoImpl detailInitem whs->"+ resultInitem.getWhs());
 			System.out.println("PJHDaoImpl detailInitem result->"+ resultInitem);
 		} catch (Exception e) {
 			e.printStackTrace();

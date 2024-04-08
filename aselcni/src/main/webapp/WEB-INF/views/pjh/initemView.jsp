@@ -209,7 +209,7 @@
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text">입고번호</span>
-											<input id="moal_initem_no" type="text" class="form-control"
+											<input id="modal_initem_no" type="text" class="form-control"
 												placeholder="입고번호" aria-label="입고번호" readonly>
 										</div>
 									</div>
@@ -225,7 +225,7 @@
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text">발주번호</span>
-											<input id="moal_purc_no" type="text" class="form-control"
+											<input id="modal_purc_no" type="text" class="form-control"
 												placeholder="발주번호" aria-label="발주번호" readonly>
 										</div>
 									</div>
@@ -241,7 +241,7 @@
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text">입고일자</span>
-											<input id="moal_initem_dt" type="date" class="form-control"
+											<input id="modal_initem_dt" type="date" class="form-control"
 												placeholder="입고일" aria-label="입고일">
 										</div>
 									</div>
@@ -250,14 +250,14 @@
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text">매입처</span>
-											<input id="moal_initem_dt" type="text" class="form-control"
+											<input id="modal_cust_nm" type="text" class="form-control"
 												placeholder="매입처" aria-label="매입처" readonly>
 										</div>
 									</div>
 									<div class="col mb-1">
 										<div class="input-group">
 											<span class="input-group-text">담당자(매입처)</span>
-											<input id="moal_initem_dt" type="text" class="form-control"
+											<input id="modal_cust_emp" type="text" class="form-control"
 												placeholder="매입처 담당자" aria-label="매입처담당자">
 										</div>
 									</div>
@@ -266,7 +266,7 @@
 				              		<div class="col">
 				              			<div class="input-group">
 										  <span class="input-group-text">창고</span>
-										  <select id="wh_cd" class="form-select">
+										  <select id="modal_wh_cd" class="form-select">
 											  	<option value="${wh.wh_cd}">${wh.wh_nm}</option>
 										  </select>
 										</div>
@@ -277,7 +277,7 @@
 				              		<div class="col">
 				              			<div class="input-group">
 										  <span class="input-group-text">비고</span>
-										  <textarea id="remark" rows="4" class="form-control"></textarea>
+										  <textarea id="modal_remark" rows="4" class="form-control"></textarea>
 										</div>
 				              		</div>
 				              	</div>
@@ -293,9 +293,10 @@
 					                    <th scope="col">단위</th>
 					                    <th scope="col">수량</th>
 					                    <th scope="col">단가</th>
+					                    <th scope="col">합계</th>
 					                  </tr>
 					                </thead>
-					                <tbody id="itemTableBody">
+					                <tbody id="modal_itemTableBody">
 					                </tbody>
 					            </table>
 								
