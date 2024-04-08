@@ -12,6 +12,8 @@ import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
 import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
 import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
 import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
+import com.aselcni.kdw.model.ProdPlanData;
+import com.aselcni.kdw.model.ProdPlanData.MaterialInfo;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -88,4 +90,37 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 		System.out.println("KdwProdPlanServiceImpl getItemCategoriesSearchList prodItemCategoriesSearchList.size(): " + prodItemCategoriesSearchList.size());
 		return prodItemCategoriesSearchList;
 	}
+	
+	// 생산계획등록 제품
+	@Override
+	public void saveProdPlanAndItems(ProdPlanData prodPlanData, String prodplan_emp_id) {
+	    // TB_PRODPLAN 객체 설정
+	    TB_PRODPLAN tbProdPlan = new TB_PRODPLAN();
+	    tbProdPlan.setOrder_no(prodPlanData.getOrderNo());
+	    tbProdPlan.setWork_dt(prodPlanData.getWorkDays());
+	    tbProdPlan.setProdPlan_dt(prodPlanData.getStartDate());
+	    tbProdPlan.setProdPlan_end_dt(prodPlanData.getEndDate());
+	    tbProdPlan.setItem_cd(prodPlanData.getProduct().getCode());
+	    tbProdPlan.setQty(prodPlanData.getProductQty());
+	    tbProdPlan.setRemark(prodPlanData.getRemark());
+	    // prodplan_emp_id와 기타 필요한 정보를 포함시킵니다.
+
+	    // TB_PRODPLAN 저장과 동시에 prodPlan_no 생성 및 반환
+	    String prodPlanNo = kdwProdPlanDao.saveProdPlan(tbProdPlan, prodplan_emp_id);
+	    System.out.println("Generated prodPlan_no for TB_PRODPLAN: " + prodPlanNo); // 생성된 prodPlan_no 확인
+
+	    for (MaterialInfo material : prodPlanData.getMaterials()) {
+	        TB_ITEM_PROD tbItemProd = new TB_ITEM_PROD();
+	        tbItemProd.setProdPlan_no(prodPlanNo); // prodPlan_no 설정
+	        tbItemProd.setItem_cd(material.getCode());
+	        tbItemProd.setIn_qty(material.getQuantity());
+	        
+	        // 설정된 prodPlan_no 확인
+	        System.out.println("셋팅된 ProdPlan_no  for TB_ITEM_PROD: " + tbItemProd.getProdPlan_no());
+
+	        // TB_ITEM_PROD 삽입
+	        kdwProdPlanDao.saveItemProd(tbItemProd);
+	    }
+	}
+
 }

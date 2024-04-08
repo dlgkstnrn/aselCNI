@@ -146,5 +146,39 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	    }
 	    return prodItemCategoriesSearchList;
 	}
+	// 생산계획등록 제품
+	@Override
+	public String saveProdPlan(TB_PRODPLAN tbProdPlan, String prodplan_emp_id) {
+	    System.out.println("KdwProdPlanDaoImpl saveProdPlan Start...");
+	    String prodPlanNo = null; // prodPlan_no를 저장할 변수
+	    try {
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("prodplan_emp_id", prodplan_emp_id);
+	        params.put("tbProdPlan", tbProdPlan); // 제품 정보
+	        session.insert("kdwSaveProdPlan", params);
+	        
+	        // MyBatis의 <selectKey>를 사용하여 prodPlan_no가 params에 설정된 경우, 이를 추출
+	        prodPlanNo = (String) params.get("prodPlan_no"); // <selectKey>를 통해 설정된 값을 가져옵니다.
+	        System.out.println("Generated prodPlan_no: " + prodPlanNo);
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("Error during saving production plan: " + e.getMessage());
+	    }
+	    return prodPlanNo; // 생성된 prodPlan_no를 반환
+	}
+	
+	// 생산계획등록 자재
+	@Override
+	public void saveItemProd(TB_ITEM_PROD tbItemProd) {
+		System.out.println("KdwProdPlanDaoImpl saveItemProd Start...");
+	    try {
+	        session.insert("kdwSaveItemProd", tbItemProd);
+	        System.out.println("KdwProdPlanDaoImpl tbItemProd: " + tbItemProd);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("KdwProdPlanDaoImpl saveItemProd Error: " + e.getMessage());
+	    }
+	}
 
 }

@@ -8,6 +8,7 @@ import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
 import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
 import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
 import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
+import com.aselcni.kdw.model.ProdPlanData;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -28,5 +29,8 @@ public interface KdwProdPlanService {
 	List<KDW_TB_TYPE_SML> getProdPlanItemTypeSmlList();
 	// 대중소 분류된 제품리스트
 	List<KDW_TB_ITEMMST> getItemCategoriesSearchList(int bigNo, int midNo, int smlNo);
-
+	
+	// 생산계획등록 제품,자재
+	void saveProdPlanAndItems(ProdPlanData prodPlanData, String prodplan_emp_id);
+	
 }
