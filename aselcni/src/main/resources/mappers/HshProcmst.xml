@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.HshProcmstMapper">
+
+	<select id="HshgetProcmst" resultType="Procmst">
+		SELECT *
+		FROM TB_PROCMST
+		WHERE PROC_DELETE_CHK = 0
+
+	</select>
+	<select id="GetprocmstDetails" resultType="Procmst"
+		parameterType="string">
+		SELECT *
+		FROM TB_PROCMST
+		WHERE PROC_CD = #{id}
+
+	</select>
+	<select id="same_Emp_Id" resultType="string" parameterType="string">
+		SELECT CASE
+		WHEN EXISTS (
+		SELECT 1
+		FROM KDT301.dbo.TB_USERMST u
+		WHERE u.USER_ID = #{empId}
+		)
+		THEN 'Yes'
+		ELSE 'No'
+		END AS ExistsFlag
+	</select>
+
+	<update id="updateProc" parameterType="Procmst">
+		UPDATE KDT301.dbo.TB_PROCMST
+		SET
+		PROC_NM = #{proc_Nm},
+		REMARK = #{remark},
+		USE_FLAG = #{use_Flag},
+		PROC_EMP_ID = #{proc_Emp_Id},
+		PROC_UPDATE = GETDATE()
+		WHERE PROC_CD = #{proc_Cd}
+	</update>
+	<update id="DelDateProc" parameterType="Procmst">
+		UPDATE KDT301.dbo.TB_PROCMST
+		SET
+		PROC_DELETE_CHK = 1
+		WHERE PROC_CD = #{proc_Cd}
+	</update>
+	
+	<insert id="NewProc" parameterType="Procmst">
+        INSERT INTO KDT301.dbo.TB_PROCMST (
+            PROC_CD,
+            PROC_NM,
+            REMARK,
+            USE_FLAG,
+            PROC_EMP_ID,
+            PROC_REGDATE,
+            PROC_DELETE_CHK
+        ) VALUES (
+            #{proc_Cd},
+            #{proc_Nm},
+            #{remark},
+            #{use_Flag},
+            #{proc_Emp_Id},
+            FORMAT(GETDATE(), 'yyyy-MM-dd'),
+            0
+        )
+    </insert>
+
+</mapper>
