@@ -27,5 +27,10 @@ public interface KdwProdPlanDao {
 	List<KDW_TB_TYPE_SML> getProdPlanItemTypeSmlList();
 	// 대중소 분류된 제품리스트
 	List<KDW_TB_ITEMMST> getItemCategoriesSearchList(int bigNo, int midNo, int smlNo);
+	// 생산계획등록 제품
+	String saveProdPlan(TB_PRODPLAN tbProdPlan, String prodplan_emp_id);
+	// 생산계획등록 자재
+	void saveItemProd(TB_ITEM_PROD tbItemProd);
+	
 
 }

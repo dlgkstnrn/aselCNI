@@ -2,62 +2,100 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.KdwProdPlanMapper">
 
-	<!-- 생산계획 제품리스트 -->		
+	<!-- 생산계획 제품리스트 -->
 	<select id="kdwProdPlanList" resultType="KdwProdPlan">
 		SELECT
-			pp.*,
-	        im.ITEM_NM AS item_nm, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
-	        im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS cust_nm
-	    FROM TB_PRODPLAN pp
-	    INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
-	    LEFT JOIN TB_ORDER od ON pp.ORDER_NO  = od.ORDER_NO
-	    LEFT JOIN TB_CUSTMST cm ON od.CUST_CD = cm.CUST_CD
-	    ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO
+		pp.*,
+		im.ITEM_NM AS item_nm, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
+		im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS
+		cust_nm
+		FROM TB_PRODPLAN pp
+		INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
+		LEFT JOIN TB_ORDER od ON pp.ORDER_NO = od.ORDER_NO
+		LEFT JOIN TB_CUSTMST cm ON od.CUST_CD = cm.CUST_CD
+		ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO
 	</select>
-	
-	<!-- 생산계획 자재리스트 -->		
+
+	<!-- 생산계획 자재리스트 -->
 	<select id="kdwProdPlanItemList" resultType="KdwProdPlanItem">
 		SELECT
-		    ip.*,
-		    im.ITEM_NM AS item_nm, im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost
+		ip.*,
+		im.ITEM_NM AS item_nm, im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost
 		FROM TB_ITEM_PROD ip
-		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
+		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD =
+		im.ITEM_CD
 	</select>
-	
-	<!-- 주문 리스트: 등록할때 주문당 생산계획짜야됨 -->	
+
+	<!-- 주문 리스트: 등록할때 주문당 생산계획짜야됨 -->
 	<select id="kdwProdPlanOrderList" resultType="KdwProdOrder">
-		SELECT od.*, tc.CUST_NM AS cust_nm
+		SELECT od.*,
+		tc.CUST_NM AS cust_nm
 		FROM TB_ORDER od
-		INNER JOIN TB_CUSTMST tc ON od.CUST_CD = tc.CUST_CD
+		INNER JOIN TB_CUSTMST tc ON
+		od.CUST_CD = tc.CUST_CD
 	</select>
-	<select id="kdwProdPlanOrderItemList" resultType="KdwProdOrderItem">
+	<select id="kdwProdPlanOrderItemList"
+		resultType="KdwProdOrderItem">
 		SELECT toi.*, ti.ITEM_NM AS item_nm
 		FROM TB_ORDER_ITEM toi
 		INNER JOIN TB_ITEMMST ti ON toi.ITEM_CD = ti.ITEM_CD
 	</select>
-	
-	<!-- 대중소 분류-->
-	<select id="kdwProdPlanItemTypeBigList" resultType="KdwProdItemTypeBig">
+
+	<!-- 대중소 분류 -->
+	<select id="kdwProdPlanItemTypeBigList"
+		resultType="KdwProdItemTypeBig">
 		SELECT *
 		FROM TB_TYPE_BIG
 	</select>
-	<select id="kdwProdPlanItemTypeMidList" resultType="KdwProdItemTypeMid">
+	<select id="kdwProdPlanItemTypeMidList"
+		resultType="KdwProdItemTypeMid">
 		SELECT *
 		FROM TB_TYPE_MID
 	</select>
-	<select id="kdwProdPlanItemTypeSmlList" resultType="KdwProdItemTypeSml">
+	<select id="kdwProdPlanItemTypeSmlList"
+		resultType="KdwProdItemTypeSml">
 		SELECT *
 		FROM TB_TYPE_SML
 	</select>
-	
+
 	<!-- 아이템 리스트 -->
-	<select id="kdwProdItemCategoriesSearchList" resultType="KdwProdItemList">
-	    SELECT *
-	    FROM TB_ITEMMST
-	    WHERE item_delete_chk = 0
-	      AND big_no = #{bigNo}
-	      AND mid_no = #{midNo}
-	      AND sml_no = #{smlNo}
+	<select id="kdwProdItemCategoriesSearchList"
+		resultType="KdwProdItemList">
+		SELECT *
+		FROM TB_ITEMMST
+		WHERE item_delete_chk = 0
+		AND big_no = #{bigNo}
+		AND mid_no = #{midNo}
+		AND sml_no = #{smlNo}
 	</select>
+
+	<!-- 생산계획 등록 -->
+	<insert id="kdwSaveProdPlan" parameterType="map">
+		<selectKey keyProperty="prodPlan_no" resultType="java.lang.String" order="BEFORE">
+			SELECT CONCAT(
+				    'PRP', 
+				    CONVERT(CHAR(6), GETDATE(), 12), 
+				    (SELECT RIGHT('0000' + CAST((COUNT(*) + 1) AS VARCHAR), 4)
+				     FROM TB_PRODPLAN
+				     WHERE CONVERT(CHAR(6), GETDATE(), 12) = CONVERT(CHAR(6), GETDATE(), 12))
+					)
+		</selectKey>
+		INSERT INTO TB_PRODPLAN (prodPlan_no, prodPlan_dt, seq_no, order_no,
+		prodplan_emp_id, work_dt , prodPlan_end_dt, item_cd, qty, remark, prodPlan_update, prodPlan_delete_chk)
+		VALUES (
+		#{prodPlan_no},
+		#{tbProdPlan.prodPlan_dt}, (SELECT ISNULL(MAX(seq_no), 0) + 1 FROM TB_PRODPLAN WHERE order_no = #{tbProdPlan.order_no}),
+		#{tbProdPlan.order_no}, #{prodplan_emp_id}, #{tbProdPlan.work_dt}, #{tbProdPlan.prodPlan_end_dt}, #{tbProdPlan.item_cd}, 
+		#{tbProdPlan.qty}, #{tbProdPlan.remark}, NULL, 0)
+	</insert>
+
+	<!-- 투입 자재 등록 -->
+	<insert id="kdwSaveItemProd" parameterType="KdwProdPlanItem">
+		INSERT INTO TB_ITEM_PROD (prodPlan_no, item_cd, in_qty, cost)
+		VALUES (
+		#{prodPlan_no}, #{item_cd}, #{in_qty},
+		(SELECT item_cost FROM TB_ITEMMST WHERE item_cd = #{item_cd})
+		)
+	</insert>
 
 </mapper>

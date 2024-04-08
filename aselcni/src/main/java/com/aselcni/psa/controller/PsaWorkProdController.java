@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.psa.model.Item;
+import com.aselcni.psa.model.ProdItem;
 import com.aselcni.psa.model.ProdPlan;
 import com.aselcni.psa.model.WorkItem;
 import com.aselcni.psa.model.WorkProc;
@@ -67,8 +69,55 @@ public class PsaWorkProdController {
 		System.out.println("WorkProd List size: " + workList.size());
 		model.addAttribute("workList", workList);
 		
+		// 지시 등록 시 사용 가능한 공정리스트 조회
+		// select box
+		System.out.println("사용가능한 공정리스트 조회");
+		
+		List<WorkProc> procList = psaService.getProcList();
+		System.out.println("공정리스트: " + procList);
+		System.out.println("공정리스트 사이즈: " + procList.size());
+		model.addAttribute("procList", procList);
+		
+		// 품목 대분류
+		// select box
+		List<Item> bigList = psaService.getBigList();
+		System.out.println("대분류 리스트: " + bigList);
+		System.out.println("대분류 리스트 사이즈: " + bigList.size());
+		model.addAttribute("bigList", bigList);
+		
 		return "psa/workprod";
 		
+	}
+	
+	// 품목 중분류 ajax
+	@RequestMapping("getMidNo")
+	@ResponseBody
+	public List<Item> getMidNo(@RequestBody Item item) {
+		
+		System.out.println("중분류 리스트 조회");
+		System.out.println("대분류 param: " + item.getBig_no());
+		
+		List<Item> midList = psaService.getMidList(item);
+		System.out.println("중분류 리스트 사이즈: " + midList.size());
+		System.out.println("returned 중분류 리스트: " + midList);
+		
+		return midList;
+	}
+	
+	// 품목 소분류 ajax
+	@RequestMapping("getSmlNo")
+	@ResponseBody
+	public List<Item> getSmlNo(@RequestBody Item item) {
+		
+		System.out.println("소분류 리스트 조회");
+		System.out.println("대분류 param: " + item.getBig_no());
+		System.out.println("중분류 param: " + item.getMid_no());
+		
+		List<Item> smlList = psaService.getSmlList(item);
+		System.out.println("소분류 리스트 사이즈: " + smlList.size());
+		System.out.println("returned 소분류 리스트: " + smlList);
+		
+		return smlList;
 	}
 	
 	// ajax 1 - 생산지시
@@ -93,7 +142,7 @@ public class PsaWorkProdController {
 	@ResponseBody
 	public List<WorkProc> workProcList(@RequestBody WorkProd workProd, Model model) {
 		
-		System.out.println("공정리스트 조회");
+		System.out.println("생산지시 공정리스트 조회");
 		
 		List<WorkProc> workProcList = psaService.getWorkProcList(workProd);
 		System.out.println("returned workProcList: "+workProcList);
@@ -108,15 +157,13 @@ public class PsaWorkProdController {
 	@ResponseBody
 	public List<WorkItem> workItemList(@RequestBody WorkProd workProd) {
 		
-		System.out.println("투입품리스트 조회");
+		System.out.println("생산지시 투입품리스트 조회");
 		
 		List<WorkItem> workItemList = psaService.getWorkItemList(workProd);
 		System.out.println("returned workItemList: "+workItemList);
 		System.out.println("size:"+workItemList.size());
 		return workItemList;
 	}
-	
-	
 	
 	// ajax 1 - 생산계획
 	// 생산계획번호별 상세내용 조회 (공정, 투입품 제외)
@@ -134,10 +181,20 @@ public class PsaWorkProdController {
 		return prpInfoModal;
 	}
 	
-	// ajax 추가합시다아아
-	
-	
-	
+	// ajax 2 - 생산계획 - 투입품 리스트
+	// 생산계획번호별 투입품 리스트 조회
+	@RequestMapping("planItemList")
+	@ResponseBody
+	public List<ProdItem> planItemList(@RequestBody ProdPlan prodPlan) {
+		
+		System.out.println("생산계획 투입품리스트 조회");
+		
+		List<ProdItem> planItemList = psaService.getPlanItemList(prodPlan);
+		System.out.println("returned planItemList: "+planItemList);
+		System.out.println("투입품리스트 size:"+planItemList.size());
+		return planItemList;
+		
+	}
 	
 	
 	

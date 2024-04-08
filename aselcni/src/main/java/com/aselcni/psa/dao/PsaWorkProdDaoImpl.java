@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 //import org.springframework.transaction.PlatformTransactionManager;
 
+import com.aselcni.psa.model.Item;
+import com.aselcni.psa.model.ProdItem;
 import com.aselcni.psa.model.ProdPlan;
 import com.aselcni.psa.model.WorkItem;
 import com.aselcni.psa.model.WorkProc;
@@ -57,6 +59,39 @@ public class PsaWorkProdDaoImpl implements PsaWorkProdDao {
 		
 		return workList;
 	}
+	
+	// 지시 등록 시 사용 가능한 공정리스트 조회
+	@Override
+	public List<WorkProc> getProcList() {
+
+		List<WorkProc> procList = session.selectList("psaGetProcList");
+		return procList;
+	
+	}
+
+	// 품목 대분류
+	@Override
+	public List<Item> getBigList() {
+		
+		List<Item> bigList = session.selectList("psaGetBigList");
+		return bigList;
+	}
+
+	// 품목 중분류 ajax
+	@Override
+	public List<Item> getMidList(Item item) {
+
+		List<Item> midList = session.selectList("psaGetMidList", item);
+		return midList;
+	}
+
+	// 품목 소분류 ajax
+	@Override
+	public List<Item> getSmlList(Item item) {
+		
+		List<Item> smlList = session.selectList("psaGetSmlList", item);
+		return smlList;
+	}
 
 	// ajax 1
 	// 등록된 지시내역의 생산지시번호별 상세내용 조회
@@ -105,6 +140,28 @@ public class PsaWorkProdDaoImpl implements PsaWorkProdDao {
 		ProdPlan getPlan = session.selectOne("psaGetPlan", prodPlan);
 		return getPlan;
 	}
+
+	// ajax 1 - 생산계획
+	// 생산계획번호별 상세내용 조회 (공정, 투입품 제외)
+	@Override
+	public ProdPlan selectProdPlan(ProdPlan insertedProdPlan) {
+		
+		ProdPlan selectProdPlan = session.selectOne("psaGetPlan", insertedProdPlan);
+		return selectProdPlan;
+	}
+
+	// ajax 2 - 생산계획 - 투입품 리스트
+	// 생산계획번호별 투입품 리스트 조회
+	@Override
+	public List<ProdItem> getPlanItemList(ProdPlan prodPlan) {
+		
+		List<ProdItem> planItemList = session.selectList("psaGetPlanItemList", prodPlan);
+		return planItemList;
+	}
+
+
+
+
 
 
 }

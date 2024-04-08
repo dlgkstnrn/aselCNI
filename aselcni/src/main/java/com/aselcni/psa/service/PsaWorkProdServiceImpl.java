@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aselcni.psa.dao.PsaWorkProdDao;
+import com.aselcni.psa.model.Item;
+import com.aselcni.psa.model.ProdItem;
 import com.aselcni.psa.model.ProdPlan;
 import com.aselcni.psa.model.WorkItem;
 import com.aselcni.psa.model.WorkProc;
@@ -55,6 +57,39 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		
 		return workList;
 	}
+	
+	// 지시 등록 시 사용 가능한 공정리스트 조회
+	@Override
+	public List<WorkProc> getProcList() {
+
+		List<WorkProc> procList = psaDao.getProcList();
+		return procList;
+	
+	}
+
+	// 품목 대분류 
+	@Override
+	public List<Item> getBigList() {
+
+		List<Item> bigList = psaDao.getBigList();
+		return bigList;
+	}
+	
+	// 품목 중분류 ajax
+	@Override
+	public List<Item> getMidList(Item item) {
+		
+		List<Item> midList = psaDao.getMidList(item);
+		return midList;
+	}
+	
+	// 품목 소분류 ajax
+	@Override
+	public List<Item> getSmlList(Item item) {
+		
+		List<Item> smlList = psaDao.getSmlList(item);
+		return smlList;
+	}
 
 	// ajax 1
 	// 등록된 지시내역의 생산지시번호별 상세내용 조회
@@ -102,5 +137,28 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		ProdPlan getPlan = psaDao.getPlan(prodPlan);
 		return getPlan;
 	}
+
+	// ajax 1 - 생산계획
+	// 생산계획번호별 상세내용 조회 (공정, 투입품 제외)
+	@Override
+	public ProdPlan selectProdPlan(ProdPlan insertedProdPlan) {
+		
+		ProdPlan selectProdPlan = psaDao.selectProdPlan(insertedProdPlan);
+		return selectProdPlan;
+	}
+
+	// ajax 2 - 생산계획 - 투입품 리스트
+	// 생산계획번호별 투입품 리스트 조회
+	@Override
+	public List<ProdItem> getPlanItemList(ProdPlan prodPlan) {
+		
+		List<ProdItem> planItemList = psaDao.getPlanItemList(prodPlan);
+		return planItemList;
+	}
+
+
+
+
+
 
 }

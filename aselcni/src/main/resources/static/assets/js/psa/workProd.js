@@ -54,7 +54,7 @@ $(document).ready(function(){
 	    });
 	
 	    $("#btn-submit").click(function() {
-	        alert("Submit base form!");
+	        // alert("Submit base form!");
 	        $("#btnSubmit").closest("form").submit();
 	    });
 	});

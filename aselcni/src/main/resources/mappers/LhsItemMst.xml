@@ -121,7 +121,12 @@
 		update tb_itemmst
 		set
 		item_nm=#{item_nm},
-		cust_cd=#{cust_cd},
+		<if test="cust_cd != null">
+			cust_cd=#{cust_cd},
+		</if>
+		<if test="cust_cd == null">
+			cust_cd=null,
+		</if>
 		big_no=#{big_no},
 		mid_no=#{mid_no},
 		sml_no=#{sml_no},

@@ -39,6 +39,31 @@
 		AND tw.ITEM_CD = ti.ITEM_CD
 		AND tw.WORKPROD_EMP_ID = tu.USER_ID
 	</select>
+	
+	<select id="psaGetProcList" resultType="PsaWorkProc">
+		SELECT *
+		FROM TB_PROCMST tp 
+		WHERE tp.USE_FLAG = 1
+			AND tp.PROC_DELETE_CHK = 0
+	</select>
+	
+	<select id="psaGetBigList" resultType="PsaItem">
+		SELECT *
+		FROM TB_TYPE_BIG ttb
+	</select>
+	
+	<select id="psaGetMidList" resultType="PsaItem">
+		SELECT *
+		FROM TB_TYPE_MID ttm 
+		WHERE ttm.BIG_NO = #{big_no}
+	</select>
+	
+	<select id="psaGetSmlList" resultType="PsaItem">
+		SELECT *
+		FROM TB_TYPE_SML tts 
+		WHERE tts.BIG_NO = #{big_no}
+			AND tts.MID_NO = #{mid_no}
+	</select>
 
 	<select id="psaGetWorkProd" parameterType="PsaWorkProd" resultType="PsaWorkProd">
 		SELECT *
@@ -113,6 +138,13 @@
 		WHERE tp.PRODPLAN_NO = #{prodplan_no}
 			AND tp.PRODPLAN_EMP_ID = tu.USER_ID 
 			AND tp.ITEM_CD = ti.ITEM_CD
+	</select>
+	
+	<select id="psaGetPlanItemList" parameterType="PsaProdItem" resultType="PsaProdItem">
+		SELECT *
+		FROM TB_ITEM_PROD tip , TB_ITEMMST ti
+		WHERE tip.PRODPLAN_NO = #{prodplan_no}
+		AND tip.ITEM_CD = ti.ITEM_CD
 	</select>
 
 </mapper>

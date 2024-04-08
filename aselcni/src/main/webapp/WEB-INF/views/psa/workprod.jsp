@@ -132,7 +132,7 @@ pageEncoding="UTF-8"%>
               <thead class="p-2">
                 <tr>
                   <th scope="col">생산지시번호</th>
-                  <th scope="col">동일 지시번호 내 순번</th>
+                  <th scope="col">동일 계획번호 내 순번</th>
                   <th scope="col">제품명</th>
                   <th scope="col">생산수량</th>
                   <th scope="col">작업일수</th>
@@ -216,7 +216,7 @@ pageEncoding="UTF-8"%>
                       <!-- 제품 생산수량 -->
                       <div class="d-flex mb-3">
                         <label for="qty" class="col-sm-3 col-form-label">생산수량</label>
-                        <div class="col-sm-3 mx-2">
+                        <div class="col-sm-8 mx-2">
                           <input type="number" class="form-control" id="prp_qty" name="qty" />
                         </div>
                       </div>
@@ -229,9 +229,9 @@ pageEncoding="UTF-8"%>
                     <div class="col-sm-9">
                       <select name="proc_nm" id="proc_nm" class="form-select" aria-label="Default select example">
                         <option selected>적용할 공정을 선택하세요.</option>
-                        <option value="1">반죽</option>
-                        <option value="2">튀김</option>
-                        <option value="3">분쇄</option>
+                        <c:forEach var="procList" items="${procList }">
+                          <option value="${procList.proc_cd}">${procList.proc_nm}</option>
+                        </c:forEach>
                       </select>
                     </div>
                   </div>
@@ -262,17 +262,16 @@ pageEncoding="UTF-8"%>
                         </thead>
                         <tbody id="prp_item_tbody">
                           <tr id="prp_item_tr">
-                            <th scope="row"></th>
+                            <!-- <th scope="row"></th>
                             <td></td>
-                            <td></td>
-                            <td><input type="number" class="form-control" id="in_qty"/></td>
+                            <td></td> -->
+                            <!-- <td><input type="number" class="form-control" id="in_qty"/></td> -->
                           </tr>
                         </tbody>
                       </table>
                     </div>
                       
                   </div>
-                  
                   
                   <!-- 작업일수 -->
                   <div class="row mb-3">
@@ -301,9 +300,9 @@ pageEncoding="UTF-8"%>
 
                 <!-- 모달 버튼 -->
                 <div class="modal-footer">
-                  <button id="cancle" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                  <button id="cancle" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
                   <button type="submit" class="btn btn-success">등록</button>
-                  <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                  <!-- <button type="reset" class="btn btn-outline-secondary">Reset</button> -->
                 </div>
 
               </form>
@@ -317,11 +316,7 @@ pageEncoding="UTF-8"%>
 
 
         <!-- 2. 투입품 선택 모달 -->
-        <div class="modal fade"
-          id="addItem"
-          tabindex="-1"
-          aria-hidden="true"
-          style="display: none;">
+        <div class="modal fade" id="addItem" tabindex="-1" aria-hidden="true" style="display: none;">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
@@ -335,37 +330,53 @@ pageEncoding="UTF-8"%>
                   <div class="d-flex justify-content-around w-auto text-center align-items-center">
                     <div>
                       <p>대분류</p> 
-                      <input type="text" name="st_department" list="big_no">
+                      <!-- <input type="text" name="st_department" list="big_no"> -->
+                      <select name="big_no" id="big_no" class="form-select" aria-label="Default select example">
+                        <option selected>대분류 선택</option>
+                        <c:forEach var="big" items="${bigList}">
+                          <option value="${big.big_no}">${big.big_content}</option>
+                        </c:forEach>
+                      </select>
                     </div>
 
                     <div>
                       <p>중분류</p> 
-                      <input type="text" name="st_department" list="mid_no">
+                      <!-- <input type="text" name="st_department" list="mid_no"> -->
+                      <select name="mid_no" id="mid_no" class="form-select" aria-label="Default select example">
+                        <!-- <option selected>중분류 선택</option> -->
+                        <option>중분류 선택</option>
+                      </select>
                     </div>
 
                     <div>
                       <p>소분류</p> 
-                      <input type="text" name="st_department" list="sml_no">
+                      <!-- <input type="text" name="st_department" list="sml_no"> -->
+                      <select name="sml_no" id="sml_no" class="form-select" aria-label="Default select example">
+                        <!-- <option selected>소분류 선택</option> -->
+                        <option>소분류 선택</option>
+                      </select>
                     </div>
                   </div>
 
                   <!-- 대분류 리스트 -->
-                  <datalist id="big_no" class="w-auto">
-                    <!-- <option value="select">대분류</option> -->
+                  <!-- <datalist id="big_no" class="w-auto">
+                    <select name="" id="">
+                    <option value="select">대분류</option>
                     <option value="포장재"></option>
                     <option value="식재료"></option>
-                  </datalist>
+                    </select>
+                  </datalist> -->
 
                   <!-- 중분류 리스트 -->
-                  <datalist id="mid_no" class="w-auto">
+                  <!-- <datalist id="mid_no" class="w-auto">
                     <option value="컵"></option>
                     <option value="봉지"></option>
                     <option value="면"></option>
                     <option value="스프"></option>
-                  </datalist>
+                  </datalist> -->
                   
                   <!-- 소분류 리스트 -->
-                  <datalist id="sml_no" class="w-auto">
+                  <!-- <datalist id="sml_no" class="w-auto">
                     <option value="밀가루"></option>
                     <option value="물"></option>
                     <option value="기름"></option>
@@ -373,7 +384,7 @@ pageEncoding="UTF-8"%>
                     <option value="대파"></option>
                     <option value="마늘"></option>
                     <option value="고춧가루"></option>
-                  </datalist>
+                  </datalist> -->
 
                   <!-- 조회된 품목 리스트 -->
                   <div class="card-body mt-3">
@@ -513,10 +524,10 @@ pageEncoding="UTF-8"%>
                       </thead>
                       <tbody id="in_item_tbody">
                         <tr id="in_item_tr">
-                          <th scope="row"></th>
+                          <!-- <th scope="row"></th>
                           <td></td>
                           <td></td>
-                          <td></td>
+                          <td></td> -->
                         </tr>
                       </tbody>
                     </table>
@@ -597,7 +608,7 @@ pageEncoding="UTF-8"%>
         // ajax 1
         // 생산계획번호별 상세내용 조회 (공정, 투입품 제외)
         $.ajax({
-          url: "prpInfoModal",
+          url: 'prpInfoModal',
           type: 'post',
           data: JSON.stringify(prpParam),
           contentType: 'application/json; charset=utf-8',
@@ -615,12 +626,120 @@ pageEncoding="UTF-8"%>
           }
         });
 
-        // ajax 2 ?? 공정???
-
-        // ajax 3
+        // ajax 2
         // 생산계획에서 등록해둔 투입품 리스트 조회
+        $.ajax({
+          url: 'planItemList',
+          type: 'post',
+          data: JSON.stringify(prpParam),
+          contentType: 'application/json; charset=utf-8',
+          success: function(result) {
+            console.log(result);
+
+            $("#prp_item_tr").each(function(index, element){
+
+              for(let i=0; i<result.length; i++) {
+              
+                console.log(result[i]);
+
+                $('#prp_item_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
+                                          result[i].item_cd+'</td><td>'+
+                                            result[i].item_nm+'</td><td>'+
+                                              '<input type="number" value="'+
+                                              result[i].in_qty+'"/>'+
+                                              '</td></tr>');
+
+              }
+            })
+          }
+        });
       });
 
+
+
+      // 대분류에 맞는 중분류 조회
+      $('#big_no').on('change', function() {
+
+        let big_no = $("#big_no option:selected").val();
+
+        const bigParam = {
+          big_no : big_no
+        }
+
+        $.ajax({
+          url: 'getMidNo',
+          type: 'post',
+          data: JSON.stringify(bigParam),
+          contentType: 'application/json; charset=utf-8',
+
+          success : function(result) {
+            console.log('result: ' + result);
+
+            $('#mid_no').empty().append('<option>선택하세요.</option>');
+
+            result.forEach((element) => {
+
+              console.log(element);
+              console.log(element.mid_content);
+              
+              $('#mid_no').append('<option value="' + element.mid_no + '"' +
+                                  element.mid_content + "</option>");
+              
+
+              // $('#mid_no').append(
+				      // 	`<option value="${element.mid_no}">${element.mid_content}</option>`
+				      // );
+            });
+
+            // 속성 추가
+            $('#mid_no').attr('bigNo', result[0].big_no);
+          }
+        });
+
+      });
+
+
+      // 대분류, 중분류에 맞는 소분류 조회
+      $('mid_no').on('change',(event) => {
+
+        let mid = event.target;
+        let mid_no = mid.value;
+        let big_no = mid.getAttribute('bigNo');
+
+        console.log('big_no:', big_no);
+        console.log('mid_no:', mid_no);
+
+        const midParam = {
+          big_no : big_no,
+          mid_no : mid_no
+        }
+
+        $.ajax({
+          url: 'getSmlNo',
+          type: 'post',
+          data: JSON.stringify(midParam),
+          contentType: 'application/json; charset=utf-8',
+
+          success : function(result) {
+            console.log('result: ' + result);
+
+            $('#sml_no').empty();
+
+            result.forEach((element) => {
+              console.log(element);
+
+              $('#sml_no').append(
+				      	`<option value="${element.sml_no}">${element.sml_content}</option>`
+				      );
+            });
+
+            // 속성 추가
+            $('#sml_no').attr('bigNo', result[0].big_no);
+            $('#sml_no').attr('midNo', result[0].mid_no);
+
+          }
+        });
+      });
 
      
       // 생산지시내역 조회 모달 이벤트

@@ -6,6 +6,8 @@ $(document).ready(function() {
 	var isTooltipEnabled = true; // 툴팁 기본 활성상태
 	var lastClickedCell = null; // 마지막으로 클릭된 셀을 저장할 변수
 	var selectedMaterialsInfo = []; // 선택된 자재 정보를 저장할 배열
+	var activeModal = null; // 현재 활성화된 모달 추적
+
 	// 기본 색상 정의
 	var baseColors = [
 		"rgba(191, 0, 35, 0.7)",
@@ -323,8 +325,8 @@ $(document).ready(function() {
 	});
 	// 제품 셀렉트 박스 리스트채우기
 	function fillProductCategorySelectBox(selectBoxId, categories, categoryType) {
-		var $selectBox = $(selectBoxId);
-		$selectBox.empty().append('<option value="">선택</option>');
+		var selectBox = $(selectBoxId);
+		selectBox.empty().append('<option value="">선택</option>');
 		categories.forEach(category => {
 			var value, text;
 			if (categoryType === 'big') {
@@ -332,39 +334,39 @@ $(document).ready(function() {
 				text = category.big_content;
 				// big_no가 1 또는 2인 항목만 추가 if (value === 1 || value === 2)
 				if (value === 1) {
-					$selectBox.append($('<option>', { value: value, text: text }));
+					selectBox.append($('<option>', { value: value, text: text }));
 				}
 			} else if (categoryType === 'mid') {
 				value = category.mid_no;
 				text = category.mid_content;
 				if (value === 1) {
-					$selectBox.append($('<option>', { value: value, text: text }));
+					selectBox.append($('<option>', { value: value, text: text }));
 				}
 			} else if (categoryType === 'sml') {
 				value = category.sml_no;
 				text = category.sml_content;
-				$selectBox.append($('<option>', { value: value, text: text }));
+				selectBox.append($('<option>', { value: value, text: text }));
 			}
 		});
 	}
 	// 자재 셀렉트 박스 리스트채우기
 	function fillMaterialCategorySelectBox(selectBoxId, categories, categoryType) {
-		var $selectBox = $(selectBoxId);
-		$selectBox.empty().append('<option value="">선택</option>');
+		var selectBox = $(selectBoxId);
+		selectBox.empty().append('<option value="">선택</option>');
 		categories.forEach(category => {
 			var value, text;
 			if (categoryType === 'big') {
 				value = category.big_no;
 				text = category.big_content;
-				$selectBox.append($('<option>', { value: value, text: text }));
+				selectBox.append($('<option>', { value: value, text: text }));
 			} else if (categoryType === 'mid') {
 				value = category.mid_no;
 				text = category.mid_content;
-				$selectBox.append($('<option>', { value: value, text: text }));
+				selectBox.append($('<option>', { value: value, text: text }));
 			} else if (categoryType === 'sml') {
 				value = category.sml_no;
 				text = category.sml_content;
-				$selectBox.append($('<option>', { value: value, text: text }));
+				selectBox.append($('<option>', { value: value, text: text }));
 			}
 		});
 	}
@@ -649,9 +651,10 @@ $(document).ready(function() {
 			selectedMaterialsInfo.forEach(function(material, index) {
 				var listItem = $(`<li>
                 <span class="delete-selected-material" data-index="${index}">X</span>
-                <span>${material.code} (${material.name})</span>
-                <span>${material.quantity} 개</span>
-            </li>`);
+                <span class="material-code">${material.code}</span>
+                <span class="material-name">(${material.name})</span>
+                <span class="material-quantity">${material.quantity} 개</span>
+            </li>`); // 클래스명을 추가하여 명확한 식별이 가능하도록 함
 				$("#prodItem-list").append(listItem);
 			});
 		} else {
@@ -766,7 +769,8 @@ $(document).ready(function() {
 				$('<td>').text(order.order_no),
 				$('<td>').text(order.cust_nm),
 				$('<td>').text(order.remark),
-				$('<td>').text(order.order_dt)
+				$('<td>').text(order.order_dt),
+				$('<td>').text(order.order_end_dt)
 			);
 			$orderListTbody.append($row);
 		});
@@ -852,4 +856,114 @@ $(document).ready(function() {
 			alert('생산수량은 최소 -99999개까지입니다.');
 		}
 	});
+	// 모달 닫기시 초기화
+	$('#verticalycentered').on('hidden.bs.modal', function() {
+		if (activeModal === null) { // 어떤 모달도 활성화되지 않았을 때만 초기화
+			$(this).find('input[type="text"], input[type="number"], textarea').val('');
+			$(this).find('input[type="date"]').val('');
+			selectedMaterialsInfo = []; // 선택된 자재 정보 배열 초기화
+			$('#prodItem-list').empty();
+			$('#initial_message').show();
+			$('#prodItem-bar').hide();
+		}
+		activeModal = null;
+	});
+
+	// 각 모달로 들어갈때 등록모달이 꺼지고 켜지기때문에 초기화 방지용
+	// 주문모달
+	$('.OderCodeSelect').click(function() {
+		activeModal = 'orderSelect';
+	});
+	// 제품모달
+	$('.productSelect').click(function() {
+		activeModal = 'productSelect';
+	});
+	// 자재모달
+	$('.productItemSelect').click(function() {
+		activeModal = 'productItemSelect';
+	});
+
+	// 등록모달 저장버튼시 DB저장, 필수 입력 값 유효성 검사
+	$('#saveButton').click(function(event) {
+		event.preventDefault(); // 폼 자동 제출 방지
+
+		// 입력 값 검증
+		var isFormValid = true;
+		var errorMessage = '';
+
+		if ($('#prodPlanNoInput').val() === '') {
+			isFormValid = false;
+			errorMessage += '주문번호를 선택해주세요.\n';
+		}
+		if ($('#prodPlanWorkingDaysInput').val() === '') {
+			isFormValid = false;
+			errorMessage += '작업일수를 입력해주세요.\n';
+		}
+		if ($('.productStartDateInput').val() === '') {
+			isFormValid = false;
+			errorMessage += '시작예정일자를 선택해주세요.\n';
+		}
+		if ($('.productEndDateInput').val() === '') {
+			isFormValid = false;
+			errorMessage += '완료예정일자를 선택해주세요.\n';
+		}
+		if ($('.productNameInput').val() === '') {
+			isFormValid = false;
+			errorMessage += '제품을 선택해주세요.\n';
+		}
+		if (selectedMaterialsInfo.length === 0) {
+			isFormValid = false;
+			errorMessage += '투입자재를 선택해주세요.\n';
+		}
+
+		// 입력 값이 유효한 경우, AJAX 요청 실행
+		if (isFormValid) {
+			console.log('폼으로 들어가니?');
+			// 제품 정보 수집
+			var productCode = $(".productNameInput").val().split(" ")[0]; // 제품 코드 파싱
+			var productName = $(".productNameInput").val().split(" (")[1].slice(0, -1); // 제품 이름 파싱
+
+			// 자재 정보 수집
+			var selectedMaterials = [];
+			$('#prodItem-list li').each(function() {
+				var material = {
+					code: $(this).find('.material-code').text().trim(), // 자재 코드
+					name: $(this).find('.material-name').text().trim(), // 자재 이름
+					quantity: parseInt($(this).find('.material-quantity').text().trim()) // 자재 수량
+				};
+				selectedMaterials.push(material);
+			});
+
+			var formData = {
+				orderNo: $('#prodPlanNoInput').val(),
+				workDays: $('#prodPlanWorkingDaysInput').val(),
+				startDate: $('.productStartDateInput').val(),
+				endDate: $('.productEndDateInput').val(),
+				productQty: $('.prodCount-input').val(),
+				product: {
+					code: productCode,
+					name: productName
+				},
+				materials: selectedMaterials,
+				remark: $('textarea[name="remark"]').val()
+			};
+			console.log(formData);
+			$.ajax({
+				type: "POST",
+				url: "submitProdPlan",
+				contentType: "application/json",
+				data: JSON.stringify(formData),
+				success: function(response) {
+					alert('성공적으로 저장되었습니다.');
+					$('#verticalycentered').modal('hide');
+				},
+				error: function(xhr, status, error) {
+					alert('저장에 실패했습니다.');
+				}
+			});
+		} else {
+			alert(errorMessage);
+		}
+	});
+	
 }); // !! 건들지말것 !!
