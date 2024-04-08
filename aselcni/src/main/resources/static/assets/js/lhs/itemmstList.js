@@ -1,3 +1,5 @@
+const numberReg = /^\d+$/;
+
 if(itemMst == 1){
 	document.getElementById("matBtn").className += " btn btn-primary";
 	document.getElementById("proBtn").className += " btn btn-outline-primary";
@@ -11,6 +13,27 @@ const optionEle = function(value,content){
 	option.value = value;
 	option.innerText = content;
 	return option;
+}
+
+const submitChk = function(){
+	if($("#modalbig").val() == "대분류" || $("#modalbig").val()==""){
+		alert("분류를 선택해주세요");
+		return false;
+	}
+	if($("#mid").val() == "중분류" || $("#mid").val()==""){
+		alert("분류를 선택해주세요");
+		return false;
+	}
+	if($("#sml").val() == "소분류" || $("#sml").val()==""){
+		alert("분류를 선택해주세요");
+		return false;
+	}
+	if(numberReg.test(document.getElementById("item_cost").value)){
+		return true
+	}else{
+		alert("가격에 숫자만 입력해주세요");
+		return false;
+	}	
 }
 
 $("#tb tbody tr").click(function(){

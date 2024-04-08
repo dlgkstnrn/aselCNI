@@ -74,7 +74,7 @@
                 <h5 class="card-title">신규 등록</h5>
 
                 <!-- Horizontal Form -->
-                <form action="itemmstAdd" method="post">
+                <form action="itemmstAdd" method="post" onsubmit="return submitChk()">
                   <input type="hidden" name="item_flag" value="${item_flag}" />
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
@@ -101,7 +101,7 @@
                       >품목 명</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="item_nm" />
+                      <input type="text" class="form-control" name="item_nm" required="required" />
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -158,11 +158,7 @@
                       >규격</label
                     >
                     <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="item_spec"
-                      />
+                      <input type="text" class="form-control" name="item_spec" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -170,11 +166,7 @@
                       >단위</label
                     >
                     <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="item_unit"
-                      />
+                      <input type="text" class="form-control" name="item_unit" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -182,11 +174,7 @@
                       >단가</label
                     >
                     <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="item_cost"
-                      />
+                      <input id="item_cost" type="text" class="form-control" name="item_cost" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -194,7 +182,7 @@
                       >비고</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="remark" />
+                      <input type="text" class="form-control" name="remark" required="required" />
                     </div>
                   </div>
 

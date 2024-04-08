@@ -194,7 +194,7 @@
 			style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-xl">
 				<div class="modal-content">
-				<form action="custmstUpdate" method="post">
+				<form action="custmstUpdate" method="post" onsubmit="return submitChk()">
 					<div class="modal-header">
 						<h1 class="modal-title">거래처 관리</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"

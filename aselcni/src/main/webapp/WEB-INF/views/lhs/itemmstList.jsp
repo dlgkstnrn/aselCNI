@@ -252,7 +252,7 @@
         >
           <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-              <form action="itemmstUpdate" method="post">
+              <form action="itemmstUpdate" method="post" onsubmit="return submitChk()">
                 <div class="modal-header">
                   <h1 class="modal-title">품목 관리</h1>
                   <button
