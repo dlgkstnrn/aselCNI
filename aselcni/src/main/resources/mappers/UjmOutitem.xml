@@ -70,6 +70,8 @@
 	    	tb_order AS ord
 		JOIN
 	    	tb_custmst AS custmst ON ord.cust_cd = custmst.cust_cd
+	    WHERE
+			ord.order_status_chk IN (0, 2) -- 주문 상태가 0 또는 2인 경우에만 선택
 		GROUP BY
 	    	ord.order_no,
 	    	custmst.cust_nm

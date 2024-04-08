@@ -83,6 +83,7 @@ pageEncoding="UTF-8"%>
                       class="btn btn-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#outitem_insert" 
+                      id="outitem_insert_btn"
                     > <!-- 등록버튼 -->
                       등록
                     </button>
@@ -111,10 +112,10 @@ pageEncoding="UTF-8"%>
                               class="btn-close"
                               data-bs-dismiss="modal"
                               aria-label="Close"
-                            ></button>
+                            ></button><!-- 등록 나오면 나오는 등록버튼 -->
                           </div>
 
-                            <!-- 등록 폼 -->
+                            <!-- 등록 폼 form -->
                           <form action="insertOutitem">
 
                             <div class="modal-body">
@@ -128,7 +129,7 @@ pageEncoding="UTF-8"%>
                                   <select
                                     class="form-select"
                                     id="selectOrderNo"
-                                  style="width: 200px"
+                                  
                                   name="order_no"
                                   >
                                       <option value="">주문 선택</option>
@@ -145,12 +146,7 @@ pageEncoding="UTF-8"%>
                                   >주문일자(단순조회)</label
                                 >
                                 <div class="col-sm-9">
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    value="${order_dt}"
-                                    readonly
-                                  />
+                                  ${order_dt}
                                 </div>
                               </div>
 

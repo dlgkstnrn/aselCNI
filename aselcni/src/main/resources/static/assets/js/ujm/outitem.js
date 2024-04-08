@@ -92,21 +92,26 @@ $(document).ready(function () {
     });
 
 
-    //등록버튼 눌렀을 때..
-    $("#outitem_insert").click(function(){
+     //등록버튼 눌렀을 때..
+    $("#outitem_insert_btn").click(function(){ 
+
+
 
       //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
+     
       $.ajax({
-          url: '/ujmGetOrderNo',
+          url: 'ujmGetOrderNo',
           type: 'GET',
+          dataType: 'json',
           success: function(response) {
             console.log(response);
-              var selectBox = $('#selectOrderNo');
-              selectBox=empty();
+              var selectBox = $('#selectOrderNo'); //주문번호 select 부분 id , 안에 option이 있음
+              selectBox.empty();
               
-              $.each(response, function(index, order) {
-                  selectBox.append('<option value="' + order.order_no + '">' + 
-                  order.customer_name + ' - ' + order.items + '</option>');
+              $.each(response, function(index, item) { //리스트의 각각의 객체를 item으로 명명 
+                  selectBox.append('<option value="' + item.order_no + '">' + 
+                  item.order_no + ': ' +
+                  item.customer_name + ' - ' + item.items + '</option>');
               });
           },
           error: function(xhr, status, error) {
@@ -117,6 +122,36 @@ $(document).ready(function () {
 
 
   });
+
+
+  
+ //주문번호 셀렉트박스 눌렀을 때 : 선택한 주문번호에 대한 정보들 컨트롤러로 가져오기 위함
+ $("#selectOrderNo").click(function(){ 
+
+  //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
+ 
+  $.ajax({
+      url: 'ujmGetOrderInfoFromOrderNo',
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        console.log(response);
+          var selectBox = $('#selectOrderNo'); //주문번호 select 부분 id , 안에 option이 있음
+          selectBox.empty();
+          
+          $.each(response, function(index, item) { //리스트의 각각의 객체를 item으로 명명 
+              selectBox.append('<option value="' + item.order_no + '">' + 
+              item.order_no + ': ' +
+              item.customer_name + ' - ' + item.items + '</option>');
+          });
+      },
+      error: function(xhr, status, error) {
+          console.error(error);
+      }
+  });
+
+
+}); 
 
 }); //끝
 

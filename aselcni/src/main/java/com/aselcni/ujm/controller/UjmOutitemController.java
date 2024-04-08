@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aselcni.ujm.model.UjmOrder;
+import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
 import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
+import com.aselcni.ujm.service.UjmOrderService;
 import com.aselcni.ujm.service.UjmOutitemService;
 import com.aselcni.ujm.service.UjmPaging;
 
@@ -82,13 +87,6 @@ public class UjmOutitemController {
 		return "forward:outitem"; 
 	}
 	
-	@RequestMapping(value = "ujmGetOrderNo")
-    public List<UjmOrderNoDto> ujmGetOrderNo() {
-		System.out.println("ujmOutItem 컨트롤러 ujmGetOrderNo 시작");
-		List<UjmOrderNoDto> ujmListOrderNo=uos.ujmGetOrderNo();
-		System.out.println(ujmListOrderNo);
-        return ujmListOrderNo;
-    }
 	
 	//출고 수정
 	@RequestMapping(value = "updateOutitem") 

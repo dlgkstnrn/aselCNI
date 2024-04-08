@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
 import com.aselcni.ujm.model.UjmOrderNoDto;
-import com.aselcni.ujm.model.UjmOutitem;
 
-public interface UjmOutitemDao {
+public interface UjmOrderDao {
+	
+	List<UjmOrderNoDto> ujmGetOrderNo();
 
-	int ujmTotalOutitemCnt();
-
-	List<UjmOutitem> ujmListOutiem(UjmOutitem outitem);
+	UjmOrderInfoToInsertDto ujmGetOrderInfoFromOrderNo(String order_no);
+	
 }

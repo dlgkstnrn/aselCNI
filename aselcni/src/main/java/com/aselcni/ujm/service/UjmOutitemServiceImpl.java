@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aselcni.ujm.dao.UjmOutitemDao;
+import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
 import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
 
@@ -38,15 +39,8 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		 return ujmListOutitems;
 	}
 
-	@Override
-	public List<UjmOrderNoDto> ujmGetOrderNo() {
-		List<UjmOrderNoDto> ujmListOrderNo = null;
-		 System.out.println("UjmOutitemServiceImpl ujmGetOrderNo Start..." );
-		 ujmListOrderNo = uod.ujmGetOrderNo();
-		 if(ujmListOrderNo!=null) {
-			 System.out.println("UjmOutitemServiceImpl ujmListOrderNo ujmListOrderNo.size()->" +ujmListOrderNo.size()); 
-		 }
-		 return ujmListOrderNo;
-	}
+
+
+
 
 }

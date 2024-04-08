@@ -3,6 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst" />
+		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst" />
 		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst" />
 		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig" />
 		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid" />
@@ -80,6 +81,7 @@
 		<typeAlias alias="UjmWorkprod" type="com.aselcni.ujm.model.UjmWorkprod" />
 		
 		<typeAlias alias="UjmOrderNoDto" type="com.aselcni.ujm.model.UjmOrderNoDto" />
+		<typeAlias alias="UjmOrderInfoToInsertDto" type="com.aselcni.ujm.model.UjmOrderInfoToInsertDto" />
 
 		<typeAlias alias="CSG_TB_CUSTMST"
 			type="com.aselcni.csg.model.CSG_TB_CUSTMST" />
