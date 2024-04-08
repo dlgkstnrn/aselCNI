@@ -92,8 +92,8 @@
 			                        
 			                        <!-- 거래처 담당자 -->
 			                        <div class="border border-green-500">
-			                            <label for="manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">거래처 발주담당자 TB_PURCHASE의 CUST_EMP</label>
-			                            <input id="manager-name" type="text" placeholder="거래처 담당자 입력" class="form-control" value="${cust.CUST_EMP}" readonly>
+			                            <label for="manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">발주등록일</label>
+			                            <input id="manager-name" type="text" placeholder="발주등록일" class="form-control" value="" readonly>
 			                        </div>
 			                        
 			                        <!-- 발주 담당자 -->
@@ -136,6 +136,9 @@
 
 						            </tbody>
 						        </table>
+								<div id="totalAmount" style="margin-top: 20px;">
+								    총합계: <span id="totalPrice">0</span> 원
+								</div>
 						    </div>
 						    
 						   <!-- 버튼 그룹 -->
@@ -213,6 +216,8 @@
 
 							            </tbody>
 							        </table>
+
+
 	                        </div>
 	                        <div class="modal-footer">
   									 <button id="modalSaveButton" class="btn btn-primary">저장</button>

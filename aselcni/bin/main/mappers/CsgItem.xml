@@ -9,10 +9,10 @@
 		inner JoIn TB_PURCHASE tp on tp.CUST_CD = tc.CUST_CD
 	</select>
 	
-	<select id="findCustEmpByCustCd" parameterType="String" resultType="String">
-        SELECT CUST_EMP
-        FROM TB_CUSTMST
-        WHERE CUST_CD = #{custCd}
+	<select id="findCustEmpByCustCd" parameterType="String" resultType="CSG_TB_PURCHASE">
+        SELECT tp.CUST_EMP
+        FROM TB_PURCHASE tp 
+        WHERE tp.CUST_CD = #{cust_cd}
     </select>
 	
 	

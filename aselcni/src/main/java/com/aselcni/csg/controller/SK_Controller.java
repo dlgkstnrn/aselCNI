@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aselcni.csg.model.CSG_CategoryData;
 import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
+import com.aselcni.csg.model.CSG_TB_PURCHASE;
 import com.aselcni.csg.model.CSG_TB_PURCHASE_ITEM;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
@@ -53,6 +54,17 @@ public class SK_Controller {
 		
 		return "csg/CSG_purchaseItem2";
 	}
+	
+	//발주업체를 불러오게 되면 ==> 거래처 발주담당자를 불러오기 purchaseItemForm
+	@GetMapping("/getPurchaseManager")
+	@ResponseBody
+	public CSG_TB_PURCHASE getPurchaseManager(@RequestParam("cust_cd") String custCd) {
+	    //발주테이블에서 거래처 발주담당자를 가져오자
+		System.out.println("발주담당자를 가져오깅 위해서 cust_cd를 잘 받아 왔니?? ==>"+custCd);
+		CSG_TB_PURCHASE custEmployee = sk_ServicInterface.findCustEmployeeByCustCd(custCd);
+	    return custEmployee;
+	}
+
 	
 	
 	//발주 등록 폼에서 거래처를 불러온 다음에 cust_cd를 통해서 대분류 불러오기

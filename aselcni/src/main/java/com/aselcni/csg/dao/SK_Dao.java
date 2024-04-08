@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
+import com.aselcni.csg.model.CSG_TB_PURCHASE;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
 import com.aselcni.csg.model.CSG_TB_TYPE_SML;
@@ -91,6 +92,22 @@ public class SK_Dao implements SK_Dao_Interface {
 		}
 		
 		return csgCustlist;
+	}
+	
+	//선택된 발주업체 ==> 발주담당자(거래처) 가져오기 위한 ajax마지막 다오
+	@Override
+	public CSG_TB_PURCHASE findCustEmployeeByCustCd(String custCd) {
+		System.out.println("Dao : ajax를 통해서 선택된 발주업체에서 발주담당자를 가져오자 custCd ==> "+custCd);
+		CSG_TB_PURCHASE custEmployee = null;
+		try {
+		custEmployee = session.selectOne("findCustEmpByCustCd",custCd);
+	    System.out.println("DB에서 거래처 발주담당자 잘 가져왔냐 @@@@@@@@@@@@@@@@@@@@@@@@ ==> "+ custEmployee);
+		}catch (Exception e) {
+			System.out.println("오류가 발생하였습니다 ==> " + e);
+		}
+		
+		return custEmployee;
+		
 	}
 
 

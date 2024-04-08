@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.aselcni.csg.dao.SK_Dao_Interface;
 import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
+import com.aselcni.csg.model.CSG_TB_PURCHASE;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
 import com.aselcni.csg.model.CSG_TB_TYPE_SML;
@@ -63,6 +64,14 @@ public class SK_Service implements SK_Service_Interface {
 		//System.out.println("서비스에서 모달에서 대중소분류 선택된 itemsList DB에서 가져온것들===>"+selectedItemList);
 
 		return selectedItemList;
+	}
+
+	//발주업체가 선택된 다음에 발주 담당자를 가져오자
+	@Override
+	public CSG_TB_PURCHASE findCustEmployeeByCustCd(String custCd) {
+		System.out.println("service : 발주담당자를 가져오자고");
+		CSG_TB_PURCHASE custEmployee = sk_Dao_Interface.findCustEmployeeByCustCd(custCd);
+	    return custEmployee;
 	}
 
 

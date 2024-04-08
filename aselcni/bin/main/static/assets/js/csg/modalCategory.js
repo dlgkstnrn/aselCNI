@@ -43,7 +43,7 @@ $(document).ready(function() {
         // 거래처 담당자 정보 조회를 위한 AJAX 요청
         $.ajax({
             type: 'GET',
-            url: '/getSupplierEmployee', // 거래처 담당자 정보를 조회하는 서버의 URL
+            url: '/getPurchaseManager', // 거래처 담당자 정보를 조회하는 서버의 URL
             data: { cust_cd: custCd }, // 서버에 전송할 데이터
             success: function(response) {
                 // 성공 시 처리 로직
@@ -182,7 +182,7 @@ function fillTableWithItems(items) {
         const row = `
             <tr>
                 <td><input type="checkbox" id="itemSelect${item.cust_cd}" name="itemSelect"></td>
-                <td>${item.cust_cd}</td>
+                <td>${item.item_cd}</td>
                 <td>${item.item_nm}</td>
                 <td>${item.item_spec}</td>
                 <td>${item.item_unit}</td>
@@ -260,8 +260,61 @@ $(document).ready(function() {
 
         // 공급가액을 현재 행의 'purc-cost' 클래스를 가진 td에 업데이트
         $this.closest('tr').find('.purc-cost').text(`${purcCost}원`);
+        
+        //총 합계 업데이트
+        updateTotalAmount();
     });
+    
+     // 총 합계를 계산하고 업데이트하는 함수
+    function updateTotalAmount() {
+        let total = 0; // 총합계 초기화
+        // 각 행의 공급가액을 더함
+        $('.purc-cost').each(function() {
+            const amountText = $(this).text().replace('원', ''); // '원' 문자 제거
+            const amount = parseFloat(amountText);
+            if (!isNaN(amount)) { // 숫자인 경우에만 더함
+                total += amount;
+            }
+        });
+
+        // 총합계를 'totalAmount' id를 가진 div에 표시
+        $('#totalAmount').text(`총합계: ${total}원`);
+    }
 });
+/*
+//발주등록 폼에서 input에 입력한 숫자 * 금액 ==> 발주금액이 나오게 되는부분
+$(document).ready(function() {
+    // 수량 입력 필드의 값이 변경될 때마다 실행되는 이벤트 리스너
+    $(document).on('input', '.qty-input', function() {
+        const $this = $(this);
+        const itemCost = $this.data('item-cost'); // 단가 가져오기
+        const qty = $this.val(); // 입력된 수량 가져오기
+        const purcCost = itemCost * qty; // 공급가액 계산
+
+        // 공급가액을 현재 행의 'purc-cost' 클래스를 가진 td에 업데이트
+        $this.closest('tr').find('.purc-cost').text(`${purcCost}원`);
+        
+        //총 합계 업데이트
+        updateTotalAmount();
+    });
+    
+     // 총 합계를 계산하고 업데이트하는 함수
+    function updateTotalAmount() {
+        let total = 0; // 총합계 초기화
+        // 각 행의 공급가액을 더함
+        $('.purc-cost').each(function() {
+            const amountText = $(this).text().replace('원', ''); // '원' 문자 제거
+            const amount = parseFloat(amountText);
+            if (!isNaN(amount)) { // 숫자인 경우에만 더함
+                total += amount;
+            }
+        });
+
+        // 총합계를 'totalAmount' id를 가진 div에 표시
+        $('#totalAmount').text(`총합계: ${total}원`);
+    }
+});
+*/
 
 
 
