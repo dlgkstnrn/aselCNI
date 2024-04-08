@@ -20,8 +20,11 @@
 		<typeAlias alias="psaWorkProd" type="com.aselcni.psa.model.WorkProd"/>
 		<typeAlias alias="KdwProdPlan" type="com.aselcni.kdw.model.TB_PRODPLAN"/>
 		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD"/>
-		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem"/>
-		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd"/>
+		
+		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem" />
+		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd" />
+		<typeAlias alias="JtuBad" type="com.aselcni.jtu.model.JtuBad" />
+		<typeAlias alias="JtuProdItemBad" type="com.aselcni.jtu.model.JtuProdItemBad" />
 		
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst" />
 		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst" />

@@ -15,9 +15,13 @@ public class JtuProdItem {
 	// 1. 생산지시 테이블
 	// TB_PRODITEM
 	
-	// 생산지시번호 (Primary Key)
+	
 	// PK 규칙 : WPR + 날짜 6글자 + 날짜 기준 count 4글자
-	// 품목CD(제품코드) (Foreign Key)
+	
+	// 생산지시번호 (Primary Key)
+	private String proditem_no;
+	
+	// 생산 지시 번호CD(Foreign Key)
 	private String workprod_no;
 	
 	// 생산완료일자
@@ -34,9 +38,6 @@ public class JtuProdItem {
 	
 	// 불량생산수량
 	private Integer bad_qty;
-	
-	// 불량생산내역
-	private String bad_res;
 
 	// 비고
 	private String remark;
@@ -54,11 +55,19 @@ public class JtuProdItem {
 	private Integer proditem_delete_chk;
 	
 	
-	// 조회용 (TB_ITEMMST)
-	// 품목명
-	private String item_nm;
+	// 조회용
+	// 불량 코드
+	private String bad_cd;
+	// 불량 내역
+	private String bad_res;
+
 	// 창고명
 	private String wh_nm;
+	// 창고 리스트
+	private List<JtuWH> whList;
+	
+	// 품목명
+	private String item_nm;
 	// 01자재02제품
 	private Integer item_flag;
 	// 대분류번호
@@ -74,12 +83,13 @@ public class JtuProdItem {
 	// 소분류내용
 	private String sml_content;
 
-	// 창고 리스트
-	private List<JtuWH> whList;
 	
 	//전달용
 	private String startDate;
 	private String endDate;
+	
+	//다대다
+	private List<JtuProdItemBad> jpriBadList;
 	
 
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aselcni.jtu.dao.JtuDaoInterface;
+import com.aselcni.jtu.model.JtuBad;
 import com.aselcni.jtu.model.JtuProdItem;
 import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
@@ -67,6 +68,32 @@ public class JtuServiceImple implements JtuServiceInterface{
 	public void deletePriOne(JtuProdItem jpri) {
 		System.out.println("JtuServiceImple deletePriOne Start... ");
 		jd.deletePriOne(jpri);
+	}
+
+	@Override
+	public List<JtuBad> getJbadList(JtuBad jbad) {
+		System.out.println("JtuServiceImple getJbadList Start... ");
+		if(jbad.getBadCdKeyword()==null) {
+			jbad.setBadCdKeyword("");
+		}
+		if (jbad.getBadResKeyword()==null) {
+			jbad.setBadResKeyword("");
+		}
+		List<JtuBad> jbadList = jd.getJbadList(jbad);
+		
+		return jbadList;
+	}
+
+	@Override
+	public void setJbadOne(JtuBad jbad) {
+		System.out.println("JtuServiceImple setJbadOne Start... ");
+		if(jbad.getBadCdKeyword()==null) {
+			jbad.setBadCdKeyword("");
+		}
+		if (jbad.getBadResKeyword()==null) {
+			jbad.setBadResKeyword("");
+		}
+		jd.setJbadOne(jbad);
 	}
 
 

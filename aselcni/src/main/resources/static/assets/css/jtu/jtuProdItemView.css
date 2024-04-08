@@ -64,3 +64,9 @@ th, td {
   from { transform: translateX(0%); }
   to { transform: translateX(-60%); }
 }
+
+
+.category-search-list-container {
+    overflow-y: auto; /* 수직 방향으로 스크롤 허용 */
+    max-height: 250px; /* 컨테이너의 최대 높이 설정, 필요에 따라 조정 */
+}

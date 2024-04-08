@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.jtu.model.JtuBad;
 import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuProdItemBad;
 import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
 
@@ -49,9 +51,16 @@ public class JtuDaoImple implements JtuDaoInterface{
 	@Override
 	public void setPriOne(JtuProdItem jpri) {
 		System.out.println("JtuDaoImple setPriOne Start... ");
-		
 		try {
+			String proditem_no = session.selectOne("jtuCreatePriNo", jpri);
+			jpri.setProditem_no(proditem_no);
 			session.insert("jtuInsertPri",jpri);
+			
+			for (JtuProdItemBad jpriBad : jpri.getJpriBadList()) {
+				jpriBad.setProditem_no(proditem_no);
+				session.insert("jtuInsertPriBad",jpriBad);
+			}
+			
 		} catch (Exception e) {
 			System.out.println("setPriOne exception->" + e.getMessage());
 		}
@@ -109,6 +118,32 @@ public class JtuDaoImple implements JtuDaoInterface{
 			
 		} catch (Exception e) {
 			System.out.println("deletePriOne exception->" + e.getMessage());
+		}
+	}
+
+
+	@Override
+	public List<JtuBad> getJbadList(JtuBad jbad) {
+		System.out.println("JtuDaoImple getJbadList Start... ");
+		List<JtuBad> jbadList= null;
+		try {
+			jbadList=session.selectList("jtuGetBadList", jbad);
+		} catch (Exception e) {
+			System.out.println("getJbadList exception->" + e.getMessage());
+		}
+		
+		return jbadList;
+	}
+
+
+	@Override
+	public void setJbadOne(JtuBad jbad) {
+		System.out.println("JtuDaoImple setJbadOne Start... ");
+		try {
+			int rs =session.insert("jtuInsertBadOne", jbad);
+			System.out.println("JtuDaoImple setJbadOne jbad --> " + jbad);
+		} catch (Exception e) {
+			System.out.println("setJbadOne exception->" + e.getMessage());
 		}
 	}
 

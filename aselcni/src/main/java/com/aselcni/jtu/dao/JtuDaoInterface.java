@@ -2,6 +2,7 @@ package com.aselcni.jtu.dao;
 
 import java.util.List;
 
+import com.aselcni.jtu.model.JtuBad;
 import com.aselcni.jtu.model.JtuProdItem;
 import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
@@ -21,5 +22,9 @@ public interface JtuDaoInterface {
 	void updatePriOne(JtuProdItem jpri);
 
 	void deletePriOne(JtuProdItem jpri);
+
+	List<JtuBad> getJbadList(JtuBad jbad);
+
+	void setJbadOne(JtuBad jbad);
 
 }

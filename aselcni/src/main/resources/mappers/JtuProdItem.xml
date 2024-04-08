@@ -2,14 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.JtumProdItemMapper">
 
+	<select id="jtuCreatePriNo" parameterType="JtuProdItem" resultType="String">
+		SELECT CONCAT('PRI', RIGHT(REPLACE(#{proditem_end_dt},'-',''),6) , FORMAT(ISNULL(COUNT(ti.PRODITEM_END_DT),0)+1, '0000')) AS PRODITEM_END_DT
+		FROM TB_PRODITEM ti
+		WHERE ti.PRODITEM_END_DT = #{proditem_end_dt};
+	</select>
+
 	<insert id="jtuInsertPri" parameterType="JtuProdItem">
 		insert into TB_PRODITEM
-		(WORKPROD_NO, PRODITEM_END_DT, ITEM_CD, PLN_QTY, PROD_QTY, BAD_QTY, BAD_RES, 
+		(PRODITEM_NO, WORKPROD_NO, PRODITEM_END_DT, ITEM_CD, PLN_QTY, PROD_QTY, BAD_QTY, 
 					REMARK, WH_CD, PRODITEM_EMP_ID, PRODITEM_UPDATE, PRODITEM_DELETE_CHK)
 					
-		values(#{workprod_no}, #{proditem_end_dt}, #{item_cd}, #{pln_qty}, #{prod_qty}, #{bad_qty}, #{bad_res}, 
+		values(#{proditem_no}, #{workprod_no}, #{proditem_end_dt}, #{item_cd}, #{pln_qty}, #{prod_qty}, #{bad_qty}, 
 					#{remark}, #{wh_cd}, #{proditem_emp_id}, CONVERT(CHAR(10),GETDATE(), 23), 0)
-		
+	</insert>
+	
+	<insert id="jtuInsertPriBad" parameterType="JtuProdItemBad">
+		insert into TB_PRODITEM_BAD
+			(PRODITEM_NO, BAD_CD)
+		values (#{proditem_no}, #{bad_cd})
 	</insert>
 	
 
@@ -36,6 +47,22 @@
 		from TB_WHMST
 		where WH_DELETE_CHK=0
 	</select>
+	
+	
+	<select id="jtuGetBadList" parameterType="JtuBad" resultType="JtuBad">
+		select * 
+		from TB_BAD
+		where (bad_cd like '%' + #{badCdKeyword} + '%'
+			and bad_res like '%' + #{badResKeyword} + '%')
+	</select>
+	
+	<insert id="jtuInsertBadOne" parameterType="JtuBad">
+		insert into TB_BAD
+			(BAD_CD, BAD_RES)
+		values(#{bad_cd}, #{bad_res})
+	</insert>
+	
+	
 	
 	<select id="JtuGetPriList" parameterType="JtuProdItem" resultType="JtuProdItem">
 		select * 

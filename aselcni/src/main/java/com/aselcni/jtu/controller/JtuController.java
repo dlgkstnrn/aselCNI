@@ -9,9 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.jtu.model.JtuBad;
 import com.aselcni.jtu.model.JtuProdItem;
 import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
@@ -32,10 +35,10 @@ public class JtuController {
 		jpri.setStartDate(todayStr);
 		jpri.setEndDate(afterDayStr);
 
-		List<JtuProdItem> jpriList = js.getPriList(jpri);
-		System.out.println("JtuController proditem jpriList --> " + jpriList);
-
-		model.addAttribute("jpriList", jpriList);
+//		List<JtuProdItem> jpriList = js.getPriList(jpri);
+//		System.out.println("JtuController proditem jpriList --> " + jpriList);
+//
+//		model.addAttribute("jpriList", jpriList);
 		return "jtu/jtuProdItemView";
 	}
 
@@ -76,7 +79,7 @@ public class JtuController {
 	
 	
 	@ResponseBody
-	@RequestMapping("getWHListRegiModal")
+	@RequestMapping("getWHListModal")
 	// 창고 리스트 불러오기
 	public List<JtuWH> getWHListAjax(Model model) {
 		System.out.println("JtuController getWHListListAjax Start... ");
@@ -87,8 +90,33 @@ public class JtuController {
 		return jwhList;
 	}
 	
+	@ResponseBody
+	@RequestMapping("getBadListModal")
+	// 불량 코드 리스트 불러오기
+	public List<JtuBad> getBadListAjax(Model model, JtuBad jbad) {
+		System.out.println("JtuController getBadListAjax Start... ");
+		
+		List<JtuBad> jbadList = js.getJbadList(jbad);
+		System.out.println("JtuController getBadListAjax jbadList --> " + jbadList);
+		
+		return jbadList;
+	}
+	
+	@ResponseBody
+	@RequestMapping("submitBadModal")
+	// 불량 코드 등록
+	public String setJabadOne(Model model, JtuBad jbad) {
+		System.out.println("JtuController setJabadOne Start... ");
+		System.out.println("JtuController setJabadOne jbad --> " + jbad);
+		js.setJbadOne(jbad);
+		
+		return "";
+	}
+	
+
 	
 	@RequestMapping("submitWorkProdRegiModal")
+	// 생산 실적 등록
 	public String setPriOne(Model model, JtuProdItem jpri) {
 		System.out.println("JtuController setPriOne Start... ");
 		System.out.println("JtuController setPriOne jpri --> " + jpri);
@@ -98,6 +126,7 @@ public class JtuController {
 	}
 	
 	@RequestMapping("submitProdItemEditModal")
+	// 생산 실적 수정 업데이트
 	public String updatePriOne(Model model, JtuProdItem jpri) {
 		System.out.println("JtuController updatePriOne Start... ");
 		System.out.println("JtuController updatePriOne jpri --> " + jpri);
@@ -107,6 +136,7 @@ public class JtuController {
 	}
 	
 	@RequestMapping("deleteProdItemEditModal")
+	// 생산 실적 삭제 업데이트
 	public String deletePriOne(Model model, JtuProdItem jpri) {
 		System.out.println("JtuController deletePriOne Start... ");
 		System.out.println("JtuController deletePriOne jpri --> " + jpri);

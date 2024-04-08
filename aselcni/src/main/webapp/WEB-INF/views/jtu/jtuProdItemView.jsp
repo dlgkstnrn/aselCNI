@@ -41,20 +41,32 @@
 >
 
 <!-- Script -->
+<script src="assets/js/jquery-3.7.1.min.js"></script>
 <script defer src="assets/js/main.js"></script>
 <script src="https://kit.fontawesome.com/0b22ed6a9d.js"
 	crossorigin="anonymous"
 ></script>
-<script src="assets/js/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
 	let startDate = $('#startDate').val();
 	let endDate = $('#endDate').val();
+	let proditem_no="";
 	let workprod_no = "";
+	let badCdKeyword="";
+	let badResKeyword="";
+	let bad_cd="";
+	let bad_res="";
+	
+	let selectedRows = []; // 체크된 행의 데이터를 저장할 리스트
 	const data = {
 		startDate,
 		endDate,
-		workprod_no
+		proditem_no,
+		workprod_no,
+		badCdKeyword,
+		badResKeyword,
+		bad_cd,
+		bad_res
 	}
 
 
@@ -93,7 +105,7 @@
 	//닫기 버튼 클릭시 modal 입력 내용 클리어
 	$(document).ready(function() {
 		$('button[data-bs-dismiss="modal"]').on('click', function() {
-			modalContentClear();
+		
 		});
 	});
 	
@@ -154,7 +166,6 @@
 			dateShift('left');
 		});
 	});
-	
 	
 
 	// 날짜 조정 함수
@@ -218,14 +229,12 @@
 	//등록버튼 눌렀을때
 	$(document).ready(function() {
 	    $("#regiModalBtn").click(function() {
-	    	//오늘날짜
+	    	//오늘날짜 넣기
 	    	inputToday("#prodEndDateRegiModal",);
-	    	
-	    	//창고 리스트 RegiModal에 넣어줌
-	    	getWHListRegiModal("RegiModal");
+	    	//창고 리스트 넣어줌
+	    	getWHListModal("RegiModal");
 	    })
 	})
-	
 
 	//오늘 날짜 넣어주는 함수
 	function inputToday(tagId){
@@ -238,8 +247,8 @@
 		$(tagId).val(today);
 	}
 	
-	//창고 리스트 RegiModal에 넣는 함수
-	function getWHListRegiModal(modalType) {
+	//창고 리스트 불러오는 함수
+	function getWHListModal(modalType) {
 	    var ulSelector = "";
 	    var itemSelector = "";
 	    var hiddenSelector = "";
@@ -256,7 +265,7 @@
 	
 	    $(ulSelector).find("li").remove();
 	    $.ajax({
-	        url: 'getWHListRegiModal',
+	        url: 'getWHListModal',
 	        method: 'POST',
 	        dataType: 'json',
 	        success: function(whList) {
@@ -287,6 +296,7 @@
 	        }
 	    });
 	}
+
 
 	//리스트 불러오고 생산 지시번호를 선택하면, 자동 텍스트 입력
 	$(document).ready(function() {
@@ -322,6 +332,7 @@
        				    $('#hiddenItemCdRegiModal').val(foundWpr.item_cd);
        				    $('#itemNameRegiModal').val(foundWpr.item_nm+"("+foundWpr.item_cd+")");
        				    $('#expectedQtyRegiModal').val(foundWpr.qty);
+       				    $('#hiddenExpQtyRegiModal').val(foundWpr.qty);
        				    
         				
         			});
@@ -371,8 +382,6 @@
 				
 				disabledOnoff(disabledList, true)
 				
-
-				
 				
 			},//success
             error : function(xhr, status, error) {
@@ -380,7 +389,7 @@
 		})//ajax
 		
 	}
-	
+	// 수정 버튼 누르면 isDisabled
 	function disabledOnoff(list, isDisabled) {
 	    list.forEach(item => {
 	        item.prop("disabled", isDisabled);
@@ -391,6 +400,7 @@
 	function getPriListAjax(){
 		data.startDate = $('#startDate').val();
 		data.endDate = $('#endDate').val();
+		data.proditem_no
 
 		console.log("data.startDate", data.startDate);
 		console.log("data.endDate", data.endDate);
@@ -432,7 +442,7 @@
 			
 			$("#prodItemWHEditModal").attr("data-bs-toggle","dropdown");
 			$("#expectedQtyEditModal").attr("readonly","");
-			getWHListRegiModal("EditModal");
+			getWHListModal("EditModal");
 			
 			$("#editModalEditBtn").hide();
 			$("#editModalUpdateBtn").show();
@@ -454,7 +464,7 @@
 			
 			$("#editModalEditBtn").show();
 			$("#editModalUpdateBtn").hide();
-		})
+		});
 	})
 	
 	//삭제 버튼 눌렀을 때 로직
@@ -474,12 +484,197 @@
 					error : function(xhr, status, error) {
 					    console.error("Error occurred: " + error);
 					}
-			})
+			})//ajax
 		})
+
 	})
 	
-</script>
+	//불량 코드, 내역 추가 함수
+	function badInsertRegiModal(){
+		data.badCdKeyword=$("#badCdRegiModal").val();
+		data.badResKeyword=$("#badResRegiModal").val();
+		
+		$.ajax({
+			url : "deleteProdItemEditModal",
+			method : 'POST',
+			data,
+			dataType : "json",
+			success : function(){
+				
+			},//success
+				error : function(xhr, status, error) {
+				    console.error("Error occurred: " + error);
+				}
+		})//ajax
+	}
+	
+	
+	
 
+	$(document).ready(function() {
+		//badModal 닫힐때 regiModal 나오게 하기
+	    $('#badModal').on('hidden.bs.modal', function (e) {
+	        $('#workProdRegiModal').modal('show');
+	    });
+		
+
+
+	})
+	
+		//불량 코드 리스트 불러오는 함수
+	function getBadList(modalType,badCd,badRes) {
+	    var tbodySelector = "";
+	    var badResSelector = "";
+	    
+	    data.badCdKeyword=badCd;
+	    data.badResKeyword=badRes;
+	    
+	    if (modalType === "RegiModal") {
+	    	tbodySelector = "#badListBadModal";
+	    	
+	    } else if (modalType === "EditModal") {
+	    	tbodySelector = "#badListEditModal";
+	    	
+	    } 
+	    
+	    $.ajax({
+	        url: 'getBadListModal',
+	        method: 'POST',
+	        data,
+	        dataType: 'json',
+	        success: function(badList) {
+	            let tbodyTag = $(tbodySelector); 
+	           
+	            tbodyTag.empty();
+	            
+            	
+	        	if(badList.length==0){
+	        		let trTag = $("<tr></tr>");
+	        		trTag.append("<td colspan='3'> 해당하는 코드가 없습니다. 추가 하고 싶으시다면 코드와 내역을 입력하고, 기타 버튼을 눌러주세요 </td>");
+	        		tbodyTag.append(trTag); 
+	        	}
+	            
+	            $.each(badList, function(index, bad) {
+	    
+	            	let trTag = $("<tr></tr>");
+	                trTag.append('<td class="checkbox-center"><input type="checkbox"></td>'); 
+	                trTag.append("<td>" + bad.bad_cd + "</td>"); 
+	                trTag.append("<td>" + bad.bad_res + "</td>"); 
+	                tbodyTag.append(trTag); 
+	            });
+	            
+	            // 리스트가 새로 로드된 후에 저장된 항목들을 기반으로 체크박스 체크
+	            $('#badListBadModal tr').each(function() {
+	                let tr = $(this);
+	                let badCd = tr.find('td:nth-child(2)').text();
+	                
+	                let isSelected = selectedRows.some(row => row.code === badCd);
+
+	                if (isSelected) {
+	                    tr.find('input[type="checkbox"]').prop('checked', true);
+	                }
+	            });
+	            
+	            
+	            
+                // 체크박스 클릭 이벤트
+                $('#badListBadModal tr').click(function(e) {
+                    var checkbox = $(this).find('input[type="checkbox"]');
+                    
+                    // 행이 아닌 체크박스를 직접 클릭한 경우에도 동작하도록 예외 처리
+                    if (!$(e.target).is('input')) {
+                        checkbox.prop('checked', !checkbox.prop('checked'));
+                    }
+                    
+                    // 체크박스가 체크되면 리스트에 추가, 아니면 리스트에서 제거
+                    if (checkbox.prop('checked')) {
+                        selectedRows.push({ // 예시로 행의 체크박스와 불량 코드를 객체로 저장
+                            checkbox: checkbox,
+                            code: $(this).find('td:nth-child(2)').text(), // 불량 코드 
+                            res : $(this).find('td:nth-child(3)').text() // 불량 코드 내역
+                        });
+                        console.log("selectedRows", selectedRows);
+                    } else {
+                        selectedRows = selectedRows.filter(function(row) {
+                            return row.code !== $(this).find('td:nth-child(2)').text();
+                        }.bind(this)); // 현재 컨텍스트(this)를 filter 함수 내부로 바인딩
+                        console.log("selectedRows", selectedRows);
+                    }
+                });
+	            
+
+
+	        },
+	        error : function(xhr, status, error) {
+	            console.error("Error occurred: " + error);
+	        }
+	    });//ajax
+	}
+	
+	//선택된 행을 다른 테이블로 이동
+	function selectedBtnBadModal(){
+		$('#badListRegiModal').empty();
+		$('#badModal').modal('hide');
+		
+	    // selectedRows 배열을 순회하며 tbody에 항목을 추가
+	    $.each(selectedRows, function(index, row) {
+	        var trTag = $('<tr></tr>');
+	        trTag.append('<th scope="row">' + (index + 1) + '</th>'); // 인덱스를 1부터 시작하도록 설정
+	        trTag.append('<td>' + row.code + '<input type="hidden" name="jpriBadList[' + index +'].bad_cd" value="' + row.code + '"></td>'); 
+	        trTag.append('<td>' + row.res + '</td>');
+	        $('#badListRegiModal').append(trTag);
+	    });
+	}
+	
+	//코드 선택 눌렀을때 모달 체인지
+	function openBadModal() {
+   		$('#workProdRegiModal').modal('hide');
+        $('#badModal').modal('show');
+
+    	//불량 코드 리스트 넣어줌
+   		getBadList("RegiModal");
+	}
+	
+	
+	// 기타 버튼을 눌렀을 때 불량 코드를 추가하는 함수
+	function submitBadModal() {
+	    if ($('#badCdBadModal').val() === "" || $('#badResBadModal').val() === "") {
+	        alert("코드와 내역을 입력해주세요");
+	    } else {
+	        let result = confirm("코드를 추가 하시겠습니까? 코드를 다시 한번 확인해주세요");
+	        if (result) {
+	            // 대문자로 입력되도록 설정
+	            let data = {
+	                bad_cd: $('#badCdBadModal').val().toUpperCase(),
+	                bad_res: $('#badResBadModal').val()
+	            };
+	            $.ajax({
+	                url: 'submitBadModal',
+	                method: 'POST',
+	                data: data,
+	                dataType: 'json',
+	                success: function () {
+	                    alert('불량코드 추가 성공');
+	                },
+	                error: function (xhr, status, error) {
+	                    console.error("Error occurred: " + error);
+	                }
+	            }); // ajax
+	        }
+	    }
+	}
+
+	function changeData(...data){
+		for (let arg of data) {
+			d
+		  }
+	}
+	
+	
+	
+	
+</script>
+<!--send  -->
 
 </head>
 
@@ -509,22 +704,24 @@
 			<div class="card">
 				<div class="card-body">
 
-
-
-
 					<!--등록  버튼  -->
-
-					<div class="col-sm-1 text-end" style="margin-left: auto;">
-						<button id="tempBtn" type="button" onclick="getPriListAjax()"
-							class="btn btn-outline-primary"
-						>임시</button>
-						<button id="regiModalBtn" type="button"
-							class="btn btn-outline-primary" data-bs-toggle="modal"
-							data-bs-target="#workProdRegiModal"
-						>등록</button>
+					<div class="d-flex align-items-end justify-content-between">
+						<h4>
+							<span class="d-flex align-items-center">생산 실적 조회</span>
+						</h4>
+						<div
+							class="col-sm-2 d-flex align-items-center justify-content-end"
+						>
+							<button id="tempBtn" type="button" onclick="getPriListAjax()"
+								class="btn btn-outline-primary m-2"
+							>임시</button>
+							<button id="regiModalBtn" type="button"
+								class="btn btn-outline-primary m-2" data-bs-toggle="modal"
+								data-bs-target="#workProdRegiModal"
+							>등록</button>
+						</div>
 					</div>
-
-
+					<hr>
 
 
 
@@ -549,56 +746,76 @@
 							</div>
 							<div class="col-md-5">
 								<div class="input-group">
-									<span class="input-group-text">매입처</span> <input id="cust_nm"
-										onchange="changeData(this)" type="text" class="form-control"
-										placeholder="매입처명" aria-label="매입처명"
+									<span class="input-group-text">생산실적담당자</span> <input
+										id="searchProdItemEmp" onchange="changeData(...data)" type="text"
+										class="form-control" placeholder="생산실적담당자" aria-label="생산실적담당자"
 										aria-describedby="button-addon2"
 									>
-									<!-- <button class="btn btn-outline-secondary" type="button"
-													id="button-addon2"><i class="bi bi-search"></i></button> -->
 								</div>
 							</div>
 						</div>
-
+						
 						<div class="row mt-1">
-							<div class="col-md-5">
+							<div class="col-md-6">
 								<div class="input-group">
-									<span class="input-group-text">입고번호</span> <input
-										id="initem_no" onchange="changeData(this)" type="text"
-										class="form-control" placeholder="입고번호" aria-label="입고번호"
-										aria-describedby="button-addon3"
+									<span class="input-group-text">생산실적번호</span> <input
+										id="searchProdItemNo" onchange="changeData(...data)" type="text"
+										class="form-control" placeholder="생산실적번호" aria-label="생산실적번호"
+										aria-describedby="button-addon5"
 									>
-									<!-- <button class="btn btn-outline-secondary" type="button"
-													id="button-addon3"><i class="bi bi-search"></i></button> -->
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group">
-									<span class="input-group-text">자재명</span> <input id="item_nm"
-										onchange="changeData(this)" type="text" class="form-control"
-										placeholder="자재명" aria-label="자재명"
-										aria-describedby="button-addon4"
+									<span class="input-group-text">생산지시번호</span> <input id=""
+										onchange="changeData(...data)" type="text" class="form-control"
+										placeholder="생산지시번호" aria-label="생산지시번호"
+										aria-describedby="button-addon6"
 									>
-									<!-- <button class="btn btn-outline-secondary" type="button"
-													id="button-addon4"><i class="bi bi-search"></i></button> -->
 								</div>
 							</div>
-							<div class="col-md-1 px-0">
-								<button class="btn btn-primary btn-sm" style="height: 100%;"
-									onclick="searchInitem()"
+						</div>
+						
+												
+						
+						<div class="row mt-1">
+							<div class="col-md-6">
+								<div class="input-group">
+									<span class="input-group-text">창고번호</span> <input
+										id="" onchange="changeData(...data)" type="text"
+										class="form-control" placeholder="창고번호&이름" aria-label="창고번호&이름"
+										aria-describedby="button-addon3"
+									>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="input-group">
+									<span class="input-group-text">제품번호</span> <input id=""
+										onchange="changeData(...data)" type="text" class="form-control"
+										placeholder="제품번호&이름" aria-label="제품번호&이름"
+										aria-describedby="button-addon4"
+									>
+								</div>
+							</div>
+							<div class="col-md-1 text-end">
+								<button class="btn btn-primary btn-sm px-0 w-100"
+									style="height: 100%;" onclick=""
 								>조회</button>
 							</div>
 						</div>
+
+
 					</div>
 
 					<table class="table table-hover">
 						<thead>
 							<tr>
+								<th scope="col">생산 실적 번호</th>
+								<th scope="col">생산 지시 번호</th>
 								<th scope="col">생산 완료 일자</th>
-								<th scope="col">등록된 생산 지시 번호</th>
 								<th scope="col">제품명</th>
-								<th scope="col">예정 수량</th>
-								<th scope="col">불량 수량</th>
+								<th scope="col">예정 생산 수량</th>
+								<th scope="col">불량 생산 수량</th>
 							</tr>
 						</thead>
 						<c:forEach var="pri" items="${jpriList}">
@@ -616,7 +833,7 @@
 
 
 
-					<!-- Start workProdRegiModal ----m1-->
+					<!-- Start workProdRegiModal ---ㅡ1-m1-->
 					<div class="modal fade" id="workProdRegiModal" tabindex="-1"
 						style="display: none;" aria-hidden="true"
 					>
@@ -663,7 +880,7 @@
 												><span class="moving-text">생산 지시 일자</span></label>
 												<div class="col-sm-5">
 													<input id="workStartDateRegiModal" type="date"
-														class="form-control" value="2024-04-01" required readonly
+														class="form-control" required disabled
 													>
 												</div>
 
@@ -720,7 +937,6 @@
 											</div>
 										</div>
 
-
 										<div class="row mb-3">
 											<label for="itemNameRegiModal"
 												class="col-sm-2 col-form-label"
@@ -731,7 +947,7 @@
 													<input id="hiddenItemCdRegiModal" type="hidden"
 														name="item_cd" class="form-control" value="buldak001"
 													> <input id="itemNameRegiModal" type="text"
-														class="form-control" value="붉닭라면(buldak001)" readonly
+														class="form-control" disabled
 													>
 												</div>
 
@@ -740,8 +956,10 @@
 													class="col-sm-2 col-form-label text-end label-marquee"
 												><span class="moving-text">예정 생산 수량</span></label>
 												<div class="col-sm-5">
-													<input id="expectedQtyRegiModal" type="number"
-														name="pln_qty" class="form-control" readonly value="50000"
+													<input id="hiddenExpQtyRegiModal" type="hidden"
+														name="pln_qty" class="form-control"
+													> <input id="expectedQtyRegiModal" type="number"
+														class="form-control" disabled="disabled"
 													>
 												</div>
 											</div>
@@ -756,7 +974,6 @@
 												<div class="col-sm-4">
 													<input id="actualQtyRegiModal" type="number"
 														name="prod_qty" class="form-control" required
-														value="49990"
 													>
 												</div>
 												<label for="defectiveQtyRegiModal"
@@ -771,13 +988,39 @@
 										</div>
 
 										<div class="row mb-3">
-											<label for="defectiveLogRegiModal"
-												class="col-sm-2 col-form-label"
-											><span class="moving-text">불량 내역</span></label>
-											<div class="col-sm-10">
-												<textarea id="defectiveLogRegiModal" class="form-control"
-													name="bad_res" style="height: 100px"
-												>불닭이 너무매움</textarea>
+											<label for="badCdRegiModal"
+												class="col-sm-2 col-form-label label-marquee"
+											> <span class="moving-text">불량 코드</span>
+											</label>
+											<div class="d-flex justify-content-between col-sm-10">
+
+												<button id="badModalBtn" type="button"
+													onclick="openBadModal()"
+													class="btn btn-primary"
+												>
+													<span>코드 선택</span>
+												</button>
+											</div>
+										</div>
+										<div class="row mb-3">
+											<!--불량 번호, 불량 내역 둘다 검색으로 찾게하기  -->
+											<!--불량 추가는 모달로 한번더.  -->
+											<!--불량코드 리스트를 클릭, 더블클릭하면 또하나 아래 테이블에 옮겨가게 하기
+										불량 코드랑, 불량 내역 각각 리스트?로 된거 서비스쪽에서 pribad객체로 변환 -->
+											<label for="" class="col-sm-2 col-form-label"></label>
+											<div class="row category-search-list-container col-sm-10">
+												<table class="table category-search-list">
+													<thead>
+														<tr>
+															<th scope="col">No.</th>
+															<th scope="col">불량 코드</th>
+															<th scope="col">불량 코드 내역</th>
+														</tr>
+													</thead>
+													<tbody id="badListRegiModal">
+															<tr><td colspan="3">불량 내역이 발생하였다면 코드를 선택해주세요</td></tr>														
+													</tbody>
+												</table>
 											</div>
 										</div>
 
@@ -994,8 +1237,97 @@
 						</div>
 					</div>
 					<!-- End modal -->
+
+
+					<!-- Start badModal------------m3-------------------->
+					<div class="modal fade" id="badModal" tabindex="-1"
+						aria-hidden="true"
+					>
+						<div class="modal-dialog modal-dialog-centered modal-xl">
+							<div class="modal-content" style="min-height: 507px;">
+								<div class="modal-header">
+									<h1 class="modal-title">불량 코드 관리</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"
+									></button>
+								</div>
+								<div class="modal-body p-4">
+
+									<!-- Start badModal body -->
+									<div class="container text-center">
+
+										<div class="row mt-1">
+											<div class="col-md-5">
+												<div class="input-group">
+													<span class="input-group-text">불량 코드</span> <input
+														id="badCdBadModal"  type="text"
+														class="form-control" placeholder="불량 코드"
+														aria-label="불량 코드" aria-describedby="button-addon3"
+														oninput="getBadList('RegiModal', this.value, $('#badResBadModal').val())"
+													>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="input-group">
+													<span class="input-group-text">불량 내역</span> <input
+														id="badResBadModal" type="text"
+														class="form-control" placeholder="불량 내역" 
+														aria-label="불량 내역" 	aria-describedby="button-addon4"
+														oninput="getBadList('RegiModal', $('#badCdBadModal').val(), this.value)"
+													>
+												</div>
+											</div>
+												<button class="btn btn-primary px-0 col-md-1"
+													onclick="submitBadModal()"
+													style="height: 100%;" 
+												>기타</button>
+										</div>
+										
+											<div class="row category-search-list-container col-sm-12">
+												<table class="table category-search-list">
+													<thead>
+														<tr>
+															<th scope="col">선택</th>
+															<th scope="col">불량 코드</th>
+															<th scope="col">불량 코드 내역</th>
+														</tr>
+													</thead>
+													<tbody id="badListBadModal">
+														<tr id="trowBadModal">
+															<td class="checkbox-center"><input type="checkbox"
+																name="selectedBad"
+															></td>
+															<th scope="row">1</th>
+															<td>자재 예시 1</td>
+														</tr>
+
+													</tbody>
+												</table>
+											</div>
+										
+										
+									</div>
+									<!-- End modal body -->
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal"
+										>닫기</button>
+										<button id="" type="button"
+											class="btn btn-primary"
+										>삭제</button>
+										<button id="" type="button"
+											onclick="selectedBtnBadModal()"
+											class="btn btn-primary"
+										>선택</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- End modal -->
+
+					</div>
 				</div>
-			</div>
 		</section>
 	</main>
 	<!-- End #main -->
