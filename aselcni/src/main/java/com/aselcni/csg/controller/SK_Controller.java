@@ -41,17 +41,17 @@ public class SK_Controller {
 		
 		//Paging
 		csg_Paging paging = new csg_Paging(totalPurchase, csg_TB_PURCHASE.getCurrentPage());
-		System.out.println("paging 하기전에 CurrentPage가 나온거니?? ==> "+ csg_TB_PURCHASE.getCurrentPage());
+		System.out.println("test : " + paging);
 		csg_TB_PURCHASE.setStart(paging.getStart()); //시작 1
 		csg_TB_PURCHASE.setEnd(paging.getEnd());	 //끝 5
 		
-		//발주테이블에서 조회를 해보자. 
+		//발주테이블에서 데이터 조회 + 페이징처리
 		List<CSG_TB_PURCHASE> purchaseList = sk_ServicInterface.findAllPurchase(csg_TB_PURCHASE);
-		System.out.println("발주화면에 처음 나올떄 발주 리스트를 가져오자구 purchaseList ==>" + purchaseList);
+		System.out.println("발주화면에 처음 나올떄 발주 리스트를 가져오자구 purchaseList + Paging ==>" + purchaseList);
 		
-		model.addAttribute("purchaseList", purchaseList);
-		model.addAttribute("totalPUrchase", totalPurchase);
-		model.addAttribute("page", paging);
+		model.addAttribute("purchaseList", purchaseList);	//페이징 처리한 발주리스트(10개씩)
+		model.addAttribute("totalPUrchase", totalPurchase); //전체 페이지수 12개(발주애들 리스트 개수들 보여주기
+		model.addAttribute("page", paging);	//paging 하기전에 CurrentPage가 나온거니?? ==> null
 		
 		return "csg/CSG_purchase";
 	}

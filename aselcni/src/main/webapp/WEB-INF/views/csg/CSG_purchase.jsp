@@ -101,6 +101,7 @@
 		                                <th>단가 </th>
 		                                <th>공급가액</th>
 		                                <th>발주등록일자</th>
+		                                <th>발주현황</th>
 		                            </tr>
 		                        </thead>
 		                        <tbody>
@@ -117,6 +118,19 @@
    											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.item_cost}</fmt:formatNumber></td>
    											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.purc_cost}</fmt:formatNumber></td>
 									        <td>${purchase.purc_dt}</td>
+											<td>
+								            <c:choose>
+								                <c:when test="${purchase.purc_status_chk == 0}">
+								                    <button class="btn btn-warning btn-sm">발주진행중</button>
+								                </c:when>
+								                <c:when test="${purchase.purc_status_chk == 1}">
+								                    <button class="btn btn-info btn-sm">일부입고</button>
+								                </c:when>
+								                <c:when test="${purchase.purc_status_chk == 2}">
+								                    <button class="btn btn-success btn-sm">입고완료</button>
+								                </c:when>
+								            </c:choose>
+								        </td>
 									    </tr>
 									</c:forEach>
 
@@ -126,10 +140,19 @@
 		            </div>
 		
 		            <!-- Pagination -->
-		            <div class="d-flex justify-content-end mt-4">
-		                <button class="btn btn-outline-primary ml-2">이전</button>
-		                <button class="btn btn-outline-primary ml-2">다음</button>
-		            </div>
+		            <DIV class="d-flex justify-content-center">
+			            <div class="d-flex justify-content-end mt-4">
+						   <c:if test="${page.startPage > page.pageBlock }">
+						      <a href="listEmp?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+						   </c:if>
+						   <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						      <a href="purchase?currentPage=${i}">[${i}]</a>
+						   </c:forEach>
+						   <c:if test="${page.endPage < page.totalPage }">
+						      <a href="purchase?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+						   </c:if>   
+			            </div>
+		            </DIV>
 		        </main>
 		    </div>
 		</section>

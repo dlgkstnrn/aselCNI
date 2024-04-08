@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @Data
 public class csg_Paging {
-	private int currentPage = 1; private int rowPage = 5;
+	private int currentPage = 1; private int rowPage = 10;
 	private int pageBlock = 10;
 	private int start; private int end;
 	private int startPage; private int endPage;

@@ -25,7 +25,7 @@ public class SK_Service implements SK_Service_Interface {
 	@Override
 	public List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE) {
 		List<CSG_TB_PURCHASE> purchaseList = sk_Dao_Interface.findAllPurchase(csg_TB_PURCHASE);
-		System.out.println("Service : 발주리스트 잘 가져왔냐 ?? + resultMap잘 된거니?? + purchaseList ==>"+purchaseList);
+		System.out.println("Service : 발주리스트 잘 가져왔냐 ?? + paging 된거니?? + purchaseList ==>"+purchaseList);
 		
 		return purchaseList;
 	}
