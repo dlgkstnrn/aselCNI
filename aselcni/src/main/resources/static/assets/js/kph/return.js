@@ -37,7 +37,7 @@ $("#search-btn").on("click", () => {
 				$(".table-nav .table tbody").append(`
 	                <tr>
 						<th>${num}</th>
-						<td><a class="return-no" href="/returnDetail?return_no=${returnObj.return_no }">${returnObj.return_no }</a></td>
+						<td><div class="return-no">${returnObj.return_no }</div></td>
 						<td>${returnObj.outitem_no }</td>
 						<td>${returnObj.cust_nm }</td>
 						<td>${returnObj.item_nm }</td>
