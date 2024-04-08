@@ -94,25 +94,32 @@ $(document).ready(function () {
     });
 
 
-    //상세 누를 시 주문번호 불러오기
-    $.ajax({
-      url: "/ujmGetAllOrderList",
-      type: "GET",
-      success: function(response) {
-          var orders = response.orders;
-          var selectBox = $('#selectOrderNo');
-          $.each(orders, function(index, order) {
-              selectBox.append($('<option>').val(order_no).text(${order.order_no} (제품:${item_nm}, 주문처:${cust_nm})));
-          });
-      },
-      error: function(xhr, status, error) {
-          console.error(error);
-      }
+    //등록버튼 눌렀을 때..
+    $("#outitem_insert").click(function(){
+
+      //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
+      $.ajax({
+          url: '/ujmGetOrderNo',
+          type: 'GET',
+          success: function(response) {
+            console.log(response);
+              var selectBox = $('#selectOrderNo');
+              selectBox=empty();
+              
+              $.each(response, function(index, order) {
+                  selectBox.append('<option value="' + order.order_no + '">' + 
+                  order.customer_name + ' - ' + order.items + '</option>');
+              });
+          },
+          error: function(xhr, status, error) {
+              console.error(error);
+          }
+      });
+
+
+
   });
 
-
-
-
-  });
+}); //끝
 
 

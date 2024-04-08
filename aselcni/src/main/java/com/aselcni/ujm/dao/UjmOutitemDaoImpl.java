@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,21 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 			System.out.println("UjmOutitemDaoImpl ujmListOutitems 오류:"+e.getMessage());
 		}
 		return ujmListOutitems;
+	}
+
+	@Override
+	public List<UjmOrderNoDto> ujmGetOrderNo() {
+		List<UjmOrderNoDto> ujmListOrderNo = null;
+		System.out.println("UjmOutitemDaoImpl ujmGetOrderNo 시작 ..." );
+		try {
+			ujmListOrderNo = session.selectList("ujmListOrderNo");
+			if(ujmListOrderNo!=null) {
+				System.out.println("UjmOutitemDaoImpl ujmListOrderNo ujmListOrderNo.size()->"+ujmListOrderNo.size());
+				}
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmListOrderNo 오류:"+e.getMessage());
+		}
+		return ujmListOrderNo;
 	}
 
 }

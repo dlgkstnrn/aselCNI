@@ -78,6 +78,8 @@
 		<typeAlias alias="UjmWorkItem" type="com.aselcni.ujm.model.UjmWorkItem" />
 		<typeAlias alias="UjmWorkProc" type="com.aselcni.ujm.model.UjmWorkProc" />
 		<typeAlias alias="UjmWorkprod" type="com.aselcni.ujm.model.UjmWorkprod" />
+		
+		<typeAlias alias="UjmOrderNoDto" type="com.aselcni.ujm.model.UjmOrderNoDto" />
 
 		<typeAlias alias="CSG_TB_CUSTMST"
 			type="com.aselcni.csg.model.CSG_TB_CUSTMST" />

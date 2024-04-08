@@ -131,7 +131,10 @@ pageEncoding="UTF-8"%>
                                   style="width: 200px"
                                   name="order_no"
                                   >
-                                  <option value="order_no">${order.order_no} (제품:${item_nm}, 기업:${cust_nm})</option>
+                                      <option value="">주문 선택</option>
+                                  
+                                
+                                  </select>
 
                                 </div>
                               </div>
@@ -522,7 +525,7 @@ pageEncoding="UTF-8"%>
 
 
 
-                <!-- 테이블 -->
+                <!-- 테이블, 조회 -->
                 <c:set var="num" value="${page.total-page.start+1 }"></c:set>
                 <!-- Table with stripped rows -->
                 <table class="table table-hover">
@@ -537,7 +540,7 @@ pageEncoding="UTF-8"%>
                       <th scope="col">매입처</th>
                       <th scope="col">제품명</th>
                       <th scope="col">출고수량</th>
-                      <th scope="col">주문상태</th>
+                      <th scope="col">출고상태</th>
 
                       <th scope="col">비고</th>
                       <th scope="col">출고관리자</th>
@@ -562,8 +565,9 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.qty}</td>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
-                        <c:if test="${outitem.order_status_chk==1}">일부 출고</c:if>
-                        <c:if test="${outitem.order_status_chk==2}">전체 출고 완료</c:if>
+                        <c:if test="${outitem.order_status_chk==1}">취소됨</c:if>
+                        <c:if test="${outitem.order_status_chk==2}">출고 완료</c:if>
+                        <c:if test="${outitem.order_status_chk==3}">전체 출고 완료</c:if>
                       </td>
 
                       <td>${outitem.remark}</td>

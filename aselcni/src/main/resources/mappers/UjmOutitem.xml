@@ -45,18 +45,36 @@
 		    u.user_nm
 		    
 		    FROM TB_OUTITEM ou
-		    
 		    INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
 		    INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
 		    INNER JOIN TB_OUTITEM_ITEM oi ON ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
 		    INNER JOIN TB_ITEMMST i ON oi.item_cd = i.item_cd
 		    INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
+
 		    WHERE ou.outitem_delete_chk = 0
 		) AS sub
 		WHERE rn >= #{start} AND rn <= #{end}
 		]]> 
 	</select>
 	
+	<select id="ujmListOrderNo" resultType="UjmOrderNoDto">
+		SELECT
+	    ord.order_no,
+	    custmst.cust_nm AS customer_name,
+	    STUFF((
+	        SELECT ', ' + itemmst.item_nm + ' (' + CAST(order_item.qty AS VARCHAR(10)) + '개)'
+	        FROM tb_order_item AS order_item
+	        JOIN tb_itemmst AS itemmst ON order_item.item_cd = itemmst.item_cd
+	        WHERE ord.order_no = order_item.order_no
+	        FOR XML PATH('')), 1, 2, '') AS items
+		FROM
+	    	tb_order AS ord
+		JOIN
+	    	tb_custmst AS custmst ON ord.cust_cd = custmst.cust_cd
+		GROUP BY
+	    	ord.order_no,
+	    	custmst.cust_nm
+	</select>
 	
 	
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aselcni.ujm.model.UjmOrder;
+import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
 import com.aselcni.ujm.service.UjmOutitemService;
 import com.aselcni.ujm.service.UjmPaging;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UjmOutitemController { 
 
-	private final UjmOutitemService uos; //
+	private final UjmOutitemService uos;
 	
 	@RequestMapping(value = "ujmExample") 
 	public String ujmLoginForm(HttpServletRequest request) {
@@ -68,17 +69,26 @@ public class UjmOutitemController {
 	
 	//출고 등록
 	@RequestMapping(value = "insertOutitem") 
-	public String ujmInsertOutitem(HttpServletRequest request, Model model, HttpSession session) {
+	public String ujmInsertOutitem(HttpServletRequest request, UjmOutitem outitem, Model model, HttpSession session) {
 		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
-		UjmOutitem outitem=new UjmOutitem();
+//		outitem=new UjmOutitem();
+		System.out.println(outitem);
 		
 		//맨처음 리스트에 표시되는 outitemList
 //		model.addAttribute("outitemList",outitemList); 
 		
 		//outitemView
 		
-		return "ujm/ujmOutitem"; 
+		return "forward:outitem"; 
 	}
+	
+	@RequestMapping(value = "ujmGetOrderNo")
+    public List<UjmOrderNoDto> ujmGetOrderNo() {
+		System.out.println("ujmOutItem 컨트롤러 ujmGetOrderNo 시작");
+		List<UjmOrderNoDto> ujmListOrderNo=uos.ujmGetOrderNo();
+		System.out.println(ujmListOrderNo);
+        return ujmListOrderNo;
+    }
 	
 	//출고 수정
 	@RequestMapping(value = "updateOutitem") 
