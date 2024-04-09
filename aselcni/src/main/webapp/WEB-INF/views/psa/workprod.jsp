@@ -177,14 +177,20 @@ pageEncoding="UTF-8"%>
 
               <!-- 모달 내용 작성부분 -->
               <!-- Form -->
-              <form action="workprodInsert">
+              <form action="workprodInsert" method="post">
                 <div class="modal-body">
 
                   <!-- 생산지시 담당자 ID -->
+                  <input type="hidden" name="workprod_emp_id" id="workprod_emp_id">
+
+                  <!-- 생산지시번호 -->
+                  <input type="hidden" name="workprod_no">
+
+                  <!-- 생산계획 담당자 ID -->
                   <div class="row mb-3 d-flex">
                     <label class="col-sm-3 col-form-label">지시 담당자</label>
                     <div class="col-sm-9">
-                      <input type="hidden" class="form-control" id="prodplan_emp_id" name="${prodplan_emp_id}" readonly/>
+                      <input type="hidden" class="form-control" id="prodplan_emp_id" value="${prodplan_emp_id}" readonly/>
                       <input type="text" class="form-control" id="prp_user_nm" readonly/>
                     </div>
                   </div>
@@ -193,7 +199,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3 d-flex">
                     <label class="col-sm-3 col-form-label">생산계획번호</label>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" id="prodplan_no" name="${prodplan_no}" readonly/>
+                      <input type="text" class="form-control" id="prodplan_no" name="prodplan_no" readonly/>
                     </div>
                   </div>
 
@@ -201,12 +207,14 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="workprod_dt" class="col-sm-3 col-form-label">생산시작일자</label>
                     <div class="col-sm-9">
-                      <input type="date" class="form-control" id="prp_prodplan_dt" name="prodplan_dt"/>
+                      <input type="date" class="form-control" id="prp_prodplan_dt" name="workprod_dt"/>
                     </div>
                   </div>
 
                   <!-- 제품 -->
                   <div class="row mb-3">
+                    <!-- 제품코드 -->
+                    <input type="hidden" name="item_cd">
                     <label for="item_nm" class="col-sm-3 col-form-label">제품명</label>
                     <div class="d-flex justify-content-between col-sm-9">
                       <!-- 제품명 -->
@@ -227,7 +235,8 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">공정</label>
                     <div class="col-sm-9">
-                      <select name="proc_nm" id="proc_nm" class="form-select" aria-label="Default select example">
+                      <!-- select tag form = 셀렉트박스가 포함될 form tag id -->
+                      <select id="selectProc" name="proc_nm" form="prodplan" class="form-select" aria-label="Default select example">
                         <option selected>적용할 공정을 선택하세요.</option>
                         <c:forEach var="procList" items="${procList }">
                           <option value="${procList.proc_cd}">${procList.proc_nm}</option>
@@ -252,10 +261,10 @@ pageEncoding="UTF-8"%>
                     <!-- 선택된 투입품 리스트 ul -->
                     <div class="card-body mb-3">
                       <h5 class="card-title mb-2">선택한 투입품 목록</h5>
-                      <!-- <table class="table">
+                      <table class="table">
                         <thead>
                           <tr>
-                            <th scope="col">#</th>
+                            <!-- <th scope="col">#</th> -->
                             <th scope="col">품목코드</th>
                             <th scope="col">품목명</th>
                             <th scope="col">투입수량</th>
@@ -265,15 +274,14 @@ pageEncoding="UTF-8"%>
                           <tr id="prp_item_tr">
                           </tr>
                         </tbody>
-                      </table> -->
-                      <ul id="inItemList">
-                        <li>
+                      </table>
+                      <!-- <ul id="inItemList" class="list-group list-group-flush">
+                        <li class="list-group-item">
                           <span>품목코드</span>
                           <span>품목명</span>
                           <span>투입수량</span>
                         </li>
-                        <!-- 여기에 선택된 투입품을 li로 append -->
-                      </ul>
+                      </ul> -->
                     </div>
                       
                   </div>
@@ -282,7 +290,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="work_dt" class="col-sm-3 col-form-label">작업일수</label>
                     <div class="col-sm-9">
-                      <input type="number" id="prp_work_dt" class="form-control"/>
+                      <input type="number" id="prp_work_dt" name="work_dt" class="form-control"/>
                     </div>
                   </div>
 
@@ -290,7 +298,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="work_cmd" class="col-sm-6 col-form-label">작업시 주의사항</label>
                     <div class="col-sm-12">
-                      <textarea name="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
+                      <textarea id="work_cmd" name="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
                     </div>
                   </div>
 
@@ -367,15 +375,11 @@ pageEncoding="UTF-8"%>
                           <th scope="col"></th>
                           <th scope="col">품목코드</th>
                           <th scope="col">품목명</th>
-                          <th scope="col">투입수량</th>
+                          <!-- <th scope="col">투입수량</th> -->
                         </tr>
                       </thead>
                       <tbody id="addItem_tbody">
                         <tr id="addItem_tr">
-                          <!-- <th scope="row"></th>
-                          <td></td>
-                          <td></td>
-                          <td></td> -->
                         </tr>
                       </tbody>
                     </table>
@@ -383,7 +387,7 @@ pageEncoding="UTF-8"%>
 
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="submit" class="btn btn-success" id="addItemSave">등록</button>
+                    <button type="button" class="btn btn-success" id="addItemSave">등록</button>
                     <button type="reset" class="btn btn-outline-secondary">Reset</button>
                   </div>
 

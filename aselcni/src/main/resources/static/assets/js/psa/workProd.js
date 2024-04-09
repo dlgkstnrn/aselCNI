@@ -4,14 +4,14 @@ const today = document.getElementById('currentDate').value = new Date().toISOStr
 
 
 // 중첩모달 닫기 클릭하면 첫번째 모달이 보여지도록
-$('#cancle').on('click', function(){
-	$('#addItem').modal('hide');
+// $('#cancle').on('click', function(){
+// 	$('#addItem').modal('hide');
 
-	// 300ms(0.3초) 대기 후 이전 모달 표시
-	setTimeout(function() {
-		$('#prodplan').modal('show');
-	}, 300); 
-})
+// 	// 300ms(0.3초) 대기 후 이전 모달 표시
+// 	setTimeout(function() {
+// 		$('#prodplan').modal('show');
+// 	}, 300); 
+// })
 
 
 
@@ -73,11 +73,11 @@ const liEle = function (el){
 	liTag.append(inputTag);
 	liTag.append(btnTag);
 	return liTag;
-  }
+}
 
-  // 생산계획내역 조회 모달 이벤트
-  // tr 클릭했을때 이벤트 발생
-  $('#prodplanTB tbody tr').click(function() {
+// 생산계획내역 조회 모달 이벤트
+// tr 클릭했을때 이벤트 발생
+$('#prodplanTB tbody tr').click(function() {
 
 	let prodplan_emp_id = document.getElementById('prodplan_emp_id');
 	let prp_user_nm = document.getElementById('prp_user_nm');
@@ -134,71 +134,56 @@ const liEle = function (el){
 		console.log(result);
 
 		// 1. 테이블로 추가
-		// $("#prp_item_tr").each(function(index, element){
-
-		//   for(let i=0; i<result.length; i++) {
-		  
-		//     console.log(result[i]);
-
-		//     // $('#prp_item_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
-		//     //                           result[i].item_cd+'</td><td>'+
-		//     //                             result[i].item_nm+'</td><td>'+
-		//     //                               '<input type="number" value="'+
-		//     //                               result[i].in_qty+'"/>'+
-		//     //                               '</td></tr>');
-
-		//     $('#prp_item_tbody').append(
-		//       '<tr><th>'+
-		//         '<button type="button" class="btn-close removeItem" aria-label="Close"></button>'+
-		//           '</th><td>'+
-		//             result[i].item_cd+'</td><td>'+
-		//               result[i].item_nm+'</td><td>'+
-		//                 '<input type="number" value="'+
-		//                   result[i].in_qty+'"/>'+
-		//                     '</td></tr>');
-
-		//   }
-		// })
-
-		// 2. ul, li로 추가
-		$('#inItemList').empty();
+		$('#prp_item_tr').empty();
 
 		result.forEach(element => {
-
-		  console.log(result.length);
-		  console.log(element.item_cd+element.item_nm+element.in_qty);
-		  console.log(element.item_cd);
-
-		  // 2-1. 태그 생성 후 append
-		  // $('#inItemList').append(
-		  //   `<li>
-		  //     <span>${element.item_cd}</span>
-		  //     <span>${element.item_nm}</span>
-		  //     <input type="number" value=${element.in_qty}>
-		  //     <button type="button" class="btn-close removeItem" aria-label="Close"></button>
-		  //   </li>`
-		  // );
-
-		  // 2-2. 태그 생성 함수 호출
-		  $('#inItemList').append(liEle(element));
-		  
+			$('#prp_item_tbody').append(
+				`<tr>
+					<td>${element.item_cd}</td>
+					<td>${element.item_nm}</td>
+					<td><input type="number" value=${element.in_qty}>
+					<button type="button" class="btn-close removeItem" aria-label="Close"></button></td>
+				</tr>`
+			);
 		});
+
+		// 2. ul, li로 추가
+		// $('#inItemList').empty();
+
+		// result.forEach(element => {
+
+		//   console.log(result.length);
+		//   console.log(element.item_cd+element.item_nm+element.in_qty);
+		//   console.log(element.item_cd);
+
+		//   // 2-1. 태그 생성 후 append
+		//   $('#inItemList').append(
+		//     `<li class="list-group-item">
+		//       <span>${element.item_cd}</span>
+		//       <span>${element.item_nm}</span>
+		//       <input type="number" value=${element.in_qty}>
+		//       <button type="button" class="btn-close removeItem" aria-label="Close"></button>
+		//     </li>`
+		//   );
+
+		//   // 2-2. 태그 생성 함수 호출
+		// //   $('#inItemList').append(liEle(element));
+
+		// });
 
 	  }
 	});
-  });
+});
 
-
-  // 버튼 .removeItem 클릭 시 추가된 품목중 일부 제거
-  $(document).on('click', '.removeItem', function() {
+// 조회된 투입품 리스트 빼기
+// 버튼 .removeItem 클릭 시 추가된 품목 하나씩 제거
+$(document).on('click', '.removeItem', function() {
   // $('.removeItem').on('click', function() {
-	console.log('removeItem this: '+this);
-	console.log('parent: '+$(this).parent());
-	$(this).parent().remove();
-  });
+	$(this).parent().parent().remove();
+});
 
-  // 대분류에 맞는 중분류 조회
-  $('#big_no').on('change', function() {
+// 대분류에 맞는 중분류 조회
+$('#big_no').on('change', function() {
 
 	let big_no = $("#big_no option:selected").val();
 
@@ -232,10 +217,10 @@ const liEle = function (el){
 	  }
 	});
 
-  });
+});
 
-  // 대분류, 중분류에 맞는 소분류 조회
-  $('#mid_no').on('change',(event) => {
+// 대분류, 중분류에 맞는 소분류 조회
+$('#mid_no').on('change',(event) => {
 
 	let mid = event.target;
 	let mid_no = mid.value;
@@ -260,7 +245,7 @@ const liEle = function (el){
 
 		$('#sml_no').empty().append('<option>소분류 선택</option>');;
 
-		result.forEach((element) => {
+		result.forEach(element => {
 
 		  console.log(element);
 		  console.log(element.sml_content);
@@ -276,10 +261,10 @@ const liEle = function (el){
 
 	  }
 	});
-  });
+});
 
-  // 대분류, 중분류, 소분류에 맞는 품목 리스트 조회 radio
-  $('#sml_no').on('change', function() {
+// 대분류, 중분류, 소분류에 맞는 품목 리스트 조회 radio
+$('#sml_no').on('change', function() {
 
 	let big_no = $("#big_no option:selected").val();
 	let mid_no = $("#mid_no option:selected").val();
@@ -300,47 +285,171 @@ const liEle = function (el){
 	  success: function(array) {
 		console.log(array);
 
-		// $('#addItem_tbody').empty().append('<tr><th>엠티 꼭해야함?</th><td>?</td><td>?</td></tr>');
+		$('#addItem_tr').empty();
+		$('#addItem_tbody').empty();
 
 		array.forEach(element => {
 
-		  console.log(element);
-		  console.log(element.item_nm);
-		  console.log(element.in_qty);
+		  	console.log(element);
 
-		  $('#addItem_tbody').append('<tr><td>'+
-			  '<input type="radio" name="addItem" id="addItem" value="'+element.item_cd+'"/>'+'</td><th>'+
-				element.item_cd+'</th><td>'+
-				  element.item_nm+'</td><td>'+
-					'<input type="number" class="form_control" id="'+
-					  element.in_qty+'"/>'+'</td></tr>');
+			$('#addItem_tbody').append(
+				`<tr>
+					<td><input type="checkbox" name="addItemList" id="addItemList" value=${element.item_cd}></td>
+					<td class="ele_item_cd">${element.item_cd}</td>
+					<td class="ele_item_nm">${element.item_nm}</td>
+				</tr>`
+			);
 		});
 
 	  }
 	});
-  });
+});
 
-  // 투입품 저장 버튼 클릭 이벤트
-  $('#addItemSave').click(function() {
+// 선택한 투입품 리스트 임시저장할 배열
+let tempSave = [];
 
-	// 선택한 radio value
-	let addedItem = $('#addItem option:checked').val();
-	// 값 잘 가져왓는가 콘솔에 보기
-	console.log('선택한 투입품 값: ' + addedItem);
+// 투입품 저장 버튼 클릭 이벤트
+$('#addItemSave').click(function() {
 
-	$('#prp_item_tbody').append('<tr><th>'+('이미존재하는 length+1 연산')+'</th><td>'+
-									  result[i].item_cd+'</td><td>'+
-										result[i].item_nm+'</td><td>'+
-										  '<input type="number" value="'+
-										  result[i].in_qty+'"/>'+
-										  '</td></tr>');
+	// row 값 모두 담을 배열
+	var rowData = new Array();
 
-  });
+	// 각각 td의 값을 담을 배열
+	var tdArr = new Array();
+
+	// 체크된 체크박스 담을 변수
+	var checkbox = $("input[name=addItemList]:checked");
+
+	// 체크박스의 체크된 수만큼 반복
+	checkbox.each(function(i) {
+
+		// checkbox.parent() : checkbox의 부모는 <td>       
+		// checkbox.parent().parent() : <td>의 부모이므로 <tr>
+		var tr = checkbox.parent().parent().eq(i);
+		var td = tr.children();
+
+		// 체크된 row의 모든 값을 배열에 저장
+		rowData.push(tr.text());
+
+		// td.eq(0)은 체크박스
+		var item_cd = td.eq(1).text();
+		var item_nm = td.eq(2).text();
+
+		// 가져온 값을 td 배열에 저장
+		tdArr.push(item_cd);
+		tdArr.push(item_nm);
+
+		console.log('rowData'+rowData);
+		console.log('tdArr item_cd:'+item_cd);
+		console.log('tdArr item_nm:'+item_nm);
+
+		// 객체화
+		let addedItem = {
+			item_cd : $('#addItemList:checked').val(),
+			item_nm : item_nm
+		};
+
+		console.log('선택한 투입품 값: ' + addedItem);
+
+		// 투입품 리스트 배열에 저장
+		tempSave.push(addedItem);
+
+	});
+
+	// 배열에 저장된 길이만큼 반복
+	tempSave.forEach(element => {
+
+		$('#prp_item_tbody').append(
+			`<tr>
+				<td>${element.item_cd}</td>
+				<td>${element.item_nm}</td>
+				<td><input type="number">
+				<button type="button" class="btn-close removeItem" aria-label="Close"></button></td>
+			</tr>`
+		);
+
+	});
+
+	// 투입품 모달 닫기
+	$('#addItem').modal('hide');
+
+	// 생산지시 등록 모달 띄우기
+	$('#prodplan').modal('show');
+
+});
+
+
+
+// 생산지시 등록 모달 form 전송
+$('form').on('submit', function(e){
+
+	// form 전송 막기
+	e.preventDefault(); 
+
+	// 일단 투입품 제외하고 - 나중에
+	// 생산지시번호도 제외하고 - 컨트롤러 처리
+	// 담당자 아이디도 제외하고 - 컨트롤러 처리
+	let data = {
+		prodplan_no : $('#prodplan_no').val(),
+		workprod_dt : $('#prp_prodplan_dt').val(),
+		item_nm : $('#prp_item_nm').val(),
+		qty : $('#prp_qty').val(),
+		proc_cd : $("#selectProc option:selected").val(),
+		work_dt : $('#prp_work_dt').val(),
+		work_cmd : $('#work_cmd').val(),
+		remark : $('#prp_remark').val()
+	}
+
+	console.log('컨트롤러에 보내줄거: ' + data);	// object
+	console.log('컨트롤러에 prodplan_no: ' + data.prodplan_no);
+	console.log('컨트롤러에 workprod_dt: ' + data.workprod_dt);
+	console.log('컨트롤러에 item_nm: ' + data.item_nm);
+	console.log('컨트롤러에 qty: ' + data.qty);
+	console.log('컨트롤러에 proc_cd: ' + data.proc_cd);
+	console.log('컨트롤러에 work_dt: ' + data.work_dt);
+	console.log('컨트롤러에 work_cmd: ' + data.work_cmd);
+	console.log('컨트롤러에 remark: ' + data.remark);
+
+	// ajax로 컨트롤러에 form 전송
+	$.ajax({
+		
+		url: 'workprodInsert',
+		type: 'post',
+		data: JSON.stringify(data),
+		contentType: 'application/json; charset=utf-8',
+
+		success: function(result) {
+			console.log(result);
+
+
+
+
+			// 생산지시 등록 모달 닫기
+			$('#prodplan').modal('hide');
+		}
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  
-  // 생산지시내역 조회 모달 이벤트
-  // tr 클릭했을때 이벤트 발생
-  $('#workprodTB tbody tr').click(function() {
+// 생산지시내역 조회 모달 이벤트
+// tr 클릭했을때 이벤트 발생
+$('#workprodTB tbody tr').click(function() {
 
 	let user_nm = document.getElementById('user_nm');
 	let workprod_no = document.getElementById('workprod_no');
@@ -404,7 +513,7 @@ const liEle = function (el){
 	});
 
 	// ajax 3
-	  // 등록된 지시내역의 생산지시번호별 투입품 리스트 조회
+	// 등록된 지시내역의 생산지시번호별 투입품 리스트 조회
 	$.ajax({
 	  url: 'workItemList',
 	  type: 'POST',
@@ -429,7 +538,7 @@ const liEle = function (el){
 	  }
 	});
 
-  });
+});
 
 
 

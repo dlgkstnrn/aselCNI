@@ -242,14 +242,35 @@ public class PsaWorkProdController {
 	
 	
 	
-	
+	// ajax
 	// 생산지시 등록 (Modal version)
+	// <form>
+	@ResponseBody
 	@RequestMapping(value = "workprodInsert")
-	public void workprodInsert(@ModelAttribute WorkProd workProd) {
+	public String workprodInsert(@RequestBody WorkProd workProd, HttpServletRequest request) {
+		
+		System.out.println("param????"+workProd);
+		
+		// 일단
+		// 1. workprod_no , workprod_emp_id setting
+		String user_id = (String) request.getSession().getAttribute("user_id");
+		System.out.println("로그인 아이디: "+user_id);		// 잘 받더니 왜 null????
+		
+		workProd.setWorkprod_emp_id(user_id);
+		
+		// 2. if (seq_no=null) set 1
+		
+		// 3. if (workprod_delete_chk=null) set 0
+		
+		
+		
 		
 		// insert into TB_WORKPROD
 //		psaService.workProdInsert(workProd);
-		System.out.println("생산지시 등록 완료");
+//		System.out.println("생산지시 등록 완료");
+		
+		// 클라이언트 요청으로 서버 DB 변경 시 redirect
+		return "redirect:psa/workprod";
 		
 	}
 	
