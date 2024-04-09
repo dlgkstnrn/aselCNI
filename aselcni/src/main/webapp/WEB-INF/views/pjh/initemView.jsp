@@ -302,9 +302,11 @@
 								
 							</div>
 							<div class="modal-footer">
-			                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			                  <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			                  <button id="cancleBtn" onclick="detailUpdate(false)" type="button" class="btn btn-secondary" hidden="true">취소</button>
 			                  <button id="delBtn" type="button" class="btn btn-danger">삭제</button>
-			                  <button type="submit" class="btn btn-primary">수정</button>
+			                  <button id="modifyBtn" onclick="detailUpdate(true)" type="button" class="btn btn-primary">수정</button>
+			                  <button id="submitBtn" type="button" class="btn btn-primary" hidden="true">저장</button>
 			                </div>
 						</div>
 					</div>

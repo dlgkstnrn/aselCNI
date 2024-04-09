@@ -170,10 +170,28 @@
 	</select>
 	
 	<select id="pjhInitems" parameterType="String" resultType="PJHInitemItem">
-		SELECT *
+		SELECT ti.*, ISNULL((SELECT tii2.QTY FROM TB_INITEM_ITEM tii2 WHERE tii2.INITEM_NO = #{initem_no} AND tii2.ITEM_CD = ti.ITEM_CD),0) AS QTY
+					,ISNULL(
+								(SELECT twi.IN_QTY 
+								FROM TB_WORK_ITEM twi 
+								WHERE twi.WORKPROD_NO NOT IN 
+										(SELECT WORKPROD_NO FROM TB_PRODITEM) 
+								AND twi.ITEM_CD = tpi2.ITEM_CD)
+								,0) 
+					- dbo.FN_CURRENT_STOCK(tpi2.ITEM_CD) AS REQUIRED_STOCK
+					, ISNULL((SELECT QTY FROM TB_PURCHASE_ITEM tpi WHERE tpi.PURC_NO = tpi2.PURC_NO AND tpi.ITEM_CD = tpi2.ITEM_CD)
+								  - (SELECT ISNULL(SUM(ISNULL(QTY,0)),0) 
+								 	FROM TB_INITEM_ITEM tii2 
+								 	WHERE tii2.PURC_NO = tpi2.PURC_NO 
+								 	AND tii2.ITEM_CD = tpi2.ITEM_CD)
+								 ,0) AS ADD_MAX
+		FROM TB_PURCHASE_ITEM tpi2
+		INNER JOIN TB_ITEMMST ti ON tpi2.ITEM_CD = ti.ITEM_CD
+		WHERE tpi2.PURC_NO  = (SELECT ti2.PURC_NO FROM TB_INITEM ti2 WHERE ti2.INITEM_NO = #{initem_no})		
+		<!-- SELECT *
 		FROM TB_INITEM_ITEM tii
 		INNER JOIN TB_ITEMMST ti ON tii.ITEM_CD = ti.ITEM_CD
-		WHERE tii.INITEM_NO = #{initem_no}
+		WHERE tii.INITEM_NO = #{initem_no} -->
 	</select>
 	
 </mapper>

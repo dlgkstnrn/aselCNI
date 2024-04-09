@@ -98,6 +98,7 @@ public class PJHController {
 		System.out.println("PJHController detailInitem param->"+ initem);
 		PJHInitem resultInitem = service.detailInitem(initem);
 		System.out.println("PJHController detailInitem result->"+ resultInitem);
+		System.out.println("PJHController detailInitem items.size->"+ resultInitem.getInItems().size());
 		return resultInitem;
 	}
 	
