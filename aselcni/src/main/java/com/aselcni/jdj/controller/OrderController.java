@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.jdj.model.CustMst;
 import com.aselcni.jdj.model.Item;
+import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
+import com.aselcni.jdj.model.UserMst;
 import com.aselcni.jdj.service.OrderService;
 
 import jakarta.servlet.RequestDispatcher;
@@ -35,23 +38,46 @@ public class OrderController {
 	@GetMapping("/order")
 	public String order(Model model) {
 		System.out.println("[Order_Controller] start..");
-
+		List<CustMst> custMsts = null;
 		List<Order> orders = null;		
+		List<UserMst>  userMsts = null;
+		int comm_code = 10030;
 		try {
 			orders = os.getOrders();
+			custMsts = os.getCustLi();
+			userMsts = os.getUserLi(10030);
 			
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 
 		model.addAttribute("orders", orders);
+		model.addAttribute("custMsts", custMsts);
+		model.addAttribute("userMsts", userMsts);
 
 		return "jdj/orderMain";
 	}
 	
 //	등록
 	@GetMapping("/orderReg")
-	public String orderReg() {
+	public String orderReg(Model model) {
+		
+		List<CustMst> custMsts = null;
+		List<ItemMst> itemMsts = null;
+		
+		try {
+			custMsts = os.getCustLi();
+			itemMsts = os.getItemLi();
+			System.out.println("controller -> " + custMsts);
+				
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		model.addAttribute("custMsts", custMsts);
+		model.addAttribute("itemMsts", itemMsts);
+		
+		
 		return "jdj/orderReg";
 	}
 		

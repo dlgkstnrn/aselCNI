@@ -1,6 +1,5 @@
 package com.aselcni.jdj.service;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -8,10 +7,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aselcni.jdj.dao.OrderDao;
-import com.aselcni.jdj.model.Item;
+import com.aselcni.jdj.model.CustMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
-import com.aselcni.lhs.model.ItemMst;
+import com.aselcni.jdj.model.UserMst;
+import com.aselcni.jdj.model.ItemMst;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,6 +43,8 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			System.out.println("[Order Service ] + " + order_sec_num);
 			order = od.getOrdSpec(order_sec_num);
+			
+			System.out.println(ordTo16(ord_code) + "--ord");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -67,8 +69,20 @@ public class OrderServiceImpl implements OrderService {
 		return items;
 	}
 	
-	
-	
+	@Override
+	public List<CustMst> getCustLi() {
+		List<CustMst> custMsts = null;
+		
+		try {
+			System.out.println("servcie getCustLi");
+			custMsts = od.getCustLi();
+			System.out.println("service_gtCustLi -> " + custMsts);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return custMsts;
+	}
 	
 	
 //	seq_no 만드는거
@@ -100,6 +114,35 @@ public class OrderServiceImpl implements OrderService {
 		
 		return rt_ord_code;
 	}
+
+	@Override
+	public List<ItemMst> getItemLi() {
+		List<ItemMst> itemMsts = null;
+		try {
+			itemMsts = od.getItemLi();
+			System.out.println("service - itemMsts -> " + itemMsts);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return itemMsts;
+	}
+
+	@Override
+	public List<UserMst> getUserLi(int i) {
+		System.out.println("[OS_getUserLi Start...");
+		List<UserMst> userMsts = null;
+		try {
+			userMsts = od.getUserLi(i);
+			System.out.println("OS_getUserLi -> " + userMsts);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return userMsts;
+	}
+
 
 }
                                      

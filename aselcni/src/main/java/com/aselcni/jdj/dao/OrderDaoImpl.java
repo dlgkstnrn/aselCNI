@@ -12,9 +12,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.jdj.model.CustMst;
 import com.aselcni.jdj.model.Item;
+import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
+import com.aselcni.jdj.model.UserMst;
 
 import lombok.RequiredArgsConstructor;
 
@@ -67,6 +70,52 @@ public class OrderDaoImpl implements OrderDao {
 		}
 
 		return items;
+	}
+
+	@Override
+	public List<CustMst> getCustLi() {
+		List<CustMst> custMsts = null;
+		
+		try {
+			System.out.println("dao_ getCstLi");
+			custMsts = session.selectList("getCustLi", custMsts);
+			
+			System.out.println("dao_getCstLi -> " + custMsts);
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return custMsts;
+	}
+
+	@Override
+	public List<ItemMst> getItemLi() {
+		List<ItemMst> itemMsts = null;
+		
+		try {
+			System.out.println("dao_ getItemLi");
+			itemMsts = session.selectList("geItemLi", itemMsts);
+			
+			System.out.println("dao_itemMsts -> " + itemMsts);
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return itemMsts;
+	}
+
+	@Override
+	public List<UserMst> getUserLi(int user_comm_code) {
+		System.out.println("[OS_getUserLi Start...");
+		List<UserMst> userMsts = null;
+		try {
+			userMsts = session.selectList("getUserLi", user_comm_code);
+			System.out.println("OD_getUserLi -> " + userMsts);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return userMsts;
 	}
 
 }
