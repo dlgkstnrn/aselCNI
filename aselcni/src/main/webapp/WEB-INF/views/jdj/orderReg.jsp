@@ -13,6 +13,7 @@
 	
 	<!-- Google Fonts -->
 	<link href="https://fonts.gstatic.com" rel="preconnect">
+	
 	<link
 		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 		rel="stylesheet">
@@ -37,6 +38,7 @@
 	<!-- Script -->
 	<script defer src="assets/js/main.js"></script>
 	<script src="assets/js/jdj/jdjOrder.js"></script>
+	<script src="assets/js/jdj/jdjOrdReg.js"></script>
 	
 	<style>
 		@font-face {
@@ -92,7 +94,7 @@
 						</div>
 						<label for="inputText" class="col-sm-2 col-form-label text-end">담당자명</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" value="jdj" id="order_emp_id"> 정다진
+							<input type="text" class="form-control" id="order_emp_id" value="정다진">
 						</div>
 					</div>
 					
@@ -131,20 +133,8 @@
 								<th scope="col">수량</th>
 								<th scope="col">단가</th>
 							</tr></thead>
-							<tbody>
-								<tr>
-									<!-- <th><input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required=""></th> -->
-									<td></td>
-									<td>MS12345</td>
-									<td>신라면</td>
-									<td>박스</td>
-									<td><div class="btn-group border-1" role="group">
-						                <button type="button" class="btn btn-light"><i class="bi bi-dash"></i></button>
-						                <button type="button" class="btn btn-light" disabled>1</button>
-						                <button type="button" class="btn btn-light"><i class="bi bi-plus"></i></button>
-             						</div></td>
-									<td>36,000</td>
-								</tr>
+							<tbody  id="itemTB">
+								<!-- 모달에서 저장된 내용이 출력됨 -->
 							</tbody>
 						</table>
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -174,26 +164,27 @@
 						                <div class="col-md-7">
 						                  <label for="inputState" class="form-label">제품명</label>
 						                  <select id="item_nm" class="form-select">
+						                  	<option selected value = "">제품명 선택</option>
 						                  	<c:forEach var = "itemMst" items="${itemMsts}" varStatus="status">
-						                    	<option value="${itemMst.item_cd }" selected="">${itemMst.item_nm}</option>
+						                    	<option id="order_item_cd" value="${itemMst.item_cd }" >${itemMst.item_nm}</option>
 						                    </c:forEach>
 						                  </select>
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="inputCity" class="form-label">단위</label>
-						                  <input type="text" class="form-control" id="item_unit">
+						                  <input type="text" disabled class="form-control" id="item_unit">
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="inputCity" class="form-label">수량</label>
-						                  <input type="number" class="form-control" id="oreder_qty">
+						                  <input type="number" class="form-control" id="order_qty">
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="inputCity" class="form-label">단가</label>
-						                  <input type="text" class="form-control" id="item_cost">
+						                  <input type="number" disabled class="form-control" id="item_cost" value="1000">
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="inputCity" class="form-label">합계</label>
-						                  <input type="text" class="form-control" id="ord_item_cost">
+						                  <input type="number"class="form-control" disabled="disabled" id="oreder_item_cost">
 						                </div>
 						                
 
@@ -201,9 +192,7 @@
               
 	                    			</div>
 		                    		<div class="modal-footer">
-						                  <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-						                  <!-- <button type="reset" class="btn btn-secondary">취소</button> -->
-		                      			<button id="items_save" type="button" class="btn btn-primary"> 저장 </button>
+		                      			<button id="order_item_save" type="button" class="btn btn-primary"> 저장 </button>
 		                    		</div>
 		                  		</div>  <!-- modal-content -->
 	                		</div>  <!-- modal-dialog -->

@@ -95,37 +95,46 @@
         	<div class="card-body">
 				<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 					<div class="row datatable-top">
-						 <div class="row mb-2">
-								<!-- 검색 -->
-				        	<div class="col-md-4 d-flex flex-column position-static" style="padding-bottom: 1px">
-					    		<div class="mb-3">
-									<div class="input-group">
-										<span class="input-group-text" id="basic-addon3">주문번호</span>
-									    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
-									</div>
-								</div>					        	
-					    	</div>
-					    	
-					    	<!-- 기간 검색 -->
-					    	<div class="col-md-8 d-flex flex-column position-static" style="padding-bottom: 1px">
-								<div class="row mb-3">
-									<label for="inputDate" class="col-sm-1 col-form-label">기간</label>
-			                		<div class="col-sm-4">
-			                    		<input type="date" class="form-control">
-			                  		</div>
-									<label for="inputDate" class="col-sm-1 col-form-label" style="width: auto" > ~</label>
-			                		<div class="col-sm-4">
-			                    		<input type="date" class="form-control">
-			                  		</div>
-			                  		<button class="btn btn-primary col-2" type="submit">
-							            	<i class="bi bi-search"></i> 검색 
-			                  		</button>
-				                </div>
-					    	</div>
-					    	
-					    	
-					    	
-				    	</div>
+					    <div class="row mb-2">
+					       <!-- 검색 -->
+					      <div class="col-md-4 d-flex flex-column position-static" style="padding-bottom: 1px">
+					        <div class="mb-3">
+					         <div class="input-group">
+					            <span class="input-group-text" id="basic-addon3">주문번호</span>
+					              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+					         </div>
+					       </div>					        	
+					      </div>
+					       
+					       <!-- 기간 검색 -->
+					      <div class="col-md-8 d-flex flex-column position-static" style="padding-bottom: 1px">
+					        <div class="row mb-4">
+					         <!-- Example single danger button -->
+					          <!-- <div class="col-md-1"> -->
+					            <div class="btn-group col-2">
+					              <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+					             기간 선택 </button>
+					              <ul class="dropdown-menu">
+					                <li><a class="dropdown-item" href="#">주문 일자</a></li>
+					                <li><a class="dropdown-item" href="#">마감 일자</a></li>
+					              </ul>
+					            </div>
+					          <!-- </div> -->
+					
+					          <div class="col-3">
+					            <input type="date" class="form-control">
+					          </div>
+					          <label for="inputDate" class="col-sm-1 col-form-label" style="width: auto" > ~</label>
+					          <div class="col-3">
+					            <input type="date" class="form-control">
+					          </div>
+					          <button class="btn btn-primary col-3" type="submit">
+					            <i class="bi bi-search"></i> 검색 
+					          </button>
+					        </div>
+					      </div>
+					     </div>
+					  </div>
 				    	
 				    	
 						 <div class="row mb-2">
