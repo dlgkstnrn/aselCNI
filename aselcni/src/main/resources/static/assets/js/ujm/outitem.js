@@ -140,11 +140,11 @@ $(document).ready(function () {
         console.log(orderInfo); //orderInfo 객체 자체
   
         
-        $('.orderInfo_order_dt').val(orderInfo.order_dt); //주문일자, 조회와 input 동시
-        $('#orderInfo_order_dt').html(orderInfo.order_dt); //조회만
+        $('#orderInfo_order_dt').val(orderInfo.order_dt); //주문일자
+        $('#orderInfo_order_dt').html(orderInfo.order_dt); 
 
-        $('.orderInfo_cust_nm').val(orderInfo.cust_nm); //매입처
-        $('#orderInfo_cust_nm').html(orderInfo.cust_nm);
+        $('.orderInfo_cust_nm').val(orderInfo.cust_nm); //매입처, 표시부분과 input hidden 둘다
+        $('#orderInfo_cust_nm').html(orderInfo.cust_nm); //매입처 표시 부분
 
         $('#orderInfo_order_status_chk').val(orderInfo.order_status_chk);  //주문상태
 
@@ -168,7 +168,52 @@ $(document).ready(function () {
 
 
   //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
-  
+  $.ajax({
+    url: 'ujmGetOrderItem',
+    type: 'GET',
+    data: { order_no: selectOrderNo },
+    success: function(response) {
+      console.log('주문품목조회'+response);  
+
+      $('#outitem_item_list tbody').empty();
+      
+      $.each(response, function(index, item){ /* 각각의 주문품목 */
+        $('#outitem_item_list tbody').append(
+            '<tr>' +
+            '<td>' + item.item_nm + '</td>'+ 
+            '<input type="hidden" class="form-control" name="item_cd" id="insertItemCd">' +
+            '<td>' + item.stock + '</td>' +
+            '<td>' + item.qty + '</td>' +
+            '<td> <input type="number" class="form-control" name="qty" id="insertQty" defaultValue="0">' + '</td>' +
+            '</tr>'
+        );
+    });
+
+
+      /* $('#orderInfo_order_dt').val(response.order_dt); //주문일자
+      $('#orderInfo_order_dt').html(response.order_dt); 
+
+      $('.orderInfo_cust_nm').val(response.cust_nm); //매입처, 표시부분과 input hidden 둘다
+      $('#orderInfo_cust_nm').html(orderInfo.cust_nm); //매입처 표시 부분
+
+      $('#orderInfo_order_status_chk').val(orderInfo.order_status_chk);  //주문상태
+
+      if(orderInfo.order_status_chk==0) {
+      $('#orderInfo_order_status_chk').html('미출고');
+      } else if(orderInfo.order_status_chk==2) {
+        $('#orderInfo_order_status_chk').html('일부 출고');
+      }
+      
+      $('#orderInfo_order_end_dt').val(orderInfo.order_end_dt); //주문납기일
+      $('#orderInfo_order_end_dt').html(orderInfo.order_end_dt);
+
+     */
+    
+    }, 
+    error: function(xhr, status, error) {
+        console.error(error);
+    }
+ });
 
 
 

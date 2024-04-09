@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.aselcni.ujm.dao.UjmOrderDao;
 import com.aselcni.ujm.dao.UjmOutitemDao;
 import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
+import com.aselcni.ujm.model.UjmOrderItem;
 import com.aselcni.ujm.model.UjmOrderNoDto;
 
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,13 @@ public class UjmOrderServiceImpl implements UjmOrderService {
 		UjmOrderInfoToInsertDto orderInfo=null;
 		orderInfo=uord.ujmGetOrderInfoFromOrderNo(order_no);
 		return orderInfo;
+	}
+
+	@Override
+	public List<UjmOrderItem> ujmGetOrderItem(String order_no) {
+		System.out.println("UjmOrderServiceImpl ujmGetOrderItem Start...");
+		List<UjmOrderItem> ujmListOrderItem=null;
+		ujmListOrderItem=uord.ujmGetOrderItem(order_no);
+		return ujmListOrderItem;
 	}
 }

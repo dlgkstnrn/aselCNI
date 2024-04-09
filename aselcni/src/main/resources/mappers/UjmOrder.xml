@@ -40,4 +40,17 @@
 		and ord.order_delete_chk=0
 	</select>
 	
+	
+	<select id="ujmGetOrderItemList" parameterType="String" resultType="UjmOrderItem">
+		SELECT ori.order_no, ori.item_cd, ori.qty,
+			i.item_nm, i.item_cd,
+			dbo.FN_CURRENT_STOCK(ori.item_cd) AS stock
+			
+		from TB_ORDER_ITEM as ori
+		join TB_ITEMMST as i on ori.item_cd=i.item_cd 
+		join TB_ORDER as ord on ori.ORDER_NO =ord.ORDER_NO 
+		
+		where ord.ORDER_DELETE_CHK =0
+		and ori.ORDER_NO = #{order_no}
+	</select>
 </mapper>

@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
+import com.aselcni.ujm.model.UjmOrderItem;
 import com.aselcni.ujm.model.UjmOrderNoDto;
+import com.aselcni.ujm.model.UjmOutitem;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,5 +47,21 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 			System.out.println("UjmOrderDaoImpl ujmGetOrderInfoFromOrderNo 오류: "+e.getMessage());
 		}
 		return orderInfo;
+	}
+
+	@Override
+	public List<UjmOrderItem> ujmGetOrderItem(String order_no) {
+		System.out.println("UjmOrderDaoImpl ujmGetOrderItem 시작 ..." );
+		List<UjmOrderItem> ujmListOrderItem = null;
+		System.out.println(order_no);
+		try {
+			ujmListOrderItem=session.selectList("ujmGetOrderItemList",order_no);
+			if (ujmListOrderItem!=null) {
+				System.out.println("UjmOrderDaoImpl ujmGetOrderItem.size():"+ujmListOrderItem.size());
+			}
+		} catch (Exception e) {
+			System.out.println("UjmOrderDaoImpl ujmGetOrderItem 오류: "+e.getMessage());
+		}
+		return ujmListOrderItem;
 	}
 }

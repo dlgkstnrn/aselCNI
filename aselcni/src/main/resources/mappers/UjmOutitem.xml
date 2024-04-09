@@ -8,7 +8,7 @@
 	
 	
 	<select id="ujmTotalOutitemCnt" resultType="int">
-<![CDATA[
+		<![CDATA[
 		SELECT Count(*) 
 		FROM (
 		    SELECT ROW_NUMBER() OVER (ORDER BY ou.outitem_no) AS rn, 
