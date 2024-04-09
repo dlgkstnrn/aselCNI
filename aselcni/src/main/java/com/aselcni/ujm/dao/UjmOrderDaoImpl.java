@@ -35,10 +35,11 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 	public UjmOrderInfoToInsertDto ujmGetOrderInfoFromOrderNo(String order_no) {
 		System.out.println("UjmOrderDaoImpl ujmGetOrderInfoFromOrderNo 시작 ..." );
 		UjmOrderInfoToInsertDto orderInfo=new UjmOrderInfoToInsertDto();
+		System.out.println(order_no);
 		try {
 			orderInfo=session.selectOne("ujmGetOrderInfoFromOrderNo",order_no);
 			if (orderInfo!=null) {
-				System.out.println("UjmOrderDaoImpl ujmGetOrderInfoFromOrderNo의 order_no:"+orderInfo.getOrder_no());
+				System.out.println("UjmOrderDaoImpl ujmGetOrderInfoFromOrderNo의 주문일자:"+orderInfo.getOrder_dt());
 			}
 		} catch (Exception e) {
 			System.out.println("UjmOrderDaoImpl ujmGetOrderInfoFromOrderNo 오류: "+e.getMessage());

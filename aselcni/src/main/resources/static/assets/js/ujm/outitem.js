@@ -127,28 +127,51 @@ $(document).ready(function () {
   
  //주문번호 셀렉트박스 눌렀을 때 : 선택한 주문번호에 대한 정보들 컨트롤러로 가져오기 위함
  $("#selectOrderNo").click(function(){ 
+  var selectOrderNo = $('#selectOrderNo').val();
 
-  //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
- 
+
+
+  //주문번호와 그에 해당하는 주문일자, 매입처이름, 주문상태, 주문납기일을 조인해 가져옴
   $.ajax({
       url: 'ujmGetOrderInfoFromOrderNo',
       type: 'GET',
-      dataType: 'json',
-      success: function(response) {
-        console.log(response);
-          var selectBox = $('#selectOrderNo'); //주문번호 select 부분 id , 안에 option이 있음
-          selectBox.empty();
-          
-          $.each(response, function(index, item) { //리스트의 각각의 객체를 item으로 명명 
-              selectBox.append('<option value="' + item.order_no + '">' + 
-              item.order_no + ': ' +
-              item.customer_name + ' - ' + item.items + '</option>');
-          });
-      },
+      data: { order_no: selectOrderNo },
+      success: function(orderInfo) {
+        console.log(orderInfo); //orderInfo 객체 자체
+  
+        
+        $('#orderInfo_order_dt').val(orderInfo.order_dt); //주문일자
+        $('#orderInfo_order_dt').html(orderInfo.order_dt);
+
+        $('#orderInfo_cust_nm').val(orderInfo.cust_nm); //매입처
+        $('#orderInfo_cust_nm').html(orderInfo.cust_nm);
+
+        $('#orderInfo_order_status_chk').val(orderInfo.order_status_chk);  //주문상태
+
+        if(orderInfo.order_status_chk==0) {
+        $('#orderInfo_order_status_chk').html('미출고');
+        } else if(orderInfo.order_status_chk==2) {
+          $('#orderInfo_order_status_chk').html('일부 출고');
+        }
+        
+        $('#orderInfo_order_end_dt').val(orderInfo.order_end_dt); //주문납기일
+        $('#orderInfo_order_end_dt').html(orderInfo.order_end_dt);
+
+      
+      
+      }, 
       error: function(xhr, status, error) {
           console.error(error);
       }
-  });
+   });
+
+
+
+  //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
+  
+
+
+
 
 
 }); 

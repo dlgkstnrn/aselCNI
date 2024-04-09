@@ -19,14 +19,25 @@
 	    	tb_custmst AS custmst ON ord.cust_cd = custmst.cust_cd
 	    WHERE
 			ord.order_status_chk IN (0, 2) -- 주문 상태가 0 또는 2인 경우에만 가져옴
+		and ord.order_delete_chk=0
 		GROUP BY
 	    	ord.order_no,
 	    	custmst.cust_nm
 	 ]]>
 	</select>
 	
-	<select id="ujmGetOrderInfoFromOrderNo" parameterType="int" resultType="UjmOrderInfoToInsertDto">
+	<select id="ujmGetOrderInfoFromOrderNo" parameterType="String" resultType="UjmOrderInfoToInsertDto">
+		select 
+			ord.order_dt,
+			cust.cust_nm,
+			ord.order_status_chk,
+			ord.order_end_dt
 	
+		from tb_order as ord
+		join tb_custmst as cust on ord.cust_cd=cust.cust_cd
+
+		where ord.ORDER_NO = #{order_no}
+		and ord.order_delete_chk=0
 	</select>
 	
 </mapper>

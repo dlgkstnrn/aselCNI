@@ -84,7 +84,7 @@ pageEncoding="UTF-8"%>
                       data-bs-toggle="modal"
                       data-bs-target="#outitem_insert" 
                       id="outitem_insert_btn"
-                    > <!-- 등록버튼 -->
+                    > <!-- 등록버튼 (등록폼을 띄우는 버튼) -->
                       등록
                     </button>
 
@@ -112,7 +112,7 @@ pageEncoding="UTF-8"%>
                               class="btn-close"
                               data-bs-dismiss="modal"
                               aria-label="Close"
-                            ></button><!-- 등록 나오면 나오는 등록버튼 -->
+                            ></button><!-- 등록 나오면 나오는 등록버튼, 즉 form을 처리 -->
                           </div>
 
                             <!-- 등록 폼 form -->
@@ -122,16 +122,12 @@ pageEncoding="UTF-8"%>
 
                               <!-- 주문번호 -->
                               <div class="row mb-3 d-flex">
-                                <label class="col-sm-3 col-form-label"
-                                  >주문번호</label
-                                >
+                                <label class="col-sm-3 col-form-label">주문번호</label>
                                 <div class="col-sm-9">
                                   <select
                                     class="form-select"
                                     id="selectOrderNo"
-                                  
-                                  name="order_no"
-                                  >
+                                  name="order_no">
                                       <option value="">주문 선택</option>
                                         <!-- ajax로 선택할 수 있는 주문번호 추가됨  -->
                                 
@@ -143,10 +139,11 @@ pageEncoding="UTF-8"%>
                               <!-- 주문일자(단순조회) -->
                               <div class="row mb-3 d-flex">
                                 <label class="col-sm-3 col-form-label"
-                                  >주문일자(단순조회)</label
+                                  >주문일자
+                                  </label
                                 >
-                                <div class="col-sm-9">
-                                  ${orderInfo_dt}
+                                <div class="col-sm-9" id="orderInfo_order_dt">
+                                  <!-- ajax로 -->
                                 </div>
                               </div>
 
@@ -155,16 +152,14 @@ pageEncoding="UTF-8"%>
                                 <label
                                   for="outitem_dt"
                                   class="col-sm-3 col-form-label"
-                                  >출고일자(달력)-주문일자보다 늦어야함</label
-                                >
+                                  >출고일자(달력)-주문일자보다 늦어야함</label>
                                 <div class="col-sm-9">
                                   <input
                                     type="date"
                                     class="form-control"
                                     id="outitem_dt"
                                     name="outitem_dt"
-                                    style="width: 200px;"
-                                  />
+                                    style="width: 200px;"/>
                                 </div>
                               </div>
 
@@ -172,11 +167,9 @@ pageEncoding="UTF-8"%>
                               <div class="row mb-3">
                                 <label
                                   for="cust_nm"
-                                  class="col-sm-3 col-form-label"
-                                  >매입처이름</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">거래처이름 ${cust_nm}</p>
+                                  class="col-sm-3 col-form-label">매입처</label>
+                                <div class="col-sm-9" id="orderInfo_cust_nm">
+                                  <!-- ajax -->
                                 </div>
                               </div>
 
@@ -184,9 +177,7 @@ pageEncoding="UTF-8"%>
                               <div class="row mb-3">
                                 <label
                                   for="outitem.cust_emp"
-                                  class="col-sm-3 col-form-label"
-                                  >거래처담당자이름</label
-                                >
+                                  class="col-sm-3 col-form-label">거래처 담당자 </label>
                                 <div class="col-sm-9">
                                   <input
                                     type="text"
@@ -195,8 +186,7 @@ pageEncoding="UTF-8"%>
                                     placeholder="거래처담당자명 임의로 입력"
                                     name="cust_emp"
                                     autocomplete="off"
-                                    required="required"
-                                  />
+                                    required="required"/>
                                 </div>
                               </div>
 
@@ -205,14 +195,9 @@ pageEncoding="UTF-8"%>
                                 <label
                                   for="order_status_chk"
                                   class="col-sm-3 col-form-label"
-                                  >주문상태</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">
-                                    <c:if test="${order_status_chk==0}">미출고</c:if>
-                                    <c:if test="${order_status_chk==1}">일부 출고</c:if>
-                                    <c:if test="${order_status_chk==2}">출고완료</c:if>
-                                  </p>
+                                  >주문상태</label>
+                                <div class="col-sm-9" id="orderInfo_order_status_chk">   
+                                  <!-- ajax -->
                                 </div>
                               </div>
 
@@ -221,21 +206,21 @@ pageEncoding="UTF-8"%>
                                 <label
                                   for="order_end_dt"
                                   class="col-sm-3 col-form-label"
-                                  >주문마감일</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">주문마감일 ${order_end_dt}</p>
+                                  >주문납기일</label>
+                                <div class="col-sm-9" id="orderInfo_order_end_dt">
+                                  <!-- ajax -->
                                 </div>
                               </div>
 
+
+
+
                               <!-- 출고할 제품 선택-->
                               <div class="row mb-3">
-                                <label class="col-sm-3 col-form-label"
-                                  >제품명(거래처cd 가져와서)</label
-                                >
+                                <label class="col-sm-3 col-form-label">
+                                  제품명</label>
 
                                 <div class="col-sm-9 mb-3">
-                                  <!-- 중첩모달 띄우는 버튼 -->
                                   <!-- Vertically centered Modal -->
 
                                   <!-- 선택된 투입품 리스트 -->
@@ -244,9 +229,7 @@ pageEncoding="UTF-8"%>
 
                                     <!-- List group with custom content -->
                                     <ol class="list-group list-group-numbered">
-                                      <li
-                                        class="list-group-item d-flex justify-content-between align-items-start"
-                                      >
+                                      <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="ms-2 me-auto">
                                           <div class="fw-bold">제품명</div>
                                           ${item_nm}
@@ -320,36 +303,25 @@ pageEncoding="UTF-8"%>
                                 </div>
                               </div>
 
+
+
+
+
                               <!-- 비고 -->
                               <div class="row mb-3">
                                 <label
                                   for="outitem.remark"
-                                  class="col-sm-3 col-form-label"
-                                  >비고</label
-                                >
+                                  class="col-sm-3 col-form-label">비고</label>
                                 <div class="col-sm-9">
                                   <input
                                     type="text"
                                     class="form-control"
                                     id="outitem.remark"
-                                    name="outitem.remark"
-                                  />
+                                    name="outitem.remark"/>
                                 </div>
                               </div>
 
-                              <!-- 출고삭제여부 -->
-                              <div class="row mb-3">
-                                <label
-                                  for="outitem_delete_chk"
-                                  class="col-sm-3 col-form-label"
-                                  >출고삭제여부</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">
-                                    출고삭제여부(단순조회)
-                                    ${outitem_delete_chk}
-                                  </p>
-                                </div>
+                              
                               </div>
                             </div>
 
@@ -561,7 +533,7 @@ pageEncoding="UTF-8"%>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
                         <c:if test="${outitem.order_status_chk==1}">취소됨</c:if>
-                        <c:if test="${outitem.order_status_chk==2}">출고 완료</c:if>
+                        <c:if test="${outitem.order_status_chk==2}">일부 출고</c:if>
                         <c:if test="${outitem.order_status_chk==3}">전체 출고 완료</c:if>
                       </td>
 
@@ -700,7 +672,7 @@ ${page}
                         >매입처이름</label
                       >
                       <div class="col-sm-9">
-                        <p style="color: black">거래처이름 ${cust_nm}</p>
+                        <p style="color: black">거래처이름 </p>
                       </div>
                     </div>
 
