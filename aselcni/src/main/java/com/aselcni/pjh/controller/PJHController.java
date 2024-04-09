@@ -162,4 +162,14 @@ public class PJHController {
 		return response;
 	}
 	
+	
+	@ResponseBody
+	@PostMapping("/updateInitem")
+	public String updateInitem(@RequestBody PJHInitem initem,HttpServletRequest request) {
+		System.out.println("PJHController updateInitem start...");
+		initem.setInitem_emp_id((String)request.getSession().getAttribute("user_id"));
+		System.out.println("PJHController updateInitem param->"+ initem);
+		
+		return "fail";
+	}
 }

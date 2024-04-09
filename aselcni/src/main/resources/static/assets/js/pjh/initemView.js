@@ -268,11 +268,71 @@ const detailUpdate = function (insertFlag = false) {
                 <td>${ele['item_nm']}</td>
                 <td>${ele['item_spec']}</td>
                 <td>${ele['item_unit']}</td>
-                <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" min="${ele.required_stock >= 0 ? ele.required_stock < ele.qty ? ele.required_stock : ele.qty : 0}" max="${ele.qty + ele.add_max}" placeholder="입고수량" style="width: 75px" ${insertFlag ? '' : 'readonly'}></td>
+                <td><input id="initemQty${idx}" class="itemList" 
+                    data-qty="${ele.qty}" data-item-cd="${ele.item_cd}"
+                    onchange="checkItemQty(this,${ele['qty']})" type="number" 
+                    value="${ele['qty']}" min="${ele.required_stock >= 0 ? ele.required_stock < ele.qty ? ele.required_stock : ele.qty : 0}" 
+                    max="${ele.qty + ele.add_max}" 
+                    placeholder="입고수량" style="width: 75px" ${insertFlag ? '' : 'readonly'}></td>
                 <td>${ele['item_cost']}</td>
                 <td>${ele.qty * ele.item_cost}</td>
                 </tr>`
         )
     })
+}
+
+/**
+ * 폼에서 수정 된 내용 DB에 반영
+ */
+const updateInitem = function () {
+    const data = {};
+    data.initem_no = $('#modal_initem_no').val();
+    data.initem_dt = $('#modal_initem_dt').val();
+    data.cust_emp = $('#modal_cust_emp').val();
+    data.wh_cd = $('#modal_wh_cd').val();
+    data.remark = $('#modal_remark').val();
+
+    const inItems = [];
+    $('.itemList').each((idx, item) => {
+        console.log(item.dataset)
+        if (item.dataset.qty == item.value) {
+            console.log('수량 변경없음');
+            return;
+        }
+        const obj = {
+            initem_no: data.initem_no,
+            purc_no: $('#modal_purc_no').val(),
+            item_cd: item.dataset.itemCd,
+            qty: item.value
+        }
+        inItems.push(obj);
+    })
+    data.inItems = inItems;
+    console.log(data);
+    $.ajax({
+        type: "POST",
+        url: "updateInitem",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            if (response == 'success') {
+                detailView(data.initem_no);
+            } else {
+                alert('수정실패');
+            }
+        },
+        beforeSend: () => {
+            $('body').append(
+                `
+                <div id="ajaxLoadingImg" style="z-index:1091;" class="spinner-border text-primary position-absolute top-50 start-50" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                `
+            )
+        },
+        complete: () => {
+            $('#ajaxLoadingImg').remove();
+        }
+    });
 
 }

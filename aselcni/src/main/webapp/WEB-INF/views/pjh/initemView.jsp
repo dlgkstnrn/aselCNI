@@ -306,7 +306,7 @@
 			                  <button id="cancleBtn" onclick="detailUpdate(false)" type="button" class="btn btn-secondary" hidden="true">취소</button>
 			                  <button id="delBtn" type="button" class="btn btn-danger">삭제</button>
 			                  <button id="modifyBtn" onclick="detailUpdate(true)" type="button" class="btn btn-primary">수정</button>
-			                  <button id="submitBtn" type="button" class="btn btn-primary" hidden="true">저장</button>
+			                  <button id="submitBtn" type="button" onclick="updateInitem()" class="btn btn-primary" hidden="true">저장</button>
 			                </div>
 						</div>
 					</div>
