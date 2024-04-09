@@ -1,3 +1,19 @@
+let remark ="";
+let purc_emp_id ="";
+let cust_cd="";
+let item_cd ="";
+let qty ="";
+let item_cost ="";
+let purc_cost ="";
+const csgPurItemList=[]
+    
+const dataInput = {
+    remark,
+    purc_emp_id,
+    csgPurItemList
+};
+
+
 //대분류애들 선택시에 Cust_cd 가지고 넘어가는 aajx
 let custCd = ""; // 전역 변수로 custCd 값을 저장
 
@@ -221,10 +237,10 @@ function updateJajeInputBody() {
 
     Object.values(tempItems).forEach((item, index) => {
 		// item.item_qty가 undefined인 경우 기본값으로 0을 설정
-        const itemQty = item.item_qty !== undefined ? item.item_qty : 0;
+        let itemQty = item.item_qty !== undefined ? item.item_qty : 0;
         
         jajeInputBody.append(`
-		<tr>
+		<tr >
 		    <td><input type="checkbox"></td>
 		    <td>${item.item_cd}</td>
 		    <td>${item.item_nm}</td>
@@ -242,10 +258,10 @@ function updateJajeInputBody() {
 $(document).ready(function() {
     // 수량 입력 필드의 값이 변경될 때마다 실행되는 이벤트 리스너
     $(document).on('input', '.qty-input', function() {
-        const $this = $(this);
-        const itemCost = parseFloat($this.data('item-cost')); // 단가를 숫자로 변환
-        const qty = parseFloat($this.val()); // 입력된 수량을 숫자로 변환
-        const purcCost = itemCost * qty; // 공급가액 계산
+        let $this = $(this);
+        let itemCost = parseFloat($this.data('item-cost')); // 단가를 숫자로 변환
+        let qty = parseFloat($this.val()); // 입력된 수량을 숫자로 변환
+        let purcCost = itemCost * qty; // 공급가액 계산
 
 
         // 공급가액이 유효한 숫자가 아니면 0으로 설정 NaN원으로 나오는것떄문에 0원으로 해주자
@@ -276,12 +292,66 @@ $(document).ready(function() {
     }
 });
 
-function submitFormWithSave() {
-    // "저장" 버튼 클릭 시의 동작
-    // 예를 들어, 폼 데이터를 서버의 특정 엔드포인트로 전송
-    document.getElementById('purchaseItem2').action = 'purchaseSave';
-    document.getElementById('purchaseItem2').submit();
+
+//
+function sendOrderDetails() {
+    // 폼에 입력된 비고 정보 가져오기
+    dataInput.cust_cd=$('#supplier').val()
+    dataInput.remark=$("#remark").val();
+	dataInput.purc_emp_id=$("#com_manager-name").val();
+
+	let jajeTableBody =$("#jajeInputBody").find("tr");
+	console.log("jajeTableBody", jajeTableBody);
+	
+	
+    jajeTableBody.each(function() {
+        // 각 행(td)에서 데이터 추출
+        let jTableItem_cd = $(this).find('td:nth-child(2)').text();
+        let jTableItemQty = $(this).find('td:nth-child(6)').find('input').val(); // input 값이므로 find('input') 추가
+        let jTableItemPurc_cost = $(this).find('td:nth-child(8)').text();
+
+        // 추출한 데이터로 객체 생성 및 csgPurItem 배열에 추가
+        dataInput.csgPurItemList.push({
+            item_cd: jTableItem_cd,
+            qty: parseInt(jTableItemQty, 10), // 문자열을 정수로 변환
+            purc_cost: parseFloat(jTableItemPurc_cost) // 문자열을 부동소수점 숫자로 변환
+            // 여기서 purc_cost는 qty와 item_cost를 곱한 값이 될 수 있습니다.
+            // purc_cost는 서버 측에서 계산할 수도 있으니, 클라이언트에서 전송하지 않아도 됩니다.
+        });
+
+    });
+
+
+    // 발주 상세 정보를 담을 데이터 객체 초기화
+
+
+    // 'jajeInputBody' 내의 각 체크박스를 확인하여 선택된 항목들을 추출
+    $("#jajeInputBody input[type='checkbox']:checked").each(function() {
+        const row = $(this).closest("tr"); // 해당 체크박스가 속한 행(row)
+        const itemCd = row.find("td:nth-child(2)").text(); // 품목 코드
+        const itemQty = parseFloat(row.find(".qty-input").val()); // 수량 (숫자로 변환)
+        const itemCost = parseFloat(row.find(".qty-input").data("item-cost")); // 단가 (숫자로 변환)
+        const purcCost = itemQty * itemCost; // 발주 금액 계산
+
+    });
+
+    // AJAX 요청으로 서버에 데이터 전송
+    $.ajax({
+        type: 'POST',
+        url: '/submitOrderDetails', // 서버의 엔드포인트
+        contentType: 'application/json', // 데이터 타입 JSON 지정
+        data: JSON.stringify(dataInput), // 데이터 객체 전송
+        success: function(response) {
+            // 성공 처리 로직
+            console.log("컨트롤러로 값이 전송되었습니다");
+        },
+        error: function(xhr, status, error) {
+            // 오류 처리 로직
+            console.error("전송 실패", error);
+        }
+    });
 }
+
 
 function submitFormWithCancel() {
     // "취소" 버튼 클릭 시의 동작

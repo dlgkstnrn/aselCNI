@@ -24,6 +24,7 @@ import com.aselcni.csg.model.CSG_TB_TYPE_SML;
 import com.aselcni.csg.service.SK_Service_Interface;
 import com.aselcni.csg.service.csg_Paging;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -59,25 +60,12 @@ public class SK_Controller {
 		
 		return "csg/CSG_purchase";
 	}
-	/*
-	//발주관리 ==> 검색필터링
-	@PostMapping(value="/searchPurchases")
-	public String SK_searchPurchase(Model model, CSG_TB_PURCHASE csg_TB_PURCHASE) {
-		System.out.println("검색 시발아"+ csg_TB_PURCHASE);
-		
-		List<CSG_TB_PURCHASE> purchaseList = sk_ServicInterface.findAllPurchase(csg_TB_PURCHASE);
-		model.addAttribute("purchaseList", purchaseList);
-		System.out.println("Controller : 검색 시잇팔 seachPurchase @@@@@@@@@@@  ==> " + purchaseList);
-		
-		return "csg/CSG_purchase";
-	}
-	*/
 	
 	//발주관리 ==> ajax용 다시 도전
     @ResponseBody
     @GetMapping("/searchPurchases")
     public Map<String, Object> searchPurchases(CSG_TB_PURCHASE csg_TB_PURCHASE) {
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<String, Object>();
         System.out.println("씨발 도대체 뭘 넘겨주는데 개씨잇파알 ==> " + csg_TB_PURCHASE);
         
         // 전체 발주 개수 계산
@@ -106,10 +94,9 @@ public class SK_Controller {
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@items에 들어가는  purchaseList: "+ purchaseList);
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@response 씨비언ㅇㄹ미ㅓㅁ니;ㄹ : "+ response);
         return response;
+        
     }
 
-	
-	
 	//CSG_purchase에서 신규등록을 누르면 a태그로 옮기게 되는 발주등록 및 자재목록 나오게 되는 폼 + 업체들 불러오기
 	@RequestMapping(value="purchaseItemForm")
 	public String Sk_PurchasList(Model model) {
@@ -209,12 +196,12 @@ public class SK_Controller {
 	
 	
 	//모달까지 완료한 뒤 발주등록 화면에서 저장! ==> 저장한뒤에 발주화면으로 이동
-	@PostMapping("/purchaseSave")
-	public String PurchaseSave(@ModelAttribute CSG_TB_PURCHASE_ITEM purchaseItem, Model model) {
-	    // 폼에서 전송된 데이터를 처리
-	    // 예를 들어, 데이터베이스에 저장하는 로직 구현
+	@PostMapping("/submitOrderDetails")
+	@ResponseBody
+	public String PurchaseSave(@RequestBody CSG_TB_PURCHASE purchaseAndItem, Model model/*, HttpServletRequest request*/) {
+		System.out.println("값 잘 받았냐 purchaseAndItem : purchaseAndItem" + purchaseAndItem);
+		// 예를 들어, 데이터베이스에 저장하는 로직 구현
 	    // ...
-		
 		System.out.println("발주가 등록되었습니다");
 
 	    // 처리 완료 후 리다이렉트할 페이지 지정

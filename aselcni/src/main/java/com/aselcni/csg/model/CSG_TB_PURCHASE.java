@@ -1,5 +1,7 @@
 package com.aselcni.csg.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -24,12 +26,14 @@ public class CSG_TB_PURCHASE { //발주테이블
 	private int item_cost; //단가
 	private String start_date; //날짜계산을 할때만 data가 좋고 Date는 String이 좋음
 	private String end_date;	//날짜계산을 하려면 String으로 넣고 그냥 형변환을 하는게 좋음
-	
+	private String item_cd; //품목CD, PK, fk
 
 	//page 정보
 	private int start;
 	private int end;
 	private String currentPage;
+	
+	private List<CSG_TB_PURCHASE_ITEM> csgPurItemList;
 
 
 

@@ -76,7 +76,7 @@
 			                        발주 등록
 			                    </h2>
 			                    <!-- 입력 필드 그룹 -->
-			                    <div class="row row-cols-2 g-4">
+			                    <div class="row row-cols-3 g-4">
 			
 			                        <!-- 매입처 -->
 			                        <div class="border border-green-500">
@@ -90,13 +90,7 @@
 			                        </div>
 			                        <!-- 발주담당자 id로 받아와서 세션으로 값을 넘겨주자 -->
 			                        <input type="hidden" name="purc_emp_id" value="${sessionScope.user_id}">
-			                        
-			                        
-			                        <!-- 거래처 담당자 -->
-			                        <div class="border border-green-500">
-			                            <label for="manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">발주등록일</label>
-			                            <input id="manager-name" type="text" placeholder="발주등록일" class="form-control" value="" readonly>
-			                        </div>
+
 			                        
 			                        <!-- 발주 담당자 -->
 			                        <div class="border border-green-500">
@@ -145,8 +139,8 @@
 						    
 						   <!-- 버튼 그룹 -->
 		                   <div class="d-flex justify-content-center mt-4">
-		                       <button class="btn btn-primary me-2" onclick="submitFormWithSave()">저장</button>
-		                       <button type="button" class="btn btn-secondary " onclick="submitFormWithCancel()">취소</button>
+								<button type="button" onclick="sendOrderDetails()">저장</button>
+		                        <button type="button" class="btn btn-secondary " onclick="submitFormWithCancel()">취소</button>
 		                   </div>
 						    
 				    	</div>

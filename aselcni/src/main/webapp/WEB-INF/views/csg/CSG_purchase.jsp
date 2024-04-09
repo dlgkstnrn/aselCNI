@@ -187,6 +187,29 @@
 					    </nav>
 					    
 					    
+						 <!-- 
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center">
+								<li class="page-item">
+									<button class="page-link" onclick="prevPage()" aria-label="Previous">
+										<span aria-hidden="true">«</span>
+									</button>
+								</li>
+								<c:forEach var="i" begin="${page.startPage}" end="${page.endPage }">
+									<li class="page-item pageNum"><button class="page-link"
+											onclick="goPage('${i}')">${i }</button></li>
+								</c:forEach>
+								<li id="nextPageLi" class="page-item">
+									<button id="nextPageBtn" class="page-link" onclick="nextPage(this)"
+										data-total-page="${page.totalPage }" aria-label="Next">
+										<span aria-hidden="true">»</span>
+									</button>
+								</li>
+							</ul>
+						</nav>
+					     -->   
+					    
+					    
 					</div>
 		        </main>
 		    </div>
