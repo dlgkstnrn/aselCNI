@@ -83,6 +83,7 @@ pageEncoding="UTF-8"%>
                       class="btn btn-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#outitem_insert" 
+                      id="outitem_insert_btn"
                     > <!-- 등록버튼 -->
                       등록
                     </button>
@@ -111,10 +112,10 @@ pageEncoding="UTF-8"%>
                               class="btn-close"
                               data-bs-dismiss="modal"
                               aria-label="Close"
-                            ></button>
+                            ></button><!-- 등록 나오면 나오는 등록버튼 -->
                           </div>
 
-                            <!-- 등록 폼 -->
+                            <!-- 등록 폼 form -->
                           <form action="insertOutitem">
 
                             <div class="modal-body">
@@ -127,16 +128,15 @@ pageEncoding="UTF-8"%>
                                 <div class="col-sm-9">
                                   <select
                                     class="form-select"
-                                    id="floatingSelect"
-                                    aria-label="Floating label select example"
-                                  style="width: 200px"
-                                  name="${order.no}"
+                                    id="selectOrderNo"
+                                  
+                                  name="order_no"
                                   >
+                                      <option value="">주문 선택</option>
+                                        <!-- ajax로 선택할 수 있는 주문번호 추가됨  -->
+                                
+                                  </select>
 
-                                  <option selected>선택</option>
-                                  <option value="1">${order.order_no} (제품:${item_nm}, 기업:${cust_nm})</option>
-                                  <option value="2">Two</option>
-                                  <option value="3">Three</option>
                                 </div>
                               </div>
 
@@ -146,12 +146,7 @@ pageEncoding="UTF-8"%>
                                   >주문일자(단순조회)</label
                                 >
                                 <div class="col-sm-9">
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    value="${order_dt}"
-                                    readonly
-                                  />
+                                  ${orderInfo_dt}
                                 </div>
                               </div>
 
@@ -168,6 +163,7 @@ pageEncoding="UTF-8"%>
                                     class="form-control"
                                     id="outitem_dt"
                                     name="outitem_dt"
+                                    style="width: 200px;"
                                   />
                                 </div>
                               </div>
@@ -526,15 +522,12 @@ pageEncoding="UTF-8"%>
 
 
 
-                <!-- 테이블 -->
+                <!-- 테이블, 조회 -->
                 <c:set var="num" value="${page.total-page.start+1 }"></c:set>
                 <!-- Table with stripped rows -->
                 <table class="table table-hover">
                   <thead>
                     <tr>
-  <!--                     <th scope="col">
-                        <b>출고번호</b>
-                      </th> -->
                       <th scope="col">출고번호</th>
                       <th scope="col">순번</th>
                       <th scope="col">주문번호</th>
@@ -542,9 +535,9 @@ pageEncoding="UTF-8"%>
                       <th scope="col">주문납기일</th>
                       <th scope="col">출고일자</th>
                       <th scope="col">매입처</th>
-                      <th scope="col">제품명</th>
-                      <th scope="col">주문상태</th>
-                      <th scope="col">출고수량</th>
+                      <th scope="col">출고제품</th>
+                      <th scope="col">출고상태</th>
+
                       <th scope="col">비고</th>
                       <th scope="col">출고관리자</th>
                     </tr>
@@ -564,13 +557,14 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.order_end_dt}</td>
                       <td>${outitem.outitem_dt}</td>
                       <td>${outitem.cust_nm}</td>
-                      <td>${outitem.item_nm}</td>
+                      <td>${outitem.items}</td>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
-                        <c:if test="${outitem.order_status_chk==1}">일부 출고</c:if>
-                        <c:if test="${outitem.order_status_chk==2}">전체 출고 완료</c:if>
+                        <c:if test="${outitem.order_status_chk==1}">취소됨</c:if>
+                        <c:if test="${outitem.order_status_chk==2}">출고 완료</c:if>
+                        <c:if test="${outitem.order_status_chk==3}">전체 출고 완료</c:if>
                       </td>
-                      <td>${outitem.qty}</td>
+
                       <td>${outitem.remark}</td>
                       <td>${outitem.user_nm}</td>
                     </tr>
@@ -580,42 +574,36 @@ pageEncoding="UTF-8"%>
 
                   </tbody>
                 </table>
-
-                <c:if test="${page.startPage > page.pageBlock }">
-                  <a href="listOutitem?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
-                </c:if>
-                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                  <a href="listOutitem?currentPage=${i}">[${i}]</a>
-                </c:forEach>
-                <c:if test="${page.endPage < page.totalPage }">
-                  <a href="listOutitem?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-                </c:if>
-
-
-
+${page}
+               
                 <!-- End Table with stripped rows -->
               </div>
+
+
+              
+                
+             
+
+
+
+
 
               <!-- 번호디자인 -->
               <!-- Disabled and active states -->
               <nav aria-label="..." style="margin: auto">
                 <ul class="pagination">
-                  <li class="page-item disabled">
-                    <a
-                      class="page-link"
-                      href="#"
-                      tabindex="-1"
-                      aria-disabled="true"
-                      >Previous</a
-                    >
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">2</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+
                   <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                    <a class="page-link" href="outitem?currentPage=${startPage}">Start</a>
+                  </li>
+
+                  <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+                  <li class="page-item">
+                    <a class="page-link" href="outitem?currentPage=${i}">${i}</a>
+                  </li>
+                  </c:forEach>
+                  <li class="page-item">
+                    <a class="page-link" href="outitem?currentPage=${endPage}">End</a>
                   </li>
                 </ul>
               </nav>

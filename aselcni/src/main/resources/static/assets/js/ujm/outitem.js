@@ -1,7 +1,6 @@
 
 $(document).ready(function () {
   //닫기 버튼 클릭시 modal 입력 내용 클리어
-  $(document).ready(function () {
 
     $('button[data-bs-dismiss="modal"]').on(
       "click", //닫기버튼 누르면
@@ -9,7 +8,6 @@ $(document).ready(function () {
         modalContentClear(); //아래
       }
     );
-  });
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   function modalContentClear() {
     $("#order_no_modal").text("주문 번호 선택");
@@ -19,7 +17,6 @@ $(document).ready(function () {
 
   //날짜
   //시작 날짜와 종료 날짜 논리 일관성
-  $(document).ready(function () {
     $("#startDate").on("input", function () {
       let startDate = $("#startDate").val();
       let endDate = $("#endDate").val();
@@ -41,10 +38,9 @@ $(document).ready(function () {
         $("#endDate").val(startDate);
       }
     });
-  });
+
 
   // 좌우 버튼 누를 때마다 날짜 7일 단위로 바뀜
-  $(document).ready(function () {
     $("#dateRightBtn").click(function () {
       dateShift("right");
     });
@@ -52,7 +48,6 @@ $(document).ready(function () {
     $("#dateLeftBtn").click(function () {
       dateShift("left");
     });
-  });
 
   // 날짜 조정 함수
   function dateShift(direction) {
@@ -78,8 +73,6 @@ $(document).ready(function () {
   }
 
   //dropdown 기능
-  $(document).ready(function () {
-
     $("#order_no_modal").dropdown();
     /* 주문번호 부분이 드롭다운으로 내려오게 */
 
@@ -92,13 +85,74 @@ $(document).ready(function () {
       }); */
 
 
-}); 
-
     //조회 테이블 행 클릭시 modal 수정창으로 이동
     $('tr[data-bs-toggle="modal"]').on("click", function () {
       let orderNo = $(this).find("td:nth-child(2)").text();
       $("#order_no_modal").val(orderNo);
     });
+
+
+     //등록버튼 눌렀을 때..
+    $("#outitem_insert_btn").click(function(){ 
+
+
+
+      //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
+     
+      $.ajax({
+          url: 'ujmGetOrderNo',
+          type: 'GET',
+          dataType: 'json',
+          success: function(response) {
+            console.log(response);
+              var selectBox = $('#selectOrderNo'); //주문번호 select 부분 id , 안에 option이 있음
+              selectBox.empty();
+              
+              $.each(response, function(index, item) { //리스트의 각각의 객체를 item으로 명명 
+                  selectBox.append('<option value="' + item.order_no + '">' + 
+                  item.order_no + ': ' +
+                  item.customer_name + ' - ' + item.items + '</option>');
+              });
+          },
+          error: function(xhr, status, error) {
+              console.error(error);
+          }
+      });
+
+
+
   });
+
+
+  
+ //주문번호 셀렉트박스 눌렀을 때 : 선택한 주문번호에 대한 정보들 컨트롤러로 가져오기 위함
+ $("#selectOrderNo").click(function(){ 
+
+  //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
+ 
+  $.ajax({
+      url: 'ujmGetOrderInfoFromOrderNo',
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        console.log(response);
+          var selectBox = $('#selectOrderNo'); //주문번호 select 부분 id , 안에 option이 있음
+          selectBox.empty();
+          
+          $.each(response, function(index, item) { //리스트의 각각의 객체를 item으로 명명 
+              selectBox.append('<option value="' + item.order_no + '">' + 
+              item.order_no + ': ' +
+              item.customer_name + ' - ' + item.items + '</option>');
+          });
+      },
+      error: function(xhr, status, error) {
+          console.error(error);
+      }
+  });
+
+
+}); 
+
+}); //끝
 
 

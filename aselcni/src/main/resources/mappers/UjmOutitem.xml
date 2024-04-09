@@ -8,12 +8,8 @@
 	
 	
 	<select id="ujmTotalOutitemCnt" resultType="int">
-		SELECT Count(*) from tb_outitem where outitem_delete_chk=0
-	</select>
-	
-	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
-		<![CDATA[
-		SELECT *
+<![CDATA[
+		SELECT Count(*) 
 		FROM (
 		    SELECT ROW_NUMBER() OVER (ORDER BY ou.outitem_no) AS rn, 
 		    ou.*, c.cust_nm, 
@@ -31,9 +27,60 @@
 		    INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
 		    WHERE ou.outitem_delete_chk = 0
 		) AS sub
-		WHERE rn >= #{start} AND rn <= #{end}
+		]]> 
+
+
+
+	</select>
+	
+	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
+		<![CDATA[
+		SELECT 
+		    sub.rn,
+		    sub.outitem_no,
+		    sub.cust_cd,
+		    sub.cust_nm,
+		    sub.order_no,
+		    sub.order_dt,
+		    sub.order_end_dt,
+		    sub.order_status_chk,
+		    sub.remark,
+            sub.outitem_dt,
+            sub.user_nm,
+            
+		    STUFF((
+		        SELECT ', ' + itemmst.item_nm + ' (' + CAST(oi.qty AS VARCHAR(10)) + '개)'
+		        FROM TB_OUTITEM_ITEM oi
+		        JOIN TB_ITEMMST itemmst ON oi.item_cd = itemmst.item_cd
+		        WHERE sub.outitem_no = oi.outitem_no AND sub.order_no = oi.order_no
+		        FOR XML PATH('')), 1, 2, '') AS items
+
+		FROM (
+	    	SELECT 
+		        ROW_NUMBER() OVER (ORDER BY ou.outitem_no) AS rn, 
+		        ou.outitem_no,
+		        ou.cust_cd, 
+		        c.cust_nm, 
+		        ou.order_no, 
+		        ord.order_dt, 
+		        ord.order_end_dt, 
+		        ord.order_status_chk, 
+		        u.user_nm,
+		        ou.remark,
+        		ou.outitem_dt
+	    	FROM 
+		        TB_OUTITEM ou
+		        INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
+		        INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
+		        INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
+	    	WHERE 
+	        	ou.outitem_delete_chk = 0
+		) AS sub
+		WHERE 
+	    	sub.rn >= ${start} AND sub.rn <= ${end}
 		]]> 
 	</select>
+	
 	
 	
 	

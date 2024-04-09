@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aselcni.ujm.dao.UjmOutitemDao;
+import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
+import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 	public int ujmTotalOutitemCnt() {
 		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt..." );
 		int ujmTotalOutitemCnt = uod.ujmTotalOutitemCnt();
-		System.out.println("UjmOutitemServiceImpl ujmTotalOutitemCnt totEmpCnt->" + ujmTotalOutitemCnt);
+		System.out.println("UjmOutitemServiceImpl ujmTotalOutitemCnt->" + ujmTotalOutitemCnt);
 		return ujmTotalOutitemCnt;
 	}
 
@@ -32,9 +34,13 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		 System.out.println("UjmOutitemServiceImpl ujmListOutiem Start..." );
 		 ujmListOutitems = uod.ujmListOutiem(outitem);
 		 if(ujmListOutitems!=null) {
-			 System.out.println("EmpServiceImpl listEmp empList.size()->" +ujmListOutitems.size()); 
+			 System.out.println("UjmOutitemServiceImpl ujmListOutitem ujmListOutitems.size()->" +ujmListOutitems.size()); 
 		 }
 		 return ujmListOutitems;
 	}
+
+
+
+
 
 }

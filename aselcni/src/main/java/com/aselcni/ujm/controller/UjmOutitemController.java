@@ -4,9 +4,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.ujm.model.UjmOrder;
+import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
+import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
+import com.aselcni.ujm.service.UjmOrderService;
 import com.aselcni.ujm.service.UjmOutitemService;
 import com.aselcni.ujm.service.UjmPaging;
 
@@ -19,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class UjmOutitemController {
+public class UjmOutitemController { 
 
 	private final UjmOutitemService uos;
 	
@@ -57,18 +64,29 @@ public class UjmOutitemController {
 		return "ujm/ujmOutitem"; 
 	}
 	
+	//출고 상세
+//	@RequestMapping(value = "ujmGetAllOrderList")
+//	public List<UjmOrder> ujmGetAllOrderList() {
+//		System.out.println("ujmOutItem 컨트롤러 ujmGetAllOrderList 시작");
+//		List<UjmOrder> ujmGetAllOrderList=uos.ujmGetAllOrderList();
+//		return ujmGetAllOrderList;
+//	}
+	
 	//출고 등록
 	@RequestMapping(value = "insertOutitem") 
-	public String ujmInsertOutitem(HttpServletRequest request, Model model, HttpSession session) {
-		UjmOutitem outitem=new UjmOutitem();
+	public String ujmInsertOutitem(HttpServletRequest request, UjmOutitem outitem, Model model, HttpSession session) {
+		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
+//		outitem=new UjmOutitem();
+		System.out.println(outitem);
 		
 		//맨처음 리스트에 표시되는 outitemList
 //		model.addAttribute("outitemList",outitemList); 
 		
 		//outitemView
 		
-		return "ujm/ujmOutitem"; 
+		return "forward:outitem"; 
 	}
+	
 	
 	//출고 수정
 	@RequestMapping(value = "updateOutitem") 
