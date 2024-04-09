@@ -128,7 +128,7 @@ $(document).ready(function () {
  //주문번호 셀렉트박스 눌렀을 때 : 선택한 주문번호에 대한 정보들 컨트롤러로 가져오기 위함
  $("#selectOrderNo").click(function(){ 
   var selectOrderNo = $('#selectOrderNo').val();
-
+  $('#insertOrderNo').val(selectOrderNo); //form에 넣을 주문번호
 
 
   //주문번호와 그에 해당하는 주문일자, 매입처이름, 주문상태, 주문납기일을 조인해 가져옴
@@ -140,10 +140,10 @@ $(document).ready(function () {
         console.log(orderInfo); //orderInfo 객체 자체
   
         
-        $('#orderInfo_order_dt').val(orderInfo.order_dt); //주문일자
-        $('#orderInfo_order_dt').html(orderInfo.order_dt);
+        $('.orderInfo_order_dt').val(orderInfo.order_dt); //주문일자, 조회와 input 동시
+        $('#orderInfo_order_dt').html(orderInfo.order_dt); //조회만
 
-        $('#orderInfo_cust_nm').val(orderInfo.cust_nm); //매입처
+        $('.orderInfo_cust_nm').val(orderInfo.cust_nm); //매입처
         $('#orderInfo_cust_nm').html(orderInfo.cust_nm);
 
         $('#orderInfo_order_status_chk').val(orderInfo.order_status_chk);  //주문상태
