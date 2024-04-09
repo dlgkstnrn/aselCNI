@@ -8,8 +8,12 @@ $(document).ready(function() {
 	var selectedMaterialsInfo = []; // 선택된 자재 정보를 저장할 배열
 	var activeModal = null; // 현재 활성화된 모달 추적
 	var selectedOrderEndDt = ''; // 선택된 주문의 주문종료일
+	var selectedEvent = null; // 선택된 이벤트막대 정보저장
+	var materialsToDelete = []; // 수정모달 자재삭제 대기 목록
+	var selectedMaterialsForUpdate = []; // 수정 모달에서 선택된 자재 정보 저장
 
-	// 기본 색상 정의
+
+	// 기본 이벤트막대 색상 정의
 	var baseColors = [
 		"rgba(191, 0, 35, 0.7)",
 		"rgba(0, 81, 212, 0.7)",
@@ -58,8 +62,10 @@ $(document).ready(function() {
 			});
 		},
 		eventClick: function(info) {
+			selectedEvent = responseProdPlans.prodPlans.find(plan => plan.prodPlan_no === info.event.id);
 			if (selectedEventId === info.event.id) {
 				selectedEventId = null; // 클릭 상태 해제
+				selectedEvent = null; // 선택된 이벤트 정보 해제
 			} else {
 				selectedEventId = info.event.id;
 			}
@@ -511,12 +517,17 @@ $(document).ready(function() {
 	});
 
 	$('#nestedItemModal').on('hidden.bs.modal', function() {
+		if (activeModal === 'update') {
+			$('#verticalycentered-update').modal('show');
+		} else {
+			$('#verticalycentered').modal('show');
+		}
 		$('.select2-secondModal', this).val(null).trigger('change');
 		$(this).find('form').trigger('reset');
-		$('#verticalycentered').modal('show');
 		$('.category-search-material-list tbody').empty();
 		$("#itemCountInput").val('0 / 0'); // 항목수 초기화
 		$("#itemTotalPriceInput").val('0원'); // 합계금액 초기화
+		activeModal = null;
 	});
 	$('#nestedItemModal').on('show.bs.modal', function() {
 		// 항목수와 합계금액을 초기 상태로 설정
@@ -617,27 +628,38 @@ $(document).ready(function() {
 		var selectedMaterials = $("input[type='checkbox'][name='materialSelect']:checked");
 
 		if (selectedMaterials.length > 0) {
+			// 선택된 자재 정보를 임시 배열에 저장
+			var tempSelectedMaterialsInfo = [];
 			selectedMaterials.each(function() {
 				var tr = $(this).closest('tr');
 				var materialCode = tr.find("th").text();
 				var materialName = tr.find("td").eq(1).text();
 				var quantity = tr.find("input[type='number']").val();
 
-				// 선택된 자재 정보를 배열에 추가
-				selectedMaterialsInfo.push({
+				// 임시 배열에 선택된 자재 정보 추가
+				tempSelectedMaterialsInfo.push({
 					code: materialCode,
 					name: materialName,
 					quantity: quantity
 				});
 			});
-			// 자재 목록 모달 닫기
-			$('#nestedItemModal').modal('hide');
+
+			if (activeModal === 'update') {
+				// 수정 모달에서의 처리 로직
+				appendMaterialsToUpdateModal(tempSelectedMaterialsInfo);
+				$('#nestedItemModal').modal('hide');
+				$('#verticalycentered-update').modal('show'); // 수정 모달로 다시 이동
+			} else {
+				// 등록 모달에서의 처리 로직
+				selectedMaterialsInfo = tempSelectedMaterialsInfo;
+				displaySelectedMaterials(); // 등록 모달에 선택된 자재 정보 표시
+				$('#nestedItemModal').modal('hide');
+			}
 		} else {
 			alert('적어도 하나 이상의 자재를 선택해야 합니다.');
 		}
-		// 등록 모달에 선택된 자재 정보 표시
-		displaySelectedMaterials();
 	});
+
 	// 등록 모달에 선택된 자재 정보 표시 및 기본 문구 관리
 	function displaySelectedMaterials() {
 		$("#prodItem-list").empty(); // 기존 목록 초기화
@@ -648,8 +670,7 @@ $(document).ready(function() {
 			selectedMaterialsInfo.forEach(function(material, index) {
 				var listItem = $(`<li>
                 <span class="delete-selected-material" data-index="${index}">X</span>
-                <span class="material-code">${material.code}</span>
-                <span class="material-name">(${material.name})</span>
+                <span class="material-code">${material.code}<span class="material-name">(${material.name})</span></span>
                 <span class="material-quantity">${material.quantity} 개</span>
             </li>`); // 클래스명을 추가하여 명확한 식별이 가능하도록 함
 				$("#prodItem-list").append(listItem);
@@ -974,5 +995,123 @@ $(document).ready(function() {
 			alert(errorMessage);
 		}
 	});
+
+	// =============  수정(업데이트) 작업 ===============
+	$('#updateButton').click(function() {
+		var currentUserName = $('#productEmp').val(); // 담당자 저장
+
+		if (!selectedEvent) {
+			alert('수정할 이벤트를 먼저 선택해주세요.');
+			return;
+		}
+		$('.event-tooltip').remove(); // 툴탭제거
+
+		// 제품명과 제품 코드 결합
+		var productNameWithCode = selectedEvent.item_nm + ' (' + selectedEvent.item_cd + ')';
+		$('#productName-update').val(productNameWithCode);
+
+		// 나머지 필드 설정
+		$('#prodPlanNoInput-update').val(selectedEvent.order_no);
+		$('#prodPlanWorkingDaysInput-update').val(selectedEvent.work_dt);
+		$('.productStartDateInput-update').val(selectedEvent.prodPlan_dt);
+		$('.productEndDateInput-update').val(selectedEvent.prodPlan_end_dt);
+		$('.productEmpInput-update').val(currentUserName);
+		$('.prodCount-input-update').val(selectedEvent.qty);
+		$('textarea[name="remark-update"]').val(selectedEvent.remark);
+
+		// 투입자재 목록 채우기
+		var selectedMaterials = responseProdPlans.prodItems.filter(item => item.prodPlan_no === selectedEvent.prodPlan_no);
+		$('#prodItem-list-update').empty(); // 기존 목록 초기화
+		selectedMaterials.forEach(material => {
+			var listItem = $(`
+                <li class="update-material-item">
+                    <span class="material-remove" style="cursor: pointer;">X</span>
+                    <span class="material-code">${material.item_cd}<span class="material-name">(${material.item_nm})</span></span>
+                    <span class="material-quantity">${material.in_qty} 개</span>
+                </li>
+            `);
+			$("#prodItem-list-update").append(listItem);
+		});
+
+		updateProdItemListState(); // 상태 업데이트 함수 호출
+
+		// 'X' 버튼 클릭 이벤트 처리 (기존 자재 목록)
+		$('#prodItem-list-update').on('click', '.material-remove', function() {
+			var materialCode = $(this).siblings('.material-code').text();
+			materialsToDelete.push(materialCode); // 삭제 대기 목록에 추가
+			$(this).closest('li.update-material-item').remove(); // 해당 목록 삭제
+			updateProdItemListState(); // 상태 업데이트
+		});
+
+		// '투입자재 선택' 버튼 클릭 이벤트
+		$('#productItemSelect-update').click(function() {
+			activeModal = 'update'; // 현재 활성화된 모달 추적
+			$('#nestedItemModal').modal('show');
+		});
+
+		// 새로 추가된 자재 목록의 'X' 버튼 클릭 이벤트 처리
+		$('#prodItem-list-update').on('click', '.remove-material', function() {
+			$(this).closest('li.new-material-item').remove(); // 클릭된 항목 제거
+			updateProdItemListState(); // 상태 업데이트 함수 호출
+		});
+
+		// 수정모달 꺼질때 이벤트 핸들러
+		$('#verticalycentered-update').on('hidden.bs.modal', function() {
+			materialsToDelete = []; // 삭제 대기 목록 초기화
+			$('#prodItem-list-update li.update-material-item').show(); // 모든 숨겨진 항목을 다시 표시
+			if ($('#prodItem-list-update').children().length > 0) {
+				$("#prodItem-bar-update").show();
+			} else {
+				$("#initial_message-update").show();
+				$("#prodItem-bar-update").hide();
+			}
+		});
+
+		$('#saveButton-update').click(function() {
+			// AJAX 요청을 통해 materialsToDelete 배열에 있는 자재들을 DB에서 삭제하고 수정된 정보 저장
+			$.ajax({
+				url: '/update-materials',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(materialsToDelete),
+				success: function(response) {
+					alert('성공적으로 수정되었습니다.');
+					$('#verticalycentered-update').modal('hide');
+				},
+				error: function() {
+					alert('수정 중 오류가 발생했습니다.');
+				}
+			});
+
+		});
+		$('#verticalycentered-update').modal('show');
+	}); // 건들지마셈
+	
+	// 상태 업데이트 함수
+	function updateProdItemListState() {
+		if ($("#prodItem-list-update li").length === 0) {
+			$("#initial_message-update").show();
+			$("#prodItem-bar-update").hide();
+		} else {
+			$("#initial_message-update").hide();
+			$("#prodItem-bar-update").show();
+		}
+	}
+
+	// 새로운 자재 목록을 수정 모달에 추가하는 함수
+	function appendMaterialsToUpdateModal(materials) {
+		materials.forEach(function(material) {
+			var listItem = $(`
+                    <li class="new-material-item">
+                        <span class="remove-material" style="cursor: pointer;">X</span>
+                        <span class="material-code">${material.code}<span class="material-name">(${material.name})</span></span>
+                        <span class="material-quantity">${material.quantity} 개</span>
+                    </li>
+                `);
+			$("#prodItem-list-update").append(listItem);
+		});
+
+		updateProdItemListState();
+	}
 
 }); // !! 건들지말것 !!

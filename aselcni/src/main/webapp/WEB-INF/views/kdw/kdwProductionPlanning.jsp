@@ -77,7 +77,9 @@
 
 	<!-- ======= Sidebar ======= -->
 	<%@ include file="../asidebar.jsp"%>
-
+	<script>
+	    var currentUserNm = "${sessionScope.user_nm}";
+	</script>
 	<!-- End Sidebar-->
 
 	<main id="main" class="main">
@@ -104,17 +106,17 @@
 						<div class="btn-container">
 							<div class="prodPlan-write">
 								<button type="button" class="btn btn-secondary"
-									data-bs-toggle="modal" data-bs-target="#verticalycentered">
-									등록</button>
+									data-bs-toggle="modal" data-bs-target="#verticalycentered">등록
+								</button>
 							</div>
 							<div class="prodPlan-update">
-								<a href="/prodPlanUpdate"
-									class="pboard-write-Btn btn btn-secondary">수정</a>
+							    <button type="button" class="btn btn-secondary" 
+							    		id="updateButton" data-bs-toggle="modal">수정
+							    </button>
 							</div>
-							<div class="prodPlan-delete">
-								<a href="/prodPlanDelete"
-									class="pboard-write-Btn btn btn-secondary">삭제</a>
-							</div>
+						    <div class="prodPlan-delete">
+						        <button type="button" class="pboard-write-Btn btn btn-secondary" id="deleteEventButton">삭제</button>
+						    </div>
 						</div>
 						<!-- Modal -->
 						<div class="prodPlan-modal">
@@ -461,7 +463,92 @@
 							</div>
 						</div>
 						<!-- End 주문번호 중첩 모달 -->
-
+						<!-- 수정 모달 -->
+						<div class="prodPlan-modal-update">
+						    <div class="modal fade" id="verticalycentered-update" tabindex="-1" style="display: none;" aria-hidden="true">
+						        <div class="modal-dialog modal-dialog-centered insert-modal-css-update">
+						            <div class="modal-content">
+						                <div class="modal-header">
+						                    <h5 class="modal-title" style="font-weight: 700; margin-top: 10px;">생산 계획 수정</h5>
+						                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						                </div>
+						                <div class="modal-body">
+						                    <div class="row mb-3 oderCode-update">
+						                        <label for="oderCodeInput-update" class="col-sm-2 col-form-label">주문번호</label>
+						                        <div class="col-sm-5">
+						                            <input type="text" id="prodPlanNoInput-update" class="form-control oderCodeInput-update" readonly>
+						                        </div>
+						                        <label for="prodPlanWorkingDaysInput-update" class="col-sm-2 col-form-label prodPlanWorkingDaysLabel-update">작업일수</label>
+						                        <div class="col-sm-1 prodPlanWorkingDays-update">
+						                            <input type="number" class="form-control prodPlanWorkingDaysInput-update" id="prodPlanWorkingDaysInput-update" min="-99999" max="99999">
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productStartDateInput-update" class="col-sm-2 col-form-label">시작예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productStartDateInput-update" id="productStartDateInput-update">
+						                        </div>
+                        						<label for="productEmp-update" class="col-sm-2 col-form-label productEmp-update">담당자</label>
+						                        <div class="col-sm-1">
+						                            <input type="text" class="form-control productEmpInput-update" id="productEmp-update" name="prodplan_emp_id-update" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productEndDateInput-update" class="col-sm-2 col-form-label">완료예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productEndDateInput-update" id="productEndDateInput-update">
+						                        </div>
+						                        <label for="productionQuantity-update" class="col-sm-2 col-form-label prodCount-update">생산수량</label>
+						                        <div class="col-sm-1 prodCount-input-class-update">
+						                            <input type="number" class="form-control prodCount-input-update" id="productionQuantity-update" min="-99999" max="99999">
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+											    <label for="productName-update" class="col-sm-2 col-form-label">제품명</label>
+											    <div class="col-sm-10">
+											        <input type="text" class="form-control productNameInput-update" id="productName-update" readonly>
+											    </div>
+											</div>
+						                    <div class="productItem-container-update">
+						                        <div class="row mb-2">
+						                        	 <label for="productItemName-update"
+														class="col-sm-2 col-form-label">투입자재</label>
+						                            <div class="col-sm-10">
+						                                <button type="button" class="btn btn-primary productItemSelect-update" id="productItemSelect-update" 
+						                                		data-bs-toggle="modal" data-bs-target="#nestedItemModal">품목선택</button>
+						                            </div>
+						                        </div>
+						                        <div class="row mb-3">
+						                            <div class="col-sm-12">
+						                                <div id="select_zone-update" class="prodItem-update">
+						                                    <div id="initial_message-update" style="margin-top: 60px; color: #6c757d; font-weight: 700;">
+						                                        투입품을 선택해 주세요.
+						                                    </div>
+						                                    <div id="prodItem-bar-update" class="prodItem-bar-update" style="display: none;">
+						                                        <span id="delete_all-update" style="cursor: pointer;">X</span>
+						                                        <span>투입자재</span> <span>수량</span>
+						                                    </div>
+						                                    <ul id="prodItem-list-update" class="prodItem-list-update"></ul>
+						                                </div>
+						                            </div>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="remark-update" class="col-sm-2 col-form-label">비고</label>
+						                        <div class="col-sm-10">
+						                            <textarea class="form-control remark-update" id="remark-update" name="remark-update" style="min-height: 80px; max-height: 80px;"></textarea>
+						                        </div>
+						                    </div>
+						                </div>
+						                <div class="modal-footer">
+						                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						                    <button type="submit" class="btn btn-primary" id="saveButton-update">저장</button>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</div>
+						<!-- End 수정 모달 -->
 						<!-- Calendar -->
 						<div class="calendar-group">
 							<div id='calendar'></div>

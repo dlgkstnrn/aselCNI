@@ -660,3 +660,117 @@ body {
 	width: 100%;
 }
 /* ======= End 주문번호 선택 모달창 ======= */
+/* ======= 수정 모달창 ======= */
+.insert-modal-css-update .modal-content {
+	max-width: 800px;
+	min-width: 800px;
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
+	margin-left: -150px;
+}
+/* 주문번호 */
+.oderCodeInput-update {
+	width: 400px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+.oderCodeInput-update:focus {
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+/* 작업일수 */
+.prodPlanWorkingDaysLabel-update {
+	margin-left: 115px;
+}
+.prodPlanWorkingDaysInput-update {
+	margin-left: -48px;
+	width: 100px;
+}
+/* 담당자 */
+.productEmpInput-update {
+	margin-left: -60px;
+	width: 100px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+.productEmpInput-update:focus {
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+/* 시작예정일자 */
+.productStartDateInput-update {
+	width: 400px;
+}
+/* 완료예정일자 */
+.productEndDateInput-update {
+	width: 400px;
+}
+/* 생산수량 */
+.prodCount-update {
+	margin-left: -14px;
+}
+.prodCount-input-update {
+	margin-left: -47px;
+	width: 100px;
+}
+/* 제품 */
+.productNameInput-update {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	border-radius: 0;
+}
+.productNameInput-update:focus {
+	border: 1px solid transparent;
+    box-shadow: none;
+}
+/* 투입자재 */
+.prodItem-update {
+	height: 150px;
+	width: 610px;
+	margin-top: -2px;
+	margin-left: 127px;
+	border: 1px solid #dee2e6;
+	border-radius: 7px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+}
+/* 분류된 자재 리스트 상단바 */
+.prodItem-bar-update {
+	width: 100%;
+	padding: 0 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f9f9f9;
+	border-bottom: 1px solid #dddddd;
+	height: 30px;
+}
+/* 분류된 자재 리스트 */
+.prodItem-list-update {
+	list-style-type: none; /* 불릿 포인트(li 앞에 점) 제거 */
+	padding: 0 10px;
+	font-size: 15px;
+}
+
+.prodItem-list-update li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px; /* 항목 사이의 여백 */
+	padding: 0, 10px;
+}
+/* 등록되어있는 기존 투입자재 */
+.material-remove {
+	cursor: pointer;
+	color: red;
+	margin-right: 10px;
+}
+/* 수정 신규 투입자재 */
+.remove-material {
+	cursor: pointer;
+	color: red;
+	margin-right: 10px;
+}

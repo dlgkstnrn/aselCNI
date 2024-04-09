@@ -105,10 +105,11 @@ public class KdwProdPlanController {
 		System.out.println("KdwProductionPlanningController submitProdPlan Start...");
         System.out.println("ProdPlanController: submitProdPlan Start...");
         String prodplan_emp_id = (String) request.getSession().getAttribute("user_id");
-        
         // 서비스 레이어에 생산계획 및 자재 정보 저장을 요청
         kdwProdPlanService.saveProdPlanAndItems(prodPlanData, prodplan_emp_id);
         
         return "redirect:/kdw/productionPlanning";
 	}
+	
+	// 생산계획수정(투입자재삭제도)
 }
