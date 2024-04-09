@@ -127,35 +127,37 @@ const prevPage = function () {
 }
 
 
+// 테이블 로우 클릭 시 상세보기 창
 const detailView = function (initem_no) {
     $.ajax({
-		type: "GET",
-		url: "detailInitem",
-		data: {initem_no},
-		success: (res) => {
-			console.log(res);
-			$('#modal_initem_no').val(res.initem_no);
-			$('#modal_initem_emp_nm').val(res.initem_emp_nm);
-			$('#modal_purc_no').val(res.purc_no);
-			$('#modal_purc_emp_nm').val(res.purc_emp_nm);
-			$('#modal_initem_dt').val(res.initem_dt);
-			$('#modal_cust_nm').val(res.cust_nm);
-			$('#modal_cust_emp').val(res.cust_emp);
-			res.whs.forEach((wh)=>{
-				$('#modal_wh_cd').append(
+        type: "GET",
+        url: "detailInitem",
+        data: { initem_no },
+        success: (res) => {
+            console.log(res);
+            $('#modal_initem_no').val(res.initem_no);
+            $('#modal_initem_emp_nm').val(res.initem_emp_nm);
+            $('#modal_purc_no').val(res.purc_no);
+            $('#modal_purc_emp_nm').val(res.purc_emp_nm);
+            $('#modal_initem_dt').val(res.initem_dt);
+            $('#modal_cust_nm').val(res.cust_nm);
+            $('#modal_cust_emp').val(res.cust_emp);
+            $('#modal_wh_cd').empty();
+            res.whs.forEach((wh) => {
+                $('#modal_wh_cd').append(
+                    `
+					<option value="${wh.wh_cd}" ${wh.wh_cd == res.wh_cd ? 'selected' : ''}>${wh.wh_nm}</option>
 					`
-					<option value="${wh.wh_cd}" ${wh.wh_cd == res.wh_cd ? 'selected':''}>${wh.wh_nm}</option>
-					`
-				);
-			})
-			$('#modal_remark').val(res.remark);
-			
-			$('#modal_itemTableBody').empty();
-			res.inItems.forEach((ele,idx)=>{
-				if (!ele['qty'])
+                );
+            })
+            $('#modal_remark').val(res.remark);
+
+            $('#modal_itemTableBody').empty();
+            res.inItems.forEach((ele, idx) => {
+                if (!ele['qty'])
                     return;
-				$('#modal_itemTableBody').append(
-					`<tr>
+                $('#modal_itemTableBody').append(
+                    `<tr>
 	                    <td id="initemNo${idx}">${ele['item_cd']}</td>
 	                    <td>${ele['item_nm']}</td>
 	                    <td>${ele['item_spec']}</td>
@@ -164,13 +166,13 @@ const detailView = function (initem_no) {
 	                    <td>${ele['item_cost']}</td>
 	                    <td>${ele.qty * ele.item_cost}</td>
 	                  </tr>`
-				)
-			})
-			
-			
-		    $('#detailModal').modal('show');
-		},
-		beforeSend: () => {
+                )
+            })
+
+
+            $('#detailModal').modal('show');
+        },
+        beforeSend: () => {
             $('body').append(
                 `
                 <div id="ajaxLoadingImg" style="z-index:1091;" class="spinner-border text-primary position-absolute top-50 start-50" role="status">
@@ -182,5 +184,5 @@ const detailView = function (initem_no) {
         complete: () => {
             $('#ajaxLoadingImg').remove();
         }
-	})
+    })
 }

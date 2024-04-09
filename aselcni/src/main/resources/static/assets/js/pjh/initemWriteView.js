@@ -95,7 +95,7 @@ const searchPurc = function () {
             purcData = {};
             res.forEach(ele => {
                 purcSelect.append(
-                    `<option value="${ele['purc_no']}">${ele['purc_no'] + '/' + ele['cust_nm'] + '/' + ele['cust_emp'] + '/' + ele['purc_dt']}</option>`
+                    `<option ondblclick="pickPurcNo()" value="${ele['purc_no']}">${ele['purc_no'] + '/' + ele['cust_nm'] + '/' + ele['cust_emp'] + '/' + ele['purc_dt']}</option>`
                 )
                 purcData[ele['purc_no']] = ele;
             });
