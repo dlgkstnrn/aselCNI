@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.UjmOrderMapper">
+
+	<select id="ujmListOrderNo" resultType="UjmOrderNoDto">
+	<![CDATA[
+		SELECT
+	    ord.order_no,
+	    custmst.cust_nm AS customer_name,
+	    STUFF((
+	        SELECT ', ' + itemmst.item_nm + ' (' + CAST(order_item.qty AS VARCHAR(10)) + '개)'
+	        FROM tb_order_item AS order_item
+	        JOIN tb_itemmst AS itemmst ON order_item.item_cd = itemmst.item_cd
+	        WHERE ord.order_no = order_item.order_no
+	        FOR XML PATH('')), 1, 2, '') AS items
+		FROM
+	    	tb_order AS ord
+		JOIN
+	    	tb_custmst AS custmst ON ord.cust_cd = custmst.cust_cd
+	    WHERE
+			ord.order_status_chk IN (0, 2) -- 주문 상태가 0 또는 2인 경우에만 가져옴
+		GROUP BY
+	    	ord.order_no,
+	    	custmst.cust_nm
+	 ]]>
+	</select>
+	
+	<select id="ujmGetOrderInfoFromOrderNo" parameterType="int" resultType="UjmOrderInfoToInsertDto">
+	
+	</select>
+	
+</mapper>

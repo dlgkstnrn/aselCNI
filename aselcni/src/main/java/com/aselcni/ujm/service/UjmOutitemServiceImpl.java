@@ -24,7 +24,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 	public int ujmTotalOutitemCnt() {
 		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt..." );
 		int ujmTotalOutitemCnt = uod.ujmTotalOutitemCnt();
-		System.out.println("UjmOutitemServiceImpl ujmTotalOutitemCnt totEmpCnt->" + ujmTotalOutitemCnt);
+		System.out.println("UjmOutitemServiceImpl ujmTotalOutitemCnt->" + ujmTotalOutitemCnt);
 		return ujmTotalOutitemCnt;
 	}
 

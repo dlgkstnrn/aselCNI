@@ -133,7 +133,7 @@ pageEncoding="UTF-8"%>
                                   name="order_no"
                                   >
                                       <option value="">주문 선택</option>
-                                  
+                                        <!-- ajax로 선택할 수 있는 주문번호 추가됨  -->
                                 
                                   </select>
 
@@ -146,7 +146,7 @@ pageEncoding="UTF-8"%>
                                   >주문일자(단순조회)</label
                                 >
                                 <div class="col-sm-9">
-                                  ${order_dt}
+                                  ${orderInfo_dt}
                                 </div>
                               </div>
 
@@ -163,6 +163,7 @@ pageEncoding="UTF-8"%>
                                     class="form-control"
                                     id="outitem_dt"
                                     name="outitem_dt"
+                                    style="width: 200px;"
                                   />
                                 </div>
                               </div>
@@ -534,8 +535,7 @@ pageEncoding="UTF-8"%>
                       <th scope="col">주문납기일</th>
                       <th scope="col">출고일자</th>
                       <th scope="col">매입처</th>
-                      <th scope="col">제품명</th>
-                      <th scope="col">출고수량</th>
+                      <th scope="col">출고제품</th>
                       <th scope="col">출고상태</th>
 
                       <th scope="col">비고</th>
@@ -557,8 +557,7 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.order_end_dt}</td>
                       <td>${outitem.outitem_dt}</td>
                       <td>${outitem.cust_nm}</td>
-                      <td>${outitem.item_nm}</td>
-                      <td>${outitem.qty}</td>
+                      <td>${outitem.items}</td>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
                         <c:if test="${outitem.order_status_chk==1}">취소됨</c:if>
