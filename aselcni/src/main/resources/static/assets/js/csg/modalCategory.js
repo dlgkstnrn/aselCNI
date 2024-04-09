@@ -310,7 +310,7 @@ function sendOrderDetails() {
         let jTableItemQty = $(this).find('td:nth-child(6)').find('input').val(); // input 값이므로 find('input') 추가
         let jTableItemPurc_cost = $(this).find('td:nth-child(8)').text();
 
-        // 추출한 데이터로 객체 생성 및 csgPurItem 배열에 추가
+        // 추출한 데이터로 객체 생성 및 csgPurItem 배열에 추가 가능함
         dataInput.csgPurItemList.push({
             item_cd: jTableItem_cd,
             qty: parseInt(jTableItemQty, 10), // 문자열을 정수로 변환
