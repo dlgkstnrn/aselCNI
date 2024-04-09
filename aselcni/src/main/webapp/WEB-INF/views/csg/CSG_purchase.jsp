@@ -34,6 +34,10 @@
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+  	<script defer src="assets/js/csg/purchaseCategory.js"></script> <!-- 모달 대중소분류 -->
+  	<script defer src="assets/js/csg/purchaseCategory.js"></script> <!-- 모달 대중소분류 -->
+
+	
   </head>
 
   <body>
@@ -49,7 +53,7 @@
         <main id="main" class="main ">
 
           <div class="pagetitle">
-            <h1>구매 / 영업 관리</h1>
+            <h1>발주 관리</h1>
             <nav>
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">구매 / 영업 관리</a></li>
@@ -57,35 +61,51 @@
               </ol>
             </nav>
           </div><!-- End Page Title -->
-
+		<!-- <form action="/searchPurchases" method="POST">-->
           <section class="section dashboard">
 		    <div class="container-fluid bg-white p-4 shadow-lg">
-		        <!-- Navbar -->
-		        <nav class="navbar navbar-light bg-light shadow-sm rounded-lg">
-		            <div class="container-fluid">
-		                <span class="navbar-brand mb-0 h1">
-		                    <i class="fas fa-clipboard-list fa-lg text-primary"></i>
-		                    발주 관리
-		                </span>
-		            </div>
-		        </nav>
 		
 		        <!-- Main Content -->
 		        <main class="flex-grow-1">
-			            <div class="col d-flex justify-content-end ">
-			                <a href="/purchaseItemForm" class="btn btn-success row mb-4 me-3">신규등록</a>
-			                <button class="btn btn-danger mb-4">삭제</button>
-			            </div>
-			        
-			  	      <!-- 검색창과 검색 버튼을 포함하는 row -->
-						<div class="col d-flex justify-content-end mb-4">
-						    <div class="input-group" style="width: auto;"> <!-- 또는 필요한 너비 지정 -->
-						        <input type="search" class="form-control" style="width: 250px;" placeholder="검색">
-						        <button class="btn btn-primary" type="button">검색</button>
-						    </div>
+			            <div class="col d-flex justify-content-end flex-wrap">
+						    <a href="/purchaseItemForm" class="btn btn-success mb-3">신규등록</a>
+						    <button class="btn btn-danger ms-2 mb-3">삭제</button>
 						</div>
 
-					
+			  	      <!-- 검색창과 검색 버튼을 포함하는 row @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+						<div class="col d-flex justify-content-end mb-4">
+							<div class="input-group mb-3 me-3" style="width: auto;">
+						        <span class="input-group-text" style="min-width: 90px; justify-content: center;">매입처</span>
+						        <input id="cust_nm" name="cust_nm" type="text" class="form-control" placeholder="매입처명" aria-label="매입처명">
+						    </div>
+						
+						    <div class="input-group mb-3 me-3" style="width: auto;">
+						        <span class="input-group-text" style="min-width: 90px; justify-content: center;">발주번호</span>
+						        <input id="purc_no" name="purc_no" type="text" class="form-control" placeholder="발주번호" aria-label="발주번호">
+						    </div>
+						
+						    <div class="input-group mb-3" style="width: auto;">
+						        <span class="input-group-text" style="min-width: 90px; justify-content: center;">자재명</span>
+						        <input id="item_nm" name="item_nm" type="text" class="form-control" placeholder="자재명" aria-label="자재명">
+						    </div>
+						    
+						     <!-- 시작일자 입력란 -->
+						    <div class="input-group mb-3 me-3" style="width: auto;">
+						        <span class="input-group-text" style="min-width: 90px; justify-content: center;">시작일자</span>
+						        <input type="date" id="start_date" name="start_date" class="form-control">
+						    </div>
+						
+						    <!-- 마감일자 입력란 -->
+						    <div class="input-group mb-3 me-3" style="width: auto;">
+						        <span class="input-group-text" style="min-width: 90px; justify-content: center;">마감일자</span>
+						        <input type="date" id="end_date" name="end_date" class="form-control">
+						    </div>
+						    
+						    	<button id="searchButton" class="btn btn-primary ms-4" type="button">검색</button>
+						</div>
+					<!-- 검색창과 검색 버튼을 포함하는 row @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+						
+
 		            <!-- Table -->
 		            <div class="card shadow-sm rounded-lg">
 		                <div class="card-body">
@@ -104,7 +124,7 @@
 		                                <th>발주현황</th>
 		                            </tr>
 		                        </thead>
-		                        <tbody>
+		                        <tbody id = "searchPurchase">
 									<c:forEach var="purchase" items="${purchaseList}" varStatus="status">
 									    <tr>
 									        <!-- 체크박스를 포함하는 셀 -->
@@ -124,7 +144,7 @@
 								                    <button class="btn btn-warning btn-sm">발주진행중</button>
 								                </c:when>
 								                <c:when test="${purchase.purc_status_chk == 1}">
-								                    <button class="btn btn-info btn-sm">일부입고</button>
+								                    <button class="btn btn-info btn-sm">입고진행중</button>
 								                </c:when>
 								                <c:when test="${purchase.purc_status_chk == 2}">
 								                    <button class="btn btn-success btn-sm">입고완료</button>
@@ -140,23 +160,35 @@
 		            </div>
 		
 		            <!-- Pagination -->
-		            <DIV class="d-flex justify-content-center">
-			            <div class="d-flex justify-content-end mt-4">
-						   <c:if test="${page.startPage > page.pageBlock }">
-						      <a href="listEmp?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
-						   </c:if>
-						   <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-						      <a href="purchase?currentPage=${i}">[${i}]</a>
-						   </c:forEach>
-						   <c:if test="${page.endPage < page.totalPage }">
-						      <a href="purchase?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-						   </c:if>   
-			            </div>
-		            </DIV>
+		            <div class="d-flex justify-content-center mt-4">
+					    <nav aria-label="Page navigation">
+					        <ul class="pagination">
+					            <c:if test="${page.startPage > 1}">
+					                <li class="page-item">
+					                    <a class="page-link" href="purchase?currentPage=${page.startPage - 1}" aria-label="Previous">
+					                        <span aria-hidden="true">&laquo;</span>
+					                    </a>
+					                </li>
+					            </c:if>
+					            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+					                <li class="page-item ${page.currentPage == i ? 'active' : ''}">
+					                    <a class="page-link" href="purchase?currentPage=${i}">${i}</a>
+					                </li>
+					            </c:forEach>
+					            <c:if test="${page.endPage < page.totalPage}">
+					                <li class="page-item">
+					                    <a class="page-link" href="purchase?currentPage=${page.startPage + page.pageBlock}" aria-label="Next">
+					                        <span aria-hidden="true">&raquo;</span>
+					                    </a>
+					                </li>
+					            </c:if>
+					        </ul>
+					    </nav>
+					</div>
 		        </main>
 		    </div>
 		</section>
-
+	<!--  </form>-->
 
         </main>
         <!-- End #main -->

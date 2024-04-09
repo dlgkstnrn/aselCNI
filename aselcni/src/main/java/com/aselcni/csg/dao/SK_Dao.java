@@ -20,10 +20,11 @@ public class SK_Dao implements SK_Dao_Interface {
 	
 	private final SqlSession session;
 	
-	//첫 발주화면이 나타날때 발주리스트를 불러와보자고
+	//첫 발주화면이 나타날때 발주리스트를 불러와보자고 + 조건 검색할때도 여기로 오게 됨
 	@Override
 	public List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE) {
 		List<CSG_TB_PURCHASE> purchaseList = null;
+		System.out.println("@!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+csg_TB_PURCHASE);
 		try {
 		//발주리스트 불러오기 + pageing작업까지
 		purchaseList = session.selectList("SK_findAllPurchase",csg_TB_PURCHASE);
@@ -42,7 +43,7 @@ public class SK_Dao implements SK_Dao_Interface {
 		int totalPurchase = 0;
 		
 		try {
-		totalPurchase = session.selectOne("SK_totalPurchase");
+		totalPurchase = session.selectOne("SK_PagingtotalPurchase");
 		System.out.println("전체 페이징 개수는 잘 가져왔니? totalPurchase => "+ totalPurchase);
 		} catch(Exception e) {
 			e.printStackTrace();

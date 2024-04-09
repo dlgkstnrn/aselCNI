@@ -37,7 +37,6 @@
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-  	<script src="assets/js/csg/purchaseSave.js"></script> <!-- 발주등록폼에서 저장 누르면 폼 저장 -->
   	<script defer src="assets/js/csg/modalCategory.js"></script> <!-- 모달 대중소분류 -->
   </head>
 

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,7 +48,8 @@ public class SK_Controller {
 		
 		//발주테이블에서 데이터 조회 + 페이징처리
 		List<CSG_TB_PURCHASE> purchaseList = sk_ServicInterface.findAllPurchase(csg_TB_PURCHASE);
-		System.out.println("발주화면에 처음 나올떄 발주 리스트를 가져오자구 purchaseList + Paging ==>" + purchaseList);
+		System.out.println("발주화면에 처음 나올떄 발주 리스트를 가져오자구 purchaseList + Paging@@@@@@@@@@@@@@@@@@@@@@@@@ ==>" + purchaseList);
+		
 		
 		model.addAttribute("purchaseList", purchaseList);	//페이징 처리한 발주리스트(10개씩)
 		model.addAttribute("totalPUrchase", totalPurchase); //전체 페이지수 12개(발주애들 리스트 개수들 보여주기
@@ -55,8 +57,46 @@ public class SK_Controller {
 		
 		return "csg/CSG_purchase";
 	}
-	
-	//발주관리 에서 테이블에 발주된 애들 불러오는 쿼리
+	/*
+	//발주관리 ==> 검색필터링
+	@PostMapping(value="/searchPurchases")
+	public String SK_searchPurchase(Model model, CSG_TB_PURCHASE csg_TB_PURCHASE) {
+		System.out.println("검색 시발아"+ csg_TB_PURCHASE);
+		
+		List<CSG_TB_PURCHASE> purchaseList = sk_ServicInterface.findAllPurchase(csg_TB_PURCHASE);
+		model.addAttribute("purchaseList", purchaseList);
+		System.out.println("Controller : 검색 시잇팔 seachPurchase @@@@@@@@@@@  ==> " + purchaseList);
+		
+		return "csg/CSG_purchase";
+	}
+	*/
+	//발주관리 ==> ajax용 다시 도전
+	@ResponseBody
+	@RequestMapping(value="/searchPurchases")
+	public List<CSG_TB_PURCHASE> searchParchase(Model model,CSG_TB_PURCHASE csg_TB_PURCHASE) {
+		
+		//전체발주 개수 가져오기
+		int totalPurchase = sk_ServicInterface.totalPurchase();
+		System.out.println("컨트롤러 : paing을 위한 totalPurchas는 잘 가져왔니? = >"+totalPurchase);
+		
+		//Paging
+		csg_Paging paging = new csg_Paging(totalPurchase, csg_TB_PURCHASE.getCurrentPage());
+		System.out.println("test : " + paging);
+		csg_TB_PURCHASE.setStart(paging.getStart()); //시작 1
+		csg_TB_PURCHASE.setEnd(paging.getEnd());	 //끝 5
+		
+		//발주테이블에서 데이터 조회 + 페이징처리
+		List<CSG_TB_PURCHASE> purchaseList = sk_ServicInterface.findAllPurchase(csg_TB_PURCHASE);
+		System.out.println("발주화면에 처음 나올떄 발주 리스트를 가져오자구 purchaseList + Paging@@@@@@@@@@@@@@@@@@@@@@@@@ ==>" + purchaseList);
+		
+		
+		model.addAttribute("purchaseList", purchaseList);	//페이징 처리한 발주리스트(10개씩)
+		model.addAttribute("totalPUrchase", totalPurchase); //전체 페이지수 12개(발주애들 리스트 개수들 보여주기
+		model.addAttribute("page", paging);
+		
+		return purchaseList;
+		
+	}
 	
 	
 	//CSG_purchase에서 신규등록을 누르면 a태그로 옮기게 되는 발주등록 및 자재목록 나오게 되는 폼 + 업체들 불러오기

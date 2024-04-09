@@ -21,7 +21,7 @@ public class SK_Service implements SK_Service_Interface {
 	private final SK_Dao_Interface sk_Dao_Interface;
 
 	//네비바 => 발주화면 클릭
-	//첫 발주화면에서 발주리스트를 가져오자
+	//첫 발주화면에서 발주리스트를 가져오자 //+ 조건 검색할때도 여기로 오게됨
 	@Override
 	public List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE) {
 		List<CSG_TB_PURCHASE> purchaseList = sk_Dao_Interface.findAllPurchase(csg_TB_PURCHASE);
