@@ -157,8 +157,8 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	        params.put("tbProdPlan", tbProdPlan); // 제품 정보
 	        session.insert("kdwSaveProdPlan", params);
 	        
-	        // MyBatis의 <selectKey>를 사용하여 prodPlan_no가 params에 설정된 경우, 이를 추출
-	        prodPlanNo = (String) params.get("prodPlan_no"); // <selectKey>를 통해 설정된 값을 가져옵니다.
+	        // selectKey를 통해 설정된 값을 가져옴
+	        prodPlanNo = (String) params.get("prodPlan_no"); 
 	        System.out.println("Generated prodPlan_no: " + prodPlanNo);
 	        
 	    } catch (Exception e) {

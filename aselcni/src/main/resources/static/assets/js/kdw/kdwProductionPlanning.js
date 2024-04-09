@@ -7,6 +7,7 @@ $(document).ready(function() {
 	var lastClickedCell = null; // 마지막으로 클릭된 셀을 저장할 변수
 	var selectedMaterialsInfo = []; // 선택된 자재 정보를 저장할 배열
 	var activeModal = null; // 현재 활성화된 모달 추적
+	var selectedOrderEndDt = ''; // 선택된 주문의 주문종료일
 
 	// 기본 색상 정의
 	var baseColors = [
@@ -33,6 +34,8 @@ $(document).ready(function() {
 					responseProdPlans = response;
 					updateOrderList(defaultMonth);
 					var events = response.prodPlans.map(function(plan, index) {
+						var endDate = new Date(plan.prodPlan_end_dt);
+						endDate.setDate(endDate.getDate() + 1); // 종료 날짜에 하루 추가
 						// 색상 배열에서 순환하며 색상 선택
 						var colorIndex = index % baseColors.length;
 						var eventColor = baseColors[colorIndex];
@@ -40,7 +43,7 @@ $(document).ready(function() {
 							id: plan.prodPlan_no,
 							title: plan.prodPlan_no + ' (' + plan.remark + ')',
 							start: plan.prodPlan_dt,
-							end: plan.prodPlan_end_dt,
+							end: endDate.toISOString().split('T')[0],
 							backgroundColor: eventColors[plan.prodPlan_no] || eventColor,
 							borderColor: 'transparent',
 							textColor: '#ffffff',
@@ -178,37 +181,31 @@ $(document).ready(function() {
 			orderListElement.innerHTML = '';
 			prodPlanListElement.innerHTML = '';
 
-			// 중복 제품 처리를 위한 객체
-			var productQuantities = {};
-
-			// 찾은 이벤트를 HTML 요소에 표시
+			// 찾은 이벤트를 생산계획 리스트에 이벤트 정보 추가
 			dateEvents.forEach(function(event) {
-				var productKey = event.cust_nm + '-' + event.item_nm; // 고객사와 제품명을 키로 사용
-				if (!productQuantities[productKey]) {
-					productQuantities[productKey] =
-						{ qty: 0, cust_nm: event.cust_nm, item_nm: event.item_nm };
-				}
-				productQuantities[productKey].qty += event.qty; // 수량 누적
-
-				// 생산계획 리스트에 이벤트 정보 추가
 				var prodPlanListItem = document.createElement('tr');
 				prodPlanListItem.innerHTML = `
-					<td>${event.item_nm}</td>
-					<td>${event.qty}</td>
-					<td>${event.work_dt} 일</td>`;
+			        <td>${event.item_nm}</td>
+			        <td>${event.qty}</td>
+			        <td>${event.work_dt} 일</td>`;
 				prodPlanListElement.appendChild(prodPlanListItem);
-			});
 
-			// 주문내역 리스트에 중복 처리된 제품 정보 추가
-			for (var key in productQuantities) {
-				var product = productQuantities[key];
-				var orderListItem = document.createElement('tr');
-				orderListItem.innerHTML = `
-					<td>${product.cust_nm}</td>
-					<td>${product.item_nm}</td>
-					<td>${product.qty}</td>`;
-				orderListElement.appendChild(orderListItem);
-			}
+				// 주문에 해당하는 아이템 리스트와 수량 찾기
+				var orderItems = responseProdPlans.prodOrderItemList.filter(item => item.order_no === event.order_no);
+
+				// 주문번호 별로 주문내역 표시 (주문번호가 같은 경우, 한 번만 표시)
+				if (orderListElement.querySelector(`[data-order-no="${event.order_no}"]`) === null) {
+					orderItems.forEach(function(item) {
+						var orderListItem = document.createElement('tr');
+						orderListItem.setAttribute('data-order-no', event.order_no); // 주문번호를 속성으로 추가하여 중복 방지
+						orderListItem.innerHTML = `
+			                <td>${event.cust_nm}</td>
+			                <td>${item.item_nm}</td>
+			                <td>${item.qty} 개</td>`;
+						orderListElement.appendChild(orderListItem);
+					});
+				}
+			});
 
 			// 클릭된 셀의 .fc-daygrid-day-number 요소 찾기
 			var currentClickedElement = info.dayEl.querySelector('.fc-daygrid-day-number');
@@ -780,6 +777,13 @@ $(document).ready(function() {
 	$('#saveOrderButton').on('click', function() {
 		var selectedOrderNo = $('input[name="selectedOrder"]:checked').val();
 		if (selectedOrderNo) {
+			// 선택된 주문의 order_end_dt를 전역 변수에 저장
+			var selectedOrder = responseProdPlans.prodOrderList.find(function(order) {
+				return order.order_no === selectedOrderNo;
+			});
+			if (selectedOrder) {
+				selectedOrderEndDt = selectedOrder.order_end_dt;
+			}
 			// 선택된 주문번호를 이전 모달의 주문번호 입력 필드에 설정
 			$('#prodPlanNoInput').val(selectedOrderNo);
 			// 주문번호 선택 모달 닫기
@@ -825,12 +829,16 @@ $(document).ready(function() {
 	$('.productEndDateInput').change(function() {
 		var endDate = new Date($(this).val());
 		var startDate = new Date($('.productStartDateInput').val());
-
+		var orderEndDate = new Date(selectedOrderEndDt);
 		if (!$('.productStartDateInput').val()) {
 			alert('먼저 시작예정일자를 선택해주세요.');
 			$(this).val('');
 		} else if (endDate < startDate) {
 			alert('완료예정일자는 시작예정일자 이전으로 설정할 수 없습니다.');
+			$(this).val('');
+		}
+		if (endDate > orderEndDate) {
+			alert('완료 예정일자는 주문 종료일보다 이후일 수 없습니다.');
 			$(this).val('');
 		}
 	});
@@ -956,6 +964,7 @@ $(document).ready(function() {
 				success: function(response) {
 					alert('성공적으로 저장되었습니다.');
 					$('#verticalycentered').modal('hide');
+					calendar.refetchEvents(); // 캘린더리스트 새로고침
 				},
 				error: function(xhr, status, error) {
 					alert('저장에 실패했습니다.');
@@ -965,5 +974,5 @@ $(document).ready(function() {
 			alert(errorMessage);
 		}
 	});
-	
+
 }); // !! 건들지말것 !!
