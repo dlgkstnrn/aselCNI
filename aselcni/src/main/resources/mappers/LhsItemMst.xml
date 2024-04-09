@@ -117,32 +117,23 @@
 		where rn BETWEEN #{start} and #{end}
 	</select>
 	
-	<update id="updateItem" parameterType="LhsItemMst">
-		update tb_itemmst
-		set
-		item_nm=#{item_nm},
-		<if test="cust_cd != null">
-			cust_cd=#{cust_cd},
-		</if>
-		<if test="cust_cd == null">
-			cust_cd=null,
-		</if>
-		big_no=#{big_no},
-		mid_no=#{mid_no},
-		sml_no=#{sml_no},
-		item_spec=#{item_spec},
-		item_unit=#{item_unit},
-		item_cost=#{item_cost},
-		remark=#{remark},
-		item_update=CONVERT(CHAR(10),GETDATE(),23)
-		where item_cd = #{item_cd}
+	<update id="updateItem" parameterType="LhsItemMst" statementType="CALLABLE">
+		{ call dbo.pro_item_update(
+			#{item_cd},
+			#{item_nm},
+			#{cust_cd},
+			#{big_no},
+			#{mid_no},
+			#{sml_no},
+			#{item_spec},
+			#{item_unit},
+			#{item_cost},
+			#{remark}
+		) }
 	</update>
 	
-	<update id="deleteItem" parameterType="LhsItemMst">
-		update tb_itemmst
-		set
-		item_delete_chk = 1
-		where item_cd = #{item_cd}
+	<update id="deleteItem" parameterType="LhsItemMst" statementType="CALLABLE">
+		{ call dbo.pro_item_delete(#{item_cd}) }
 	</update>
     
 </mapper>
