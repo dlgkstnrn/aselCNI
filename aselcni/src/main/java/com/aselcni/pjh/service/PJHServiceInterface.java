@@ -21,4 +21,6 @@ public interface PJHServiceInterface {
 
 	List<PJHInitem> getInitemList(PJHInitem initem);
 
+	PJHInitem detailInitem(PJHInitem initem);
+
 }
