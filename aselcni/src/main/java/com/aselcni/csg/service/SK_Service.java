@@ -33,10 +33,10 @@ public class SK_Service implements SK_Service_Interface {
 
 	//발주관리 화면 페이징 하기위해서 전체 발주 개수 가져오기
 	@Override
-	public int totalPurchase() {
+	public int totalPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE) {
 		System.out.println("service : 전체발주 개수 가져오기 paging 사전작업");
 		int totalPurchase = 0;
-		totalPurchase = sk_Dao_Interface.totalPurchase();
+		totalPurchase = sk_Dao_Interface.totalPurchase(csg_TB_PURCHASE);
 		System.out.println("service : 전체 페이징 개수는 잘 가져왔니? totalPurchase => "+ totalPurchase);
 		
 		return totalPurchase;

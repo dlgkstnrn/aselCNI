@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @Data
 public class csg_Paging {
-	private int currentPage = 1; private int rowPage = 10;
+	private int currentPage = 1; private int rowPage = 2;
 	private int pageBlock = 5; // 한번에 표시할 페이지 번호의 숫자는 5
 	private int start; private int end;
 	private int startPage; private int endPage;

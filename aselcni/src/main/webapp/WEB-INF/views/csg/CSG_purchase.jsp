@@ -34,7 +34,7 @@
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-  	<script defer src="assets/js/csg/purchaseCategory.js"></script> <!-- 모달 대중소분류 -->
+  	<script defer src="assets/js/csg/modalCategory.js"></script> <!-- 모달 대중소분류 -->
   	<script defer src="assets/js/csg/purchaseCategory.js"></script> <!-- 모달 대중소분류 -->
 
 	
@@ -161,8 +161,9 @@
 		
 		            <!-- Pagination -->
 		            <div class="d-flex justify-content-center mt-4">
+		            
 					    <nav aria-label="Page navigation">
-					        <ul class="pagination">
+					        <ul id="pagination" class="pagination">
 					            <c:if test="${page.startPage > 1}">
 					                <li class="page-item">
 					                    <a class="page-link" href="purchase?currentPage=${page.startPage - 1}" aria-label="Previous">
@@ -184,6 +185,8 @@
 					            </c:if>
 					        </ul>
 					    </nav>
+					    
+					    
 					</div>
 		        </main>
 		    </div>

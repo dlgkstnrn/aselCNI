@@ -38,12 +38,12 @@ public class SK_Dao implements SK_Dao_Interface {
 	
 	//paging작업을 위해 전체 발주 개수 가져오기 
 	@Override
-	public int totalPurchase() {
+	public int totalPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE) {
 		System.out.println("DAO : 전체발주 개수 가져오기 paging 사전작업");
 		int totalPurchase = 0;
 		
 		try {
-		totalPurchase = session.selectOne("SK_PagingtotalPurchase");
+		totalPurchase = session.selectOne("SK_PagingtotalPurchase", csg_TB_PURCHASE);
 		System.out.println("전체 페이징 개수는 잘 가져왔니? totalPurchase => "+ totalPurchase);
 		} catch(Exception e) {
 			e.printStackTrace();

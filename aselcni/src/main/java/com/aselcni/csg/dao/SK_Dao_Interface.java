@@ -27,7 +27,7 @@ public interface SK_Dao_Interface {
 
 	List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE);
 
-	int totalPurchase();
+	int totalPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE);
 
 
 

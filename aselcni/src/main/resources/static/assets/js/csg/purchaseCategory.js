@@ -31,8 +31,9 @@ $("#searchButton").click(function() {
         success: function(response) {
             console.log("검색 결과:", response);
             const tbody = $("#searchPurchase"); 
+            const pagination = $("#pagination");
             tbody.empty(); // 테이블의 내용을 비웁니다.
-            response.forEach((item, index) => {
+            response.items.forEach((item, index) => {
 			    tbody.append(
 			        `<tr>
 			            <td><input type="checkbox" id="itemSelect${index + 1}" name="itemSelect"></td>
@@ -51,6 +52,29 @@ $("#searchButton").click(function() {
 			            </td>
 			        </tr>`
 			    );
+			
+			// 페이징 컨트롤 생성
+            const pagination = $("#pagination");
+            pagination.empty(); // 기존 페이징 컨트롤 삭제
+            console.log(response.page.currentPage);
+            
+            // pagination 밑에 이전 페이지링크나 애들을 눌렀을때 on click 이벤트가 있어야 하는거 아니
+            
+            
+            // 이전 페이지 링크
+            if (response.page.currentPage > 1) {
+                pagination.append(`<li class="page-item"><a class="page-link" href="#" data-page="${response.page.currentPage - 1}">&laquo;</a></li>`);
+            }
+            
+            // 페이지 번호 링크
+            for (let i = response.page.startPage; i <= response.page.endPage; i++) {
+                pagination.append(`<li class="page-item ${response.page.currentPage === i ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`);
+            }
+            
+            // 다음 페이지 링크
+            if (response.page.currentPage < response.page.totalPage) {
+                pagination.append(`<li class="page-item"><a class="page-link" href="#" data-page="${response.page.currentPage + 1}">&raquo;</a></li>`);
+            }
 			});
 
         },
@@ -59,6 +83,19 @@ $("#searchButton").click(function() {
         }
     });
 });
+
+
+
+
+
+function inputToday(tagId){
+	let todayLong= new Date();
+	let today = todayLong.toISOString().slice(0,10);
+	tagId.val(today);
+	}
+inputToday($("#start_date"))
+inputToday($("#end_date"))
+
 
 
 

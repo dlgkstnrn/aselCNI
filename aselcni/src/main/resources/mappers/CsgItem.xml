@@ -34,25 +34,36 @@
 	        <if test="item_nm != null and item_nm != ''">
 	            AND TI.ITEM_NM LIKE '%' + #{item_nm} + '%'
 	        </if>
-	        <if test="start_date != null and end_date != null">
+ 	        <if test="start_date != null or end_date != null">
 	            AND TP.PURC_DT BETWEEN #{start_date} AND #{end_date}
-	        </if>
+	        </if>  
 	    )
 	    SELECT * 
 	    FROM OrderedPurchases
 	    WHERE RowNum BETWEEN #{start} AND #{end}
 	</select>
 
-	
-	<select id="SK_PagingtotalPurchase" resultType="int">
-		SELECT COUNT(*) AS TotalCount
-		FROM TB_PURCHASE TP
-		INNER JOIN TB_PURCHASE_ITEM TPI ON TP.PURC_NO = TPI.PURC_NO
-		INNER JOIN TB_ITEMMST TI ON TPI.ITEM_CD = TI.ITEM_CD
-		INNER JOIN TB_CUSTMST TC ON TC.CUST_CD  = TP.CUST_CD
-		WHERE TI.ITEM_FLAG = '01'
+	<select id="SK_PagingtotalPurchase" parameterType="CSG_TB_PURCHASE" resultType="int">
+	    SELECT COUNT(*) AS TotalCount
+	    FROM TB_PURCHASE TP
+	    INNER JOIN TB_PURCHASE_ITEM TPI ON TP.PURC_NO = TPI.PURC_NO
+	    INNER JOIN TB_ITEMMST TI ON TPI.ITEM_CD = TI.ITEM_CD
+	    INNER JOIN TB_CUSTMST TC ON TC.CUST_CD  = TP.CUST_CD
+	    WHERE TI.ITEM_FLAG = '01'
+	    <if test="cust_nm != null and cust_nm != ''">
+	        AND TC.CUST_NM Like '%' + #{cust_nm} + '%'
+	    </if>
+	    <if test="purc_no != null and purc_no != ''">
+	        AND TP.PURC_NO Like '%' + #{purc_no} + '%'
+	    </if>
+	    <if test="item_nm != null and item_nm != ''">
+	        AND TI.ITEM_NM LIKE '%' + #{item_nm} + '%'
+	    </if>
+	    <if test="start_date != null and end_date != null">
+	        AND TP.PURC_DT BETWEEN #{start_date} AND #{end_date}
+	    </if>
 	</select>
-	
+
 					
 	<select id="SK_custList" resultType = "CSG_TB_CUSTMST">
 		select DISTINCT tc.*
