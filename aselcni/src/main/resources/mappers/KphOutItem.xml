@@ -10,18 +10,18 @@
 		INNER JOIN TB_USERMST tu 
 					ON ou.OUTITEM_EMP_ID = tu.USER_ID
 		WHERE ou.OUTITEM_DELETE_CHK = 0
-			AND ou.OUTITEM_NO NOT IN (
-														SELECT oi.OUTITEM_NO
-														FROM TB_OUTITEM_ITEM oi 
-														LEFT OUTER JOIN (SELECT OUTITEM_NO, ITEM_CD, SUM(QTY) RETURN_QTY
-																						FROM TB_RETURN
-																						WHERE RETURN_DELETE_CHK = 0
-																						GROUP BY OUTITEM_NO, ITEM_CD
-																						) tr 
-																				ON oi.OUTITEM_NO = tr.OUTITEM_NO
-																				AND oi.ITEM_CD = tr.ITEM_CD
-														WHERE (oi.QTY - tr.RETURN_QTY) <![CDATA[<=]]> 0
-														)
+			AND ou.OUTITEM_NO IN (SELECT oi2.OUTITEM_NO
+												FROM (SELECT oi.*, ISNULL((oi.QTY - tr.RETURN_QTY), oi.QTY) USABLE_QTY
+															FROM TB_OUTITEM_ITEM oi 
+															LEFT OUTER JOIN (SELECT OUTITEM_NO, ITEM_CD, SUM(QTY) RETURN_QTY
+																							FROM TB_RETURN
+																							WHERE RETURN_DELETE_CHK = 0
+																							GROUP BY OUTITEM_NO, ITEM_CD
+																							) tr 
+																					ON oi.OUTITEM_NO = tr.OUTITEM_NO
+																					AND oi.ITEM_CD = tr.ITEM_CD) oi2
+												WHERE oi2.USABLE_QTY > 0
+												)
 		   	<choose>
 		   		<when test="searchFilter=='all'">
 					AND (ou.OUTITEM_NO LIKE '%' + #{keyword} + '%'
