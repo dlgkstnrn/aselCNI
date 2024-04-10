@@ -168,4 +168,12 @@ public class PsaWorkProdDaoImpl implements PsaWorkProdDao {
 		return planItemList;
 	}
 
+	// workprod PK 생성
+	@Override
+	public String getPK() {
+		
+		String workprodNo = session.selectOne("psaGetPK");
+		return workprodNo;
+	}
+
 }

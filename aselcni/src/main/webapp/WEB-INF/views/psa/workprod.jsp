@@ -188,7 +188,7 @@ pageEncoding="UTF-8"%>
 
                   <!-- 생산계획 담당자 ID -->
                   <div class="row mb-3 d-flex">
-                    <label class="col-sm-3 col-form-label">지시 담당자</label>
+                    <label class="col-sm-3 col-form-label">생산계획 담당자</label>
                     <div class="col-sm-9">
                       <input type="hidden" class="form-control" id="prodplan_emp_id" value="${prodplan_emp_id}" readonly/>
                       <input type="text" class="form-control" id="prp_user_nm" readonly/>

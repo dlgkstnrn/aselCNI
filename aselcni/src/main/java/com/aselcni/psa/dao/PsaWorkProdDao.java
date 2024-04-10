@@ -37,4 +37,6 @@ public interface PsaWorkProdDao {
 
 	List<ProdItem> getPlanItemList(ProdPlan prodPlan);
 
+	String getPK();
+
 }

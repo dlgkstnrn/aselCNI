@@ -165,4 +165,12 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		return planItemList;
 	}
 
+	// workprod PK 생성
+	@Override
+	public String getPK() {
+
+		String workprodNo = psaDao.getPK();
+		return workprodNo;
+	}
+
 }

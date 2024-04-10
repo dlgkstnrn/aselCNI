@@ -154,5 +154,13 @@
 		WHERE tip.PRODPLAN_NO = #{prodplan_no}
 		AND tip.ITEM_CD = ti.ITEM_CD
 	</select>
+	
+	<select id="psaGetPK" resultType="String">
+		SELECT CONCAT('WPR', 
+								CONVERT(CHAR(6), GETDATE(), 12),
+								(SELECT FORMAT(COUNT(tw.WORKPROD_NO) + 1, '0000')
+									FROM TB_WORKPROD tw 
+									WHERE tw.WORKPROD_NO LIKE 'WPR'+ CONVERT(CHAR(6), GETDATE(), 12) +'%'))
+	</select>
 
 </mapper>

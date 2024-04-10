@@ -37,4 +37,6 @@ public interface PsaWorkProdService {
 
 	List<ProdItem> getPlanItemList(ProdPlan prodPlan);
 
+	String getPK();
+
 }

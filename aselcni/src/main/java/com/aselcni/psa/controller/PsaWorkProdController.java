@@ -251,16 +251,24 @@ public class PsaWorkProdController {
 		
 		System.out.println("param????"+workProd);
 		
-		// 일단
-		// 1. workprod_no , workprod_emp_id setting
+		// 1. workprod_emp_id setting
 		String user_id = (String) request.getSession().getAttribute("user_id");
-		System.out.println("로그인 아이디: "+user_id);		// 잘 받더니 왜 null????
+		System.out.println("로그인 아이디: "+user_id);
 		
 		workProd.setWorkprod_emp_id(user_id);
 		
-		// 2. if (seq_no=null) set 1
+		// 2. workprod_no setting
+		String workprodNo = psaService.getPK();
+		System.out.println("PK workprodNo: " + workprodNo);
 		
-		// 3. if (workprod_delete_chk=null) set 0
+		workProd.setWorkprod_no(workprodNo);
+		
+		System.out.println("여기까지 세팅된 workProd: " + workProd);
+		
+		
+		// 3. if (seq_no=null) set 1
+		
+		// 4. if (workprod_delete_chk=null) set 0
 		
 		
 		
