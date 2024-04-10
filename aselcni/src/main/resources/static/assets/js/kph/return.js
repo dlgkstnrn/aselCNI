@@ -2,7 +2,7 @@ $('#return-add').on('click', function () {
 	window.location.href = '/returnAddForm';
 });
 
-$('.search').on('input', (event) => {
+$('.search').on('keyup', 'input', (event) => {
 	if (event.keyCode === 13) {
 		$('#search-btn').click();
 	}
@@ -15,7 +15,7 @@ $("#search-btn").on("click", () => {
 	const outitem_no = $('.outitem-no-text').val();
 	const cust_nm = $('.cust-nm-text').val();
 	const item_nm = $('.item-nm-text').val();
-	const user_nm = $('.user-nm-text').val();
+	const return_emp_nm = $('.return-emp-nm-text').val();
 
 	$(".table-nav .table tbody").empty();
 	$(".table-nav .page-navigation .pagination").empty();
@@ -30,7 +30,7 @@ $("#search-btn").on("click", () => {
 			outitem_no : outitem_no,
 			cust_nm : cust_nm,
 			item_nm : item_nm,
-			user_nm : user_nm
+			return_emp_nm : return_emp_nm
 		},
 		dataType: 'json',
 		success: function(response) {
@@ -49,7 +49,7 @@ $("#search-btn").on("click", () => {
 						<td>${returnObj.item_nm }</td>
 						<td>${returnObj.res_rtn }</td>
 						<td>${returnObj.return_dt }</td>
-						<td>${returnObj.user_nm }</td>
+						<td>${returnObj.return_emp_nm }</td>
 						<td>${returnObj.qty }</td>
 	                </tr>
            	 	`);
@@ -58,19 +58,19 @@ $("#search-btn").on("click", () => {
 
 			if (paging.startPage > paging.pageBlock) {
 				$(".pagination").append(`
-					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a></li>
+					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&laquo;</span></a></li>
             	`);
 			}
 
 			for (let i = paging.startPage; i <= paging.endPage; i++) {
 				$(".pagination").append(`
-					<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}">${i}</a></li>
+					<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}">${i}</a></li>
             	`);
 			}
 
 			if (paging.endPage < paging.totalPage) {
 				$(".pagination").append(`
-					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a></li>
+					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&raquo;</span></a></li>
            		`);
 			}
 			
@@ -79,10 +79,10 @@ $("#search-btn").on("click", () => {
 
 });
 
-let start_day_pre;
-let end_day_pre;
+let start_day_pre = $('.start-day').val();;
+let end_day_pre = $('.end-day').val();
 
-$('.start-end-day').on('change', function () {  
+$('.day-box').on('change', function () {  
 	
 	const start_day_string = $('.start-day').val();
 	const end_day_string = $('.end-day').val();
@@ -135,7 +135,7 @@ $('.table tbody').on('click', '.return-no', function () {
 						<span>반품사유 : </span><span>${returnObj.res_rtn}</span>
 					</div>
 					<div class="return-detail-content">
-						<span>비고 : </span><span>${returnObj.remark}</span>
+						${returnObj.return_remark == null ? `<span>비고 : </span><span>-</span>` : `<span>비고 : </span><span>${returnObj.remark}</span>`}
 					</div>
 				</div>
 				<div>
@@ -148,7 +148,7 @@ $('.table tbody').on('click', '.return-no', function () {
 				</div>
 				<div>
 					<div class="return-detail-content">
-						<span>담당자 : </span><span>${returnObj.user_nm}</span>
+						<span>담당자 : </span><span>${returnObj.return_emp_nm}</span>
 					</div>
 					<div class="return-detail-content">
 						<span>반품 수량 : </span><span>${returnObj.qty}</span>

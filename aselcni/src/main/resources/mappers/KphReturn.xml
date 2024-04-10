@@ -37,80 +37,59 @@
 			AND rt.CUST_CD = tc.CUST_CD 
 			AND rt.RETURN_EMP_ID = us.USER_ID
 			AND rt.RETURN_DELETE_CHK = 0
-			AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
-			<if test="return_no != null">
-			
+			<if test="start_day != null and end_day !=null">
+				AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
 			</if>
-			<choose>
-				<when test="searchFilter=='all'">
-					AND (
-							rt.RETURN_NO LIKE '%' + #{keyword} + '%'
-							OR rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
-							OR tc.CUST_NM LIKE '%' + #{keyword} + '%'
-							OR it.ITEM_NM LIKE '%' + #{keyword} + '%'
-							OR us.USER_NM LIKE '%' + #{keyword} + '%'
-							)
-				</when>
-				<when test="searchFilter=='return_no'">
-					AND rt.RETURN_NO LIKE '%' + #{keyword} + '%'
-				</when>
-				<when test="searchFilter=='outitem_no'">
-					AND rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
-				</when>
-				<when test="searchFilter=='cust_nm'">
-					AND tc.CUST_NM LIKE '%' + #{keyword} + '%'
-				</when>
-				<when test="searchFilter=='item_nm'">
-					AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
-				</when>
-				<when test="searchFilter=='user_nm'">
-					AND us.USER_NM LIKE '%' + #{keyword} + '%'
-				</when>
-			</choose>
+			<if test="return_no != '' and return_no != null">
+				AND rt.RETURN_NO LIKE '%' + #{return_no} + '%'
+			</if>
+			<if test="outitem_no != '' and outitem_no != null">
+				AND rt.OUTITEM_NO LIKE  '%' + #{outitem_no} + '%'
+			</if>
+			<if test="cust_nm != '' and cust_nm != null">
+				AND tc.CUST_NM LIKE '%' + #{cust_nm} + '%'
+			</if>
+			<if test="item_nm != '' and item_nm != null">
+				AND it.ITEM_NM LIKE '%' + #{item_nm} + '%'
+			</if>
+			<if test="return_emp_nm != '' and return_emp_nm != null">
+				AND us.USER_NM LIKE '%' + #{return_emp_nm} + '%'
+			</if>
 	</select>	
 	
 	<select id="KphReturnList" parameterType="KphReturn" resultType="KphReturn">
 		SELECT *
 		FROM (
-				SELECT ROW_NUMBER() OVER(ORDER BY RETURN_NO DESC) AS rn, rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM
+				SELECT ROW_NUMBER() OVER(ORDER BY RETURN_NO DESC) AS rn, rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM AS RETURN_EMP_NM
 				FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
 				WHERE rt.ITEM_CD = it.ITEM_CD 
 					AND rt.CUST_CD = tc.CUST_CD 
 					AND rt.RETURN_EMP_ID = us.USER_ID
 					AND rt.RETURN_DELETE_CHK = 0
-					AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
-					<choose>
-						<when test="searchFilter=='all'">
-							AND (
-									rt.RETURN_NO LIKE '%' + #{keyword} + '%'
-									OR rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
-									OR tc.CUST_NM LIKE '%' + #{keyword} + '%'
-									OR it.ITEM_NM LIKE '%' + #{keyword} + '%'
-									OR us.USER_NM LIKE '%' + #{keyword} + '%'
-									)
-						</when>
-						<when test="searchFilter=='return_no'">
-							AND rt.RETURN_NO LIKE '%' + #{keyword} + '%'
-						</when>
-						<when test="searchFilter=='outitem_no'">
-							AND rt.OUTITEM_NO LIKE  '%' + #{keyword} + '%'
-						</when>
-						<when test="searchFilter=='cust_nm'">
-							AND tc.CUST_NM LIKE '%' + #{keyword} + '%'
-						</when>
-						<when test="searchFilter=='item_nm'">
-							AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
-						</when>
-						<when test="searchFilter=='user_nm'">
-							AND us.USER_NM LIKE '%' + #{keyword} + '%'
-						</when>
-					</choose>
+					<if test="start_day != null and end_day !=null">
+						AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
+					</if>
+					<if test="return_no != '' and return_no != null">
+						AND rt.RETURN_NO LIKE '%' + #{return_no} + '%'
+					</if>
+					<if test="outitem_no != '' and outitem_no != null">
+						AND rt.OUTITEM_NO LIKE  '%' + #{outitem_no} + '%'
+					</if>
+					<if test="cust_nm != '' and cust_nm != null">
+						AND tc.CUST_NM LIKE '%' + #{cust_nm} + '%'
+					</if>
+					<if test="item_nm != '' and item_nm != null">
+						AND it.ITEM_NM LIKE '%' + #{item_nm} + '%'
+					</if>
+					<if test="return_emp_nm != '' and return_emp_nm != null">
+						AND us.USER_NM LIKE '%' + #{return_emp_nm} + '%'
+					</if>
 				) rt2
 		WHERE rt2.rn BETWEEN #{start} AND #{end}
 	</select>		
 	
 	<select id="KphGetReturn" parameterType="KphReturn" resultType="KphReturn">
-		SELECT rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM
+		SELECT rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM AS RETURN_EMP_NM
 		FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
 		WHERE rt.ITEM_CD = it.ITEM_CD 
 			AND rt.CUST_CD = tc.CUST_CD 

@@ -197,7 +197,7 @@ function itemList(keyword) {
                     	<input name="qty" type="hidden" value="${item.qty}"/>
                         <span class="item_nm">${item.item_nm}</span>
 						<span> / </span>
-                        ${item.usable_qty == 0 ? `<span>${item.item_cd}, 반품 가능수량 : ${item.qty}개</span>` : `<span>${item.item_cd}, 반품 가능수량 : ${item.usable_qty}개</span>`}
+						<span>${item.item_cd}, 반품 가능수량 : ${item.usable_qty}개</span>
                     </li>
                 `);
             });

@@ -46,9 +46,7 @@ public class KphReturnServiceImp implements KphReturnService {
 	@Override
 	public KphReturn getReturn(KphReturn kphReturn) {
 		KphReturn returnObj = kphReturnDao.getReturn(kphReturn);
-		System.out.println(returnObj);
 		int maxQty = kphReturnDao.getUsableOutItemQty(returnObj);
-		System.out.println(maxQty);
 		returnObj.setMax_qty(maxQty);
 		return returnObj;
 	}

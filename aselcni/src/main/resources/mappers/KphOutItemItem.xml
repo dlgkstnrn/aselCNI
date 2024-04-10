@@ -4,14 +4,14 @@
 					
 	<select id="KphOutItemItemList" parameterType="KphOutItem" resultType="KphOutItemItem">
 		SELECT *
-		FROM (SELECT oi.OUTITEM_NO, oi.ITEM_CD , it.ITEM_NM, oi.QTY , (oi.QTY - tr.RETURN_QTY) AS USABLE_QTY
+		FROM (SELECT oi.OUTITEM_NO, oi.ITEM_CD , it.ITEM_NM, oi.QTY , ISNULL((oi.QTY - tr.RETURN_QTY), oi.QTY) AS USABLE_QTY
 				FROM TB_OUTITEM_ITEM oi 
 				INNER JOIN TB_ITEMMST it
 							ON oi.ITEM_CD = it.ITEM_CD
 				LEFT OUTER JOIN (SELECT OUTITEM_NO, ITEM_CD, SUM(QTY) RETURN_QTY
 										FROM TB_RETURN
 										WHERE RETURN_DELETE_CHK = 0
-										<if test="url='returnUpdateForm'">
+										<if test="url == 'returnUpdateForm'">
 											AND RETURN_NO != #{return_no}
 										</if>
 										GROUP BY OUTITEM_NO, ITEM_CD
@@ -23,22 +23,23 @@
 						AND it.ITEM_NM LIKE '%' + #{keyword} + '%'
 					</if>
 					) res
-		WHERE (res.USABLE_QTY > 0 OR res.USABLE_QTY IS NULL)
+		WHERE res.USABLE_QTY > 0
 	</select>
 	
 	<select id="KphGetUsableOutItemQty" parameterType="KphReturn" resultType="int">
-		SELECT (oii.QTY - tr.QTY) MAX_QTY
-		FROM TB_OUTITEM_ITEM oii , (
-													SELECT OUTITEM_NO, ITEM_CD , SUM(QTY) AS QTY
-													FROM TB_RETURN
-													WHERE OUTITEM_NO = #{outitem_no}
-														AND ITEM_CD = #{item_cd}
-														AND RETURN_NO != #{return_no}
-														AND RETURN_DELETE_CHK = 0
-													GROUP BY OUTITEM_NO , ITEM_CD
-													) tr 
-		WHERE oii.OUTITEM_NO = tr.OUTITEM_NO 
-			AND oii.ITEM_CD = tr.ITEM_CD
+		SELECT ISNULL((oii.QTY - tr.QTY), oii.QTY) MAX_QTY
+		FROM TB_OUTITEM_ITEM oii
+		LEFT OUTER JOIN (
+										SELECT OUTITEM_NO, ITEM_CD , SUM(QTY) AS QTY
+										FROM TB_RETURN
+										WHERE RETURN_NO != #{return_no}
+											AND RETURN_DELETE_CHK = 0
+										GROUP BY OUTITEM_NO , ITEM_CD
+										) tr 
+								ON tr.OUTITEM_NO = oii.OUTITEM_NO 
+								AND tr.ITEM_CD = oii.ITEM_CD 
+		WHERE oii.OUTITEM_NO = #{outitem_no}
+			AND oii.ITEM_CD = #{item_cd}
 	</select>
 	
 </mapper>

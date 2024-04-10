@@ -92,7 +92,7 @@
 						</div>
 						<div class="input-group user-nm-box">
 							<span class="input-group-text">담당자명</span>
-							<input type="text" class="user-nm-text form-control" placeholder="담당자명을 입력하세요" value="${user_nm }" />
+							<input type="text" class="return-emp-nm-text form-control" placeholder="담당자명을 입력하세요" value="${return_emp_nm }" />
 						</div>
 					</div>
 					<div class="search-btn-box">
@@ -132,7 +132,7 @@
 											<td>${returnObj.return_dt }</td>
 										</c:otherwise>
 									</c:choose>
-									<td>${returnObj.user_nm }</td>
+									<td>${returnObj.return_emp_nm }</td>
 									<td>${returnObj.qty }</td>
 								</tr>
 								<c:set var="num" value="${num + 1 }"></c:set>
@@ -142,13 +142,13 @@
 					<nav class="page-navigation">
 					  <ul class="pagination">
 						<c:if test="${paging.startPage > paging.pageBlock }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&laquo;</span></a></li>
 						</c:if>
 						<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}">${i}</a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}">${i}</a></li>
 						</c:forEach>
 						<c:if test="${paging.endPage < paging.totalPage }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&raquo;</span></a></li>
 						</c:if>
 					  </ul>
 					</nav>
