@@ -2,6 +2,27 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst"/>
+		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst"/>
+		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig"/>
+		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid"/>
+		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml"/>
+		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst"/>
+		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst"/>
+		<typeAlias alias="Common" type="com.aselcni.main.model.Common"/>
+		<typeAlias alias="PJHInitem" type="com.aselcni.pjh.model.PJHInitem"/>
+		<typeAlias alias="PJHInitemItem" type="com.aselcni.pjh.model.PJHInitemItem"/>
+		<typeAlias alias="PJHPurchase" type="com.aselcni.pjh.model.PJHPurchase"/>
+		<typeAlias alias="PJHPurchaseItem" type="com.aselcni.pjh.model.PJHPurchaseItem"/>
+		<typeAlias alias="PJHWhmst" type="com.aselcni.pjh.model.PJHWhmst"/>
+		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst"/>
+		<typeAlias alias="psaProdPlan" type="com.aselcni.psa.model.ProdPlan"/>
+		<typeAlias alias="psaWorkProd" type="com.aselcni.psa.model.WorkProd"/>
+		<typeAlias alias="KdwProdPlan" type="com.aselcni.kdw.model.TB_PRODPLAN"/>
+		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD"/>
+		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem"/>
+		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd"/>
+		
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst" />
 		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst" />
 		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig" />

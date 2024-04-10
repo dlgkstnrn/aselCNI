@@ -107,6 +107,10 @@ public class ItemmstController {
 	
 	@PostMapping("itemmstUpdate")
 	public String itemmstUpdate(ItemMst itemMst) {
+		System.out.println("test : " + itemMst);
+		if(itemMst.getCust_cd() == null || itemMst.getCust_cd().equals("")) {
+			itemMst.setCust_cd(null);
+		}
 		int result = itemMstService.updateItem(itemMst);
 		return "redirect:/itemmst";
 	}

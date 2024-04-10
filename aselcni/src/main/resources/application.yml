@@ -16,7 +16,7 @@ spring:
       
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://;serverName=172.30.1.9;port=2017;databaseName=KDT301;trustServerCertificate=true
+    url: jdbc:sqlserver://;serverName=210.103.143.194;port=2017;databaseName=KDT301;trustServerCertificate=true
     username: kdt301
     password: '@sel1234'
 
