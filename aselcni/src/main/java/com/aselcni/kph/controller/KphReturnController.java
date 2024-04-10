@@ -45,28 +45,32 @@ public class KphReturnController {
 		}
 		
 		if(user_comm_code == 10030) {
-			int totalReturnCount = kphReturnService.totalReturnCount(kphReturn);
-			KphPaging paging = new KphPaging(totalReturnCount, kphReturn.getCurrentPage());
-			
-			kphReturn.setStart(paging.getStart());
-			kphReturn.setEnd(paging.getEnd());
-			
-			if(kphReturn.getStart_day() == null && kphReturn.getEnd_day() == null) {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				String today = LocalDate.now().format(formatter);
-				String oneMonthAgo = LocalDate.now().minusMonths(1).format(formatter); 
-				
-				kphReturn.setStart_day(oneMonthAgo);
-				kphReturn.setEnd_day(today);
-			}
-			
-			List<KphReturn> returnList = kphReturnService.returnList(kphReturn);
-			model.addAttribute("returnList", returnList);
-			model.addAttribute("paging", paging);
-			model.addAttribute("searchFilter", kphReturn.getSearchFilter());
-			model.addAttribute("keyword", kphReturn.getKeyword());
-			model.addAttribute("start_day", kphReturn.getStart_day());
-			model.addAttribute("end_day", kphReturn.getEnd_day());
+			System.out.println(kphReturn);
+//			int totalReturnCount = kphReturnService.totalReturnCount(kphReturn);
+//			KphPaging paging = new KphPaging(totalReturnCount, kphReturn.getCurrentPage());
+//			
+//			kphReturn.setStart(paging.getStart());
+//			kphReturn.setEnd(paging.getEnd());
+//			
+//			if(kphReturn.getStart_day() == null && kphReturn.getEnd_day() == null) {
+//				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//				String today = LocalDate.now().format(formatter);
+//				String oneMonthAgo = LocalDate.now().minusMonths(1).format(formatter); 
+//				
+//				kphReturn.setStart_day(oneMonthAgo);
+//				kphReturn.setEnd_day(today);
+//			}
+//			
+//			List<KphReturn> returnList = kphReturnService.returnList(kphReturn);
+//			model.addAttribute("returnList", returnList);
+//			model.addAttribute("paging", paging);
+//			model.addAttribute("start_day", kphReturn.getStart_day());
+//			model.addAttribute("end_day", kphReturn.getEnd_day());
+//			model.addAttribute("return_no", kphReturn.getReturn_no());
+//			model.addAttribute("outitem_no", kphReturn.getOutitem_no());
+//			model.addAttribute("cust_nm", kphReturn.getCust_nm());
+//			model.addAttribute("item_nm", kphReturn.getItem_nm());
+//			model.addAttribute("user_nm", kphReturn.getUser_nm());
 			resultPage = "kph/return"; 
 		}
 		

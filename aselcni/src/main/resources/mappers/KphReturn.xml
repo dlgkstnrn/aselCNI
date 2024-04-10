@@ -38,6 +38,9 @@
 			AND rt.RETURN_EMP_ID = us.USER_ID
 			AND rt.RETURN_DELETE_CHK = 0
 			AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
+			<if test="return_no != null">
+			
+			</if>
 			<choose>
 				<when test="searchFilter=='all'">
 					AND (

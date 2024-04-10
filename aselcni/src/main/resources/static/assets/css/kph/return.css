@@ -23,82 +23,61 @@
     font-weight: 600;
 }
 
-.controller {
+/* controller */
+.top {
     display: flex;
     justify-content: space-between;
+	margin-bottom: 10px;
 }
 
-.controller .return-add {
+.top .top-title {
+	height: 40px;
+	line-height: 40px;
+	font-family: 'NanumSquare', sans-serif;
+    color: #486ef3;
+    font-size: 18px;
+    font-weight: 800
+}
+
+.top .return-add {
 	width: 70px;
 	height: 40px;
 	font-family: 'NanumSquare', sans-serif;
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+/* search */
+.search {
+	border: 1px solid #dee2e6;
+	padding: 10px;
+	margin: 0 auto;
+	margin-bottom: 20px;
 }
 
-.search-form {
+.search> div {
 	display: flex;
 	justify-content: space-between;
-    font-size: 14px;
-    color: #012970;
-    border: 1px solid rgba(1, 41, 112, 0.2);
-    padding: 7px 10px 7px 8px;
-    border-radius: 5px;
-    transition: 0.3s;
-    width: 250px;
+	margin-bottom: 10px;
 }
 
-.search-form input {
-	outline: none;
-	font-family: 'NanumSquare', sans-serif;
-	border: 0;
+.search> div:last-child {
+	margin-bottom: 0;
 }
 
-.search-form:focus-within,
-.search-form:hover {
-  box-shadow: 0 0 10px 0 rgba(1, 41, 112, 0.15);
-  border: 1px solid rgba(1, 41, 112, 0.3);
+.search div div {
+	width: 33%;
 }
 
-.search-form button {
-	border: 0;
-	padding: 0;
-	background: none;
-}
-
-.search-form button i {
-	color: #012970;
-}
-
-.search-bar .search-filter {
-    margin-left: 10px;
-    border: 1px solid rgba(1, 41, 112, 0.2);
-    height: 40px;
-    width: 130px;
-    font-family: 'NanumSquare', sans-serif;
-}
-
-.search-bar .start-end-day {
-	margin-left: 50px;
-	height: 40px;
+.search .search-btn-box {
 	display: flex;
-	align-items: center;
+	justify-content: center;
 }
 
-.start-end-day .start-day {
-	height: 40px;
-	margin-right: 10px;
+.search-btn-box .search-btn {
+	width: 70px;
+	font-family: 'NanumSquare', sans-serif;
 }
 
-.start-end-day .end-day {
-	margin-left: 10px;
-	height: 40px;
-}
-
+/* table */
 .table {
     font-family: 'NanumSquare', sans-serif;
 }

@@ -61,71 +61,43 @@
 		<section class="section dashboard">
 			<div class="card">
 				<div class="card-body">
-				  <div class="controller">
-					<div class="search-bar">
-					  <div class="search-form">
-						<input id="search-text" type="text" placeholder="검색어를 입력하세요" value="${keyword }">
-						<button id="search-btn"><i class="bi bi-search"></i></button>
-					  </div>
-					  <select name="search-filter" class="search-filter form-select">
-					  	<c:choose>
-							<c:when test="${searchFilter == 'return_no'}">
-								<option value="all">전체</option>
-								<option value="return_no" selected >반품번호</option>
-								<option value="outitem_no">출고번호</option>
-								<option value="cust_nm">고객사</option>
-								<option value="item_nm">제품명</option>
-								<option value="user_nm">담당자명</option>
-							</c:when>
-							<c:when test="${searchFilter == 'outitem_no'}">
-								<option value="all">전체</option>
-								<option value="return_no">반품번호</option>
-								<option value="outitem_no" selected>출고번호</option>
-								<option value="cust_nm">고객사</option>
-								<option value="item_nm">제품명</option>
-								<option value="user_nm">담당자명</option>
-							</c:when>
-							<c:when test="${searchFilter == 'cust_nm'}">
-								<option value="all">전체</option>
-								<option value="return_no">반품번호</option>
-								<option value="outitem_no">출고번호</option>
-								<option value="cust_nm" selected>고객사</option>
-								<option value="item_nm">제품명</option>
-								<option value="user_nm">담당자명</option>
-							</c:when>
-							<c:when test="${searchFilter == 'item_nm'}">
-								<option value="all">전체</option>
-								<option value="return_no">반품번호</option>
-								<option value="outitem_no">출고번호</option>
-								<option value="cust_nm">고객사</option>
-								<option value="item_nm" selected>제품명</option>
-								<option value="user_nm">담당자명</option>
-							</c:when>
-							<c:when test="${searchFilter == 'user_nm'}">
-								<option value="all">전체</option>
-								<option value="return_no">반품번호</option>
-								<option value="outitem_no">출고번호</option>
-								<option value="cust_nm">고객사</option>
-								<option value="item_nm">제품명</option>
-								<option value="user_nm" selected>담당자명</option>
-							</c:when>
-							<c:otherwise>
-								<option value="all" selected>전체</option>
-								<option value="return_no">반품번호</option>
-								<option value="outitem_no">출고번호</option>
-								<option value="cust_nm">고객사</option>
-								<option value="item_nm">제품명</option>
-								<option value="user_nm">담당자명</option>
-							</c:otherwise>
-						</c:choose>
-					  </select>
-					  <div class="start-end-day">
-						<input name="start_day" type="date" class="start-day form-control" value="${start_day }">
-						<span>~</span>
-					  	<input name="end_day" type="date" class="end-day form-control" value="${end_day }">
-					  </div>
-					</div>
+				  <div class="top">
+					<div class="top-title">출고 관리</div>
 					<button type="button" id="return-add" class="return-add btn btn-primary">신규</button>
+				  </div>
+				  <div class="search">
+					<div>
+						<div class="input-group day-box">
+							<span class="input-group-text">조회기간</span>
+							<input type="date" class="start-day form-control" value="${start_day }">
+							<input type="date" class="end-day form-control" value="${end_day }">
+						</div>
+						<div class="input-group return-no-box">
+							<span class="input-group-text">반품번호</span>
+							<input type="text" class="return-no-text form-control" placeholder="반품번호를 입력하세요" value="${return_no }" />
+						</div>
+						<div class="input-group outitem-no-box">
+							<span class="input-group-text">출고번호</span>
+							<input type="text" class="outitem-no-text form-control" placeholder="출고번호를 입력하세요" value="${outitem_no }" />
+						</div>
+					</div>
+					<div>
+						<div class="input-group cust-nm-box">
+							<span class="input-group-text">고객사명</span>
+							<input type="text" class="cust-nm-text form-control" placeholder="고객사명을 입력하세요" value="${cust_nm }" />
+						</div>
+						<div class="input-group item-nm-box">
+							<span class="input-group-text">제품명</span>
+							<input type="text" class="item-nm-text form-control" placeholder="제품명을 입력하세요" value="${item_nm }" />
+						</div>
+						<div class="input-group user-nm-box">
+							<span class="input-group-text">담당자명</span>
+							<input type="text" class="user-nm-text form-control" placeholder="담당자명을 입력하세요" value="${user_nm }" />
+						</div>
+					</div>
+					<div class="search-btn-box">
+						<button type="button" id="search-btn" class="search-btn btn btn-primary">조회</button>
+					</div>
 				  </div>
 				  <div class="table-nav">
 					<table class="table table-hover">
@@ -170,13 +142,13 @@
 					<nav class="page-navigation">
 					  <ul class="pagination">
 						<c:if test="${paging.startPage > paging.pageBlock }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}"><span>&laquo;</span></a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a></li>
 						</c:if>
 						<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}">${i}</a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}">${i}</a></li>
 						</c:forEach>
 						<c:if test="${paging.endPage < paging.totalPage }">
-							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}"><span>&raquo;</span></a></li>
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a></li>
 						</c:if>
 					  </ul>
 					</nav>

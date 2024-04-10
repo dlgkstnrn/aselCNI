@@ -2,17 +2,20 @@ $('#return-add').on('click', function () {
 	window.location.href = '/returnAddForm';
 });
 
-$('#search-text').on('keyup', (event) => {
+$('.search').on('input', (event) => {
 	if (event.keyCode === 13) {
 		$('#search-btn').click();
 	}
 });
 
 $("#search-btn").on("click", () => {
-	const keyword = $("#search-text").val();
-	const searchFilter = $(".search-filter").val();
 	const start_day = $('.start-day').val();
 	const end_day = $('.end-day').val();
+	const return_no = $('.return-no-text').val();
+	const outitem_no = $('.outitem-no-text').val();
+	const cust_nm = $('.cust-nm-text').val();
+	const item_nm = $('.item-nm-text').val();
+	const user_nm = $('.user-nm-text').val();
 
 	$(".table-nav .table tbody").empty();
 	$(".table-nav .page-navigation .pagination").empty();
@@ -21,10 +24,13 @@ $("#search-btn").on("click", () => {
 		type: "get",
 		url: "/returnSearch",
 		data: {
-			keyword: keyword,
-			searchFilter: searchFilter,
 			start_day : start_day,
-			end_day : end_day
+			end_day : end_day,
+			return_no : return_no,
+			outitem_no : outitem_no,
+			cust_nm : cust_nm,
+			item_nm : item_nm,
+			user_nm : user_nm
 		},
 		dataType: 'json',
 		success: function(response) {
@@ -52,19 +58,19 @@ $("#search-btn").on("click", () => {
 
 			if (paging.startPage > paging.pageBlock) {
 				$(".pagination").append(`
-					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}"><span>&laquo;</span></a></li>
+					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a></li>
             	`);
 			}
 
 			for (let i = paging.startPage; i <= paging.endPage; i++) {
 				$(".pagination").append(`
-					<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}">${i}</a></li>
+					<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}">${i}</a></li>
             	`);
 			}
 
 			if (paging.endPage < paging.totalPage) {
 				$(".pagination").append(`
-					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&keyword=${keyword}&searchFilter=${searchFilter}&start_day=${start_day}&end_day=${end_day}"><span>&raquo;</span></a></li>
+					<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a></li>
            		`);
 			}
 			
@@ -90,7 +96,6 @@ $('.start-end-day').on('change', function () {
 	} else {
 		start_day_pre = start_day_string;
 		end_day_pre = end_day_string;
-		$("#search-btn").click();
 	}
 
 });
