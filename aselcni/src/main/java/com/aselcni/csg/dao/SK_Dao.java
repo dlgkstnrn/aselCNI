@@ -1,5 +1,7 @@
 package com.aselcni.csg.dao;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_PURCHASE;
+import com.aselcni.csg.model.CSG_TB_PURCHASE_ITEM;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
 import com.aselcni.csg.model.CSG_TB_TYPE_SML;
@@ -145,6 +148,73 @@ public class SK_Dao implements SK_Dao_Interface {
 		return custEmployee;
 		
 	}
+
+	
+	//purch_no를 만들자. 
+	@Override
+	public String inserForPurchaseToPurcNo() {
+	    String datePart = new SimpleDateFormat("yyMMdd").format(new Date());
+	    String prefix = "PUR" + datePart;
+	    String maxPurcNo = session.selectOne("SK_purchaseMaxForPurcNo", prefix + "%");
+	    int nextNum = (maxPurcNo == null) ? 1 : Integer.parseInt(maxPurcNo.substring(maxPurcNo.length() - 4)) + 1;
+	    return String.format("%s%04d", prefix, nextNum);
+	}
+	
+	//2번째 ISNERT 트렌지션 ==> PURCHASE테이블에 넣어주자
+	@Override
+	public void insertPurchase(CSG_TB_PURCHASE purchaseAndItem) {
+		System.out.println("inserForPurchaseToPurcNo에서 만들어진 purc_no로 purchase테이블에 먼저 넣어주자 트렌지션관리 2번");
+		
+		int result = 0;
+		try {
+			result = session.insert("SK_insertPurchaseTBl", purchaseAndItem);
+			System.out.println("제발 1로 대답해주겠니 result ==> "+ result);
+		} catch (Exception e) {
+			System.out.println("insert가 잘 된거니?? e => "+e);
+		}
+		
+		
+	}
+	
+	//3번째 ISNERT 트렌지션 ==> PURCHASE_Item테이블에 넣어주자
+	@Override
+	public void insertPurchaseItem(CSG_TB_PURCHASE_ITEM item) {
+	    int exists = session.selectOne("checkPurchaseItemExists", item);
+	    if (exists == 0) {
+	        int result = session.insert("SK_insertPurchaseItemTBl", item);
+	        System.out.println("Insert result for PURCHASE_ITEM: " + result);
+	    } else {
+	        System.out.println("Skipping insert: Item already exists with PURC_NO: " + item.getPurc_no() + " and ITEM_CD: " + item.getItem_cd());
+	    }
+	}
+
+	//update를 위한 select
+	@Override
+	public List<CSG_TB_PURCHASE> findById(String purc_no) {
+		System.out.println("발주삭제를 위해서 id로 발주를 한번 찾아보자고 + id들"+purc_no);
+		List<CSG_TB_PURCHASE> csg_TB_PURCHASE = null;
+		try {
+			csg_TB_PURCHASE = session.selectList("sk_findByupdate", purc_no);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return csg_TB_PURCHASE;
+	}
+
+	//select를 한 결과를 update purc_delete_chk
+	@Override
+	public void updateDeleteFlagById(String purc_no) {
+		System.out.println("update로 deleteFlag를 바꿔주자고");
+		try {
+			session.update("sk_UpdateForDelete", purc_no);
+			System.out.println("삭제가 완료되었습니다.");
+		} catch(Exception e) {
+			System.out.println("업데이트는 된거냐"+e);
+		}		
+	}
+
+
+
 
 
 

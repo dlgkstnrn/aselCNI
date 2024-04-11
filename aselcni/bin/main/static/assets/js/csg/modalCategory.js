@@ -1,6 +1,7 @@
 let remark ="";
 let purc_emp_id ="";
 let cust_cd="";
+let cust_emp="";
 let item_cd ="";
 let qty ="";
 let item_cost ="";
@@ -10,6 +11,7 @@ const csgPurItemList=[]
 const dataInput = {
     remark,
     purc_emp_id,
+    cust_emp,
     csgPurItemList
 };
 
@@ -293,12 +295,13 @@ $(document).ready(function() {
 });
 
 
-//
+//insert를 위해서 발주등로폼에서 데이터 가져오기 맨위에 let으로 선언한 data참고하자
 function sendOrderDetails() {
     // 폼에 입력된 비고 정보 가져오기
     dataInput.cust_cd=$('#supplier').val()
     dataInput.remark=$("#remark").val();
 	dataInput.purc_emp_id=$("#com_manager-name").val();
+	dataInput.cust_emp=$("#op_manager-name").val();
 
 	let jajeTableBody =$("#jajeInputBody").find("tr");
 	console.log("jajeTableBody", jajeTableBody);
@@ -344,6 +347,7 @@ function sendOrderDetails() {
         success: function(response) {
             // 성공 처리 로직
             console.log("컨트롤러로 값이 전송되었습니다");
+            window.location.href = 'purchase';
         },
         error: function(xhr, status, error) {
             // 오류 처리 로직
@@ -360,32 +364,82 @@ function submitFormWithCancel() {
     
 }
 
+//발주리스트에서 삭제처리 하기(select와 update임 사실)
+function deleteSelected() {
+    let selectedIds = []; // 선택된 항목의 ID를 저장할 배열
 
+    // 테이블의 모든 체크박스를 반복하여 선택된 것들의 ID를 수집합니다.
+    let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+            // 체크된 체크박스의 부모 행(tr)을 가져옴
+            let row = checkbox.closest('tr');
+            // 행에서 발주진행상태(purc_status_chk)를 가져옴
+            let purcStatus = row.querySelector('td:nth-child(11)').textContent; // 발주현황 열 위치 변경에 따른 수정
 
-/*
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-저장버튼을 누르면 발주조회 폼에서 초기화가 되는중 이거는 폼 이동한뒤에 select하는 쿼리문을 그대로 불러오면 될 것같음
-1. delete삭제 flag바꿔주기
-2. 현재 검색 필터링 안되는중
-3. insert하는중
-4. 나머지 초기화 버튼 => button type=reset으로 해주자 
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-// 최종 '저장' 버튼 클릭 시 서버에 데이터 전송
-function onFinalSave() {
-    $.ajax({
-        type: 'POST',
-        url: '/saveItems', // 서버의 데이터 저장 엔드포인트
-        contentType: 'application/json',
-        data: JSON.stringify(tempItems),
-        success: function(response) {
-            // 성공 처리 로직
-            updateFormTable(response);
-        },
-        error: function() {
-            // 오류 처리 로직
+            // 발주진행중인 항목만 삭제할 수 있도록 조건을 추가
+            if (purcStatus.trim() === '발주진행중') {
+                // 행에서 발주번호(purc_no)와 거래처 발주담당자(cust_emp)를 가져옴
+                let purc_no = row.querySelector('td:nth-child(3)').textContent;
+                selectedIds.push(purc_no); // 선택된 항목의 ID를 배열에 추가
+            } else {
+                // 발주진행중이 아닌 항목은 삭제할 수 없음을 사용자에게 알림
+                alert("발주진행중인 항목만 삭제할 수 있습니다.");
+                return; // 함수 종료
+            }
         }
     });
+
+    // 선택된 항목이 없는 경우에는 경고 메시지를 표시하고 함수를 종료합니다.
+    if (selectedIds.length === 0) {
+        alert("선택된 항목이 없습니다.");
+        return; // 함수를 종료합니다.
+    }
+
+    // 선택된 항목의 ID를 하나의 문자열로 조합합니다.
+    let idsString = selectedIds.join(","); // 배열을 문자열로 변환
+
+    // 선택된 항목의 ID 문자열을 hidden input에 설정합니다.
+    document.getElementById("selectedIds").value = idsString;
+
+    // 폼을 제출합니다.
+    document.getElementById("deleteForm").submit();
 }
-*/
+
+/*
+//발주리스트에서 삭제처리 하기(select와 update임 사실)
+function deleteSelected() {
+    let selectedIds = []; // 선택된 항목의 ID를 저장할 배열
+    let selectedItems = []; // 선택된 자재 정보를 저장할 배열
+	let selectedQuantities = []; // 선택된 개수 정보를 저장할 배열
+
+    // 테이블의 모든 행을 가져와서 각 행에서 필요한 정보를 비교합니다.
+    let rows = document.querySelectorAll('#searchPurchase tr');
+    rows.forEach(function(row) {
+        // 체크박스를 가져옵니다.
+        let checkbox = row.querySelector('input[type="checkbox"]');
+        if (checkbox.checked) {
+            // 체크된 체크박스의 부모 행(tr)을 가져옵니다.
+            console.log(row);
+            // 행에서 발주번호(purc_no)와 자재명(item_nm)을 가져옵니다.
+            let purc_no = row.querySelector('td:nth-child(3)').textContent;
+            let item_nm = row.querySelector('td:nth-child(5)').textContent;
+			let qty = parseFloat(row.querySelector('td:nth-child(6)').textContent.replace(/[^0-9.-]+/g,""));
+            selectedIds.push({ purc_no: purc_no, item_nm: item_nm }); // 선택된 항목의 ID를 배열에 추가합니다.
+            selectedItems.push(item_nm);
+       		selectedQuantities.push(qty);
+        }
+    });
+
+    // 선택된 항목이 없는 경우에는 경고 메시지를 표시하고 함수를 종료합니다.
+    if (selectedIds.length === 0) {
+        alert("선택된 항목이 없습니다.");
+        return; // 함수를 종료합니다.
+    }
+
+    // 선택된 항목의 ID를 hidden input에 설정합니다.
+    document.getElementById("selectedIds").value = JSON.stringify(selectedIds);
+
+    // 폼을 제출합니다.
+    document.getElementById("deleteForm").submit();
+}*/

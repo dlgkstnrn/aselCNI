@@ -70,7 +70,7 @@ public class SK_Controller {
         
         // 전체 발주 개수 계산
 		int fiterPurchase = sk_ServicInterface.totalPurchase(csg_TB_PURCHASE);
-		System.out.println("씨발 도대체 왜 자꾸 토탈페이지를 쳐 넘겨개새끼야 ==> " + fiterPurchase);
+		System.out.println("도대체 왜 자꾸 토탈페이지를 쳐 넘겨 ==> " + fiterPurchase);
 		
         // 페이징 객체 생성
         csg_Paging paging = new csg_Paging(fiterPurchase, csg_TB_PURCHASE.getCurrentPage());
@@ -193,22 +193,26 @@ public class SK_Controller {
 
 	
 	
-	
-	
 	//모달까지 완료한 뒤 발주등록 화면에서 저장! ==> 저장한뒤에 발주화면으로 이동
 	@PostMapping("/submitOrderDetails")
-	@ResponseBody
 	public String PurchaseSave(@RequestBody CSG_TB_PURCHASE purchaseAndItem, Model model/*, HttpServletRequest request*/) {
 		System.out.println("값 잘 받았냐 purchaseAndItem : purchaseAndItem" + purchaseAndItem);
-		// 예를 들어, 데이터베이스에 저장하는 로직 구현
-	    // ...
 		System.out.println("발주가 등록되었습니다");
-
-	    // 처리 완료 후 리다이렉트할 페이지 지정
-		return "csg/CSG_purchase";
+		
+		sk_ServicInterface.insertBalju(purchaseAndItem);
+		
+		return "csg/CSG_purchase"; //ajax라서 이건 없어도 됨 ..
 	}
 
-	
-	
+	//발주조회 폼에서 선택한 항목 삭제하기
+	@RequestMapping("/deleteSelectedPurchases")
+	public String purchaseDelete(@RequestParam("selectedIds") String selectedIds, Model model, CSG_TB_PURCHASE csg_TB_PURCHASE) {
+	    System.out.println("선택된 ID들: " + selectedIds);
+	    // 선택된 ID를 사용하여 삭제 로직을 수행합니다.
+	    sk_ServicInterface.purchaseDelete(selectedIds);
+
+	    return "redirect:/purchase"; // 발주리스트를 보여주는 뷰로 리턴합니다.
+	}
+
 
 }

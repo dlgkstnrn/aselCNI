@@ -167,6 +167,8 @@ function inputToday(tagId){
 	}
 inputToday($("#start_date"))
 inputToday($("#end_date"))
+
+
 /*
 function changePage(pageNum) {
     document.getElementById('currentPage').value = pageNum; // 현재 페이지 값 변경

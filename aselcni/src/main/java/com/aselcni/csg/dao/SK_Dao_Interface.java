@@ -7,6 +7,7 @@ import com.aselcni.csg.model.CSG_CategoryData;
 import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_PURCHASE;
+import com.aselcni.csg.model.CSG_TB_PURCHASE_ITEM;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
 import com.aselcni.csg.model.CSG_TB_TYPE_SML;
@@ -28,6 +29,18 @@ public interface SK_Dao_Interface {
 	List<CSG_TB_PURCHASE> findAllPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE);
 
 	int totalPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE);
+
+	String inserForPurchaseToPurcNo();
+
+	void insertPurchase(CSG_TB_PURCHASE purchaseAndItem);
+
+	void insertPurchaseItem(CSG_TB_PURCHASE_ITEM purchase_item);
+
+	List<CSG_TB_PURCHASE> findById(String id);
+
+	void updateDeleteFlagById(String id);
+
+
 
 
 

@@ -91,11 +91,18 @@
 			                        <!-- 발주담당자 id로 받아와서 세션으로 값을 넘겨주자 -->
 			                        <input type="hidden" name="purc_emp_id" value="${sessionScope.user_id}">
 
-			                        
-			                        <!-- 발주 담당자 -->
+			                        				                                <th>매입처</th>
+			                        												        <td>${purchase.purc_no}</td>
+			                        <td>${purchase.purc_no}</td><td>${purchase.purc_no}</td><td>${purchase.cust_emp}</td>		                        <!-- 발주 담당자 -->
 			                        <div class="border border-green-500">
 			                            <label for="com_manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">발주 담당자</label>
 										<input id="com_manager-name" type="text" placeholder="발주 담당자 입력" class="form-control" value="${sessionScope.user_nm}" readonly>
+			                        </div>
+			                        
+			                        <!-- 거래처 발주 담당자 이름 -->
+			                        <div class="border border-green-500">
+			                            <label for="op_manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">거래처 발주 담당자</label>
+										<input id="op_manager-name" type="text" placeholder="거래처 발주 담당자 입력" class="form-control" value="">
 			                        </div>
 
 			                        <!-- 비고 -->
@@ -137,11 +144,15 @@
 								</div>
 						    </div>
 						    
-						   <!-- 버튼 그룹 -->
-		                   <div class="d-flex justify-content-center mt-4">
-								<button type="button" onclick="sendOrderDetails()">저장</button>
-		                        <button type="button" class="btn btn-secondary " onclick="submitFormWithCancel()">취소</button>
-		                   </div>
+							<!-- 버튼 그룹 -->
+							<div class="d-flex justify-content-center mt-4">
+							    <button type="button" class="btn btn-primary mr-3" onclick="sendOrderDetails()">저장</button>
+							    <div style="width: 10px;"></div> <!-- 간격 조정 -->
+							    <button type="button" class="btn btn-secondary ml-3" onclick="submitFormWithCancel()">취소</button>
+							</div>
+
+
+
 						    
 				    	</div>
 

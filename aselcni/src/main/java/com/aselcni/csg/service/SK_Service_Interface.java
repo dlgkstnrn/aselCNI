@@ -28,6 +28,11 @@ public interface SK_Service_Interface {
 
 	int totalPurchase(CSG_TB_PURCHASE csg_TB_PURCHASE);
 
+	void insertBalju(CSG_TB_PURCHASE purchaseAndItem);
+
+	void purchaseDelete(String selectedIds);
+
+
 
 
 
