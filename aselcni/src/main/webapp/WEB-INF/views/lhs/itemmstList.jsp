@@ -115,7 +115,7 @@
 	            </div>
 	          </div>
 	          <div class="searchdiv">
-	            <form action="itemmst">
+	            <form action="itemmst" onsubmit="return searchsubmitChk()">
 	              <div class="d-flex justify-content-end">
 	                <select
 	                  class="form-select wid150 h-100 m-r10"
@@ -148,15 +148,16 @@
 	                  <select
 	                    class="form-select searchselect"
 	                    aria-label="Default select example"
-	                    name="searchFilter"
+	                    name="searchFilter" id="searchFilter"
 	                  >
-	                    <option selected="">검색옵션선택</option>
+	                    <option value="">검색옵션선택</option>
 	                    <option value="item_cd">코드</option>
 	                    <option value="item_nm">이름</option>
 	                  </select>
 	                  <input
 	                    type="text"
 	                    name="keyword"
+	                    id="keyword"
 	                    class="form-control searchinput"
 	                  />
 	                  <input
