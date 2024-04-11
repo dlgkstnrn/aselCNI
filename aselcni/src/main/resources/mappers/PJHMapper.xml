@@ -103,6 +103,7 @@
 		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
 		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
+		AND ti.INITEM_DELETE_CHK != 1
 		<if test="initem_no != null and initem_no != ''">
 			AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
 		</if>
@@ -140,6 +141,7 @@
 		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
 		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
+		AND ti.INITEM_DELETE_CHK != 1
 		<if test="initem_no != null and initem_no != ''">
 		AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
 		</if>
@@ -218,4 +220,13 @@
 			INSERT (INITEM_NO,PURC_NO,ITEM_CD,QTY)
 			VALUES (temp.INITEM_NO,temp.PURC_NO,temp.ITEM_CD,temp.QTY);
 	</update>
+	
+	<update id="pjhDeleteInitem" parameterType="PJHInitem">
+		UPDATE TB_INITEM
+		SET INITEM_UPDATE = (SELECT CONVERT(CHAR(10),GETDATE() , 23)),
+			  INITEM_EMP_ID = #{ initem_emp_id},
+			  INITEM_DELETE_CHK = 1
+		WHERE INITEM_NO = #{initem_no}
+	</update>
+	
 </mapper>

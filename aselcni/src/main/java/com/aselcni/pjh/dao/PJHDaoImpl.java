@@ -187,7 +187,7 @@ public class PJHDaoImpl implements PJHDaoInterface {
 			} else {
 				initem.setStatus(1);
 			}
-			System.out.println("PJHDaoImpl registInitem totalItemRemain->"+ totalItemRemain);
+			System.out.println("PJHDaoImpl updateInitem totalItemRemain->"+ totalItemRemain);
 			session.update("pjhChangePurcStatus", initem);
 			
 			transactionManager.commit(txStatus);
@@ -197,6 +197,40 @@ public class PJHDaoImpl implements PJHDaoInterface {
 			result = -1;
 		}
 		System.out.println("PJHDaoImpl updateInitem result->"+ result);
+		return result;
+	}
+
+	@Override
+	public int deleteInitem(PJHInitem initem) {
+		System.out.println("PJHDaoImpl deleteInitem start...");
+		int result = 0;
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		try {
+			result = session.update("pjhDeleteInitem",initem);
+			
+			// 삭제이후 TB_PURCHASE 상태 변경 부분
+			int totalItemRemain = 0;
+			List<PJHPurchaseItem> items = session.selectList("pjhItemsByPurc", initem.getPurc_no());
+			System.out.println("PJHDaoImpl deleteInitem delete totalItems->"+ items);
+			for(PJHPurchaseItem item : items) {
+				totalItemRemain += item.getQty();
+			}
+			if(totalItemRemain == 0) {
+				initem.setStatus(2);
+			} else {
+				initem.setStatus(1);
+			}
+			System.out.println("PJHDaoImpl deleteInitem totalItemRemain->"+ totalItemRemain);
+			session.update("pjhChangePurcStatus", initem);
+			
+			
+			transactionManager.commit(txStatus);
+		} catch (Exception e) {
+			transactionManager.rollback(txStatus);
+			e.printStackTrace();
+			result = -1;
+		}
+		System.out.println("PJHDaoImpl deleteInitem result->"+ result);
 		return result;
 	}
 	

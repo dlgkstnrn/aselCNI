@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -172,10 +173,26 @@ public class PJHController {
 		
 		int result = service.updateInitem(initem);
 		
-		if(result < 0) {
+		if(result <= 0) {
 			return "fail";
 		}
-		
 		return "success";
 	}
+	
+	@ResponseBody
+	@DeleteMapping("deleteInitem")
+	public String deleteInitem(HttpServletRequest request,PJHInitem initem) {
+		System.out.println("PJHController deleteInitem start...");
+		initem.setInitem_emp_id((String)request.getSession().getAttribute("user_id"));
+		System.out.println("PJHController deleteInitem param->"+ initem);
+		
+		int result = service.deleteInitem(initem);
+		
+		if(result <= 0) {
+			return "fail";
+		}
+		return "success";
+	}
+	
 }
+
