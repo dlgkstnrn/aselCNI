@@ -375,7 +375,7 @@ function deleteSelected() {
             // 체크된 체크박스의 부모 행(tr)을 가져옴
             let row = checkbox.closest('tr');
             // 행에서 발주진행상태(purc_status_chk)를 가져옴
-            let purcStatus = row.querySelector('td:nth-child(11)').textContent; // 발주현황 열 위치 변경에 따른 수정
+            let purcStatus = row.querySelector('td:nth-child(10)').textContent; // 발주현황 열 위치 변경에 따른 수정
 
             // 발주진행중인 항목만 삭제할 수 있도록 조건을 추가
             if (purcStatus.trim() === '발주진행중') {
@@ -406,40 +406,3 @@ function deleteSelected() {
     document.getElementById("deleteForm").submit();
 }
 
-/*
-//발주리스트에서 삭제처리 하기(select와 update임 사실)
-function deleteSelected() {
-    let selectedIds = []; // 선택된 항목의 ID를 저장할 배열
-    let selectedItems = []; // 선택된 자재 정보를 저장할 배열
-	let selectedQuantities = []; // 선택된 개수 정보를 저장할 배열
-
-    // 테이블의 모든 행을 가져와서 각 행에서 필요한 정보를 비교합니다.
-    let rows = document.querySelectorAll('#searchPurchase tr');
-    rows.forEach(function(row) {
-        // 체크박스를 가져옵니다.
-        let checkbox = row.querySelector('input[type="checkbox"]');
-        if (checkbox.checked) {
-            // 체크된 체크박스의 부모 행(tr)을 가져옵니다.
-            console.log(row);
-            // 행에서 발주번호(purc_no)와 자재명(item_nm)을 가져옵니다.
-            let purc_no = row.querySelector('td:nth-child(3)').textContent;
-            let item_nm = row.querySelector('td:nth-child(5)').textContent;
-			let qty = parseFloat(row.querySelector('td:nth-child(6)').textContent.replace(/[^0-9.-]+/g,""));
-            selectedIds.push({ purc_no: purc_no, item_nm: item_nm }); // 선택된 항목의 ID를 배열에 추가합니다.
-            selectedItems.push(item_nm);
-       		selectedQuantities.push(qty);
-        }
-    });
-
-    // 선택된 항목이 없는 경우에는 경고 메시지를 표시하고 함수를 종료합니다.
-    if (selectedIds.length === 0) {
-        alert("선택된 항목이 없습니다.");
-        return; // 함수를 종료합니다.
-    }
-
-    // 선택된 항목의 ID를 hidden input에 설정합니다.
-    document.getElementById("selectedIds").value = JSON.stringify(selectedIds);
-
-    // 폼을 제출합니다.
-    document.getElementById("deleteForm").submit();
-}*/

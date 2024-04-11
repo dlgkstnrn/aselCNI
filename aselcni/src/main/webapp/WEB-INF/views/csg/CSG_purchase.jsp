@@ -118,7 +118,6 @@
 				                                <th>번호</th>
 				                                <th>발주번호</th>
 				                                <th>매입처</th>
-				                                <th>거래처 발주담당자</th>
 				                                <th>자재명</th>
 				                                <th>개수</th>
 				                                <th>단가 </th>
@@ -136,7 +135,6 @@
 												        <td>${status.index + 1}</td> <!-- 행 번호를 동적으로 생성 -->
 												        <td>${purchase.purc_no}</td>
 												        <td>${purchase.cust_nm}</td>
-												        <td>${purchase.cust_emp}</td>
 												        <td>${purchase.item_nm}</td>
 														<td><fmt:formatNumber value="${purchase.qty}" pattern="#,##0'개'"/></td>
 			   											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.item_cost}</fmt:formatNumber></td>
