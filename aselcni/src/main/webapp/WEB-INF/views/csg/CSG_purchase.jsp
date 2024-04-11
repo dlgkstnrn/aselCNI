@@ -74,7 +74,7 @@
 							</div>
 	
 				  	      <!-- 검색창과 검색 버튼을 포함하는 row @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-							<div class="col d-flex justify-content-end mb-4">
+							<div id="searchInput" class="col d-flex justify-content-end mb-4">
 								<div class="input-group mb-3 me-3" style="width: auto;">
 							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">매입처</span>
 							        <input id="cust_nm" name="cust_nm" type="text" class="form-control" placeholder="매입처명" aria-label="매입처명">
@@ -104,11 +104,8 @@
 							    
 							    	<button id="searchButton" class="btn btn-primary ms-4" type="button">검색</button>
 							</div>
-						<!-- 검색창과 검색 버튼을 포함하는 row @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 							
-	
-			            <!-- Table -->
-			            
+			        		<!-- Table -->
 				            <div class="card shadow-sm rounded-lg">
 				                <div class="card-body">
 				                    <table class="table table-striped" id="jajeinsertTable">

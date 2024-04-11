@@ -243,7 +243,7 @@ function updateJajeInputBody() {
         
         jajeInputBody.append(`
 		<tr >
-		    <td><input type="checkbox"></td>
+    		<td>${index + 1}</td> <!-- 체크박스 대신 시퀀스 번호를 표시 -->
 		    <td>${item.item_cd}</td>
 		    <td>${item.item_nm}</td>
 		    <td>${item.item_spec}</td>
@@ -405,4 +405,35 @@ function deleteSelected() {
     // 폼을 제출합니다.
     document.getElementById("deleteForm").submit();
 }
+
+
+//발주 등록시 초기화 버튼
+$(document).ready(function() {
+    // 초기화 버튼 클릭 이벤트
+    $("#jajeSelectinitialize").click(function() {
+        // 매입처(발주업체) 선택 초기화 및 선택 가능하게 변경
+        $('#supplier').prop('selectedIndex', 0).prop('disabled', false);
+
+        // 발주 담당자 및 거래처 발주 담당자 이름, 비고 초기화
+        $('#op_manager-name').val(''); // 거래처 발주 담당자 이름 초기화
+        $('#remark').val(''); // 비고 초기화
+
+        // 모달 내의 모든 입력 필드 및 드롭다운 초기화
+        $('#jajeinputModal').find('input[type="text"], select').val('');
+        $('#jajeinputModal').find('select').prop('selectedIndex', 0);
+
+        // 발주 목록에서 모든 항목 초기화
+        $('#jajeInputBody').empty(); // 발주 목록 테이블 내용 제거
+
+        // 총합계 금액 업데이트 (0원으로 초기화)
+        $('#totalPrice').text('0원');
+    });
+
+    // 발주업체 선택 후 해당 드롭다운 비활성화
+    $('#supplier').change(function() {
+        if ($(this).val() !== '') {
+            $(this).prop('disabled', true);  // 선택 후 드롭다운 비활성화
+        }
+    });
+});
 
