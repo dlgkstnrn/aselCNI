@@ -170,6 +170,12 @@ public class PJHController {
 		initem.setInitem_emp_id((String)request.getSession().getAttribute("user_id"));
 		System.out.println("PJHController updateInitem param->"+ initem);
 		
-		return "fail";
+		int result = service.updateInitem(initem);
+		
+		if(result < 0) {
+			return "fail";
+		}
+		
+		return "success";
 	}
 }

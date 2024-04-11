@@ -287,6 +287,7 @@ const detailUpdate = function (insertFlag = false) {
 const updateInitem = function () {
     const data = {};
     data.initem_no = $('#modal_initem_no').val();
+    data.purc_no = $('#modal_purc_no').val();
     data.initem_dt = $('#modal_initem_dt').val();
     data.cust_emp = $('#modal_cust_emp').val();
     data.wh_cd = $('#modal_wh_cd').val();

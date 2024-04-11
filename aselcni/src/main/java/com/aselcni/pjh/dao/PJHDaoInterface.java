@@ -23,4 +23,6 @@ public interface PJHDaoInterface {
 
 	PJHInitem detailInitem(PJHInitem initem);
 
+	int updateInitem(PJHInitem initem);
+
 }

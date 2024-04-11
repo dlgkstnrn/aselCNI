@@ -23,4 +23,6 @@ public interface PJHServiceInterface {
 
 	PJHInitem detailInitem(PJHInitem initem);
 
+	int updateInitem(PJHInitem initem);
+
 }
