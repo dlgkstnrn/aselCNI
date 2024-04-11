@@ -23,4 +23,6 @@ public interface OrderDao {
 
 	List<UserMst> getUserLi(int user_comm_code);
 
+	ItemMst getItemInfo(String item_cd);
+
 }

@@ -48,5 +48,9 @@
 		SELECT *  from TB_USERMST tu WHERE USER_COMM_CODE = #{user_comm_code};
 	</select>	
 	
+	<select id="getItemInfo" parameterType="String" resultType = "ItemMst">
+		SELECT * from TB_ITEMMST ti where ti.ITEM_CD = #{item_cd} 
+	</select>
+	
 	
 </mapper>

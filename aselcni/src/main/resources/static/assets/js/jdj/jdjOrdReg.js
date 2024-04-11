@@ -1,4 +1,29 @@
+var order_items = new Map(); // 전역 변수로 선언
+
+function increaseCnt(order_item_cd){
+	// 인자로 들어온 코드의 value를 찾음
+	let find_item = order_items.get(order_item_cd);
+	
+	// 수량을 증가
+	find_item.order_qty++;
+	
+	// 텍스트값 변경
+	$(`#${order_item_cd}`).text(find_item.order_qty);
+};
+function decreaseCnt(order_item_cd){
+	
+	let find_item = order_items.get(order_item_cd);
+	if(find_item.order_qty == 1){
+		alert("최소 주문 수량은 1개입니다");	
+	}else{
+		find_item.order_qty--;
+		$(`#${order_item_cd}`).text(find_item.order_qty);
+	}
+};
+
 $(document).ready(function(){
+	// var itemMsts = ${itemMsts}
+	
 	console.log("hhh")
 	var order_dt;
 	var order_end_dt;
@@ -7,28 +32,105 @@ $(document).ready(function(){
 	
 	var order_item_cd;
 	var item_nm;
+	var item_unit;
 	var item_cost;
 	var order_qty;
-	var oreder_item_cost;
+	var order_item_cost;
 	
-	let order_items = new Map();
+	// const order_items = new Map();
 	var index = 1;
+
+	// 선택한 착수일보다 무조건 이후만 선택가능
+	$("#order_dt").change(function(){
+		order_dt = $("#order_dt").val();			// 착수일
+		$("#order_end_dt").attr('min', order_dt);
+	})
+	
+	
+	// 주문 등록, 저장 버튼
+	$("#ord_saveBtn").click(function(){
+		console.log("--- saving ---");
+		
+		let checkLi = ["order_dt", "order_end_dt", "order_emp_id", "cust_emp"];
+		
+	    let ordItemsSize = order_items.size;
+		
+//		null이면 true, 아니면 false	    
+//	    console.log(isNull('order_dt') + " null check");
+		
+		// 필수 요소의 null 여부 확인
+		let check_Notnull = checkLi.every(check => isNotNull(check));
+	   	
+   		console.log(check_Notnull + " -- check_Notnull");
+	    console.log(" ordItemsSize => " + ordItemsSize);
+	   	
+	   	if(check_Notnull && ordItemsSize > 0){
+			order_end_dt = $("#order_end_dt").val();	// 납기일
+			order_remark = $("#order_remark").val();	// 비고
+			order_emp_id = $("#order_emp_id").val();	// 당사 담당자 
+			cust_emp = $("#cust_emp").val();			// 거래처 담당자
+	
+			let selectedOption = $("#cust_cd").children("option:selected");
+		    cust_cd = selectedOption.val();				// 거래처 코드			
+
+			for (let [key, value] of order_items) {
+			  console.log(`Key: ${key}`);
+			  for (let prop in value) {
+			    console.log(`  ${prop}: ${value[prop]}`);
+			  }
+			}
+			// post요청
+			
+			
+			alert("주문이 완료되었습니다")
+		}else{
+			if(!check_Notnull) return alert("필수 입력란을 확인해주세요!");
+			else return alert("주문 품목을 확인해주세요"); 
+		}
+
+		
+	});
 	
 	// option 선택했을때 텍스트박스에 해당 물품의 가격 및 제품코드, 단위를 나타나게함
 	$("#item_nm").change(function(){
-	    var selectedOption = $(this).children("option:selected");
+	    let selectedOption = $(this).children("option:selected");
 	    item_nm = selectedOption.text()
+	    
 	   	// console.log(selectedOption.text() + " -  selectOption")
 	    order_item_cd = selectedOption.val();
 	    if(order_item_cd == "제품명 선택"){
 	        $("#selItem_cd").val("");
 			console.log("기본")
+			order_item_cd = ''; 
+			return;
 		} 
 	    
 	    if (selectedOption.attr('id') == 'order_item_cd') {
 			// 선택한 상품의 제품 코드
 	        $("#selItem_cd").val(order_item_cd);
 	        
+	       $.ajax({
+			url : "/orderReg",
+			data :{
+				order_item_cd : order_item_cd
+			},
+			method:"POST",
+			success: function(response){
+				console.log("ajax success")
+				item_unit = (response.item_unit);
+				item_cost = (response.item_cost);
+			   $("#item_unit").val(item_unit);
+			   $("#item_cost").val(item_cost);
+				
+				
+				console.log(item_unit + ' : item_unit');
+				console.log(item_cost + ' : item_cost');
+			},
+		   error: function(xhr, status, error){
+			console.error("Ajax request failed:", status, error);
+		   }
+		   
+		   })
 	        // ajax 호출
 	        //  해당 상품의 단위
 	        //  해당 상품의 가격(단가)
@@ -39,61 +141,86 @@ $(document).ready(function(){
 	$("#order_qty").change(function(){
 		item_cost = $("#item_cost").val();
 		order_qty = $("#order_qty").val();
-		oreder_item_cost = item_cost * order_qty;
-		$("#oreder_item_cost").val(oreder_item_cost);
+		if(order_qty <= 0 ){
+			$("#order_qty").val(1);
+			alert("최소 주문 수량은 1개입니다.");
+			
+		}else{
+			order_item_cost = item_cost * order_qty;
+		}
+		$("#order_item_cost").val(order_item_cost);
+		
 	})
 	
+	// 모달을 닫을 때 - value 초기화
+	$("#closeBtn").click(resetVal);
+	
 	// 물품추가 모달의 저장을 눌렀을때
-	$("#order_item_save").click(function(){
-		
+	$("#ord_item_saveBtn").click(function(){
+		console.log("--- modal ---")
 		// 전부 null이 아니라면 저장하는 코드 실행
 		// null 확인 조건문 자리
-		// ''' 코드 자리 '''
 		
-		// item 객체로 만든 후 Map에 저장 (key값은 제품 코드)
-		let item = {
-			item_nm : item_nm,
-			order_qty : order_qty,			
-			oreder_item_cost : oreder_item_cost, 
-		}
 		
-		// 이미 존재하는지 확인
-		// 존재한다면 수량 증가, 없으면 추가
-		if(order_items.has(order_item_cd)){
-			alert("이미 존재하는 상품입니다.");
-		}else{
-			order_items.set(order_item_cd, item);
-			index++;
-			$("#itemTB").append(
-			`<tr>
-				<td><input class="form-check-input" type="checkbox" value="${index}" id="items_index" required=""></td>
-					<td>${order_item_cd}</td>
-					<td>${item_nm}</td>
-					<td>박스</td>
-					<td><div class="btn-group border-1" role="group">
-							<button type="button" class="btn btn-light"><i class="bi bi-dash"></i></button>
-							<button type="button" class="btn btn-light" disabled>${order_qty}</button>
-			                <button type="button" class="btn btn-light"><i class="bi bi-plus"></i></button>
- 						</div></td>
-					<td>${oreder_item_cost}</td>
-			</tr>`)
+		console.log("item_unit -> " + item_unit);
+		console.log("order_item_cost -> " + order_item_cost);
+		console.log("order_qty -> " + order_qty);
+		console.log("item_cost -> " + item_cost);
+		console.log("order_item_cost -> " + order_item_cost);
+		
+		console.log("--- befoer null check ---")
+		let checkLi =  ["selItem_cd", "item_nm","item_unit", "order_item_cost","order_qty", "item_cost", "order_item_cost"]
+		let check_Notnull = checkLi.every(check => isNotNull(check));
+		console.log("modal is not null? -> " + check_Notnull);
+		
+		
+		if(check_Notnull){
+			// item 객체로 만든 후 Map에 저장 (key값은 제품 코드)
+			let item = {
+				item_nm : item_nm,
+				item_unit : item_unit,
+				order_qty : order_qty,
+				item_cost : 1000,			
+				order_item_cost : order_item_cost, 
+			}
 			
-			// select 초기화 시키는 법??
-			
-			$("#item_unit").val("");			
-			$("#order_qty").val("");
-			// $("#item_cost").val("");
-			$("#oreder_item_cost").val("");
-			
-			alert("추가 되었습니다.")
-			// 모달 닫기
-			$('#disablebackdrop').modal('hide');
-		}
-//		let check = isNull("order_qty")
-		
-		
-		
-		
+				// 이미 존재하는지 확인
+			if(order_items.has(order_item_cd)){
+				alert("이미 존재하는 상품입니다.");
+			}else{
+				// 없으면 추가
+				order_items.set(order_item_cd, item);
+				index++;
+				$("#itemTB").append(
+				`<tr class="${order_item_cd}">
+					<td><input class="form-check-input" type="checkbox" value="${index}" id="items_index" required=""></td>
+						<td>${order_item_cd}</td>
+						<td>${item_nm}</td>
+						<td>${item_unit}</td>
+						<td><div class="btn-group border-1" role="group">
+								<button type="button" class="btn btn-light" onclick="decreaseCnt('${order_item_cd}')"><i class="bi bi-dash"></i></button>
+								<button type="button" class="btn btn-light" id="${order_item_cd}" disabled>${order_qty}</button>
+				                <button type="button" class="btn btn-light" onclick="increaseCnt('${order_item_cd}')"><i class="bi bi-plus"></i></button>
+	 						</div></td>
+						<td>${item_cost}</td>
+						<td>${order_item_cost}</td>
+				</tr>`)
+				
+				// 모달이 닫힐 때 선택된 옵션 초기화
+				// select 초기화 시키는 법??
+				resetVal();
+				
+				alert("추가 되었습니다.")
+				
+				// 모달 닫기
+				$('#disablebackdrop').modal('hide');
+				
+	
+			}
+			}else{
+				alert("품목을 선택해주세요!")
+			}
+
 		// 출력 확인용		
 		for (let [key, value] of order_items) {
 		  console.log(`Key: ${key}`);
@@ -102,9 +229,38 @@ $(document).ready(function(){
 		  }
 		}
 	});
-	function isNull(key){
-		return $(`#${key}`).val() === null || $(`#${key}`).val() === "";
+
+
+	// null여부 확인
+	function isNotNull(key){
+		return $(`#${key}`).val() != null && $(`#${key}`).val() !== "";
+	}
+		
+	// 모달이 닫힐 때 선택된 옵션 초기화
+	function resetVal(){
+		console.log("resetVAl__!!")
+		$('#item_nm').val('제품명 선택');
+		$("#item_unit").val("");			
+		$("#order_qty").val("");
+		$('#selItem_cd').val('');
+		$("#item_cost").val("");
+		$("#order_item_cost").val("");
 	}
 	
-	
+	// 물품 삭제 버튼
+	$("#deleteBtn").click(function(){
+	    // 체크된 체크박스를 찾고
+	    $("input[type=checkbox]:checked").each(function(){
+	        // 부모 행을 찾아 삭제
+	        let selectedItem =  $(this).closest("tr");
+	        let sel_item_cd = selectedItem.attr("class"); 
+	        
+		    // map에서도 삭제
+	        order_items.delete(sel_item_cd);
+	        selectedItem.remove();
+	        console.log(sel_item_cd + " --- delete");
+	    });
+	    
+	});
+
 })

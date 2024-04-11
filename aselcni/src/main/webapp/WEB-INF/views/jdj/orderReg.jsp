@@ -57,8 +57,15 @@
 			font-family: 'NEXON Lv2 Gothic';
 		}
 	</style>
+		
 </head>
 <body>
+	<%-- <c:set var="itemMsts" value='<c:out value="${itemMsts}" />'/>
+	<script>
+		for(itemMst in itemMsts){
+			console.log(itemMst);
+		} --%>
+	<!-- </script> -->
 	<!-- ======= Header ======= -->
     <%@ include file="../header.jsp" %>
     <!-- ======= Sidebar ======= -->
@@ -79,51 +86,53 @@
         	<div class="card">
         		<div class="card-body"><form action="/saveOrd" method="post"><p>
 					<div class="row mb-3">
-						<label class="col-sm-1 col-form-label">매입처</label>
+						<label for="cust_cd" class="col-sm-1 col-form-label">매입처</label>
 						<div class="col-sm-3">
-							<select id="cust_cd" class="form-select" aria-label="Default select example" placeholder="거래처목록">
+							<select id="cust_cd" class="form-select" aria-label="주문을 의뢰한 거래처">
 								<c:forEach var = "custMst" items = "${custMsts}">
 									<option value="${custMst.cust_cd}">${custMst.cust_nm}</option>
 								</c:forEach>
 
 							</select>
 						</div>
-						<label for="inputText" class="col-sm-2 col-form-label text-end">거래처 담당자명</label>
+						<label for="cust_emp" class="col-sm-2 col-form-label text-end">거래처 담당자명</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="cust_emp">
 						</div>
-						<label for="inputText" class="col-sm-2 col-form-label text-end">담당자명</label>
+						<label for="order_emp_id" class="col-sm-2 col-form-label text-end">담당자명</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" id="order_emp_id" value="정다진">
+							<!-- <input type="text" class="form-control" id="order_emp_id" value="jdj" text="정다진"> -->
+							<select id="order_emp_id" class="form-control" disabled="disabled"><option value="jdj">정다진</option></select>
+					
 						</div>
 					</div>
 					
 					<div class="row mb-3">
-						<label for="inputDate" class="col-sm-1 col-form-label ">착수일</label>
+						<label for="order_dt" class="col-sm-1 col-form-label ">착수일</label>
 						<div class="col-sm-4">
 							<input type="date" class="form-control" id="order_dt">
 						</div>
-						<label for="inputDate" class="col-sm-1 col-form-label">납기일</label>
+						<label for="order_end_dt" class="col-sm-1 col-form-label">납기일</label>
 						<div class="col-sm-4">
 							<input type="date" class="form-control" id="order_end_dt">
 						</div>
 					</div>
 					<div class="row mb-3">
-						<label for="inputPassword" class="col-sm-1 col-form-label">비고</label>
+						<label for="order_remark" class="col-sm-1 col-form-label">비고</label>
 						<div class="col-sm-10">
-							<textarea class="form-control" style="height: 100px"></textarea>
+							<textarea class="form-control" style="height: 100px" id="order_remark"></textarea>
 						</div>
 					</div><p>
 					<div class="d-flex gap-2 justify-content-center py-2">
-						<button class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button" id="ord_save">저장</button>
-						<button class="btn btn-outline-secondary btn px-4 rounded-pill" type="button">취소</button>
+						<button class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button" id="ord_saveBtn">저장</button>
+						<button class="btn btn-outline-secondary btn px-4 rounded-pill" type="button" id="cancelBtn">취소</button>
 					</div>
 					<hr>
 					
 					<!-- 물품 추가해서 생기는 목록 -->
 					
 					<div class="card-body">
-						<label for="inputNanme4" class="form-label">주문 품목 </label>						
+						<label for="itemTB" class="form-label">주문 품목 </label>						
 						<table class="table table-hover text-center">
 							<thead><tr>
 								<th scope="col"></th>
@@ -132,13 +141,14 @@
 								<th scope="col">단위</th>
 								<th scope="col">수량</th>
 								<th scope="col">단가</th>
+								<th scope="col">합계</th>
 							</tr></thead>
 							<tbody  id="itemTB">
 								<!-- 모달에서 저장된 내용이 출력됨 -->
 							</tbody>
 						</table>
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-							<button class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
+							<button id="deleteBtn" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
 							<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
 								<i class="bi bi-bag-plus-fill"></i> 추가
               				</button>
@@ -151,18 +161,18 @@
 		                  		<div class="modal-content">
 		                    		<div class="modal-header">
 										<h5 class="modal-title"> 주문 상품 등록</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										<button id="closeBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		                    		</div>
 		                    		<div class="modal-body">
 		                    		
 		                    		<div class="row g-3">
 						                
 						                <div class="col-md-5">
-						                  <label for="inputZip" class="form-label">제품코드</label>
+						                  <label for="selItem_cd" class="form-label">제품코드</label>
 						                  <input type="text" class="form-control" id="selItem_cd" disabled value="${itemMst.item_cd}">
 						                </div>
 						                <div class="col-md-7">
-						                  <label for="inputState" class="form-label">제품명</label>
+						                  <label for="item_nm" class="form-label">제품명</label>
 						                  <select id="item_nm" class="form-select">
 						                  	<option selected value = "">제품명 선택</option>
 						                  	<c:forEach var = "itemMst" items="${itemMsts}" varStatus="status">
@@ -171,7 +181,7 @@
 						                  </select>
 						                </div>
 						                <div class="col-md-3">
-						                  <label for="inputCity" class="form-label">단위</label>
+						                  <label for="item_unit" class="form-label">단위</label>
 						                  <input type="text" disabled class="form-control" id="item_unit">
 						                </div>
 						                <div class="col-md-3">
@@ -179,12 +189,12 @@
 						                  <input type="number" class="form-control" id="order_qty">
 						                </div>
 						                <div class="col-md-3">
-						                  <label for="inputCity" class="form-label">단가</label>
-						                  <input type="number" disabled class="form-control" id="item_cost" value="1000">
+						                  <label for="item_cost" class="form-label">단가</label>
+						                  <input type="number" disabled class="form-control" id="item_cost">
 						                </div>
 						                <div class="col-md-3">
-						                  <label for="inputCity" class="form-label">합계</label>
-						                  <input type="number"class="form-control" disabled="disabled" id="oreder_item_cost">
+						                  <label for="order_item_cost" class="form-label">합계</label>
+						                  <input type="number"class="form-control" disabled="disabled" id="order_item_cost">
 						                </div>
 						                
 
@@ -192,7 +202,7 @@
               
 	                    			</div>
 		                    		<div class="modal-footer">
-		                      			<button id="order_item_save" type="button" class="btn btn-primary"> 저장 </button>
+		                      			<button id="ord_item_saveBtn" type="button" class="btn btn-primary"> 저장 </button>
 		                    		</div>
 		                  		</div>  <!-- modal-content -->
 	                		</div>  <!-- modal-dialog -->

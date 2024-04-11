@@ -25,5 +25,7 @@ public interface OrderService {
 
 	List<UserMst> getUserLi(int i);
 
+	ItemMst getItemInfo(String item_cd);
+
 //	거래처 리스트 가져오기
 }

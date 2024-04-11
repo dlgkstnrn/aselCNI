@@ -143,6 +143,20 @@ public class OrderServiceImpl implements OrderService {
 		return userMsts;
 	}
 
+	@Override
+	public ItemMst getItemInfo(String item_cd) {
+		System.out.println("[OS_getItemInfo Start...");
+		ItemMst itemMst = null;
+		try {
+			itemMst = od.getItemInfo(item_cd);
+			System.out.println("OS_getItemInfo -> " + itemMst);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return itemMst;
+	}
+
 
 }
                                      

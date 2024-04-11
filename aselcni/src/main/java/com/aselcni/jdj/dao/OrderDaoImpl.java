@@ -118,4 +118,18 @@ public class OrderDaoImpl implements OrderDao {
 		return userMsts;
 	}
 
+	@Override
+	public ItemMst getItemInfo(String item_cd) {
+		System.out.println("[OS_getItemInfo Start...");
+		ItemMst itemMst = null;
+		try {
+			itemMst = session.selectOne("getItemInfo", item_cd);
+			System.out.println("OD_getItemInfo -> " + itemMst);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return itemMst;
+	}
+
 }

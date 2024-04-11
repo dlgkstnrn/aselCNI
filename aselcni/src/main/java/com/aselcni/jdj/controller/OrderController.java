@@ -2,13 +2,16 @@ package com.aselcni.jdj.controller;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 
+import java.io.Console;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.condition.ConditionMessage.ItemsBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -79,6 +82,25 @@ public class OrderController {
 		
 		
 		return "jdj/orderReg";
+	}
+	@PostMapping("/orderReg")
+	@ResponseBody
+	public ItemMst itemAdd(@RequestParam("order_item_cd") String order_item_cd) {
+		System.out.println("ItemMst === controller");
+		ItemMst itemMst = null;
+//		List<ItemMst> itemMsts = null;
+		
+		try {
+//			custMsts = os.getCustLi();
+//			itemMsts = os.getItemLi();
+			itemMst = os.getItemInfo(order_item_cd);
+//			System.out.println("controller -> " + custMsts);
+			
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}		
+		
+		return itemMst;
 	}
 		
 	@GetMapping("/orderSpec")
