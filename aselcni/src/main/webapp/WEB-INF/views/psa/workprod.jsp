@@ -214,7 +214,7 @@ pageEncoding="UTF-8"%>
                   <!-- 제품 -->
                   <div class="row mb-3">
                     <!-- 제품코드 -->
-                    <input type="hidden" name="item_cd">
+                    <input type="hidden" id="prp_item_cd" name="item_cd">
                     <label for="item_nm" class="col-sm-3 col-form-label">제품명</label>
                     <div class="d-flex justify-content-between col-sm-9">
                       <!-- 제품명 -->
@@ -235,13 +235,21 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">공정</label>
                     <div class="col-sm-9">
+
+                      <!-- select box -->
                       <!-- select tag form = 셀렉트박스가 포함될 form tag id -->
-                      <select id="selectProc" name="proc_nm" form="prodplan" class="form-select" aria-label="Default select example">
+                      <!-- <select id="selectProc" name="proc_nm" form="prodplan" class="form-select" aria-label="Default select example">
                         <option selected>적용할 공정을 선택하세요.</option>
                         <c:forEach var="procList" items="${procList }">
                           <option value="${procList.proc_cd}">${procList.proc_nm}</option>
                         </c:forEach>
-                      </select>
+                      </select> -->
+
+                      <!-- check box -->
+                      <c:forEach var="procList" items="${procList }">
+                        <!-- name = key, value = value -->
+                        <input type="checkbox" name="procList" id="" value="${procList.proc_cd}">${procList.proc_nm}
+                      </c:forEach>
                     </div>
                   </div>
                   

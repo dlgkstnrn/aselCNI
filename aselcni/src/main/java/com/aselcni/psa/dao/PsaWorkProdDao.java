@@ -39,4 +39,9 @@ public interface PsaWorkProdDao {
 
 	String getPK();
 
+	int workProdInsert(WorkProd workProd);
+
+	int workprocInsert(WorkProc workproc);
+
+
 }

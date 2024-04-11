@@ -83,13 +83,14 @@ $('#prodplanTB tbody tr').click(function() {
 	let prp_user_nm = document.getElementById('prp_user_nm');
 	let prodplan_no = document.getElementById('prodplan_no');
 	let prp_prodplan_dt = document.getElementById('prp_prodplan_dt');
+	let prp_item_cd = document.getElementById('prp_item_cd');
 	let prp_item_nm = document.getElementById('prp_item_nm');
 	let prp_qty = document.getElementById('prp_qty');
 	let prp_work_dt = document.getElementById('prp_work_dt');
 	let prp_remark = document.getElementById('prp_remark');
 
 	// 공정 select box
-	let proc_nm = document.getElementById('proc_nm');
+	// let proc_nm = document.getElementById('proc_nm');
 
 	// 투입품
 	let in_item_nm = document.getElementById('in_item_nm');
@@ -116,6 +117,7 @@ $('#prodplanTB tbody tr').click(function() {
 		prp_user_nm.value = result.user_nm;
 		prodplan_no.value = result.prodplan_no;
 		prp_prodplan_dt.value = result.prodplan_dt;
+		prp_item_cd.value = result.item_cd;
 		prp_item_nm.value = result.item_nm;
 		prp_qty.value = result.qty;
 		prp_work_dt.value = result.work_dt;
@@ -135,6 +137,7 @@ $('#prodplanTB tbody tr').click(function() {
 
 		// 1. 테이블로 추가
 		$('#prp_item_tr').empty();
+		$('#prp_item_tbody').empty();
 
 		result.forEach(element => {
 			$('#prp_item_tbody').append(
@@ -386,15 +389,16 @@ $('form').on('submit', function(e){
 	// form 전송 막기
 	e.preventDefault(); 
 
-	// 일단 투입품 제외하고 - 나중에
+	// 일단 투입품, 공정 제외
 	// 생산지시번호도 제외하고 - 컨트롤러 처리
 	// 담당자 아이디도 제외하고 - 컨트롤러 처리
 	let data = {
 		prodplan_no : $('#prodplan_no').val(),
 		workprod_dt : $('#prp_prodplan_dt').val(),
+		item_cd : $('#prp_item_cd').val(),
 		item_nm : $('#prp_item_nm').val(),
 		qty : $('#prp_qty').val(),
-		proc_cd : $("#selectProc option:selected").val(),
+		// proc_cd : $("#selectProc option:selected").val(),
 		work_dt : $('#prp_work_dt').val(),
 		work_cmd : $('#work_cmd').val(),
 		remark : $('#prp_remark').val()
@@ -403,31 +407,132 @@ $('form').on('submit', function(e){
 	console.log('컨트롤러에 보내줄거: ' + data);	// object
 	console.log('컨트롤러에 prodplan_no: ' + data.prodplan_no);
 	console.log('컨트롤러에 workprod_dt: ' + data.workprod_dt);
+	console.log('컨트롤러에 item_cd: ' + data.item_cd);
 	console.log('컨트롤러에 item_nm: ' + data.item_nm);
 	console.log('컨트롤러에 qty: ' + data.qty);
-	console.log('컨트롤러에 proc_cd: ' + data.proc_cd);
+	// console.log('컨트롤러에 proc_cd: ' + data.proc_cd);
 	console.log('컨트롤러에 work_dt: ' + data.work_dt);
 	console.log('컨트롤러에 work_cmd: ' + data.work_cmd);
 	console.log('컨트롤러에 remark: ' + data.remark);
 
-	// ajax로 컨트롤러에 form 전송
-	$.ajax({
-		
-		url: 'workprodInsert',
-		type: 'post',
-		data: JSON.stringify(data),
-		contentType: 'application/json; charset=utf-8',
-
-		success: function(result) {
-			console.log(result);
 
 
+	// 공정 check box 값들 담을 배열
+	var procArr = [];
 
-
-			// 생산지시 등록 모달 닫기
-			$('#prodplan').modal('hide');
-		}
+	// 체크된 공정리스트 배열에 저장
+	$("input[name=procList]:checked").each(function() {
+		var chkProcList = $(this).val();
+		procArr.push(chkProcList);
 	});
+
+	console.log('배열에 담긴 공정리스트'+procArr);
+
+
+
+	// ajax로 컨트롤러에 form 전송
+	// ajax Promise 1-2-3
+	new Promise((succ, fail) => {
+
+		// ajax 1. 공정, 투입품 제외한 것
+		$.ajax({
+
+			url: 'workprodInsert',
+			type: 'post',
+			data: JSON.stringify(data),
+			contentType: 'application/json; charset=utf-8',
+
+			success: function(result) {
+				console.log(result);
+				succ(result);
+			},
+			fail: function(result) {
+				fail(error);
+			}
+		});
+
+	}).then((arg) => {
+
+		// ajax 2. 공정 배열 전송
+		$.ajax({
+
+			url: 'workprocInsert',
+		  	type: 'post',
+		  	data: {"procArr" : procArr},
+		  	dataType: 'json',
+
+			// ajax로 배열 전송 시 필요한 설정
+		  	traditional: true,
+
+		  	success: function(result2) {
+				console.log(result2);
+				succ(result2);
+			},
+			fail: function(result2) {
+				fail(error);
+			}
+		});
+
+	}).then((arg) => {
+
+		// ajax 3. 투입품
+		$.ajax({
+
+			url: 'workItemInsert',
+			type: 'post',
+			data: ,
+
+			success: function(result3) {
+				console.log(result3);
+				succ(result3);
+
+				// 생산지시 등록 모달 닫기
+				$('#prodplan').modal('hide');
+			},
+			fail: function(result3) {
+				fail(error);
+			}
+		});
+
+	});
+
+	// // ajax로 컨트롤러에 form 전송
+	// // ajax 1. 공정, 투입품 제외한 것
+	// $.ajax({
+		
+	// 	url: 'workprodInsert',
+	// 	type: 'post',
+	// 	data: JSON.stringify(data),
+	// 	contentType: 'application/json; charset=utf-8',
+
+	// 	success: function(result) {
+	// 		console.log(result);
+
+
+
+
+	// 		// 생산지시 등록 모달 닫기
+	// 		$('#prodplan').modal('hide');
+	// 	}
+	// });
+
+	
+	
+	// // ajax 2. 공정 배열 전송
+	// $.ajax({
+
+	// 	url : 'workprocInsert',
+	//   	type : 'post',
+	//   	data : {"procArr" : procArr},
+	//   	dataType : 'json',
+
+	// 	// ajax로 배열 전송 시 필요한 설정
+	//   	traditional: true,
+
+	//   	success : function(data){
+	// 		console.log(data);
+	// 	}
+	// });
 
 });
 

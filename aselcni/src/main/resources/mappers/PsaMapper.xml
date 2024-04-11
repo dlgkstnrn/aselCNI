@@ -162,5 +162,30 @@
 									FROM TB_WORKPROD tw 
 									WHERE tw.WORKPROD_NO LIKE 'WPR'+ CONVERT(CHAR(6), GETDATE(), 12) +'%'))
 	</select>
+	
+	<insert id="psaInsertWorkProd" parameterType="PsaWorkProd">
+		INSERT INTO TB_WORKPROD (WORKPROD_NO, WORKPROD_DT, SEQ_NO, ITEM_CD, QTY, WORK_DT, PRODPLAN_NO, WORK_CMD, REMARK, WORKPROD_EMP_ID, WORKPROD_UPDATE, WORKPROD_DELETE_CHK)
+		VALUES (
+						#{workprod_no}, 
+						#{workprod_dt}, 
+						(SELECT COUNT(tw.SEQ_NO)+1
+							FROM TB_WORKPROD tw 
+							WHERE tw.PRODPLAN_NO = #{prodplan_no}),
+						#{item_cd},
+						#{qty},
+						#{work_dt},
+						#{prodplan_no},
+						#{work_cmd},
+						#{remark},
+						#{workprod_emp_id},
+						#{workprod_update},
+						#{workprod_delete_chk}
+					)
+	</insert>
+	
+	<insert id="psaInsertWorkProc" parameterType="PsaWorkProc">
+		INSERT INTO TB_WORK_PROC (WORKPROD_NO, PROC_CD)
+		VALUES (#{workprod_no}, #{proc_cd})
+	</insert>
 
 </mapper>

@@ -173,4 +173,25 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		return workprodNo;
 	}
 
+	// ajax 1 -  생산지시 등록 (Modal version)
+	// 공정, 투입품 제외
+	// insert into TB_WORKPROD
+	@Override
+	public int workProdInsert(WorkProd workProd) {
+		
+		int result = psaDao.workProdInsert(workProd);
+		return result;
+	}
+
+	// ajax 2 -  생산지시 등록 (Modal version)
+	// 공정 - proc_cd []
+	// insert into TB_WORK_PROC
+	@Override
+	public int workprocInsert(WorkProc workproc) {
+
+		int result = psaDao.workprocInsert(workproc);
+		return result;
+	}
+
+
 }

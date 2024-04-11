@@ -39,4 +39,8 @@ public interface PsaWorkProdService {
 
 	String getPK();
 
+	int workProdInsert(WorkProd workProd);
+
+	int workprocInsert(WorkProc workproc);
+
 }

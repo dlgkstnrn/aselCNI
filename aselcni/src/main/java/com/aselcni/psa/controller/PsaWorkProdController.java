@@ -2,7 +2,9 @@ package com.aselcni.psa.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -242,14 +244,16 @@ public class PsaWorkProdController {
 	
 	
 	
-	// ajax
-	// 생산지시 등록 (Modal version)
+	// ajax 1 -  생산지시 등록 (Modal version)
+	// 공정, 투입품 제외
+	// insert into TB_WORKPROD
 	// <form>
 	@ResponseBody
 	@RequestMapping(value = "workprodInsert")
 	public String workprodInsert(@RequestBody WorkProd workProd, HttpServletRequest request) {
 		
 		System.out.println("param????"+workProd);
+		int result = 0;
 		
 		// 1. workprod_emp_id setting
 		String user_id = (String) request.getSession().getAttribute("user_id");
@@ -263,25 +267,95 @@ public class PsaWorkProdController {
 		
 		workProd.setWorkprod_no(workprodNo);
 		
-		System.out.println("여기까지 세팅된 workProd: " + workProd);
-		
-		
 		// 3. if (seq_no=null) set 1
+		// 쿼리에서 해결?
 		
 		// 4. if (workprod_delete_chk=null) set 0
+		workProd.setWorkprod_delete_chk(0);
 		
-		
-		
+		System.out.println("여기까지 세팅된 workProd: " + workProd);
 		
 		// insert into TB_WORKPROD
-//		psaService.workProdInsert(workProd);
-//		System.out.println("생산지시 등록 완료");
+		result = psaService.workProdInsert(workProd);
+		System.out.println("생산지시 등록 result: " + result);
+		System.out.println("생산지시 등록 완료");
 		
 		// 클라이언트 요청으로 서버 DB 변경 시 redirect
 		return "redirect:psa/workprod";
 		
 	}
 	
+	// ajax 2 -  생산지시 등록 (Modal version)
+	// 공정 - proc_cd []
+	// insert into TB_WORK_PROC
+	@ResponseBody
+	@RequestMapping(value = "workprocInsert")
+//	public String workprocInsert(@RequestParam(value="procArr") String[] array) {
+	public String workprocInsert(HttpServletRequest request, WorkProc workproc) {
+		
+		System.out.println("공정 등록");
+		int result = 0;
+		
+		String workprodNo = psaService.getPK();
+		workproc.setWorkprod_no(workprodNo);
+		
+		// checkBox 값들을 배열로 받아옴
+//		System.out.println("받아왓는가??" + array);
+		
+//		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		// ajax를 통해 넘어온 배열 데이터 선언
+		String[] procArr = request.getParameterValues("procArr");
+		System.out.println("procArr : " + procArr.toString());
+		
+		if (procArr != null && procArr.length > 0) {
+			
+			for (int i=0; i < procArr.length; i++) {
+				
+				System.out.println("ajax 공정 결과: " + i + " : " + procArr[i]);
+//				new WorkProc().setProc_cd(procArr[i]);
+				workproc.setProc_cd(procArr[i]);
+				
+				// parameter를 반복해서 전달
+				result = psaService.workprocInsert(workproc);
+				System.out.println("result " + i + " : " + result);
+				
+				result += result;
+				
+			}
+			
+			System.out.println("공정 등록 성공?????");
+			System.out.println("final sum int result : " + result);
+//			resultMap.put("result", "success");
+//			System.out.println("세팅된 workproc : " + workproc);
+//			System.out.println("????? : " + workproc.getProc_cd());	// null
+			
+		}
+		
+		// 클라이언트 요청으로 서버 DB 변경 시 redirect
+		return "redirect:psa/workprod";
+	}
+	
+	// ajax 3 -  생산지시 등록 (Modal version)
 	// 투입품 등록
-//	@RequestMapping(value = "addItems")
+	// INSERT INTO TB_WORK_ITEM
+	@ResponseBody
+	@RequestMapping(value = "workItemInsert")
+	public String workItemInsert(WorkItem workItem) {
+		
+		System.out.println("투입품 등록");
+		int result = 0;
+		
+		String workprodNo = psaService.getPK();
+		workItem.setWorkprod_no(workprodNo);
+		
+		// 투입품 데이터 받아와서 넣기
+		// 여기에에에ㅔ에ㅔ에에에ㅔㅇㅇ
+//		result = psaService.workItemInsert(workItem);
+		System.out.println("투입품 등록 성공?????");
+		System.out.println("final sum int result : " + result);
+		
+		// 클라이언트 요청으로 서버 DB 변경 시 redirect
+		return "redirect:psa/workprod";
+	}
 }
