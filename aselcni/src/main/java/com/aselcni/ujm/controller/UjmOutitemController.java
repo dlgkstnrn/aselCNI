@@ -2,11 +2,13 @@ package com.aselcni.ujm.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aselcni.ujm.model.UjmOrder;
@@ -72,11 +74,17 @@ public class UjmOutitemController {
 //		return ujmGetAllOrderList;
 //	}
 	
+	
+
+	
 	//출고 등록
 	@RequestMapping(value = "insertOutitem") 
-	public String ujmInsertOutitem(HttpServletRequest request, UjmOutitem outitem, Model model, HttpSession session) {
+	public ResponseEntity<String> ujmInsertOutitem(@RequestBody List<OrderItemDTO>
+			HttpServletRequest request, UjmOutitem outitem, Model model, HttpSession session) {
 		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
+		
 //		outitem=new UjmOutitem();
+		System.out.println(order_no);
 		System.out.println(outitem);
 		
 		//맨처음 리스트에 표시되는 outitemList
@@ -84,8 +92,20 @@ public class UjmOutitemController {
 		
 		//outitemView
 		
-		return "forward:outitem"; 
+		return ResponseEntity.ok("주문이 성공적으로 처리되었습니다.");
+		 
+		
 	}
+	/*
+	 * @RequestMapping(value = "insertOutitem") public String
+	 * ujmInsertOutitem(@RequestParam() HttpServletRequest request, UjmOutitem
+	 * outitem, Model model, HttpSession session) {
+	 * System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
+	 * return "forward:outitem";
+	 */
+	
+	
+	
 	
 	
 	//출고 수정
@@ -93,8 +113,6 @@ public class UjmOutitemController {
 	public String ujmUpdateOutitem(HttpServletRequest request, Model model, HttpSession session) {
 		UjmOutitem outitem=new UjmOutitem();
 		
-		//맨처음 리스트에 표시되는 outitemList
-//		model.addAttribute("outitemList",outitemList); 
 		
 		return "ujm/ujmOutitem"; 
 	}

@@ -279,7 +279,7 @@ pageEncoding="UTF-8"%>
                               </button>
 
                               <button type="submit" class="btn btn-success"
-                              form="insertOutitemForm">
+                              form="insertOutitemForm" id="insertOutitemBtn">
                                 등록
                               </button> <!-- form으로 이어지는 실제 출고등록 버튼 -->
 
@@ -312,8 +312,7 @@ pageEncoding="UTF-8"%>
                 <form
                   class="search-form d-flex align-items-center"
                   method="POST"
-                  action="#"
-                >
+                  action="#">
                   <input
                     type="text"
                     class="form-control"
