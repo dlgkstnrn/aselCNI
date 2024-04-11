@@ -234,7 +234,7 @@ const detailUpdate = function (insertFlag = false) {
                 <td>${ele['item_unit']}</td>
                 <td><input id="initemQty${idx}" class="itemList" 
                     data-qty="${ele.qty}" data-item-cd="${ele.item_cd}"
-                    onchange="checkItemQty(this,${ele['qty']})" type="number" 
+                    onchange="checkItemQty(this)" type="number" 
                     value="${ele['qty']}" min="${ele.required_stock >= 0 ? ele.required_stock < ele.qty ? ele.required_stock : ele.qty : 0}" 
                     max="${ele.qty + ele.add_max}" 
                     placeholder="입고수량" style="width: 75px" ${insertFlag ? '' : 'readonly'}></td>
@@ -321,4 +321,15 @@ const detailDelete = function () {
             }
         }
     });
+}
+
+const checkItemQty = function (item) {
+    if (item.value * 1 < item.min * 1) {
+        item.value = item.min;
+    } else if (item.value * 1 > item.max * 1) {
+        item.value = item.max;
+    } else {
+        return;
+    }
+    alert('수량 오류 최소:' + item.min + ', 최대: ' + item.max);
 }

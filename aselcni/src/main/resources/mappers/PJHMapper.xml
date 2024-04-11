@@ -229,4 +229,11 @@
 		WHERE INITEM_NO = #{initem_no}
 	</update>
 	
+	<select id="pjhInitemCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_INITEM
+		WHERE INITEM_DELETE_CHK != 1
+		AND PURC_NO = #{purc_no} 
+	</select>
+	
 </mapper>

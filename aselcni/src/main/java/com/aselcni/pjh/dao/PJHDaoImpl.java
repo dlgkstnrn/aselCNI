@@ -219,6 +219,10 @@ public class PJHDaoImpl implements PJHDaoInterface {
 				initem.setStatus(2);
 			} else {
 				initem.setStatus(1);
+				int initemCount = session.selectOne("pjhInitemCount", initem.getPurc_no());
+				System.out.println("PJHDaoImpl deleteInitem initemCount->"+ initemCount);
+				if(initemCount == 0)
+					initem.setStatus(0);
 			}
 			System.out.println("PJHDaoImpl deleteInitem totalItemRemain->"+ totalItemRemain);
 			session.update("pjhChangePurcStatus", initem);
