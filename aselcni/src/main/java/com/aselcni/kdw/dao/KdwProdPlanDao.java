@@ -8,6 +8,7 @@ import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
 import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
 import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
 import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
+import com.aselcni.kdw.model.ProdPlanDataUpdate.Material;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -32,5 +33,13 @@ public interface KdwProdPlanDao {
 	// 생산계획등록 자재
 	void saveItemProd(TB_ITEM_PROD tbItemProd);
 	
+	// 생산계획수정
+	void updateProdPlan(TB_PRODPLAN updatedProdPlan);
+	// 생산계획수정(새 투입자재추가(insert))
+	void updateItemProd(TB_ITEM_PROD updateItemProd);
+	// 생산계획수정(기존 투입자재수정시(delete))
+	void deleteItemProd(TB_ITEM_PROD deleteItemProd);
+	// 생산계획삭제: prodPlan_delete_chk 값을 1로 설정
+	void updateProdPlanDeleteChk(String prodPlanNo);
 
 }

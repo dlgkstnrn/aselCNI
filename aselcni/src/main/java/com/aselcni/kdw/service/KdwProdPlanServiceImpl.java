@@ -14,6 +14,9 @@ import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
 import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
 import com.aselcni.kdw.model.ProdPlanData;
 import com.aselcni.kdw.model.ProdPlanData.MaterialInfo;
+import com.aselcni.kdw.model.ProdPlanDataUpdate;
+import com.aselcni.kdw.model.ProdPlanDataUpdate.Material;
+import com.aselcni.kdw.model.ProdPlanDataUpdate.MaterialToDelete;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -94,6 +97,7 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 	// 생산계획등록 제품
 	@Override
 	public void saveProdPlanAndItems(ProdPlanData prodPlanData, String prodplan_emp_id) {
+		System.out.println("KdwProdPlanServiceImpl saveProdPlanAndItems Start...");
 	    // TB_PRODPLAN 객체 설정
 	    TB_PRODPLAN tbProdPlan = new TB_PRODPLAN();
 	    tbProdPlan.setOrder_no(prodPlanData.getOrderNo());
@@ -107,7 +111,7 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 
 	    // TB_PRODPLAN 저장과 동시에 prodPlan_no 생성 및 반환
 	    String prodPlanNo = kdwProdPlanDao.saveProdPlan(tbProdPlan, prodplan_emp_id);
-	    System.out.println("Generated prodPlan_no for TB_PRODPLAN: " + prodPlanNo); // 생성된 prodPlan_no 확인
+	    System.out.println("Generated prodPlan_no for TB_PRODPLAN: " + prodPlanNo);
 
 	    for (MaterialInfo material : prodPlanData.getMaterials()) {
 	        TB_ITEM_PROD tbItemProd = new TB_ITEM_PROD();
@@ -122,5 +126,48 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 	        kdwProdPlanDao.saveItemProd(tbItemProd);
 	    }
 	}
+	// 수정된 제품, 자재
+	@Override
+	public void updateProdPlan(ProdPlanDataUpdate prodPlanDataUpdate, String prodplan_emp_id_update) {
+		System.out.println("KdwProdPlanServiceImpl updateProdPlan Start...");
+		
+		TB_PRODPLAN updatedProdPlan = new TB_PRODPLAN();
+		updatedProdPlan.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo());
+		updatedProdPlan.setOrder_no(prodPlanDataUpdate.getProdPlanData().getOrderNo());
+		updatedProdPlan.setWork_dt(prodPlanDataUpdate.getProdPlanData().getWorkDays());
+		updatedProdPlan.setProdPlan_dt(prodPlanDataUpdate.getProdPlanData().getStartDate());
+		updatedProdPlan.setProdplan_emp_id(prodplan_emp_id_update);
+		updatedProdPlan.setProdPlan_end_dt(prodPlanDataUpdate.getProdPlanData().getEndDate());
+		updatedProdPlan.setQty(prodPlanDataUpdate.getProdPlanData().getProductQty());
+		updatedProdPlan.setItem_cd(prodPlanDataUpdate.getProdPlanData().getProduct().getCode());
+		updatedProdPlan.setRemark(prodPlanDataUpdate.getProdPlanData().getRemark());
+		
+		kdwProdPlanDao.updateProdPlan(updatedProdPlan);
+		// 신규 투입자재
+		for (Material material : prodPlanDataUpdate.getNewMaterials()) {
+			TB_ITEM_PROD updateItemProd = new TB_ITEM_PROD();
+			updateItemProd.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo()); 
+			updateItemProd.setItem_cd(material.getCode());
+			updateItemProd.setIn_qty(material.getQuantity());
+			
+			kdwProdPlanDao.updateItemProd(updateItemProd);
+		}
+		
+	    // 삭제할 기존 투입자재
+	    for (MaterialToDelete materialCode : prodPlanDataUpdate.getMaterialsToDelete()) {
+	    	TB_ITEM_PROD deleteItemProd = new TB_ITEM_PROD();
+	    	deleteItemProd.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo()); 
+	    	deleteItemProd.setItem_cd(materialCode.getCode());
+	    	
+	    	kdwProdPlanDao.deleteItemProd(deleteItemProd);
+	    }
+	}
+	// 생산계획삭제: prodPlan_delete_chk 값을 1로 설정
+	@Override
+	public void markProdPlanAsDeleted(String prodPlanNo) {
+		System.out.println("KdwProdPlanServiceImpl updateProdPlan Start...");
+		kdwProdPlanDao.updateProdPlanDeleteChk(prodPlanNo);
+	}
+	
 
 }

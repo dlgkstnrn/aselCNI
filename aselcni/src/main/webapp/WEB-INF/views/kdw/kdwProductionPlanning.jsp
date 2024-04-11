@@ -38,7 +38,7 @@
 	rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<!-- 주문선택 데이터피커 라이브러리 css, js, locale(한글)-->
+<!-- 주문선택 데이트피커 라이브러리 css, js, locale(한글)-->
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
 	rel="stylesheet">
@@ -110,8 +110,7 @@
 								</button>
 							</div>
 							<div class="prodPlan-update">
-							    <button type="button" class="btn btn-secondary" 
-							    		id="updateButton" data-bs-toggle="modal">수정
+							    <button type="button" class="btn btn-secondary" id="updateButton">수정
 							    </button>
 							</div>
 						    <div class="prodPlan-delete">

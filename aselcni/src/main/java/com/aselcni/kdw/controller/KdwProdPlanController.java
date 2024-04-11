@@ -20,6 +20,7 @@ import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
 import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
 import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
 import com.aselcni.kdw.model.ProdPlanData;
+import com.aselcni.kdw.model.ProdPlanDataUpdate;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 import com.aselcni.kdw.service.KdwProdPlanService;
@@ -103,13 +104,31 @@ public class KdwProdPlanController {
 	@PostMapping(value = "submitProdPlan")
 	public String submitProdPlan(@RequestBody ProdPlanData prodPlanData, HttpServletRequest request) {
 		System.out.println("KdwProductionPlanningController submitProdPlan Start...");
-        System.out.println("ProdPlanController: submitProdPlan Start...");
         String prodplan_emp_id = (String) request.getSession().getAttribute("user_id");
         // 서비스 레이어에 생산계획 및 자재 정보 저장을 요청
         kdwProdPlanService.saveProdPlanAndItems(prodPlanData, prodplan_emp_id);
-        
         return "redirect:/kdw/productionPlanning";
 	}
 	
-	// 생산계획수정(투입자재삭제도)
+	// 생산계획수정
+	@ResponseBody
+	@PostMapping(value = "updateProdPlan")
+	public String updateProdPlan(@RequestBody ProdPlanDataUpdate prodPlanDataUpdate, HttpServletRequest request) {
+		System.out.println("KdwProductionPlanningController updateProdPlan Start...");
+		String prodplan_emp_id_update = (String) request.getSession().getAttribute("user_id");
+	    // 생산 계획 업데이트 (투입자재는 추가시 insert, 기존자재 수정시 delete)
+	    kdwProdPlanService.updateProdPlan(prodPlanDataUpdate, prodplan_emp_id_update);
+
+	    return "redirect:/kdw/productionPlanning";
+	}
+	// 생산계획삭제: prodPlan_delete_chk 값을 1로 설정
+	@ResponseBody
+	@PostMapping(value = "deleteProdPlan")
+	public String deleteProdPlan(@RequestBody TB_PRODPLAN prodplan) {
+		System.out.println("KdwProductionPlanningController deleteProdPlan Start...");
+		String prodPlanNo = prodplan.getProdPlan_no();
+	    kdwProdPlanService.markProdPlanAsDeleted(prodPlanNo);
+	    return "redirect:/kdw/productionPlanning";
+	}
+	
 }

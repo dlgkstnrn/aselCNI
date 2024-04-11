@@ -13,6 +13,7 @@
 		INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
 		LEFT JOIN TB_ORDER od ON pp.ORDER_NO = od.ORDER_NO
 		LEFT JOIN TB_CUSTMST cm ON od.CUST_CD = cm.CUST_CD
+		WHERE pp.prodPlan_delete_chk = 0
 		ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO
 	</select>
 
@@ -34,33 +35,28 @@
 		INNER JOIN TB_CUSTMST tc ON
 		od.CUST_CD = tc.CUST_CD
 	</select>
-	<select id="kdwProdPlanOrderItemList"
-		resultType="KdwProdOrderItem">
+	<select id="kdwProdPlanOrderItemList" resultType="KdwProdOrderItem">
 		SELECT toi.*, ti.ITEM_NM AS item_nm
 		FROM TB_ORDER_ITEM toi
 		INNER JOIN TB_ITEMMST ti ON toi.ITEM_CD = ti.ITEM_CD
 	</select>
 
 	<!-- 대중소 분류 -->
-	<select id="kdwProdPlanItemTypeBigList"
-		resultType="KdwProdItemTypeBig">
+	<select id="kdwProdPlanItemTypeBigList" resultType="KdwProdItemTypeBig">
 		SELECT *
 		FROM TB_TYPE_BIG
 	</select>
-	<select id="kdwProdPlanItemTypeMidList"
-		resultType="KdwProdItemTypeMid">
+	<select id="kdwProdPlanItemTypeMidList" resultType="KdwProdItemTypeMid">
 		SELECT *
 		FROM TB_TYPE_MID
 	</select>
-	<select id="kdwProdPlanItemTypeSmlList"
-		resultType="KdwProdItemTypeSml">
+	<select id="kdwProdPlanItemTypeSmlList" resultType="KdwProdItemTypeSml">
 		SELECT *
 		FROM TB_TYPE_SML
 	</select>
 
 	<!-- 아이템 리스트 -->
-	<select id="kdwProdItemCategoriesSearchList"
-		resultType="KdwProdItemList">
+	<select id="kdwProdItemCategoriesSearchList" resultType="KdwProdItemList">
 		SELECT *
 		FROM TB_ITEMMST
 		WHERE item_delete_chk = 0
@@ -89,7 +85,7 @@
 		#{tbProdPlan.qty}, #{tbProdPlan.remark}, NULL, 0)
 	</insert>
 
-	<!-- 투입 자재 등록 -->
+	<!-- 투입 자재 등록 --> <!-- 수정 시 신규 투입 자재 등록 -->
 	<insert id="kdwSaveItemProd" parameterType="KdwProdPlanItem">
 		INSERT INTO TB_ITEM_PROD (prodPlan_no, item_cd, in_qty, cost)
 		VALUES (
@@ -97,5 +93,27 @@
 		(SELECT item_cost FROM TB_ITEMMST WHERE item_cd = #{item_cd})
 		)
 	</insert>
-
+	
+	<!-- 생산계획수정 -->
+	<update id="kdwUpdateProdPlan" parameterType="KdwProdPlan">
+	    UPDATE TB_PRODPLAN
+	    SET order_no = #{order_no}, work_dt = #{work_dt}, prodPlan_dt = #{prodPlan_dt},
+	        prodPlan_end_dt = #{prodPlan_end_dt}, item_cd = #{item_cd}, 
+	        qty = #{qty}, remark = #{remark}, prodPlan_update = CONVERT(DATE, GETDATE())
+	    WHERE prodPlan_no = #{prodPlan_no}
+	</update>
+	
+	<!-- 삭제할 기존 투입자재 -->
+	<delete id="kdwDeleteItemProd" parameterType="KdwProdPlanItem">
+	    DELETE FROM TB_ITEM_PROD
+	    WHERE prodPlan_no = #{prodPlan_no} AND item_cd = #{item_cd}
+	</delete>
+	
+	<!-- 생산계획삭제 prodPlan_delete_chk 값을 1로 업데이트 -->
+	<update id="kdwUpdateProdPlanDeleteChk" parameterType="java.lang.String">
+	    UPDATE TB_PRODPLAN
+	    SET prodPlan_delete_chk = 1
+	    WHERE prodPlan_no = #{prodPlanNo}
+	</update>
+	
 </mapper>

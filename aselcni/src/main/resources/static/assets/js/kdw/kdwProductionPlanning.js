@@ -10,8 +10,6 @@ $(document).ready(function() {
 	var selectedOrderEndDt = ''; // 선택된 주문의 주문종료일
 	var selectedEvent = null; // 선택된 이벤트막대 정보저장
 	var materialsToDelete = []; // 수정모달 자재삭제 대기 목록
-	var selectedMaterialsForUpdate = []; // 수정 모달에서 선택된 자재 정보 저장
-
 
 	// 기본 이벤트막대 색상 정의
 	var baseColors = [
@@ -1004,12 +1002,15 @@ $(document).ready(function() {
 			alert('수정할 이벤트를 먼저 선택해주세요.');
 			return;
 		}
+		// 제목에 생산 계획 번호 결합
+		var modalTitle = '생산 계획 수정 (' + selectedEvent.prodPlan_no + ')';
+		$('#verticalycentered-update .modal-title').text(modalTitle);
+
 		$('.event-tooltip').remove(); // 툴탭제거
 
 		// 제품명과 제품 코드 결합
 		var productNameWithCode = selectedEvent.item_nm + ' (' + selectedEvent.item_cd + ')';
 		$('#productName-update').val(productNameWithCode);
-
 		// 나머지 필드 설정
 		$('#prodPlanNoInput-update').val(selectedEvent.order_no);
 		$('#prodPlanWorkingDaysInput-update').val(selectedEvent.work_dt);
@@ -1039,6 +1040,7 @@ $(document).ready(function() {
 		$('#prodItem-list-update').on('click', '.material-remove', function() {
 			var materialCode = $(this).siblings('.material-code').text();
 			materialsToDelete.push(materialCode); // 삭제 대기 목록에 추가
+			console.log(materialsToDelete);
 			$(this).closest('li.update-material-item').remove(); // 해당 목록 삭제
 			updateProdItemListState(); // 상태 업데이트
 		});
@@ -1068,12 +1070,60 @@ $(document).ready(function() {
 		});
 
 		$('#saveButton-update').click(function() {
+			console.log('수정 저장 버튼 오냐?');
+
+			// 수정 모달에서 제품 코드와 제품명 파싱
+			var productNameUpdate = $("#productName-update").val().split(" (")[1].slice(0, -1);
+			// 수정 모달에서 새로 추가된 투입 자재 목록 수집
+			var updatedMaterials = [];
+
+			$('#prodItem-list-update li.new-material-item').each(function() {
+				var materialInfo = $(this).find('.material-code').text().trim();
+				var code = materialInfo.split('(')[0].trim();
+				var name = materialInfo.includes('(') ? materialInfo.split('(')[1].slice(0, -1) : '';
+				var quantity = parseInt($(this).find('.material-quantity').text()); // 자재 수량
+
+				var material = {
+					code: code,
+					name: name,
+					quantity: quantity
+				};
+				updatedMaterials.push(material);
+			});
+
+			var transformedMaterialsToDelete = materialsToDelete.map(item => {
+				var parts = item.split('('); // 괄호 '(' 기준으로 분리
+				var code = parts[0].trim(); // 자재 코드 추출
+				var name = parts[1] ? parts[1].slice(0, -1) : ''; // 괄호 ')' 제거하고 자재 이름 추출, parts[1] 존재 여부 확인
+				return { code, name };
+			});
+
+			// formData 구성
+			var formData = {
+				prodPlanData: {
+					prodPlanNo: selectedEvent.prodPlan_no,
+					orderNo: $('#prodPlanNoInput-update').val(),
+					workDays: $('#prodPlanWorkingDaysInput-update').val(),
+					startDate: $('.productStartDateInput-update').val(),
+					endDate: $('.productEndDateInput-update').val(),
+					productQty: $('.prodCount-input-update').val(),
+					remark: $('textarea[name="remark-update"]').val(),
+					// 제품 정보 추가
+					product: {
+						code: selectedEvent.item_cd,
+						name: productNameUpdate
+					}
+				},
+				newMaterials: updatedMaterials, // 새로 추가된 자재 목록
+				materialsToDelete: transformedMaterialsToDelete // 삭제 대기 목록에 있는 자재 코드 목록
+			};
+
 			// AJAX 요청을 통해 materialsToDelete 배열에 있는 자재들을 DB에서 삭제하고 수정된 정보 저장
 			$.ajax({
-				url: '/update-materials',
+				url: 'updateProdPlan',
 				type: 'POST',
 				contentType: 'application/json',
-				data: JSON.stringify(materialsToDelete),
+				data: JSON.stringify(formData),
 				success: function(response) {
 					alert('성공적으로 수정되었습니다.');
 					$('#verticalycentered-update').modal('hide');
@@ -1086,7 +1136,7 @@ $(document).ready(function() {
 		});
 		$('#verticalycentered-update').modal('show');
 	}); // 건들지마셈
-	
+
 	// 상태 업데이트 함수
 	function updateProdItemListState() {
 		if ($("#prodItem-list-update li").length === 0) {
@@ -1113,5 +1163,29 @@ $(document).ready(function() {
 
 		updateProdItemListState();
 	}
+	// =========== 생산계획 삭제 ============
+	$('#deleteEventButton').click(function() {
+		if (!selectedEvent) {
+			alert('삭제할 이벤트를 선택해주세요.');
+			return;
+		}
 
+		var confirmDelete = confirm('정말로 이 계획을 삭제하시겠습니까?');
+		if (confirmDelete) {
+			// AJAX 요청으로 서버에 삭제를 요청
+			$.ajax({
+				url: 'deleteProdPlan',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({ prodPlan_no: selectedEvent.prodPlan_no }),
+				success: function(response) {
+					alert('계획이 성공적으로 삭제되었습니다.');
+					calendar.refetchEvents(); 
+				},
+				error: function(xhr, status, error) {
+					alert('계획 삭제 중 오류가 발생했습니다.');
+				}
+			});
+		}
+	});
 }); // !! 건들지말것 !!

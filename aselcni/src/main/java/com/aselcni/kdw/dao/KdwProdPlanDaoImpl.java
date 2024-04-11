@@ -13,6 +13,7 @@ import com.aselcni.kdw.model.KDW_TB_ORDER_ITEM;
 import com.aselcni.kdw.model.KDW_TB_TYPE_BIG;
 import com.aselcni.kdw.model.KDW_TB_TYPE_MID;
 import com.aselcni.kdw.model.KDW_TB_TYPE_SML;
+import com.aselcni.kdw.model.ProdPlanDataUpdate.Material;
 import com.aselcni.kdw.model.TB_ITEM_PROD;
 import com.aselcni.kdw.model.TB_PRODPLAN;
 
@@ -180,5 +181,60 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	        System.out.println("KdwProdPlanDaoImpl saveItemProd Error: " + e.getMessage());
 	    }
 	}
-
+	
+	// 생산계획수정
+	@Override
+	public void updateProdPlan(TB_PRODPLAN updatedProdPlan) {
+	    System.out.println("KdwProdPlanDaoImpl updateProdPlan Start...");
+	    System.out.println("Updating with: " + updatedProdPlan.toString());
+	    try {
+	        int updateCount = session.update("kdwUpdateProdPlan", updatedProdPlan);
+	        System.out.println("KdwProdPlanDaoImpl updateProdPlan 생산계획 수정 수: " + updateCount);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("KdwProdPlanDaoImpl updateProdPlan 수정중 오류 발생: " + e.getMessage());
+	    }
+	}
+	
+	// 생산계획수정(새 투입자재추가(insert))
+	@Override
+	public void updateItemProd(TB_ITEM_PROD updateItemProd) {
+	    System.out.println("KdwProdPlanDaoImpl updateItemProd Start...");
+	    System.out.println("Updating with: " + updateItemProd.toString());
+	    try {
+	        session.insert("kdwSaveItemProd", updateItemProd);
+	        System.out.println("KdwProdPlanDaoImpl updateItemProd 신규 투입자재 추가: " + updateItemProd);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("KdwProdPlanDaoImpl updateItemProd 신규 투입자재 추가 오류: " + e.getMessage());
+	    }
+	}
+	
+	// 생산계획수정(기존 투입자재수정시(delete))
+	@Override
+	public void deleteItemProd(TB_ITEM_PROD deleteItemProd) {
+	    System.out.println("KdwProdPlanDaoImpl deleteItemProd Start...");
+	    System.out.println("Updating with: " + deleteItemProd.toString());
+	    try {
+	        int deleteCount = session.delete("kdwDeleteItemProd", deleteItemProd);
+	        System.out.println("KdwProdPlanDaoImpl deleteItemProd 기존 투입자재 삭제 수: " + deleteCount);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("KdwProdPlanDaoImpl deleteItemProd 기존 투입자재 오류: " + e.getMessage());
+	    }
+	}
+	// 생산계획삭제: prodPlan_delete_chk 값을 1로 설정
+	@Override
+	public void updateProdPlanDeleteChk(String prodPlanNo) {
+	    System.out.println("KdwProdPlanDaoImpl updateProdPlanDeleteChk Start...");
+	    System.out.println("KdwProdPlanDaoImpl updateProdPlanDeleteChk prodPlanNo: " + prodPlanNo);
+	    try {
+	        int updateDeleteChkCount = session.update("kdwUpdateProdPlanDeleteChk", prodPlanNo);
+	        System.out.println("KdwProdPlanDaoImpl updateProdPlanDeleteChk 생산계획 삭제 수: " + updateDeleteChkCount);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("KdwProdPlanDaoImpl updateProdPlanDeleteChk 생산계획 삭제중 오류: " + e.getMessage());
+	    }
+	}
+	
 }
