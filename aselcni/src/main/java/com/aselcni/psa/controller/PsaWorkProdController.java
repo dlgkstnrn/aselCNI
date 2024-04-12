@@ -216,34 +216,6 @@ public class PsaWorkProdController {
 		
 	}
 	
-	
-	
-	
-	// 생산지시 등록 (페이지 이동 버전)
-	@RequestMapping("insertWPR")
-	public String insertWPR(@RequestParam("prodplan_no") String prodplan_no, ProdPlan prodPlan, Model model) {
-		
-		System.out.println("생산지시 등록하기");
-		System.out.println("param prodplan_no: " + prodplan_no);
-		
-		// 지시 등록할 생산계획 조회
-		prodPlan.setProdplan_no(prodplan_no);
-//		ProdPlan getPlan = psaService.getPlan(prodPlan);
-//		System.out.println("returned getPlan: " + getPlan);
-		
-//		model.addAttribute("getPlan", getPlan);
-		
-		// 생산계획에 등록된 투입품 리스트 조회
-		
-		
-		
-		return "psa/insertWPR";
-	}
-	
-	
-	
-	
-	
 	// ajax 1 -  생산지시 등록 (Modal version)
 	// 공정, 투입품 제외
 	// insert into TB_WORKPROD
@@ -267,10 +239,7 @@ public class PsaWorkProdController {
 		
 		workProd.setWorkprod_no(workprodNo);
 		
-		// 3. if (seq_no=null) set 1
-		// 쿼리에서 해결?
-		
-		// 4. if (workprod_delete_chk=null) set 0
+		// 3. if (workprod_delete_chk=null) set 0
 		workProd.setWorkprod_delete_chk(0);
 		
 		System.out.println("여기까지 세팅된 workProd: " + workProd);

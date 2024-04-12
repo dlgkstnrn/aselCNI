@@ -141,7 +141,7 @@ $('#prodplanTB tbody tr').click(function() {
 
 		result.forEach(element => {
 			$('#prp_item_tbody').append(
-				`<tr>
+				`<tr class="inItemList">
 					<td>${element.item_cd}</td>
 					<td>${element.item_nm}</td>
 					<td><input type="number" value=${element.in_qty}>
@@ -389,7 +389,7 @@ $('form').on('submit', function(e){
 	// form 전송 막기
 	e.preventDefault(); 
 
-	// 일단 투입품, 공정 제외
+	// 1. 일단 투입품, 공정 제외
 	// 생산지시번호도 제외하고 - 컨트롤러 처리
 	// 담당자 아이디도 제외하고 - 컨트롤러 처리
 	let data = {
@@ -417,7 +417,7 @@ $('form').on('submit', function(e){
 
 
 
-	// 공정 check box 값들 담을 배열
+	// 2. 공정 check box 값들 담을 배열
 	var procArr = [];
 
 	// 체크된 공정리스트 배열에 저장
@@ -430,6 +430,58 @@ $('form').on('submit', function(e){
 
 
 
+	// 3. 투입품 Map (key + value)
+	let inItemMap = new Map();
+
+	// if(!inItem.has(Key)){
+	// 	inItem.set(Key, Value);
+	// }
+
+	// item_cd 담을 배열
+	let itemCdArr = [];
+	// $('#prp_item_tbody').find('td:eq(0)').text().push(itemCdArr);
+	// console.log('코드 배열 '+itemCdArr);
+
+	// in_qty 담을 배열
+	let inQtyArr = [];
+	// $('#prp_item_tbody').find('td:eq(2)').find('input').val().push(inQtyArr);
+	// console.log('수량 배열 '+inQtyArr);
+
+	let inItemArr = [];
+	$('.inItemList').each(function(index, el) {
+		// let inItemObj = {
+		// 	item_cd : $('.inItemList').find('td:eq(0)').text(),
+		// 	in_qty : $('.inItemList').find('td:eq(2)').find('input').val()
+		// };
+		// inItemArr.push(inItemObj);
+
+		// let item_cd = $('.inItemList').find('td:eq(0)').text();
+		// // itemCdArr.push(item_cd);
+
+		// let in_qty = $('.inItemList').find('td:eq(2)').find('input').val();
+		// // inQtyArr.push(in_qty);
+
+		// inItemMap.set(item_cd, in_qty);
+
+		console.log(index+'+'+el);
+	})
+	// console.log('투입품 배열??'+inItemArr);	
+	// console.log('투입품 배열??'+inItemArr.inItemObj);	
+	// console.log('투입품 배열??'+inItemArr.item_cd);	
+	// console.log('투입품 배열??'+inItemArr.in_qty);	
+
+	// console.log('코드 배열??'+itemCdArr);	
+	// console.log('수량 배열??'+inQtyArr);	
+
+	// console.log('투입품 맵 '+inItemMap);
+	
+	// // [키, 값] 쌍을 대상으로 순회합니다.
+	// for (let [key, value] of inItemMap) { // map.entries()와 동일합니다.
+	// 	console.log(key + ":" + value); // cucumber,500 ...
+	// }
+
+
+/*
 	// ajax로 컨트롤러에 form 전송
 	// ajax Promise 1-2-3
 	new Promise((succ, fail) => {
@@ -480,7 +532,7 @@ $('form').on('submit', function(e){
 
 			url: 'workItemInsert',
 			type: 'post',
-			data: ,
+			// data: ,
 
 			success: function(result3) {
 				console.log(result3);
@@ -495,7 +547,7 @@ $('form').on('submit', function(e){
 		});
 
 	});
-
+*/
 	// // ajax로 컨트롤러에 form 전송
 	// // ajax 1. 공정, 투입품 제외한 것
 	// $.ajax({
