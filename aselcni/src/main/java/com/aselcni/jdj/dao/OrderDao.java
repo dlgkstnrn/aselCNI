@@ -7,6 +7,7 @@ import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
+import com.aselcni.jdj.model.SavingOrd;
 import com.aselcni.jdj.model.UserMst;
 
 public interface OrderDao {
@@ -24,5 +25,13 @@ public interface OrderDao {
 	List<UserMst> getUserLi(int user_comm_code);
 
 	ItemMst getItemInfo(String item_cd);
+
+	int savingOrd(SavingOrd savingOrd);
+
+	String createOrdNo(String order_dt);
+
+	int regOrder(Order savingOrd);
+
+	int regOrderItem(OrderItem orderItem);
 
 }

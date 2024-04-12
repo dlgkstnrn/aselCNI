@@ -53,4 +53,18 @@
 	</select>
 	
 	
+	<select id="createOrdNo" parameterType="String" resultType="String">
+		SELECT CONCAT('ORD', RIGHT(REPLACE(#{order_dt},'-',''),6) , FORMAT(ISNULL(COUNT(to2.order_dt),0)+1, '0000')) AS order_no
+		FROM TB_ORDER to2
+		WHERE to2.order_dt = #{order_dt};
+	</select>
+	<insert id="regOrder" parameterType="Order">
+		INSERT into tb_order (order_no,ORDER_DT, CUST_CD , CUST_EMP,REMARK , ORDER_EMP_ID, ORDER_DELETE_CHK, ORDER_STATUS_CHK, ORDER_END_DT, ORDER_SEC_NO)
+		values(#{order_no}, #{order_dt},#{cust_cd}, #{cust_emp},#{remark}, #{order_emp_id}, 0,0, #{order_end_dt}, #{order_sec_no});
+	</insert>
+	<insert id="regOrderItem" parameterType="OrderItem">
+		INSERT into tb_order_item (order_no,item_cd, qty , cost)
+		values(#{order_no}, #{item_cd},#{qty}, #{cost});
+	</insert>
+	
 </mapper>

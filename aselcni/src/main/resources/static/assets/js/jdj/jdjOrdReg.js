@@ -69,7 +69,9 @@ $(document).ready(function(){
 			order_remark = $("#order_remark").val();	// 비고
 			order_emp_id = $("#order_emp_id").val();	// 당사 담당자 
 			cust_emp = $("#cust_emp").val();			// 거래처 담당자
-	
+			
+			console.log(order_dt + "  = order_Dt")
+			
 			let selectedOption = $("#cust_cd").children("option:selected");
 		    cust_cd = selectedOption.val();				// 거래처 코드			
 
@@ -79,10 +81,47 @@ $(document).ready(function(){
 			    console.log(`  ${prop}: ${value[prop]}`);
 			  }
 			}
+			let orderItemsArray = [];
+			order_items.forEach((item, order_cd) => {
+			    let orderItemObj = {
+			        [order_cd]: item
+			    };
+			    orderItemsArray.push(orderItemObj);
+			});
+
+			console.log("---post 요청 직전 --")
+			
 			// post요청
+			fetch('/saveOrd', {
+				method:'POST',
+				headers:{
+					'Content-Type' : 'application/json',
+				},
+				body: JSON.stringify({
+					order_dt : order_dt,
+					order_end_dt : order_end_dt,
+					order_emp_id : order_emp_id,
+					cust_emp : cust_emp,
+					cust_cd : cust_cd,
+					remark : order_remark,
+					order_items : orderItemsArray
+				})
+			})
+			.then(response => {
+					alert("주문이 완료되었습니다")
+			    // 리다이렉트된 URL 확인
+			    if (response.redirected) {
+			        window.location.href = response.url; // 리다이렉트된 URL로 페이지 리로드
+			    } else {
+			        // 리다이렉트가 아닌 경우에는 서버의 응답을 처리
+			        return response.text();
+			    }
+			})
+			.then(data => {
+			    console.log(data); // 서버에서 반환된 데이터 처리
+			})			
+			.catch((error) => console.error("Error : ", error))
 			
-			
-			alert("주문이 완료되었습니다")
 		}else{
 			if(!check_Notnull) return alert("필수 입력란을 확인해주세요!");
 			else return alert("주문 품목을 확인해주세요"); 
@@ -109,31 +148,29 @@ $(document).ready(function(){
 			// 선택한 상품의 제품 코드
 	        $("#selItem_cd").val(order_item_cd);
 	        
+
+	        // ajax 호출 || 해당 상품의 단위, 해당 상품의 가격(단가)
 	       $.ajax({
-			url : "/orderReg",
-			data :{
-				order_item_cd : order_item_cd
-			},
-			method:"POST",
-			success: function(response){
-				console.log("ajax success")
-				item_unit = (response.item_unit);
-				item_cost = (response.item_cost);
-			   $("#item_unit").val(item_unit);
-			   $("#item_cost").val(item_cost);
-				
-				
-				console.log(item_unit + ' : item_unit');
-				console.log(item_cost + ' : item_cost');
-			},
-		   error: function(xhr, status, error){
-			console.error("Ajax request failed:", status, error);
-		   }
-		   
-		   })
-	        // ajax 호출
-	        //  해당 상품의 단위
-	        //  해당 상품의 가격(단가)
+				url : "/orderReg",
+				data :{
+					order_item_cd : order_item_cd
+				},
+				method:"POST",
+				success: function(response){
+					console.log("ajax success")
+					item_unit = (response.item_unit);
+					item_cost = (response.item_cost);
+				   $("#item_unit").val(item_unit);
+				   $("#item_cost").val(item_cost);
+					
+					
+					console.log(item_unit + ' : item_unit');
+					console.log(item_cost + ' : item_cost');
+				},
+			   error: function(status, error){
+				console.error("Ajax request failed:", status, error);
+			   }
+		   }) // ajax
 	    }
 	});
 	
@@ -177,11 +214,12 @@ $(document).ready(function(){
 		if(check_Notnull){
 			// item 객체로 만든 후 Map에 저장 (key값은 제품 코드)
 			let item = {
+				item_cd : order_item_cd,
 				item_nm : item_nm,
 				item_unit : item_unit,
-				order_qty : order_qty,
-				item_cost : 1000,			
-				order_item_cost : order_item_cost, 
+				qty : order_qty,
+				item_cost : item_cost,			
+				cost : order_item_cost, 
 			}
 			
 				// 이미 존재하는지 확인
@@ -190,7 +228,7 @@ $(document).ready(function(){
 			}else{
 				// 없으면 추가
 				order_items.set(order_item_cd, item);
-				index++;
+				
 				$("#itemTB").append(
 				`<tr class="${order_item_cd}">
 					<td><input class="form-check-input" type="checkbox" value="${index}" id="items_index" required=""></td>

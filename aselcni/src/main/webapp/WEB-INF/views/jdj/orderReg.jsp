@@ -37,7 +37,6 @@
 	
 	<!-- Script -->
 	<script defer src="assets/js/main.js"></script>
-	<script src="assets/js/jdj/jdjOrder.js"></script>
 	<script src="assets/js/jdj/jdjOrdReg.js"></script>
 	
 	<style>
@@ -60,11 +59,6 @@
 		
 </head>
 <body>
-	<%-- <c:set var="itemMsts" value='<c:out value="${itemMsts}" />'/>
-	<script>
-		for(itemMst in itemMsts){
-			console.log(itemMst);
-		} --%>
 	<!-- </script> -->
 	<!-- ======= Header ======= -->
     <%@ include file="../header.jsp" %>

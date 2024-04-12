@@ -2,14 +2,19 @@ package com.aselcni.jdj.service;
 
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.boot.model.naming.ImplicitNameSource;
 import org.springframework.stereotype.Service;
 
 import com.aselcni.jdj.dao.OrderDao;
 import com.aselcni.jdj.model.CustMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
+import com.aselcni.jdj.model.SavingOrd;
+import com.aselcni.jdj.model.SavingOrdItem;
 import com.aselcni.jdj.model.UserMst;
 import com.aselcni.jdj.model.ItemMst;
 
@@ -155,6 +160,62 @@ public class OrderServiceImpl implements OrderService {
 			System.out.println(e.getMessage());
 		}
 		return itemMst;
+	}
+	
+	// order Table 저장
+	@Override
+	public int regOrder(Order savingOrd) {
+		System.out.println("[Service : savingOrd]");
+//		ord번호 먼저 받고
+		String order_no;
+		String sec_no;
+//		객체를 insert용 xml과 매핑
+		int result;
+		try {
+			// 
+			order_no = od.createOrdNo(savingOrd.getOrder_dt());
+//		16진수 변환후 객체 저장
+			sec_no = strTo16(order_no);
+			System.out.println("new order_no 여기 있음 ---!!!!");
+			savingOrd.setOrder_no(order_no);
+			savingOrd.setOrder_sec_no(sec_no);
+			
+			result = od.regOrder(savingOrd);
+			
+			// savingOrd속 리스트객체 저장용으로 보내야함
+			regOrderItem(savingOrd.getOrder_items(), order_no);
+			
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return 0;
+	}
+	
+	public void regOrderItem(List<HashMap<String, OrderItem>> order_items, String order_no) {
+//		리스트 길이 만큼 반복해서 orderItem을 set해주고 od호출해서 저장
+	    for (HashMap<String, OrderItem> map : order_items) {	// 리스트를 반복
+	    	int result = 0;
+	        for (Map.Entry<String, OrderItem> entry : map.entrySet()) {	// 각 해시맵 객체에 접근
+	            String key = entry.getKey(); // 키 값 가져오기
+	            OrderItem orderItem = entry.getValue(); // 값 가져오기
+	            orderItem.setOrder_no(order_no);
+	            
+	            
+	            
+	            System.out.println("----------order_item setting 중--------");
+	            System.out.println("regOrderItem : " + orderItem.getItem_cd());
+	            System.out.println("regOrderItem : " + orderItem.getItem_nm());
+	            System.out.println("regOrderItem : " + orderItem.getItem_cost());
+	            
+	            result = od.regOrderItem(orderItem);
+	            
+	            System.out.println("order item 입력 결과 -> " + result);
+	            // 예를 들어, od.RegOrderItem(key, orderItem)와 같이 사용할 수 있습니다.
+	        }
+		  }
+		
+		
 	}
 
 

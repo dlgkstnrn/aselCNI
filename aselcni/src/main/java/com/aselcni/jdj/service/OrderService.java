@@ -8,6 +8,7 @@ import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
+import com.aselcni.jdj.model.SavingOrd;
 
 public interface OrderService {
 
@@ -26,6 +27,8 @@ public interface OrderService {
 	List<UserMst> getUserLi(int i);
 
 	ItemMst getItemInfo(String item_cd);
+
+	int regOrder(Order savingOrd);
 
 //	거래처 리스트 가져오기
 }

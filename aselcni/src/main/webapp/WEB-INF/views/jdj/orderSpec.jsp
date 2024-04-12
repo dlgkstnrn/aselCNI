@@ -76,7 +76,7 @@
         	<div class="card">		
 		        <div class="container">
 	        		<div class="card-body">
-        				
+        				<c:if test="${orderSpec.status == 0}">
         				<!-- 수정 버튼  -->
 		        		<div class="d-grid gap-2 d-md-flex justify-content-md-end  py-2">
 		        			<!-- 주문 수정을 눌렀을 때 활성화 -->
@@ -84,7 +84,7 @@
 							<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">수정</button>
 							<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">주문 취소</button>
 						</div>
-       					
+       					</c:if>
        					<!-- 입력 폼 -->
 						<div class="row mb-3">
 							<div class="col-sm-1"></div>
@@ -134,7 +134,7 @@
 							<div class="col-1"></div>
 							<label for="inputPassword" class="col-sm-1 col-form-label">비고</label>
 							<div class="col-sm-9">
-								<textarea class="form-control" style="height: 100px">${orderSpec.remark}</textarea>
+								<textarea id="order_remark" class="form-control" style="height: 100px">${orderSpec.remark}</textarea>
 							</div>
 							<div class="col-1"></div>
 						</div>

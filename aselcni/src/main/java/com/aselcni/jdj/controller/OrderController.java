@@ -1,5 +1,7 @@
 package com.aselcni.jdj.controller;
 
+
+
 import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.io.Console;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +24,7 @@ import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
+import com.aselcni.jdj.model.SavingOrd;
 import com.aselcni.jdj.model.UserMst;
 import com.aselcni.jdj.service.OrderService;
 
@@ -28,6 +32,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.jstl.sql.Result;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -102,7 +107,25 @@ public class OrderController {
 		
 		return itemMst;
 	}
+	
+	@PostMapping("/saveOrd")
+	public String saveOrd(@RequestBody Order savingOrd) {
+		int result;
+		try {
+			System.out.println("[Controller = SavingOrd");
+			System.out.println("savingOrd -> " + savingOrd.getOrder_items());
+			System.out.println("savingOrd -> " + savingOrd);
+			
+			// oder table 저장하는 서비스 호출
+			result = os.regOrder(savingOrd);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
+		return "redirect:order";
+	}
+	
 	@GetMapping("/orderSpec")
 	public String orderSpecString(@RequestParam(value = "detailView") String order_sec_num, Model model) {
 		Order orderSpec = null;
