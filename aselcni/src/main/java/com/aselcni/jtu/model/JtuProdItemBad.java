@@ -14,5 +14,8 @@ public class JtuProdItemBad {
 	
 	// 불량 코드 (Primary Key, Foreign)
 	private String bad_cd;
+	
+	// 불량 코드 내역
+	private String bad_res;
 
 }

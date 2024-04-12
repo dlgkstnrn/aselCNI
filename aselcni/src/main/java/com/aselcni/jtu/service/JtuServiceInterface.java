@@ -15,7 +15,7 @@ public interface JtuServiceInterface {
 
 	List<JtuWH> getWhCode();
 
-	List<JtuProdItem> getPriList(JtuProdItem jpri);
+	List<JtuProdItem> getPriList(JtuProdItem jpri, JtuPaging jpaging);
 
 
 	JtuProdItem getPriOneAjax(JtuProdItem paraJpri);
@@ -27,5 +27,7 @@ public interface JtuServiceInterface {
 	List<JtuBad> getJbadList(JtuBad jbad);
 
 	void setJbadOne(JtuBad jbad);
+
+	int getJpriTotalCnt(JtuProdItem jpri);
 
 }

@@ -23,8 +23,10 @@ public class JtuDaoImple implements JtuDaoInterface{
 		System.out.println("JtuDaoImple getPriList Start... ");
 		List<JtuProdItem> jpriList= null;
 		
+		System.out.println("JtuDaoImple getPriList before jpri --> " + jpri);
 		try {
 			jpriList =session.selectList("JtuGetPriList", jpri);
+			System.out.println("JtuDaoImple getPriList after jpriList --> " + jpriList);
 			System.out.println("JtuDaoImple getPriList jpriList.size() ... " + jpriList.size());
 			
 		} catch (Exception e) {
@@ -88,7 +90,13 @@ public class JtuDaoImple implements JtuDaoInterface{
 		JtuProdItem jpri = null;
 		try {
 			jpri = session.selectOne("jtuGetPriOne", paraJpri);
+			
+			List<JtuProdItemBad>  jpriBadList = session.selectList("JtuGetPriBadList", paraJpri);
+			System.out.println("JtuDaoImple getPriOneAjax jpriBadList.size() ... " + jpriBadList.size());
+		
+			jpri.setJpriBadList(jpriBadList);
 			System.out.println("JtuDaoImple getPriOneAjax jpri --> " + jpri);
+			
 		} catch (Exception e) {
 			System.out.println("getPriOneAjax exception->" + e.getMessage());
 		}
@@ -145,6 +153,21 @@ public class JtuDaoImple implements JtuDaoInterface{
 		} catch (Exception e) {
 			System.out.println("setJbadOne exception->" + e.getMessage());
 		}
+	}
+
+
+	@Override
+	public int getJpriTotalCnt(JtuProdItem jpri) {
+		System.out.println("JtuDaoImple getJpriTotalCnt Start... ");
+		System.out.println("JtuDaoImple getJpriTotalCnt jpri --> " + jpri);
+		int jpriTotalCnt = 0;
+		try {
+			jpriTotalCnt =  session.selectOne("jtuGetJpriTotalCnt", jpri);
+		} catch (Exception e) {
+			System.out.println("getJpriTotalCnt exception->" + e.getMessage());
+		}
+		
+		return jpriTotalCnt;
 	}
 
 

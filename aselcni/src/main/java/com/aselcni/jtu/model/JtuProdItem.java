@@ -70,23 +70,33 @@ public class JtuProdItem {
 	private String item_nm;
 	// 01자재02제품
 	private Integer item_flag;
-	// 대분류번호
-	private Integer big_no;
-	// 대분류내용
-	private String big_content;
-	// 중분류번호
-	private Integer mid_no;
-	// 중분류내용
-	private String mid_content;
-	// 소분류번호
-	private Integer sml_no;
-	// 소분류내용
-	private String sml_content;
+//	// 대분류번호
+//	private Integer big_no;
+//	// 대분류내용
+//	private String big_content;
+//	// 중분류번호
+//	private Integer mid_no;
+//	// 중분류내용
+//	private String mid_content;
+//	// 소분류번호
+//	private Integer sml_no;
+//	// 소분류내용
+//	private String sml_content;
 
 	
-	//전달용
+	//검색용
 	private String startDate;
 	private String endDate;
+	private String whNoAndNameKeyword;
+	private String itemNoAndNameKeyword;
+	
+	//paging
+	private Integer currentPage;
+	private Integer startPage;
+	private Integer endPage;
+	private Integer start;
+	private Integer end;
+	private Integer rowPage;
 	
 	//다대다
 	private List<JtuProdItemBad> jpriBadList;

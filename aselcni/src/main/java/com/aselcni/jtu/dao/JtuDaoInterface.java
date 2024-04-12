@@ -27,4 +27,6 @@ public interface JtuDaoInterface {
 
 	void setJbadOne(JtuBad jbad);
 
+	int getJpriTotalCnt(JtuProdItem jpri);
+
 }

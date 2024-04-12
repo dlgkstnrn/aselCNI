@@ -17,9 +17,21 @@ import lombok.RequiredArgsConstructor;
 public class JtuServiceImple implements JtuServiceInterface{
 	private final JtuDaoInterface jd;
 	
+	
 	@Override
-	public List<JtuProdItem> getPriList(JtuProdItem jpri) {
+	public List<JtuProdItem> getPriList(JtuProdItem jpri, JtuPaging jPaging) {
 		System.out.println("JtuServiceImple getPriList Start... ");
+		
+		jpri.setStartPage(jPaging.getStartPage());
+		jpri.setEndPage(jPaging.getEndPage());
+		jpri.setStart(jPaging.getStart());
+		jpri.setEnd(jPaging.getEnd());
+		jpri.setRowPage(jPaging.getRowPage());
+		jpri.setCurrentPage(jPaging.getCurrentPage());
+		
+//		System.out.println("JtuServiceImple jPaging --> " + jpri.getStartPage()+", "
+//				+jpri.getEndPage()+", "+jpri.getStart()+", "+jpri.getEnd()+", "+jPaging.getCurrentPage());
+		
 		List<JtuProdItem> jpriList = jd.getPriList(jpri);
 		
 		return jpriList;
@@ -96,7 +108,14 @@ public class JtuServiceImple implements JtuServiceInterface{
 		jd.setJbadOne(jbad);
 	}
 
+	@Override
+	public int getJpriTotalCnt(JtuProdItem jpri) {
+		System.out.println("JtuServiceImple getJpriTotalCnt Start... ");
+		int jpriTotalCnt= jd.getJpriTotalCnt(jpri);
+		
+		return jpriTotalCnt;
+	}
 
-	
+
 
 }
