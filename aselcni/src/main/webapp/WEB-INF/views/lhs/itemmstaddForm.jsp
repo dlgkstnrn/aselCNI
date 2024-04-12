@@ -81,19 +81,9 @@
                       >품목 코드</label
                     >
                     <div class="col d-flex">
-                      <input
-                      	id="item_nm"
-                        type="text"
-                        class="form-control"
-                        name="item_cd"
-                        style="width: 400px; margin-right: 15px"
-                      />
-                      <input
-                        type="button"
-                        class="btn btn-primary"
-                        value="중복체크"
-                        id="chkBtn"
-                      />
+                      <input id="item_cd" type="text" class="form-control" name="item_cd"
+                        placeholder="대문자알파벳3자 + 숫자4 ABC0000" style="width: 400px; margin-right: 15px"/>
+                      <input type="button" class="btn btn-primary" value="중복체크"id="chkBtn"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -137,18 +127,12 @@
                       </select>
                     </div>
                     <div class="col">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                        name="mid_no" id="mid">
+                      <select class="form-select" aria-label="Default select example" name="mid_no" id="mid">
                         <option selected="">중분류</option>
                       </select>
                     </div>
                     <div class="col">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                        name="sml_no" id="sml">
+                      <select class="form-select" aria-label="Default select example" name="sml_no" id="sml">
                         <option selected="">소분류</option>
                       </select>
                     </div>

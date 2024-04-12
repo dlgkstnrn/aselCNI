@@ -2,10 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.lhs.LhsCustMst">
 
-    <insert id="insertCust" parameterType="LhsCustMst">
-    	insert into
-    	tb_custmst
-    	values(
+    <insert id="insertCust" statementType="CALLABLE" parameterType="LhsCustMst">
+    	{ call dbo.pro_cust_insert(
     		#{cust_cd},
     		#{cust_nm},
     		#{president_nm},
@@ -16,61 +14,24 @@
     		#{biz_tel},
     		#{biz_fax},
     		#{emp_id},
-    		#{biz_flag},
-    		CONVERT(CHAR(10),GETDATE(),23),
-    		null,
-    		0
-    	)
+    		#{biz_flag}
+    	) }
     </insert>
     
-    <select id="selectCntCustAll" parameterType="int" resultType="int">
-    	select count(*)
-    	from tb_custmst
-    	where biz_flag = #{biz_flag} 
+    <select id="selectCntCustAll" statementType="CALLABLE" parameterType="int" resultType="int">
+    	{ call dbo.pro_cust_selectCntAll(#{biz_flag}) }
     </select>
     
-    <select id="selectCntCust" parameterType="LhsCustMst" resultType="int">
-    	select count(*)
-		from tb_custmst
-		where biz_flag = #{biz_flag}
-		and cust_delete_chk = 0
-		<choose>
-			<when test="searchFilter=='cust_cd'">
-				and cust_cd like '%'+#{keyword}+'%'
-			</when>
-			<when test="searchFilter=='cust_nm'">
-				and cust_nm like '%'+#{keyword}+'%'
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
+    <select id="selectCntCust" statementType="CALLABLE" parameterType="LhsCustMst" resultType="int">
+    	{ call dbo.pro_cust_selectCnt(#{biz_flag},#{searchFilter},#{keyword}) }
     </select>
     
-    <select id="selectListCust" parameterType="LhsCustMst" resultType="LhsCustMst">
-    	select a.*
-		from (select ROW_NUMBER() over(order by (select 1)) as rn
-						,tc.*
-				from TB_CUSTMST tc
-				where tc.biz_flag=#{biz_flag}
-				and cust_delete_chk = 0
-				<choose>
-					<when test="searchFilter=='cust_cd'">
-						and tc.cust_cd like '%' + #{keyword} + '%'
-					</when>
-					<when test="searchFilter=='cust_nm'">
-						and tc.cust_nm like '%' + #{keyword} + '%'
-					</when>
-					<otherwise>
-					</otherwise>
-				</choose>
-				) a
-		where a.rn BETWEEN #{start} and #{end};
+    <select id="selectListCust" statementType="CALLABLE" parameterType="LhsCustMst" resultType="LhsCustMst">
+    	{ call dbo.pro_cust_selectList(#{biz_flag},#{searchFilter},#{keyword},#{start},#{end}) }
     </select>
     
-    <select id="selectOneCust" parameterType="LhsCustMst" resultType="LhsCustMst">
-    	select *
-    	from tb_custmst
-    	where cust_cd = #{cust_cd}
+    <select id="selectOneCust" statementType="CALLABLE" parameterType="LhsCustMst" resultType="LhsCustMst">
+    	{ call dbo.pro_cust_selectOne(#{cust_cd}) }
     </select>
     
     <update id="deleteOneCust" parameterType="LhsCustMst">
