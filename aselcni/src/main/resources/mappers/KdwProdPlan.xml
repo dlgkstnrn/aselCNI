@@ -109,11 +109,28 @@
 	    WHERE prodPlan_no = #{prodPlan_no} AND item_cd = #{item_cd}
 	</delete>
 	
+	<!-- 기존 투입 자재 개수 수정 -->
+	<update id="kdwUpdateItemProdQuantity" parameterType="KdwProdPlanItem">
+	    UPDATE TB_ITEM_PROD
+	    SET in_qty = #{in_qty}
+	    WHERE prodPlan_no = #{prodPlan_no} AND item_cd = #{item_cd}
+	</update>
+	<!-- 자재 업데이트 시 생산계획의 prodPlan_update 필드도 현재 날짜로 업데이트 -->
+	<update id="kdwUpdateProdPlanUpdateDate" parameterType="KdwProdPlan">
+	    UPDATE TB_PRODPLAN
+	    SET prodPlan_update = CONVERT(DATE, GETDATE())
+	    WHERE prodPlan_no = #{prodPlan_no}
+	</update>
 	<!-- 생산계획삭제 prodPlan_delete_chk 값을 1로 업데이트 -->
-	<update id="kdwUpdateProdPlanDeleteChk" parameterType="java.lang.String">
+	<update id="kdwUpdateProdPlanDeleteChk" parameterType="KdwProdPlan">
 	    UPDATE TB_PRODPLAN
 	    SET prodPlan_delete_chk = 1
 	    WHERE prodPlan_no = #{prodPlanNo}
 	</update>
 	
+	<!-- 자재 존재 여부 확인 -->
+	<select id="checkMaterialExists" parameterType="map" resultType="int">
+	    SELECT COUNT(*) FROM TB_ITEM_PROD
+	    WHERE prodPlan_no = #{prodPlan_no} AND item_cd = #{item_cd}
+	</select>
 </mapper>

@@ -129,39 +129,49 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 	// 수정된 제품, 자재
 	@Override
 	public void updateProdPlan(ProdPlanDataUpdate prodPlanDataUpdate, String prodplan_emp_id_update) {
-		System.out.println("KdwProdPlanServiceImpl updateProdPlan Start...");
-		
-		TB_PRODPLAN updatedProdPlan = new TB_PRODPLAN();
-		updatedProdPlan.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo());
-		updatedProdPlan.setOrder_no(prodPlanDataUpdate.getProdPlanData().getOrderNo());
-		updatedProdPlan.setWork_dt(prodPlanDataUpdate.getProdPlanData().getWorkDays());
-		updatedProdPlan.setProdPlan_dt(prodPlanDataUpdate.getProdPlanData().getStartDate());
-		updatedProdPlan.setProdplan_emp_id(prodplan_emp_id_update);
-		updatedProdPlan.setProdPlan_end_dt(prodPlanDataUpdate.getProdPlanData().getEndDate());
-		updatedProdPlan.setQty(prodPlanDataUpdate.getProdPlanData().getProductQty());
-		updatedProdPlan.setItem_cd(prodPlanDataUpdate.getProdPlanData().getProduct().getCode());
-		updatedProdPlan.setRemark(prodPlanDataUpdate.getProdPlanData().getRemark());
-		
-		kdwProdPlanDao.updateProdPlan(updatedProdPlan);
-		// 신규 투입자재
-		for (Material material : prodPlanDataUpdate.getNewMaterials()) {
-			TB_ITEM_PROD updateItemProd = new TB_ITEM_PROD();
-			updateItemProd.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo()); 
-			updateItemProd.setItem_cd(material.getCode());
-			updateItemProd.setIn_qty(material.getQuantity());
-			
-			kdwProdPlanDao.updateItemProd(updateItemProd);
-		}
-		
-	    // 삭제할 기존 투입자재
+	    System.out.println("KdwProdPlanServiceImpl updateProdPlan Start...");
+	    
+	    // 생산계획 업데이트
+	    TB_PRODPLAN updatedProdPlan = new TB_PRODPLAN();
+	    updatedProdPlan.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo());
+	    updatedProdPlan.setOrder_no(prodPlanDataUpdate.getProdPlanData().getOrderNo());
+	    updatedProdPlan.setWork_dt(prodPlanDataUpdate.getProdPlanData().getWorkDays());
+	    updatedProdPlan.setProdPlan_dt(prodPlanDataUpdate.getProdPlanData().getStartDate());
+	    updatedProdPlan.setProdplan_emp_id(prodplan_emp_id_update);
+	    updatedProdPlan.setProdPlan_end_dt(prodPlanDataUpdate.getProdPlanData().getEndDate());
+	    updatedProdPlan.setQty(prodPlanDataUpdate.getProdPlanData().getProductQty());
+	    updatedProdPlan.setItem_cd(prodPlanDataUpdate.getProdPlanData().getProduct().getCode());
+	    updatedProdPlan.setRemark(prodPlanDataUpdate.getProdPlanData().getRemark());
+	    
+	    kdwProdPlanDao.updateProdPlan(updatedProdPlan);
+	    
+	    // 신규 투입자재 처리, 투입자재 기존자재인지 신규인지 판단: 기존자재면 개수 업데이트
+	    for (Material material : prodPlanDataUpdate.getNewMaterials()) {
+	        boolean exists = kdwProdPlanDao.checkMaterialExists(
+	                prodPlanDataUpdate.getProdPlanData().getProdPlanNo(), 
+	                material.getCode()
+	            );
+	        TB_ITEM_PROD itemProd = new TB_ITEM_PROD();
+	        itemProd.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo()); 
+	        itemProd.setItem_cd(material.getCode());
+	        itemProd.setIn_qty(material.getQuantity());
+	        
+	        if (exists) {
+	            kdwProdPlanDao.updateItemProdQuantity(itemProd); // 기존 자재
+	        } else {
+	            kdwProdPlanDao.updateItemProd(itemProd); // 신규 자재
+	        }
+	    }
+	    // 삭제할 기존 투입자재 처리
 	    for (MaterialToDelete materialCode : prodPlanDataUpdate.getMaterialsToDelete()) {
-	    	TB_ITEM_PROD deleteItemProd = new TB_ITEM_PROD();
-	    	deleteItemProd.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo()); 
-	    	deleteItemProd.setItem_cd(materialCode.getCode());
-	    	
-	    	kdwProdPlanDao.deleteItemProd(deleteItemProd);
+	        TB_ITEM_PROD deleteItemProd = new TB_ITEM_PROD();
+	        deleteItemProd.setProdPlan_no(prodPlanDataUpdate.getProdPlanData().getProdPlanNo());
+	        deleteItemProd.setItem_cd(materialCode.getCode());
+	        
+	        kdwProdPlanDao.deleteItemProd(deleteItemProd);
 	    }
 	}
+
 	// 생산계획삭제: prodPlan_delete_chk 값을 1로 설정
 	@Override
 	public void markProdPlanAsDeleted(String prodPlanNo) {

@@ -240,7 +240,7 @@
 											</div>
 										</div>
 										<div class="modal-footer">
-											<button type="reset" class="btn btn-secondary"
+											<button type="button" class="btn btn-secondary"
 												data-bs-dismiss="modal">취소</button>
 											<button type="submit" class="btn btn-primary" id="saveButton">저장</button>
 										</div>
@@ -313,7 +313,7 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="reset" class="btn btn-secondary"
+										<button type="button" class="btn btn-secondary"
 											data-bs-dismiss="modal">취소</button>
 										<button type="button"
 											class="btn btn-primary prodplan-item-save">저장</button>
@@ -405,7 +405,7 @@
 												style="width: 100px; display: inline-block;">
 										</div>
 										<div>
-											<button type="reset" class="btn btn-secondary"
+											<button type="button" class="btn btn-secondary"
 												data-bs-dismiss="modal">취소</button>
 											<button type="button"
 												class="btn btn-primary prodplan-material-save">저장</button>
@@ -455,8 +455,8 @@
 									<div class="modal-footer oderModal">
 										<!-- 검색 필드 -->
 										<div class="input-group mb-3 oderModal-search">
-											<span class="input-group-text" id="basic-addon1"> <i
-												class="bi bi-search"></i>
+											<span class="input-group-text" id="basic-addon1"> 
+											<i class="bi bi-search"></i>
 											</span> <input type="text"
 												class="form-control oderModal-search-input" id="searchInput"
 												placeholder="검색어를 입력하세요" aria-label="Search"
@@ -549,7 +549,7 @@
 						                    </div>
 						                </div>
 						                <div class="modal-footer">
-						                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 						                    <button type="submit" class="btn btn-primary" id="saveButton-update">저장</button>
 						                </div>
 						            </div>

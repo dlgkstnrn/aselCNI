@@ -659,12 +659,12 @@ $(document).ready(function() {
 	// 자재 생상수량
 	$('.category-search-material-list').on('input', '.quantity-input', function() {
 		var value = parseInt($(this).val(), 10);
-		if (value > 99999) {
-			$(this).val(99999);
-			alert('수량은 최대 99999개까지입니다.');
-		} else if (value < -99999) {
-			$(this).val(-99999);
-			alert('수량은 최소 -99999개까지입니다.');
+		if (value > 999999) {
+			$(this).val(999999);
+			alert('수량은 최대 999999개까지입니다.');
+		} else if (value < -999999) {
+			$(this).val(-999999);
+			alert('수량은 최소 -999999개까지입니다.');
 		}
 	});
 
@@ -923,25 +923,38 @@ $(document).ready(function() {
 	// 작업일수
 	$('.prodPlanWorkingDaysInput').on('input', function() {
 		var value = parseInt($(this).val(), 10);
-		if (value > 99999) {
-			$(this).val(99999);
-			alert('작업일수는 최대 99999개까지입니다.');
-		} else if (value < -99999) {
-			$(this).val(-99999);
-			alert('작업일수는 최소 -99999개까지입니다.');
+		if (value > 999999) {
+			$(this).val(999999);
+			alert('작업일수는 최대 999999개까지입니다.');
+		} else if (value < -999999) {
+			$(this).val(-999999);
+			alert('작업일수는 최소 -999999개까지입니다.');
 		}
 	});
 	// 생상수량
 	$('.prodCount-input').on('input', function() {
 		var value = parseInt($(this).val(), 10);
-		if (value > 99999) {
-			$(this).val(99999);
-			alert('생산수량은 최대 99999개까지입니다.');
-		} else if (value < -99999) {
-			$(this).val(-99999);
-			alert('생산수량은 최소 -99999개까지입니다.');
+		if (value > 999999) {
+			$(this).val(999999);
+			alert('생산수량은 최대 999999개까지입니다.');
+		} else if (value < -999999) {
+			$(this).val(-999999);
+			alert('생산수량은 최소 -999999개까지입니다.');
 		}
 	});
+
+	// 수정모달 투입자재추가 생산수량
+	$('#prodItem-list-update').on('input', '.material-quantity-input', function() {
+		var value = parseInt($(this).val(), 10);
+		if (value > 999999) {
+			$(this).val(999999);
+			alert('생산수량은 최대 999999개까지입니다.');
+		} else if (value < -999999) {
+			$(this).val(-999999);
+			alert('생산수량은 최소 -999999개까지입니다.');
+		}
+	});
+
 	// 모달 닫기시 초기화
 	$('#verticalycentered').on('hidden.bs.modal', function() {
 		if (activeModal === null) { // 어떤 모달도 활성화되지 않았을 때만 초기화
@@ -1006,7 +1019,7 @@ $(document).ready(function() {
 		if (isFormValid) {
 			console.log('폼으로 들어가니?');
 			// 제품 정보 수집
-			var productCode = $(".productNameInput").val().split(" ")[0]; // 제품 코드 파싱
+			var productCode = $(".productNameInput").val().split(" ")[0]; 				// 제품 코드 파싱
 			var productName = $(".productNameInput").val().split(" (")[1].slice(0, -1); // 제품 이름 파싱
 
 			// 자재 정보 수집
@@ -1089,7 +1102,9 @@ $(document).ready(function() {
                 <li class="update-material-item">
                     <span class="material-remove" style="cursor: pointer;">X</span>
                     <span class="material-code">${material.item_cd}<span class="material-name">(${material.item_nm})</span></span>
-                    <span class="material-quantity">${material.in_qty} 개</span>
+                    <span class="material-quantity">
+                    	<input type="number" class="material-quantity-input" value="${material.in_qty}" min="-999999" max="999999"> 개
+                    </span>
                 </li>
             `);
 			$("#prodItem-list-update").append(listItem);
@@ -1118,6 +1133,45 @@ $(document).ready(function() {
 			updateProdItemListState(); // 상태 업데이트 함수 호출
 		});
 
+		// '전체 삭제' 버튼 클릭 이벤트 핸들러
+		$('#delete_all-update').click(function() {
+			console.log('전체 삭제 시작');
+
+			// 기존 자재 목록 순회
+			$('#prodItem-list-update .update-material-item').each(function() {
+				var materialCode = $(this).find('.material-code').text().trim();
+				console.log('삭제 대기열에 추가할 자재 코드:', materialCode);
+
+				// 삭제 대기열에 추가 (중복 체크를 위해 배열을 사용)
+				if (!materialsToDelete.includes(materialCode)) {
+					materialsToDelete.push(materialCode);
+					console.log(materialCode, '삭제 대기열에 추가됨');
+				}
+
+				// 화면에서 해당 자재 목록 숨기기
+				$(this).empty();
+				console.log(materialCode, '기존 자재목록 숨김 처리');
+			});
+
+			// 새로 추가된 자재 목록 화면에서 제거
+			$('#prodItem-list-update .new-material-item').remove();
+			console.log('새로 추가된 자재 목록 제거 완료');
+
+			// 상태 업데이트 및 UI 조정
+			updateProdItemListState();
+
+			// 선택된 자재가 없으면 기본 메시지 표시
+			if ($("#prodItem-list-update li:visible").length === 0) {
+				$("#initial_message-update").show();
+				$("#prodItem-bar-update").hide();
+			} else {
+				$("#initial_message-update").hide();
+				$("#prodItem-bar-update").show();
+			}
+
+			console.log('삭제 대기열:', materialsToDelete);
+		});
+		
 		// 수정모달 꺼질때 이벤트 핸들러
 		$('#verticalycentered-update').on('hidden.bs.modal', function() {
 			materialsToDelete = []; // 삭제 대기 목록 초기화
@@ -1132,17 +1186,16 @@ $(document).ready(function() {
 
 		$('#saveButton-update').click(function() {
 			console.log('수정 저장 버튼 오냐?');
-
 			// 수정 모달에서 제품 코드와 제품명 파싱
 			var productNameUpdate = $("#productName-update").val().split(" (")[1].slice(0, -1);
 			// 수정 모달에서 새로 추가된 투입 자재 목록 수집
 			var updatedMaterials = [];
 
-			$('#prodItem-list-update li.new-material-item').each(function() {
+			$('#prodItem-list-update li.new-material-item, #prodItem-list-update li.update-material-item').each(function() {
 				var materialInfo = $(this).find('.material-code').text().trim();
 				var code = materialInfo.split('(')[0].trim();
 				var name = materialInfo.includes('(') ? materialInfo.split('(')[1].slice(0, -1) : '';
-				var quantity = parseInt($(this).find('.material-quantity').text()); // 자재 수량
+				var quantity = parseInt($(this).find('.material-quantity-input').val()); // 자재 수량
 
 				var material = {
 					code: code,
@@ -1216,7 +1269,9 @@ $(document).ready(function() {
                     <li class="new-material-item">
                         <span class="remove-material" style="cursor: pointer;">X</span>
                         <span class="material-code">${material.code}<span class="material-name">(${material.name})</span></span>
-                        <span class="material-quantity">${material.quantity} 개</span>
+                        <span class="material-quantity">
+                        	<input type="number" class="material-quantity-input" value="${material.quantity}" min="-999999" max="999999"> 개
+                        </span>
                     </li>
                 `);
 			$("#prodItem-list-update").append(listItem);
@@ -1224,6 +1279,8 @@ $(document).ready(function() {
 
 		updateProdItemListState();
 	}
+
+	// ============= End 수정(업데이트) 작업 ===============
 	// =========== 생산계획 삭제 ============
 	$('#deleteEventButton').click(function() {
 		if (!selectedEvent) {

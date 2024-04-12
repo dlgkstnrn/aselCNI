@@ -211,6 +211,22 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	    }
 	}
 	
+	// 생산계획수정(기존 투입자재 개수 수정시(update))
+	@Override
+	public void updateItemProdQuantity(TB_ITEM_PROD updateItemProd) {
+	    System.out.println("KdwProdPlanDaoImpl updateItemProdQuantity Start...");
+	    System.out.println("Updating with updateItemProdQuantity: " + updateItemProd.toString());
+	    try {
+	    	session.update("kdwUpdateItemProdQuantity", updateItemProd);
+	        // 자재 업데이트 후 생산계획의 prodPlan_update 필드를 현재 날짜로 업데이트
+	        session.update("kdwUpdateProdPlanUpdateDate", updateItemProd.getProdPlan_no());
+	        System.out.println("KdwProdPlanDaoImpl updateItemProdQuantity 기존 투입자재 개수 수정: " + updateItemProd);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("KdwProdPlanDaoImpl updateItemProdQuantity 기존 투입자재 개수 수정 오류: " + e.getMessage());
+	    }
+	}
+	
 	// 생산계획수정(기존 투입자재수정시(delete))
 	@Override
 	public void deleteItemProd(TB_ITEM_PROD deleteItemProd) {
@@ -236,6 +252,17 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	        e.printStackTrace();
 	        System.out.println("KdwProdPlanDaoImpl updateProdPlanDeleteChk 생산계획 삭제중 오류: " + e.getMessage());
 	    }
+	}
+	// 투입자재 기존자재인지 신규인지 판단
+	@Override
+	public boolean checkMaterialExists(String prodPlanNo, String itemCd) {
+		System.out.println("KdwProdPlanDaoImpl checkMaterialExists Start...");
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("prodPlan_no", prodPlanNo);
+	    params.put("item_cd", itemCd);
+	    int count = session.selectOne("checkMaterialExists", params);
+	    System.out.println("KdwProdPlanDaoImpl checkMaterialExists 기존자재 개수: " + count);
+	    return count > 0;
 	}
 	
 }
