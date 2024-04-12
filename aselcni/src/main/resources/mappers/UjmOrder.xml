@@ -53,4 +53,14 @@
 		where ord.ORDER_DELETE_CHK =0
 		and ori.ORDER_NO = #{order_no}
 	</select>
+	
+	<select id="ujmGetCustCd" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT cust_cd
+			FROM tb_order
+			WHERE order_no = #{order_no};
+		]]> 
+	</select>
+	
+	
 </mapper>

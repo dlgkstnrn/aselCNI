@@ -82,35 +82,21 @@ public class UjmOutitemController {
 	
 	//출고 등록
 	@RequestMapping(value = "insertOutitem") 
-	public String ujmInsertOutitem(@RequestBody UjmOutitemParent insertData,
-			HttpServletRequest request, Model model, HttpSession session) {
-//		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
-//		if(session.getAttribute("user_id")!=null) {
-//        String userId=(String)session.getAttribute("user_id");
-//        
-//        UjmOutitem outitem=new UjmOutitem();
-//        
-//        System.out.println(userId);
-//        System.out.println(insertData.getOutitemData());
-//        
-//        
-//        outitem.setOutitem_emp_id(userId);
-//        
-//
-//        UjmOutitem outitemData=insertData.getOutitemData();
-//        outitem.setOutitem_no(uos.ujmSetOutitemNo(outitemData.getOutitem_no())); //가져온 날짜형태의 출고번호(2024-04-13)을 제대로 만들기
-//        System.out.println(outitem.getOutitem_no());
-//        
-//        System.out.println(insertData.getSelectedItems());
-		
-		//맨처음 리스트에 표시되는 outitemList
-//		model.addAttribute("outitemList",outitemList); 
-		
-		//outitemView
+	public String ujmInsertOutitem(@RequestBody UjmOutitemParent insertData, HttpSession session) {
+		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
+		if(session.getAttribute("user_id")!=null) {
+			String userId=(String)session.getAttribute("user_id");
+			// service, dao, mapper명(insertEmp)까지->insert
+			int insertOutitemResult = uos.ujmInsertOutitem(insertData, userId); //출고테이블 등록, 정상등록시 1 비정상 -1 리턴
+			System.out.println("컨트롤러 insertOutitemResult:"+insertOutitemResult);
+			
+			
+			int insertOutitemItemResult=uos.ujmInsertOutitemItem(insertData); //출고품목을 등록, 품목개수 리턴
+			System.out.println("insertOutitemItemResult"+insertOutitemItemResult);
 		
 		return "ujm/ujmOutitem";
 		 
-//		} else return "redirect:/";
+		} else return "redirect:/";
 	}
 	/*
 	 * @RequestMapping(value = "insertOutitem") public String

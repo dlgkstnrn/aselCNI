@@ -5,6 +5,7 @@ import java.util.List;
 import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
 import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
+import com.aselcni.ujm.model.UjmOutitemParent;
 
 public interface UjmOutitemService {
 
@@ -12,6 +13,8 @@ public interface UjmOutitemService {
 
 	List<UjmOutitem> ujmListOutitem(UjmOutitem outitem);
 
-	String ujmSetOutitemNo(String outitem_no);
+	int ujmInsertOutitem(UjmOutitemParent insertData, String userId);
+
+	int ujmInsertOutitemItem(UjmOutitemParent insertData);
 
 }

@@ -35,9 +35,10 @@
 	
 	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
 		<![CDATA[
-		SELECT 
+			SELECT 
 		    sub.rn,
 		    sub.outitem_no,
+		    sub.seq_no,
 		    sub.cust_cd,
 		    sub.cust_nm,
 		    sub.order_no,
@@ -60,6 +61,7 @@
 		        ROW_NUMBER() OVER (ORDER BY ou.outitem_no) AS rn, 
 		        ou.outitem_no,
 		        ou.cust_cd, 
+		        ou.seq_no,
 		        c.cust_nm, 
 		        ou.order_no, 
 		        ord.order_dt, 
@@ -80,6 +82,55 @@
 	    	sub.rn >= ${start} AND sub.rn <= ${end}
 		]]> 
 	</select>
+	
+	<select id="outitemNoCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM tb_outitem
+			WHERE outitem_no LIKE #{outitem_no};
+		]]> 
+	</select>
+	
+	<select id="ujmGetSeqNo" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT COUNT(outitem_no) 
+			FROM tb_outitem
+			WHERE order_no = #{order_no};
+		]]> 
+	</select>
+	
+
+
+	<insert id="ujmInsertOutitem" parameterType="UjmOutitem">
+		<![CDATA[
+			insert into tb_outitem (outitem_no, seq_no, order_no, outitem_dt, cust_cd,
+				cust_emp, remark, outitem_emp_id, outitem_delete_chk)
+				
+			values ( #{outitem_no}, #{seq_no}, #{order_no}, #{outitem_dt}, #{cust_cd},
+				#{cust_emp}, #{remark}, #{outitem_emp_id}, 0)
+		]]> 
+	</insert>
+	
+	
+	<insert id="ujmInsertOutitemItem" parameterType="UjmOutitemItem">
+		<![CDATA[
+			insert into tb_outitem_item (outitem_no, order_no, item_cd, qty)
+				
+			values ( #{outitem_no}, #{order_no}, #{item_cd}, #{qty} )
+		]]> 
+	</insert>
+	
+	<select id="ujmOutitemItemCnt" parameterType="UjmOutitemItem" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM tb_outitem_item
+			WHERE outitem_no = #{outitem_no}
+			AND order_no = #{order_no}
+		]]> 
+	</select>
+	
+	
+	
 	
 	
 	

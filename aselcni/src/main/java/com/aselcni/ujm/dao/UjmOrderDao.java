@@ -13,5 +13,7 @@ public interface UjmOrderDao {
 	UjmOrderInfoToInsertDto ujmGetOrderInfoFromOrderNo(String order_no);
 
 	List<UjmOrderItem> ujmGetOrderItem(String order_no);
+
+	String ujmGetCustCd(String order_no);
 	
 }

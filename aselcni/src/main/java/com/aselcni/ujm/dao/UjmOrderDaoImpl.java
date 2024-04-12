@@ -64,4 +64,17 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 		}
 		return ujmListOrderItem;
 	}
+
+	@Override
+	public String ujmGetCustCd(String order_no) {
+		System.out.println("UjmOrderDaoImpl ujmGetCustCd 시작 ...");
+		System.out.println(order_no); 
+		try {
+			String cust_cd=session.selectOne("ujmGetCustCd", order_no);
+			return cust_cd;
+		} catch (Exception e) {
+			System.out.println("UjmOrderDaoImpl ujmGetCustCd 오류:"+e.getMessage());
+			return null;
+		}
+	}
 }
