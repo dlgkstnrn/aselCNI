@@ -193,5 +193,15 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		return result;
 	}
 
+	// ajax 3 -  생산지시 등록 (Modal version)
+	// 투입품 등록
+	// INSERT INTO TB_WORK_ITEM
+	@Override
+	public int workItemInsert(WorkItem workItem) {
+		
+		int result = psaDao.workItemInsert(workItem);
+		return result;
+	}
+
 
 }

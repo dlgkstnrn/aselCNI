@@ -43,5 +43,7 @@ public interface PsaWorkProdDao {
 
 	int workprocInsert(WorkProc workproc);
 
+	int workItemInsert(WorkItem workItem);
+
 
 }

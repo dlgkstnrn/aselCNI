@@ -43,4 +43,6 @@ public interface PsaWorkProdService {
 
 	int workprocInsert(WorkProc workproc);
 
+	int workItemInsert(WorkItem workItem);
+
 }

@@ -1,40 +1,47 @@
 	
 // 생산일자는 오늘 날짜로 기본값으로 함
-const today = document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+let today = document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
 
+// 현재 입력된 날짜 값
+// let prodplanDate = $('input[name=prodplan_dt]').val();
 
-// 중첩모달 닫기 클릭하면 첫번째 모달이 보여지도록
-// $('#cancle').on('click', function(){
-// 	$('#addItem').modal('hide');
+let prpDate = document.getElementById('currentDate');
 
-// 	// 300ms(0.3초) 대기 후 이전 모달 표시
-// 	setTimeout(function() {
-// 		$('#prodplan').modal('show');
-// 	}, 300); 
-// })
+// date oninput event
+function setWorkprod_dt() {
+
+	// prpDate = $(this).val();
+
+	$('#FormWorkProd').submit();
+
+	// 페이지 reload
+	location.reload();
+
+}
 
 
 
 // 날짜 계산 함수
-function addDays(today, days) {
+function addDays(days) {
 	
+	alert(today); // string
+	alert('prodplanDate: ' + prodplanDate);	// == today
+	alert(typeof prodplanDate);	// string
+
+
+
+
+	// let currDate = new Date(today);	// 문자열을 Date 타입으로 변환
+	// let setDate = currDate.setDate(currDate.getDate() + days);
+	// alert('setDate: ' +setDate);	// 이상한 숫자???
+
+
+	// 페이지 reload
+	window.location.href = 'workprod';
+
 	
-  	//const clone = new Date(date);
-  	//clone.setDate(date.getDate() + days)
-  	//alert(clone);
-  	//document.getElementById('currentDate').value = clone;
-  	//return clone;
   	
 }
-
-//const today = new Date();
-//const tommorow = new Date(today);
-//const yesterday = new Date(today);
-
-//tommorow.setDate(today.getDate() + 1);
-//yesterday.setDate(today.getDate() - 1);
-
-
 
 
 
@@ -48,7 +55,6 @@ $(function () {
     });
 
     $("#btn-submit").click(function() {
-        // alert("Submit base form!");
         $("#btnSubmit").closest("form").submit();
     });
 });
@@ -88,9 +94,6 @@ $('#prodplanTB tbody tr').click(function() {
 	let prp_qty = document.getElementById('prp_qty');
 	let prp_work_dt = document.getElementById('prp_work_dt');
 	let prp_remark = document.getElementById('prp_remark');
-
-	// 공정 select box
-	// let proc_nm = document.getElementById('proc_nm');
 
 	// 투입품
 	let in_item_nm = document.getElementById('in_item_nm');
@@ -135,44 +138,20 @@ $('#prodplanTB tbody tr').click(function() {
 	  success: function(result) {
 		console.log(result);
 
-		// 1. 테이블로 추가
 		$('#prp_item_tr').empty();
 		$('#prp_item_tbody').empty();
-
+		
+		// 테이블에 추가
 		result.forEach(element => {
 			$('#prp_item_tbody').append(
 				`<tr class="inItemList">
-					<td>${element.item_cd}</td>
+					<td class="inItemCd">${element.item_cd}</td>
 					<td>${element.item_nm}</td>
-					<td><input type="number" value=${element.in_qty}>
+					<td><input type="number" name="in_qty" value=${element.in_qty}>
 					<button type="button" class="btn-close removeItem" aria-label="Close"></button></td>
 				</tr>`
 			);
 		});
-
-		// 2. ul, li로 추가
-		// $('#inItemList').empty();
-
-		// result.forEach(element => {
-
-		//   console.log(result.length);
-		//   console.log(element.item_cd+element.item_nm+element.in_qty);
-		//   console.log(element.item_cd);
-
-		//   // 2-1. 태그 생성 후 append
-		//   $('#inItemList').append(
-		//     `<li class="list-group-item">
-		//       <span>${element.item_cd}</span>
-		//       <span>${element.item_nm}</span>
-		//       <input type="number" value=${element.in_qty}>
-		//       <button type="button" class="btn-close removeItem" aria-label="Close"></button>
-		//     </li>`
-		//   );
-
-		//   // 2-2. 태그 생성 함수 호출
-		// //   $('#inItemList').append(liEle(element));
-
-		// });
 
 	  }
 	});
@@ -181,7 +160,6 @@ $('#prodplanTB tbody tr').click(function() {
 // 조회된 투입품 리스트 빼기
 // 버튼 .removeItem 클릭 시 추가된 품목 하나씩 제거
 $(document).on('click', '.removeItem', function() {
-  // $('.removeItem').on('click', function() {
 	$(this).parent().parent().remove();
 });
 
@@ -308,6 +286,8 @@ $('#sml_no').on('change', function() {
 	});
 });
 
+
+
 // 선택한 투입품 리스트 임시저장할 배열
 let tempSave = [];
 
@@ -363,10 +343,10 @@ $('#addItemSave').click(function() {
 	tempSave.forEach(element => {
 
 		$('#prp_item_tbody').append(
-			`<tr>
-				<td>${element.item_cd}</td>
+			`<tr class="inItemList">
+				<td class="inItemCd">${element.item_cd}</td>
 				<td>${element.item_nm}</td>
-				<td><input type="number">
+				<td><input type="number" name="in_qty">
 				<button type="button" class="btn-close removeItem" aria-label="Close"></button></td>
 			</tr>`
 		);
@@ -384,7 +364,8 @@ $('#addItemSave').click(function() {
 
 
 // 생산지시 등록 모달 form 전송
-$('form').on('submit', function(e){
+// $('form').on('submit', function(e){
+$('#insertDataBtn').on('click', function(e){
 
 	// form 전송 막기
 	e.preventDefault(); 
@@ -398,22 +379,10 @@ $('form').on('submit', function(e){
 		item_cd : $('#prp_item_cd').val(),
 		item_nm : $('#prp_item_nm').val(),
 		qty : $('#prp_qty').val(),
-		// proc_cd : $("#selectProc option:selected").val(),
 		work_dt : $('#prp_work_dt').val(),
 		work_cmd : $('#work_cmd').val(),
 		remark : $('#prp_remark').val()
 	}
-
-	console.log('컨트롤러에 보내줄거: ' + data);	// object
-	console.log('컨트롤러에 prodplan_no: ' + data.prodplan_no);
-	console.log('컨트롤러에 workprod_dt: ' + data.workprod_dt);
-	console.log('컨트롤러에 item_cd: ' + data.item_cd);
-	console.log('컨트롤러에 item_nm: ' + data.item_nm);
-	console.log('컨트롤러에 qty: ' + data.qty);
-	// console.log('컨트롤러에 proc_cd: ' + data.proc_cd);
-	console.log('컨트롤러에 work_dt: ' + data.work_dt);
-	console.log('컨트롤러에 work_cmd: ' + data.work_cmd);
-	console.log('컨트롤러에 remark: ' + data.remark);
 
 
 
@@ -426,62 +395,36 @@ $('form').on('submit', function(e){
 		procArr.push(chkProcList);
 	});
 
-	console.log('배열에 담긴 공정리스트'+procArr);
+	console.log('공정 배열 '+procArr);
 
 
 
-	// 3. 투입품 Map (key + value)
-	let inItemMap = new Map();
+	// 3. 투입품 값 배열
 
-	// if(!inItem.has(Key)){
-	// 	inItem.set(Key, Value);
-	// }
-
-	// item_cd 담을 배열
+	// 3-1. item_cd 담을 배열
 	let itemCdArr = [];
-	// $('#prp_item_tbody').find('td:eq(0)').text().push(itemCdArr);
-	// console.log('코드 배열 '+itemCdArr);
 
-	// in_qty 담을 배열
-	let inQtyArr = [];
-	// $('#prp_item_tbody').find('td:eq(2)').find('input').val().push(inQtyArr);
-	// console.log('수량 배열 '+inQtyArr);
-
-	let inItemArr = [];
-	$('.inItemList').each(function(index, el) {
-		// let inItemObj = {
-		// 	item_cd : $('.inItemList').find('td:eq(0)').text(),
-		// 	in_qty : $('.inItemList').find('td:eq(2)').find('input').val()
-		// };
-		// inItemArr.push(inItemObj);
-
-		// let item_cd = $('.inItemList').find('td:eq(0)').text();
-		// // itemCdArr.push(item_cd);
-
-		// let in_qty = $('.inItemList').find('td:eq(2)').find('input').val();
-		// // inQtyArr.push(in_qty);
-
-		// inItemMap.set(item_cd, in_qty);
-
-		console.log(index+'+'+el);
+	// item_cd 값을 가진 td 개수만큼 순회하며 배열에 담음
+	$('.inItemList td.inItemCd').each(function(index, item) {
+		itemCdArr.push($(this).text());
 	})
-	// console.log('투입품 배열??'+inItemArr);	
-	// console.log('투입품 배열??'+inItemArr.inItemObj);	
-	// console.log('투입품 배열??'+inItemArr.item_cd);	
-	// console.log('투입품 배열??'+inItemArr.in_qty);	
 
-	// console.log('코드 배열??'+itemCdArr);	
-	// console.log('수량 배열??'+inQtyArr);	
-
-	// console.log('투입품 맵 '+inItemMap);
-	
-	// // [키, 값] 쌍을 대상으로 순회합니다.
-	// for (let [key, value] of inItemMap) { // map.entries()와 동일합니다.
-	// 	console.log(key + ":" + value); // cucumber,500 ...
-	// }
+	console.log('코드 배열 '+itemCdArr);
 
 
-/*
+
+	// 3-2. in_qty 담을 배열
+	let inQtyArr = [];
+
+	// input 개수만큼 순회하며 배열에 담음
+	$("input[name=in_qty]").each(function(index, item) {
+		inQtyArr.push($(item).val());
+	});
+
+	console.log('수량 배열 '+inQtyArr);
+
+
+
 	// ajax로 컨트롤러에 form 전송
 	// ajax Promise 1-2-3
 	new Promise((succ, fail) => {
@@ -500,110 +443,91 @@ $('form').on('submit', function(e){
 			},
 			fail: function(result) {
 				fail(error);
+				alert('ajax 1단계 실패');
+			},
+			error: function() {
+				alert('ajax 1단계 에러');
 			}
 		});
 
-	}).then((arg) => {
+	}).then((result) => {
 
-		// ajax 2. 공정 배열 전송
-		$.ajax({
+		return new Promise((resolve, reject) =>{
 
-			url: 'workprocInsert',
-		  	type: 'post',
-		  	data: {"procArr" : procArr},
-		  	dataType: 'json',
+			// ajax 2. 공정 배열 전송
+			$.ajax({
 
-			// ajax로 배열 전송 시 필요한 설정
-		  	traditional: true,
+				url: 'workprocInsert',
+			  	type: 'post',
+			  	data: {
+					workprod_no : result.workprod_no ,
+					"procArr" : procArr
+				},
 
-		  	success: function(result2) {
-				console.log(result2);
-				succ(result2);
-			},
-			fail: function(result2) {
-				fail(error);
-			}
+				// ajax로 배열 전송 시 필요한 설정
+			  	traditional: true,
+
+			  	success: function(result2) {
+					console.log(result2);
+					resolve(result2);
+				},
+				fail: function(error) {
+					reject(error);
+					alert('ajax 2단계 실패');
+				},
+				error: function() {
+					reject();
+					alert('ajax 2단계 에러');
+				}
+			});
 		});
 
-	}).then((arg) => {
+	}).then((result2) => {
 
-		// ajax 3. 투입품
-		$.ajax({
+		return new Promise((resolve, reject) =>{
 
-			url: 'workItemInsert',
-			type: 'post',
-			// data: ,
+			// ajax 3. 투입품 코드 배열, 투입 수량 배열 전송
+			$.ajax({
 
-			success: function(result3) {
-				console.log(result3);
-				succ(result3);
+				url: 'workItemInsert',
+				type: 'post',
+				data: {
+					workprod_no : result2.workprod_no ,
+					"itemCdArr" : itemCdArr,
+					"inQtyArr" : inQtyArr
+				},
 
-				// 생산지시 등록 모달 닫기
-				$('#prodplan').modal('hide');
-			},
-			fail: function(result3) {
-				fail(error);
-			}
+				// ajax로 배열 전송 시 필요한 설정
+				traditional: true,
+
+				success: function(result3) {
+					console.log(result3);
+					resolve(result3);
+
+					// 생산지시 등록 모달 닫기
+					$('#prodplan').modal('hide');
+
+					// 페이지 reload
+					window.location.href = 'workprod';
+				},
+				fail: function(error) {
+					reject(error);
+					alert('ajax 3단계 실패');
+				},
+				error: function() {
+					reject();
+					alert('ajax 3단계 에러');
+				}
+			});
+
 		});
 
 	});
-*/
-	// // ajax로 컨트롤러에 form 전송
-	// // ajax 1. 공정, 투입품 제외한 것
-	// $.ajax({
-		
-	// 	url: 'workprodInsert',
-	// 	type: 'post',
-	// 	data: JSON.stringify(data),
-	// 	contentType: 'application/json; charset=utf-8',
-
-	// 	success: function(result) {
-	// 		console.log(result);
-
-
-
-
-	// 		// 생산지시 등록 모달 닫기
-	// 		$('#prodplan').modal('hide');
-	// 	}
-	// });
-
-	
-	
-	// // ajax 2. 공정 배열 전송
-	// $.ajax({
-
-	// 	url : 'workprocInsert',
-	//   	type : 'post',
-	//   	data : {"procArr" : procArr},
-	//   	dataType : 'json',
-
-	// 	// ajax로 배열 전송 시 필요한 설정
-	//   	traditional: true,
-
-	//   	success : function(data){
-	// 		console.log(data);
-	// 	}
-	// });
 
 });
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
 // 생산지시내역 조회 모달 이벤트
 // tr 클릭했을때 이벤트 발생
 $('#workprodTB tbody tr').click(function() {

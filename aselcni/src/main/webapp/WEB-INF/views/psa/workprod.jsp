@@ -58,18 +58,18 @@ pageEncoding="UTF-8"%>
 
       <section class="section dashboard">
 
-        <form action="workprod">
+        <form id="FormWorkProd" action="workprod">
           <!-- 조회할 생산일자 -->
           <div class="position-relative d-flex align-items-center p-3">
             생산시작일자
             <!-- name 값이 컨트롤러에서 받는 param 된다. -->
-            <input class="mx-2" type="date" id="currentDate" name="prodplan_dt"/>
+            <input class="mx-2" type="date" oninput="setWorkprod_dt()" id="currentDate" name="prodplan_dt"/>
             <!-- yesterday -->
-            <button onclick="addDays(today, -1)" type="submit" class="btn btn-success mx-2">
+            <button onclick="addDays(-1)" type="button" class="btn btn-success mx-2">
               <i class="bi bi-arrow-left"></i>
             </button>
             <!-- tomorrow -->
-            <button onclick="addDays(today, 1)" type="submit" class="btn btn-success">
+            <button onclick="addDays(1)" type="button" class="btn btn-success">
               <i class="bi bi-arrow-right"></i>
             </button>
           </div>
@@ -99,7 +99,6 @@ pageEncoding="UTF-8"%>
                   <!-- Modal Version -->
                   <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
                   <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}">
-                    <!-- <th scope="row">${planStat.count}</th> -->
                     <th scope="row">${planList.prodplan_no}</th>
                     <td>${planList.seq_no}</td>
                     <td>${planList.item_nm}</td>
@@ -107,17 +106,6 @@ pageEncoding="UTF-8"%>
                     <td>${planList.work_dt}</td>
                   </tr>
 
-                  <!-- .jsp Version -->
-                  <!-- tr 전체를 a 태그로 -->
-                  <!-- <a href="/insertWPR.jsp?prodplan_no=${planList.prodplan_no}">
-                    <tr>
-                      <th scope="row">${planList.prodplan_no}</th>
-                      <td>${planList.seq_no}</td>
-                      <td>${planList.item_nm}</td>
-                      <td>${planList.qty}</td>
-                      <td>${planList.work_dt}</td>
-                    </tr>
-                  </a> -->
                 </c:forEach>
               </tbody>
 
@@ -322,7 +310,7 @@ pageEncoding="UTF-8"%>
                 <!-- 모달 버튼 -->
                 <div class="modal-footer">
                   <button id="cancle" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
-                  <button type="submit" class="btn btn-success">등록</button>
+                  <button type="submit" id="insertDataBtn" class="btn btn-success">등록</button>
                   <!-- <button type="reset" class="btn btn-outline-secondary">Reset</button> -->
                 </div>
 
