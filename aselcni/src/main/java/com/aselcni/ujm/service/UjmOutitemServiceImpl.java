@@ -39,6 +39,12 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		 return ujmListOutitems;
 	}
 
+	@Override
+	public String ujmSetOutitemNo(String outitem_no) {
+		System.out.println("UjmOutitemServiceImpl ujmListOutiem Start..." );
+		return null;
+	}
+
 
 
 

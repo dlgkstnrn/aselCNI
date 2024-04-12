@@ -177,93 +177,115 @@ $(document).ready(function () {
 
       $('#outitem_item_list tbody').empty();
       
-      $.each(response, function(index, item){ /* 각각의 주문품목 */
+      $.each(response, function(index, item) { /* 각각의 주문품목 */
+        var checkbox = $('<input>').attr({
+            type: 'checkbox',
+            name: 'selectedItems',
+            value: item.item_cd,
+            'data-qty': item.qty
+        });
+
+        var insertQtyInput = $('<input>').attr({
+            type: 'number',
+            class: 'insertQty form-control',
+            name: 'insert_qty',
+        }).on('change', function() {
+            var qtyValue = $(this).val();
+            $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
+        });
+        
         $('#outitem_item_list tbody').append(
-            '<tr>' +
-            '<td><input type="checkbox" name="selectedItems" value="' + 
-            item.item_cd + '" data-qty="' + item.qty + '"></td>' +
-            '<td>' + item.item_nm + '</td>'+ 
-            '<input type="hidden" class="insertItemCd form-control" name="item_cd" value="item.item_cd" >' +
-            '<td>' + item.stock + '</td>' +
-            '<td>' + item.qty + '</td>' +
-            '<td> <input type="number" class="insertQty form-control" name="qty">' + '</td>' +
-            '</tr>'
+            $('<tr>').append(
+                $('<td>').append(checkbox),
+                $('<td>').text(item.item_nm),
+                $('<td>').text(item.stock),
+                $('<td>').text(item.qty),
+                $('<td>').append(insertQtyInput),
+                /* $('<td>').text() */
+            )
         );
-    });
+      });
+
     }, 
     error: function(xhr, status, error) {
         console.error(error);
     }
- });
-
-
-
+  });
 
 
 }); //selectBox
 
-$('#insertOutitemBtn').click(function(e){ //출고등록 버튼(form) 누르면
-  e.preventDefault(); // 기본 이벤트 동작 방지
+  $('#insertOutitemBtn').click(function(e){ //출고등록 버튼(form) 누르면
+    e.preventDefault(); // 기본 이벤트 동작 방지
 
-  // 현재 날짜 생성
-  var now = new Date();
-  var year = now.getFullYear();
-  var month = now.getMonth() + 1;
-  var day = now.getDate();
-  var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+    // 현재 날짜 생성
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = (now.getMonth() + 1).toString();
+    if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경
 
-  
-  var outitemDt = $('#outitem_dt').val(); //출고일자 : 달력으로 선택
-  var orderDt=  $('#orderInfo_order_dt').val() //주문일자 : 주문번호 선택시 자동으로 가져와 보여줌
+    var day = now.getDate();
+    var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+    console.log(currentDate);
+    
+    var outitemDt = $('#insert_outitem_dt').val(); //출고일자 : 달력으로 선택
+    var orderDt=  $('#orderInfo_order_dt').val() //주문일자 : 주문번호 선택시 자동으로 가져와 보여줌
+    console.log(outitemDt);
+    console.log(orderDt);
 
+    // 날짜 형식 문자열에서 '-' 제거한 숫자값 계산
+    var currentDateValue = Number(currentDate.replace(/-/g, ''));
+    var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
+    var orderDtValue =  Number(orderDt.replace(/-/g, ''));
 
-  // 날짜 형식 문자열에서 '-' 제거한 숫자값 계산
-  var currentDateValue = Number(currentDate.replace(/-/g, ''));
-  var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
-  var orderDtValue =  Number(orderDt.replace(/-/g, ''));
+  // 현재 날짜와 outitem_dt 비교
+  if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
+    //이 조건 만족할 경우에만 출고등록 진행....
+    
+    // form으로 제출할 outitem데이터들
+    var insertOutitemData = {
+        outitem_no : outitemDt, //일단 2024-04-07 그대로 보내고, OUT2404070001..으로의 변환은 자바에서, seq_no와 같이.
+        order_no: $('#insertOrderNo').val(),
+        outitem_dt: $('#insert_outitem_dt').val(),
+        cust_emp: $('#insert_cust_emp').val(),
+        remark: $('#insert_remark').val()
+    };
 
-// 현재 날짜와 outitem_dt 비교
-if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
-  //이 조건 만족할 경우에만 출고등록 진행....
-  
-  // 폼 데이터 수집
-  var formData = {
-      orderNo: $('#orderNo').val(),
-      custmEmp: $('#custmEmp').val(),
-      remark: $('#remark').val(),
-      // 다른 입력란 데이터 추가
-  };
+    console.log(insertOutitemData);
 
-  // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
-  var selectedItems = [];
-  $('input[name="selectedItems"]:checked').each(function() {
-      var itemCd = $(this).val();
-      var qty = $(this).data('qty');
-      selectedItems.push({ item_cd: itemCd, qty: qty });
+    // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
+    var selectedItems = [];
+    $('input[name="selectedItems"]:checked').each(function() {
+        var itemCd = $(this).val();
+        var qty = $(this).data('qty');
+        selectedItems.push({ item_cd: itemCd, qty: qty });
+    });
+
+    console.log(selectedItems);
+
+    // 데이터 조합
+    var insertData = {
+        outitemData: insertOutitemData,
+        selectedItems: selectedItems
+    };
+
+    console.log(insertData);
+
+    // 조합한 insertData를 서버로 전송
+    $.ajax({
+        url: 'insertOutitem',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(insertData),
+        success: function(response){
+            alert('출고 등록 완료.');
+        }
+    });
+
+  } else {
+    alert("출고 날짜가 정상적으로 설정되지 않았습니다.");
+        }
   });
-
-  // 데이터 조합
-  var postData = {
-      formData: formData,
-      selectedItems: selectedItems
-  };
-
-  // 서버로 전송
-  $.ajax({
-      url: 'insertOutitem',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(postData),
-      success: function(response){
-          // 성공적으로 처리된 경우
-          alert('출고 등록 완료.');
-      }
-  });
-
-} else {
-  alert("출고 실패.");
-      }
-});
 
 
 

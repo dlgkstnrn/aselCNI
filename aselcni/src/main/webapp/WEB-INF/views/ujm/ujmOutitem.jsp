@@ -102,9 +102,11 @@ pageEncoding="UTF-8"%>
 
                           <div class="modal-header">
                             <h5 class="modal-title">출고등록</h5>
+
                             <button type="button" class="btn-close" 
                             data-bs-dismiss="modal" aria-label="Close"></button>
                               <!-- 좌측 상단의 닫기버튼(X) -->
+
                           </div> <!-- modal-header -->
 
                             <!-- 등록 폼 form -->
@@ -146,7 +148,7 @@ pageEncoding="UTF-8"%>
                                   for="outitem_dt"
                                   class="col-sm-3 col-form-label">출고일자</label>
                                 <div class="col-sm-9">
-                                  <input type="date" class="form-control" id="outitem_dt" 
+                                  <input type="date" class="form-control" id="insert_outitem_dt" 
                                     name="outitem_dt" style="width: 200px;" required="required"/>
                                 </div>
                               </div>
@@ -174,7 +176,7 @@ pageEncoding="UTF-8"%>
                                   <input
                                     type="text"
                                     class="form-control"
-                                    id="cust_emp"
+                                    id="insert_cust_emp"
                                     placeholder="거래처 담당자명 입력"
                                     name="cust_emp"
                                     autocomplete="off"
@@ -222,10 +224,12 @@ pageEncoding="UTF-8"%>
                                     <table class="table table-hover" id="outitem_item_list">
                                       <thead>
                                         <tr>
+                                          <th></th> <!-- 체크박스 공간 -->
                                           <th>제품명</th>
                                           <th>현재 재고</th>
                                           <th>주문수량</th>
                                           <th>출고수량</th>
+                                          <!-- <th>남은 주문 수량</th> -->
                                         </tr>
                                       </thead>
                     
@@ -262,7 +266,7 @@ pageEncoding="UTF-8"%>
                                   <input
                                     type="text"
                                     class="form-control"
-                                    id="outitem.remark"
+                                    id="insert_remark"
                                     name="remark"/>
                                 </div>
                               </div>

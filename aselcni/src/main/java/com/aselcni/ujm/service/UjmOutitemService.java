@@ -12,4 +12,6 @@ public interface UjmOutitemService {
 
 	List<UjmOutitem> ujmListOutitem(UjmOutitem outitem);
 
+	String ujmSetOutitemNo(String outitem_no);
+
 }

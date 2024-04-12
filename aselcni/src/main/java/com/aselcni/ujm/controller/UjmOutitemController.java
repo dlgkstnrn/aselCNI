@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aselcni.ujm.model.UjmOrder;
 import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
+import com.aselcni.ujm.model.UjmOrderItem;
 import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
+import com.aselcni.ujm.model.UjmOutitemParent;
 import com.aselcni.ujm.service.UjmOrderService;
 import com.aselcni.ujm.service.UjmOutitemService;
 import com.aselcni.ujm.service.UjmPaging;
@@ -79,22 +82,35 @@ public class UjmOutitemController {
 	
 	//출고 등록
 	@RequestMapping(value = "insertOutitem") 
-	public ResponseEntity<String> ujmInsertOutitem(@RequestBody List<OrderItemDTO>
-			HttpServletRequest request, UjmOutitem outitem, Model model, HttpSession session) {
-		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
-		
-//		outitem=new UjmOutitem();
-		System.out.println(order_no);
-		System.out.println(outitem);
+	public String ujmInsertOutitem(@RequestBody UjmOutitemParent insertData,
+			HttpServletRequest request, Model model, HttpSession session) {
+//		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
+//		if(session.getAttribute("user_id")!=null) {
+//        String userId=(String)session.getAttribute("user_id");
+//        
+//        UjmOutitem outitem=new UjmOutitem();
+//        
+//        System.out.println(userId);
+//        System.out.println(insertData.getOutitemData());
+//        
+//        
+//        outitem.setOutitem_emp_id(userId);
+//        
+//
+//        UjmOutitem outitemData=insertData.getOutitemData();
+//        outitem.setOutitem_no(uos.ujmSetOutitemNo(outitemData.getOutitem_no())); //가져온 날짜형태의 출고번호(2024-04-13)을 제대로 만들기
+//        System.out.println(outitem.getOutitem_no());
+//        
+//        System.out.println(insertData.getSelectedItems());
 		
 		//맨처음 리스트에 표시되는 outitemList
 //		model.addAttribute("outitemList",outitemList); 
 		
 		//outitemView
 		
-		return ResponseEntity.ok("주문이 성공적으로 처리되었습니다.");
+		return "ujm/ujmOutitem";
 		 
-		
+//		} else return "redirect:/";
 	}
 	/*
 	 * @RequestMapping(value = "insertOutitem") public String

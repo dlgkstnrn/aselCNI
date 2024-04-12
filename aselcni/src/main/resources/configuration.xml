@@ -82,6 +82,8 @@
 		
 		<typeAlias alias="UjmOrderNoDto" type="com.aselcni.ujm.model.UjmOrderNoDto" />
 		<typeAlias alias="UjmOrderInfoToInsertDto" type="com.aselcni.ujm.model.UjmOrderInfoToInsertDto" />
+		<typeAlias alias="UjmOutitemParent" type="com.aselcni.ujm.model.UjmOutitemParent" />
+		
 
 		<typeAlias alias="CSG_TB_CUSTMST"
 			type="com.aselcni.csg.model.CSG_TB_CUSTMST" />

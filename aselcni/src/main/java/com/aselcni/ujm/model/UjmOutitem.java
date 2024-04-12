@@ -32,7 +32,7 @@ public class UjmOutitem { //출고
 	private String order_end_dt; //주문만료일
 	private int    order_status_chk; //주문상태
 	private String item_nm; //품목명 (출고품목)
-	private int    qty; //출고수량
+	private int    qty; //출고하는 상품별 수량
 	private String user_nm; //출고담당자(입력)
 	
 	//상품명과 주문개수 중복표시
