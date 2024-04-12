@@ -104,17 +104,26 @@
 							<span class="calendar-group-title-text">생산계획표</span>
 						</div>
 						<div class="btn-container">
+							<div class="prodPlan-read">
+							    <button type="button" class="btn btn-secondary" id="readButton">
+							    	상세
+							    </button>
+							</div>
 							<div class="prodPlan-write">
 								<button type="button" class="btn btn-secondary"
-									data-bs-toggle="modal" data-bs-target="#verticalycentered">등록
+									data-bs-toggle="modal" data-bs-target="#verticalycentered">
+									등록
 								</button>
 							</div>
 							<div class="prodPlan-update">
-							    <button type="button" class="btn btn-secondary" id="updateButton">수정
+							    <button type="button" class="btn btn-secondary" id="updateButton">
+							    	수정
 							    </button>
 							</div>
 						    <div class="prodPlan-delete">
-						        <button type="button" class="pboard-write-Btn btn btn-secondary" id="deleteEventButton">삭제</button>
+						        <button type="button" class="pboard-write-Btn btn btn-secondary" id="deleteEventButton">
+							        삭제
+						        </button>
 						    </div>
 						</div>
 						<!-- Modal -->
@@ -548,6 +557,83 @@
 						    </div>
 						</div>
 						<!-- End 수정 모달 -->
+						<!-- 상세 모달 -->
+						<div class="prodPlan-modal-read">
+						    <div class="modal fade" id="verticalycentered-read" tabindex="-1" style="display: none;" aria-hidden="true">
+						        <div class="modal-dialog modal-dialog-centered insert-modal-css-read">
+						            <div class="modal-content">
+						                <div class="modal-header">
+						                    <h5 class="modal-title" style="font-weight: 700; margin-top: 10px;">생산 계획 상세</h5>
+						                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						                </div>
+						                <div class="modal-body">
+						                    <div class="row mb-3 oderCode-read">
+						                        <label for="oderCodeInput-read" class="col-sm-2 col-form-label">주문번호</label>
+						                        <div class="col-sm-5">
+						                            <input type="text" id="prodPlanNoInput-read" class="form-control oderCodeInput-read" readonly>
+						                        </div>
+						                        <label for="prodPlanWorkingDaysInput-read" class="col-sm-2 col-form-label prodPlanWorkingDaysLabel-read">작업일수</label>
+						                        <div class="col-sm-1 prodPlanWorkingDays-read">
+						                            <input type="number" class="form-control prodPlanWorkingDaysInput-read" id="prodPlanWorkingDaysInput-read" min="-99999" max="99999" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productStartDateInput-read" class="col-sm-2 col-form-label">시작예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productStartDateInput-read" id="productStartDateInput-read" readonly>
+						                        </div>
+						                        <label for="productEmp-read" class="col-sm-2 col-form-label productEmp-read">담당자</label>
+						                        <div class="col-sm-1">
+						                            <input type="text" class="form-control productEmpInput-read" id="productEmp-read" name="prodplan_emp_id-read" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productEndDateInput-read" class="col-sm-2 col-form-label">완료예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productEndDateInput-read" id="productEndDateInput-read" readonly>
+						                        </div>
+						                        <label for="productionQuantity-read" class="col-sm-2 col-form-label prodCount-read">생산수량</label>
+						                        <div class="col-sm-1 prodCount-input-class-read">
+						                            <input type="number" class="form-control prodCount-input-read" id="productionQuantity-read" min="-99999" max="99999" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productName-read" class="col-sm-2 col-form-label">제품명</label>
+						                        <div class="col-sm-10">
+						                            <input type="text" class="form-control productNameInput-read" id="productName-read" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="productItem-container-read">
+						                        <div class="row mb-3">
+						                             <label for="productItemName-read"
+						                                class="col-sm-2 col-form-label">투입자재
+						                             </label>
+							                        <div class="col-sm-10">
+							                            <div id="select_zone-read" class="prodItem-read">
+							                                <div id="prodItem-bar-read" class="prodItem-bar-read">
+							                                    <span id="delete_all-read" style="cursor: pointer;">#</span>
+							                                    <span>투입자재</span> <span>수량</span>
+							                                </div>
+							                                <ul id="prodItem-list-read" class="prodItem-list-read"></ul>
+							                            </div>
+							                        </div>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="remark-read" class="col-sm-2 col-form-label">비고</label>
+						                        <div class="col-sm-10">
+						                            <textarea class="form-control remark-read" id="remark-read" name="remark-read" style="min-height: 120px; max-height: 120px;" readonly></textarea>
+						                        </div>
+						                    </div>
+						                </div>
+						                <div class="modal-footer">
+						                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</div>
+						<!-- End 상세 모달 -->
 						<!-- Calendar -->
 						<div class="calendar-group">
 							<div id='calendar'></div>

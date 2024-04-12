@@ -7,12 +7,13 @@
 		SELECT
 		pp.*,
 		im.ITEM_NM AS item_nm, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
-		im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS
-		cust_nm
+		im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS cust_nm,
+		um.USER_NM AS prodplan_emp_name
 		FROM TB_PRODPLAN pp
 		INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
 		LEFT JOIN TB_ORDER od ON pp.ORDER_NO = od.ORDER_NO
 		LEFT JOIN TB_CUSTMST cm ON od.CUST_CD = cm.CUST_CD
+		LEFT JOIN TB_USERMST um ON pp.prodplan_emp_id = um.user_id
 		WHERE pp.prodPlan_delete_chk = 0
 		ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO
 	</select>
@@ -23,8 +24,7 @@
 		ip.*,
 		im.ITEM_NM AS item_nm, im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost
 		FROM TB_ITEM_PROD ip
-		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD =
-		im.ITEM_CD
+		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
 	</select>
 
 	<!-- 주문 리스트: 등록할때 주문당 생산계획짜야됨 -->

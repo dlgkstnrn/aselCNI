@@ -78,6 +78,10 @@ $(document).ready(function() {
 				info.el.style.fontWeight = 'bold';
 				info.el.style.border = '2px solid black';
 			}
+			// 더블클릭 이벤트 리스너: 이벤트 상세조회
+			info.el.addEventListener('dblclick', function() {
+				showEventDetails(info.event);
+			});
 		},
 		eventMouseEnter: function(info) {
 			// 툴팁이 비활성화되어 있으면 아무 것도 하지 않음
@@ -242,6 +246,62 @@ $(document).ready(function() {
 	});
 
 	calendar.render();
+
+	// 해당 이벤트 상세정보 조회
+	function showEventDetails(event) {
+		// 이벤트에 해당하는 상세 정보 찾기
+		var selectedEvent = responseProdPlans.prodPlans.find(plan => plan.prodPlan_no === event.id);
+
+		// 제목에 생산 계획 번호 결합
+		var modalTitle = '생산 계획 상세 (' + selectedEvent.prodPlan_no + ')';
+
+		// 제품
+		var productNameWithCode = selectedEvent.item_nm + ' (' + selectedEvent.item_cd + ')';
+
+		if (selectedEvent) {
+			$('#verticalycentered-read .modal-title').text(modalTitle);
+			$('#prodPlanNoInput-read').val(selectedEvent.order_no);
+			$('#prodPlanWorkingDaysInput-read').val(selectedEvent.work_dt);
+			$('#productStartDateInput-read').val(selectedEvent.prodPlan_dt);
+			$('#productEndDateInput-read').val(selectedEvent.prodPlan_end_dt);
+			$('#productionQuantity-read').val(selectedEvent.qty);
+			$('#productName-read').val(productNameWithCode);
+			$('#productEmp-read').val(selectedEvent.prodplan_emp_name);
+			$('textarea#remark-read').val(selectedEvent.remark);
+
+			// 투입자재 리스트 처리
+			var materialsList = $('#prodItem-list-read');
+			materialsList.empty(); // 기존 목록 초기화
+
+			// 해당하는 자재 정보 가져오기
+			var materials = responseProdPlans.prodItems.filter(item => item.prodPlan_no === selectedEvent.prodPlan_no);
+
+			// 가져온 자재 정보를 리스트에 추가
+			materials.forEach((material, index) => {
+				materialsList.append(`<li>
+				<span class="material-index-read">${index + 1}</span>
+				<span class="material-code-read">${material.item_cd}
+					<span class="material-name-read">(${material.item_nm})</span>
+				</span>  
+				<span class="material-quantity-read">${material.in_qty} 개</span>`);
+			});
+
+			console.log('상세모달표시');
+			// 모달 표시
+			$('#verticalycentered-read').modal('show');
+		}
+	}
+
+	// ============= 상세버튼 클릭시 상세모달 ================
+	$("#readButton").click(function(event) {
+		event.preventDefault();
+		if (selectedEvent) {
+			showEventDetails({ id: selectedEvent.prodPlan_no }); // 기존에 선택된 이벤트의 상세 정보를 이용하여 모달 표시
+		} else {
+			alert("상세 보기 할 이벤트를 먼저 선택해 주세요."); // 선택된 이벤트가 없을 경우 사용자에게 알림
+		}
+	});
+	// ============= End 상세버튼 클릭시 상세모달 ================	
 
 	// 툴팁창 On/Off 스위치 버튼
 	$('#flexSwitchCheckChecked').change(function() {
@@ -525,6 +585,8 @@ $(document).ready(function() {
 		$('.category-search-material-list tbody').empty();
 		$("#itemCountInput").val('0 / 0'); // 항목수 초기화
 		$("#itemTotalPriceInput").val('0원'); // 합계금액 초기화
+		$(this).find("input[type='checkbox']").prop('checked', false);
+		$(this).find("input[type='number']").val('');
 		activeModal = null;
 	});
 	$('#nestedItemModal').on('show.bs.modal', function() {
@@ -649,7 +711,9 @@ $(document).ready(function() {
 				$('#verticalycentered-update').modal('show'); // 수정 모달로 다시 이동
 			} else {
 				// 등록 모달에서의 처리 로직
-				selectedMaterialsInfo = tempSelectedMaterialsInfo;
+				tempSelectedMaterialsInfo.forEach(function(materialInfo) {
+					selectedMaterialsInfo.push(materialInfo);
+				});
 				displaySelectedMaterials(); // 등록 모달에 선택된 자재 정보 표시
 				$('#nestedItemModal').modal('hide');
 			}
@@ -702,11 +766,6 @@ $(document).ready(function() {
 		$("#prodItem-list").empty(); // 선택된 자재 목록 삭제
 		$('#prodItem-bar').hide(); // 선택된 자재 목록 상단 바 숨김
 		$('#initial_message').show();
-	});
-	// 모달 내의 체크박스 상태 및 입력 필드 초기화
-	$('#nestedItemModal').on('hidden.bs.modal', function() {
-		$(this).find("input[type='checkbox']").prop('checked', false);
-		$(this).find("input[type='number']").val('');
 	});
 
 	// 자재리스트 항목수 업데이트
@@ -953,14 +1012,16 @@ $(document).ready(function() {
 			// 자재 정보 수집
 			var selectedMaterials = [];
 			$('#prodItem-list li').each(function() {
+				var fullText = $(this).find('.material-code').text().trim();
+				var code = fullText.split('(')[0].trim(); // 괄호 "(" 기준으로 분할 후 첫 번째 부분을 사용
+
 				var material = {
-					code: $(this).find('.material-code').text().trim(), // 자재 코드
-					name: $(this).find('.material-name').text().trim(), // 자재 이름
+					code: code, 														 // 자재 코드
+					name: $(this).find('.material-name').text().trim(), 				 // 자재 이름
 					quantity: parseInt($(this).find('.material-quantity').text().trim()) // 자재 수량
 				};
 				selectedMaterials.push(material);
 			});
-
 			var formData = {
 				orderNo: $('#prodPlanNoInput').val(),
 				workDays: $('#prodPlanWorkingDaysInput').val(),
@@ -999,7 +1060,7 @@ $(document).ready(function() {
 		var currentUserName = $('#productEmp').val(); // 담당자 저장
 
 		if (!selectedEvent) {
-			alert('수정할 이벤트를 먼저 선택해주세요.');
+			alert('수정할 이벤트를 먼저 선택해 주세요.');
 			return;
 		}
 		// 제목에 생산 계획 번호 결합
@@ -1166,7 +1227,7 @@ $(document).ready(function() {
 	// =========== 생산계획 삭제 ============
 	$('#deleteEventButton').click(function() {
 		if (!selectedEvent) {
-			alert('삭제할 이벤트를 선택해주세요.');
+			alert('삭제할 이벤트를 선택해 주세요.');
 			return;
 		}
 
@@ -1180,7 +1241,7 @@ $(document).ready(function() {
 				data: JSON.stringify({ prodPlan_no: selectedEvent.prodPlan_no }),
 				success: function(response) {
 					alert('계획이 성공적으로 삭제되었습니다.');
-					calendar.refetchEvents(); 
+					calendar.refetchEvents();
 				},
 				error: function(xhr, status, error) {
 					alert('계획 삭제 중 오류가 발생했습니다.');

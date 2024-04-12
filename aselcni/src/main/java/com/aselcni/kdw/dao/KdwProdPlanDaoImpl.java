@@ -173,6 +173,7 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	@Override
 	public void saveItemProd(TB_ITEM_PROD tbItemProd) {
 		System.out.println("KdwProdPlanDaoImpl saveItemProd Start...");
+		System.out.println("KdwProdPlanDaoImpl saveItemProd 등록 투입자재: " + tbItemProd.toString());
 	    try {
 	        session.insert("kdwSaveItemProd", tbItemProd);
 	        System.out.println("KdwProdPlanDaoImpl tbItemProd: " + tbItemProd);
