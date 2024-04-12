@@ -124,6 +124,8 @@ public class JtuDaoImple implements JtuDaoInterface{
 			int rs =session.update("jtuDeletePriOne",jpri);
 			System.out.println("JtuDaoImple deletePriOne rs --> " + rs);
 			
+			
+			
 		} catch (Exception e) {
 			System.out.println("deletePriOne exception->" + e.getMessage());
 		}

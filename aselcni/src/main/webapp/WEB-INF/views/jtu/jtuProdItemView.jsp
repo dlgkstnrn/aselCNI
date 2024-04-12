@@ -514,6 +514,7 @@
 										method="post"
 									>
 
+									<input id="hiddenProdItemEditModal" type="hidden" name="proditem_no">
 										<div class="row mb-3">
 											<label class="col-sm-2 col-form-label label-marquee"><span
 												class="moving-text"
@@ -1141,6 +1142,7 @@
 				console.log("pri",pri)
 				
 				$('#titleProdItemEditModal').text(pri.proditem_no);
+				$('#hiddenProdItemEditModal').val(pri.proditem_no);
 				$('#workProdNoEditModal').text(pri.workprod_no);
 				$('#proditemUpdateEditModal').val(pri.proditem_update);
 				$('#empEditModal').val(pri.proditem_emp_id);

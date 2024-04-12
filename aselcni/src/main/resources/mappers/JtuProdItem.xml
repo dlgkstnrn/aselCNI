@@ -166,20 +166,19 @@
 		    PLN_QTY = #{pln_qty}, 
 		    PROD_QTY = #{prod_qty}, 
 		    BAD_QTY = #{bad_qty}, 
-		    BAD_RES = #{bad_res}, 
 		    REMARK = #{remark}, 
 		    WH_CD = #{wh_cd}, 
 		    PRODITEM_EMP_ID = #{proditem_emp_id}, 
 		    PRODITEM_UPDATE = CONVERT(CHAR(10), GETDATE(), 23), 
 		    PRODITEM_DELETE_CHK = 0
-		where WORKPROD_NO = #{workprod_no}
+		where PRODITEM_NO = #{proditem_no}
 
 	</update>
 	
 	<update id="jtuDeletePriOne" parameterType="JtuProdItem">
 		update TB_PRODITEM
 		set PRODITEM_DELETE_CHK = 1 
-		where WORKPROD_NO = #{workprod_no}
+		where PRODITEM_NO = #{proditem_no}
 	</update>
 	
 	<select id="JtuGetPriBadList" parameterType="JtuProdItem" resultType="JtuProdItemBad">
