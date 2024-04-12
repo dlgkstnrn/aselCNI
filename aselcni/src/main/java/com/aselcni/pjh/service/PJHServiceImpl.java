@@ -95,12 +95,6 @@ public class PJHServiceImpl implements PJHServiceInterface {
 		System.out.println("PJHServiceImpl getInitemList start...");
 		return dao.getInitemList(initem);
 	}
-
-	@Override
-	public PJHInitem detailInitem(PJHInitem initem) {
-		System.out.println("PJHServiceImpl detailInitem start...");
-		return dao.detailInitem(initem);
-	}
 	
 	
 	

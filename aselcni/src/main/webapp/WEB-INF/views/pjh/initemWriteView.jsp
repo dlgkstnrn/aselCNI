@@ -93,7 +93,7 @@
 	              		</div>
 	              	</div>
 	              	
-	              <div class="modal fade" id="modalDialogScrollable" data-bs-backdrop="static" tabindex="-1">
+	              <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
 	                <div class="modal-dialog modal-dialog-scrollable">
 	                  <div class="modal-content">
 	                    <div class="modal-header">
@@ -162,17 +162,8 @@
 	              		</div>
 	              		<div class="col-md-4">
 	              			<div class="input-group">
-							  <span class="input-group-text">담당자(매입처)</span>
+							  <span class="input-group-text">담당자</span>
 							  <input id="cust_emp" type="text" class="form-control" placeholder="담당자명">
-							</div>
-	              		</div>
-	              	</div>
-	              	
-	              	<div class="row mt-1">
-	              		<div class="col-md-8">
-	              			<div class="input-group">
-							  <span class="input-group-text">입고담당자</span>
-							  <input  type="text" value="${sessionScope.user_nm}" class="form-control" readonly>
 							</div>
 	              		</div>
 	              	</div>

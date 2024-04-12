@@ -16,7 +16,7 @@ public class Paging {
 	
 	public Paging(int total, String currentPage1) {
 		this.total = total;	// 총 게시글 수
-		if(currentPage1 != null && currentPage1 != "") {	// 첫 시작시 null로 오기 때문에 초기값인 1로 유지
+		if(currentPage1 != null) {	// 첫 시작시 null로 오기 때문에 초기값인 1로 유지
 			this.currentPage = Integer.parseInt(currentPage1);
 		}
 		// 총 페이지 수
@@ -26,12 +26,11 @@ public class Paging {
 		
 		// rowPage는 화면에 가져올 페이지 수
 		start = (currentPage - 1) * rowPage; // 시작시 0	10 ...
-		/*
 		end = start + rowPage -1;					// 시작시 10	20 ...
 		if(end > total) {
 			end = total;
 		}	// end 오버플로우 시 total수로 고정
-		*/
+		
 		
 		
 		startPage = currentPage - (currentPage - 1) % pageBlock; // 시작시 1

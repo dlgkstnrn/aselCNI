@@ -25,8 +25,6 @@
 		LEFT JOIN 
 			(SELECT tii.PURC_NO, tii.ITEM_CD, ISNULL(SUM(ISNULL(tii.QTY,0)),0) AS QTY
 			FROM TB_INITEM_ITEM tii 
-			INNER JOIN TB_INITEM ti ON tii.INITEM_NO = ti.INITEM_NO
-			WHERE ti.INITEM_DELETE_CHK != 1
 			GROUP BY tii.PURC_NO,tii.ITEM_CD
 			) AS ii
 		ON (tpi.PURC_NO = ii.PURC_NO AND tpi.ITEM_CD = ii.ITEM_CD)
@@ -100,80 +98,33 @@
 		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO
 		INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
-		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
-		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
-		<if test="initem_no != null and initem_no != ''">
-			AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
+		<if test="searchItemNm != null and searchItemNm != ''">
+			AND ti2.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
 		</if>
-		<if test="cust_nm != null and cust_nm != ''">
-			AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
+		<if test="searchCustNm != null and searchCustNm != ''">
+			AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
 		</if>
-		<if test="purc_no != null and purc_no != ''">
-			AND ti.PURC_NO LIKE '%'+#{purc_no}+'%'
-		</if>
-		<if test="purc_emp_nm != null and purc_emp_nm != ''">
-			AND puser.USER_NM LIKE '%'+#{purc_emp_nm}+'%'
-		</if>
-		<if test="initem_emp_nm != null and initem_emp_nm != ''">
-			AND inuser.USER_NM LIKE '%'+#{initem_emp_nm}+'%'
-		</if>
-		<if test="item_nm != null and item_nm != ''">
-			AND ti2.ITEM_NM LIKE '%'+#{item_nm}+'%'
-		</if>
-		
 	</select>
 	
 	<select id="pjhInitemList" parameterType="PJHInitem" resultType="PJHInitem">
-		SELECT ti.*,tc.CUST_NM,inuser.USER_NM AS INITEM_EMP_NM,puser.USER_NM AS PURC_EMP_NM 
-					, (SELECT STRING_AGG(ti2.ITEM_NM, ',') FROM TB_INITEM_ITEM tii INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD WHERE ti.INITEM_NO = tii.INITEM_NO) AS ITEM_NM
+		SELECT ti.*,tc.CUST_NM  , (SELECT STRING_AGG(ti2.ITEM_NM, ',') FROM TB_INITEM_ITEM tii INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD WHERE ti.INITEM_NO = tii.INITEM_NO) AS ITEM_NM
 		FROM TB_INITEM ti
 		INNER JOIN TB_PURCHASE tp ON tp.PURC_NO = ti.PURC_NO 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
 		INNER JOIN (SELECT DISTINCT tii2.INITEM_NO
 							FROM TB_INITEM_ITEM tii2
 							INNER JOIN TB_ITEMMST ti4 ON ti4.ITEM_CD = tii2.ITEM_CD
-							<if test="item_nm != null and item_nm != ''">
-							WHERE ti4.ITEM_NM LIKE '%'+#{item_nm}+'%'
+							<if test="searchItemNm != null and searchItemNm != ''">
+							WHERE ti4.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
 							</if>
 							) AS sub ON ti.INITEM_NO = sub.INITEM_NO
-		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
-		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
-		<if test="initem_no != null and initem_no != ''">
-		AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
-		</if>
-		<if test="cust_nm != null and cust_nm != ''">
-		AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
-		</if>
-		<if test="purc_no != null and purc_no != ''">
-		AND ti.PURC_NO LIKE '%'+#{purc_no}+'%'
-		</if>
-		<if test="purc_emp_nm != null and purc_emp_nm != ''">
-		AND puser.USER_NM LIKE '%'+#{purc_emp_nm}+'%'
-		</if>
-		<if test="initem_emp_nm != null and initem_emp_nm != ''">
-		AND inuser.USER_NM LIKE '%'+#{initem_emp_nm}+'%'
+		<if test="searchCustNm != null and searchCustNm != ''">
+		AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
 		</if>
 		ORDER BY ti.INITEM_DT DESC
 		OFFSET #{start} ROW FETCH NEXT #{rowPage} ROW ONLY	
-	</select>
-	
-	<select id="pjhInitemByNo" parameterType="String" resultType="PJHInitem">
-		SELECT ti.*, tc.CUST_NM , iu.USER_NM AS initem_emp_nm, pu.USER_NM AS purc_emp_nm
-		FROM TB_INITEM ti
-		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO 
-		INNER JOIN TB_USERMST iu ON ti.INITEM_EMP_ID = iu.USER_ID
-		INNER JOIN TB_USERMST pu ON  tp.PURC_EMP_ID = pu.USER_ID 
-		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD 
-		WHERE ti.INITEM_NO = #{initem_no}
-	</select>
-	
-	<select id="pjhInitems" parameterType="String" resultType="PJHInitemItem">
-		SELECT *
-		FROM TB_INITEM_ITEM tii
-		INNER JOIN TB_ITEMMST ti ON tii.ITEM_CD = ti.ITEM_CD
-		WHERE tii.INITEM_NO = #{initem_no}
 	</select>
 	
 </mapper>
