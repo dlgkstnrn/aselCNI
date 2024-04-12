@@ -279,7 +279,6 @@ $(document).ready(function () {
         data: JSON.stringify(insertData),
         success: function(response){
             alert('출고 등록 완료.');
-            location.reload();
         }
     });
 
