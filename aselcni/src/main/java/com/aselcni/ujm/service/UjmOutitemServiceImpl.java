@@ -92,7 +92,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		System.out.println(insertData.getSelectedItems());
 		 for (UjmOutitemItem item : insertData.getSelectedItems()) { //출고품목 테이블에서 행 하나마다
 			 
-			 item.setOutitem_no(uod.ujmSetOutitemNo(outitemData.getOutitem_no())); 
+			 item.setOutitem_no(outitemData.getOutitem_no()); 
 			 item.setOrder_no(outitemData.getOrder_no());
 			 uod.ujmInsertOutitemItem(item); //하나씩 추가
          }

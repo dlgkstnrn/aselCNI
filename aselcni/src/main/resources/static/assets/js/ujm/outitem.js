@@ -279,6 +279,8 @@ $(document).ready(function () {
         data: JSON.stringify(insertData),
         success: function(response){
             alert('출고 등록 완료.');
+            $(".modal-content input").val("");
+            $(".modal-content textarea").val("");
         }
     });
 
