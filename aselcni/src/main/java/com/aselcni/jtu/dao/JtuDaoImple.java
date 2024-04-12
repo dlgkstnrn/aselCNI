@@ -1,5 +1,6 @@
 package com.aselcni.jtu.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -109,8 +110,41 @@ public class JtuDaoImple implements JtuDaoInterface{
 		System.out.println("JtuDaoImple updatePriOne Start... ");
 		try {
 			int rs =session.update("jtuUpdatePriOne",jpri);
-			System.out.println("JtuDaoImple updatePriOne rs --> " + rs);
 			
+			System.out.println("JtuDaoImple updatePriOne rs --> " + rs);
+			List<JtuProdItemBad> jpriBadListFromDB = session.selectList("JtuGetPriBadList", jpri);
+			System.out.println("JtuDaoImple updatePriOne jpriBadListFromDB --> " + jpriBadListFromDB);
+			
+			List<JtuProdItemBad> toAdd = new ArrayList<>();
+			List<JtuProdItemBad> toDelete = new ArrayList<>(jpriBadListFromDB);
+
+			for (JtuProdItemBad jpriBad : jpri.getJpriBadList()) {
+			    boolean exists = false;
+			    for (JtuProdItemBad dbJpriBad : jpriBadListFromDB) {
+			        if (jpriBad.getBad_cd().equals(dbJpriBad.getBad_cd())) {
+			            // 이미 존재하는 아이템, 따라서 삭제 리스트에서 제거
+			            toDelete.add(dbJpriBad);
+			            exists = true;
+			            break;
+			        }
+			    }
+			    if (!exists) {
+			        // DB에 존재하지 않으므로 추가 리스트에 포함
+			        toAdd.add(jpriBad);
+			    }
+			}
+			
+			// 추가할 항목 처리
+			System.out.println("JtuDaoImple updatePriOne toAdd --> " + toAdd);
+			System.out.println("JtuDaoImple updatePriOne toDelete --> " + toDelete);
+			for (JtuProdItemBad addJpriBad : toAdd) {
+			    session.insert("jtuInsertPriBad", addJpriBad);
+			}
+			
+			// 삭제할 항목 처리
+			for (JtuProdItemBad deleteJpriBad : toDelete) {
+			    session.delete("jtuDeletePriBad", deleteJpriBad);
+			}
 		} catch (Exception e) {
 			System.out.println("updatePriOne exception->" + e.getMessage());
 		}

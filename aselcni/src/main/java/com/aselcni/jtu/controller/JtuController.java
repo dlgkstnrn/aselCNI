@@ -141,7 +141,23 @@ public class JtuController {
 		return "";
 	}
 	
+	
+	@ResponseBody
+	@RequestMapping("deleteBadModal")
+	// 불량 코드 등록
+	public String deleteJabadOne(Model model, JtuBad jbad) {
+		System.out.println("JtuController deleteJabadOne Start... ");
+		System.out.println("JtuController deleteJabadOne jbad --> " + jbad);
+		
+		
+		return "";
+	}
+	
 
+	
+	
+	
+	
 	
 	@RequestMapping("submitWorkProdRegiModal")
 	// 생산 실적 등록
