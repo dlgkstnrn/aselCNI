@@ -2,21 +2,41 @@
 // 생산일자는 오늘 날짜로 기본값으로 함
 let today = document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
 
-// 현재 입력된 날짜 값
-// let prodplanDate = $('input[name=prodplan_dt]').val();
 
-let prpDate = document.getElementById('currentDate');
 
-// date oninput event
+// date onchange event
 function setWorkprod_dt() {
 
-	// prpDate = $(this).val();
+	// 현재 입력된 날짜 값
+	// let prodplanDate = $('input[name=prodplan_dt]').val();
+	// let currentDate = document.getElementById('currentDate');
+	let prodplan_dt = document.getElementById('currentDate').value;
 
-	$('#FormWorkProd').submit();
+	alert(prodplan_dt);	// string
 
-	// 페이지 reload
-	location.reload();
+	let dateParam = {
+		prodplan_dt : prodplan_dt
+	}
 
+	console.log('dateParam.prodplan_dt: ' + dateParam.prodplan_dt);
+
+	$.ajax({
+		url: 'inputDate',
+		type: 'post',
+		data: JSON.stringify(dateParam),
+		contentType: 'application/json; charset=utf-8',
+
+		success: function(result) {
+
+			console.log(result);
+			console.log(result.name + ", " + result.value);
+
+			// 페이지 reload
+			// location.reload();
+		}
+	});
+
+	// $('#FormWorkProd').submit();
 }
 
 

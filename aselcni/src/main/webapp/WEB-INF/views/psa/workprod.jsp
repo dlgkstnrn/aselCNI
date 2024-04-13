@@ -58,22 +58,23 @@ pageEncoding="UTF-8"%>
 
       <section class="section dashboard">
 
-        <form id="FormWorkProd" action="workprod">
+        <!-- <form id="FormWorkProd" action="#"> -->
           <!-- 조회할 생산일자 -->
           <div class="position-relative d-flex align-items-center p-3">
             생산시작일자
             <!-- name 값이 컨트롤러에서 받는 param 된다. -->
-            <input class="mx-2" type="date" oninput="setWorkprod_dt()" id="currentDate" name="prodplan_dt"/>
+            <input class="mx-2" type="date" onchange="setWorkprod_dt()" id="currentDate" name="prodplan_dt" min="2000-01-01"/>
+            <!-- <button type="submit">조회</button> -->
             <!-- yesterday -->
-            <button onclick="addDays(-1)" type="button" class="btn btn-success mx-2">
+            <!-- <button onclick="addDays(-1)" type="button" class="btn btn-success mx-2">
               <i class="bi bi-arrow-left"></i>
-            </button>
+            </button> -->
             <!-- tomorrow -->
-            <button onclick="addDays(1)" type="button" class="btn btn-success">
+            <!-- <button onclick="addDays(1)" type="button" class="btn btn-success">
               <i class="bi bi-arrow-right"></i>
-            </button>
+            </button> -->
           </div>
-        </form>
+        <!-- </form> -->
 
         <div class="d-flex justify-content-between">
           
