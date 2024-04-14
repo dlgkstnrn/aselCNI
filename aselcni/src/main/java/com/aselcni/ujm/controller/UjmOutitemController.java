@@ -114,14 +114,19 @@ public class UjmOutitemController {
 			return "redirect:/";
 			}
 	}
-	/*
-	 * @RequestMapping(value = "insertOutitem") public String
-	 * ujmInsertOutitem(@RequestParam() HttpServletRequest request, UjmOutitem
-	 * outitem, Model model, HttpSession session) {
-	 * System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
-	 * return "forward:outitem";
-	 */
-	
+
+	//각 테이블 행 눌렀을 때 조회 : 출고 관련 정보들 가져오기
+	@RequestMapping(value = "ujmGetOutitemDetail")
+	@ResponseBody
+    public List<UjmOutitem> ujmGetOutitemDetail(
+    		@RequestParam("outitem_no") String outitem_no,
+    		@RequestParam("order_no") String order_no) {
+		System.out.println("UjmOutitem 컨트롤러 ujmGetOutitemDetail 시작");
+		List<UjmOutitem> ujmListOutItemDetail=uos.ujmGetOutitemDetail(outitem_no, order_no);
+		System.out.println(ujmListOutItemDetail);
+		return ujmListOutItemDetail;
+	}
+		
 	
 	
 	
@@ -134,6 +139,9 @@ public class UjmOutitemController {
 		
 		return "ujm/ujmOutitem"; 
 	}
+	
+	
+
 	
 	//출고 삭제
 	@RequestMapping(value = "deleteOutitem") 

@@ -10,7 +10,6 @@ $(document).ready(function () {
     );
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   function modalContentClear() {
-    $("#order_no_modal").text("주문 번호 선택");
     $(".modal-content input").val("");
     $(".modal-content textarea").val("");
   }
@@ -72,24 +71,10 @@ $(document).ready(function () {
     $("#endDate").val(endDate.toISOString().slice(0, 10));
   }
 
-  //dropdown 기능
-    $("#order_no_modal").dropdown();
-    /* 주문번호 부분이 드롭다운으로 내려오게 */
-
-/*     $("#outitem_insert").dropdown();
-     등록모달 */ 
-
- /*      $(".dropdown-menu a").on("click", function () {
-        var selectedValue = $(this).attr("data-value");
-        $("#outitem_insert").text(selectedValue);
-      }); */
 
 
-    //조회 테이블 행 클릭시 modal 수정창으로 이동
-    $('tr[data-bs-toggle="modal"]').on("click", function () {
-      let orderNo = $(this).find("td:nth-child(2)").text();
-      $("#order_no_modal").val(orderNo);
-    });
+
+
 
 
      //등록버튼 눌렀을 때..
@@ -139,9 +124,8 @@ $(document).ready(function () {
       success: function(orderInfo) {
         console.log(orderInfo); //orderInfo 객체 자체
   
-        
-        $('#orderInfo_order_dt').val(orderInfo.order_dt); //주문일자
-        $('#orderInfo_order_dt').html(orderInfo.order_dt); 
+        $('#orderInfo_order_dt').val(orderInfo.order_dt);
+        $('#orderInfo_order_dt').html(orderInfo.order_dt);   //주문일자
 
         $('.orderInfo_cust_nm').val(orderInfo.cust_nm); //매입처, 표시부분과 input hidden 둘다
         $('#orderInfo_cust_nm').html(orderInfo.cust_nm); //매입처 표시 부분
@@ -312,6 +296,233 @@ $(document).ready(function () {
     alert("출고 날짜가 정상적으로 설정되지 않았습니다.");
         }
   });
+
+
+
+
+
+/* 조회 */
+
+    //메인화면 테이블 행 클릭시 modal 수정창으로 이동
+    $('tr[data-bs-toggle="modal"]').on("click", function () {
+
+
+      let outitemNo = $(this).find("td:nth-child(1)").text(); //출고번호
+      $("#detail_outitem_no").html(outitemNo);
+
+      let orderNo = $(this).find("td:nth-child(3)").text(); //주문번호
+      $("#detail_order_no").html(orderNo);
+
+      let orderDt = $(this).find("td:nth-child(4)").text(); //주문일자
+      $("#detail_order_dt").html(orderDt);
+
+      let outitemDt = $(this).find("td:nth-child(6)").text(); //출고일자
+      $("#detail_outitem_dt").html(outitemDt);
+
+      let custNm = $(this).find("td:nth-child(7)").text(); //매입처
+      $("#detail_cust_nm").html(custNm);
+
+      let orderStatusChk = $(this).find("td:nth-child(9)").text(); //주문 상태
+      $("#detail_order_status_chk").html(orderStatusChk);
+
+      let orderEndDt = $(this).find("td:nth-child(5)").text(); //주문 마감일(납기일)
+      $("#detail_order_end_dt").html(orderEndDt);
+
+
+      /* ajax로 그외 것, 출고한 품목들 가져오기 */
+      $.ajax({
+        url: 'ujmGetOutitemDetail',
+        type: 'GET',
+        data: { order_no: orderNo, outitem_no: outitemNo},
+        success: function(response) {
+          console.log(response);
+ 
+          
+          $.each(response, function(index, item) { /* 각각의 주문품목 */
+
+          let custEmp = item.cust_emp; //상대 담당자
+          $("#detail_cust_emp").html(custEmp);
+    
+          let remark = item.remark; //비고
+          $("#detail_remark").html(remark);
+
+
+
+            var checkbox = $('<input>').attr({
+                type: 'checkbox',
+                name: 'selectedItems',
+                value: item.item_cd,
+                'data-qty': item.qty
+            });
+
+            var updateQtyInput = $('<input>').attr({
+                type: 'number',
+                class: 'updateQty form-control',
+                name: 'update_qty',
+                min: 0, 
+                max: item.stock, 
+                value: item.outitem_qty ,
+                readonly: 'readonly'
+            }).on('change', function() {
+              var qtyValue = parseInt($(this).val()); // 입력된 값
+              var maxQty = parseInt($(this).attr('max')); //재고 
+              var minQty = parseInt($(this).attr('min')); //0
+              console.log('qtyValue:'+qtyValue);
+              console.log('maxQty:'+maxQty);
+              console.log('minQty:'+minQty);
+              console.log('remain_qty:'+item.remain_qty);
+
+              console.log(Boolean(qtyValue > maxQty));
+              console.log(Boolean(qtyValue >item.remain_qty));
+              console.log(Boolean(qtyValue < minQty));
+              console.log(Boolean(isNaN(qtyValue)));
+
+              $(this).val(qtyValue); 
+              $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
+              
+              if (qtyValue > maxQty ||qtyValue >item.remain_qty || qtyValue < minQty || isNaN(qtyValue)) {
+                $('#updateOutitemSubmitBtn').prop('disabled', false); 
+              } else {
+                $('#updateOutitemSubmitBtn').prop('disabled', true);
+              };
+              
+              
+            });
+            
+            $('#detail_outitem_item_list tbody').append(
+                $('<tr>').append(
+                    $('<td>').append(checkbox),
+                    $('<td>').text(item.item_nm),
+                    $('<td>').text(item.stock),
+                    $('<td>').text(item.qty),
+                    $('<td>').text(item.remain_qty),
+                    $('<td>').append(updateQtyInput),
+                )
+            );
+          });
+
+
+
+            
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+
+    }); //ajax
+
+
+    // 수정하기 버튼 클릭시
+    $("#updateOutitemBtn").on("click", function (e) {
+      e.preventDefault(); // 기본 이벤트 동작 방지
+
+      updateQtyInput.removeAttr('readonly');
+
+      var $row = $(this).closest("tr");
+      var $outitemDtInput = $row.find("#detail_outitem_dt");
+
+      
+      // 출고일자 달력으로 변경가능하게
+      $outitemDtInput.replaceWith('<input type="date" class="form-control" id="detail_outitem_dt"'
+      +' name="outitem_dt" style="width: 200px;" required="required"/>');
+
+
+      // 현재 날짜 생성
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = (now.getMonth() + 1).toString();
+      if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경
+  
+      var day = now.getDate();
+      var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+      console.log(currentDate);
+      console.log(outitemDt);
+      console.log(orderDt);
+  
+      // 날짜 형식 문자열에서 '-' 제거한 숫자값 계산
+      var currentDateValue = Number(currentDate.replace(/-/g, ''));
+      var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
+      var orderDtValue =  Number(orderDt.replace(/-/g, ''));
+
+      if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
+        $("#updateOutitemSubmitBtn").removeAttr("hidden");
+      } else {
+        $('#updateOutitemSubmitBtn').prop('disabled', true);
+      }
+
+
+  });
+
+  //수정 완료
+  $('#updateOutitemSubmitBtn').click(function(e){ //수정 완료 버튼 누르면
+      
+
+      
+    
+      
+    // form으로 제출할 outitem데이터들
+    var insertOutitemData = {
+        outitem_no : outitemDt, //일단 2024-04-07 그대로 보내고, OUT2404070001..으로의 변환은 자바에서, seq_no와 같이.
+        order_no: $('#insertOrderNo').val(),
+        outitem_dt: $('#insert_outitem_dt').val(),
+        cust_emp: $('#insert_cust_emp').val(),
+        remark: $('#insert_remark').val()
+    };
+
+    console.log(insertOutitemData);
+
+    // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
+    var selectedItems = [];
+    $('input[name="selectedItems"]:checked').each(function() {
+        var itemCd = $(this).val();
+        var qty = $(this).data('qty');
+        selectedItems.push({ item_cd: itemCd, qty: qty });
+    });
+
+    console.log(selectedItems);
+
+    // 데이터 조합
+    var insertData = {
+        outitemData: insertOutitemData,
+        selectedItems: selectedItems
+    };
+
+    console.log(insertData);
+
+    // 조합한 insertData를 서버로 전송
+    $.ajax({
+        url: 'insertOutitem',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(insertData),
+        success: function(response){
+            alert('출고 등록 완료.');
+            $(".modal-content input").val("");
+            $(".modal-content textarea").val("");
+        }
+    });
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }) //수정완료
+
+
+    }); //조회
+
 
 
 

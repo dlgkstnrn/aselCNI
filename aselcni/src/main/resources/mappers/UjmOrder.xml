@@ -47,7 +47,6 @@
 	       ori.qty,
 	       ori.qty - ISNULL(oi.qty, 0) AS remain_qty,
 	       i.item_nm,
-	       i.item_cd,
 	       dbo.FN_CURRENT_STOCK(ori.item_cd) AS stock
 		FROM TB_ORDER_ITEM AS ori
 		JOIN TB_ITEMMST AS i ON ori.item_cd = i.item_cd

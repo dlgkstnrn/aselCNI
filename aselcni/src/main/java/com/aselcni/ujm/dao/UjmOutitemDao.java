@@ -23,4 +23,6 @@ public interface UjmOutitemDao {
 
 	int ujmOutitemItemCnt(UjmOutitem outitemData);
 
+	List<UjmOutitem> ujmGetOutitemDetail(String outitem_no, String order_no);
+
 }

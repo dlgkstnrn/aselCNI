@@ -37,4 +37,8 @@ public class UjmOutitem { //출고
 	
 	//상품명과 주문개수 중복표시
 	private String items; //출고제품
+	
+	//조회에서 사용
+	private String outitem_qty;
+	private String remain_qty;
 }

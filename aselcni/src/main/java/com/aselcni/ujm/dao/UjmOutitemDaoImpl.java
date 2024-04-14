@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.aselcni.ujm.model.UjmOrderItem;
 import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
 import com.aselcni.ujm.model.UjmOutitemItem;
@@ -142,6 +143,28 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 			System.out.println("UjmOutitemDaoImpl ujmOutitemItemCnt 오류:"+e.getMessage());
 			return -1;
 		}
+	}
+
+	@Override
+	public List<UjmOutitem> ujmGetOutitemDetail(String outitem_no, String order_no) {
+		System.out.println("UjmOutitemDaoImpl ujmGetOutitemDetail 시작 ..." );
+		List<UjmOutitem> ujmListOutitemDetail = null;
+		System.out.println(outitem_no);
+		System.out.println(order_no);
+		UjmOutitem outitem=new UjmOutitem();
+		outitem.setOutitem_no(outitem_no);
+		outitem.setOrder_no(order_no);
+		System.out.println(outitem);
+		try {
+			ujmListOutitemDetail=session.selectList("ujmGetOutitemDetail",outitem);
+			if (ujmListOutitemDetail!=null) {
+				System.out.println("UjmOutitemDaoImpl ujmGetOutitemDetail.size():"+ujmListOutitemDetail.size());
+				System.out.println(ujmListOutitemDetail);
+			}
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmGetOutitemDetail 오류: "+e.getMessage());
+		}
+		return ujmListOutitemDetail;
 	}
 
 		

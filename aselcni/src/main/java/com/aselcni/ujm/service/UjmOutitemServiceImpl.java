@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aselcni.ujm.dao.UjmOrderDao;
 import com.aselcni.ujm.dao.UjmOutitemDao;
 import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
+import com.aselcni.ujm.model.UjmOrderItem;
 import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
 import com.aselcni.ujm.model.UjmOutitemItem;
@@ -103,6 +104,14 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		System.out.println("UjmOutitemServiceImpl ujmSetOutitemNo Start...");
 		String changedOutitemNo=uod.ujmSetOutitemNo(outitem_no);
 		return changedOutitemNo;
+	}
+
+	@Override
+	public List<UjmOutitem> ujmGetOutitemDetail(String outitem_no, String order_no) {
+		System.out.println("UjmOutitemServiceImpl ujmGetOutitemDetail Start...");
+		List<UjmOutitem> ujmListOutitemDetail=null;
+		ujmListOutitemDetail=uod.ujmGetOutitemDetail(outitem_no, order_no);
+		return ujmListOutitemDetail;
 	}
 
 
