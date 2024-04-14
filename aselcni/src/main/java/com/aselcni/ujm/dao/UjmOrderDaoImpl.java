@@ -77,4 +77,17 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 			return null;
 		}
 	}
+
+	@Override
+	public int ujmChangeOrderStatusChk(String order_no) {
+		System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk start..");
+		int ujmChangeOrderStatusChk= 0;
+		try {	
+			ujmChangeOrderStatusChk = session.update("ujmChangeOrderStatusChk",order_no);
+			System.out.println(ujmChangeOrderStatusChk);
+		} catch (Exception e) {
+			System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk Exception->"+e.getMessage());
+		}
+		return ujmChangeOrderStatusChk;
+	}
 }

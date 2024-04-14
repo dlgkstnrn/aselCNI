@@ -79,7 +79,7 @@
 		<![CDATA[
 			SELECT COUNT(*) 
 			FROM tb_outitem
-			WHERE outitem_no LIKE #{outitem_no};
+			WHERE outitem_no LIKE CONCAT('%', #{outitem_no}, '%')
 		]]> 
 	</select>
 	

@@ -60,15 +60,16 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 			
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyMMdd");
 			String changedOutitem_no = "OUT" + sdf2.format(date); // OUT240401
+			System.out.println("changedOutitem_no:"+changedOutitem_no);
 			
 			int outitemNoCnt=session.selectOne("outitemNoCnt", changedOutitem_no); 
 			//OUT240401로 시작하는(포함하는) 출고번호의 개수를 셈 (삭제여부와 무관)
-			System.out.println(outitemNoCnt);
+			System.out.println("outitemNoCnt:"+outitemNoCnt);
 			
-			int outitemNoPlusCnt=outitemNoCnt+1;
+			int outitemNoPlusCnt=outitemNoCnt+1; //0이면(없으면) 1로, 1이면 2로....
 			
-			String outitemNoStr = String.valueOf(outitemNoPlusCnt);
-	        int outitemNoStrLength = outitemNoStr.length();
+			String outitemNoStr = String.valueOf(outitemNoPlusCnt); 
+	        int outitemNoStrLength = outitemNoStr.length(); //자릿수
 	        
 	        if (outitemNoStrLength == 1) { //한자리
 	        	outitemNoStr=changedOutitem_no +"000" + outitemNoPlusCnt; //OUT2404010001
@@ -79,7 +80,7 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 	        } 
 	          else {outitemNoStr= changedOutitem_no + String.valueOf(outitemNoPlusCnt); //OUT2404011234
 	        }
-	        System.out.println(outitemNoStr);
+	        System.out.println("outitemNoStr:"+outitemNoStr);
 			return outitemNoStr;
 		} catch (Exception e) {
 			System.out.println("UjmOutitemDaoImpl ujmSetOutitemNo 오류:"+e.getMessage());

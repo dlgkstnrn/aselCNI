@@ -17,4 +17,6 @@ public interface UjmOutitemService {
 
 	int ujmInsertOutitemItem(UjmOutitemParent insertData);
 
+	String ujmSetOutitemNo(String outitem_no);
+
 }

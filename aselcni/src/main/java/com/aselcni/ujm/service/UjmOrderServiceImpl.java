@@ -9,6 +9,9 @@ import com.aselcni.ujm.dao.UjmOutitemDao;
 import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
 import com.aselcni.ujm.model.UjmOrderItem;
 import com.aselcni.ujm.model.UjmOrderNoDto;
+import com.aselcni.ujm.model.UjmOutitem;
+import com.aselcni.ujm.model.UjmOutitemItem;
+import com.aselcni.ujm.model.UjmOutitemParent;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class UjmOrderServiceImpl implements UjmOrderService {
 	
 	private final UjmOrderDao uord;
+	
+	private final UjmOutitemDao uod;
 	
 	@Override
 	public List<UjmOrderNoDto> ujmGetOrderNo() {
@@ -43,5 +48,12 @@ public class UjmOrderServiceImpl implements UjmOrderService {
 		List<UjmOrderItem> ujmListOrderItem=null;
 		ujmListOrderItem=uord.ujmGetOrderItem(order_no);
 		return ujmListOrderItem;
+	}
+
+	@Override
+	public int ujmChangeOrderStatusChk(String order_no) {
+		System.out.println(order_no);
+		int ujmChangeOrderStatusChk=uord.ujmChangeOrderStatusChk(order_no); 
+		return ujmChangeOrderStatusChk;
 	}
 }

@@ -228,8 +228,8 @@ pageEncoding="UTF-8"%>
                                           <th>제품명</th>
                                           <th>현재 재고</th>
                                           <th>주문수량</th>
+                                          <th>남은 주문 수량</th>
                                           <th>출고수량</th>
-                                          <!-- <th>남은 주문 수량</th> -->
                                         </tr>
                                       </thead>
                     
@@ -516,18 +516,12 @@ ${page}
               <nav aria-label="..." style="margin: auto">
                 <ul class="pagination">
 
-                  <li class="page-item">
-                    <a class="page-link" href="outitem?currentPage=${startPage}">Start</a>
-                  </li>
-
                   <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
                   <li class="page-item">
                     <a class="page-link" href="outitem?currentPage=${i}">${i}</a>
                   </li>
                   </c:forEach>
-                  <li class="page-item">
-                    <a class="page-link" href="outitem?currentPage=${endPage}">End</a>
-                  </li>
+
                 </ul>
               </nav>
               <!-- End Disabled and active states -->
@@ -555,9 +549,10 @@ ${page}
         > <!-- 상세 부분.. (수정,삭제에도 사용) -->
 
           <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
+            <div class="modal-content"> <!-- 닫기버튼 눌렀을 때 
+              이 부분의 input과 textarea의 val이 초기화 -->
               <div class="modal-header">
-                <h1 class="modal-title">출고 상세</h1>
+                <h5 class="modal-title">출고 상세</h5>
                 <button
                   type="button"
                   class="btn-close"

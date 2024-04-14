@@ -15,5 +15,7 @@ public interface UjmOrderDao {
 	List<UjmOrderItem> ujmGetOrderItem(String order_no);
 
 	String ujmGetCustCd(String order_no);
+
+	int ujmChangeOrderStatusChk(String order_no);
 	
 }

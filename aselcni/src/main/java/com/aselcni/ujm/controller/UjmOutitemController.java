@@ -35,6 +35,8 @@ public class UjmOutitemController {
 
 	private final UjmOutitemService uos;
 	
+	private final UjmOrderService uor;
+	
 	@RequestMapping(value = "ujmExample") 
 	public String ujmLoginForm(HttpServletRequest request) {
 		return "ujm/example"; 
@@ -87,16 +89,30 @@ public class UjmOutitemController {
 		if(session.getAttribute("user_id")!=null) {
 			String userId=(String)session.getAttribute("user_id");
 			// service, dao, mapper명(insertEmp)까지->insert
+			
+			insertData.getOutitemData().setOutitem_no(uos.ujmSetOutitemNo(insertData.getOutitemData().getOutitem_no())); 
+			//가져온 날짜형태의 출고번호(2024-04-13)을 제대로 만들기
+	        System.out.println(insertData.getOutitemData().getOutitem_no());
+			
 			int insertOutitemResult = uos.ujmInsertOutitem(insertData, userId); //출고테이블 등록, 정상등록시 1 비정상 -1 리턴
 			System.out.println("컨트롤러 insertOutitemResult:"+insertOutitemResult);
 			
 			
 			int insertOutitemItemResult=uos.ujmInsertOutitemItem(insertData); //출고품목을 등록, 품목개수 리턴
 			System.out.println("insertOutitemItemResult"+insertOutitemItemResult);
+			
+			int ujmChangeOrderStatusChk=uor.ujmChangeOrderStatusChk(insertData.getOutitemData().getOrder_no()); 
+			//주문의 상태 변경하기, 2진행중 3출고완료
+			
+			System.out.println("ujmChangeOrderStatusChk"+ujmChangeOrderStatusChk);
+			
 		
 		return "ujm/ujmOutitem";
 		 
-		} else return "redirect:/";
+		} else {
+			System.out.println("로그인 안됨");
+			return "redirect:/";
+			}
 	}
 	/*
 	 * @RequestMapping(value = "insertOutitem") public String

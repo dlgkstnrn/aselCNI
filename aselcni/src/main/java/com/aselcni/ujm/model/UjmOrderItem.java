@@ -12,4 +12,5 @@ public class UjmOrderItem { //주문품목
 	//조인용
 	private String item_nm; //제품명, tb_itemmst와 조인
 	private int    stock;  //재고, 프로시저 사용
+	private int    remain_qty; //남은 주문량 (품목별)
 }

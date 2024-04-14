@@ -57,9 +57,6 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
         System.out.println(insertData.getOutitemData());
         UjmOutitem outitemData=insertData.getOutitemData(); //가져온 출고 객체
         
-        outitem.setOutitem_no(uod.ujmSetOutitemNo(outitemData.getOutitem_no())); //가져온 날짜형태의 출고번호(2024-04-13)을 제대로 만들기
-        System.out.println(outitem.getOutitem_no());
-        
         outitem.setSeq_no(uod.ujmGetSeqNo(outitemData.getOrder_no())); //주문번호를 토대로 순번을 찾아 설정
         System.out.println(outitem.getSeq_no());
         
@@ -67,6 +64,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
         System.out.println(outitem.getCust_cd());
         
         //단순변환
+        outitem.setOutitem_no(outitemData.getOutitem_no());
         outitem.setOrder_no(outitemData.getOrder_no());
         outitem.setOutitem_dt(outitemData.getOutitem_dt());
         outitem.setCust_emp(outitemData.getCust_emp());
@@ -82,12 +80,11 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 	}
 
 	@Override
+	@Transactional
 	public int ujmInsertOutitemItem(UjmOutitemParent insertData) {
 		System.out.println("UjmOutitemServiceImpl ujmInsertOutitemItem Start..." );
 		UjmOutitem outitemData=insertData.getOutitemData(); //가져온 출고 객체
 		System.out.println(outitemData);
-		outitemData.setOutitem_no(uod.ujmSetOutitemNo(outitemData.getOutitem_no())); //마찬가지로 출고번호 변경
-		
 		
 		System.out.println(insertData.getSelectedItems());
 		 for (UjmOutitemItem item : insertData.getSelectedItems()) { //출고품목 테이블에서 행 하나마다
@@ -99,6 +96,13 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		 int OutitemItemCnt=uod.ujmOutitemItemCnt(outitemData); //추가된 행 개수 찾기
 		 
 		return OutitemItemCnt;
+	}
+
+	@Override
+	public String ujmSetOutitemNo(String outitem_no) {
+		System.out.println("UjmOutitemServiceImpl ujmSetOutitemNo Start...");
+		String changedOutitemNo=uod.ujmSetOutitemNo(outitem_no);
+		return changedOutitemNo;
 	}
 
 
