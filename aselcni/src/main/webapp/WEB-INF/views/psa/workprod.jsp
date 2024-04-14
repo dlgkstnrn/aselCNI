@@ -403,8 +403,6 @@ pageEncoding="UTF-8"%>
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
-              <!-- WorkProdModal.jsp 호출 -->
-
               <!-- 3. 생산지시내역 조회 모달 내용 -->
               <div class="modal-header">
                   <h5 class="modal-title">생산지시내역</h5>

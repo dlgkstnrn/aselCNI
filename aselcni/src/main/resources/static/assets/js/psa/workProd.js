@@ -8,11 +8,7 @@ let today = document.getElementById('currentDate').value = new Date().toISOStrin
 function setWorkprod_dt() {
 
 	// 현재 입력된 날짜 값
-	// let prodplanDate = $('input[name=prodplan_dt]').val();
-	// let currentDate = document.getElementById('currentDate');
 	let prodplan_dt = document.getElementById('currentDate').value;
-
-	alert(prodplan_dt);	// string
 
 	let dateParam = {
 		prodplan_dt : prodplan_dt
@@ -21,18 +17,39 @@ function setWorkprod_dt() {
 	console.log('dateParam.prodplan_dt: ' + dateParam.prodplan_dt);
 
 	$.ajax({
-		url: 'inputDate',
+		url: 'workprod/workprodTB',
 		type: 'post',
 		data: JSON.stringify(dateParam),
 		contentType: 'application/json; charset=utf-8',
 
-		success: function(result) {
+		success: function(array) {
 
-			console.log(result);
-			console.log(result.name + ", " + result.value);
+			console.log(array);
 
-			// 페이지 reload
-			// location.reload();
+			$('#workprodTB tbody tr').empty();
+			$('#workprodTB tbody').empty();
+
+			array.forEach(element => {
+
+				console.log('element: ' + element);
+
+			  	$('#workprodTB tbody').append(
+					`<tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${element.workprod_no}" >
+						<th scope="row">${element.workprod_no}</th>
+						<td>${element.seq_no}</td>
+						<td>${element.item_nm}</td>
+						<td>${element.qty}</td>
+						<td>${element.work_dt}</td>
+					</tr>`
+			  	);
+		  	});
+
+		},
+		fail: function() {
+			alert('fail!!!!');
+		},
+		error: function() {
+			alert('error!!!');
 		}
 	});
 

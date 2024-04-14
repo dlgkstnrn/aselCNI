@@ -87,10 +87,10 @@ public class PsaWorkProdController {
 	}
 	
 	// 달력 날짜 변경 후 ajax
-	@RequestMapping("inputDate")
-//	@ResponseBody
+	@RequestMapping("workprod/workprodTB")
+	@ResponseBody
 //	public String inputDate(@RequestParam("prodplan_dt") String prodplan_dt, ProdPlan prodPlan, WorkProd workProd, Model model) {
-		public Model inputDate(@RequestBody ProdPlan paramPR, ProdPlan prodPlan, WorkProd workProd, Model model) {
+		public List<WorkProd> inputDate(@RequestBody ProdPlan paramPR, ProdPlan prodPlan, WorkProd workProd, Model model) {
 		
 		System.out.println("이걸 타고잇나????");
 		
@@ -103,15 +103,23 @@ public class PsaWorkProdController {
 		workProd.setWorkprod_dt(workprod_dt);
 		
 		// private method call
-		commonWorkProd(prodPlan, workProd, model);
+//		commonWorkProd(prodPlan, workProd, model);
 		
 		
 		// ajax 성공 시 workProd List 를 바꿔줘야 하는데?
-//		List<WorkProd> workList = psaService.getWorkList(workProd);
-//		model.addAttribute("workList", workList);
+		List<WorkProd> workList = psaService.getWorkList(workProd);
+		model.addAttribute("workList", workList);
 		
-		System.out.println("모델이를 리턴할까????");
-		return model;
+		System.out.println("workList.size(): " + workList.size());
+		System.out.println("리턴된 workList: " + workList);
+		
+//		System.out.println("모델이를 리턴할까????");
+//		return model;
+		
+//		System.out.println("return \"psa/workprodTB\"");
+//		return "psa/workprod";	
+		
+		return workList;
 		
 	}
 	
