@@ -23,5 +23,7 @@ public class KphOutItem {
 	private String dateSearchFilter;
 	private String cust_nm;
 	private String user_nm;
+	private String return_no;
+	private String url;
 	
 }

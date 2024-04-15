@@ -11,7 +11,7 @@ public class KphPaging {
 
 	private int currentPage = 1;
 	private int rowPage = 10;
-	private int pageBlock = 10;
+	private int pageBlock = 5;
 	private int start;
 	private int end;
 	private int startPage;
@@ -26,9 +26,9 @@ public class KphPaging {
 		}
 		start = (currentPage - 1) * rowPage + 1; 
 		end = start + rowPage - 1;
-		totalPage = (int)Math.ceil((double)total / rowPage);
+		totalPage = (int)Math.ceil((double)total / rowPage); 
 		startPage = currentPage - (currentPage -1) % pageBlock; 
-		endPage = startPage + pageBlock -1;
+		endPage = startPage + pageBlock -1; 
 		
 		if(endPage > totalPage) {
 			endPage = totalPage;

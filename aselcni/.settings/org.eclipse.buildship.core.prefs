@@ -28,9 +28,13 @@ java.home=C\:/Program Files/Java/jdk-17
 jvm.arguments=
 offline.mode=false
 <<<<<<< HEAD
+<<<<<<< HEAD
 override.workspace.settings=false
 =======
 override.workspace.settings=true
 >>>>>>> PURjdj2
+=======
+override.workspace.settings=false
+>>>>>>> PURKPH2
 show.console.view=false
 show.executions.view=false
