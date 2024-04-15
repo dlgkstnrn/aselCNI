@@ -55,76 +55,76 @@ $(document).ready(function() {
 
 //중분류애들 => 대분류 선택시 값 넘어가는것 + 중분류
 $('#BigType').on('change',(event) => {
-	console.log(event.target.value);
-	const bigType = event.target.value;
-	if(bigType==''){
-		alert("대분휴 선택해");
-		return;
-	}
-	$.ajax({
-		type: 'GET',
-		url: '/modalMid',
-		data: {
-			big_no: bigType,
-			cust_cd: custCd
-		},
-		success: (rsp)=>{
-			console.log(rsp);
-			$('#midType').empty();
-			$('#midType').append(
-					`<option value="">중분류를 선택해주세요</option>`
-				);
-			rsp.forEach((item)=>{
-				$('#midType').append(
-					`<option value="${item.mid_no}">${item.mid_content}</option>`
-				);
-			})
-			$('#midType').attr('bigNo',rsp[0].big_no);
-		}
-		
-	})
+   console.log(event.target.value);
+   const bigType = event.target.value;
+   if(bigType==''){
+      alert("대분휴 선택해");
+      return;
+   }
+   $.ajax({
+      type: 'GET',
+      url: '/modalMid',
+      data: {
+         big_no: bigType,
+         cust_cd: custCd
+      },
+      success: (rsp)=>{
+         console.log(rsp);
+         $('#midType').empty();
+         $('#midType').append(
+               `<option value="">중분류를 선택해주세요</option>`
+            );
+         rsp.forEach((item)=>{
+            $('#midType').append(
+               `<option value="${item.mid_no}">${item.mid_content}</option>`
+            );
+         })
+         $('#midType').attr('bigNo',rsp[0].big_no);
+      }
+      
+   })
 })
 
 //소분류애들 => 중분류 선택시 값 넘어가는것 + 소분류
 $('#midType').on('change',(event) => {
-	console.log(event.target.value);
-	const mid = event.target;
-	const mid_no = mid.value;
-	//주석처리한게 진형님 코드
-	const big_no = mid.getAttribute('bigNo');
-	console.log('big_no:',big_no);
-	console.log('mid_no:',mid_no);
+   console.log(event.target.value);
+   const mid = event.target;
+   const mid_no = mid.value;
+   //주석처리한게 진형님 코드
+   const big_no = mid.getAttribute('bigNo');
+   console.log('big_no:',big_no);
+   console.log('mid_no:',mid_no);
 
     //const big_no = $('#midType').find(':selected').data('big-no');
     
-	if(mid_no==null||mid_no==''){
-		alert("중분류 선택해");
-		return;
-	}
-	$.ajax({
-		type: 'GET',
-		url: '/modalSml',
-		data: {
-			mid_no,
-			big_no,
-			cust_cd: custCd
-		},
-		success: (rsp)=>{
-			console.log(rsp);
-			$('#smlType').empty();
-			$('#smlType').append(
-					'<option value="">소분류룰 선택하세요</option>'
-				)
-			rsp.forEach((item)=>{
-				$('#smlType').append(
-					`<option value="${item.sml_no}" data-mid-no="${item.mid_no}" data-big-no="${item.big_no}">${item.sml_content}</option>`
-				)
-			})
-			$('#smlType').attr('bigNo',rsp[0].big_no);
-			$('#smlType').attr('midNo',rsp[0].mid_no);
-		}
-		
-	})
+   if(mid_no==null||mid_no==''){
+      alert("중분류 선택해");
+      return;
+   }
+   $.ajax({
+      type: 'GET',
+      url: '/modalSml',
+      data: {
+         mid_no,
+         big_no,
+         cust_cd: custCd
+      },
+      success: (rsp)=>{
+         console.log(rsp);
+         $('#smlType').empty();
+         $('#smlType').append(
+               '<option value="">소분류룰 선택하세요</option>'
+            )
+         rsp.forEach((item)=>{
+            $('#smlType').append(
+               `<option value="${item.sml_no}" data-mid-no="${item.mid_no}" data-big-no="${item.big_no}">${item.sml_content}</option>`
+            )
+         })
+         $('#smlType').attr('bigNo',rsp[0].big_no);
+         $('#smlType').attr('midNo',rsp[0].mid_no);
+      }
+      
+   })
 })
 
 //소분류로 가져온 애들로 이제 리스트 만들어주자 ajax
@@ -132,7 +132,7 @@ $('#midType').on('change',(event) => {
 let jajeData = {};
 $('#smlType').on('change', function(event) {
     const sml_no = $(this).val(); // 선택된 소분류 번호 가져오기
-	const mid_no = $(this).find(':selected').data('mid-no');
+   const mid_no = $(this).find(':selected').data('mid-no');
     const big_no = $(this).find(':selected').data('big-no');
 
     if (!sml_no) {
@@ -148,14 +148,14 @@ $('#smlType').on('change', function(event) {
             sml_no: sml_no, // 전송할 데이터 (여기서는 선택된 소분류 번호)
             mid_no : mid_no,
             big_no: big_no,
-			cust_cd: custCd
+         cust_cd: custCd
 
         },
         success: function(response) {
             if(response == 0) {
-				alert('조회가능한 데이터가 없습니다.');
-				return;
-			}
+            alert('조회가능한 데이터가 없습니다.');
+            return;
+         }
             
             // 테이블에 데이터 채우기
             fillTableWithItems(response);
@@ -227,7 +227,7 @@ function onSaveModal() {
     });
     
     // 'jajeInputBody'에 항목들을 추가
-    updateJajeInputBody();   	// 테이블 업데이트 함수 호출
+    updateJajeInputBody();      // 테이블 업데이트 함수 호출
 
 }
 
@@ -244,7 +244,7 @@ function updateJajeInputBody() {
     
 
     Object.values(tempItems).forEach((item, index) => {
-		// item.item_qty가 undefined인 경우 기본값으로 0을 설정
+      // item.item_qty가 undefined인 경우 기본값으로 0을 설정
        let itemQty = parseInt(item.item_qty) || 0;  
         let itemCost = parseInt(item.item_cost) || 0;  // 콤마 없이 숫자만 추출
 
@@ -329,13 +329,13 @@ function sendOrderDetails() {
     // 폼에 입력된 비고 정보 가져오기
     dataInput.cust_cd=$('#supplier').val()
     dataInput.remark=$("#remark").val();
-	dataInput.purc_emp_id=$("#com_manager-name").val();
-	dataInput.cust_emp=$("#op_manager-name").val();
+   dataInput.purc_emp_id=$("#com_manager-name").val();
+   dataInput.cust_emp=$("#op_manager-name").val();
 
-	let jajeTableBody =$("#jajeInputBody").find("tr");
-	console.log("jajeTableBody", jajeTableBody);
-	
-	
+   let jajeTableBody =$("#jajeInputBody").find("tr");
+   console.log("jajeTableBody", jajeTableBody);
+   
+   
     jajeTableBody.each(function() {
         // 각 행(td)에서 데이터 추출
         let itemCd = $(this).find('td:nth-child(2)').text();
@@ -450,4 +450,3 @@ $(document).ready(function() {
         }
     });
 });
-
