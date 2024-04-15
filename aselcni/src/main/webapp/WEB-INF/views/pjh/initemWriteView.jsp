@@ -205,7 +205,7 @@
 	              			<div class="input-group">
 							  <span class="input-group-text" style="width:106px">입고종결</span>
 							  <div class="form-control form-switch px-0" style="text-align: left;">
-							  	<input class="form-check-input" id="initem_end" value="0" type="checkbox" style="margin-left:12px;">
+							  	<input class="form-check-input" onchange="changeEndState(this)" id="initem_end" value="0" type="checkbox" style="margin-left:12px;">
 							  </div>
 							</div>
 	              		</div>

@@ -88,19 +88,22 @@ public class PJHDaoImpl implements PJHDaoInterface {
 			if(result != initem.getInItems().size())
 				throw new Exception("인서트 안들어감");
 			
-			int totalItemRemain = 0;
-			List<PJHPurchaseItem> items = session.selectList("pjhItemsByPurc", initem.getPurc_no());
-			for(PJHPurchaseItem item : items) {
-				totalItemRemain += item.getQty();
-			}
-			if(totalItemRemain == 0) {
-				initem.setStatus(2);
+			if(initem.getInitem_end() == 0) {
+				int totalItemRemain = 0;
+				List<PJHPurchaseItem> items = session.selectList("pjhItemsByPurc", initem.getPurc_no());
+				for(PJHPurchaseItem item : items) {
+					totalItemRemain += item.getQty();
+				}
+				if(totalItemRemain == 0) {
+					initem.setStatus(2);
+				} else {
+					initem.setStatus(1);
+				}
+				System.out.println("PJHDaoImpl registInitem totalItemRemain->"+ totalItemRemain);
+				session.update("pjhChangePurcStatus", initem);
 			} else {
-				initem.setStatus(1);
+				session.update("pjhEndPurcStatus",initem.getPurc_no());
 			}
-			System.out.println("PJHDaoImpl registInitem totalItemRemain->"+ totalItemRemain);
-			session.update("pjhChangePurcStatus", initem);
-			
 			transactionManager.commit(txStatus);
 		} catch (Exception e) {
 			transactionManager.rollback(txStatus);

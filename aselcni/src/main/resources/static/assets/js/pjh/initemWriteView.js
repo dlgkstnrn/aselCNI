@@ -1,6 +1,17 @@
 const offset = new Date().getTimezoneOffset() * 60000;
 $('#initem_dt').val(new Date(Date.now() - offset).toISOString().substring(0, 10));
 
+/**
+ * 
+ */
+const changeEndState = function (item) {
+    if (item.checked) {
+        item.value = 1;
+    } else {
+        item.value = 0;
+    }
+}
+
 // 전역변수에 해당 정보 저장
 let purcNo = '';
 /**
@@ -177,7 +188,7 @@ const deleteRow = function () {
     $("#itemTableBody input[type='checkbox']:checked").each((idx, item) => {
         $(item).parent().parent().remove();
     })
-    checkItemQty();
+    calcTotalAmount();
 }
 
 /**
@@ -215,6 +226,7 @@ const regInitem = function () {
             cust_emp: $('#cust_emp').val(),
             wh_cd: $('#wh_cd').val(),
             remark: $('#remark').val(),
+            initem_end: $('#initem_end').val(),
             inItems
         }),
         success: (res) => {

@@ -93,6 +93,11 @@
 		WHERE PURC_NO = #{purc_no}
 	</update>
 	
+	<update id="pjhEndPurcStatus" parameterType="String">
+		UPDATE  TB_PURCHASE
+		SET PURC_STATUS_CHK = 2
+		WHERE PURC_NO = #{purc_no}
+	</update>
 	
 	<select id="pjhTotalInitem" parameterType="PJHInitem" resultType="int">
 		SELECT COUNT(DISTINCT ti.INITEM_NO)
