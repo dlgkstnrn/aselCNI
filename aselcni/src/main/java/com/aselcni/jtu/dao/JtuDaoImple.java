@@ -1,6 +1,7 @@
 package com.aselcni.jtu.dao;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -123,7 +124,7 @@ public class JtuDaoImple implements JtuDaoInterface{
 			    for (JtuProdItemBad dbJpriBad : jpriBadListFromDB) {
 			        if (jpriBad.getBad_cd().equals(dbJpriBad.getBad_cd())) {
 			            // 이미 존재하는 아이템, 따라서 삭제 리스트에서 제거
-			            toDelete.add(dbJpriBad);
+			            toDelete.remove(dbJpriBad);
 			            exists = true;
 			            break;
 			        }
@@ -138,7 +139,9 @@ public class JtuDaoImple implements JtuDaoInterface{
 			System.out.println("JtuDaoImple updatePriOne toAdd --> " + toAdd);
 			System.out.println("JtuDaoImple updatePriOne toDelete --> " + toDelete);
 			for (JtuProdItemBad addJpriBad : toAdd) {
-			    session.insert("jtuInsertPriBad", addJpriBad);
+				if(!addJpriBad.getBad_cd().equals("undefiend")) {
+					session.insert("jtuInsertPriBad", addJpriBad);
+				}
 			}
 			
 			// 삭제할 항목 처리

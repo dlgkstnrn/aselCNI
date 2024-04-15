@@ -193,6 +193,7 @@
 								<th scope="col">제품명</th>
 								<th scope="col">창고명</th>
 								<th scope="col">예정 생산 수량</th>
+								<th scope="col">실제 생산 수량</th>
 								<th scope="col">불량 생산 수량</th>
 							</tr>
 						</thead>
@@ -206,8 +207,9 @@
 											<td>${pri.proditem_end_dt}</td>
 											<td>${pri.item_nm}(${pri.item_cd})</td>
 											<td>${pri.wh_nm}(${pri.wh_cd})</td>
-											<td>${pri.pln_qty}</td>
-											<td>${pri.bad_qty}</td>
+											<td><fmt:formatNumber value="${pri.pln_qty}" type="number" /></td>
+											<td><fmt:formatNumber value="${pri.prod_qty}" type="number" /></td>
+											<td><fmt:formatNumber value="${pri.bad_qty}" type="number" /></td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -294,7 +296,7 @@
 										<div class="row mb-3">
 											<label class="col-sm-2 col-form-label label-marquee"><span
 												class="moving-text"
-											>생산 지시 번호</span></label>
+											>생산 지시 번호<span class="text-danger">*</span></span></label>
 											<div class="d-flex justify-content-between col-sm-10">
 
 												<button
@@ -303,7 +305,7 @@
 													data-bs-toggle="dropdown" aria-haspopup="true"
 													aria-expanded="false"
 												>
-													<span class="moving-text">생산 지시 번호 선택</span>
+													<span class="moving-text">생산 지시 번호 선택<span class="text-danger">*</span></span>
 												</button>
 												<input id="hiddenWorkProdNoRegiModal" type="hidden"
 													name="workprod_no"
@@ -316,7 +318,7 @@
 
 												<label for="workStartDateRegiModal"
 													class="col-sm-2 col-form-label text-end label-marquee"
-												><span class="moving-text">생산 지시 일자</span></label>
+												><span class="moving-text">생산 지시 일자<span class="text-danger">*</span></span></label>
 												<div class="col-sm-5">
 													<input id="workStartDateRegiModal" type="date"
 														class="form-control" required disabled
@@ -329,7 +331,7 @@
 										<div class="row mb-3">
 											<label for="empRegiModal"
 												class="col-sm-2 col-form-label label-marquee"
-											> <span class="moving-text">생산 실적 담당자</span></label>
+											> <span class="moving-text">생산 실적 담당자<span class="text-danger">*</span></span></label>
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
 													<input id="empRegiModal" type="text" class="form-control"
@@ -340,7 +342,7 @@
 
 												<label for="prodEndDateRegiModal"
 													class="col-sm-2 col-form-label text-end label-marquee"
-												> <span class="moving-text">생산 완료 일자</span>
+												> <span class="moving-text">생산 완료 일자<span class="text-danger">*</span></span>
 												</label>
 												<div class="col-sm-5">
 													<input id="prodEndDateRegiModal" type="date"
@@ -354,7 +356,7 @@
 										<div class="row mb-3">
 											<label for="prodItemWHRegiModal"
 												class="col-sm-2 col-form-label label-marquee"
-											><span class="moving-text">입고 창고</span></label>
+											><span class="moving-text">입고 창고<span class="text-danger">*</span></span></label>
 											<div class="col-sm-10">
 												<input id="hiddenProdItemWHCdRegiModal" type="hidden"
 													name="wh_cd" class="form-control"
@@ -379,7 +381,7 @@
 										<div class="row mb-3">
 											<label for="itemNameRegiModal"
 												class="col-sm-2 col-form-label"
-											>제품명</label>
+											>제품명<span class="text-danger">*</span></label>
 
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
@@ -393,7 +395,7 @@
 
 												<label for="expectedQtyRegiModal"
 													class="col-sm-2 col-form-label text-end label-marquee"
-												><span class="moving-text">예정 생산 수량</span></label>
+												><span class="moving-text">예정 생산 수량<span class="text-danger">*</span></span></label>
 												<div class="col-sm-5">
 													<input id="hiddenExpQtyRegiModal" type="hidden"
 														name="pln_qty" class="form-control"
@@ -407,7 +409,7 @@
 										<div class="row mb-3">
 											<label for="actualQtyRegiModal"
 												class="col-sm-2 col-form-label label-marquee"
-											><span class="moving-text">실제 생산 수량</span></label>
+											><span class="moving-text">실제 생산 수량<span class="text-danger">*</span></span></label>
 
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
@@ -417,7 +419,7 @@
 												</div>
 												<label for="defectiveQtyRegiModal"
 													class="col-sm-2 col-form-label text-end label-marquee"
-												><span class="moving-text">불량 생산 수량</span></label>
+												><span class="moving-text">불량 생산 수량<span class="text-danger">*</span></span></label>
 												<div class="col-sm-5">
 													<input id="defectiveQtyRegiModal" type="number"
 														name="bad_qty" class="form-control" required
@@ -541,7 +543,7 @@
 										<div class="row mb-3">
 											<label for="empEditModal"
 												class="col-sm-2 col-form-label label-marquee"
-											> <span class="moving-text">생산 실적 담당자</span></label>
+											> <span class="moving-text">생산 실적 담당자<span class="text-danger">*</span></span></label>
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
 													<input id="empEditModal" type="text" class="form-control"
@@ -566,7 +568,7 @@
 										<div class="row mb-3">
 											<label for="prodItemWHEditModal"
 												class="col-sm-2 col-form-label label-marquee"
-											><span class="moving-text">입고 창고</span></label>
+											><span class="moving-text">입고 창고<span class="text-danger">*</span></span></label>
 											<div class="col-sm-10">
 												<input id="hiddenProdItemWHCdEditModal" type="hidden"
 													name="wh_cd" class="form-control" value=""
@@ -616,7 +618,7 @@
 										<div class="row mb-3">
 											<label for="actualQtyEditModal"
 												class="col-sm-2 col-form-label label-marquee"
-											><span class="moving-text">실제 생산 수량</span></label>
+											><span class="moving-text">실제 생산 수량<span class="text-danger">*</span></span></label>
 
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
@@ -626,7 +628,7 @@
 												</div>
 												<label for="defectiveQtyEditModal"
 													class="col-sm-2 col-form-label text-end label-marquee"
-												><span class="moving-text">불량 생산 수량</span></label>
+												><span class="moving-text">불량 생산 수량<span class="text-danger">*</span></span></label>
 												<div class="col-sm-5">
 													<input id="defectiveQtyEditModal" type="number"
 														name="bad_qty" class="form-control" required
@@ -786,6 +788,7 @@
 						</div>
 						<!-- End modal -->
 
+					</div>
 					</div>
 				</div>
 		</section>
@@ -1156,6 +1159,7 @@
 				$('#hiddenItemCdEditModal').val(pri.item_cd);
 				$('#expectedQtyEditModal').val(pri.pln_qty);
 				$('#hiddenExpectedQtyEditModal').val(pri.pln_qty);
+				
 				$('#actualQtyEditModal').val(pri.prod_qty);
 				$('#defectiveQtyEditModal').val(pri.bad_qty);
 				$('#remarkEditModal').val(pri.remark);
@@ -1166,7 +1170,7 @@
 				    $.each(pri.jpriBadList, function(index, row) {
 				        var trTag = $('<tr></tr>');
 				        trTag.append('<th scope="row">' + (index + 1) + '</th>'); // 인덱스를 1부터 시작하도록 설정
-				        trTag.append('<td>' + row.bad_cd + '<input type="hidden" name="jpriBadList[' + index +'].bad_cd" value="' + row.code + '"></td>'); 
+				        trTag.append('<td>' + row.bad_cd + '<input type="hidden" name="jpriBadList[' + index +'].bad_cd" value="' + row.bad_cd + '"></td>'); 
 				        trTag.append('<td>' + row.bad_res + '</td>');
 				        $('#badListEditModal').append(trTag);
 				        
@@ -1200,6 +1204,7 @@
 	function getPriListAjax(page){
 		data.startDate = $('#startDate').val();
 		data.endDate = $('#endDate').val();
+		data.proditem_no=""; //리셋
 		data.currentPage= page;
 
 		console.log("data", data);
@@ -1232,8 +1237,9 @@
                         '<td>' + pri.proditem_end_dt + '</td>' +
                         '<td>' + pri.item_nm +'('+pri.item_cd+')</td>' +
                         '<td>' + pri.wh_nm +'('+pri.wh_cd+')</td>' +
-                        '<td>' + pri.pln_qty + '</td>' +
-                        '<td>' + pri.bad_qty + '</td>' +
+                        '<td>' + numberWithCommas(pri.pln_qty) + '</td>' +
+                        '<td>' + numberWithCommas(pri.prod_qty) + '</td>' +
+                        '<td>' + numberWithCommas(pri.bad_qty) + '</td>' +
                         '</tr>'
                     );
 	            });
@@ -1289,15 +1295,15 @@
 	$(document).ready(function() {
 		$("#editModaldeleteBtn").click(function(){
 			alert("생산 실적 삭제는 관리자를 호출해주세요.");
-			data.workprod_no=$("#hiddenWorkProdNoEditModal").val();
+			data.proditem_no=$("#hiddenProdItemEditModal").val();
 			
+			console.log("deleteProdItemEditModal data",data);
 			$.ajax({
 				url : "deleteProdItemEditModal",
 				method : 'POST',
 				data,
-				dataType : "json",
 				success : function(){
-					
+					console.log("삭제 성공");
 				},//success
 					error : function(xhr, status, error) {
 					    console.error("Error occurred: " + error);
@@ -1321,7 +1327,6 @@
 	
 		//코드 선택 눌렀을때 모달 체인지
 	function openBadModal() {
-   		/* $('#workProdRegiModal').modal('hide'); */
         $('#badModal').modal('show');
 
     	//불량 코드 리스트 넣어줌
@@ -1510,7 +1515,7 @@
 		getPriListAjax(currentPage);
 	}
 	
-
+	//paging
 	function nextPage(ele){
 		if(data.currentPage==ele.dataset.totalPage){
 			alert('마지막 페이지 입니다.')
@@ -1525,7 +1530,7 @@
 		getPriListAjax(data.currentPage);
 		}
 	}
-	
+	//paging
 	function prevPage(){
 		if(data.currentPage==1){
 			alert('첫번째 페이지 입니다.');
@@ -1540,6 +1545,10 @@
 		}
 	}
 	
+	//천단위마다 컴마찍게 해주는 함수
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 
 	
 </script>

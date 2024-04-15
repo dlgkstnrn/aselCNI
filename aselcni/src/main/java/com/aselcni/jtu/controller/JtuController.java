@@ -179,6 +179,7 @@ public class JtuController {
 		return "redirect:/proditem";
 	}
 	
+	@ResponseBody
 	@RequestMapping("deleteProdItemEditModal")
 	// 생산 실적 삭제 업데이트
 	public String deletePriOne(Model model, JtuProdItem jpri) {
@@ -187,7 +188,7 @@ public class JtuController {
 		
 		js.deletePriOne(jpri);
 		
-		return "redirect:/proditem";
+		return "";
 	}
 
 }
