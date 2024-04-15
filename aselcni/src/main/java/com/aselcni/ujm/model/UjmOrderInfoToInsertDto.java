@@ -18,6 +18,4 @@ public class UjmOrderInfoToInsertDto { //출고 등록에서, 선택한 주문�
 	
 	private int    order_status_chk; //주문상태. 0또는 2만 가능
 	
-	private String user_nm; //
-	
 }

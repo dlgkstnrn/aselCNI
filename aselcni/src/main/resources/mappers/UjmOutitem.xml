@@ -8,25 +8,13 @@
 	
 	
 	<select id="ujmTotalOutitemCnt" resultType="int">
-<![CDATA[
-		SELECT Count(*) 
-		FROM (
-		    SELECT ROW_NUMBER() OVER (ORDER BY ou.outitem_no) AS rn, 
-		    ou.*, c.cust_nm, 
-		    ord.order_dt, ord.order_end_dt, ord.order_status_chk, 
-		    i.item_nm, 
-		    oi.qty,
-		    u.user_nm
-		    
-		    FROM TB_OUTITEM ou
-		    
-		    INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
-		    INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
-		    INNER JOIN TB_OUTITEM_ITEM oi ON ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
-		    INNER JOIN TB_ITEMMST i ON oi.item_cd = i.item_cd
-		    INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
-		    WHERE ou.outitem_delete_chk = 0
-		) AS sub
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM TB_OUTITEM ou
+    		INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
+    		INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
+    		INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
+		WHERE ou.outitem_delete_chk = 0;
 		]]> 
 
 
@@ -35,51 +23,149 @@
 	
 	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
 		<![CDATA[
-		SELECT 
-		    sub.rn,
-		    sub.outitem_no,
-		    sub.cust_cd,
-		    sub.cust_nm,
-		    sub.order_no,
-		    sub.order_dt,
-		    sub.order_end_dt,
-		    sub.order_status_chk,
-		    sub.remark,
-            sub.outitem_dt,
-            sub.user_nm,
-            
-		    STUFF((
-		        SELECT ', ' + itemmst.item_nm + ' (' + CAST(oi.qty AS VARCHAR(10)) + '개)'
-		        FROM TB_OUTITEM_ITEM oi
-		        JOIN TB_ITEMMST itemmst ON oi.item_cd = itemmst.item_cd
-		        WHERE sub.outitem_no = oi.outitem_no AND sub.order_no = oi.order_no
-		        FOR XML PATH('')), 1, 2, '') AS items
-
-		FROM (
-	    	SELECT 
-		        ROW_NUMBER() OVER (ORDER BY ou.outitem_no) AS rn, 
-		        ou.outitem_no,
-		        ou.cust_cd, 
-		        c.cust_nm, 
-		        ou.order_no, 
-		        ord.order_dt, 
-		        ord.order_end_dt, 
-		        ord.order_status_chk, 
-		        u.user_nm,
-		        ou.remark,
-        		ou.outitem_dt
-	    	FROM 
-		        TB_OUTITEM ou
-		        INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
-		        INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
-		        INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
-	    	WHERE 
-	        	ou.outitem_delete_chk = 0
-		) AS sub
-		WHERE 
-	    	sub.rn >= ${start} AND sub.rn <= ${end}
+			SELECT 
+			    sub.rn,
+			    sub.outitem_no,
+			    sub.seq_no,
+			    sub.cust_cd,
+			    sub.cust_nm,
+			    sub.order_no,
+			    sub.order_dt,
+			    sub.order_end_dt,
+			    sub.order_status_chk,
+			    sub.remark,
+	            sub.outitem_dt,
+	            sub.user_nm,
+	            
+			    STUFF((
+			        SELECT ', ' + itemmst.item_nm + ' (' + CAST(oi.qty AS VARCHAR(10)) + '개)'
+			        FROM TB_OUTITEM_ITEM oi
+			        JOIN TB_ITEMMST itemmst ON oi.item_cd = itemmst.item_cd
+			        WHERE sub.outitem_no = oi.outitem_no AND sub.order_no = oi.order_no
+			        FOR XML PATH('')), 1, 2, '') AS items
+	
+			FROM (
+		    	SELECT 
+			        ROW_NUMBER() OVER (ORDER BY CAST
+			        	(SUBSTRING(ou.outitem_no, PATINDEX('%[0-9]%', ou.outitem_no), 
+			        							  LEN(ou.outitem_no)) AS BIGINT) DESC) AS rn, 
+			        							  
+			        ou.outitem_no,
+			        ou.cust_cd, 
+			        ou.seq_no,
+			        c.cust_nm, 
+			        ou.order_no, 
+			        ord.order_dt, 
+			        ord.order_end_dt, 
+			        ord.order_status_chk, 
+			        u.user_nm,
+			        ou.remark,
+	        		ou.outitem_dt
+	        		
+		    	FROM 
+			        TB_OUTITEM ou
+			        INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
+			        INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
+			        INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
+		    	WHERE 
+		        	ou.outitem_delete_chk = 0
+			) AS sub
+			WHERE 
+		    	sub.rn >= ${start} AND sub.rn <= ${end}
 		]]> 
 	</select>
+	
+	<select id="outitemNoCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM tb_outitem
+			WHERE outitem_no LIKE CONCAT('%', #{outitem_no}, '%')
+		]]> 
+	</select>
+	
+	<select id="ujmGetSeqNo" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT COUNT(outitem_no) 
+			FROM tb_outitem
+			WHERE order_no = #{order_no};
+		]]> 
+	</select>
+	
+
+
+	<insert id="ujmInsertOutitem" parameterType="UjmOutitem">
+		<![CDATA[
+			insert into tb_outitem (outitem_no, seq_no, order_no, outitem_dt, cust_cd,
+				cust_emp, remark, outitem_emp_id, outitem_delete_chk)
+				
+			values ( #{outitem_no}, #{seq_no}, #{order_no}, #{outitem_dt}, #{cust_cd},
+				#{cust_emp}, #{remark}, #{outitem_emp_id}, 0)
+		]]> 
+	</insert>
+	
+	
+	<insert id="ujmInsertOutitemItem" parameterType="UjmOutitemItem">
+		<![CDATA[
+			insert into tb_outitem_item (outitem_no, order_no, item_cd, qty)
+				
+			values ( #{outitem_no}, #{order_no}, #{item_cd}, #{qty} )
+		]]> 
+	</insert>
+	
+	<select id="ujmOutitemItemCnt" parameterType="UjmOutitemItem" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM tb_outitem_item
+			WHERE outitem_no = #{outitem_no}
+			AND order_no = #{order_no}
+		]]> 
+	</select>
+	
+	<select id="ujmGetOutitemDetail" parameterType="UjmOutitem" resultType="UjmOutitem">
+		<![CDATA[
+			   SELECT
+				    ori.order_no,
+				    ori.qty,
+				    oui.qty AS outitem_qty,
+				    ori.qty - ISNULL(oui.qty, 0) AS remain_qty,
+				    i.item_nm,
+				    i.item_cd,
+				    dbo.FN_CURRENT_STOCK(ori.item_cd) AS stock,
+				    ou.cust_emp,
+				    ou.remark
+				FROM
+    				TB_ORDER_ITEM AS ori
+				JOIN
+				    TB_ITEMMST AS i ON ori.item_cd = i.item_cd
+				JOIN
+				    TB_ORDER AS ord ON ori.ORDER_NO = ord.ORDER_NO
+				JOIN
+				    TB_OUTITEM AS ou ON ori.ORDER_NO = ou.ORDER_NO
+				JOIN
+			    (
+			        SELECT
+			            oui.ORDER_NO,
+			            oui.ITEM_CD,
+			            SUM(oui.qty) AS qty
+			        FROM
+			            TB_OUTITEM AS ou
+			        JOIN
+			            TB_OUTITEM_ITEM AS oui ON ou.OUTITEM_NO = oui.OUTITEM_NO
+			        WHERE
+			            ou.outitem_delete_chk = 0
+			            AND ou.outitem_no = #{outitem_no}
+			        GROUP BY
+			            oui.ORDER_NO,
+			            oui.ITEM_CD
+			    ) AS oui ON ori.ORDER_NO = oui.ORDER_NO AND ori.ITEM_CD = oui.ITEM_CD
+				WHERE
+					ou.outitem_no = #{outitem_no}
+				    AND ori.ORDER_NO = #{order_no}
+				    AND ord.ORDER_DELETE_CHK = 0
+				    AND ou.outitem_delete_chk = 0
+		]]> 
+	</select>
+	
 	
 	
 	
