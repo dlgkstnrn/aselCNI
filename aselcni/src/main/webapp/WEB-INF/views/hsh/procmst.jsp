@@ -39,7 +39,16 @@
 	crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style type="text/css">
 
+    .remark-cell {
+        max-width: 100px; /* 최대 너비 설정 */
+        white-space: nowrap; /* 텍스트를 한 줄로 설정 */
+        overflow: hidden; /* 내용이 넘치면 숨김 */
+        text-overflow: ellipsis; /* 넘치는 텍스트를 '...'으로 표시 */
+    }
+
+</style>
 </head>
 
 <body>
@@ -79,10 +88,14 @@
 					<div class="card">
 
 						<div class="card-body">
-
+							<div class="topdiv d-flex justify-content-end">
+							<div>
+						
 							<button type="button" class="btn btn-primary"
 								data-bs-toggle="modal" data-bs-target="#verticalycentered">신규</button>
-
+							</div>
+							          </div>
+							
 
 							<div class="modal fade" id="verticalycentered" tabindex="-1">
 								<div class="modal-dialog modal-dialog-centered">
@@ -101,14 +114,14 @@
 											</div>
 
 											<div class="row mb-3">
-												<label for="inputText" class="col-sm-2 col-form-label">공정코드</label>
+												<label for="inputText" class="col-sm-2 col-form-label">공정코드<span style="color: red;">*</span></label>
 												<div class="col-sm-8">
 													<input name="proc_Cd" type="text" class="form-control">
 												</div>
 											</div>
 
 											<div class="row mb-3">
-												<label for="inputText" class="col-sm-2 col-form-label">공정명</label>
+												<label for="inputText" class="col-sm-2 col-form-label">공정명<span style="color: red;">*</span></label>
 												<div class="col-sm-8">
 													<input name="proc_Nm" type="text" class="form-control">
 												</div>
@@ -122,7 +135,7 @@
 											</div>
 
 											<div class="row mb-3">
-												<label for="inputText" class="col-sm-3 col-form-label">담당자ID</label>
+												<label for="inputText" class="col-sm-3 col-form-label">담당자ID<span style="color: red;">*</span></label>
 												<div class="col-sm-8">
 													<input name="proc_Emp_Id" type="text" class="form-control">
 												</div>
@@ -223,14 +236,25 @@
 
 
 
-									<div class="search-bar">
-										<form class="search-form d-flex align-items-center"
-											method="POST" action="#">
-											<input type="text" id="searchInput" name="query"
-												placeholder="공정코드/명" title="Enter search keyword">
-
-										</form>
-									</div>
+							
+									
+									   <div class="searchdiv">
+								            <form action="/procmst">
+								              <div class="d-flex">
+								              <select class="form-select searchselect"
+									                  aria-label="Default select example"
+									                  name="searchFilter" >
+									                  <option selected="">검색옵션선택</option>
+									                  <option value="proc_Cd">코드</option>
+									                  <option value="proc_Nm">이름</option>
+									                </select>
+								              
+								                <input type="text" name="keyword" class="form-control searchinput" />
+								                
+								                <button type="submit" class="btn btn-primary">검색</button>
+								              </div>
+								            </form>
+								          </div>
 									<!-- End Search Bar -->
 
 
@@ -263,7 +287,7 @@
 															data-proc-id="${Procmst.proc_Cd}">${Procmst.proc_Cd}</button></td>
 
 													<td>${Procmst.proc_Nm}</td>
-													<td>${Procmst.remark}</td>
+													<td class="remark-cell" >${Procmst.remark}</td>
 													<td>${Procmst.proc_Emp_Id}</td>
 													<td><c:choose>
 															<c:when test="${Procmst.use_Flag == 1}">
@@ -278,6 +302,28 @@
 										</tbody>
 									</table>
 								</div>
+								
+								
+								<div class="container">
+								<div class="row">
+									<div class="col">
+										<ul class="pagination d-flex justify-content-center">
+											<c:if test="${page.startPage > page.pageBlock }">
+												<li class="page-item"><a class="page-link"
+													href="/procmst?currentPage=${page.startPage-page.pageBlock}">이전</a></li>
+											</c:if>
+											<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+												<li class="page-item"><a class="page-link"
+													href="/procmst?currentPage=${i}&searchFilter=${Procmst.searchFilter}&keyword=${Procmst.keyword}">${i}</a></li>
+											</c:forEach>
+											<c:if test="${page.endPage < page.totalPage }">
+												<li class="page-item"><a class="page-link"
+													href="/procmst?currentPage=${page.startPage+page.pageBlock}">다음</a></li>
+											</c:if>
+										</ul>
+									</div>
+								</div>
+							</div>
 
 							</div>
 							<!-- End Table with stripped rows -->
@@ -481,7 +527,7 @@
 		                    alert('공정정보가 성공적으로 변경되었습니다');
 		                    location.reload();
 		                } else {
-		                    alert('음...잘못된 담당자입니다...');
+		                    alert('중복된 코드 또는 존재하지않는 담당자입니다...');
 		                }
 		            } ,
 		            error: function(xhr, status, error) {
@@ -493,7 +539,7 @@
 		
 		//====================공정 검색============================
 
-		document.getElementById('searchInput').addEventListener(
+	/* 	document.getElementById('searchInput').addEventListener(
 				'input',
 				function() {
 					var searchQuery = this.value.toLowerCase();
@@ -518,7 +564,7 @@
 							}
 						}
 					}
-				});
+				}); */
 	</script>
 </body>
 
