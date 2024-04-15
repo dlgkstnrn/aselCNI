@@ -1,5 +1,6 @@
 package com.aselcni.jtu.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -7,13 +8,16 @@ import org.springframework.stereotype.Service;
 import com.aselcni.jtu.dao.JtuDaoInterface;
 import com.aselcni.jtu.model.JtuBad;
 import com.aselcni.jtu.model.JtuProdItem;
+import com.aselcni.jtu.model.JtuProdItemBad;
 import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JtuServiceImple implements JtuServiceInterface{
 	private final JtuDaoInterface jd;
 	
@@ -72,6 +76,13 @@ public class JtuServiceImple implements JtuServiceInterface{
 	@Override
 	public void updatePriOne(JtuProdItem jpri) {
 		System.out.println("JtuServiceImple updatePriOne Start... ");
+		List<JtuProdItemBad> jpriBadList= new ArrayList<>();
+		
+		for (JtuProdItemBad jpriBad : jpri.getJpriBadList()) {
+			jpriBad.setProditem_no(jpri.getProditem_no());
+			jpriBadList.add(jpriBad);
+		}
+		jpri.setJpriBadList(jpriBadList);
 		
 		jd.updatePriOne(jpri);
 	}
