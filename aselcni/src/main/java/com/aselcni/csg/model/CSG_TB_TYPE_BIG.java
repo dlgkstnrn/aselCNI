@@ -11,4 +11,5 @@ public class CSG_TB_TYPE_BIG {
 	
 	private String big_content; //대분류내용
 	
+	
 }

@@ -2,11 +2,23 @@ package com.aselcni.ujm.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.ujm.model.UjmOrder;
+import com.aselcni.ujm.model.UjmOrderInfoToInsertDto;
+import com.aselcni.ujm.model.UjmOrderItem;
+import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
+import com.aselcni.ujm.model.UjmOutitemParent;
+import com.aselcni.ujm.service.UjmOrderService;
 import com.aselcni.ujm.service.UjmOutitemService;
 import com.aselcni.ujm.service.UjmPaging;
 
@@ -19,9 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class UjmOutitemController {
+public class UjmOutitemController { 
 
 	private final UjmOutitemService uos;
+	
+	private final UjmOrderService uor;
 	
 	@RequestMapping(value = "ujmExample") 
 	public String ujmLoginForm(HttpServletRequest request) {
@@ -57,29 +71,77 @@ public class UjmOutitemController {
 		return "ujm/ujmOutitem"; 
 	}
 	
+	//출고 상세
+//	@RequestMapping(value = "ujmGetAllOrderList")
+//	public List<UjmOrder> ujmGetAllOrderList() {
+//		System.out.println("ujmOutItem 컨트롤러 ujmGetAllOrderList 시작");
+//		List<UjmOrder> ujmGetAllOrderList=uos.ujmGetAllOrderList();
+//		return ujmGetAllOrderList;
+//	}
+	
+	
+
+	
 	//출고 등록
 	@RequestMapping(value = "insertOutitem") 
-	public String ujmInsertOutitem(HttpServletRequest request, Model model, HttpSession session) {
-		UjmOutitem outitem=new UjmOutitem();
+	public String ujmInsertOutitem(@RequestBody UjmOutitemParent insertData, HttpSession session) {
+		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
+		if(session.getAttribute("user_id")!=null) {
+			String userId=(String)session.getAttribute("user_id");
+			// service, dao, mapper명(insertEmp)까지->insert
+			
+			insertData.getOutitemData().setOutitem_no(uos.ujmSetOutitemNo(insertData.getOutitemData().getOutitem_no())); 
+			//가져온 날짜형태의 출고번호(2024-04-13)을 제대로 만들기
+	        System.out.println(insertData.getOutitemData().getOutitem_no());
+			
+			int insertOutitemResult = uos.ujmInsertOutitem(insertData, userId); //출고테이블 등록, 정상등록시 1 비정상 -1 리턴
+			System.out.println("컨트롤러 insertOutitemResult:"+insertOutitemResult);
+			
+			
+			int insertOutitemItemResult=uos.ujmInsertOutitemItem(insertData); //출고품목을 등록, 품목개수 리턴
+			System.out.println("insertOutitemItemResult"+insertOutitemItemResult);
+			
+			int ujmChangeOrderStatusChk=uor.ujmChangeOrderStatusChk(insertData.getOutitemData().getOrder_no()); 
+			//주문의 상태 변경하기, 2진행중 3출고완료
+			
+			System.out.println("ujmChangeOrderStatusChk"+ujmChangeOrderStatusChk);
+			
 		
-		//맨처음 리스트에 표시되는 outitemList
-//		model.addAttribute("outitemList",outitemList); 
-		
-		//outitemView
-		
-		return "ujm/ujmOutitem"; 
+		return "ujm/ujmOutitem";
+		 
+		} else {
+			System.out.println("로그인 안됨");
+			return "redirect:/";
+			}
 	}
+
+	//각 테이블 행 눌렀을 때 조회 : 출고 관련 정보들 가져오기
+	@RequestMapping(value = "ujmGetOutitemDetail")
+	@ResponseBody
+    public List<UjmOutitem> ujmGetOutitemDetail(
+    		@RequestParam("outitem_no") String outitem_no,
+    		@RequestParam("order_no") String order_no) {
+		System.out.println("UjmOutitem 컨트롤러 ujmGetOutitemDetail 시작");
+		List<UjmOutitem> ujmListOutItemDetail=uos.ujmGetOutitemDetail(outitem_no, order_no);
+		System.out.println(ujmListOutItemDetail);
+		return ujmListOutItemDetail;
+	}
+		
+	
+	
+	
 	
 	//출고 수정
 	@RequestMapping(value = "updateOutitem") 
 	public String ujmUpdateOutitem(HttpServletRequest request, Model model, HttpSession session) {
 		UjmOutitem outitem=new UjmOutitem();
 		
-		//맨처음 리스트에 표시되는 outitemList
-//		model.addAttribute("outitemList",outitemList); 
 		
 		return "ujm/ujmOutitem"; 
 	}
+	
+	
+
 	
 	//출고 삭제
 	@RequestMapping(value = "deleteOutitem") 

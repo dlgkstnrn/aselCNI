@@ -36,7 +36,7 @@ public class WorkProd {
 	private String work_cmd;
 	// 비고
 	private String remark;
-	// 생산지시 수정일
+ 	// 생산지시 수정일
 	private String workprod_update;
 	// 생산지시 삭제여부
 	private Integer workprod_delete_chk;
