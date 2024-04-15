@@ -2,18 +2,116 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.KphReturnMapper">
 
-	<select id="KphReturnCountByOutItemNo" parameterType="KphReturn" resultType="int">
-		SELECT COUNT(RETURN_NO)
-		FROM TB_RETURN
-		WHERE RETURN_DELETE_CHK = 0
-			AND OUTITEM_NO = #{outitem_no}
-	</select>
-
 	<insert id="KphReturnAdd" parameterType="KphReturn">
-		INSERT INTO TB_RETURN
-		VALUES (
-					 
-					)
-	</insert>					
+		INSERT INTO TB_RETURN 
+		VALUES (('RET' + FORMAT(GETDATE(), 'yyMMdd') + FORMAT((SELECT COUNT(RETURN_NO) + 1 
+																							FROM TB_RETURN 
+																							WHERE RETURN_DT = CONVERT(CHAR(10), GETDATE(), 23)
+																							), '0000')),
+						#{outitem_no},
+						((SELECT COUNT(OUTITEM_NO)	FROM TB_RETURN WHERE OUTITEM_NO = #{outitem_no})+1),
+						CONVERT(CHAR(10), GETDATE(), 23),
+						#{cust_cd},
+						#{cust_emp},
+						#{item_cd},
+						#{res_rtn},
+						<choose>
+							<when test="remark == null or remark == ''">
+								NULL,
+							</when>
+							<otherwise>
+								#{remark},	
+							</otherwise>
+						</choose>
+						#{return_emp_id},
+						#{qty},
+						NULL,
+						0
+						)
+	</insert>		
+	
+	<select id="KphTotalReturnCount" parameterType="KphReturn" resultType="int">
+		SELECT COUNT(rt.RETURN_NO)
+		FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
+		WHERE rt.ITEM_CD = it.ITEM_CD 
+			AND rt.CUST_CD = tc.CUST_CD 
+			AND rt.RETURN_EMP_ID = us.USER_ID
+			AND rt.RETURN_DELETE_CHK = 0
+			<if test="start_day != null and end_day !=null">
+				AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
+			</if>
+			<if test="return_no != '' and return_no != null">
+				AND rt.RETURN_NO LIKE '%' + #{return_no} + '%'
+			</if>
+			<if test="outitem_no != '' and outitem_no != null">
+				AND rt.OUTITEM_NO LIKE  '%' + #{outitem_no} + '%'
+			</if>
+			<if test="cust_nm != '' and cust_nm != null">
+				AND tc.CUST_NM LIKE '%' + #{cust_nm} + '%'
+			</if>
+			<if test="item_nm != '' and item_nm != null">
+				AND it.ITEM_NM LIKE '%' + #{item_nm} + '%'
+			</if>
+			<if test="return_emp_nm != '' and return_emp_nm != null">
+				AND us.USER_NM LIKE '%' + #{return_emp_nm} + '%'
+			</if>
+	</select>	
+	
+	<select id="KphReturnList" parameterType="KphReturn" resultType="KphReturn">
+		SELECT *
+		FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY RETURN_NO DESC) AS rn, rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM AS RETURN_EMP_NM
+				FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
+				WHERE rt.ITEM_CD = it.ITEM_CD 
+					AND rt.CUST_CD = tc.CUST_CD 
+					AND rt.RETURN_EMP_ID = us.USER_ID
+					AND rt.RETURN_DELETE_CHK = 0
+					<if test="start_day != null and end_day !=null">
+						AND rt.RETURN_DT BETWEEN #{start_day} AND #{end_day}
+					</if>
+					<if test="return_no != '' and return_no != null">
+						AND rt.RETURN_NO LIKE '%' + #{return_no} + '%'
+					</if>
+					<if test="outitem_no != '' and outitem_no != null">
+						AND rt.OUTITEM_NO LIKE  '%' + #{outitem_no} + '%'
+					</if>
+					<if test="cust_nm != '' and cust_nm != null">
+						AND tc.CUST_NM LIKE '%' + #{cust_nm} + '%'
+					</if>
+					<if test="item_nm != '' and item_nm != null">
+						AND it.ITEM_NM LIKE '%' + #{item_nm} + '%'
+					</if>
+					<if test="return_emp_nm != '' and return_emp_nm != null">
+						AND us.USER_NM LIKE '%' + #{return_emp_nm} + '%'
+					</if>
+				) rt2
+		WHERE rt2.rn BETWEEN #{start} AND #{end}
+	</select>		
+	
+	<select id="KphGetReturn" parameterType="KphReturn" resultType="KphReturn">
+		SELECT rt.*, it.ITEM_NM , tc.CUST_NM , us.USER_NM AS RETURN_EMP_NM
+		FROM TB_RETURN rt , TB_ITEMMST it , TB_CUSTMST tc, TB_USERMST us
+		WHERE rt.ITEM_CD = it.ITEM_CD 
+			AND rt.CUST_CD = tc.CUST_CD 
+			AND rt.RETURN_EMP_ID = us.USER_ID
+			AND rt.RETURN_NO = #{return_no}
+	</select>
+	
+	<update id="KphReturnDelete" parameterType="KphReturn">
+		UPDATE TB_RETURN
+		SET RETURN_DELETE_CHK = 1, RETURN_UPDATE = CONVERT(CHAR(10), GETDATE(), 23)
+		WHERE RETURN_NO = #{return_no}
+	</update>
+	
+	<update id="KphReturnUpdate" parameterType="KphReturn">
+		UPDATE TB_RETURN 
+		SET CUST_EMP = #{cust_emp}, 
+				ITEM_CD = #{item_cd}, 
+				RES_RTN = #{res_rtn}, 
+				RETURN_EMP_ID = #{return_emp_id}, 
+				QTY = #{qty}, 
+				RETURN_UPDATE = CONVERT(CHAR(10), GETDATE(), 23)
+		WHERE RETURN_NO = #{return_no}
+	</update>
 	
 </mapper>

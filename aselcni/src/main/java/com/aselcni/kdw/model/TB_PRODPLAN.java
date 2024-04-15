@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class TB_PRODPLAN {
-	
     private  String prodPlan_no; 		 // 생산계획번호
     private  String prodPlan_dt; 		 // 생산시작일자
     private     int seq_no;		 		 // 순번
@@ -19,6 +18,7 @@ public class TB_PRODPLAN {
     private Boolean prodPlan_delete_chk; // 생산계획삭제체크
     
     // 저장용
+    private String prodplan_emp_name;	 // 생산계획담당자이름
 	private String item_nm;		// 제품자재명
 	private    int item_cost;   // 제품가격
 	private String cust_nm;		// 고객사

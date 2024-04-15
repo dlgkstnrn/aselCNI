@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.lhs.LhsCustMst">
+	
+	<update id="compmstUpdate" parameterType="LhsCompMst" statementType="CALLABLE">
+		{ call dbo.pro_comp_merge(
+			#{comp_busi_no},
+			#{comp_nm},
+			#{comp_president_nm},
+			#{comp_cond},
+			#{comp_item},
+			#{comp_addr},
+			#{comp_tel},
+			#{comp_fax},
+			#{comp_image}
+		) }
+	</update>
+    
+    <select id="compmstSelect" resultType="LhsCompMst" statementType="CALLABLE">
+    	{ call dbo.pro_comp_select }
+    </select>
+</mapper>

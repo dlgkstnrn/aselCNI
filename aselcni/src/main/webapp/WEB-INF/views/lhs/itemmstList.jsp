@@ -29,9 +29,6 @@
     <!-- CSS File -->
     <link href="assets/css/style.css" rel="stylesheet"  type="text/css">
      <style type="text/css">
-     	.topdiv {
-		  height: 40px;
-		}
 		.selectbtndiv {
 		  padding: 0px 10px;
 		}
@@ -94,116 +91,156 @@
       <!-- End Page Title -->
 
       <section class="section">
-        <div class="maindiv">
-          <div class="topdiv d-flex justify-content-end">
-            <div>
-              <a href="itemmstAddForm?item_flag=${itemMst.item_flag }">
-                <button class="btn btn-primary">신규</button>
-              </a>
-            </div>
+        <div class="maindiv card">
+	        <div class="card-body">
+	          <div class="selectbtndiv d-flex justify-content-between">
+		          <div>
+		            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+		              <li class="nav-item" role="presentation">
+		                <a href="itemmst?item_flag=1">
+		                  <button class="bordergray wid150" id="matBtn">자재</button>
+		                </a>
+		              </li>
+		              <li class="nav-item" role="presentation">
+		                <a href="itemmst?item_flag=2">
+		                  <button class="bordergray wid150" id="proBtn">제품</button>
+		                </a>
+		              </li>
+		            </ul>
+	            </div>
+	            <div>
+	              <a href="itemmstAddForm?item_flag=${itemMst.item_flag }">
+	                <button class="btn btn-primary">신규</button>
+	              </a>
+	            </div>
+	          </div>
+	          <div class="searchdiv">
+	            <form action="itemmst" onsubmit="return searchsubmitChk()">
+	              <div class="d-flex justify-content-end">
+	                <select
+	                  class="form-select wid150 h-100 m-r10"
+	                  aria-label="Default select example"
+	                  name="big_no" id="searchBig"
+	                >
+	                  <option selected="" value="0">대분류</option>
+	                  <c:forEach items="${bigList}" var="big">
+	                  	<option value="${big.big_no }">${big.big_content}</option>
+	                  </c:forEach>
+	                </select>
+	
+	                <select
+	                  class="form-select wid150 h-100 m-r10"
+	                  aria-label="Default select example"
+	                  name="mid_no" id="searchMid"
+	                >
+	                  <option selected="" value="0">중분류</option>
+	                </select>
+	
+	                <select
+	                  class="form-select wid150 h-100 m-r10"
+	                  aria-label="Default select example"
+	                  name="sml_no" id="searchSml"
+	                >
+	                  <option selected="" value="0">소분류</option>
+	                </select>
+	
+	                <div class="d-flex">
+	                  <select
+	                    class="form-select searchselect"
+	                    aria-label="Default select example"
+	                    name="searchFilter" id="searchFilter"
+	                  >
+	                    <option value="">검색옵션선택</option>
+	                    <option value="item_cd">코드</option>
+	                    <option value="item_nm">이름</option>
+	                  </select>
+	                  <input
+	                    type="text"
+	                    name="keyword"
+	                    id="keyword"
+	                    class="form-control searchinput"
+	                  />
+	                  <input
+	                    type="hidden"
+	                    name="item_flag"
+	                    value="${itemMst.item_flag}"
+	                  />
+	                  <button type="submit" class="btn btn-primary">검색</button>
+	                </div>
+	              </div>
+	            </form>
+	          </div>
+	          <div class="tablediv">
+	            <table id="tb" class="table table-hover">
+	              <thead>
+	                <tr>
+	                  <th scope="col" style="width: 10%">품목코드</th>
+	                  <th scope="col" style="width: 30%">품목명</th>
+	                  <th scope="col" style="width: 30%">거래처</th>
+	                  <th scope="col" style="width: 15%">규격</th>
+	                  <th scope="col" style="width: 15%">단가</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	                <c:forEach items="${itemList }" var="item">
+	                  <tr
+	                    data-index="${item.item_cd}"
+	                    data-bs-toggle="modal"
+	                    data-bs-target="#prodItemEditModal"
+	                  >
+	                    <th>${item.item_cd }</th>
+	                    <td>${item.item_nm }</td>
+	                    <c:if test="${item.cust_nm ne null}">
+	                    	<td>${item.cust_nm }(${ item.cust_cd})</td>
+	                    </c:if>
+	                    <c:if test="${item.cust_nm eq null}">
+	                    	<td></td>
+	                    </c:if>
+	                    <td>${item.item_spec }</td>
+	                    <td>${item.item_cost }</td>
+	                  </tr>
+	                </c:forEach>
+	              </tbody>
+	            </table>
+	          </div>
           </div>
-          <div class="selectbtndiv">
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <a href="itemmst?item_flag=1">
-                  <button class="bordergray wid150" id="matBtn">자재</button>
-                </a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a href="itemmst?item_flag=2">
-                  <button class="bordergray wid150" id="proBtn">제품</button>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="searchdiv">
-            <form action="itemmst">
-              <div class="d-flex justify-content-end">
-                <select
-                  class="form-select wid150 h-100 m-r10"
-                  aria-label="Default select example"
-                  name="big_no" id="searchBig"
-                >
-                  <option selected="" value="0">대분류</option>
-                  <c:forEach items="${bigList}" var="big">
-                  	<option value="${big.big_no }">${big.big_content}</option>
-                  </c:forEach>
-                </select>
-
-                <select
-                  class="form-select wid150 h-100 m-r10"
-                  aria-label="Default select example"
-                  name="mid_no" id="searchMid"
-                >
-                  <option selected="" value="0">중분류</option>
-                </select>
-
-                <select
-                  class="form-select wid150 h-100 m-r10"
-                  aria-label="Default select example"
-                  name="sml_no" id="searchSml"
-                >
-                  <option selected="" value="0">소분류</option>
-                </select>
-
-                <div class="d-flex">
-                  <select
-                    class="form-select searchselect"
-                    aria-label="Default select example"
-                    name="searchFilter"
-                  >
-                    <option selected="">검색옵션선택</option>
-                    <option value="item_cd">코드</option>
-                    <option value="item_nm">이름</option>
-                  </select>
-                  <input
-                    type="text"
-                    name="keyword"
-                    class="form-control searchinput"
-                  />
-                  <input
-                    type="hidden"
-                    name="item_flag"
-                    value="${itemMst.item_flag}"
-                  />
-                  <button type="submit" class="btn btn-primary">검색</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="tablediv">
-            <table id="tb" class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col" style="width: 10%">품목코드</th>
-                  <th scope="col" style="width: 30%">품목명</th>
-                  <th scope="col" style="width: 30%">거래처</th>
-                  <th scope="col" style="width: 15%">규격</th>
-                  <th scope="col" style="width: 15%">단가</th>
-                </tr>
-              </thead>
-              <tbody>
-                <c:forEach items="${itemList }" var="item">
-                  <tr
-                    data-index="${item.item_cd}"
-                    data-bs-toggle="modal"
-                    data-bs-target="#prodItemEditModal"
-                  >
-                    <th>${item.item_cd }</th>
-                    <td>${item.item_nm }</td>
-                    <c:if test="${item.cust_nm ne null}">
-                    	<td>${item.cust_nm }(${ item.cust_cd})</td>
-                    </c:if>
-                    <c:if test="${item.cust_nm eq null}">
-                    	<td></td>
-                    </c:if>
-                    <td>${item.item_spec }</td>
-                    <td>${item.item_cost }</td>
-                  </tr>
-                </c:forEach>
-              </tbody>
-            </table>
-          </div>
+          <div class="d-flex justify-content-center">
+	          <nav aria-label="Page navigation example">
+	            <ul class="pagination">
+	              <c:if test="${page.startPage>page.pageBlock }">
+	                <li class="page-item">
+	                  <a
+	                    class="page-link"
+	                    href="itemmst?currentPage=${page.startPage-page.pageBlock }&item_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
+	                    ><</a
+	                  >
+	                </li>
+	              </c:if>
+	              <c:forEach
+	                var="i"
+	                begin="${page.startPage }"
+	                end="${page.endPage }"
+	              >
+	                <li class="page-item">
+	                  <a
+	                    class="page-link"
+	                    href="itemmst?currentPage=${i }&biz_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
+	                    >${i }</a
+	                  >
+	                </li>
+	              </c:forEach>
+	              <c:if test="${page.endPage < page.totalPage }">
+	                <li class="page-item">
+	                  <a
+	                    class="page-link"
+	                    href="itemmst?currentPage=${page.startPage+page.pageBlock }&item_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
+	                    >></a
+	                  >
+	                </li>
+	              </c:if>
+	            </ul>
+	          </nav>
+	        </div>
         </div>
 
         <!-- Start prodItemEditModal------------m2-------------------->
@@ -216,7 +253,7 @@
         >
           <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-              <form action="itemmstUpdate" method="post">
+              <form action="itemmstUpdate" method="post" onsubmit="return submitChk()">
                 <div class="modal-header">
                   <h1 class="modal-title">품목 관리</h1>
                   <button
@@ -380,44 +417,6 @@
           </div>
         </div>
         <!-- End modal -->
-
-        <div class="d-flex justify-content-center">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <c:if test="${page.startPage>page.pageBlock }">
-                <li class="page-item">
-                  <a
-                    class="page-link"
-                    href="itemmst?currentPage=${page.startPage-page.pageBlock }&item_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
-                    ><</a
-                  >
-                </li>
-              </c:if>
-              <c:forEach
-                var="i"
-                begin="${page.startPage }"
-                end="${page.endPage }"
-              >
-                <li class="page-item">
-                  <a
-                    class="page-link"
-                    href="itemmst?currentPage=${i }&biz_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
-                    >${i }</a
-                  >
-                </li>
-              </c:forEach>
-              <c:if test="${page.endPage < page.totalPage }">
-                <li class="page-item">
-                  <a
-                    class="page-link"
-                    href="itemmst?currentPage=${page.startPage+page.pageBlock }&item_flag=${itemMst.item_flag}&searchFilter=${itemMst.searchFilter}&keyword=${itemMst.keyword}"
-                    >></a
-                  >
-                </li>
-              </c:if>
-            </ul>
-          </nav>
-        </div>
       </section>
     </main>
     <!-- End #main -->

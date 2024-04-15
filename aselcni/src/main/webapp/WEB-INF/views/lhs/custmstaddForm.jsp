@@ -80,7 +80,7 @@
                 <h5 class="card-title">신규 등록</h5>
 
                 <!-- Horizontal Form -->
-                <form action="custmstAdd" method="post">
+                <form action="custmstAdd" method="post" onsubmit="return submitChk()">
                 <input type="hidden" name="biz_flag" value="${biz_flag}">
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
@@ -103,7 +103,7 @@
                       >사업자 번호</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_no" />
+                      <input type="text" placeholder="000-00-00000" class="form-control" name="biz_no" id="biz_no" />
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -135,7 +135,7 @@
                       >전화번호</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_tel" />
+                      <input type="text" placeholder="000-0000-0000" class="form-control" name="biz_tel" id="biz_tel"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -143,7 +143,7 @@
                       >팩스</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_fax" />
+                      <input type="text" placeholder="000-0000-0000" class="form-control" name="biz_fax" id="biz_fax" />
                     </div>
                   </div>
 

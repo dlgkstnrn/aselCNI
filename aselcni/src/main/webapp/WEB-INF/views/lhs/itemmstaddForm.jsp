@@ -74,26 +74,16 @@
                 <h5 class="card-title">신규 등록</h5>
 
                 <!-- Horizontal Form -->
-                <form action="itemmstAdd" method="post">
+                <form action="itemmstAdd" method="post" onsubmit="return submitChk()">
                   <input type="hidden" name="item_flag" value="${item_flag}" />
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
                       >품목 코드</label
                     >
                     <div class="col d-flex">
-                      <input
-                      	id="item_nm"
-                        type="text"
-                        class="form-control"
-                        name="item_cd"
-                        style="width: 400px; margin-right: 15px"
-                      />
-                      <input
-                        type="button"
-                        class="btn btn-primary"
-                        value="중복체크"
-                        id="chkBtn"
-                      />
+                      <input id="item_cd" type="text" class="form-control" name="item_cd"
+                        placeholder="대문자알파벳3자 + 숫자4 ABC0000" style="width: 400px; margin-right: 15px"/>
+                      <input type="button" class="btn btn-primary" value="중복체크"id="chkBtn"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -101,7 +91,7 @@
                       >품목 명</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="item_nm" />
+                      <input type="text" class="form-control" name="item_nm" required="required" />
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -137,18 +127,12 @@
                       </select>
                     </div>
                     <div class="col">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                        name="mid_no" id="mid">
+                      <select class="form-select" aria-label="Default select example" name="mid_no" id="mid">
                         <option selected="">중분류</option>
                       </select>
                     </div>
                     <div class="col">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                        name="sml_no" id="sml">
+                      <select class="form-select" aria-label="Default select example" name="sml_no" id="sml">
                         <option selected="">소분류</option>
                       </select>
                     </div>
@@ -158,11 +142,7 @@
                       >규격</label
                     >
                     <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="item_spec"
-                      />
+                      <input type="text" class="form-control" name="item_spec" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -170,11 +150,7 @@
                       >단위</label
                     >
                     <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="item_unit"
-                      />
+                      <input type="text" class="form-control" name="item_unit" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -182,11 +158,7 @@
                       >단가</label
                     >
                     <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="item_cost"
-                      />
+                      <input id="item_cost" type="text" class="form-control" name="item_cost" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -194,7 +166,7 @@
                       >비고</label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="remark" />
+                      <input type="text" class="form-control" name="remark" required="required" />
                     </div>
                   </div>
 
