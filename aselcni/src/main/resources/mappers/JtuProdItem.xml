@@ -23,6 +23,12 @@
 		values (#{proditem_no}, #{bad_cd})
 	</insert>
 	
+	<delete id="jtuDeletePriBad" parameterType="JtuProdItemBad">
+		delete from TB_PRODITEM_BAD
+		where PRODITEM_NO = #{proditem_no} 
+		and BAD_CD = #{bad_cd}
+	</delete>
+	
 
 	<resultMap id="WHResultMap"
 		type="com.aselcni.jtu.model.JtuWH">

@@ -604,7 +604,10 @@
 												><span class="moving-text">예정 생산 수량</span></label>
 												<div class="col-sm-5">
 													<input id="expectedQtyEditModal" type="number"
-														name="pln_qty" class="form-control" value=""
+														 class="form-control"
+													>
+													<input id="hiddenExpectedQtyEditModal" type="hidden"
+														name="pln_qty" class="form-control" 
 													>
 												</div>
 											</div>
@@ -773,7 +776,7 @@
 										<button type="button" class="btn btn-secondary"
 											data-bs-dismiss="modal"
 										>닫기</button>
-										<button id="" type="button" class="btn btn-primary">삭제</button>
+										<!-- <button id="" type="button" onclick="deleteSelectedBad()" class="btn btn-primary">삭제</button> -->
 										<button id="" type="button" onclick="moveSelectedBad()"
 											class="btn btn-primary"
 										>선택</button>
@@ -810,7 +813,7 @@
 
 </body>
 
-<script type="text/javascript">
+<script type="text/javascript">/* sc1 */
 	let startDate = $('#startDate').val();
 	let endDate = $('#endDate').val();
 	let proditem_emp_id="";
@@ -1152,6 +1155,7 @@
 				$('#itemNameEditModal').val(pri.item_nm+'('+pri.item_cd+')');
 				$('#hiddenItemCdEditModal').val(pri.item_cd);
 				$('#expectedQtyEditModal').val(pri.pln_qty);
+				$('#hiddenExpectedQtyEditModal').val(pri.pln_qty);
 				$('#actualQtyEditModal').val(pri.prod_qty);
 				$('#defectiveQtyEditModal').val(pri.bad_qty);
 				$('#remarkEditModal').val(pri.remark);
@@ -1263,7 +1267,6 @@
 			disabledOnoff(disabledList, false);
 			
 			$("#prodItemWHEditModal").attr("data-bs-toggle","dropdown");
-			$("#expectedQtyEditModal").attr("readonly","");
 			getWHListModal("EditModal");
 			
 			$("#editModalEditBtn").hide();
@@ -1303,25 +1306,6 @@
 		})
 
 	})
-	
-	//불량 코드, 내역 추가 함수
-	function badInsertRegiModal(){
-		data.badCdKeyword=$("#badCdRegiModal").val();
-		data.badResKeyword=$("#badResRegiModal").val();
-		
-		$.ajax({
-			url : "deleteProdItemEditModal",
-			method : 'POST',
-			data,
-			dataType : "json",
-			success : function(){
-				
-			},//success
-				error : function(xhr, status, error) {
-				    console.error("Error occurred: " + error);
-				}
-		})//ajax
-	}
 	
 	
 	
@@ -1423,8 +1407,51 @@
 	        }
 	    });//ajax
 	}
-	
-	//선택된 행을 다른 테이블로 이동
+		
+	//선택된 불량 코드를 삭제
+	function deleteSelectedBad() {
+	    let result = confirm("정말로 코드를 삭제하시겠습니까?");
+	    if (result == true) {
+	        // 선택된 항목들을 삭제
+	        selectedRows.forEach(function(row) {
+	        	console.log("row",row)
+	        	console.log("row.code",row.code)
+	        	data.bad_cd= row.code;
+	        	
+	            $.ajax({
+	    	        url: 'deleteBadModal',
+	    	        method: 'POST',
+	    	        data,
+	    	        success: function() {
+	    	        	
+	    	        },
+	    	        error : function(xhr, status, error) {
+	    	            console.error("Error occurred: " + error);
+	    	        }
+    	        })
+    	        
+	            // 체크박스 해제
+	            row.checkbox.prop('checked', false);
+	            
+		     	// 선택햇었던 코드들도 테이블에서 제거
+	    	    $("#badListRegiModal tr").each(function() {
+				    let tdText = $(this).find("td:nth-child(2)").text();
+				    
+				    if (selectedRows.some(function(row) { return row.code === tdText; })) {
+				        $(this).empty();
+				    }
+				});
+		     	
+
+	        });
+	        
+	        // selectedRows 배열 초기화
+	        console.log("selectedRows after deletion", selectedRows);
+	    }
+	}
+			
+		
+	//선택된 불량코드를 다른 테이블로 이동
 	function moveSelectedBad(){
 		$('.badListTbody').empty();
 		$('#badModal').modal('hide');
@@ -1453,14 +1480,17 @@
 	                bad_cd: $('#badCdBadModal').val().toUpperCase(),
 	                bad_res: $('#badResBadModal').val()
 	            };
+	            
 	            $.ajax({
 	                url: 'submitBadModal',
 	                method: 'POST',
-	                data: data,
-	                dataType: 'json',
+	                data,
 	                success: function () {
 	                    alert('불량코드 추가 성공');
-	                },
+	                    $("#badCdBadModal").val("");
+	                    $("#badResBadModal").val("");
+	                    
+	                },//sucess
 	                error: function (xhr, status, error) {
 	                    console.error("Error occurred: " + error);
 	                }

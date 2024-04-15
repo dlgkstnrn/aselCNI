@@ -106,6 +106,7 @@ pageEncoding="UTF-8"%>
                     <td>${planList.qty}</td>
                     <td>${planList.work_dt}</td>
                   </tr>
+
                 </c:forEach>
               </tbody>
 
