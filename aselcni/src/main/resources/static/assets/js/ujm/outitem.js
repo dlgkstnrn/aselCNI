@@ -159,86 +159,83 @@ $(document).ready(function () {
 
 
   //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
-  $.ajax({
-    url: 'ujmGetOrderItem',
-    type: 'GET',
-    data: { order_no: selectOrderNo },
-    success: function(response) {
+$.ajax({
+  url: 'ujmGetOrderItem',
+  type: 'GET',
+  data: { order_no: selectOrderNo },
+  success: function(response) {
       console.log('주문품목조회'+response);  
 
       $('#outitem_item_list tbody').empty();
       
       $.each(response, function(index, item) { /* 각각의 주문품목 */
-        var checkbox = $('<input>').attr({
-            type: 'checkbox',
-            name: 'selectedItems',
-            value: item.item_cd,
-            'data-qty': item.qty
-        });
+          var checkbox = $('<input>').attr({
+              type: 'checkbox',
+              name: 'selectedItems',
+              value: item.item_cd,
+              'data-qty': item.qty
+          });
 
-        var checkedCount;
+          var qtyValue;
+          var maxQty;
+          var minQty;
 
-        // 체크된 체크박스의 개수 확인
-        $('input[name="selectedItems"]').change(function() {
-        checkedCount = $('input[name="selectedItems"]:checked').length;
-        console.log('checkedCount:'+checkedCount);
-        })
-        
-        var qtyValue;
-        var maxQty;
-        var minQty;
+          var insertQtyInput = $('<input>').attr({
+              type: 'number',
+              class: 'insertQty form-control',
+              name: 'insert_qty',
+              min: 1, 
+              max: item.stock, 
+              value: 1 
+          });
 
-        var insertQtyInput = $('<input>').attr({
-            type: 'number',
-            class: 'insertQty form-control',
-            name: 'insert_qty',
-            min: 1, 
-            max: item.stock, 
-            value: 1 
-        }).on('change', function() {
-          qtyValue = parseInt($(this).val()); // 입력된 값
-          maxQty = parseInt($(this).attr('max')); //재고 
-          minQty = parseInt($(this).attr('min')); 
+          // insertQtyInput의 변경 이벤트 핸들러
+          insertQtyInput.on('change', function() {
+              qtyValue = parseInt($(this).val()); // 입력된 값
+              maxQty = parseInt($(this).attr('max')); //재고 
+              minQty = parseInt($(this).attr('min')); 
 
-          $(this).val(qtyValue); 
-          $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
+              console.log('qtyValue'+qtyValue);
+              console.log('maxQty'+maxQty);
+              console.log('minQty'+minQty);
+              console.log('remain_qty'+item.remain_qty);
 
-          console.log('qtyValue'+qtyValue);
-          console.log('maxQty'+maxQty);
-          console.log('minQty'+minQty);
-          console.log('remain_qty'+item.remain_qty);
+              console.log(Boolean(qtyValue > maxQty));
+              console.log(Boolean(qtyValue > item.remain_qty));
+              console.log(Boolean(qtyValue < minQty));
+              console.log(Boolean(isNaN(qtyValue)));
 
-          console.log(Boolean(qtyValue > maxQty));
-          console.log(Boolean(qtyValue >item.remain_qty));
-          console.log(Boolean(qtyValue < minQty));
-          console.log(Boolean(isNaN(qtyValue)));
-           
-        });
+              // 체크박스의 상태 변화에 따라 버튼 상태 업데이트
+              updateInsertOutitemBtnState();
+          });
 
-        if (qtyValue > maxQty ||qtyValue >item.remain_qty || qtyValue < minQty 
-          || isNaN(qtyValue) || checkedCount == 0) {
-          $('#insertOutitemBtn').prop('disabled', true); //출고버튼 비활성화
-        } else {
-          $('#insertOutitemBtn').prop('disabled', false);
-        };
-
-        
-        $('#outitem_item_list tbody').append(
-            $('<tr>').append(
-                $('<td>').append(checkbox),
-                $('<td>').text(item.item_nm),
-                $('<td>').text(item.stock),
-                $('<td>').text(item.qty),
-                $('<td>').text(item.remain_qty),
-                $('<td>').append(insertQtyInput),
-            )
-        );
-    }) //each
+          // 버튼 상태 업데이트 함수
+          function updateInsertOutitemBtnState() {
+              var checkedCount = $('input[name="selectedItems"]:checked').length;
+              if (qtyValue > maxQty || qtyValue > item.remain_qty || qtyValue < minQty 
+                || isNaN(qtyValue) || checkedCount == 0) {
+                  $('#insertOutitemBtn').prop('disabled', true); //출고버튼 비활성화
+              } else {
+                  $('#insertOutitemBtn').prop('disabled', false);
+              }
+          }
+          
+          $('#outitem_item_list tbody').append(
+              $('<tr>').append(
+                  $('<td>').append(checkbox),
+                  $('<td>').text(item.item_nm),
+                  $('<td>').text(item.stock),
+                  $('<td>').text(item.qty),
+                  $('<td>').text(item.remain_qty),
+                  $('<td>').append(insertQtyInput),
+              )
+          );
+      }); // each
   },
-    error: function(xhr, status, error) {
-        console.error(error);
-    }
-  });
+  error: function(xhr, status, error) {
+      console.error(error);
+  }
+}); //주문번호 selectBox
 
 
 }); //주문번호 selectBox
