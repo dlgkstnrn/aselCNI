@@ -8,6 +8,10 @@ gradle.user.home=
 java.home=
 jvm.arguments=
 offline.mode=false
+<<<<<<< HEAD
 override.workspace.settings=false
+=======
+override.workspace.settings=true
+>>>>>>> PURjdj2
 show.console.view=false
 show.executions.view=false
