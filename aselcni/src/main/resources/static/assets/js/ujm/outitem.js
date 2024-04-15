@@ -399,7 +399,7 @@ $(document).ready(function () {
                 $('<tr>').append(
                     $('<td>').append(checkbox),
                     $('<td>').text(item.item_nm),
-                    $('<td>').text(item.stock),
+                    $('<td>').text(item.stock), 
                     $('<td>').text(item.qty),
                     $('<td>').text(item.remain_qty),
                     $('<td>').append(updateQtyInput),

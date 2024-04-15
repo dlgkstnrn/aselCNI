@@ -62,8 +62,6 @@
 		
 
 
-		<typeAlias alias="UjmInitem" type="com.aselcni.ujm.model.UjmInitem" />
-		<typeAlias alias="UjmInitemItem" type="com.aselcni.ujm.model.UjmInitemItem" />
 		<typeAlias alias="UjmItem" type="com.aselcni.ujm.model.UjmItem" />
 		<typeAlias alias="UjmOrder" type="com.aselcni.ujm.model.UjmOrder" />
 		<typeAlias alias="UjmOrderItem" type="com.aselcni.ujm.model.UjmOrderItem" />
