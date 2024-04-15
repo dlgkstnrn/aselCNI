@@ -21,8 +21,11 @@
 		<typeAlias alias="psaWorkProd" type="com.aselcni.psa.model.WorkProd"/>
 		<typeAlias alias="KdwProdPlan" type="com.aselcni.kdw.model.TB_PRODPLAN"/>
 		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD"/>
-		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem"/>
-		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd"/>
+		
+		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem" />
+		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd" />
+		<typeAlias alias="JtuBad" type="com.aselcni.jtu.model.JtuBad" />
+		<typeAlias alias="JtuProdItemBad" type="com.aselcni.jtu.model.JtuProdItemBad" />
 		
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst" />
 		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst" />
@@ -34,7 +37,11 @@
 
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst" />
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common" />
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> PRD
 		<typeAlias alias="PJHInitem" type="com.aselcni.pjh.model.PJHInitem" />
 		<typeAlias alias="PJHInitemItem"
 			type="com.aselcni.pjh.model.PJHInitemItem" />
@@ -44,7 +51,10 @@
 		<typeAlias alias="PJHWhmst" type="com.aselcni.pjh.model.PJHWhmst" />
 
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> PRD
 		
 		<typeAlias alias="Order" type="com.aselcni.jdj.model.Order" />
 		<typeAlias alias="Item" type="com.aselcni.jdj.model.Item" />
@@ -64,8 +74,21 @@
 		<typeAlias alias="PsaItem" type="com.aselcni.psa.model.Item" />
 
 		<typeAlias alias="KdwProdPlan" type="com.aselcni.kdw.model.TB_PRODPLAN" />
+<<<<<<< HEAD
 		<typeAlias alias="KdwProdPlanItem"
 			type="com.aselcni.kdw.model.TB_ITEM_PROD" />
+=======
+		<typeAlias alias="KdwProdPlanItem" type="com.aselcni.kdw.model.TB_ITEM_PROD" />
+		<typeAlias alias="KdwProdOrder" type="com.aselcni.kdw.model.KDW_TB_ORDER" />
+		<typeAlias alias="KdwProdOrderItem" type="com.aselcni.kdw.model.KDW_TB_ORDER_ITEM" />
+		<typeAlias alias="KdwProdItemTypeBig" type="com.aselcni.kdw.model.KDW_TB_TYPE_BIG" />
+		<typeAlias alias="KdwProdItemTypeMid" type="com.aselcni.kdw.model.KDW_TB_TYPE_MID" />
+		<typeAlias alias="KdwProdItemTypeSml" type="com.aselcni.kdw.model.KDW_TB_TYPE_SML" />
+		<typeAlias alias="KdwProdItemList" type="com.aselcni.kdw.model.KDW_TB_ITEMMST" />
+			
+		<typeAlias alias="JtuProdItem" type="com.aselcni.jtu.model.JtuProdItem" />
+		<typeAlias alias="JtuWorkProd" type="com.aselcni.jtu.model.JtuWorkProd" />
+>>>>>>> PRD
 		
 		<typeAlias alias="Procmst" type="com.aselcni.hsh.model.Procmst" />
 

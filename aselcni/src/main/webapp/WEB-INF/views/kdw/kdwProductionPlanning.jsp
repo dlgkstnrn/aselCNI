@@ -31,15 +31,29 @@
 <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <!-- 제이쿼리에 의존하는 JS들이 있기 때문에 상단에 위치 해야함 -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- 제이쿼리 UI(컬러피커에 사용) -->
-<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+	rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<!-- 주문선택 데이트피커 라이브러리 css, js, locale(한글)-->
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"></script>
+
 <!-- 셀렉트박스에 Select2 CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+	rel="stylesheet" />
 <!-- Select2 JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <!-- CSS File -->
 <link href="assets/css/style.css" rel="stylesheet" type="text/css">
@@ -49,7 +63,8 @@
 <script src="https://kit.fontawesome.com/0b22ed6a9d.js"
 	crossorigin="anonymous"></script>
 <!-- 풀캘린더 API -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 <!-- KDW Main CSS,JS,Script -->
 <script src="assets/js/kdw/kdwProductionPlanning.js"></script>
 <link href="assets/css/kdw/kdwProductionPlanning.css" rel="stylesheet">
@@ -62,7 +77,9 @@
 
 	<!-- ======= Sidebar ======= -->
 	<%@ include file="../asidebar.jsp"%>
-
+	<script>
+	    var currentUserNm = "${sessionScope.user_nm}";
+	</script>
 	<!-- End Sidebar-->
 
 	<main id="main" class="main">
@@ -71,9 +88,8 @@
 			<h1>생산 계획</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item">
-						<a href="productionPlanning">생산 관리</a>
-					</li>
+					<li class="breadcrumb-item"><a href="productionPlanning">생산
+							관리</a></li>
 					<li class="breadcrumb-item active">생산 계획</li>
 				</ol>
 			</nav>
@@ -88,25 +104,33 @@
 							<span class="calendar-group-title-text">생산계획표</span>
 						</div>
 						<div class="btn-container">
+							<div class="prodPlan-read">
+							    <button type="button" class="btn btn-secondary" id="readButton">
+							    	상세
+							    </button>
+							</div>
 							<div class="prodPlan-write">
 								<button type="button" class="btn btn-secondary"
 									data-bs-toggle="modal" data-bs-target="#verticalycentered">
-									등록</button>
+									등록
+								</button>
 							</div>
 							<div class="prodPlan-update">
-								<a href="/prodPlanUpdate"
-									class="pboard-write-Btn btn btn-secondary">수정</a>
+							    <button type="button" class="btn btn-secondary" id="updateButton">
+							    	수정
+							    </button>
 							</div>
-							<div class="prodPlan-delete">
-								<a href="/prodPlanDelete"
-									class="pboard-write-Btn btn btn-secondary">삭제</a>
-							</div>
+						    <div class="prodPlan-delete">
+						        <button type="button" class="pboard-write-Btn btn btn-secondary" id="deleteEventButton">
+							        삭제
+						        </button>
+						    </div>
 						</div>
 						<!-- Modal -->
 						<div class="prodPlan-modal">
 							<div class="modal fade" id="verticalycentered" tabindex="-1"
 								style="display: none;" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered custom-modal-css">
+								<div class="modal-dialog modal-dialog-centered insert-modal-css">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title"
@@ -115,49 +139,81 @@
 												data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-											<div class="row mb-3 prodPlanNo">
-											    <label for="prodPlanNoInput" class="col-sm-2 col-form-label">생산계획번호</label>
-											    <div class="col-sm-7">
-											        <input type="text" id="prodPlanNoInput" class="form-control prodPlanNoInput">
-											    </div>
-											    <!-- 작업일수 -->
-											    <label for="prodPlanWorkingDaysInput" class="col-sm-2 col-form-label prodPlanWorkingDaysLabel">작업일수</label>
-											    <div class="col-sm-1 prodPlanWorkingDays">
-											        <input type="text" id="prodPlanWorkingDaysInput" class="form-control prodPlanWorkingDaysInput">
-											    </div>
-											</div>
-											<div class="row mb-3">
-												<label for="inputDate" class="col-sm-2 col-form-label">생산일자</label>
-												<div class="col-sm-10">
-													<input type="date" class="form-control">
+											<div class="row mb-3 oderCode">
+												<label for="oderCodeInput" class="col-sm-2 col-form-label">주문번호</label>
+												<div class="col-sm-5">
+													<input type="text" id="prodPlanNoInput"
+														class="form-control oderCodeInput" readonly>
+												</div>
+												<!-- 주문번호 선택 버튼 -->
+												<div class="col-sm-2">
+													<button type="button"
+														class="btn btn-primary OderCodeSelect"
+														data-bs-toggle="modal" data-bs-target="#oderModal">주문선택</button>
+												</div>
+												<!-- 작업일수 -->
+												<label for="prodPlanWorkingDaysInput"
+													class="col-sm-2 col-form-label prodPlanWorkingDaysLabel">작업일수</label>
+												<div class="col-sm-1 prodPlanWorkingDays">
+													<input type="number"
+														class="form-control prodPlanWorkingDaysInput"
+														id="prodPlanWorkingDaysInput" min="-99999" max="99999">
 												</div>
 											</div>
 											<div class="row mb-3">
-											    <label for="productName" class="col-sm-2 col-form-label">제품명</label>
-											    <div class="col-sm-5">
-											        <input type="text" class="form-control productNameInput" id="productName">
-											    </div>
-											    <!-- 품목선택 버튼 -->
-											    <div class="col-sm-2">
-											        <button type="button" class="btn btn-primary productSelect" data-bs-toggle="modal" data-bs-target="#nestedModal">품목선택</button>
-											    </div>
-											    <!-- 생산수량 입력 필드 -->
-											    <label for="productionQuantity" class="col-sm-2 col-form-label prodCount">생산수량</label>
-											    <div class="col-sm-1 prodCount-input-class">
-											        <input type="text" class="form-control prodCount-input" id="productionQuantity">
-											    </div>
+												<label for="inputDate" class="col-sm-2 col-form-label">시작예정일자</label>
+												<div class="col-sm-7">
+													<input type="date"
+														class="form-control productStartDateInput">
+												</div>
+												<label for="productEmp" class="col-sm-2 col-form-label">담당자</label>
+												<div class="col-sm-1">
+													<input type="text" class="form-control productEmpInput"
+														id="productEmp" name="prodplan_emp_id"
+														value="${sessionScope.user_nm }" readonly>
+													<!-- 헤더부분 세션값 가져옴 -->
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="inputDate" class="col-sm-2 col-form-label">완료예정일자</label>
+												<div class="col-sm-5">
+													<input type="date" class="form-control productEndDateInput">
+												</div>
+												<!-- 생산수량 입력 필드 -->
+												<label for="productionQuantity"
+													class="col-sm-4 col-form-label prodCount">생산수량</label>
+												<div class="col-sm-1 prodCount-input-class">
+													<input type="number" class="form-control prodCount-input"
+														id="productionQuantity" min="-99999" max="99999">
+												</div>
+											</div>
+											<!-- 제품 -->
+											<div class="row mb-3">
+												<label for="productName" class="col-sm-2 col-form-label">제품명</label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control productNameInput"
+														id="productName">
+												</div>
+												<!-- 품목선택 버튼 -->
+												<div class="col-sm-2">
+													<button type="button" class="btn btn-primary productSelect"
+														data-bs-toggle="modal" data-bs-target="#nestedModal">품목선택</button>
+												</div>
 											</div>
 											<!-- 투입자재 -->
 											<div class="productItem-container">
-											    <div class="row mb-2">
-											        <label for="productItemName" class="col-sm-2 col-form-label">투입자재</label>
-											        <div class="col-sm-10">
-											            <button type="button" class="btn btn-primary productItemSelect" data-bs-toggle="modal" data-bs-target="#nestedItemModal">품목선택</button>
-											        </div>
-											    </div>
-											    <!-- 입력 필드 -->
-											    <div class="row mb-3">
-											        <div class="col-sm-12">
+												<div class="row mb-2">
+													<label for="productItemName"
+														class="col-sm-2 col-form-label">투입자재</label>
+													<div class="col-sm-10">
+														<button type="button"
+															class="btn btn-primary productItemSelect"
+															data-bs-toggle="modal" data-bs-target="#nestedItemModal">품목선택</button>
+													</div>
+												</div>
+												<!-- 입력 필드 -->
+												<div class="row mb-3">
+													<div class="col-sm-12">
 														<div id="select_zone" class="prodItem">
 															<!-- 초기 안내 문구 -->
 															<div id="initial_message"
@@ -167,26 +223,26 @@
 															<div id="prodItem-bar" class="prodItem-bar"
 																style="display: none;">
 																<span id="delete_all" style="cursor: pointer;">X</span>
-																<span>투입자재명</span> <span>수량</span>
+																<span>투입자재</span> <span>수량</span>
 															</div>
 															<!-- 선택된 자재 목록 -->
 															<ul id="prodItem-list" class="prodItem-list"></ul>
 														</div>
 													</div>
-											    </div>
+												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="inputPassword" class="col-sm-2 col-form-label">비고</label>
 												<div class="col-sm-10">
-													<textarea class="form-control"
-														style="min-height: 150px; max-height: 150px;"></textarea>
+													<textarea class="form-control" name="remark"
+														style="min-height: 80px; max-height: 80px;"></textarea>
 												</div>
 											</div>
 										</div>
 										<div class="modal-footer">
-											<button type="reset" class="btn btn-secondary"
+											<button type="button" class="btn btn-secondary"
 												data-bs-dismiss="modal">취소</button>
-											<button type="button" class="btn btn-primary">저장</button>
+											<button type="submit" class="btn btn-primary" id="saveButton">저장</button>
 										</div>
 									</div>
 								</div>
@@ -196,7 +252,8 @@
 						<!-- 제품 중첩 모달 -->
 						<div class="modal fade" id="nestedModal" tabindex="-1"
 							aria-hidden="true" style="display: none;">
-							<div class="modal-dialog modal-dialog-centered custom-nestedModal-css">
+							<div
+								class="modal-dialog modal-dialog-centered custom-nestedModal-css">
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title"
@@ -210,77 +267,56 @@
 										<div class="d-flex flex-row justify-content-between">
 											<!-- 대분류 선택 -->
 											<div class="me-2 category">
-												<label for="majorCategory1" class="form-label">대분류</label> 
-												<select class="form-control select2-firstModal" id="majorCategory1">
-													<option value="">대분류 선택</option>
-													<option value="1">국내 라면</option>
-													<option value="2">해외 라면</option>
+												<label for="majorCategory1" class="form-label"
+													style="font-weight: 700;">대분류</label> <select
+													class="form-control select2-firstModal" id="majorCategory1">
 													<!-- 대분류 옵션들 -->
 												</select>
 											</div>
 											<!-- 중분류 선택 -->
 											<div class="me-2">
-												<label for="middleCategory1" class="form-label">중분류</label> 
-												<select class="form-control select2-firstModal" id="middleCategory1">
-													<option value="">중분류 선택</option>
-													<option value="1">매운 맛</option>
-													<option value="2">순한 맛</option>
+												<label for="middleCategory1" class="form-label"
+													style="font-weight: 700;">중분류</label> <select
+													class="form-control select2-firstModal"
+													id="middleCategory1">
 													<!-- 중분류 옵션들 -->
 												</select>
 											</div>
 											<!-- 소분류 선택 -->
 											<div class="me-2">
-												<label for="minorCategory1" class="form-label">소분류</label> 
-												<select class="form-control select2-firstModal" id="minorCategory1">
-													<option value="">소분류 선택</option>
-													<option value="1">아아아아아주맛있는컵라면</option>
-													<option value="2">봉지라면</option>
-													<option value="3">봉지라면</option>
-													<option value="4">봉지라면</option>
-													<option value="5">봉지라면</option>
-													<option value="6">봉지라면</option>
-													<option value="7">봉지라면</option>
-													<option value="8">봉지라면</option>
+												<label for="minorCategory1" class="form-label"
+													style="font-weight: 700;">소분류</label> <select
+													class="form-control select2-firstModal" id="minorCategory1">
+
 													<!-- 소분류 옵션들 -->
 												</select>
 											</div>
 										</div>
-									</div>
-									<!-- 분류될 리스트 -->
-									<div class="row">
-										<div class="col-12">
-											<table class="table category-search-list" 
-												   style="border-top: 1px solid #dee2e6; padding-top: 10px;">
-												<thead>
-													<tr>
-														<th scope="col">선택</th>
-														<th scope="col">제품코드</th>
-														<th scope="col">제품명</th>
-														<th scope="col">가격</th>
-													</tr>
-												</thead>
-												<tbody>
-													<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
-													<tr>
-														<td><input type="radio" name="productSelect" value="제품1"></td>
-														<th scope="row">1</th>
-														<td>제품 예시 1</td>
-														<td>1000원</td>
-													</tr>
-													<tr>
-														<td><input type="radio" name="productSelect" value="제품2"></td>
-														<th scope="row">2</th>
-														<td>제품 예시 2</td>
-														<td>2000원</td>
-													</tr>
-												</tbody>
-											</table>
+										<!-- 분류될 리스트 -->
+										<div class="row category-search-list-container">
+											<div class="col-12">
+												<table class="table category-search-list"
+													style="border-top: 1px solid #dee2e6; padding-top: 10px;">
+													<thead>
+														<tr>
+															<th scope="col">선택</th>
+															<th scope="col">제품코드</th>
+															<th scope="col">제품명</th>
+															<th scope="col">가격</th>
+														</tr>
+													</thead>
+													<tbody>
+														<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="reset" class="btn btn-secondary"
+										<button type="button" class="btn btn-secondary"
 											data-bs-dismiss="modal">취소</button>
-										<button type="button" class="btn btn-primary">저장</button>
+										<button type="button"
+											class="btn btn-primary prodplan-item-save">저장</button>
 									</div>
 								</div>
 							</div>
@@ -289,7 +325,8 @@
 						<!-- 투입자재 중첩 모달 -->
 						<div class="modal fade" id="nestedItemModal" tabindex="-1"
 							aria-hidden="true" style="display: none;">
-							<div class="modal-dialog modal-dialog-centered custom-nestedItemModal-css">
+							<div
+								class="modal-dialog modal-dialog-centered custom-nestedItemModal-css">
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title"
@@ -303,117 +340,317 @@
 										<div class="d-flex flex-row justify-content-between">
 											<!-- 대분류 선택 -->
 											<div class="me-2 prodPlanItem-category">
-												<label for="majorCategory2" class="form-label">대분류</label> 
-												<select class="form-control select2-secondModal" id="majorCategory2">
-													<option value="">대분류 선택</option>
-											        <option value="1">분말스프</option>
-											        <option value="2">건더기스프</option>
-											        <option value="3">면류</option>
-											        <option value="4">맛 기름</option>
+												<label for="majorCategory2" class="form-label"
+													style="font-weight: 700;">대분류</label> <select
+													class="form-control select2-secondModal"
+													id="majorCategory2">
 													<!-- 대분류 옵션들 -->
 												</select>
 											</div>
 											<!-- 중분류 선택 -->
 											<div class="me-2">
-												<label for="middleCategory2" class="form-label">중분류</label> 
-												<select class="form-control select2-secondModal" id="middleCategory2">
-													<option value="">중분류 선택</option>
-											        <option value="1">야채</option>
-											        <option value="2">육류</option>
-											        <option value="3">해산물</option>
-											        <option value="4">향신료</option>
+												<label for="middleCategory2" class="form-label"
+													style="font-weight: 700;">중분류</label> <select
+													class="form-control select2-secondModal"
+													id="middleCategory2">
 													<!-- 중분류 옵션들 -->
 												</select>
 											</div>
 											<!-- 소분류 선택 -->
 											<div class="d-flex flex-row align-items-end">
 												<div class="me-2">
-													<label for="minorCategory2" class="form-label">소분류</label>
-													<select class="form-control select2-secondModal"
+													<label for="minorCategory2" class="form-label"
+														style="font-weight: 700;">소분류</label> <select
+														class="form-control select2-secondModal"
 														id="minorCategory2">
-														<option value="">소분류 선택</option>
-														<option value="1">양파 분말</option>
-														<option value="2">마늘 분말</option>
-														<option value="3">돈사골 분말</option>
-														<option value="4">건조 파</option>
-														<option value="5">건조 새우</option>
-														<option value="6">건조 쇠고기</option>
-														<option value="7">후추</option>
-														<option value="8">참기름</option>
 														<!-- 소분류 옵션들 -->
 													</select>
 												</div>
 											</div>
 										</div>
-									</div>
-									<!-- 분류될 리스트 -->
-									<div class="row">
-										<div class="col-12">
-											<table class="table category-search-list" 
-												   style="border-top: 1px solid #dee2e6; padding-top: 10px;">
-												<thead>
-													<tr>
-														<th scope="col">선택</th>
-														<th scope="col">자재코드</th>
-														<th scope="col" class="prodPlanItem-name">자재명</th>
-														<th scope="col" class="prodPlanItem-price">금액</th>
-														<th scope="col">수량</th>
-													</tr>
-												</thead>
-												<tbody>
-													<!-- 동적으로 데이터 추가 제품은 한가지만 선택가능 해야하기 때문에 라디오사용 -->
-													<tr>
-														<td class="checkbox-center"><input type="checkbox" name="productSelect" value="제품1"></td>
-														<th scope="row">1</th>
-														<td>자재 예시 1</td>
-														<td>1000원</td>
-														<td><input type="number" name="quantity1" min="1" style="width: 80px;"> 개</td>
-													</tr>
-													<tr>
-														<td class="checkbox-center"><input type="checkbox" name="productSelect" value="제품2"></td>
-														<th scope="row">2</th>
-														<td>자재 예시 2</td>
-														<td>2000원</td>
-														<td><input type="number" name="quantity2" min="1" style="width: 80px;"> 개</td>
-													</tr>
-												</tbody>
-											</table>
+										<!-- 분류될 리스트 -->
+										<div class="row category-search-list-container">
+											<div class="col-12">
+												<table class="table category-search-material-list"
+													style="border-top: 1px solid #dee2e6; padding-top: 10px;">
+													<thead>
+														<tr>
+															<th scope="col">선택</th>
+															<th scope="col">자재코드</th>
+															<th scope="col" class="prodPlanItem-name">자재명</th>
+															<th scope="col" class="prodPlanItem-price">금액</th>
+															<th scope="col">수량</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer d-flex justify-content-between">
-									    <!-- 분류된 항목 개수 -->
-									    <div class="prodPlanItemCount d-flex">
-									        <label for="itemCountInput" class="form-label me-2 prodPlanItemCountLabel">항목 수</label>
-									        <input type="text" id="itemCountInput" readonly class="form-control prodPlanItemCountInput" style="width: 100px; display: inline-block;">
-									    </div>
-									    <div class="prodPlanItemTotalPrice d-flex">
-									        <label for="itemTotalPriceInput" class="form-label me-2 prodPlanItemTotalPriceLabel">합계금액</label>
-									        <input type="text" id="itemTotalPriceInput" readonly class="form-control prodPlanItemTotalPriceInput" style="width: 100px; display: inline-block;">
-									    </div>
-									    <div>
-									        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-									        <button type="button" class="btn btn-primary">저장</button>
-									    </div>
+										<!-- 분류된 항목 개수 -->
+										<div class="prodPlanItemCount d-flex">
+											<label for="itemCountInput"
+												class="form-label me-2 prodPlanItemCountLabel">항목 수</label>
+											<input type="text" id="itemCountInput" readonly
+												class="form-control prodPlanItemCountInput"
+												style="width: 100px; display: inline-block;">
+										</div>
+										<div class="prodPlanItemTotalPrice d-flex">
+											<label for="itemTotalPriceInput"
+												class="form-label me-2 prodPlanItemTotalPriceLabel">합계금액</label>
+											<input type="text" id="itemTotalPriceInput" readonly
+												class="form-control prodPlanItemTotalPriceInput"
+												style="width: 100px; display: inline-block;">
+										</div>
+										<div>
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">취소</button>
+											<button type="button"
+												class="btn btn-primary prodplan-material-save">저장</button>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- End 투입자재 중첩 모달 -->						
+						<!-- End 투입자재 중첩 모달 -->
+						<!-- 주문번호 중첩 모달 -->
+						<div class="modal fade" id="oderModal" tabindex="-1"
+							aria-hidden="true" style="display: none;">
+							<div
+								class="modal-dialog modal-dialog-centered custom-oderModal-css modal-lg">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title"
+											style="font-weight: 700; margin-top: 10px;">주문번호 선택</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<!-- 중첩 모달 내용 -->
+									<div class="modal-body">
+										<div class="input-group date" id="monthPicker">
+											<input type="text" class="form-control"> <span
+												class="input-group-append"> <span
+												class="input-group-text date"> <i
+													class="fa fa-calendar" id="dateIcon"></i></span>
+											</span>
+										</div>
+										<!-- 주문번호 리스트 표시 테이블 -->
+										<table class="table" id="orderListTable">
+											<thead>
+												<tr>
+													<th>선택</th>
+													<th>주문코드</th>
+													<th>고객사</th>
+													<th>비고</th>
+													<th>주문일자</th>
+													<th>주문완료일자</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer oderModal">
+										<!-- 검색 필드 -->
+										<div class="input-group mb-3 oderModal-search">
+											<span class="input-group-text" id="basic-addon1"> 
+											<i class="bi bi-search"></i>
+											</span> <input type="text"
+												class="form-control oderModal-search-input" id="searchInput"
+												placeholder="검색어를 입력하세요" aria-label="Search"
+												aria-describedby="basic-addon1">
+										</div>
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">취소</button>
+										<button type="button" class="btn btn-primary"
+											id="saveOrderButton">선택</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- End 주문번호 중첩 모달 -->
+						<!-- 수정 모달 -->
+						<div class="prodPlan-modal-update">
+						    <div class="modal fade" id="verticalycentered-update" tabindex="-1" style="display: none;" aria-hidden="true">
+						        <div class="modal-dialog modal-dialog-centered insert-modal-css-update">
+						            <div class="modal-content">
+						                <div class="modal-header">
+						                    <h5 class="modal-title" style="font-weight: 700; margin-top: 10px;">생산 계획 수정</h5>
+						                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						                </div>
+						                <div class="modal-body">
+						                    <div class="row mb-3 oderCode-update">
+						                        <label for="oderCodeInput-update" class="col-sm-2 col-form-label">주문번호</label>
+						                        <div class="col-sm-5">
+						                            <input type="text" id="prodPlanNoInput-update" class="form-control oderCodeInput-update" readonly>
+						                        </div>
+						                        <label for="prodPlanWorkingDaysInput-update" class="col-sm-2 col-form-label prodPlanWorkingDaysLabel-update">작업일수</label>
+						                        <div class="col-sm-1 prodPlanWorkingDays-update">
+						                            <input type="number" class="form-control prodPlanWorkingDaysInput-update" id="prodPlanWorkingDaysInput-update" min="-99999" max="99999">
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productStartDateInput-update" class="col-sm-2 col-form-label">시작예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productStartDateInput-update" id="productStartDateInput-update">
+						                        </div>
+                        						<label for="productEmp-update" class="col-sm-2 col-form-label productEmp-update">담당자</label>
+						                        <div class="col-sm-1">
+						                            <input type="text" class="form-control productEmpInput-update" id="productEmp-update" name="prodplan_emp_id-update" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productEndDateInput-update" class="col-sm-2 col-form-label">완료예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productEndDateInput-update" id="productEndDateInput-update">
+						                        </div>
+						                        <label for="productionQuantity-update" class="col-sm-2 col-form-label prodCount-update">생산수량</label>
+						                        <div class="col-sm-1 prodCount-input-class-update">
+						                            <input type="number" class="form-control prodCount-input-update" id="productionQuantity-update" min="-99999" max="99999">
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+											    <label for="productName-update" class="col-sm-2 col-form-label">제품명</label>
+											    <div class="col-sm-10">
+											        <input type="text" class="form-control productNameInput-update" id="productName-update" readonly>
+											    </div>
+											</div>
+						                    <div class="productItem-container-update">
+						                        <div class="row mb-2">
+						                        	 <label for="productItemName-update"
+														class="col-sm-2 col-form-label">투입자재</label>
+						                            <div class="col-sm-10">
+						                                <button type="button" class="btn btn-primary productItemSelect-update" id="productItemSelect-update" 
+						                                		data-bs-toggle="modal" data-bs-target="#nestedItemModal">품목선택</button>
+						                            </div>
+						                        </div>
+						                        <div class="row mb-3">
+						                            <div class="col-sm-12">
+						                                <div id="select_zone-update" class="prodItem-update">
+						                                    <div id="initial_message-update" style="margin-top: 60px; color: #6c757d; font-weight: 700;">
+						                                        투입품을 선택해 주세요.
+						                                    </div>
+						                                    <div id="prodItem-bar-update" class="prodItem-bar-update" style="display: none;">
+						                                        <span id="delete_all-update" style="cursor: pointer;">X</span>
+						                                        <span>투입자재</span> <span>수량</span>
+						                                    </div>
+						                                    <ul id="prodItem-list-update" class="prodItem-list-update"></ul>
+						                                </div>
+						                            </div>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="remark-update" class="col-sm-2 col-form-label">비고</label>
+						                        <div class="col-sm-10">
+						                            <textarea class="form-control remark-update" id="remark-update" name="remark-update" style="min-height: 80px; max-height: 80px;"></textarea>
+						                        </div>
+						                    </div>
+						                </div>
+						                <div class="modal-footer">
+						                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						                    <button type="submit" class="btn btn-primary" id="saveButton-update">저장</button>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</div>
+						<!-- End 수정 모달 -->
+						<!-- 상세 모달 -->
+						<div class="prodPlan-modal-read">
+						    <div class="modal fade" id="verticalycentered-read" tabindex="-1" style="display: none;" aria-hidden="true">
+						        <div class="modal-dialog modal-dialog-centered insert-modal-css-read">
+						            <div class="modal-content">
+						                <div class="modal-header">
+						                    <h5 class="modal-title" style="font-weight: 700; margin-top: 10px;">생산 계획 상세</h5>
+						                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						                </div>
+						                <div class="modal-body">
+						                    <div class="row mb-3 oderCode-read">
+						                        <label for="oderCodeInput-read" class="col-sm-2 col-form-label">주문번호</label>
+						                        <div class="col-sm-5">
+						                            <input type="text" id="prodPlanNoInput-read" class="form-control oderCodeInput-read" readonly>
+						                        </div>
+						                        <label for="prodPlanWorkingDaysInput-read" class="col-sm-2 col-form-label prodPlanWorkingDaysLabel-read">작업일수</label>
+						                        <div class="col-sm-1 prodPlanWorkingDays-read">
+						                            <input type="number" class="form-control prodPlanWorkingDaysInput-read" id="prodPlanWorkingDaysInput-read" min="-99999" max="99999" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productStartDateInput-read" class="col-sm-2 col-form-label">시작예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productStartDateInput-read" id="productStartDateInput-read" readonly>
+						                        </div>
+						                        <label for="productEmp-read" class="col-sm-2 col-form-label productEmp-read">담당자</label>
+						                        <div class="col-sm-1">
+						                            <input type="text" class="form-control productEmpInput-read" id="productEmp-read" name="prodplan_emp_id-read" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productEndDateInput-read" class="col-sm-2 col-form-label">완료예정일자</label>
+						                        <div class="col-sm-7">
+						                            <input type="date" class="form-control productEndDateInput-read" id="productEndDateInput-read" readonly>
+						                        </div>
+						                        <label for="productionQuantity-read" class="col-sm-2 col-form-label prodCount-read">생산수량</label>
+						                        <div class="col-sm-1 prodCount-input-class-read">
+						                            <input type="number" class="form-control prodCount-input-read" id="productionQuantity-read" min="-99999" max="99999" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="productName-read" class="col-sm-2 col-form-label">제품명</label>
+						                        <div class="col-sm-10">
+						                            <input type="text" class="form-control productNameInput-read" id="productName-read" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="productItem-container-read">
+						                        <div class="row mb-3">
+						                             <label for="productItemName-read"
+						                                class="col-sm-2 col-form-label">투입자재
+						                             </label>
+							                        <div class="col-sm-10">
+							                            <div id="select_zone-read" class="prodItem-read">
+							                                <div id="prodItem-bar-read" class="prodItem-bar-read">
+							                                    <span id="delete_all-read" style="cursor: pointer;">#</span>
+							                                    <span>투입자재</span> <span>수량</span>
+							                                </div>
+							                                <ul id="prodItem-list-read" class="prodItem-list-read"></ul>
+							                            </div>
+							                        </div>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                        <label for="remark-read" class="col-sm-2 col-form-label">비고</label>
+						                        <div class="col-sm-10">
+						                            <textarea class="form-control remark-read" id="remark-read" name="remark-read" style="min-height: 120px; max-height: 120px;" readonly></textarea>
+						                        </div>
+						                    </div>
+						                </div>
+						                <div class="modal-footer">
+						                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</div>
+						<!-- End 상세 모달 -->
 						<!-- Calendar -->
 						<div class="calendar-group">
 							<div id='calendar'></div>
 						</div>
 						<div class="colorPicker-group">
-						    <!-- 캘린더 각 이벤트 컬러피커 -->
+							<!-- 캘린더 각 이벤트 컬러피커 -->
 							<div id="colorPickerDialog" title="색상 선택">
 								<input type="color" id="eventColorPicker">
 							</div>
-							<button id="changeColorButton" class="btn btn-primary colorPicker-btn">색상변경</button>
+							<button id="changeColorButton"
+								class="btn btn-primary colorPicker-btn">색상변경</button>
 						</div>
 						<!-- 스위치 토글 버튼 -->
 						<div class="form-check form-switch tooltip-switch-container">
-							<label class="form-check-label" for="flexSwitchCheckChecked">툴 팁</label>
-							<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> 
+							<label class="form-check-label" for="flexSwitchCheckChecked">
+							툴 팁</label> 
+							<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
 						</div>
 						<!-- End Calendar -->
 						<!-- 주문내역 & 생산계획 리스트 -->
