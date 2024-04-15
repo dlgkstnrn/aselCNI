@@ -3,18 +3,19 @@ package com.aselcni.hsh.model;
 import lombok.Data;
 
 @Data
-public class Procmst {
+public class Whmst {
 
-	private String proc_Cd; // 공정CD
-    private String proc_Nm; // 공정명
-    private String remark; // 비고(설명)
-    private Integer use_Flag; // 사용여부
-    private String proc_Emp_Id; // 공정담당자 ID
-    private String proc_Regdate; // 공정등록일
-    private String proc_Update; // 공정수정일
-    private Integer proc_Delete_Chk; // 공정삭제여부
-
-	
+    private String wh_cd;
+    private String wh_nm;
+    private String remark;
+    private Integer wh_type1;
+    private Integer wh_type2;
+    private Integer wh_type3;
+    private Integer use_flag;
+    private String wh_regdate;
+    private String wh_update;
+    private String wh_emp_id;
+    private Integer wh_delete_chk;
     // 조회용
     private String 	search;        		private String 	keyword;
     private String 	pageNum;  			private String jjcategory;
@@ -27,5 +28,4 @@ public class Procmst {
 
   	// Page 정보
     private String currentPage;
-    
 }
