@@ -263,55 +263,56 @@ $.ajax({
     var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
     var orderDtValue =  Number(orderDt.replace(/-/g, ''));
 
-  // 현재 날짜와 outitem_dt 비교
-  //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
-  if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { 
-    //이 조건 만족할 경우에만 출고등록 진행....
-    
-    // form으로 제출할 outitem데이터들
-    var insertOutitemData = {
-        outitem_no : outitemDt, //일단 2024-04-07 그대로 보내고, OUT2404070001..으로의 변환은 자바에서, seq_no와 같이.
-        order_no: $('#insertOrderNo').val(),
-        outitem_dt: $('#insert_outitem_dt').val(),
-        cust_emp: $('#insert_cust_emp').val(),
-        remark: $('#insert_remark').val()
-    };
+    // 현재 날짜와 outitem_dt 비교
+    //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
+    if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { 
+        //이 조건 만족할 경우에만 출고등록 진행....
 
-    console.log(insertOutitemData);
+        // form으로 제출할 outitem데이터들
+        var insertOutitemData = {
+            outitem_no : outitemDt, //일단 2024-04-07 그대로 보내고, OUT2404070001..으로의 변환은 자바에서, seq_no와 같이.
+            order_no: $('#insertOrderNo').val(),
+            outitem_dt: $('#insert_outitem_dt').val(),
+            cust_emp: $('#insert_cust_emp').val(),
+            remark: $('#insert_remark').val()
+        };
 
-    // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
-    var selectedItems = [];
-    $('input[name="selectedItems"]:checked').each(function() {
-        var itemCd = $(this).val();
-        var qty = $(this).data('qty');
-        selectedItems.push({ item_cd: itemCd, qty: qty });
-    });
+        console.log(insertOutitemData);
 
-    console.log(selectedItems);
+        // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
+        var selectedItems = [];
+        $('input[name="selectedItems"]:checked').each(function() {
+            var itemCd = $(this).val();
+            var qty = $(this).closest('tr').find('.insertQty').val(); // 해당 체크박스에 연결된 insertQtyInput의 입력값 가져오기
+            selectedItems.push({ item_cd: itemCd, qty: qty });
+        });
 
-    // 데이터 조합
-    var insertData = {
-        outitemData: insertOutitemData,
-        selectedItems: selectedItems
-    };
+        console.log(selectedItems);
 
-    console.log(insertData);
+        // 데이터 조합
+        var insertData = {
+            outitemData: insertOutitemData,
+            selectedItems: selectedItems
+        };
 
-    // 조합한 insertData를 서버로 전송
-    $.ajax({
-        url: 'insertOutitem',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(insertData),
-        success: function(response){
-            alert('출고 등록 완료.');
-            modalContentClear();
-        }
-    });
+        console.log(insertData);
 
-  } else {
-    alert("출고 날짜가 정상적으로 설정되지 않았습니다.");
-        }
+        // 조합한 insertData를 서버로 전송
+        $.ajax({
+            url: 'insertOutitem',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(insertData),
+            success: function(response){
+                alert('출고 등록 완료.');
+                modalContentClear();
+                $('#outitem_insert').modal('hide');
+            }
+        });
+
+    } else {
+        alert("출고 날짜가 정상적으로 설정되지 않았습니다.");
+    }
   });
 
 
