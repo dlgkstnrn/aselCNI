@@ -233,13 +233,7 @@
 	                </thead>
 	                <tbody id="itemTableBody">
 	                </tbody>
-	                <tfoot>
-	                  <tr>
-					     <th colspan="5">합계</th>
-					     <td id="totalQuantity">0</td>
-					     <td></td>
-					     <td id="totalAmount">0</td>
-					  </tr>
+	                <tfoot id="itemTableFoot">
 	                </tfoot>
 	              </table>
 	            </div>
