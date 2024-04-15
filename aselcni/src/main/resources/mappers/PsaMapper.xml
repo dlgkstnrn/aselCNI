@@ -145,8 +145,15 @@
 	</insert>
 	
 	<insert id="psaInsertWorkItem" parameterType="PsaWorkItem">
-		INSERT INTO TB_WORK_ITEM (WORKPROD_NO, ITEM_CD, IN_QTY)
-		VALUES (#{workprod_no}, #{item_cd}, #{in_qty})
+		INSERT INTO TB_WORK_ITEM (WORKPROD_NO, ITEM_CD, IN_QTY, COST)
+		VALUES (
+						#{workprod_no}, 
+						#{item_cd}, 
+						#{in_qty}, 
+						(SELECT ti.ITEM_COST 
+						FROM TB_ITEMMST ti 
+						WHERE ti.ITEM_CD = #{item_cd})
+					)
 	</insert>
 
 </mapper>

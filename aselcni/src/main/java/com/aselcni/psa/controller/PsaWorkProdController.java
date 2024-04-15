@@ -31,8 +31,8 @@ public class PsaWorkProdController {
 	// 생산지시 메인 페이지
 	@RequestMapping(value = "workprod")
 	public String workprod(ProdPlan prodPlan, WorkProd workProd, Model model) {
-//		public String workprod(@RequestParam("prodplan_dt") String prodplan_dt, ProdPlan prodPlan, WorkProd workProd, Model model) {
 		
+		System.out.println();
 		System.out.println("psa 생산지시 메인 페이지 시작!");
 
 		// 생산지시일을 오늘날짜로 세팅
@@ -41,44 +41,8 @@ public class PsaWorkProdController {
 		System.out.println("today Format: " + today);
 		
 		workProd.setWorkprod_dt(today);
-		
-/*		ajax
- 
-		// 생산지시일을 달력에서 입력받은 날짜로 세팅
-		String prodplan_dt = request.getParameter("prodplan_dt");
-		
-		System.out.println("param date: " + prodplan_dt);
-		workProd.setWorkprod_dt(prodplan_dt);
-*/
 
-
-/*		
-		// 지시 대기중인 생산계획 리스트 조회
-		// (생산지시에 등록되지 않았고, 삭제 안 된 것들)
-		List<ProdPlan> planList = psaService.getPlanList(prodPlan);
-		model.addAttribute("planList", planList);
-		
-		
-		// 지시 등록된 지시리스트 조회
-		// (생산일자가 오늘날짜이고, 삭제 안 된 것들)
-		List<WorkProd> workList = psaService.getWorkList(workProd);
-		model.addAttribute("workList", workList);
-		
-		
-		// 지시 등록 시 사용 가능한 공정리스트 조회
-		// select box
-		System.out.println("사용가능한 공정리스트 조회");
-		
-		List<WorkProc> procList = psaService.getProcList();
-		model.addAttribute("procList", procList);
-		
-		
-		// 품목 대분류 리스트 조회
-		// select box
-		List<Item> bigList = psaService.getBigList();
-		model.addAttribute("bigList", bigList);
-*/
-		
+		// model setting
 		// private method call
 		commonWorkProd(prodPlan, workProd, model);
 		
@@ -89,35 +53,21 @@ public class PsaWorkProdController {
 	// 달력 날짜 변경 후 ajax
 	@RequestMapping("workprod/workprodTB")
 	@ResponseBody
-//	public String inputDate(@RequestParam("prodplan_dt") String prodplan_dt, ProdPlan prodPlan, WorkProd workProd, Model model) {
-		public List<WorkProd> inputDate(@RequestBody ProdPlan paramPR, ProdPlan prodPlan, WorkProd workProd, Model model) {
+	public List<WorkProd> inputDate(@RequestBody ProdPlan paramPR, ProdPlan prodPlan, WorkProd workProd, Model model) {
 		
-		System.out.println("이걸 타고잇나????");
+		System.out.println("달력 날짜 변경!");
 		
-		// 생산지시일을 달력에서 입력받은 날짜로 세팅
-//		String prodplan_dt = request.getParameter("prodplan_dt");
-				
 		String workprod_dt = paramPR.getProdplan_dt();
 		System.out.println("param date: " + paramPR.getProdplan_dt());
 		
 		workProd.setWorkprod_dt(workprod_dt);
 		
-		// private method call
-//		commonWorkProd(prodPlan, workProd, model);
-		
-		
-		// ajax 성공 시 workProd List 를 바꿔줘야 하는데?
+		// ajax 성공 시 workProd List 를 바꿔줌
 		List<WorkProd> workList = psaService.getWorkList(workProd);
 		model.addAttribute("workList", workList);
 		
 		System.out.println("workList.size(): " + workList.size());
 		System.out.println("리턴된 workList: " + workList);
-		
-//		System.out.println("모델이를 리턴할까????");
-//		return model;
-		
-//		System.out.println("return \"psa/workprodTB\"");
-//		return "psa/workprod";	
 		
 		return workList;
 		
