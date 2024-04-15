@@ -27,11 +27,19 @@ public class UjmOutitem { //출고
 	private String 	currentPage; //유일하게 Page 객체에도
 	
 	//조인
-	private String cust_nm;
-	private String order_dt;
-	private String order_end_dt;
-	private int    order_status_chk;
-	private String item_nm;
-	private int    qty;
-	private String user_nm;
+	private String cust_nm; //고객사이름
+	private String order_dt; //주문일자
+	private String order_end_dt; //주문만료일
+	private int    order_status_chk; //주문상태
+	private String item_nm; //품목명 (출고품목)
+	private int    qty; //출고하는 상품별 수량
+	private String user_nm; //출고담당자(입력)
+	
+	//상품명과 주문개수 중복표시
+	private String items; //출고제품
+	
+	//조회에서 사용
+	private String outitem_qty;
+	private String remain_qty;
+	private int    stock;
 }

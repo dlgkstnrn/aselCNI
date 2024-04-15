@@ -146,11 +146,12 @@ $(".out-item-list-box").on('click', 'li', function () {
 	$('.cust-cd').val(cust_cd);
 	$('.cust-nm').val(cust_nm);
 
-	$('.item_cd').val('');
-	$('.item_nm').find('input').val('');
+	$('.item-cd').val('');
+	$('.item-nm-box').find('input').val('');
 	$('.max-qty').val('');
 	$('.item_qty').val('');
 	$('.item_qty').prop('readonly', true);
+	$('.item_qty').addClass('readonly');
 
 	outitem_choice_chk = 1;
 
@@ -190,12 +191,13 @@ function itemList(keyword) {
             itemList.forEach(item => {
                 $('.item-list-box ul').append(`
                     <li>
+                        <input name="usable_qty" type="hidden" value="${item.usable_qty}"/>
                     	<input name="item_nm" type="hidden" value="${item.item_nm}"/>
                     	<input name="item_cd" type="hidden" value="${item.item_cd}"/>
                     	<input name="qty" type="hidden" value="${item.qty}"/>
                         <span class="item_nm">${item.item_nm}</span>
 						<span> / </span>
-                        <span>${item.item_cd}, ${item.qty}개</span>
+						<span>${item.item_cd}, 반품 가능수량 : ${item.usable_qty}개</span>
                     </li>
                 `);
             });
@@ -219,7 +221,10 @@ $('#item-search-btn').on('click', function () {
 $('.item-list-box ul').on('click', 'li', function () {  
 	const item_nm = $(this).find('input[name=item_nm]').val();
 	const item_cd = $(this).find('input[name=item_cd]').val();
-	const max_qty = $(this).find('input[name=qty]').val();
+	let max_qty = $(this).find('input[name=usable_qty]').val();
+	if(max_qty == 0) {
+		max_qty = $(this).find('input[name=qty]').val();
+	}
 	$('.item-nm-box').find('input').val(item_nm);
 	$('.item-cd').val(item_cd);
 	$('.max-qty').val(max_qty);

@@ -26,4 +26,8 @@ public class CSG_TB_ITEMMST {
 	private String purc_emp_id; //품목담당자 ID
 	private int item_delete_chk; //품목삭제여부
 	
+	private String purc_no; //발주번호, PK, fk
+	private int    qty; //수량
+	private int purc_cost;// 공급가액(수량*단가)
+	
 }

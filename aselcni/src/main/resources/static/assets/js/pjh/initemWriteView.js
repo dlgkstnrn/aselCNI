@@ -50,7 +50,7 @@ const getItemList = function () {
 	                    <td>${ele['item_nm']}</td>
 	                    <td>${ele['item_spec']}</td>
 	                    <td>${ele['item_unit']}</td>
-	                    <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" placeholder="입고수량" style="width: 75px"></td>
+	                    <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" min="1" placeholder="입고수량" style="width: 75px"></td>
 	                    <td>${ele['purc_cost']}</td>
 	                  </tr>`
                 )
@@ -95,7 +95,7 @@ const searchPurc = function () {
             purcData = {};
             res.forEach(ele => {
                 purcSelect.append(
-                    `<option value="${ele['purc_no']}">${ele['purc_no'] + '/' + ele['cust_nm'] + '/' + ele['cust_emp'] + '/' + ele['purc_dt']}</option>`
+                    `<option ondblclick="pickPurcNo()" value="${ele['purc_no']}">${ele['purc_no'] + '/' + ele['cust_nm'] + '/' + ele['cust_emp'] + '/' + ele['purc_dt']}</option>`
                 )
                 purcData[ele['purc_no']] = ele;
             });

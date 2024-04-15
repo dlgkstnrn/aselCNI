@@ -19,5 +19,9 @@ public class CSG_TB_CUSTMST { //거래처
 	private String  cust_update; //거래처수정일
 	private int 	cust_delete_chk; //거래처삭제여부
 	
+	//조회용
+	private String cust_emp; //담당자명(상대편)
+
+	
 
 }

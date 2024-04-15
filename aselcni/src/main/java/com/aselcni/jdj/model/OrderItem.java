@@ -5,13 +5,14 @@ import lombok.Data;
 @Data
 public class OrderItem {
 	
-	String order_no;
-	String item_cd;	// 제품코드
-	int qty;		// 수량
-	int cost;		// 가격
+	private String order_no;
+	private String item_cd;	// 제품코드
+	private int qty;		// 수량
+	private int cost;		// 가격
 	
 	// itemMst 일부 -> for 주문상세
-	String item_nm;
-	String item_unit;
+	private String item_nm;
+	private String item_unit;
+	private int item_cost; 
 	
 }
