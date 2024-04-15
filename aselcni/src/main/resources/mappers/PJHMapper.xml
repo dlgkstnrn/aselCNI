@@ -7,6 +7,7 @@
 		FROM TB_PURCHASE purc
 		INNER JOIN TB_CUSTMST cus ON purc.CUST_CD = cus.CUST_CD
 		WHERE purc.PURC_STATUS_CHK IN (0,1)
+		AND purc.PURC_DELETE_CHK != 1
 		<if test="period != 0">
 			AND purc.PURC_DT >= #{purc_dt}
 		</if>
@@ -103,6 +104,7 @@
 		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
 		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
+		AND ti.INITEM_DELETE_CHK != 1
 		<if test="initem_no != null and initem_no != ''">
 			AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
 		</if>
@@ -140,6 +142,7 @@
 		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
 		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
+		AND ti.INITEM_DELETE_CHK != 1
 		<if test="initem_no != null and initem_no != ''">
 		AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
 		</if>
@@ -170,10 +173,68 @@
 	</select>
 	
 	<select id="pjhInitems" parameterType="String" resultType="PJHInitemItem">
-		SELECT *
-		FROM TB_INITEM_ITEM tii
-		INNER JOIN TB_ITEMMST ti ON tii.ITEM_CD = ti.ITEM_CD
-		WHERE tii.INITEM_NO = #{initem_no}
+		SELECT ti.*, ISNULL((SELECT tii2.QTY FROM TB_INITEM_ITEM tii2 WHERE tii2.INITEM_NO = #{initem_no} AND tii2.ITEM_CD = ti.ITEM_CD),0) AS QTY
+					,ISNULL(
+								(SELECT SUM(ISNULL(twi.IN_QTY,0))
+								FROM TB_WORK_ITEM twi 
+								WHERE twi.WORKPROD_NO NOT IN 
+										(SELECT WORKPROD_NO FROM TB_PRODITEM) 
+								AND twi.ITEM_CD = tpi2.ITEM_CD)
+								,0) 
+					- dbo.FN_CURRENT_STOCK(tpi2.ITEM_CD) AS REQUIRED_STOCK
+					, ISNULL((SELECT QTY FROM TB_PURCHASE_ITEM tpi WHERE tpi.PURC_NO = tpi2.PURC_NO AND tpi.ITEM_CD = tpi2.ITEM_CD)
+								  - (SELECT ISNULL(SUM(ISNULL(QTY,0)),0) 
+								 	FROM TB_INITEM_ITEM tii2 
+								 	WHERE tii2.PURC_NO = tpi2.PURC_NO 
+								 	AND tii2.ITEM_CD = tpi2.ITEM_CD)
+								 ,0) AS ADD_MAX
+		FROM TB_PURCHASE_ITEM tpi2
+		INNER JOIN TB_ITEMMST ti ON tpi2.ITEM_CD = ti.ITEM_CD
+		WHERE tpi2.PURC_NO  = (SELECT ti2.PURC_NO FROM TB_INITEM ti2 WHERE ti2.INITEM_NO = #{initem_no})		
+	</select>
+
+	<update id="pjhUpdateInitem" parameterType="PJHInitem">
+		UPDATE TB_INITEM
+		SET INITEM_UPDATE = (SELECT CONVERT(CHAR(10),GETDATE() , 23)),
+			  INITEM_EMP_ID = #{ initem_emp_id},
+			  WH_CD = #{wh_cd},
+			  REMARK = #{remark},
+			  CUST_EMP = #{cust_emp},
+			  INITEM_DT = #{initem_dt}
+		WHERE INITEM_NO = #{initem_no}
+	</update>
+	
+	<update id="pjhUpdateInitemItem" parameterType="java.util.List">
+		MERGE INTO TB_INITEM_ITEM tii
+		USING (
+			SELECT * FROM (
+				VALUES
+				<foreach collection="list" item="item" separator=",">
+					(#{item.initem_no},#{item.purc_no},#{item.item_cd},#{item.qty})
+				</foreach>
+			) AS tempTable(INITEM_NO,PURC_NO,ITEM_CD,QTY)
+		) AS temp
+		ON (tii.INITEM_NO = temp.INITEM_NO AND tii.ITEM_CD = temp.ITEM_CD)
+		WHEN MATCHED THEN
+			UPDATE SET tii.QTY = temp.QTY
+		WHEN NOT MATCHED THEN
+			INSERT (INITEM_NO,PURC_NO,ITEM_CD,QTY)
+			VALUES (temp.INITEM_NO,temp.PURC_NO,temp.ITEM_CD,temp.QTY);
+	</update>
+	
+	<update id="pjhDeleteInitem" parameterType="PJHInitem">
+		UPDATE TB_INITEM
+		SET INITEM_UPDATE = (SELECT CONVERT(CHAR(10),GETDATE() , 23)),
+			  INITEM_EMP_ID = #{ initem_emp_id},
+			  INITEM_DELETE_CHK = 1
+		WHERE INITEM_NO = #{initem_no}
+	</update>
+	
+	<select id="pjhInitemCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_INITEM
+		WHERE INITEM_DELETE_CHK != 1
+		AND PURC_NO = #{purc_no} 
 	</select>
 	
 </mapper>

@@ -101,6 +101,18 @@ public class PJHServiceImpl implements PJHServiceInterface {
 		System.out.println("PJHServiceImpl detailInitem start...");
 		return dao.detailInitem(initem);
 	}
+
+	@Override
+	public int updateInitem(PJHInitem initem) {
+		System.out.println("PJHServiceImpl updateInitem start...");
+		return dao.updateInitem(initem);
+	}
+
+	@Override
+	public int deleteInitem(PJHInitem initem) {
+		System.out.println("PJHServiceImpl deleteInitem start...");
+		return dao.deleteInitem(initem);
+	}
 	
 	
 	
