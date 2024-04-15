@@ -1,5 +1,6 @@
 let chkResult = 0;
 const numberReg = /^\d+$/;
+const itemCd = /^[A-Z]{3}\d{4}$/;
 const optionEle = function(value,content){
 	const option = document.createElement("option");
 	option.value = value;
@@ -65,13 +66,21 @@ $("#mid").change(function(){
 })
 
 $("#chkBtn").click(function(){
-	$.post("itemCdChk",{item_cd:$("#item_nm").val()})
-	.done(function(data){
-		if(data == 0){
-			alert("사용가능한 코드입니다.");
-			chkResult = 1
-		}else{
-			alert("사용불가능한 코드입니다");
-		}
-	})
+	if(itemCd.test($("#item_cd").val())){
+		$.post("itemCdChk",{item_cd:$("#item_cd").val()})
+		.done(function(data){
+			if(data == 0){
+				alert("사용가능한 코드입니다.");
+				chkResult = 1
+			}else{
+				alert("사용불가능한 코드입니다");
+			}
+		})
+	}else{
+		alert("알맞지 않은 형식입니다");
+	}
+})
+
+$("#item_cd").change(function(){
+	chkResult = 0;
 })

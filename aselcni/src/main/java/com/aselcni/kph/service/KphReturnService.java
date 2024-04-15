@@ -14,4 +14,14 @@ public interface KphReturnService {
 
 	void returnAdd(KphReturn kphReturn);
 
+	int totalReturnCount(KphReturn kphReturn);
+
+	List<KphReturn> returnList(KphReturn kphReturn);
+
+	KphReturn getReturn(KphReturn kphReturn);
+
+	void returnDelete(KphReturn kphReturn);
+
+	void returnUpdate(KphReturn kphReturn);
+
 }
