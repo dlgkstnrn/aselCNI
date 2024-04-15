@@ -1,20 +1,23 @@
 
 $(document).ready(function () {
   //닫기 버튼 클릭시 modal 입력 내용 클리어
+  function modalContentClear() {
+    $(".modal-content input").val("");
+    $(".modal-content textarea").val("");
+    $('#insertOutitemBtn').prop('disabled', true);
+    $('#updateOutitemSubmitBtn').hide();
+    $('#updateOutitemBtn').show();
+    $('#detail_outitem_item_list tbody').empty();
+  }
 
-    $('button[data-bs-dismiss="modal"]').on(
-      "click", //닫기버튼 누르면
+    $('button[data-bs-dismiss="modal"]').on("click", //닫기버튼 누르면
       function () {
         modalContentClear(); //아래
       }
     );
-  //닫기 버튼 클릭시 modal 입력 내용 클리어
-  function modalContentClear() {
-    $(".modal-content input").val("");
-    $(".modal-content textarea").val("");
-    $('#detail_outitem_item_list tbody').empty();
-  }
+  
 
+  //검색
   //날짜
   //시작 날짜와 종료 날짜 논리 일관성
     $("#startDate").on("input", function () {
@@ -78,13 +81,14 @@ $(document).ready(function () {
 
 
 
-     //등록버튼 눌렀을 때..
+     //메인화면에서 등록버튼 눌렀을 때..
     $("#outitem_insert_btn").click(function(){ 
-
+      
+      //모달 초기화
+      modalContentClear();
 
 
       //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
-     
       $.ajax({
           url: 'ujmGetOrderNo',
           type: 'GET',
@@ -113,6 +117,8 @@ $(document).ready(function () {
   
  //주문번호 셀렉트박스 눌렀을 때 : 선택한 주문번호에 대한 정보들 컨트롤러로 가져오기 위함
  $("#selectOrderNo").click(function(){ 
+
+
   var selectOrderNo = $('#selectOrderNo').val();
   $('#insertOrderNo').val(selectOrderNo); //form에 넣을 주문번호
 
@@ -170,6 +176,18 @@ $(document).ready(function () {
             'data-qty': item.qty
         });
 
+        var checkedCount;
+
+        // 체크된 체크박스의 개수 확인
+        $('input[name="selectedItems"]').change(function() {
+        checkedCount = $('input[name="selectedItems"]:checked').length;
+        console.log('checkedCount:'+checkedCount);
+        })
+        
+        var qtyValue;
+        var maxQty;
+        var minQty;
+
         var insertQtyInput = $('<input>').attr({
             type: 'number',
             class: 'insertQty form-control',
@@ -178,9 +196,13 @@ $(document).ready(function () {
             max: item.stock, 
             value: 1 
         }).on('change', function() {
-          var qtyValue = parseInt($(this).val()); // 입력된 값
-          var maxQty = parseInt($(this).attr('max')); //재고 
-          var minQty = parseInt($(this).attr('min')); 
+          qtyValue = parseInt($(this).val()); // 입력된 값
+          maxQty = parseInt($(this).attr('max')); //재고 
+          minQty = parseInt($(this).attr('min')); 
+
+          $(this).val(qtyValue); 
+          $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
+
           console.log('qtyValue'+qtyValue);
           console.log('maxQty'+maxQty);
           console.log('minQty'+minQty);
@@ -190,18 +212,16 @@ $(document).ready(function () {
           console.log(Boolean(qtyValue >item.remain_qty));
           console.log(Boolean(qtyValue < minQty));
           console.log(Boolean(isNaN(qtyValue)));
-
-          $(this).val(qtyValue); 
-          $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
-          
-          if (qtyValue > maxQty ||qtyValue >item.remain_qty || qtyValue < minQty || isNaN(qtyValue)) {
-            $('#insertOutitemBtn').prop('disabled', true); //출고버튼 비활성화
-          } else {
-            $('#insertOutitemBtn').prop('disabled', false);
-          };
-          
            
         });
+
+        if (qtyValue > maxQty ||qtyValue >item.remain_qty || qtyValue < minQty 
+          || isNaN(qtyValue) || checkedCount == 0) {
+          $('#insertOutitemBtn').prop('disabled', true); //출고버튼 비활성화
+        } else {
+          $('#insertOutitemBtn').prop('disabled', false);
+        };
+
         
         $('#outitem_item_list tbody').append(
             $('<tr>').append(
@@ -213,16 +233,15 @@ $(document).ready(function () {
                 $('<td>').append(insertQtyInput),
             )
         );
-      });
-
-    }, 
+    }) //each
+  },
     error: function(xhr, status, error) {
         console.error(error);
     }
   });
 
 
-}); //selectBox
+}); //주문번호 selectBox
 
   $('#insertOutitemBtn').click(function(e){ //출고등록 버튼(form) 누르면
     e.preventDefault(); // 기본 이벤트 동작 방지
@@ -235,12 +254,12 @@ $(document).ready(function () {
 
     var day = now.getDate();
     var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
-    console.log(currentDate);
+    console.log('currentDate:'+currentDate);
     
     var outitemDt = $('#insert_outitem_dt').val(); //출고일자 : 달력으로 선택
     var orderDt=  $('#orderInfo_order_dt').val() //주문일자 : 주문번호 선택시 자동으로 가져와 보여줌
-    console.log(outitemDt);
-    console.log(orderDt);
+    console.log('outitemDt:'+outitemDt);
+    console.log('orderDt:'+orderDt);
 
     // 날짜 형식 문자열에서 '-' 제거한 숫자값 계산
     var currentDateValue = Number(currentDate.replace(/-/g, ''));
@@ -248,7 +267,8 @@ $(document).ready(function () {
     var orderDtValue =  Number(orderDt.replace(/-/g, ''));
 
   // 현재 날짜와 outitem_dt 비교
-  if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
+  //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
+  if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { 
     //이 조건 만족할 경우에만 출고등록 진행....
     
     // form으로 제출할 outitem데이터들
@@ -288,8 +308,7 @@ $(document).ready(function () {
         data: JSON.stringify(insertData),
         success: function(response){
             alert('출고 등록 완료.');
-            $(".modal-content input").val("");
-            $(".modal-content textarea").val("");
+            modalContentClear();
         }
     });
 
@@ -302,15 +321,12 @@ $(document).ready(function () {
 
 
 
-/* 조회 */
+/* 상세 조회 */
 
     //메인화면 테이블 행 클릭시 modal 수정창으로 이동
     $('tr[data-bs-toggle="modal"]').on("click", function () {
 
-      //초기화
-      $(".modal-content input").val("");
-      $(".modal-content textarea").val("");
-      $('#detail_outitem_item_list tbody').empty();
+      modalContentClear(); //초기화
       
 
       let outitemNo = $(this).find("td:nth-child(1)").text(); //출고번호
@@ -337,7 +353,7 @@ $(document).ready(function () {
 
       /* ajax로 그외 것, 출고한 품목들 가져오기 */
       $.ajax({
-        url: 'ujmGetOrderItem',
+        url: 'ujmGetOutitemDetail',
         type: 'GET',
         data: { order_no: orderNo, outitem_no: outitemNo},
         success: function(response) {
@@ -415,48 +431,42 @@ $(document).ready(function () {
             console.error(error);
         }
 
-    }); //ajax
+    }); //조회 ajax
 
 
     // 수정하기 버튼 클릭시
     $("#updateOutitemBtn").on("click", function (e) {
       e.preventDefault(); // 기본 이벤트 동작 방지
 
-      $(".modal-content input").val("");
-      $(".modal-content textarea").val("");
-      $('#detail_outitem_item_list tbody').empty();
+      modalContentClear(); //초기화
 
-      $('.modal-body .updateQty').each(function() {
-        $(this).removeAttr('readonly');
-      });
 
-      $("#updateOutitemSubmitBtn").removeAttr("hidden");
+      $("#updateOutitemSubmitBtn").show();
       $('#updateOutitemBtn').hide();
 
 
-
+      
         /* ajax로 품목 부분 다시 가져오기(수정 위해) */
         $.ajax({
           url: 'ujmGetOrderItem',
           type: 'GET',
-          data: { order_no: selectOrderNo },
+          data: { order_no: orderNo },
           success: function(response) {
             console.log('주문품목조회:'+response);  
-      
-            $('#detail_outitem_item_list tbody').empty();
+    
             
             $.each(response, function(index, item) { /* 각각의 주문품목 */
               var checkbox = $('<input>').attr({
                   type: 'checkbox',
                   name: 'selectedItems',
                   value: item.item_cd,
-                  'data-qty': item.qty
+                  'data-qty': item.qty 
               });
       
-              var insertQtyInput = $('<input>').attr({
+              var updateQtyInput = $('<input>').attr({
                   type: 'number',
-                  class: 'insertQty form-control',
-                  name: 'insert_qty',
+                  class: 'updateQty form-control',
+                  name: 'update_qty',
                   min: 1, 
                   max: item.stock, 
                   value: 1 
@@ -464,10 +474,10 @@ $(document).ready(function () {
                 var qtyValue = parseInt($(this).val()); // 입력된 값
                 var maxQty = parseInt($(this).attr('max')); //재고 
                 var minQty = parseInt($(this).attr('min')); 
-                console.log('qtyValue'+qtyValue);
-                console.log('maxQty'+maxQty);
-                console.log('minQty'+minQty);
-                console.log('remain_qty'+item.remain_qty);
+                console.log('qtyValue:'+qtyValue);
+                console.log('maxQty:'+maxQty);
+                console.log('minQty:'+minQty);
+                console.log('remain_qty:'+item.remain_qty);
       
                 console.log(Boolean(qtyValue > maxQty));
                 console.log(Boolean(qtyValue >item.remain_qty));
@@ -477,8 +487,9 @@ $(document).ready(function () {
                 $(this).val(qtyValue); 
                 $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
                 
+                //비정상적인 출고 품목일 때
                 if (qtyValue > maxQty ||qtyValue >item.remain_qty || qtyValue < minQty || isNaN(qtyValue)) {
-                  $('#updateOutitemSubmitBtn').prop('disabled', true); //출고버튼 비활성화
+                  $('#updateOutitemSubmitBtn').prop('disabled', true); //출고수정완료버튼 비활성화
                 } else {
                   $('#updateOutitemSubmitBtn').prop('disabled', false);
                 };
@@ -486,14 +497,15 @@ $(document).ready(function () {
                  
               });
               
-              $('#outitem_item_list tbody').append(
+              $('#detail_outitem_item_list tbody').empty();
+              $('#detail_outitem_item_list tbody').append(
                   $('<tr>').append(
                       $('<td>').append(checkbox),
                       $('<td>').text(item.item_nm),
                       $('<td>').text(item.stock),
                       $('<td>').text(item.qty),
                       $('<td>').text(item.remain_qty),
-                      $('<td>').append(insertQtyInput),
+                      $('<td>').append(updateQtyInput),
                   )
               );
             });
@@ -508,6 +520,9 @@ $(document).ready(function () {
 
       
       // 출고일자 달력으로 변경가능하게
+      var outitemDt = $("#detail_outitem_dt").text(); //(수정하기 버튼 클릭시 최초 가져옴)
+      console.log('outitemDt:'+outitemDt);
+      $('#detail_outitem_dt').empty();
       $('#detail_outitem_dt').append('<input type="date" class="form-control" id="calendar_outitem_dt"'
       +' name="outitem_dt" style="width: 200px;" required="required"/>');
 
@@ -520,23 +535,29 @@ $(document).ready(function () {
   
       var day = now.getDate();
       var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
-      console.log(currentDate);
-      console.log(outitemDt);
-      console.log(orderDt);
+      console.log('currentDate:'+currentDate);
+
+      $('#calendar_outitem_dt').on('change', function() {
+        outitemDt = $(this).val();
+        console.log('outitemDt:'+outitemDt);
+
+        console.log('orderDt:'+orderDt);
   
       // 날짜 형식 문자열에서 '-' 제거한 숫자값 계산
       var currentDateValue = Number(currentDate.replace(/-/g, ''));
       var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
       var orderDtValue =  Number(orderDt.replace(/-/g, ''));
 
-      if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
+      //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
+      if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { 
         $('#updateOutitemSubmitBtn').prop('disabled', false);
       } else {
         $('#updateOutitemSubmitBtn').prop('disabled', true);
       }
+    }) //날짜 변경마다
 
 
-  });
+  }); /*  */
 
 
 
@@ -545,20 +566,18 @@ $(document).ready(function () {
   //수정 완료
   $('#updateOutitemSubmitBtn').click(function(e){ //수정 완료 버튼 누르면
       
-
-    $('#updateOutitemBtn').show();
     
       
     // form으로 제출할 outitem데이터들
-    var insertOutitemData = {
+    var updateOutitemData = {
         outitem_no : outitemDt, 
         order_no: $('#insertOrderNo').val(),
         outitem_dt: $('#insert_outitem_dt').val(),
-        cust_emp: $('#insert_cust_emp').val(),
-        remark: $('#insert_remark').val()
+        cust_emp: $('#detail_cust_emp').val(),
+        remark: $('#detail_remark').val()
     };
 
-    console.log(insertOutitemData);
+    console.log(updateOutitemData);
 
     // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
     var selectedItems = [];
@@ -571,27 +590,27 @@ $(document).ready(function () {
     console.log(selectedItems);
 
     // 데이터 조합
-    var insertData = {
-        outitemData: insertOutitemData,
+    var updateData = {
+        outitemData: updateOutitemData,
         selectedItems: selectedItems
     };
 
-    console.log(insertData);
+    console.log(updateData);
 
-    // 조합한 insertData를 서버로 전송
+    // 조합한 updateData를 서버로 전송
     $.ajax({
-        url: 'insertOutitem',
+        url: 'updateOutitem',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(insertData),
+        data: JSON.stringify(updateData),
         success: function(response){
-            alert('출고 등록 완료.');
+            alert('출고 수정 완료.');
             $(".modal-content input").val("");
             $(".modal-content textarea").val("");
         }
     });
 
-
+    modalContentClear();
 
   
 
@@ -610,7 +629,7 @@ $(document).ready(function () {
   }) //수정완료
 
 
-    }); //조회
+    }); //조회 click function
 
 
 

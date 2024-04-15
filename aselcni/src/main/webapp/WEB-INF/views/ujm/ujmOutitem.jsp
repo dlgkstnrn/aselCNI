@@ -283,14 +283,10 @@ pageEncoding="UTF-8"%>
                               </button>
 
                               <button type="submit" class="btn btn-success"
-                              form="insertOutitemForm" id="insertOutitemBtn">
+                              form="insertOutitemForm" id="insertOutitemBtn" disabled>
                                 등록
                               </button> <!-- form으로 이어지는 실제 출고등록 버튼 -->
 
-                              <button type="reset"
-                                class="btn btn-outline-secondary">
-                                Reset
-                              </button>
                             </div> <!-- footer -->
                           </form>
 
@@ -549,7 +545,7 @@ ${page}
         > <!-- 상세 부분.. (수정,삭제에도 사용) -->
 
           <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content"> <!-- 닫기버튼 눌렀을 때 
+            <div class="modal-content" data-backdrop="static"> <!-- 닫기버튼 눌렀을 때 
               이 부분의 input과 textarea의 val이 초기화 -->
               <div class="modal-header">
                 <h5 class="modal-title">출고 상세</h5>
@@ -686,7 +682,8 @@ ${page}
 
                     <button type="submit" id="updateOutitemBtn" class="btn btn-success">수정하기</button>
 
-                    <button type="submit" id="updateOutitemSubmitBtn" class="btn btn-success" hidden>수정완료</button>
+                    <button type="submit" id="updateOutitemSubmitBtn" class="btn btn-success" 
+                    style="display: none;">수정완료</button>
 
 
 

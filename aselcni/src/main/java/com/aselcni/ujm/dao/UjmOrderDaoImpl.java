@@ -84,7 +84,7 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 		int ujmChangeOrderStatusChk= 0;
 		try {	
 			ujmChangeOrderStatusChk = session.update("ujmChangeOrderStatusChk",order_no);
-			System.out.println(ujmChangeOrderStatusChk);
+			System.out.println("ujmChangeOrderStatusChk:"+ujmChangeOrderStatusChk);
 		} catch (Exception e) {
 			System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk Exception->"+e.getMessage());
 		}

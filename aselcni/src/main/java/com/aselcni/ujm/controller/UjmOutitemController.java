@@ -102,7 +102,7 @@ public class UjmOutitemController {
 			System.out.println("insertOutitemItemResult"+insertOutitemItemResult);
 			
 			int ujmChangeOrderStatusChk=uor.ujmChangeOrderStatusChk(insertData.getOutitemData().getOrder_no()); 
-			//주문의 상태 변경하기, 2진행중 3출고완료
+			//주문의 상태 변경하기
 			
 			System.out.println("ujmChangeOrderStatusChk"+ujmChangeOrderStatusChk);
 			
