@@ -3,11 +3,13 @@ package com.aselcni.csg.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aselcni.csg.dao.SK_Dao_Interface;
 import com.aselcni.csg.model.CSG_TB_CUSTMST;
 import com.aselcni.csg.model.CSG_TB_ITEMMST;
 import com.aselcni.csg.model.CSG_TB_PURCHASE;
+import com.aselcni.csg.model.CSG_TB_PURCHASE_ITEM;
 import com.aselcni.csg.model.CSG_TB_TYPE_BIG;
 import com.aselcni.csg.model.CSG_TB_TYPE_MID;
 import com.aselcni.csg.model.CSG_TB_TYPE_SML;
@@ -98,6 +100,53 @@ public class SK_Service implements SK_Service_Interface {
 		CSG_TB_PURCHASE custEmployee = sk_Dao_Interface.findCustEmployeeByCustCd(custCd);
 	    return custEmployee;
 	}
+
+	
+	//발주등록 =>  분리 및 트렌지션관리
+	@Override
+	@Transactional
+	public void insertBalju(CSG_TB_PURCHASE purchaseAndItem) {
+	    if (purchaseAndItem == null) return;
+	    
+	    String purc_no = sk_Dao_Interface.inserForPurchaseToPurcNo();  // 발주번호 생성
+	    purchaseAndItem.setPurc_no(purc_no);
+
+	    sk_Dao_Interface.insertPurchase(purchaseAndItem);  // 발주 정보 삽입
+
+	    if (purchaseAndItem.getCsgPurItemList() != null) {
+	        for (CSG_TB_PURCHASE_ITEM item : purchaseAndItem.getCsgPurItemList()) {
+	            item.setPurc_no(purc_no);  // 각 아이템에 발주번호 설정
+	            sk_Dao_Interface.insertPurchaseItem(item);  // 아이템 정보 삽입
+	        }
+	    }
+	}
+
+	//deletefalg를 update해보자 
+	
+    public void updatePurchaseDeleteFlags(String selectedIds) {
+
+    }
+
+
+	@Override
+	@Transactional
+	//발주관리 체크박스 선택 => 삭제 
+	public void purchaseDelete(String selectedIds) {
+        // 선택된 ID들을 ','를 기준으로 분할하여 배열로 저장합니다.
+        String[] idArray = selectedIds.split(",");
+        
+      //update => id로 purchase_tbl에서 조회. 있는 경우에만 update로 바꿔주자.
+        for (String id : idArray) {
+            // 발주 항목을 조회하는 메서드 호출
+        	List<CSG_TB_PURCHASE> purchase = sk_Dao_Interface.findById(id);
+            
+            // 조회된 발주 항목의 삭제 플래그를 설정하는 메서드 호출
+            if (purchase != null) {
+                sk_Dao_Interface.updateDeleteFlagById(id);
+            }
+        }
+	}
+
 
 
 

@@ -10,6 +10,7 @@
 	            TP.CUST_CD AS TP_CUST_CD,
 	            TPI.ITEM_CD,
 	            TPI.QTY,
+	            TP.CUST_EMP,
 	            TI.ITEM_COST,
 	            TI.ITEM_FLAG, 
 	            TC.CUST_NM, 
@@ -36,7 +37,10 @@
 	        </if>
  	        <if test="start_date != null or end_date != null">
 	            AND TP.PURC_DT BETWEEN #{start_date} AND #{end_date}
-	        </if>  
+	        </if>
+	        <if test="purc_delete_chk != null">
+			    AND TP.PURC_DELETE_CHK = #{purc_delete_chk}
+			</if>  
 	    )
 	    SELECT * 
 	    FROM OrderedPurchases
@@ -62,6 +66,9 @@
 	    <if test="start_date != null and end_date != null">
 	        AND TP.PURC_DT BETWEEN #{start_date} AND #{end_date}
 	    </if>
+	    <if test="purc_delete_chk != null">
+			AND TP.PURC_DELETE_CHK = #{purc_delete_chk}
+		</if>  
 	</select>
 
 					
@@ -117,8 +124,45 @@
 		  AND ti.MID_NO = #{mid_no} 
 		  AND ti.SML_NO = #{sml_no}
 		  and ti.CUST_CD = #{cust_cd}
-		  AND ti.ITEM_FLAG = 1;
+		  AND ti.ITEM_FLAG = 1
 	</select>
+	
+	<select id="SK_purchaseMaxForPurcNo" resultType="string">
+	    SELECT MAX(purc_no) FROM TB_PURCHASE WHERE purc_no LIKE #{prefix}
+	</select>
+	
+	<insert id="SK_insertPurchaseTBl">
+	    INSERT INTO TB_PURCHASE (PURC_NO, PURC_DT, CUST_CD, CUST_EMP, REMARK, PURC_EMP_ID, PURC_UPDATE, PURC_DELETE_CHK, PURC_STATUS_CHK)
+	    VALUES (#{purc_no}, FORMAT(GETDATE(), 'yyyy-MM-dd'), #{cust_cd}, #{cust_emp}, #{remark}, #{purc_emp_id}, #{purc_update}, #{purc_delete_chk}, #{purc_status_chk})
+	</insert>
+	
+	<select id="checkPurchaseItemExists" parameterType="CSG_TB_PURCHASE_ITEM" resultType="int">
+	    SELECT COUNT(*)
+	    FROM TB_PURCHASE_ITEM
+	    WHERE PURC_NO = #{purc_no} AND ITEM_CD = #{item_cd}
+	</select>
+	
+	<insert id="SK_insertPurchaseItemTBl">
+	    INSERT INTO TB_PURCHASE_ITEM (PURC_NO, ITEM_CD, QTY, PURC_COST)
+	    VALUES (#{purc_no}, #{item_cd}, #{qty}, #{purc_cost})
+	</insert>
+	
+	<select id="sk_findByupdate" parameterType="String" resultType="csg_TB_PURCHASE">
+		SELECT tp.*
+		FROM TB_PURCHASE tp 
+		where tp.PURC_NO = #{purc_no}
+	</select>
+	
+	<update id="sk_UpdateForDelete" parameterType="String">
+	    UPDATE TB_PURCHASE 
+	    SET PURC_DELETE_CHK = 1
+	    WHERE PURC_NO = #{purc_no} 
+	    AND PURC_STATUS_CHK = 0
+	</update>
+
+
+	
+
 
 	
 </mapper>
