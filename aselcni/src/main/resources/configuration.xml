@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
 <configuration>
 	<typeAliases>
 
+<<<<<<< HEAD
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst"/>
 		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst"/>
 		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig"/>
@@ -27,6 +31,8 @@
 		<typeAlias alias="JtuBad" type="com.aselcni.jtu.model.JtuBad" />
 		<typeAlias alias="JtuProdItemBad" type="com.aselcni.jtu.model.JtuProdItemBad" />
 		
+=======
+>>>>>>> PURcsg
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst" />
 		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst" />
 
@@ -163,6 +169,10 @@
 			type="com.aselcni.csg.model.CSG_TB_TYPE_SML" />
 		<typeAlias alias="CSG_CategoryData"
 			type="com.aselcni.csg.model.CSG_CategoryData" />
+<<<<<<< HEAD
+=======
+		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst" />
+>>>>>>> PURcsg
 
 	</typeAliases>
 </configuration>

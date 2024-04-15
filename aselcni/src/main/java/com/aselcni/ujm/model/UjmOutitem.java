@@ -27,6 +27,7 @@ public class UjmOutitem { //출고
 	private String 	currentPage; //유일하게 Page 객체에도
 	
 	//조인
+<<<<<<< HEAD
 	private String cust_nm; //고객사이름
 	private String order_dt; //주문일자
 	private String order_end_dt; //주문만료일
@@ -38,3 +39,13 @@ public class UjmOutitem { //출고
 	//상품명과 주문개수 중복표시
 	private String items; //출고제품
 }
+=======
+	private String cust_nm;
+	private String order_dt;
+	private String order_end_dt;
+	private int    order_status_chk;
+	private String item_nm;
+	private int    qty;
+	private String user_nm;
+}
+>>>>>>> PURcsg

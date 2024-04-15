@@ -39,8 +39,12 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		 return ujmListOutitems;
 	}
 
+<<<<<<< HEAD
 
 
 
 
 }
+=======
+}
+>>>>>>> PURcsg
