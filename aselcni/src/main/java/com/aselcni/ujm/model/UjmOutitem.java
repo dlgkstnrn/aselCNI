@@ -39,7 +39,7 @@ public class UjmOutitem { //출고
 	private String items; //출고제품
 	
 	//조회에서 사용
-	private String outitem_qty;
-	private String remain_qty;
-	private int    stock;
+	private String outitem_qty; //출고수량(품목별)
+	private String remain_qty; //주문수량-출고수량
+	private int    stock; //재고
 }
