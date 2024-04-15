@@ -112,7 +112,7 @@ pageEncoding="UTF-8"%>
                             <!-- 등록 폼 form -->
                           <form action="insertOutitem" method="get" id="insertOutitemForm">
 
-                            <div class="modal-body">
+                            <div class="modal-body detail">
 
                               <!-- 주문번호 -->
                               <div class="row mb-3 d-flex">
@@ -272,7 +272,7 @@ pageEncoding="UTF-8"%>
                               </div>
 
                               
-                            </div> <!-- modal-body -->
+                            </div> <!-- modal-body detail -->
 
                             <!-- 신규버튼 modal의 하단 버튼 -->
                             <div class="modal-footer">
@@ -562,7 +562,7 @@ ${page}
               </div>
 
 
-              <div class="modal-body"> <!-- Start modal body -->
+              <div class="modal-body detail"> <!-- Start modal body -->
                 <form action="updateOutitem" method="get" id="updateOutitemForm">
     
                     <!-- 출고번호 -->

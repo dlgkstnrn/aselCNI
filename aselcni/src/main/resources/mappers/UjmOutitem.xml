@@ -153,7 +153,7 @@
 			            TB_OUTITEM_ITEM AS oui ON ou.OUTITEM_NO = oui.OUTITEM_NO
 			        WHERE
 			            ou.outitem_delete_chk = 0
-			            AND ou.outitem_no = 'OUT2404150002'
+			            AND ou.outitem_no = #{outitem_no}
 			        GROUP BY
 			            oui.ORDER_NO,
 			            oui.ITEM_CD

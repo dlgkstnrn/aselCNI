@@ -12,6 +12,7 @@ $(document).ready(function () {
   function modalContentClear() {
     $(".modal-content input").val("");
     $(".modal-content textarea").val("");
+    $('#detail_outitem_item_list tbody').empty();
   }
 
   //날짜
@@ -306,6 +307,11 @@ $(document).ready(function () {
     //메인화면 테이블 행 클릭시 modal 수정창으로 이동
     $('tr[data-bs-toggle="modal"]').on("click", function () {
 
+      //초기화
+      $(".modal-content input").val("");
+      $(".modal-content textarea").val("");
+      $('#detail_outitem_item_list tbody').empty();
+      
 
       let outitemNo = $(this).find("td:nth-child(1)").text(); //출고번호
       $("#detail_outitem_no").html(outitemNo);
@@ -416,7 +422,16 @@ $(document).ready(function () {
     $("#updateOutitemBtn").on("click", function (e) {
       e.preventDefault(); // 기본 이벤트 동작 방지
 
-      updateQtyInput.removeAttr('readonly');
+      $(".modal-content input").val("");
+      $(".modal-content textarea").val("");
+      $('#detail_outitem_item_list tbody').empty();
+
+      $('.modal-body .updateQty').each(function() {
+        $(this).removeAttr('readonly');
+      });
+
+      $('#updateOutitemBtn').hide();
+      
 
       var $row = $(this).closest("tr");
       var $outitemDtInput = $row.find("#detail_outitem_dt");
@@ -457,7 +472,7 @@ $(document).ready(function () {
   $('#updateOutitemSubmitBtn').click(function(e){ //수정 완료 버튼 누르면
       
 
-      
+    $('#updateOutitemBtn').show();
     
       
     // form으로 제출할 outitem데이터들
