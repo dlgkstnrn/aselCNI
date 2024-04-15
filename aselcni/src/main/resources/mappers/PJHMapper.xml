@@ -168,7 +168,7 @@
 	</select>
 	
 	<select id="pjhInitemByNo" parameterType="String" resultType="PJHInitem">
-		SELECT ti.*, tc.CUST_NM , iu.USER_NM AS initem_emp_nm, pu.USER_NM AS purc_emp_nm
+		SELECT ti.*, tc.CUST_NM , iu.USER_NM AS initem_emp_nm, pu.USER_NM AS purc_emp_nm, tp.PURC_STATUS_CHK AS INITEM_END
 		FROM TB_INITEM ti
 		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO 
 		INNER JOIN TB_USERMST iu ON ti.INITEM_EMP_ID = iu.USER_ID

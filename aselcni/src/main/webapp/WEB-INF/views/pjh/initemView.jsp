@@ -281,6 +281,16 @@
 										</div>
 				              		</div>
 				              	</div>
+								<div class="row mt-1">
+				              		<div class="col">
+				              			<div class="input-group">
+										  <span class="input-group-text">입고종결</span>
+										  <div class="form-control form-switch px-0" style="text-align: left;">
+										  	<input class="form-check-input" onchange="changeEndState(this)" id="modal_initem_end" value="0" type="checkbox" style="margin-left:12px;">
+										  </div>
+										</div>
+				              		</div>
+				              	</div>
 								
 								<hr>
 								
