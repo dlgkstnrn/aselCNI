@@ -151,4 +151,6 @@ function searchInputEnter(){
         }
     });
 }
+<<<<<<< HEAD
 */
+

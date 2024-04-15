@@ -301,6 +301,7 @@ function sendOrderDetails() {
     dataInput.cust_cd=$('#supplier').val()
     dataInput.remark=$("#remark").val();
 	dataInput.purc_emp_id=$("#com_manager-id").val();
+	dataInput.purc_emp_id=$("#com_manager-name").val();
 	dataInput.cust_emp=$("#op_manager-name").val();
 
 	let jajeTableBody =$("#jajeInputBody").find("tr");
