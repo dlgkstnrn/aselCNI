@@ -93,7 +93,10 @@
 							    <div class="mb-3">
 							        <label for="com_manager-name" class="form-label text-lg text-gray-700 font-bold mb-2">발주 담당자</label>
 							        <div class="input-group border border-green-500">
-							            <input id="com_manager-name" type="text" class="form-control" placeholder="발주 담당자 입력" value="${sessionScope.user_nm}" readonly>
+							            <span id="com_manager-name" class="form-control">${sessionScope.user_nm}</span> <!-- 사용자 이름 표시 -->
+							            <input id="com_manager-id" type="hidden" value="${sessionScope.user_id}"> <!-- 사용자 ID 저장 (숨김) -->
+							            <!-- <input id="com_manager-name" type="text" class="form-control" placeholder="발주 담당자 입력" value="${sessionScope.user_nm}" readonly> -->
+
 							        </div>
 							    </div>
 							
@@ -128,13 +131,13 @@
 						            <thead class="bg-gray-50">
 						                <tr>
 						                    <th scope="col">번호</th>
-						                    <th scope="col">품목 코드 TB_ITEMMST</th>
-						                    <th scope="col">품목중에서 자재명 TB_ITEMMST</th>
-						                    <th scope="col">규격 TB_ITEMMST</th>
-						                    <th scope="col">단위 TB_ITEMMST</th>
-						                    <th scope="col">수량 TB_PURCHASE_ITEM</th>
-						                    <th scope="col">단가 TB_ITEMMST</th>
-						                    <th scope="col">공급가액(단가 TB_PURCHASE_ITEM</th>
+						                    <th scope="col">품목 코드</th>
+						                    <th scope="col">품목중에서 자재명</th>
+						                    <th scope="col">규격</th>
+						                    <th scope="col">단위</th>
+						                    <th scope="col">수량</th>
+						                    <th scope="col">단가</th>
+						                    <th scope="col">공급가액</th>
 						                </tr>
 						            </thead>
 						            <tbody id="jajeInputBody">
@@ -229,7 +232,7 @@
 
 	                        </div>
 	                        <div class="modal-footer">
-  									 <button id="modalSaveButton" class="btn btn-primary">저장</button>
+  									 <button id="modalSaveButton" type="button" class="btn btn-primary">저장</button>
   									 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 	                        </div>
 
