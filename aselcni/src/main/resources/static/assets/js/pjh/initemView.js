@@ -89,7 +89,7 @@ const getTableRow = function () {
             for (let i = res.page.startPage; i <= res.page.endPage; i++) {
                 $('#nextPageLi').before(
                     `
-                    <li class="page-item pageNum"><button class="page-link" onclick="goPage('${i}')">${i}</button></li>
+                    <li class="page-item pageNum "><button class="page-link ${res.page.currentPage - i == 0 ? 'fw-bold' : ''}" onclick="goPage('${i}')">${i}</button></li>
                     `
                 );
             }
@@ -195,6 +195,7 @@ const detailUpdate = function (insertFlag = false) {
         $('#modifyBtn').removeAttr('hidden');
         $('#closeBtn').removeAttr('hidden');
         $('#modal_initem_end').attr('disabled', true);
+        $('#modal_initem_emp_nm').val(responseData.initem_emp_nm);
     } else {
         //수정화면
         $('#modal_initem_dt').removeAttr('readonly');
@@ -205,10 +206,11 @@ const detailUpdate = function (insertFlag = false) {
         $('#modal_initem_end').removeAttr('disabled');
         $('#modifyBtn').attr('hidden', 'true');
         $('#closeBtn').attr('hidden', 'true');
+        const emp_nm = document.getElementById('modal_initem_emp_nm');
+        emp_nm.value = emp_nm.dataset.userNm
     }
 
     $('#modal_initem_no').val(responseData.initem_no);
-    $('#modal_initem_emp_nm').val(responseData.initem_emp_nm);
     $('#modal_purc_no').val(responseData.purc_no);
     $('#modal_purc_emp_nm').val(responseData.purc_emp_nm);
     $('#modal_initem_dt').val(responseData.initem_dt);
@@ -247,6 +249,7 @@ const detailUpdate = function (insertFlag = false) {
                 <td>${ele['item_unit']}</td>
                 <td><input id="initemQty${idx}" class="itemList" 
                     data-qty="${ele.qty}" data-item-cd="${ele.item_cd}"
+                    data-cost="${ele.item_cost}"
                     onchange="checkItemQty(this)" type="number" 
                     value="${ele['qty']}" min="${ele.required_stock >= 0 ? ele.required_stock < ele.qty ? ele.required_stock : ele.qty : 0}" 
                     max="${ele.qty + ele.add_max}" 
@@ -351,8 +354,10 @@ const checkItemQty = function (item) {
     } else if (item.value * 1 > item.max * 1) {
         item.value = item.max;
     } else {
+        calcTotalAmount();
         return;
     }
+    calcTotalAmount();
     alert('수량 오류 최소:' + item.min + ', 최대: ' + item.max);
 }
 
@@ -363,4 +368,29 @@ const changeEndState = function (item) {
     } else {
         item.value = 0;
     }
+}
+
+/**
+ * 입력된 수량의 소계와 합계를 변경하는 함수
+ */
+const calcTotalAmount = function () {
+    $('#modal_itemTableFoot').empty();
+    let totalCost = 0;
+    let totalAmount = 0;
+    [...document.getElementsByClassName('itemList')].forEach(item => {
+        const qty = item.value * 1;
+        const cost = item.dataset.cost * 1;
+        const subTotal = qty * cost;
+        item.parentNode.parentNode.lastElementChild.textContent = subTotal.toLocaleString();
+        totalCost += subTotal;
+        totalAmount += qty;
+    });
+    $('#modal_itemTableFoot').append(`
+        <tr>
+            <th colspan="4">합계</th>
+            <td id="totalQuantity">${totalAmount.toLocaleString()}</td>
+            <td></td>
+            <td id="totalAmount">${totalCost.toLocaleString()}</td>
+        </tr>
+    `);
 }

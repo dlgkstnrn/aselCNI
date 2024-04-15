@@ -216,7 +216,7 @@
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text">담당자(입고)</span>
-											<input id="modal_initem_emp_nm" type="text" class="form-control" placeholder="입고 담당자"
+											<input id="modal_initem_emp_nm" data-user-nm="${sessionScope.user_nm }" type="text" class="form-control" placeholder="입고 담당자"
 												aria-label="입고담당자" readonly>
 										</div>
 									</div>
@@ -308,6 +308,8 @@
 					                </thead>
 					                <tbody id="modal_itemTableBody">
 					                </tbody>
+					                <tfoot id="modal_itemTableFoot">
+	               	 				</tfoot>
 					            </table>
 								
 							</div>
