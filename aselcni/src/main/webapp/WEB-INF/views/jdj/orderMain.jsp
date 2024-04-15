@@ -35,6 +35,13 @@
 	<script defer src="assets/js/main.js"></script>
 	<script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		
+	
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	
+	
+	
 	<style>
 		@font-face {
 		    font-family: 'Dovemayo_gothic';
@@ -59,7 +66,6 @@
 	        cursor: pointer;
 	    }
 	</style>
-
 </head>
 <body>
 	<!-- ======= Header ======= -->
@@ -76,28 +82,139 @@
                 </ol>
             </nav>
         </div>
-
-
+		<!-- 본문 -->
 		<section class="section dashboard">		
+		<div class="card">
+			
+		    <div class="d-grid gap-2 d-md-flex justify-content-md-end p-4">
+<!--         				<p class="fs-5">주문 검색</p> -->
+			  <button class="btn btn-primary me-md-2" type="button" onclick="location.href='/orderReg'">신규 등록</button>
+			  
+			</div>
+			
         	<div class="card-body">
 				<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
 					<div class="row datatable-top">
-					    <div class="col-9">
-					        <div class="input-group mb-3 row">
-					            <select id="inputState" class="form-select col-3" style="width: 10%">
-					                <option> 주문번호 </option>
-					                <option> 고객사 </option>
-					                <option> 담당자 </option>
-					            </select>
-					            <input type="text" class="form-control col-6" aria-label="Text input with segmented dropdown button" style="width: 60%">
-					            <button type="button" class="btn btn-outline-secondary col-1"><i class="bi bi-search"></i></button>
+					    <div class="row mb-2">
+					       <!-- 검색 -->
+					      <div class="col-md-4 d-flex flex-column position-static" style="padding-bottom: 1px">
+					        <div class="mb-3">
+					         <div class="input-group">
+					            <span class="input-group-text" id="basic-addon3">주문번호</span>
+					              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+					         </div>
+					       </div>					        	
+					      </div>
+					       
+					       <!-- 기간 검색 -->
+					      <div class="col-md-8 d-flex flex-column position-static" style="padding-bottom: 1px">
+					        <div class="row mb-4">
+					         <!-- Example single danger button -->
+					          <!-- <div class="col-md-1"> -->
+					            <div class="btn-group col-2">
+					              <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+					             기간 선택 </button>
+					              <ul class="dropdown-menu">
+					                <li><a class="dropdown-item" href="#">주문 일자</a></li>
+					                <li><a class="dropdown-item" href="#">마감 일자</a></li>
+					              </ul>
+					            </div>
+					          <!-- </div> -->
+					
+					          <div class="col-3">
+					            <input type="date" class="form-control">
+					          </div>
+					          <label for="inputDate" class="col-sm-1 col-form-label" style="width: auto" > ~</label>
+					          <div class="col-3">
+					            <input type="date" class="form-control">
+					          </div>
+					          <button class="btn btn-primary col-3" type="submit">
+					            <i class="bi bi-search"></i> 검색 
+					          </button>
 					        </div>
-					    </div>
-					    <div class="col-2 d-flex justify-content-end" style="width: 24.6%">
-					        <button type="button" class="btn btn-primary" onclick="location.href='/orderSpec'" style="height: 38px; width: 60px">신규</button>
-					    </div>
+					      </div>
+					     </div>
+					  </div>
+				    	
+				    	
+						 <div class="row mb-2">
+								 <!-- 매입처 drop -->
+							<div class="col-md-6 ">
+						        <div class="row g-0  overflow-hidden flex-md-row mb-4  h-md-250 position-relative">
+									<div class="col d-flex flex-column position-static">
+							            <p>
+							              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCust" aria-expanded="false" aria-controls="collapseUser">
+							                매입처 <i class="bi bi-caret-down-fill"></i>
+							              </button>
+							            </p>
+										<div class="collapse border" id="collapseCust">
+							              <div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 overflow-hidden w-280px" data-bs-theme="light">
+							                
+							                <form class="p-2 mb-2 bg-body-tertiary border-bottom">
+							                  <input type="search" class="form-control" autocomplete="false" placeholder="회사명">
+							                </form>
+							                
+							                <ul class="list-unstyled mb-0 ">
+								                <c:forEach var = "custMst" items="${custMsts}" varStatus="status">
+								                  <li>
+								                    <div class="dropdown-item d-flex align-items-center gap-2 py-2">
+								                      <div class="form-check">
+								                        <input class="form-check-input" type="checkbox" value="${custMst.cust_cd}" id="custMst_nm">
+								                        <label class="form-check-label" for="flexCheckDefault">
+								                          ${custMst.cust_nm}
+								                        </label>
+								                      </div>
+								                    </div>
+								                  </li>
+								                </c:forEach>
+											</ul>
+							              </div> <!-- dropdown-menu -->
+										</div> <!-- collapse -->
+						        	</div> <!-- col p-4 -->
+								</div> <!-- row -->
+							</div> <!-- col-md-6 -->
+			    			
+			    				<!-- 영업 사원 -->
+							<div class="col-md-6">
+						        <div class="row g-0 rounded overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+						          <div class="col d-flex flex-column position-static">
+						            <p>
+						              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseExample">
+						                담당자 <i class="bi bi-caret-down-fill"></i>
+						              </button>
+						            </p>
+						            
+						            <div class="collapse border" id="collapseUser">
+						              <div class="dropdown-menu d-block position-static pt-0 mx-0 overflow-hidden w-280px" data-bs-theme="light">
+										<form class="p-2 mb-2 bg-body-tertiary border-bottom">
+						                  <input type="search" class="form-control" autocomplete="false" placeholder="담당자명">
+						                </form>
+						                <ul class="list-unstyled mb-0">
+											<c:forEach var = "userMst" items="${userMsts}" varStatus="status">
+												<li>
+													<div class="dropdown-item d-flex align-items-center gap-2 py-2">
+								                      <div class="form-check">
+								                        <input class="form-check-input" type="checkbox" value="${userMst.user_id}" id="user_id">
+								                        <label class="form-check-label" for="flexCheckDefault">
+								                          ${userMst.user_nm}
+								                        </label>
+								                      </div>
+								                    </div>
+												</li>
+						                  	</c:forEach>
+						                </ul>
+						              </div>  <!-- collapseCust, dropdown-menu -->
+						        	</div> <!-- collapseCust -->
+						        	
+							      </div> <!--col p-4  -->
+							    </div> <!-- row g-0 -->
+				    		</div> <!-- col-md-6 -->
+	        			</div> <!-- row mb-2 -->
+										
 					</div> <%-- table-top --%>
+					
 					<table class="table table-borderless datatable datatable-table text-center">
+					
 						<thead><tr>
 							<th scope="col" class="text-center">No</th>
 							<th scope="col" class="text-center" id="order_no">주문번호</th>
@@ -122,31 +239,13 @@
 									<td class="datatable"> ${order.order_end_dt} </td>
 									<td class="blue">
 										<c:choose>
-											<c:when test="${order.order_status_chk == 1}"><span class="badge bg-primary">진행중</span></c:when>
-											<c:when test="${order.order_status_chk == 2}"><span class="badge bg-secondary">출고 완료</span></c:when>
+											<c:when test="${order.order_status_chk == 1}"><span class="badge bg-secondary">주문 취소</span></c:when>
+											<c:when test="${order.order_status_chk == 2}"><span class="badge bg-primary">진행중</span></c:when>
+											<c:when test="${order.order_status_chk == 3}"><span class="badge bg-secondary">출고 완료</span></c:when>
 											<c:otherwise><span class="badge bg-warning text-dark">주문 완료 </span></c:otherwise>
 										</c:choose>
 									</td>								
 								</tr>
-	<!-- 모달고민중 -->							
-<%-- 								<div class="modal fade" id="ExtralargeModal" tabindex="-1" aria-hidden="true" style="display: none;">
-					                <div class="modal-dialog modal-xl">
-					                  <div class="modal-content">
-					                    <div class="modal-header">
-					                      <h5 class="modal-title">${order.order_no}</h5>
-					                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					                    </div>
-					                    <div class="modal-body">
-					                      Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
-					                    </div>
-					                    <div class="modal-footer">
-					                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					                      <button type="button" class="btn btn-primary">Save changes</button>
-					                    </div>
-					                  </div>
-					                </div>
-					              </div> --%>
-					              
 							</c:forEach>
 						</tbody>
 					</table>
@@ -168,10 +267,13 @@
 						</ul>
 					</nav>
 				</div> <!-- datatable -->
+			
 				
-			</div> <!-- card-body --> 
+				</div> <!-- card-body --> 
+			</div>			  
         </section>
     </main>
+
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/chart.js/chart.umd.js"></script> 

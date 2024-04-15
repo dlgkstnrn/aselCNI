@@ -21,6 +21,8 @@ public class ProdPlan {
 	private String item_cd;
 	// 생산수량
 	private Integer qty;
+	// 비고
+	private String remark;
 	// 작업일수
 	private Integer work_dt;
 	// 생산계획 담당자 코드

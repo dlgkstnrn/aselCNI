@@ -41,4 +41,5 @@ public class UjmOutitem { //출고
 	//조회에서 사용
 	private String outitem_qty;
 	private String remain_qty;
+	private int    stock;
 }

@@ -10,7 +10,6 @@ table {
 }
 
 th, td {
-	border: 1px solid #ccc;
 	padding: 5px;
 	text-align: center;
 
@@ -20,12 +19,9 @@ th, td {
 	text-align: center;
 }
 
-section{
-	padding: 20px;
-}
 
 /* 입력 칸 크기 조절 */
-.prodItemDate {
+/* .prodItemDate {
 	width: 130px;
 	height: 40px; 
 	font-size: 20px;
@@ -33,7 +29,8 @@ section{
 	display: flex-wrap; align-items: center; justify-content: space-between;
 	
 }
-
+ */
+ 
 .prodItemDate:hover {
 	cursor: pointer;
 }
@@ -66,4 +63,16 @@ section{
 @keyframes marquee {
   from { transform: translateX(0%); }
   to { transform: translateX(-60%); }
+}
+
+
+.category-search-list-container {
+    overflow-y: auto; /* 수직 방향으로 스크롤 허용 */
+    max-height: 250px; /* 컨테이너의 최대 높이 설정, 필요에 따라 조정 */
+}
+
+/* 드롭다운 메뉴 7개정도만 보이게 */
+#workProdNoRegiModalList {
+    max-height: 336px; /* 48px * 7 = 336px */
+    overflow-y: auto;  /* 스크롤바 추가 */
 }

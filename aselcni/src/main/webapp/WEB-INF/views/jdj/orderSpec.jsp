@@ -65,7 +65,8 @@
             <h1>주문 상세</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/order">주문 관리</a></li>
+                    <li class="breadcrumb-item">주문 관리</li>
+                    <li class="breadcrumb-item"><a href="/order">주문 조회</a></li>
                     <li class="breadcrumb-item active">주문 상세</li>
                 </ol>
             </nav>
@@ -75,53 +76,72 @@
         	<div class="card">		
 		        <div class="container">
 	        		<div class="card-body">
-		        		<!-- 체크하면 수정버전 -->
-	        			<div class="form-check form-switch">
-	                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-	                      <label class="form-check-label" for="flexSwitchCheckChecked">읽기 전용</label>
-	                	</div>
-        				
+        				<c:if test="${orderSpec.status == 0}">
         				<!-- 수정 버튼  -->
 		        		<div class="d-grid gap-2 d-md-flex justify-content-md-end  py-2">
-							<button class="btn btn-outline-secondary btn px-4" type="reset">취소</button>
+		        			<!-- 주문 수정을 눌렀을 때 활성화 -->
+							<!-- <button class="btn btn-outline-secondary btn px-4" type="reset">취소</button> -->
 							<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">수정</button>
+							<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">주문 취소</button>
 						</div>
-       					
+       					</c:if>
        					<!-- 입력 폼 -->
 						<div class="row mb-3">
-							<label class="col-sm-2 col-form-label">주문번호</label>
-							<div class="col-sm-10">
+							<div class="col-sm-1"></div>
+							<label class="col-sm-1 col-form-label">주문번호</label>
+							<div class="col-sm-3">
 								<input type="text" class="form-control" value=${orderSpec.order_no} disabled>
 							</div>
-						</div>
-        		
-						<div class="row mb-3">
-							<label for="order_dt" class="col-sm-2 col-form-label">착수일</label>
-							<div class="col-sm-4">
-								<input type="date" class="form-control"  value=${orderSpec.order_dt} readonly="readonly" >
-							</div>
-							<label for="order_end_dt" class="col-sm-2 col-form-label">납기일</label>
-							<div class="col-sm-4">
-								<input type="date" class="form-control" value=${orderSpec.order_end_dt}>
-							</div>
-						</div>
-        		
-						<div class="row mb-3">
-							<label class="col-sm-2 col-form-label">매입처</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" value=${orderSpec.cust_nm} readonly="readonly">
-							</div>
-							<label for="inputText" class="col-sm-2 col-form-label">담당자명</label>
-							<div class="col-sm-4">
+							<div class="col-sm-1"></div>
+							
+							<label for="inputText" class="col-sm-1 col-form-label">담당자명</label>
+							<div class="col-sm-1"></div>
+							<div class="col-sm-3">
 								<input type="text" class="form-control" value=${orderSpec.user_nm} placeholder="담담자명">
 							</div>
 						</div>
         		
 						<div class="row mb-3">
-							<label for="inputPassword" class="col-sm-2 col-form-label">비고</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" style="height: 100px">${orderSpec.remark}</textarea>
+							<div class="col-1"> </div>
+							<label for="order_dt" class="col-sm-1 col-form-label">착수일</label>
+							<div class="col-sm-3">
+								<input type="date" class="form-control"  value=${orderSpec.order_dt} readonly="readonly" >
 							</div>
+							<div class="col-1"> </div>
+							<label class="col-sm-1 col-form-label">매입처</label>
+							<div class="col-1"> </div>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" value=${orderSpec.cust_nm} readonly="readonly">
+							</div>
+						</div>
+        		
+						<div class="row mb-3">
+							<div class="col-1"> </div>
+							<label for="order_end_dt" class="col-sm-1 col-form-label">납기일</label>
+							<div class="col-sm-3">
+								<input type="date" class="form-control" value=${orderSpec.order_end_dt}>
+							</div>
+							<div class="col-1"> </div>
+							<label for="inputText" class="col-sm-2 col-form-label">매입처 담당자</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" value="${orderSpec.cust_emp}">
+							</div>
+							<div class="col-1"> </div>
+							
+						</div>
+        		
+						<div class="row mb-3">
+							<div class="col-1"></div>
+							<label for="inputPassword" class="col-sm-1 col-form-label">비고</label>
+							<div class="col-sm-9">
+								<textarea id="order_remark" class="form-control" style="height: 100px">${orderSpec.remark}</textarea>
+							</div>
+							<div class="col-1"></div>
+						</div>
+						
+						<div class="d-flex gap-2 justify-content-center py-2">
+							<button class="btn btn-danger btn px-4 rounded-pill" type="button">주문 취소</button>
+							<button class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button">수정</button>
 						</div>
 					<p>
 						<div class="col-12">
@@ -134,6 +154,7 @@
 									<th scope="col">단위</th>
 									<th scope="col">수량</th>
 									<th scope="col">단가</th>
+									<th scope="col">합계</th>
 								</tr></thead>
 								<tbody>
 									<c:forEach var = "orderItem" items = "${orderItems}">
@@ -147,6 +168,7 @@
 							                <button type="button" class="btn btn-light" disabled>${orderItem.qty}</button>
 							                <button type="button" class="btn btn-light"><i class="bi bi-plus"></i></button>
 	             						</div></td>
+										<td>${orderItem.item_cost}</td>
 										<td>${orderItem.cost}</td>
 									</tr>									
 									</c:forEach>
