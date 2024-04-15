@@ -249,7 +249,7 @@
 				                 <div class="row mb-1">
 									<div class="col">
 										<div class="input-group">
-											<span class="input-group-text">매입처</span>
+											<span class="input-group-text" style="width:90px">매입처</span>
 											<input id="modal_cust_nm" type="text" class="form-control"
 												placeholder="매입처" aria-label="매입처" readonly>
 										</div>
@@ -265,7 +265,7 @@
 								<div class="row mt-1">
 				              		<div class="col">
 				              			<div class="input-group">
-										  <span class="input-group-text">창고</span>
+										  <span class="input-group-text" style="width:90px">창고</span>
 										  <select id="modal_wh_cd" class="form-select">
 											  	<option value="${wh.wh_cd}">${wh.wh_nm}</option>
 										  </select>
@@ -276,7 +276,7 @@
 				              	<div class="row mt-1">
 				              		<div class="col">
 				              			<div class="input-group">
-										  <span class="input-group-text">비고</span>
+										  <span class="input-group-text" style="width:90px">비고</span>
 										  <textarea id="modal_remark" rows="4" class="form-control"></textarea>
 										</div>
 				              		</div>
@@ -293,7 +293,7 @@
 					                    <th scope="col">단위</th>
 					                    <th scope="col">수량</th>
 					                    <th scope="col">단가</th>
-					                    <th scope="col">합계</th>
+					                    <th scope="col">금액</th>
 					                  </tr>
 					                </thead>
 					                <tbody id="modal_itemTableBody">
