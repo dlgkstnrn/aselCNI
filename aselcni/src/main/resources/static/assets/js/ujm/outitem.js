@@ -188,7 +188,7 @@ $(document).ready(function () {
                 value: 0 
             });
 
-            // insertQtyInput의 변경 이벤트 핸들러
+            
             insertQtyInput.on('change', function() {
                 qtyValue = parseInt($(this).val()); // 입력된 값
                 maxQty = parseInt($(this).attr('max')); //재고 
@@ -477,6 +477,7 @@ let detail_remark;
           success: function(response) {
             console.log('출고품목조회:'+response);  
     
+            $('#detail_outitem_item_list tbody').empty(); //품목 넣기 전 이전 출고의 품목 제거
             
             $.each(response, function(index, item) { /* 각각의 주문품목 */
               var checkbox = $('<input>').attr({
@@ -544,7 +545,6 @@ let detail_remark;
               }
                 
               
-              $('#detail_outitem_item_list tbody').empty();
               $('#detail_outitem_item_list tbody').append(
                   $('<tr>').append(
                       $('<td>').append(checkbox),
@@ -609,8 +609,8 @@ let detail_remark;
 
 
 
-    //수정 완료 
-    $('#updateOutitemSubmitBtn').click(function(e){ //수정 완료 버튼 누르면
+    //수정 완료 버튼 눌렀을 떄
+    $('#updateOutitemSubmitBtn').click(function(e){ 
         
       
         
