@@ -336,9 +336,6 @@ let outitemNo;
 let orderNo;
 let orderDt;
 let outitemDt;
-let custNm;
-let orderStatusChk;
-let orderEndDt;
 let detail_cust_emp;
 let detail_remark;
 
@@ -361,16 +358,16 @@ let detail_remark;
       outitemDt = $(this).find("td:nth-child(6)").text(); //출고일자
       $("#detail_outitem_dt").html(outitemDt);
 
-      custNm = $(this).find("td:nth-child(7)").text(); //매입처
+      let custNm = $(this).find("td:nth-child(7)").text(); //매입처
       $("#detail_cust_nm").html(custNm);
 
-      orderStatusChk = $(this).find("td:nth-child(9)").text(); //출고 상태
+      let orderStatusChk = $(this).find("td:nth-child(9)").text(); //출고 상태
       $("#detail_order_status_chk").html(orderStatusChk);
 
       detail_remark = $(this).find("td:nth-child(10)").text(); //비고
       $("#detail_remark").html(detail_remark);
 
-      orderEndDt = $(this).find("td:nth-child(5)").text(); //주문 마감일(납기일)
+      let orderEndDt = $(this).find("td:nth-child(5)").text(); //주문 마감일(납기일)
       $("#detail_order_end_dt").html(orderEndDt);
 
 
@@ -408,33 +405,15 @@ let detail_remark;
 
           detail_cust_emp = item.cust_emp; //상대 담당자
           $("#detail_cust_emp").html(detail_cust_emp);
-
-
-            var checkbox = $('<input>').attr({
-                type: 'checkbox',
-                name: 'selectedItems',
-                value: item.item_cd,
-                'data-qty': item.qty
-            });
-
-            var updateQtyInput = $('<input>').attr({
-                type: 'number',
-                class: 'updateQty form-control',
-                name: 'update_qty',
-                min: 0, 
-                max: item.stock, 
-                value: item.outitem_qty ,
-                readonly: 'readonly'
-              });
             
             $('#detail_outitem_item_list tbody').append(
                 $('<tr>').append(
-                    $('<td>').append(checkbox),
+                    $('<td>').text(''),
                     $('<td>').text(item.item_nm),
                     $('<td>').text(item.stock), 
                     $('<td>').text(item.qty),
-                    $('<td>').text(item.qty-item.order_qty),
-                    $('<td>').append(updateQtyInput),
+                    $('<td>').text(item.qty - item.order_qty),
+                    $('<td>').text(item.outitem_qty),
                 )
             );
           }); //each 주문품목
@@ -531,13 +510,13 @@ let detail_remark;
                   var checkedCount = $('input[name="selectedItems"]:checked').length; //체크
                   var checkQty = item.outitem_sum_qty - item.old_qty + qtyValue; 
                   // 지금걸 제외한 출고량에서 수정할 출고량을 더한 값이 재고 또는 주문수량을 넘기면 안됨
-                  console.log(checkQty>stock);
+                  console.log(checkQty>item.stock);
                   console.log(checkQty>item.old_order_qty);
 
                   //출고버튼 비활성화 조건
                   if (qtyValue > maxQty || qtyValue < 0 || qtyValue <= minQty 
                     || isNaN(qtyValue) || checkedCount == 0
-                    || checkQty>stock || checkQty > item.old_order_qty) { 
+                    || checkQty>item.stock || checkQty > item.old_order_qty) { 
                       qtyChk=0;
                   } else {
                       qtyChk=1;
@@ -582,7 +561,15 @@ let detail_remark;
 
           console.log('orderDt:'+orderDt);
     
-          // 날짜 형식 문자열에서 '-' 제거한 숫자값 계산
+          // 현재 날짜 생성
+          var now = new Date();
+          var year = now.getFullYear();
+          var month = (now.getMonth() + 1).toString();
+          if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경    
+          var day = now.getDate();
+          var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+          console.log('currentDate:'+currentDate);
+
           var currentDateValue = Number(currentDate.replace(/-/g, ''));
           var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
           var orderDtValue =  Number(orderDt.replace(/-/g, ''));
@@ -596,7 +583,7 @@ let detail_remark;
       }) //날짜 변경마다
 
 
-      if(qtyChk==1&&dtChk==1) { //입력한 품목수량 및 출고일자 만족 시 수정완료버튼 누르기 가능
+      if(qtyChk==1 && dtChk==1) { //입력한 품목수량 및 출고일자 만족 시 수정완료버튼 누르기 가능
         $('#updateOutitemSubmitBtn').prop('disabled', false);
       } else {
         $('#updateOutitemSubmitBtn').prop('disabled', true);
@@ -616,9 +603,9 @@ let detail_remark;
         
       // form으로 제출할 outitem데이터들
       var updateOutitemData = {
-          outitem_no : outitemDt, 
-          order_no: $('#insertOrderNo').val(),
-          outitem_dt: $('#insert_outitem_dt').val(),
+          outitem_no : outitemNo, 
+          order_no: orderNo,
+          outitem_dt: $('#calendar_outitem_dt').val(),
           cust_emp: $('#detail_cust_emp').val(),
           remark: $('#detail_remark').val()
       };
