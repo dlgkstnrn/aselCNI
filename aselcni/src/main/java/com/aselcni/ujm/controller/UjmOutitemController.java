@@ -113,7 +113,7 @@ public class UjmOutitemController {
 	@RequestMapping(value = "ujmGetOutitemToUpdate")
 	@ResponseBody
 	public List<UjmOutitem> ujmGetOutitemToUpdate(@RequestParam("order_no") String order_no, 
-			@RequestParam("outitem_no") String outitem_no, Model model) {
+			@RequestParam("outitem_no") String outitem_no) {
 		System.out.println("컨트롤러UjmOutitem : ujmGetOutitemToUpdate 시작");
 		List<UjmOutitem> ujmListOutitem=uos.ujmGetOutitemToUpdate(order_no, outitem_no);
 		System.out.println(ujmListOutitem);
