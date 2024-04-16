@@ -291,7 +291,7 @@
 
 									<!-- Start modal body -->
 									<form id="workProdRegiForm" action="submitWorkProdRegiModal"
-										method="post"
+										onsubmit="return validateRegiForm()" method="post"
 									>
 
 										<div class="row mb-3">
@@ -306,7 +306,7 @@
 													data-bs-toggle="dropdown" aria-haspopup="true"
 													aria-expanded="false"
 												>
-													<span class="moving-text">생산 지시 번호 선택<span class="text-danger">*</span></span>
+													<span class="moving-text">생산 지시 번호 선택</span>
 												</button>
 												<input id="hiddenWorkProdNoRegiModal" type="hidden"
 													name="workprod_no"
@@ -335,7 +335,7 @@
 											> <span class="moving-text">생산 실적 담당자<span class="text-danger">*</span></span></label>
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
-													<input id="empRegiModal" type="text" class="form-control"
+													<input id="empRegiModal" type="text" class="form-control" required="required"
 														name="proditem_emp_id" value="${sessionScope.user_id }"
 													>
 												</div>
@@ -368,8 +368,7 @@
 													data-bs-toggle="dropdown" aria-haspopup="true"
 													aria-expanded="false"
 												>
-													<span class="moving-text moving-animation">제품을 넣어둘
-														창고를 선택</span>
+													<span class="moving-text moving-animation">제품을 넣어둘 창고를 선택</span>
 												</button>
 												<ul id="whListRegiModal" class="dropdown-menu col-sm-9"
 													aria-labelledby="prodItemWHRegiModal"
@@ -387,9 +386,9 @@
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
 													<input id="hiddenItemCdRegiModal" type="hidden"
-														name="item_cd" class="form-control" value="buldak001"
+														name="item_cd" class="form-control" value=""
 													> <input id="itemNameRegiModal" type="text"
-														class="form-control" disabled
+														class="form-control" required="required" disabled
 													>
 												</div>
 
@@ -400,7 +399,7 @@
 												<div class="col-sm-5">
 													<input id="hiddenExpQtyRegiModal" type="hidden"
 														name="pln_qty" class="form-control"
-													> <input id="expectedQtyRegiModal" type="number"
+													> <input id="expectedQtyRegiModal" type="number" required="required"
 														class="form-control" disabled="disabled"
 													>
 												</div>
@@ -415,6 +414,7 @@
 											<div class="d-flex justify-content-between col-sm-10">
 												<div class="col-sm-4">
 													<input id="actualQtyRegiModal" type="number"
+														min="0"
 														name="prod_qty" class="form-control" required
 													>
 												</div>
@@ -423,6 +423,7 @@
 												><span class="moving-text">불량 생산 수량<span class="text-danger">*</span></span></label>
 												<div class="col-sm-5">
 													<input id="defectiveQtyRegiModal" type="number"
+														min="0"
 														name="bad_qty" class="form-control" required
 													>
 												</div>
