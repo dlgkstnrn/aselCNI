@@ -16,6 +16,8 @@
 		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 		rel="stylesheet">
 	
+	<script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<!-- Vendor CSS Files -->
 	<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
 		rel="stylesheet">
@@ -33,8 +35,9 @@
 	
 	<!-- Script -->
 	<script defer src="assets/js/main.js"></script>
-	<script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script type="module" src="assets/js/jdj/jdjOrdModule.js"></script>
+	<script  src="assets/js/jdj/jdjOrdReg.js"></script>
+	<script src="assets/js/jdj/jdjOrdSpec.js"></script>
 	<style>
 		@font-face {
 		    font-family: 'Dovemayo_gothic';
@@ -66,38 +69,38 @@
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">주문 관리</li>
-                    <li class="breadcrumb-item"><a href="/order">주문 조회</a></li>
+                    <li class="breadcrumb-item active"><a href="/order">주문 조회</a></li>
                     <li class="breadcrumb-item active">주문 상세</li>
                 </ol>
             </nav>
         </div> <!-- page title -->
-        
+        <form action=""method="post"></form>
         <section class="section dashboard">
         	<div class="card">		
 		        <div class="container">
 	        		<div class="card-body">
-        				<c:if test="${orderSpec.status == 0}">
-        				<!-- 수정 버튼  -->
-		        		<div class="d-grid gap-2 d-md-flex justify-content-md-end  py-2">
-		        			<!-- 주문 수정을 눌렀을 때 활성화 -->
-							<!-- <button class="btn btn-outline-secondary btn px-4" type="reset">취소</button> -->
-							<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">수정</button>
-							<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">주문 취소</button>
-						</div>
-       					</c:if>
+        				<!--<c:if test="${orderSpec.order_status_chk == 0}"> -->
+	        				<!-- 수정 버튼  -->
+			        		<!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end  py-2"> -->
+			        			<!-- 주문 수정을 눌렀을 때 활성화 -->
+								<!-- <button class="btn btn-outline-secondary btn px-4" type="reset">취소</button> -->
+								<!-- <button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">수정</button>
+								<button class="d-inline-flex align-items-center btn btn-primary btn px-4" type="button">주문 취소</button>
+							</div>
+       					</c:if> -->
        					<!-- 입력 폼 -->
 						<div class="row mb-3">
 							<div class="col-sm-1"></div>
 							<label class="col-sm-1 col-form-label">주문번호</label>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" value=${orderSpec.order_no} disabled>
+								<input id="order_no" type="text" class="form-control" value=${orderSpec.order_no} disabled>
 							</div>
 							<div class="col-sm-1"></div>
 							
 							<label for="inputText" class="col-sm-1 col-form-label">담당자명</label>
 							<div class="col-sm-1"></div>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" value=${orderSpec.user_nm} placeholder="담담자명">
+								<input id="order_emp_id" type="text" class="form-control" value=${orderSpec.user_nm} disabled="disabled">
 							</div>
 						</div>
         		
@@ -105,13 +108,13 @@
 							<div class="col-1"> </div>
 							<label for="order_dt" class="col-sm-1 col-form-label">착수일</label>
 							<div class="col-sm-3">
-								<input type="date" class="form-control"  value=${orderSpec.order_dt} readonly="readonly" >
+								<input id="order_dt" type="date" class="form-control"  value=${orderSpec.order_dt} disabled="disabled" >
 							</div>
 							<div class="col-1"> </div>
-							<label class="col-sm-1 col-form-label">매입처</label>
+							<label class="col-sm-1 col-form-label">매출처</label>
 							<div class="col-1"> </div>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" value=${orderSpec.cust_nm} readonly="readonly">
+								<input id="cust_cd" type="text" class="form-control" value="${orderSpec.cust_nm}" disabled="disabled">
 							</div>
 						</div>
         		
@@ -119,12 +122,12 @@
 							<div class="col-1"> </div>
 							<label for="order_end_dt" class="col-sm-1 col-form-label">납기일</label>
 							<div class="col-sm-3">
-								<input type="date" class="form-control" value=${orderSpec.order_end_dt}>
+								<input id="order_end_dt" type="date" class="form-control" value=${orderSpec.order_end_dt}>
 							</div>
 							<div class="col-1"> </div>
-							<label for="inputText" class="col-sm-2 col-form-label">매입처 담당자</label>
+							<label for="inputText" class="col-sm-2 col-form-label">매출처 담당자</label>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" value="${orderSpec.cust_emp}">
+								<input id="cust_emp" type="text" class="form-control" value="${orderSpec.cust_emp}">
 							</div>
 							<div class="col-1"> </div>
 							
@@ -139,10 +142,12 @@
 							<div class="col-1"></div>
 						</div>
 						
+        				<c:if test="${orderSpec.order_status_chk == 0}">
 						<div class="d-flex gap-2 justify-content-center py-2">
-							<button class="btn btn-danger btn px-4 rounded-pill" type="button">주문 취소</button>
-							<button class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button">수정</button>
+							<button id="delOrd"  value="${ orderSpec.order_no}" class="btn btn-danger btn px-4 rounded-pill" type="button">주문 취소</button>
+							<button id="modiOrd" class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button">수정</button>
 						</div>
+						</c:if>
 					<p>
 						<div class="col-12">
 		                	<label for="inputNanme4" class="form-label">주문 품목 </label>
@@ -156,20 +161,20 @@
 									<th scope="col">단가</th>
 									<th scope="col">합계</th>
 								</tr></thead>
-								<tbody>
+								<tbody  id="itemTB2">
 									<c:forEach var = "orderItem" items = "${orderItems}">
-									<tr>
-										<th><input class="form-check-input" type="checkbox" value="" id="invalidCheck2"></th>
-										<td>${orderItem.item_cd}</td>
-										<td>${orderItem.item_nm}</td>
-										<td>${orderItem.item_unit}</td>
+									<tr class="${orderItem.item_cd}">
+										<td><input class="checkBox form-check-input" type="checkbox" id="chkBtn" style="display: none"></td>
+										<td id="item_cd">${orderItem.item_cd}</td>
+										<td id="item_nm">${orderItem.item_nm}</td>
+										<td id="item_unit">${orderItem.item_unit}</td>
 										<td><div class="btn-group border-1" role="group">
-							                <button type="button" class="btn btn-light"><i class="bi bi-dash"></i></button>
-							                <button type="button" class="btn btn-light" disabled>${orderItem.qty}</button>
-							                <button type="button" class="btn btn-light"><i class="bi bi-plus"></i></button>
+							                <button  onclick="decreaseCnt2('${orderItem.item_cd}')"  id="decreaseBtn2" type="button" class="decreaseBtn2 btn btn-light" style="display: none"><i class="bi bi-dash"></i></button>
+							                <button id="${orderItem.item_cd}" type="button" class="btn btn-light" disabled>${orderItem.qty}</button>
+							                <button onclick="increaseCnt2('${orderItem.item_cd}')" id="increaseBtn2" type="button" class="increaseBtn2 btn btn-light" style="display: none"><i class="bi bi-plus"></i></button>
 	             						</div></td>
-										<td>${orderItem.item_cost}</td>
-										<td>${orderItem.cost}</td>
+										<td id="item_cost">${orderItem.item_cost}</td>
+										<td id="${orderItem.item_cd}_Cost">${orderItem.cost}</td>
 									</tr>									
 									</c:forEach>
 								</tbody>
@@ -177,8 +182,8 @@
 		                </div> <!-- col-12, 품목 리스트 -->
 		                
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-							<button class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
-							<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
+							<button id="itemDel2" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
+							<button id="itemAdd2" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
 								<i class="bi bi-bag-plus-fill"></i> 추가
               				</button>
 						</div>
@@ -190,39 +195,47 @@
 	                  		<div class="modal-content">
 	                    		<div class="modal-header">
 									<h5 class="modal-title"> 주문 상품 등록</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									<button type="button" id="closeBtn2" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                    		</div> <!-- modal-header -->
 	                    		<div class="modal-body">
 	                    		
 	                    		<div class="row g-3">
 					                
-					                <div class="col-md-3">
-					                  <label for="inputZip" class="form-label">제품코드</label>
-					                  <input type="text" class="form-control" id="inputZip" disabled value="PRD12345678">
-					                </div>
 					                <div class="col-md-5">
-					                  <label for="inputState" class="form-label">제품명</label>
-					                  <select id="inputState" class="form-select">
-					                    <option selected="">Choose...</option>
-					                    <option>...</option>
-					                  </select>
-					                </div>
-					                <div class="col-md-2">
-					                  <label for="inputCity" class="form-label">수량</label>
-					                  <input type="number" class="form-control" id="inputCity">
-					                </div>
-					                <div class="col-md-2">
-					                  <label for="inputCity" class="form-label">단위</label>
-					                  <input type="text" class="form-control" id="inputCity">
-					                </div>
+						                  <label for="selItem_cd2" class="form-label">제품코드</label>
+						                  <input type="text" class="form-control" id="selItem_cd2" disabled value="${itemMst.item_cd}">
+						                </div>
+						                <div class="col-md-7">
+						                  <label for="item_nm2" class="form-label">제품명</label>
+						                  <select id="item_nm2" class="form-select">
+						                  	<option selected value = "">제품명 선택</option>
+						                  	<c:forEach var = "itemMst" items="${itemMsts}" varStatus="status">
+						                    	<option id="order_item_cd" value="${itemMst.item_cd }" >${itemMst.item_nm}</option>
+						                    </c:forEach>
+						                  </select>
+						                </div>
+						                <div class="col-md-3">
+						                  <label for="item_unit2" class="form-label">단위</label>
+						                  <input type="text" disabled class="form-control" id="item_unit2">
+						                </div>
+						                <div class="col-md-3">
+						                  <label for="order_qty2" class="form-label">수량</label>
+						                  <input type="number" class="form-control" id="order_qty2">
+						                </div>
+						                <div class="col-md-3">
+						                  <label for="item_cost2" class="form-label">단가</label>
+						                  <input type="number" disabled class="form-control" id="item_cost2">
+						                </div>
+						                <div class="col-md-3">
+						                  <label for="order_item_cost2" class="form-label">금액</label>
+						                  <input type="number"class="form-control" disabled="disabled" id="order_item_cost2">
+						                </div>
 
 					              </div>
              
                     			</div>
 	                    		<div class="modal-footer">
-					                  <button type="submit" class="btn btn-primary">Submit</button>
-					                  <button type="reset" class="btn btn-secondary">Reset</button>
-	                      			<button type="button" class="btn btn-primary"> 저장 </button>
+		                      			<button id="ord_item_saveBtn2" type="button" class="btn btn-primary"> 저장 </button>
 	                    		</div> <!-- modal-footer -->
 	                  		</div>  <!-- modal-content -->
                 		</div>  <!-- modal-dialog -->

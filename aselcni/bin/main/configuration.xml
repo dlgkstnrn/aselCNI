@@ -25,6 +25,7 @@
 		<typeAlias alias="OrderItem" type="com.aselcni.jdj.model.OrderItem" />
 		<typeAlias alias="CustMst" type="com.aselcni.jdj.model.CustMst" />
 		<typeAlias alias="JdjUserMst" type="com.aselcni.jdj.model.UserMst" />
+		<typeAlias alias="JdjFindOrd" type="com.aselcni.jdj.model.FindOrd" />
 
 
 		<typeAlias alias="KphOutItem" type="com.aselcni.kph.model.KphOutItem" />
