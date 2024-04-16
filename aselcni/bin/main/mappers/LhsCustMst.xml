@@ -34,29 +34,28 @@
     	{ call dbo.pro_cust_selectOne(#{cust_cd}) }
     </select>
     
-    <update id="deleteOneCust" parameterType="LhsCustMst">
-    	update tb_custmst set cust_delete_chk = 1
-    	where cust_cd = #{cust_cd}
+    <update id="deleteOneCust" statementType="CALLABLE" parameterType="LhsCustMst">
+    	{ call dbo.pro_cust_delete(#{cust_cd}) }
     </update>
     
-    <update id="updateOneCust" parameterType="LhsCustMst">
-    	update tb_custmst set
-    		cust_nm = #{cust_nm},
-    		president_nm = #{president_nm},
-    		biz_no = #{biz_no},
-    		biz_cond = #{biz_cond},
-    		biz_item = #{biz_item},
-    		biz_addr = #{biz_addr},
-    		biz_tel = #{biz_tel},
-    		biz_fax = #{biz_fax},
-    		cust_update = CONVERT(CHAR(10),GETDATE(),23)
-    	where cust_cd = #{cust_cd}
+    <update id="updateOneCust" statementType="CALLABLE" parameterType="LhsCustMst">
+    	{ call dbo.pro_cust_update(
+    		#{cust_cd},
+    		#{cust_nm},
+    		#{president_nm},
+    		#{biz_no},
+    		#{biz_cond},
+    		#{biz_item},
+    		#{biz_addr},
+    		#{biz_tel},
+    		#{biz_fax}
+    	) }
     </update>
     
     <select id="selectListCustByFlag" parameterType="int" resultType="LhsCustMst">
     	select *
     	from tb_custmst
-    	where biz_flag = #{item_flag}
+    	where biz_flag = #{item_flag}	
     </select>
     
 </mapper>

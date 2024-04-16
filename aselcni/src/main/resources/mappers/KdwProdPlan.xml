@@ -64,25 +64,31 @@
 		AND mid_no = #{midNo}
 		AND sml_no = #{smlNo}
 	</select>
-
+	
 	<!-- 생산계획 등록 -->
+	
+	<!-- SEQ_NO 생성을 위한 쿼리: 주문 상태 업데이트를 위함 -->
+	<select id="kdwGenerateSeqNo" parameterType="map" resultType="int">
+	    SELECT COALESCE(MAX(seq_no), 0) + 1 FROM TB_PRODPLAN WHERE order_no = #{order_no}
+	</select>
+	
+	<!-- PRODPLAN_NO 생성을 위한 쿼리: 투입자재에서 사용하기 위함(PK위반) -->
+	<select id="kdwGenerateProdPlanNo" parameterType="map" resultType="String">
+	    SELECT CONCAT(
+	        'PRP',
+	        CONVERT(CHAR(6), GETDATE(), 12),
+	        FORMAT((SELECT COUNT(*) FROM TB_PRODPLAN WHERE SUBSTRING(prodPlan_no, 4, 6) = CONVERT(CHAR(6), GETDATE(), 12)) + 1, '0000')
+	    ) AS prodPlan_no
+	</select>
+
 	<insert id="kdwSaveProdPlan" parameterType="map">
-		<selectKey keyProperty="prodPlan_no" resultType="java.lang.String" order="BEFORE">
-			SELECT CONCAT(
-			    'PRP',
-			    CONVERT(CHAR(6), GETDATE(), 12),
-			    (SELECT FORMAT(COUNT(*) + 1, '0000')
-			     FROM TB_PRODPLAN
-			     WHERE SUBSTRING(prodPlan_no, 4, 6) = CONVERT(CHAR(6), GETDATE(), 12))
-			)
-		</selectKey>
-		INSERT INTO TB_PRODPLAN (prodPlan_no, prodPlan_dt, seq_no, order_no,
-		prodplan_emp_id, work_dt , prodPlan_end_dt, item_cd, qty, remark, prodPlan_update, prodPlan_delete_chk)
-		VALUES (
-		#{prodPlan_no},
-		#{tbProdPlan.prodPlan_dt}, (SELECT ISNULL(MAX(seq_no), 0) + 1 FROM TB_PRODPLAN WHERE order_no = #{tbProdPlan.order_no}),
-		#{tbProdPlan.order_no}, #{prodplan_emp_id}, #{tbProdPlan.work_dt}, #{tbProdPlan.prodPlan_end_dt}, #{tbProdPlan.item_cd}, 
-		#{tbProdPlan.qty}, #{tbProdPlan.remark}, NULL, 0)
+	    INSERT INTO TB_PRODPLAN (prodPlan_no, prodPlan_dt, seq_no, order_no,
+	    prodplan_emp_id, work_dt, prodPlan_end_dt, item_cd, qty, remark, prodPlan_update, prodPlan_delete_chk)
+	    VALUES (
+	    #{tbProdPlan.prodPlan_no},
+	    #{tbProdPlan.prodPlan_dt}, #{tbProdPlan.seq_no}, #{tbProdPlan.order_no}, 
+	    #{prodplan_emp_id}, #{tbProdPlan.work_dt}, #{tbProdPlan.prodPlan_end_dt}, 
+	    #{tbProdPlan.item_cd}, #{tbProdPlan.qty}, #{tbProdPlan.remark}, NULL, 0)
 	</insert>
 
 	<!-- 투입 자재 등록 --> <!-- 수정 시 신규 투입 자재 등록 -->
@@ -93,6 +99,12 @@
 		(SELECT item_cost FROM TB_ITEMMST WHERE item_cd = #{item_cd})
 		)
 	</insert>
+	<!-- SEQ_NO가 1인 경우 주문 상태 업데이트 -->
+	<update id="kdwUpdateOrderStatus">
+	    UPDATE TB_ORDER
+	    SET ORDER_STATUS_CHK = 2
+	    WHERE ORDER_NO = #{order_no}
+	</update>
 	
 	<!-- 생산계획수정 -->
 	<update id="kdwUpdateProdPlan" parameterType="KdwProdPlan">

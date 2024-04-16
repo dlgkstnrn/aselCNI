@@ -58,7 +58,8 @@ pageEncoding="UTF-8"%>
 
       <section class="section dashboard">
 
-        <!-- <form id="FormWorkProd" action="#"> -->
+        <div class="card">
+
           <!-- 조회할 생산일자 -->
           <div class="position-relative d-flex align-items-center p-3">
             생산시작일자
@@ -66,86 +67,88 @@ pageEncoding="UTF-8"%>
             <input class="mx-2" type="date" onchange="setWorkprod_dt()" id="currentDate" name="prodplan_dt" min="2000-01-01"/>
             <!-- <button type="submit">조회</button> -->
             <!-- yesterday -->
-            <!-- <button onclick="addDays(-1)" type="button" class="btn btn-success mx-2">
+            <!-- <button onclick="addDays(-1)" type="button" class="btn btn-primary mx-2">
               <i class="bi bi-arrow-left"></i>
             </button> -->
             <!-- tomorrow -->
-            <!-- <button onclick="addDays(1)" type="button" class="btn btn-success">
+            <!-- <button onclick="addDays(1)" type="button" class="btn btn-primary">
               <i class="bi bi-arrow-right"></i>
             </button> -->
           </div>
-        <!-- </form> -->
 
-        <div class="d-flex justify-content-between">
-          
-          <!-- 등록된 생산계획 리스트 -->
-          <div class="card-body border border-black border-opacity-50">
-            <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산계획내역</h5>
-            <table class="table table-hover p-2 text-center" id="prodplanTB">
+          <div class="d-flex justify-content-between">
 
-              <thead class="p-2">
-                <tr>
-                  <!-- <th scope="col">#</th> -->
-                  <th scope="col">생산계획번호</th>
-                  <th scope="col">동일 계획번호 내 순번</th>
-                  <th scope="col">제품명</th>
-                  <th scope="col">생산수량</th>
-                  <th scope="col">작업일수</th>
-                </tr>
-              </thead>
+            <!-- 등록된 생산계획 리스트 -->
+            <div class="card-body border-black border-opacity-50">
+              <h5 class="card-title p-3 mb-3 bg-primary-subtle">지시 대기중인 생산계획</h5>
+              <table class="table table-hover p-2 text-center" id="prodplanTB">
 
-              <tbody class="p-2">
-                <c:forEach var="planList" varStatus="planStat" items="${planList}">
-
-                  <!-- Modal Version -->
-                  <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
-                  <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}">
-                    <th scope="row">${planList.prodplan_no}</th>
-                    <td>${planList.seq_no}</td>
-                    <td>${planList.item_nm}</td>
-                    <td>${planList.qty}</td>
-                    <td>${planList.work_dt}</td>
+                <thead class="p-2">
+                  <tr>
+                    <th scope="col">생산계획번호</th>
+                    <th scope="col">순번</th>
+                    <th scope="col">제품명</th>
+                    <th scope="col">계획수량</th>
+                    <th scope="col">지시총량</th>
+                    <th scope="col">계획작업일수</th>
                   </tr>
+                </thead>
 
-                </c:forEach>
-              </tbody>
+                <tbody class="p-2">
+                  <c:forEach var="planList" varStatus="planStat" items="${planList}">
 
-            </table>
-          </div>
+                    <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
+                    <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}">
+                      <th scope="row">${planList.prodplan_no}</th>
+                      <td>${planList.seq_no}</td>
+                      <td>${planList.item_nm}</td>
+                      <td><fmt:formatNumber value="${planList.qty}" pattern="#,###"/></td>
+                      <td><fmt:formatNumber value="${planList.work_total_qty}" pattern="#,###"/></td>
+                      <td>${planList.work_dt}</td>
+                    </tr>
 
-          <!-- 등록된 생산지시 리스트 -->
-          <div class="card-body border border-black border-opacity-50">
-            <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산지시내역</h5>
-            <table class="table table-hover p-2 text-center" id="workprodTB">
+                  </c:forEach>
+                </tbody>
 
-              <thead class="p-2">
-                <tr>
-                  <th scope="col">생산지시번호</th>
-                  <th scope="col">동일 계획번호 내 순번</th>
-                  <th scope="col">제품명</th>
-                  <th scope="col">생산수량</th>
-                  <th scope="col">작업일수</th>
-                </tr>
-              </thead>
+              </table>
+            </div>
 
-              <tbody class="p-2">
-                <c:forEach var="workList" varStatus="workStat" items="${workList}">
+            <!-- 등록된 생산지시 리스트 -->
+            <div class="card-body border-black border-opacity-50">
+              <h5 class="card-title p-3 mb-3 bg-primary-subtle">등록된 생산지시 내역</h5>
+              <table class="table table-hover p-2 text-center" id="workprodTB">
 
-                  <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
-                  <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" >
-                    <th scope="row">${workList.workprod_no}</th>
-                    <td>${workList.seq_no}</td>
-                    <td>${workList.item_nm}</td>
-                    <td>${workList.qty}</td>
-                    <td>${workList.work_dt}</td>
+                <thead class="p-2">
+                  <tr>
+                    <th scope="col">생산지시번호</th>
+                    <th scope="col">순번</th>
+                    <th scope="col">제품명</th>
+                    <th scope="col">생산수량</th>
+                    <th scope="col">작업일수</th>
                   </tr>
-                </c:forEach>
-              </tbody>
+                </thead>
 
-            </table>
+                <tbody class="p-2">
+                  <c:forEach var="workList" varStatus="workStat" items="${workList}">
+
+                    <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
+                    <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" >
+                    <!-- <tr onclick="showWprModal()" data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" > -->
+                      <th scope="row">${workList.workprod_no}</th>
+                      <td>${workList.seq_no}</td>
+                      <td>${workList.item_nm}</td>
+                      <td><fmt:formatNumber value="${workList.qty}" pattern="#,###"/></td>
+                      <td>${workList.work_dt}</td>
+                    </tr>
+                  </c:forEach>
+                </tbody>
+
+              </table>
+            </div>
+
           </div>
-
         </div>
+        <!-- End card  -->
 
 
 
@@ -194,9 +197,12 @@ pageEncoding="UTF-8"%>
 
                   <!-- 생산일자 -->
                   <div class="row mb-3">
-                    <label for="workprod_dt" class="col-sm-3 col-form-label">생산시작일자</label>
+                    <label for="workprod_dt" class="col-sm-3 col-form-label">
+                      생산시작일자
+                      <span class="color-red">*</span>
+                    </label>
                     <div class="col-sm-9">
-                      <input type="date" class="form-control" id="prp_prodplan_dt" name="workprod_dt"/>
+                      <input type="date" class="form-control" id="prp_prodplan_dt" name="workprod_dt" required/>
                     </div>
                   </div>
 
@@ -212,9 +218,12 @@ pageEncoding="UTF-8"%>
                       </div>
                       <!-- 제품 생산수량 -->
                       <div class="d-flex mb-3">
-                        <label for="qty" class="col-sm-3 col-form-label">생산수량</label>
-                        <div class="col-sm-8 mx-2">
-                          <input type="number" class="form-control" id="prp_qty" name="qty" />
+                        <label for="qty" class="col-sm-4 col-form-label">
+                          생산수량
+                          <span class="color-red">*</span>
+                        </label>
+                        <div class="col-sm-7 mx-2">
+                          <input type="number" class="form-control" id="prp_qty" name="qty" required/>
                         </div>
                       </div>
                     </div>
@@ -222,7 +231,10 @@ pageEncoding="UTF-8"%>
 
                   <!-- 공정 -->
                   <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">공정</label>
+                    <label class="col-sm-3 col-form-label">
+                      공정
+                      <span class="color-red">*</span>
+                    </label>
                     <div class="col-sm-9">
 
                       <!-- select box -->
@@ -244,24 +256,25 @@ pageEncoding="UTF-8"%>
                   
                   <!-- 투입품 -->
                   <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">투입품</label>
+                    <label class="col-sm-3 col-form-label">
+                      투입품
+                      <span class="color-red">*</span>
+                    </label>
 
                     <!-- 투입품 선택 모달 띄우는 버튼 -->
                     <div class="col-sm-9 mb-3">
-                      <button type="button" class="btn btn-outline-success mb-3" 
+                      <button type="button" class="btn btn-outline-primary mb-3" 
                         id="btn-submit"
                         data-bs-toggle="modal"
                         data-bs-target="#addItem">투입품 추가</button>
                     </div>
 
                     <!-- 선택된 투입품 리스트 테이블 -->
-                    <!-- 선택된 투입품 리스트 ul -->
-                    <div class="card-body mb-3">
-                      <h5 class="card-title mb-2">선택한 투입품 목록</h5>
+                    <div class="card-body mx-3 mb-3">
                       <table class="table">
                         <thead>
                           <tr>
-                            <!-- <th scope="col">#</th> -->
+                            <th scope="col">#</th>
                             <th scope="col">품목코드</th>
                             <th scope="col">품목명</th>
                             <th scope="col">투입수량</th>
@@ -272,22 +285,18 @@ pageEncoding="UTF-8"%>
                           </tr>
                         </tbody>
                       </table>
-                      <!-- <ul id="inItemList" class="list-group list-group-flush">
-                        <li class="list-group-item">
-                          <span>품목코드</span>
-                          <span>품목명</span>
-                          <span>투입수량</span>
-                        </li>
-                      </ul> -->
                     </div>
                       
                   </div>
                   
                   <!-- 작업일수 -->
                   <div class="row mb-3">
-                    <label for="work_dt" class="col-sm-3 col-form-label">작업일수</label>
+                    <label for="work_dt" class="col-sm-3 col-form-label">
+                      작업일수
+                      <span class="color-red">*</span>
+                    </label>
                     <div class="col-sm-9">
-                      <input type="number" id="prp_work_dt" name="work_dt" class="form-control"/>
+                      <input type="number" id="prp_work_dt" name="work_dt" class="form-control" required/>
                     </div>
                   </div>
 
@@ -295,7 +304,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="work_cmd" class="col-sm-6 col-form-label">작업시 주의사항</label>
                     <div class="col-sm-12">
-                      <textarea id="work_cmd" name="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
+                      <textarea id="prp_work_cmd" name="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
                     </div>
                   </div>
 
@@ -308,11 +317,15 @@ pageEncoding="UTF-8"%>
                   </div>
                 </div>
 
+                <div class="color-red text-lg-center">
+                  등록 버튼 클릭 후 수정할 수 없습니다.
+                </div>
+
                 <!-- 모달 버튼 -->
                 <div class="modal-footer">
-                  <button id="cancle" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
-                  <button type="submit" id="insertDataBtn" class="btn btn-success">등록</button>
-                  <!-- <button type="reset" class="btn btn-outline-secondary">Reset</button> -->
+                  <button id="cancle" type="reset" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
+                  <button type="submit" id="insertDataBtn" class="btn btn-primary">등록</button>
+                  <!-- <button type="reset" class="btn btn-outline-primary">Reset</button> -->
                 </div>
 
               </form>
@@ -383,9 +396,9 @@ pageEncoding="UTF-8"%>
                   </div>
 
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-success" id="addItemSave">등록</button>
-                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" id="addItemSave">등록</button>
+                    <button type="reset" class="btn btn-outline-primary">Reset</button>
                   </div>
 
                 </form>
@@ -455,7 +468,7 @@ pageEncoding="UTF-8"%>
 
                   <!-- 공정 -->
                   <div class="card-body mb-3">
-                    <h5 class="card-title">등록된 공정 목록</h5>
+                    <h5 class="card-title">공정</h5>
                     <table class="table">
                       <thead>
                         <tr>
@@ -466,9 +479,6 @@ pageEncoding="UTF-8"%>
                       </thead>
                       <tbody id="proc_tbody">
                         <tr id="proc_tr">
-                          <th scope="row"></th>
-                          <td></td>
-                          <td></td>
                         </tr>
                       </tbody>
                     </table>
@@ -476,7 +486,7 @@ pageEncoding="UTF-8"%>
                 
                   <!-- 투입품 -->
                   <div class="card-body mb-3">
-                    <h5 class="card-title">투입품 목록</h5>
+                    <h5 class="card-title">투입품</h5>
                     <table class="table">
                       <thead>
                         <tr>
@@ -488,10 +498,6 @@ pageEncoding="UTF-8"%>
                       </thead>
                       <tbody id="in_item_tbody">
                         <tr id="in_item_tr">
-                          <!-- <th scope="row"></th>
-                          <td></td>
-                          <td></td>
-                          <td></td> -->
                         </tr>
                       </tbody>
                     </table>
@@ -518,7 +524,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="remark" class="col-sm-3 col-form-label">비고</label>
                     <div class="col-sm-12">
-                      <textarea id="remark" cols="30" rows="10" class="form-control" style="height: 100px" disabled>
+                      <textarea id="remark" cols="30" rows="10" class="form-control" style="height: 100px">
                       </textarea>
                     </div>
                   </div>
@@ -526,7 +532,9 @@ pageEncoding="UTF-8"%>
               <!-- End modal-body -->
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" id="updateWorkBtn" class="btn btn-primary" data-bs-dismiss="modal">수정</button>
+                <!-- <button type="button" id="deleteWorkBtn" class="btn btn-outline-primary" data-bs-dismiss="modal">삭제</button> -->
               </div>
               <!-- End modal-footer -->
 

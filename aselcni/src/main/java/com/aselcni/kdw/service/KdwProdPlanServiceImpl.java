@@ -111,7 +111,7 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 
 	    // TB_PRODPLAN 저장과 동시에 prodPlan_no 생성 및 반환
 	    String prodPlanNo = kdwProdPlanDao.saveProdPlan(tbProdPlan, prodplan_emp_id);
-	    System.out.println("Generated prodPlan_no for TB_PRODPLAN: " + prodPlanNo);
+	    System.out.println("KdwProdPlanServiceImpl TB_PRODPLAN 등록된  prodPlan_no: " + prodPlanNo);
 
 	    for (MaterialInfo material : prodPlanData.getMaterials()) {
 	        TB_ITEM_PROD tbItemProd = new TB_ITEM_PROD();
@@ -120,7 +120,7 @@ public class KdwProdPlanServiceImpl implements KdwProdPlanService {
 	        tbItemProd.setIn_qty(material.getQuantity());
 	        
 	        // 설정된 prodPlan_no 확인
-	        System.out.println("셋팅된 ProdPlan_no  for TB_ITEM_PROD: " + tbItemProd.getProdPlan_no());
+	        System.out.println("KdwProdPlanServiceImpl TB_ITEM_PROD 셋팅된 ProdPlan_no: " + tbItemProd.getProdPlan_no());
 
 	        // TB_ITEM_PROD 삽입
 	        kdwProdPlanDao.saveItemProd(tbItemProd);

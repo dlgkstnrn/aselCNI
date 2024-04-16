@@ -206,5 +206,13 @@ public class PsaWorkProdDaoImpl implements PsaWorkProdDao {
 		return result;
 	}
 
+	// 생산지시 수정 ajax
+	@Override
+	public int updateWork(WorkProd workProd) {
+
+		int result = session.insert("psaUpdateWork", workProd);
+		return result;
+	}
+
 
 }

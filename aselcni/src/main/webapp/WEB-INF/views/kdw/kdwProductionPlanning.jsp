@@ -140,7 +140,9 @@
 										</div>
 										<div class="modal-body">
 											<div class="row mb-3 oderCode">
-												<label for="oderCodeInput" class="col-sm-2 col-form-label">주문번호</label>
+												<label for="oderCodeInput" class="col-sm-2 col-form-label">주문번호
+													<span class="text-danger">*</span>
+												</label>
 												<div class="col-sm-5">
 													<input type="text" id="prodPlanNoInput"
 														class="form-control oderCodeInput" readonly>
@@ -153,7 +155,9 @@
 												</div>
 												<!-- 작업일수 -->
 												<label for="prodPlanWorkingDaysInput"
-													class="col-sm-2 col-form-label prodPlanWorkingDaysLabel">작업일수</label>
+													class="col-sm-2 col-form-label prodPlanWorkingDaysLabel">작업일수
+													<span class="text-danger">*</span>
+												</label>
 												<div class="col-sm-1 prodPlanWorkingDays">
 													<input type="number"
 														class="form-control prodPlanWorkingDaysInput"
@@ -161,12 +165,14 @@
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="inputDate" class="col-sm-2 col-form-label">시작예정일자</label>
+												<label for="inputDate" class="col-sm-2 col-form-label">시작예정일자
+													<span class="text-danger">*</span>
+												</label>
 												<div class="col-sm-7">
 													<input type="date"
 														class="form-control productStartDateInput">
 												</div>
-												<label for="productEmp" class="col-sm-2 col-form-label">담당자</label>
+												<label for="productEmp" class="col-sm-2 col-form-label productEmpLabel">담당자</label>
 												<div class="col-sm-1">
 													<input type="text" class="form-control productEmpInput"
 														id="productEmp" name="prodplan_emp_id"
@@ -175,13 +181,17 @@
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="inputDate" class="col-sm-2 col-form-label">완료예정일자</label>
+												<label for="inputDate" class="col-sm-2 col-form-label">완료예정일자
+													<span class="text-danger">*</span>
+												</label>
 												<div class="col-sm-5">
 													<input type="date" class="form-control productEndDateInput">
 												</div>
 												<!-- 생산수량 입력 필드 -->
 												<label for="productionQuantity"
-													class="col-sm-4 col-form-label prodCount">생산수량</label>
+													class="col-sm-4 col-form-label prodCount">생산수량
+													<span class="text-danger">*</span>
+												</label>
 												<div class="col-sm-1 prodCount-input-class">
 													<input type="number" class="form-control prodCount-input"
 														id="productionQuantity" min="-99999" max="99999">
@@ -189,7 +199,9 @@
 											</div>
 											<!-- 제품 -->
 											<div class="row mb-3">
-												<label for="productName" class="col-sm-2 col-form-label">제품명</label>
+												<label for="productName" class="col-sm-2 col-form-label">제품명
+													<span class="text-danger">*</span>
+												</label>
 												<div class="col-sm-8">
 													<input type="text" class="form-control productNameInput"
 														id="productName">
@@ -204,7 +216,9 @@
 											<div class="productItem-container">
 												<div class="row mb-2">
 													<label for="productItemName"
-														class="col-sm-2 col-form-label">투입자재</label>
+														class="col-sm-2 col-form-label">투입자재
+														<span class="text-danger">*</span>
+													</label>
 													<div class="col-sm-10">
 														<button type="button"
 															class="btn btn-primary productItemSelect"
@@ -574,7 +588,7 @@
 						                        </div>
 						                        <label for="prodPlanWorkingDaysInput-read" class="col-sm-2 col-form-label prodPlanWorkingDaysLabel-read">작업일수</label>
 						                        <div class="col-sm-1 prodPlanWorkingDays-read">
-						                            <input type="number" class="form-control prodPlanWorkingDaysInput-read" id="prodPlanWorkingDaysInput-read" min="-99999" max="99999" readonly>
+						                            <input type="text" class="form-control prodPlanWorkingDaysInput-read" id="prodPlanWorkingDaysInput-read" min="-99999" max="99999" readonly>
 						                        </div>
 						                    </div>
 						                    <div class="row mb-3">
@@ -594,7 +608,7 @@
 						                        </div>
 						                        <label for="productionQuantity-read" class="col-sm-2 col-form-label prodCount-read">생산수량</label>
 						                        <div class="col-sm-1 prodCount-input-class-read">
-						                            <input type="number" class="form-control prodCount-input-read" id="productionQuantity-read" min="-99999" max="99999" readonly>
+						                            <input type="text" class="form-control prodCount-input-read" id="productionQuantity-read" min="-99999" max="99999" readonly>
 						                        </div>
 						                    </div>
 						                    <div class="row mb-3">

@@ -2,12 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.HshProcmstMapper">
 
-	<select id="HshgetProcmst" resultType="Procmst">
-		SELECT *
-		FROM TB_PROCMST
-		WHERE PROC_DELETE_CHK = 0
+	<select id="procmstTotal" resultType="int">
+		select Count(*) FROM TB_PROCMST
+	</select>
+
+	<select id="HshgetProcmst" resultType="Procmst" parameterType="Procmst">
+		select a.*
+		from (select ROW_NUMBER() over(order by (select 1)) as rn
+						,tc.*
+				from TB_PROCMST tc
+				where   PROC_DELETE_CHK = 0
+				<choose>
+					<when test="searchFilter=='proc_Cd'">
+						and tc.PROC_CD like '%' + #{keyword} + '%'
+					</when>
+					<when test="searchFilter=='proc_Nm'">
+						and tc.PROC_NM like '%' + #{keyword} + '%'
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+				) a
+		where a.rn BETWEEN #{start} and #{end};
 
 	</select>
+
 	<select id="GetprocmstDetails" resultType="Procmst"
 		parameterType="string">
 		SELECT *
@@ -26,6 +45,20 @@
 		ELSE 'No'
 		END AS ExistsFlag
 	</select>
+	
+	<select id="same_pro_cd" resultType="string" parameterType="string">
+		SELECT CASE
+		WHEN EXISTS (
+		SELECT 1
+		FROM KDT301.dbo.TB_PROCMST u
+		WHERE u.PROC_CD = #{proc_Cd}
+		)
+		THEN 'Yes'
+		ELSE 'No'
+		END AS ExistsFlag
+	</select>
+	
+	
 
 	<update id="updateProc" parameterType="Procmst">
 		UPDATE KDT301.dbo.TB_PROCMST
@@ -34,7 +67,7 @@
 		REMARK = #{remark},
 		USE_FLAG = #{use_Flag},
 		PROC_EMP_ID = #{proc_Emp_Id},
-		PROC_UPDATE = GETDATE()
+		PROC_UPDATE = FORMAT(GETDATE(), 'yyyy-MM-dd')
 		WHERE PROC_CD = #{proc_Cd}
 	</update>
 	<update id="DelDateProc" parameterType="Procmst">

@@ -283,11 +283,11 @@ body {
 }
 
 .orderList-table thead th:nth-child(2) {
-	width: 45%; /* 제품명 */
+	width: 40%; /* 제품명 */
 }
 
 .orderList-table thead th:last-child {
-	width: 12%; /* 수량 */
+	width: 17%; /* 수량 */
 }
 
 .orderList-item td {
@@ -330,11 +330,11 @@ body {
 }
 
 .prodPlanList-table thead th:nth-child(2) {
-	width: 42%; /* 수량 */
+	width: 40%; /* 수량 */
 }
 
 .prodPlanList-table thead th:last-child {
-	width: 13%; /* 작업일수 */
+	width: 17%; /* 작업일수 */
 }
 
 .prodPlanList-item td {
@@ -362,7 +362,15 @@ body {
 /* 담당자 */
 .productEmpInput {
 	width: 100px;
-	margin-left: -61px;
+	margin-left: -60px;
+	border: 1px solid #dee2e6;
+}
+.productEmpInput:focus {
+	border: 1px solid #dee2e6;
+	box-shadow: none;
+}
+.productEmpLabel {
+	margin-left: -1px;
 }
 /* 생산시작일자 */
 .productStartDateInput {
@@ -374,8 +382,8 @@ body {
 }
 /* 작업일수 */
 .prodPlanWorkingDaysLabel {
-	margin-left: -10px;
-	margin-right: 10px;
+	margin-left: -15px;
+	margin-right: 15px;
 }
 
 .prodPlanWorkingDays {
@@ -701,6 +709,7 @@ body {
 	border: 1px solid transparent;
 	box-shadow: none;
 }
+
 /* 시작예정일자 */
 .productStartDateInput-update {
 	width: 400px;

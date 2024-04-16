@@ -28,6 +28,7 @@ public class PJHInitem {
 	private String end_date;
 	private String initem_emp_nm;
 	private String purc_emp_nm;
+	private int initem_end;
 	
 	// page 정보
 	private int startPage; // 시작 페이지

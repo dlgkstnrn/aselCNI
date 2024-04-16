@@ -46,6 +46,6 @@ public interface KdwProdPlanDao {
 	
 	// 투입자재 기존자재인지 신규인지 판단
 	boolean checkMaterialExists(String prodPlanNo, String itemCd);
-
+	
 
 }

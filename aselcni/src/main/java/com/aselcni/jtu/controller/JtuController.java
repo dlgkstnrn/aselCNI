@@ -1,19 +1,15 @@
 package com.aselcni.jtu.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.engine.jdbc.internal.DDLFormatterImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,13 +20,19 @@ import com.aselcni.jtu.model.JtuWorkProd;
 import com.aselcni.jtu.service.JtuPaging;
 import com.aselcni.jtu.service.JtuServiceInterface;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 @RequiredArgsConstructor
 public class JtuController {
 	private final JtuServiceInterface js;
 
 	@RequestMapping("proditem")
-	public String proditem(Model model) {
+	public String proditem(Model model, HttpServletRequest request) {
+//		if(request.getSession().getAttribute("user_id") == null) {
+//			return "redirect:/";
+//		}
+		
 		System.out.println("JtuController getMethodName Start... ");
 		String todayStr=LocalDate.now().toString();
 		String afterDayStr=LocalDate.now().plusDays(7).toString();
@@ -142,20 +144,17 @@ public class JtuController {
 	}
 	
 	
-	@ResponseBody
-	@RequestMapping("deleteBadModal")
-	// 불량 코드 등록
-	public String deleteJabadOne(Model model, JtuBad jbad) {
-		System.out.println("JtuController deleteJabadOne Start... ");
-		System.out.println("JtuController deleteJabadOne jbad --> " + jbad);
-		
-		
-		return "";
-	}
-	
-
-	
-	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("deleteBadModal") // 불량 코드 삭제 public String
+	 * deleteJabadOne(Model model, JtuBad jbad) {
+	 * System.out.println("JtuController deleteJabadOne Start... ");
+	 * System.out.println("JtuController deleteJabadOne jbad --> " + jbad);
+	 * 
+	 * 
+	 * return ""; }
+	 */
 	
 	
 	
@@ -179,6 +178,7 @@ public class JtuController {
 		return "redirect:/proditem";
 	}
 	
+	@ResponseBody
 	@RequestMapping("deleteProdItemEditModal")
 	// 생산 실적 삭제 업데이트
 	public String deletePriOne(Model model, JtuProdItem jpri) {

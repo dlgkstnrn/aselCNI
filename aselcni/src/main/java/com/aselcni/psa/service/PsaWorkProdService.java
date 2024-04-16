@@ -45,4 +45,6 @@ public interface PsaWorkProdService {
 
 	int workItemInsert(WorkItem workItem);
 
+	int updateWork(WorkProd workProd);
+
 }
