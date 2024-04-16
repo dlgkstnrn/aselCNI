@@ -203,5 +203,13 @@ public class PsaWorkProdServiceImpl implements PsaWorkProdService {
 		return result;
 	}
 
+	// 생산지시 수정 ajax
+	@Override
+	public int updateWork(WorkProd workProd) {
+
+		int result = psaDao.updateWork(workProd);
+		return result;
+	}
+
 
 }

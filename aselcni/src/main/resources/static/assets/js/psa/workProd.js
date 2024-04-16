@@ -242,7 +242,7 @@ $('#prodplanTB tbody tr').click(function() {
 		prp_prodplan_dt.value = result.prodplan_dt;
 		prp_item_cd.value = result.item_cd;
 		prp_item_nm.value = result.item_nm;
-		prp_qty.value = result.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		prp_qty.value = result.qty;
 		prp_work_dt.value = result.work_dt;
 		prp_remark.value = result.remark;
 	  }
@@ -467,6 +467,7 @@ $('#addItemSave').click(function() {
 
 		$('#prp_item_tbody').append(
 			`<tr class="inItemList">
+				<td>+</td>
 				<td class="inItemCd">${element.item_cd}</td>
 				<td>${element.item_nm}</td>
 				<td><input type="number" name="in_qty">
@@ -566,7 +567,7 @@ $('#insertDataBtn').on('click', function(e){
 				console.log(result);
 				succ(result);
 			},
-			fail: function(result) {
+			fail: function(error) {
 				fail(error);
 				alert('ajax 1단계 실패');
 			},
@@ -761,3 +762,74 @@ $('#workprodTB tbody tr').click(function() {
 // };
 
 
+
+// 생산지시 내용 중 '비고' 수정
+$('#updateWorkBtn').on('click', function() {
+
+	let param = {
+		workprod_no : $('#workprod_no').val(),
+		remark : $('#remark').val()
+	}
+
+	let workprod_dt = $('#workprod_dt').val();
+	
+	// 문자열인 생산시작일을 yyyymmdd 형식의 number 타입으로 변환
+	let date = new Date(workprod_dt);
+
+	// yyyy
+	let year = date.getFullYear();
+
+	// mm
+	let month = (date.getMonth() + 1).toString().padStart(2, '0');
+
+	// dd
+	let day = date.getDate().toString().padStart(2, '0');
+
+	// yyyymmdd
+	const yyyymmdd = `${year}${month}${day}`;
+	const numTypeDate = Number(yyyymmdd);
+
+
+	// 오늘 날짜를 yyyymmdd 형식의 number 타입으로 변환
+	let today = new Date();
+
+	// yyyy
+	let today_year = today.getFullYear();
+
+	// mm
+	let today_month = (today.getMonth() + 1).toString().padStart(2, '0');
+
+	// dd
+	let today_day = today.getDate().toString().padStart(2, '0');
+
+	// yyyymmdd
+	const today_yyyymmdd = `${today_year}${today_month}${today_day}`;
+	const today_numTypeDate = Number(today_yyyymmdd);
+
+	// 생산시작일이 오늘 날짜 후일 때만 수정 가능함
+	if (numTypeDate > today_numTypeDate) {
+
+		$.ajax({
+
+			url: 'updateWork',
+			type: 'post',
+			data: JSON.stringify(param),
+			contentType: 'application/json; charset=utf-8',
+
+			success: function() {
+				alert('수정 완료!');
+			}
+		});
+
+	} else {
+		alert('생산시작일이 오늘 날짜 후인 것만 수정 할 수 있습니다.');
+	}
+
+});
+
+
+
+// 등록된 지시 내역 삭제
+$('#deleteWorkBtn').on('click', function() {
+	// 삭제 해야할까??
+});

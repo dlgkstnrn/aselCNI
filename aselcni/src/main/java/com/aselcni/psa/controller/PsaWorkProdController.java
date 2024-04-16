@@ -28,7 +28,7 @@ public class PsaWorkProdController {
 
 	private final PsaWorkProdService psaService;
 	
-	// 생산지시 메인 페이지
+	// 생산지시 메인 페이지 조회
 	@RequestMapping(value = "workprod")
 	public String workprod(ProdPlan prodPlan, WorkProd workProd, Model model) {
 		
@@ -50,7 +50,7 @@ public class PsaWorkProdController {
 		
 	}
 	
-	// 달력 날짜 변경 후 ajax
+	// 달력 날짜 변경 후 조회 ajax
 	@RequestMapping("workprod/workprodTB")
 	@ResponseBody
 	public List<WorkProd> inputDate(@RequestBody ProdPlan paramPR, ProdPlan prodPlan, WorkProd workProd, Model model) {
@@ -76,7 +76,7 @@ public class PsaWorkProdController {
 	private void commonWorkProd(ProdPlan prodPlan, WorkProd workProd, Model model) {
 		
 		// 지시 대기중인 생산계획 리스트 조회
-		// (생산지시에 등록되지 않았고, 삭제 안 된 것들)
+		// (생산지시에 등록되지 않았고, 계획수량이 지시총량보다 크고, 삭제 안 된 것들)
 		List<ProdPlan> planList = psaService.getPlanList(prodPlan);
 		model.addAttribute("planList", planList);
 				
@@ -314,6 +314,31 @@ public class PsaWorkProdController {
 			System.out.println("투입품 등록 result : " + result);
 			
 		}
+		
+		// 클라이언트 요청으로 서버 DB 변경 시 redirect
+		return "redirect:psa/workprod";
+	}
+	
+	// 생산지시 수정 ajax
+	// UPDATE TB_WORKPROD SET REMARK=' ' , WORKPROD_UPDATE = ' '
+	// WHERE WORKPROD_NO = ' '
+	@ResponseBody
+	@RequestMapping("updateWork")
+	public String updateWork(@RequestBody WorkProd workProd) {
+		
+		System.out.println();
+		System.out.println("수정해보자");
+		System.out.println("param workProd: "+workProd);
+		
+		// 업데이트일을 오늘 날짜로
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String today = dateFormat.format(new Date());
+		System.out.println("오늘날짜: " + today);
+		
+		workProd.setWorkprod_update(today);
+		
+		int result = psaService.updateWork(workProd);
+		System.out.println("int result: " + result);
 		
 		// 클라이언트 요청으로 서버 DB 변경 시 redirect
 		return "redirect:psa/workprod";
