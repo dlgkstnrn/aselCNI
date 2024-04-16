@@ -72,8 +72,9 @@
 		]]> 
 	</select>
 	
-	<update id="ujmChangeOrderStatusChk" parameterType="String">
-		 SELECT 
+	<select id="ujmChangeOrderStatusChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT 
 		    CASE 
 		        WHEN EXISTS (
 		            SELECT A.item_cd
@@ -81,7 +82,7 @@
 		                SELECT item_cd, SUM(qty) AS qty
 		                FROM TB_ORDER_ITEM AS ori 
 		                JOIN tb_order AS ord ON ori.order_no = ord.order_no 
-		                WHERE ori.ORDER_NO = 'ORD2404070002'
+		                WHERE ori.ORDER_NO = #{order_no}
 		                AND ord.order_delete_chk = 0
 		                GROUP BY item_cd
 		            ) AS A
@@ -91,7 +92,7 @@
 		                    SELECT item_cd, SUM(qty) AS qty
 		                    FROM TB_OUTITEM_ITEM AS outi
 		                    JOIN tb_outitem AS ou ON outi.outitem_no = ou.outitem_no 
-		                    WHERE outi.order_no = 'ORD2404070002'
+		                    WHERE outi.order_no = #{order_no}
 		                    AND ou.outitem_delete_chk = 0
 		                    GROUP BY item_cd
 		                ) AS B
@@ -99,10 +100,21 @@
 		            )
 		        ) THEN 0
 		        ELSE 1
-		    END AS result;
-		
+		    END AS result
+		]]> 
+	</select>
+	
+	<update id="ujmChangeOrderStatusChkTwo" parameterType="String">
+		UPDATE TB_order
+		SET order_status_chk = 2
+		WHERE order_no = #{order_no}
 	</update>
 	
+	<update id="ujmChangeOrderStatusChkThree" parameterType="String">
+		UPDATE TB_order
+		SET order_status_chk = 3
+		WHERE order_no = #{order_no}
+	</update>
 	
 	
 </mapper>
