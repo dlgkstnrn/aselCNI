@@ -100,4 +100,17 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 		}
 		return ujmChangeOrderStatusChk;
 	}
+
+	@Override
+	public int ujmCheckOrderDeleteChk(String order_no) {
+		System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk start..");
+		System.out.println(order_no);
+		int ujmCheckOrderDeleteChk= 0;
+		try {
+			ujmCheckOrderDeleteChk=session.selectOne("ujmCheckOrderDeleteChk",order_no);
+		} catch (Exception e) {
+			System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk Exception->"+e.getMessage());
+		}
+		return ujmCheckOrderDeleteChk;
+	}
 }

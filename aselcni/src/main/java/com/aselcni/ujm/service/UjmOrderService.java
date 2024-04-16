@@ -17,4 +17,6 @@ public interface UjmOrderService {
 
 	int ujmChangeOrderStatusChk(String order_no);
 
+	int ujmCheckOrderDeleteChk(String order_no);
+
 }

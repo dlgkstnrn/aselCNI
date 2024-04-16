@@ -70,8 +70,6 @@
 		<typeAlias alias="UjmOutitem" type="com.aselcni.ujm.model.UjmOutitem" />
 		<typeAlias alias="UjmOutitemItem" type="com.aselcni.ujm.model.UjmOutitemItem" />
 		<typeAlias alias="UjmReturn" type="com.aselcni.ujm.model.UjmReturn" />
-
-		
 		<typeAlias alias="UjmOrderNoDto" type="com.aselcni.ujm.model.UjmOrderNoDto" />
 		<typeAlias alias="UjmOrderInfoToInsertDto" type="com.aselcni.ujm.model.UjmOrderInfoToInsertDto" />
 		<typeAlias alias="UjmOutitemParent" type="com.aselcni.ujm.model.UjmOutitemParent" />

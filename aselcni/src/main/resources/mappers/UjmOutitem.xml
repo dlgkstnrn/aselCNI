@@ -4,9 +4,6 @@
 
 	<!-- 소문자 사용 -->
 	
-	
-	
-	
 	<select id="ujmTotalOutitemCnt" resultType="int">
 		<![CDATA[
 		SELECT COUNT(*)
@@ -14,7 +11,7 @@
     		INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
     		INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
     		INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
-		WHERE ou.outitem_delete_chk = 0;
+		WHERE ou.outitem_delete_chk = 0
 		]]> 
 
 

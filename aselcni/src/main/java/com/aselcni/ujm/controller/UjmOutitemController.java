@@ -126,8 +126,8 @@ public class UjmOutitemController {
 	
 	//출고 수정
 	@RequestMapping(value = "updateOutitem") 
-	public String ujmUpdateOutitem(HttpServletRequest request, Model model, HttpSession session) {
-		
+	public String ujmUpdateOutitem(HttpSession session) {
+		System.out.println("컨트롤러UjmOutitem : updateOutitem 시작");
 		
 		return "ujm/ujmOutitem"; 
 	}

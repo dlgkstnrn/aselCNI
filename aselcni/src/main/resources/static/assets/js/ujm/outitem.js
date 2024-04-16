@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     $('button[data-bs-dismiss="modal"]').on("click", //닫기버튼 누르면
       function () {
-        modalContentClear(); //아래
+        modalContentClear(); 
       }
     );
   
@@ -444,6 +444,37 @@ let detail_remark;
       let qtyChk=0; 
       let dtChk=0;
 
+      //거래처 담당자를 수정 가능하게 input으로 변경
+      var detail_cust_emp_value = document.getElementById('detail_cust_emp').innerText;
+      document.getElementById("detail_cust_emp").innerHTML = '';
+
+      var inputCustEmp = document.createElement('input');
+          inputCustEmp.setAttribute('type', 'text');
+          inputCustEmp.setAttribute('class', 'form-control');
+          inputCustEmp.setAttribute('id', 'change_cust_emp');
+          inputCustEmp.setAttribute('name', 'cust_emp');
+          inputCustEmp.setAttribute('autocomplete', 'off');
+          inputCustEmp.setAttribute('value', detail_cust_emp_value);
+          inputCustEmp.setAttribute('style', 'width: 200px;');
+
+      document.getElementById("detail_cust_emp").appendChild(inputCustEmp);
+
+      //비고도 수정 가능하게 input으로 변경
+      var detail_remark_value = document.getElementById('detail_remark').innerText;
+      document.getElementById("detail_remark").innerHTML = '';
+
+      var inputRemark = document.createElement('input');
+          inputRemark.setAttribute('type', 'text');
+          inputRemark.setAttribute('class', 'form-control');
+          inputRemark.setAttribute('id', 'change_remark');
+          inputRemark.setAttribute('name', 'remark');
+          inputRemark.setAttribute('autocomplete', 'off');
+          inputRemark.setAttribute('value', detail_remark_value);
+          inputRemark.setAttribute('style', 'width: 200px;');
+
+      document.getElementById("detail_remark").appendChild(inputRemark);
+
+      
 
       
         /* ajax로 품목 부분 다시 가져오기(수정 위해) */
@@ -521,6 +552,14 @@ let detail_remark;
                   } else {
                       qtyChk=1;
                   }
+
+                  console.log('qtyChk:'+ qtyChk);
+
+                  if(qtyChk==1 && dtChk==1) { //입력한 품목수량 및 출고일자 만족 시 수정완료버튼 누르기 가능
+                    $('#updateOutitemSubmitBtn').prop('disabled', false);
+                  } else {
+                    $('#updateOutitemSubmitBtn').prop('disabled', true);
+                  }
               }
                 
               
@@ -580,19 +619,19 @@ let detail_remark;
         } else {
               dtChk=0;
         }
+        console.log('dtChk:'+ dtChk);
+
+        if(qtyChk==1 && dtChk==1) { //입력한 품목수량 및 출고일자 만족 시 수정완료버튼 누르기 가능
+          $('#updateOutitemSubmitBtn').prop('disabled', false);
+        } else {
+          $('#updateOutitemSubmitBtn').prop('disabled', true);
+        }
+
       }) //날짜 변경마다
 
-      console.log('qtyChk:'+ qtyChk);
-      console.log('dtChk:'+ dtChk);
-
-      if(qtyChk==1 && dtChk==1) { //입력한 품목수량 및 출고일자 만족 시 수정완료버튼 누르기 가능
-        $('#updateOutitemSubmitBtn').prop('disabled', false);
-      } else {
-        $('#updateOutitemSubmitBtn').prop('disabled', true);
-      }
 
 
-    }); /* 수정버튼 눌렀을때 변화되는 부분 끝 */
+    }); /* 수정하기 버튼 클릭시...끝 */
 
 
 
@@ -600,16 +639,54 @@ let detail_remark;
 
     //수정 완료 버튼 눌렀을 떄
     $('#updateOutitemSubmitBtn').click(function(e){ 
-        
-      
+      e.preventDefault(); // 기본 이벤트 동작 방지
+
+      var detail_cust_emp_value = document.getElementById('change_cust_emp').value;
+      console.log(detail_cust_emp_value);
+
+      if (detail_cust_emp_value === '') {
+      // 입력란이 비어 있으면 경고 메시지를 표시하고 클릭 이벤트를 취소
+      alert('거래처 담당자명을 입력해주세요.');
+      return false; 
+      }
+
+      console.log(orderNo);
+
+      //주문이 삭제되었는지 체크후 삭제되었다면 출고 수정이 안 되도록
+      fetch('/ujmCheckOrderDeleteChk?order_no=' + orderNo)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+            if (data.result === 1) { //주문이 삭제됨
+              alert('해당 출고의 주문이 삭제되었으므로 출고를 수정할 수 없습니다.');
+              return false; 
+            } 
+        })
+        .catch(error => {
+            console.error('에러:', error);
+        });
+
+      //반품이 되었는지 체크 후, 반품이 된 상태라면 출고 수정이 안 되도록
+      fetch('/ujmReturnChk?outitem_no=' + outitemNo)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+          if (data.result >0) { //해당 주문번호로 반품이 되었음
+            alert('해당 출고가 이미 전달되어 반품된 상태이므로 출고를 수정할 수 없습니다.');
+            return false; 
+          } 
+      })
+      .catch(error => {
+          console.error('에러:', error);
+      });
         
       // form으로 제출할 outitem데이터들
       var updateOutitemData = {
           outitem_no : outitemNo, 
           order_no: orderNo,
           outitem_dt: $('#calendar_outitem_dt').val(),
-          cust_emp: $('#detail_cust_emp').val(),
-          remark: $('#detail_remark').val()
+          cust_emp: $('#change_cust_emp').val(),
+          remark: $('#change_remark').val()
       };
 
       console.log(updateOutitemData);
@@ -618,7 +695,7 @@ let detail_remark;
       var selectedItems = [];
       $('input[name="selectedItems"]:checked').each(function() {
           var itemCd = $(this).val();
-          var qty = $(this).data('qty');
+          var qty = $(this).closest('tr').find('.updateQty').val(); 
           selectedItems.push({ item_cd: itemCd, qty: qty });
       });
 
@@ -640,12 +717,12 @@ let detail_remark;
           data: JSON.stringify(updateData),
           success: function(response){
               alert('출고 수정 완료.');
-              $(".modal-content input").val("");
-              $(".modal-content textarea").val("");
+              modalContentClear();
+              $('#outitem_insert').modal('hide');
+                location.reload();
           }
-      });
-
-      modalContentClear();
+          
+       }); 
 
   
 

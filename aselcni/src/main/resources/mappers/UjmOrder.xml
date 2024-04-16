@@ -68,7 +68,7 @@
 		<![CDATA[
 			SELECT cust_cd
 			FROM tb_order
-			WHERE order_no = #{order_no};
+			WHERE order_no = #{order_no}
 		]]> 
 	</select>
 	
@@ -115,6 +115,15 @@
 		SET order_status_chk = 3
 		WHERE order_no = #{order_no}
 	</update>
+	
+	<select id="ujmCheckOrderDeleteChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT order_delete_chk
+			FROM tb_order
+			WHERE order_no = #{order_no}
+		]]> 
+	</select>
+
 	
 	
 </mapper>
