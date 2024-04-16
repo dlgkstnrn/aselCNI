@@ -490,7 +490,7 @@ let detail_remark;
                 console.log('qtyValue:'+qtyValue);
                 console.log('maxQty:'+maxQty);
                 console.log('minQty:'+minQty);
-                console.log(item.nm +'의 old_qty(출고한/출고할 수량):'+item.old_qty);
+                console.log(item.nm +'의 old_qty(출고한 수량):'+item.old_qty);
                 console.log(item.nm +'의 stock:'+item.stock);
                 console.log(item.nm +'의 outitem_sum_qty(지금까지 주문한 수량):'+item.outitem_sum_qty);
                 console.log(item.nm +'의 old_order_qty(총 주문 수량):'+item.old_order_qty);
@@ -582,6 +582,8 @@ let detail_remark;
         }
       }) //날짜 변경마다
 
+      console.log('qtyChk:'+ qtyChk);
+      console.log('dtChk:'+ dtChk);
 
       if(qtyChk==1 && dtChk==1) { //입력한 품목수량 및 출고일자 만족 시 수정완료버튼 누르기 가능
         $('#updateOutitemSubmitBtn').prop('disabled', false);
