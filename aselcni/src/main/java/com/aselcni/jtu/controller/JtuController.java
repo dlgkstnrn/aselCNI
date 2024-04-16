@@ -29,9 +29,9 @@ public class JtuController {
 
 	@RequestMapping("proditem")
 	public String proditem(Model model, HttpServletRequest request) {
-		if(request.getSession().getAttribute("user_id") == null) {
-			return "redirect:/";
-		}
+//		if(request.getSession().getAttribute("user_id") == null) {
+//			return "redirect:/";
+//		}
 		
 		System.out.println("JtuController getMethodName Start... ");
 		String todayStr=LocalDate.now().toString();

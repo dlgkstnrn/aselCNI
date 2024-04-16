@@ -11,6 +11,7 @@
 		on w.WORKPROD_NO = p.WORKPROD_NO
 		where w.WORKPROD_DELETE_CHK =0
 		and w.WORKPROD_NO NOT in (select tp.WORKPROD_NO from TB_PRODITEM tp)
+		or w.WORKPROD_NO in (select tp.WORKPROD_NO from TB_PRODITEM tp where PRODITEM_DELETE_CHK =1)
 	</select>
 
 
