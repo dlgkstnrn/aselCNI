@@ -67,12 +67,12 @@
 	
 	<!-- 생산계획 등록 -->
 	
-	<!-- SEQ_NO 생성을 위한 쿼리 -->
+	<!-- SEQ_NO 생성을 위한 쿼리: 주문 상태 업데이트를 위함 -->
 	<select id="kdwGenerateSeqNo" parameterType="map" resultType="int">
 	    SELECT COALESCE(MAX(seq_no), 0) + 1 FROM TB_PRODPLAN WHERE order_no = #{order_no}
 	</select>
 	
-	<!-- PRODPLAN_NO 생성을 위한 쿼리 -->
+	<!-- PRODPLAN_NO 생성을 위한 쿼리: 투입자재에서 사용하기 위함(PK위반) -->
 	<select id="kdwGenerateProdPlanNo" parameterType="map" resultType="String">
 	    SELECT CONCAT(
 	        'PRP',
