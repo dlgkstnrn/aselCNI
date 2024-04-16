@@ -73,34 +73,34 @@
 	</select>
 	
 	<update id="ujmChangeOrderStatusChk" parameterType="String">
-		 UPDATE TB_ORDER
-        SET order_status_chk = (
-            SELECT 
-                CASE 
-                    WHEN EXISTS (
-                        SELECT 1
-                        FROM (
-                            SELECT item_cd, SUM(qty) AS qty
-                            FROM TB_ORDER_ITEM as ori 
-                            JOIN tb_order as ord ON ori.order_no = ord.order_no 
-                            WHERE ori.ORDER_NO = #{order_no}
-                            AND ord.order_delete_chk = 0
-                            GROUP BY item_cd
-                        ) AS oi
-                        JOIN (
-                            SELECT item_cd, SUM(qty) AS qty
-                            FROM TB_OUTITEM_ITEM as outi
-                            JOIN tb_outitem as ou ON outi.outitem_no = ou.outitem_no 
-                            WHERE outi.order_no = #{order_no}
-                            AND ou.outitem_delete_chk = 0
-                            GROUP BY item_cd
-                        ) AS ooi ON oi.item_cd = ooi.item_cd AND oi.qty = ooi.qty
-                    )
-                    THEN 3
-                    ELSE 2
-                END
-        )
-        WHERE ORDER_NO = #{order_no}
+		 SELECT 
+		    CASE 
+		        WHEN EXISTS (
+		            SELECT A.item_cd
+		            FROM (
+		                SELECT item_cd, SUM(qty) AS qty
+		                FROM TB_ORDER_ITEM AS ori 
+		                JOIN tb_order AS ord ON ori.order_no = ord.order_no 
+		                WHERE ori.ORDER_NO = 'ORD2404070002'
+		                AND ord.order_delete_chk = 0
+		                GROUP BY item_cd
+		            ) AS A
+		            WHERE NOT EXISTS (
+		                SELECT 1
+		                FROM (
+		                    SELECT item_cd, SUM(qty) AS qty
+		                    FROM TB_OUTITEM_ITEM AS outi
+		                    JOIN tb_outitem AS ou ON outi.outitem_no = ou.outitem_no 
+		                    WHERE outi.order_no = 'ORD2404070002'
+		                    AND ou.outitem_delete_chk = 0
+		                    GROUP BY item_cd
+		                ) AS B
+		                WHERE A.item_cd = B.item_cd AND A.qty = B.qty
+		            )
+		        ) THEN 0
+		        ELSE 1
+		    END AS result;
+		
 	</update>
 	
 	
