@@ -372,8 +372,7 @@ pageEncoding="UTF-8"%>
                     
                   />
                   <label for="floatingTextarea"
-                    >제품/자재명</label
-                  >
+                    >제품/자재명</label>
                 </div>
 
                 <div class="form-floating mb-3">

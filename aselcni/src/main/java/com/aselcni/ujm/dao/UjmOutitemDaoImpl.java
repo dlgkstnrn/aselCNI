@@ -167,6 +167,27 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 		return ujmListOutitemDetail;
 	}
 
+	@Override
+	public List<UjmOutitem> ujmGetOutitemToUpdate(String order_no, String outitem_no) {
+		System.out.println("UjmOutitemDaoImpl ujmGetOutitemToUpdate 시작 ..." );
+
+		UjmOutitem ujmOutitem = new UjmOutitem();
+		ujmOutitem.setOrder_no(order_no);
+		ujmOutitem.setOutitem_no(outitem_no);
+		System.out.println("ujmOutitem:"+ujmOutitem);
+		
+		List<UjmOutitem> ujmListOutitem = null;
+		try {
+			ujmListOutitem=session.selectList("ujmGetOutitemToUpdate",ujmOutitem);
+			if (ujmListOutitem!=null) {
+				System.out.println("UjmOutitemDaoImpl ujmListOutitem.size():"+ujmListOutitem.size());
+			}
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmGetOutitemToUpdate 오류: "+e.getMessage());
+		}
+		return ujmListOutitem;
+	}
+
 		
 }
 

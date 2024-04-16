@@ -371,6 +371,7 @@ $.ajax({
 
       var currentDateValue = Number(currentDate.replace(/-/g, ''));
       var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
+      console.log('수정 전 outitemDtValue:'+outitemDtValue);
 
       if(currentDateValue >= outitemDtValue) { //이미 출고가 되었다면
         $('#updateOutitemBtn').prop('disabled', true); 
@@ -412,21 +413,7 @@ $.ajax({
                 max: item.stock, 
                 value: item.outitem_qty ,
                 readonly: 'readonly'
-            }).on('change', function() {
-              var qtyValue = parseInt($(this).val()); // 입력된 값
-              var maxQty = parseInt($(this).attr('max')); //재고 
-              var minQty = parseInt($(this).attr('min')); //0
-
-              console.log('qtyValue:'+qtyValue);
-              console.log('maxQty:'+maxQty);
-              console.log('minQty:'+minQty);
-              console.log('remain_qty:'+item.remain_qty);
-
-              $(this).val(qtyValue); 
-              $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
-              
-              
-            });
+              })
             
             $('#detail_outitem_item_list tbody').append(
                 $('<tr>').append(
@@ -434,7 +421,7 @@ $.ajax({
                     $('<td>').text(item.item_nm),
                     $('<td>').text(item.stock), 
                     $('<td>').text(item.qty),
-                    $('<td>').text(item.remain_qty),
+                    $('<td>').text(item.qty-item.order_qty),
                     $('<td>').append(updateQtyInput),
                 )
             );
@@ -469,11 +456,13 @@ $.ajax({
       
         /* ajax로 품목 부분 다시 가져오기(수정 위해) */
         $.ajax({
-          url: 'ujmGetOrderItem',
+          url: 'ujmGetOutitemToUpdate',
           type: 'GET',
-          data: { order_no: orderNo },
+          data: { order_no: orderNo,
+                  outitem_no: outitemNo 
+                },
           success: function(response) {
-            console.log('주문품목조회:'+response);  
+            console.log('출고품목조회:'+response);  
     
             
             $.each(response, function(index, item) { /* 각각의 주문품목 */
@@ -483,40 +472,55 @@ $.ajax({
                   value: item.item_cd,
                   'data-qty': item.qty 
               });
+
+              var qtyValue;
+              var maxQty;
+              var minQty;
       
               var updateQtyInput = $('<input>').attr({
                   type: 'number',
                   class: 'updateQty form-control',
                   name: 'update_qty',
-                  min: 1, 
+                  min: 0, 
                   max: item.stock, 
-                  value: 1 
-              }).on('change', function() {
-                var qtyValue = parseInt($(this).val()); // 입력된 값
-                var maxQty = parseInt($(this).attr('max')); //재고 
-                var minQty = parseInt($(this).attr('min')); 
+                  value: item.old_qty
+                }).on('change', function() {
+
+                  if ($(this).val() === null) {
+                    $(this).val() = 0;
+                  }
+
+                qtyValue = parseInt($(this).val()); // 입력된 값
+                maxQty = parseInt($(this).attr('max')); //재고 
+                minQty = parseInt($(this).attr('min')); 
+                
                 console.log('qtyValue:'+qtyValue);
                 console.log('maxQty:'+maxQty);
                 console.log('minQty:'+minQty);
-                console.log('remain_qty:'+item.remain_qty);
+                console.log(item.nm +'의 old_qty(출고한/출고할 수량):'+item.old_qty);
+                console.log(item.nm +'의 stock:'+item.stock);
+                console.log(item.nm +'의 outitem_sum_qty(지금까지 주문한 수량):'+item.outitem_sum_qty);
+                console.log(item.nm +'의 old_order_qty(총 주문 수량):'+item.old_order_qty);
       
-                console.log(Boolean(qtyValue > maxQty));
-                console.log(Boolean(qtyValue >item.remain_qty));
+                console.log(Boolean(qtyValue > maxQty)); //재고보다 많으면 안됨
+                console.log(Boolean(qtyValue < 0)); //0보다 작으면 안됨
                 console.log(Boolean(qtyValue < minQty));
                 console.log(Boolean(isNaN(qtyValue)));
       
-                $(this).val(qtyValue); 
-                $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
-                
-                //비정상적인 출고 품목일 때
-                if (qtyValue > maxQty ||qtyValue >item.remain_qty || qtyValue < minQty || isNaN(qtyValue)) {
-                  $('#updateOutitemSubmitBtn').prop('disabled', true); //출고수정완료버튼 비활성화
-                } else {
-                  $('#updateOutitemSubmitBtn').prop('disabled', false);
-                };
-                
-                 
+                // 체크박스의 상태 변화에 따라 버튼 상태 업데이트
+                updateInsertOutitemBtnState();
               });
+                
+                function updateInsertOutitemBtnState() {
+                  var checkedCount = $('input[name="selectedItems"]:checked').length; //체크
+                  if (qtyValue > maxQty || qtyValue < 0 || qtyValue > item.remain_qty || qtyValue <= minQty 
+                    || isNaN(qtyValue) || checkedCount == 0) { //출고버튼 비활성화 조건
+                      $('#updateOutitemSubmitBtn').prop('disabled', true); 
+                  } else {
+                      $('#updateOutitemSubmitBtn').prop('disabled', false);
+                  }
+              }
+                
               
               $('#detail_outitem_item_list tbody').empty();
               $('#detail_outitem_item_list tbody').append(
@@ -529,12 +533,12 @@ $.ajax({
                       $('<td>').append(updateQtyInput),
                   )
               );
-            });
+            }); //each
       
-          }, 
+          },  //성공시
           error: function(xhr, status, error) {
               console.error(error);
-          }
+          } 
         });
 
       
@@ -545,7 +549,7 @@ $.ajax({
       console.log('outitemDt:'+outitemDt);
       $('#detail_outitem_dt').empty();
       $('#detail_outitem_dt').append('<input type="date" class="form-control" id="calendar_outitem_dt"'
-      +' name="outitem_dt" style="width: 200px;" required="required"/>');
+      +' name="outitem_dt" style="width: 200px;"/>');
 
 
       
@@ -561,8 +565,8 @@ $.ajax({
       var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
       var orderDtValue =  Number(orderDt.replace(/-/g, ''));
 
-      //출고일자가 현재시간 및 주문일자보다 같거나 늦어야함
-      if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { 
+      //출고일자가 현재시간 및 주문일자보다 늦어야함
+      if (outitemDtValue > currentDateValue && outitemDtValue>orderDtValue) { 
         $('#updateOutitemSubmitBtn').prop('disabled', false);
       } else {
         $('#updateOutitemSubmitBtn').prop('disabled', true);
@@ -570,13 +574,13 @@ $.ajax({
     }) //날짜 변경마다
 
 
-  }); /*  */
+  }); /* 수정버튼 눌렀을때 변화되는 부분 끝 */
 
 
 
 
 
-  //수정 완료
+  //수정 완료 
   $('#updateOutitemSubmitBtn').click(function(e){ //수정 완료 버튼 누르면
       
     

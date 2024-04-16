@@ -25,22 +25,16 @@ import com.aselcni.ujm.service.UjmPaging;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class UjmOutitemController { 
 
 	private final UjmOutitemService uos;
 	
 	private final UjmOrderService uor;
-	
-	@RequestMapping(value = "ujmExample") 
-	public String ujmLoginForm(HttpServletRequest request) {
-		return "ujm/example"; 
-	}
+
 	
 	@RequestMapping(value = "outitem") 
 	public String ujmOutitemForm(UjmOutitem outitem, HttpServletRequest request, Model model, HttpSession session) {
@@ -63,21 +57,9 @@ public class UjmOutitemController {
 		
 		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
 		model.addAttribute("listOutitem", ujmListOutitems);
-		//리스트 조회용
-		
-		//맨처음 리스트에 표시되는 outitemList
-//		model.addAttribute("outitemList",outitemList); 
 		
 		return "ujm/ujmOutitem"; 
 	}
-	
-	//출고 상세
-//	@RequestMapping(value = "ujmGetAllOrderList")
-//	public List<UjmOrder> ujmGetAllOrderList() {
-//		System.out.println("ujmOutItem 컨트롤러 ujmGetAllOrderList 시작");
-//		List<UjmOrder> ujmGetAllOrderList=uos.ujmGetAllOrderList();
-//		return ujmGetAllOrderList;
-//	}
 	
 	
 
@@ -126,6 +108,17 @@ public class UjmOutitemController {
 		System.out.println(ujmListOutItemDetail);
 		return ujmListOutItemDetail;
 	}
+	
+	//주문 상세 조회에서, 수정버튼 눌렀을 때 정보 가져오기
+	@RequestMapping(value = "ujmGetOutitemToUpdate")
+	@ResponseBody
+	public List<UjmOutitem> ujmGetOutitemToUpdate(@RequestParam("order_no") String order_no, 
+			@RequestParam("outitem_no") String outitem_no, Model model) {
+		System.out.println("컨트롤러UjmOutitem : ujmGetOutitemToUpdate 시작");
+		List<UjmOutitem> ujmListOutitem=uos.ujmGetOutitemToUpdate(order_no, outitem_no);
+		System.out.println(ujmListOutitem);
+		return ujmListOutitem;
+	}
 		
 	
 	
@@ -134,7 +127,6 @@ public class UjmOutitemController {
 	//출고 수정
 	@RequestMapping(value = "updateOutitem") 
 	public String ujmUpdateOutitem(HttpServletRequest request, Model model, HttpSession session) {
-		UjmOutitem outitem=new UjmOutitem();
 		
 		
 		return "ujm/ujmOutitem"; 
@@ -148,8 +140,6 @@ public class UjmOutitemController {
 	public String ujmDeleteOutitem(HttpServletRequest request, Model model, HttpSession session) {
 		UjmOutitem outitem=new UjmOutitem();
 		
-		//맨처음 리스트에 표시되는 outitemList
-//		model.addAttribute("outitemList",outitemList); 
 		
 		return "ujm/ujmOutitem"; 
 	}

@@ -53,9 +53,10 @@ public class UjmOrderController {
 	public List<UjmOrderItem> ujmGetOrderItem(@RequestParam("order_no") String order_no, Model model) {
 		System.out.println("ujmOrder 컨트롤러 ujmGetOrderItem 시작");
 		List<UjmOrderItem> ujmListOrderItem=uor.ujmGetOrderItem(order_no);
-//		model.addAttribute("listOrderItem", ujmListOrderItem);
 		System.out.println(ujmListOrderItem);
 		return ujmListOrderItem;
 	}
+	
+	
 		
 }

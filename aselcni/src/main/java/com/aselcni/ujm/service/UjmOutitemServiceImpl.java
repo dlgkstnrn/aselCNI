@@ -114,6 +114,14 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		return ujmListOutitemDetail;
 	}
 
+	@Override
+	public List<UjmOutitem> ujmGetOutitemToUpdate(String order_no, String outitem_no) {
+		System.out.println("UjmOutitemServiceImpl : ujmGetOutitemToUpdate Start...");
+		List<UjmOutitem> ujmListOutitem=null;
+		ujmListOutitem=uod.ujmGetOutitemToUpdate(order_no, outitem_no);
+		return ujmListOutitem;
+	}
+
 
 
 
