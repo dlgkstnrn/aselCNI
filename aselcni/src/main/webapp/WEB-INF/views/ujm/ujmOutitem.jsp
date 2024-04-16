@@ -541,8 +541,7 @@ ${page}
           id="outitemDetailModal"
           tabindex="-1"
           style="display: none"
-          aria-hidden="true"
-        > <!-- 상세 부분.. (수정,삭제에도 사용) -->
+          aria-hidden="true"> <!-- 상세 부분.. (수정,삭제에도 사용) -->
 
           <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content" data-backdrop="static"> <!-- 닫기버튼 눌렀을 때 
