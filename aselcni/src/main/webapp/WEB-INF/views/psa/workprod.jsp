@@ -323,7 +323,7 @@ pageEncoding="UTF-8"%>
 
                 <!-- 모달 버튼 -->
                 <div class="modal-footer">
-                  <button id="cancle" type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
+                  <button id="cancle" type="reset" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
                   <button type="submit" id="insertDataBtn" class="btn btn-primary">등록</button>
                   <!-- <button type="reset" class="btn btn-outline-primary">Reset</button> -->
                 </div>
