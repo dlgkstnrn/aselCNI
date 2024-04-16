@@ -93,6 +93,11 @@
 		WHERE PURC_NO = #{purc_no}
 	</update>
 	
+	<update id="pjhEndPurcStatus" parameterType="String">
+		UPDATE  TB_PURCHASE
+		SET PURC_STATUS_CHK = 2
+		WHERE PURC_NO = #{purc_no}
+	</update>
 	
 	<select id="pjhTotalInitem" parameterType="PJHInitem" resultType="int">
 		SELECT COUNT(DISTINCT ti.INITEM_NO)
@@ -140,7 +145,7 @@
 							</if>
 							) AS sub ON ti.INITEM_NO = sub.INITEM_NO
 		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
-		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
+		LEFT JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
 		AND ti.INITEM_DELETE_CHK != 1
 		<if test="initem_no != null and initem_no != ''">
@@ -163,11 +168,11 @@
 	</select>
 	
 	<select id="pjhInitemByNo" parameterType="String" resultType="PJHInitem">
-		SELECT ti.*, tc.CUST_NM , iu.USER_NM AS initem_emp_nm, pu.USER_NM AS purc_emp_nm
+		SELECT ti.*, tc.CUST_NM , iu.USER_NM AS initem_emp_nm, pu.USER_NM AS purc_emp_nm, tp.PURC_STATUS_CHK AS INITEM_END
 		FROM TB_INITEM ti
 		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO 
-		INNER JOIN TB_USERMST iu ON ti.INITEM_EMP_ID = iu.USER_ID
-		INNER JOIN TB_USERMST pu ON  tp.PURC_EMP_ID = pu.USER_ID 
+		LEFT JOIN TB_USERMST iu ON ti.INITEM_EMP_ID = iu.USER_ID
+		LEFT JOIN TB_USERMST pu ON  tp.PURC_EMP_ID = pu.USER_ID 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD 
 		WHERE ti.INITEM_NO = #{initem_no}
 	</select>
