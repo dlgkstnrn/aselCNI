@@ -151,16 +151,29 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	@Override
 	public String saveProdPlan(TB_PRODPLAN tbProdPlan, String prodplan_emp_id) {
 	    System.out.println("KdwProdPlanDaoImpl saveProdPlan Start...");
-	    String prodPlanNo = null; // prodPlan_no를 저장할 변수
+	    String prodPlanNo = null; // prodPlan_no를 저장할 변수 (투입자재, 주문상태에 사용)
+	    Integer seqNo = null; // seq_no를 저장할 변수(등록할 때 seq_no가 1인걸 가져와서 주문상태 수정해야함)
 	    try {
 	        Map<String, Object> params = new HashMap<>();
+	        params.put("order_no", tbProdPlan.getOrder_no());
+	        // SEQ_NO 생성
+	        seqNo = session.selectOne("kdwGenerateSeqNo", params);
+	        tbProdPlan.setSeq_no(seqNo);
+	        // PRODPLAN_NO 생성
+	        prodPlanNo = session.selectOne("kdwGenerateProdPlanNo", params);
+	        tbProdPlan.setProdPlan_no(prodPlanNo);
+
+	        // 기타 필요한 매개변수 설정
 	        params.put("prodplan_emp_id", prodplan_emp_id);
-	        params.put("tbProdPlan", tbProdPlan); // 제품 정보
+	        params.put("tbProdPlan", tbProdPlan);
+
+	        // 생산계획 등록
 	        session.insert("kdwSaveProdPlan", params);
 	        
-	        // selectKey를 통해 설정된 값을 가져옴
-	        prodPlanNo = (String) params.get("prodPlan_no"); 
-	        System.out.println("Generated prodPlan_no: " + prodPlanNo);
+	        // SEQ_NO가 1인 경우 주문 상태 업데이트
+	        if (seqNo == 1) {
+	            session.update("kdwUpdateOrderStatus", params);
+	        }
 	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -182,6 +195,7 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	        System.out.println("KdwProdPlanDaoImpl saveItemProd Error: " + e.getMessage());
 	    }
 	}
+	
 	
 	// 생산계획수정
 	@Override
@@ -240,6 +254,18 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	        System.out.println("KdwProdPlanDaoImpl deleteItemProd 기존 투입자재 오류: " + e.getMessage());
 	    }
 	}
+	// 투입자재 기존자재인지 신규인지 판단
+	@Override
+	public boolean checkMaterialExists(String prodPlanNo, String itemCd) {
+		System.out.println("KdwProdPlanDaoImpl checkMaterialExists Start...");
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("prodPlan_no", prodPlanNo);
+	    params.put("item_cd", itemCd);
+	    int count = session.selectOne("checkMaterialExists", params);
+	    System.out.println("KdwProdPlanDaoImpl checkMaterialExists 기존자재 개수: " + count);
+	    return count > 0;
+	}
+	
 	// 생산계획삭제: prodPlan_delete_chk 값을 1로 설정
 	@Override
 	public void updateProdPlanDeleteChk(String prodPlanNo) {
@@ -253,16 +279,5 @@ public class KdwProdPlanDaoImpl implements KdwProdPlanDao {
 	        System.out.println("KdwProdPlanDaoImpl updateProdPlanDeleteChk 생산계획 삭제중 오류: " + e.getMessage());
 	    }
 	}
-	// 투입자재 기존자재인지 신규인지 판단
-	@Override
-	public boolean checkMaterialExists(String prodPlanNo, String itemCd) {
-		System.out.println("KdwProdPlanDaoImpl checkMaterialExists Start...");
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("prodPlan_no", prodPlanNo);
-	    params.put("item_cd", itemCd);
-	    int count = session.selectOne("checkMaterialExists", params);
-	    System.out.println("KdwProdPlanDaoImpl checkMaterialExists 기존자재 개수: " + count);
-	    return count > 0;
-	}
-	
+
 }
