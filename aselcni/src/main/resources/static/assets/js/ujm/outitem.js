@@ -287,7 +287,7 @@ $.ajax({
 
         // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
         var selectedItems = [];
-        
+
         $('input[name="selectedItems"]:checked').each(function() {
             var itemCd = $(this).val();
             var qty = $(this).closest('tr').find('.insertQty').val(); // 해당 체크박스에 연결된 insertQtyInput의 입력값 가져오기
@@ -422,19 +422,8 @@ $.ajax({
               console.log('minQty:'+minQty);
               console.log('remain_qty:'+item.remain_qty);
 
-              console.log(Boolean(qtyValue > maxQty));
-              console.log(Boolean(qtyValue >item.remain_qty));
-              console.log(Boolean(qtyValue < minQty));
-              console.log(Boolean(isNaN(qtyValue)));
-
               $(this).val(qtyValue); 
               $(this).closest('tr').find('input[type="checkbox"]').data('qty', qtyValue);
-              
-              if (qtyValue > maxQty ||qtyValue >item.remain_qty || qtyValue < minQty || isNaN(qtyValue)) {
-                $('#updateOutitemSubmitBtn').prop('disabled', false); 
-              } else {
-                $('#updateOutitemSubmitBtn').prop('disabled', true);
-              };
               
               
             });
@@ -459,7 +448,10 @@ $.ajax({
             console.error(error);
         }
 
-    }); //조회 ajax
+    }); //상세조회 ajax
+
+
+
 
 
     // 수정하기 버튼 클릭시
