@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.HshWhmstMapper">
+
+
+	<select id="totalwhmst" resultType="int">
+	select Count(*) FROM TB_WHMST
+	</select>
+
+	<select id="HshgetWhmst" resultType="Whmst">
+		select a.*
+		from (select ROW_NUMBER() over(order by (select 1)) as rn
+						,tc.*
+				from TB_WHMST tc
+				where   WH_DELETE_CHK = 0
+				<choose>
+					<when test="searchFilter=='wh_cd'">
+						and tc.WH_CD like '%' + #{keyword} + '%'
+					</when>
+					<when test="searchFilter=='wh_nm'">
+						and tc.WH_NM like '%' + #{keyword} + '%'
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+				) a
+		where a.rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<select id="GetwhmstDetails" resultType="Whmst"
+		parameterType="string">
+		SELECT *
+		FROM TB_WHMST
+		WHERE WH_CD = #{id}
+
+	</select>
+	
+	<update id="updateWhmst" parameterType="Whmst">
+		UPDATE KDT301.dbo.TB_WHMST
+		SET
+		WH_NM = #{wh_nm},
+		REMARK = #{remark},
+		USE_FLAG = #{use_flag},
+		WH_TYPE1 = #{wh_type1},
+		WH_TYPE2 = #{wh_type2},
+		WH_TYPE3 = #{wh_type3},
+		WH_EMP_ID = #{wh_emp_id},
+		WH_UPDATE = FORMAT(GETDATE(), 'yyyy-MM-dd')
+		WHERE WH_CD = #{wh_cd}
+	</update>
+	<update id="DelDatewhmst" parameterType="Whmst">
+		UPDATE KDT301.dbo.TB_WHMST
+		SET
+		WH_DELETE_CHK = 1
+		WHERE WH_CD = #{wh_cd}
+	</update>
+	
+	<insert id="NewWhmst" parameterType="Whmst">
+        INSERT INTO KDT301.dbo.TB_WHMST (
+            WH_CD,
+            WH_NM,
+            REMARK,
+            USE_FLAG,
+            WH_EMP_ID,
+            WH_REGDATE,
+            WH_DELETE_CHK,
+            WH_TYPE1,
+            WH_TYPE2,
+            WH_TYPE3
+        ) VALUES (
+            #{wh_cd},
+            #{wh_nm},
+            #{remark},
+            #{use_flag},
+            #{wh_emp_id},
+            FORMAT(GETDATE(), 'yyyy-MM-dd'),
+            0,
+            #{wh_type1},
+            #{wh_type2},
+            #{wh_type3}
+        )
+    </insert>
+
+ 	<select id="hshCheckCd" parameterType = "String" resultType = "int">
+ 	 	SELECT COUNT(*) FROM TB_WHMST WHERE WH_CD = #{m_id} and WH_DELETE_CHK=0
+ 	 </select>
+<!-- 	<select id="same_Whcode" resultType="string" parameterType="string">
+		SELECT CASE
+		WHEN EXISTS (
+		SELECT 1
+		FROM KDT301.dbo.TB_WHMST u
+		WHERE u.WH_CD = #{wh_cd}
+		)
+		THEN 'Yes'
+		ELSE 'No'
+		END AS ExistsFlag
+	</select> -->
+
+</mapper>
