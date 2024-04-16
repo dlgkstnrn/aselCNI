@@ -258,6 +258,7 @@ const detailUpdate = function (insertFlag = false) {
                 <td>${(ele.qty * ele.item_cost).toLocaleString()}</td>
                 </tr>`
         )
+        calcTotalAmount();
     })
 }
 

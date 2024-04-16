@@ -190,7 +190,9 @@
 					, ISNULL((SELECT QTY FROM TB_PURCHASE_ITEM tpi WHERE tpi.PURC_NO = tpi2.PURC_NO AND tpi.ITEM_CD = tpi2.ITEM_CD)
 								  - (SELECT ISNULL(SUM(ISNULL(QTY,0)),0) 
 								 	FROM TB_INITEM_ITEM tii2 
+								 	INNER JOIN TB_INITEM ti3 ON ti3.INITEM_NO = tii2.INITEM_NO
 								 	WHERE tii2.PURC_NO = tpi2.PURC_NO 
+								 	AND ti3.INITEM_DELETE_CHK != 1
 								 	AND tii2.ITEM_CD = tpi2.ITEM_CD)
 								 ,0) AS ADD_MAX
 		FROM TB_PURCHASE_ITEM tpi2
