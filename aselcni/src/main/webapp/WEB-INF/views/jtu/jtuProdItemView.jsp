@@ -81,19 +81,9 @@
 
 					<!--등록  버튼  -->
 					<div class="d-flex align-items-end justify-content-between">
-						<h4>
-							<span class="d-flex align-items-center card-header-title">생산 실적</span>
-						</h4>
-						<div
-							class="col-sm-2 d-flex align-items-center justify-content-end"
-						>
-
-							<button id="regiModalBtn" type="button"
-								class="btn btn-primary m-2" data-bs-toggle="modal"
-								data-bs-target="#workProdRegiModal"
-							>신규</button>
-						</div>
-					</div>
+						<span class="h5 d-flex align-items-center card-header-title">생산 실적</span>
+                     	<button id="regiModalBtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#workProdRegiModal">신규</button>
+               		</div>
 					<hr>
 
 
@@ -176,7 +166,7 @@
 								</div>
 							</div>
 							<div class="col-md-1 text-end">
-								<button class="btn btn-primary btn-sm px-0 w-100"
+								<button class="btn btn-primary px-0 w-100"
 									style="height: 100%;" onclick="getPriListAjax(1)"
 								>조회</button>
 							</div>
