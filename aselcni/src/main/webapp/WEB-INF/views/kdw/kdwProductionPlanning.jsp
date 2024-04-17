@@ -85,11 +85,11 @@
 	<main id="main" class="main">
 		<!-- Page Title -->
 		<div class="pagetitle">
-			<h1>생산 계획</h1>
+			<h1>생산 관리</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="productionPlanning">생산
-							관리</a></li>
+					<li class="breadcrumb-item">생산
+							관리</li>
 					<li class="breadcrumb-item active">생산 계획</li>
 				</ol>
 			</nav>
@@ -101,7 +101,7 @@
 				<div class="form-container">
 					<form id="productionPlanning-form" action="/prodplan" method="get">
 						<div class="calendar-group-title">
-							<span class="calendar-group-title-text">생산계획표</span>
+							<span class="calendar-group-title-text">생산 계획</span>
 						</div>
 						<div class="btn-container">
 							<div class="prodPlan-read">
