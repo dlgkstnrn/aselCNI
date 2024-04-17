@@ -20,7 +20,7 @@
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<!--     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
     <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
@@ -69,7 +69,7 @@
 			        <!-- Main Content -->
 			        <main class="flex-grow-1">
 				            <div class="col d-flex justify-content-end flex-wrap">
-							    <a href="/purchaseItemForm" class="btn btn-success mb-3">신규등록</a>
+							    <a href="/purchaseItemForm" class="btn btn-success mb-3">신규</a>
 							    <button class="btn btn-danger ms-2 mb-3" onclick="deleteSelected()">삭제</button>
 							</div>
 	
@@ -85,7 +85,7 @@
 							        <input id="purc_no" name="purc_no" type="text" class="form-control" placeholder="발주번호" aria-label="발주번호">
 							    </div>
 							
-							    <div class="input-group mb-3" style="width: auto;">
+							    <div class="input-group mb-3 me-3" style="width: auto;">
 							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">자재명</span>
 							        <input id="item_nm" name="item_nm" type="text" class="form-control" placeholder="자재명" aria-label="자재명">
 							    </div>
@@ -102,7 +102,7 @@
 							        <input type="date" id="end_date" name="end_date" class="form-control">
 							    </div>
 							    
-							    	<button id="searchButton" class="btn btn-primary ms-4" type="button">검색</button>
+							    	<button id="searchButton" class="btn btn-primary ms-4 mb-3 me-3" type="button">검색</button>
 							</div>
 							
 			        		<!-- Table -->
@@ -140,13 +140,13 @@
 														<td>
 											            <c:choose>
 											                <c:when test="${purchase.purc_status_chk == 0}">
-											                    <button class="btn btn-warning btn-sm">발주진행중</button>
+											                    <button class="btn btn-warning btn-sm" type="button">발주진행중</button>
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 1}">
-											                    <button class="btn btn-info btn-sm">입고진행중</button>
+											                    <button class="btn btn-info btn-sm" type="button">입고진행중</button>
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 2}">
-											                    <button class="btn btn-success btn-sm">입고완료</button>
+											                    <button class="btn btn-success btn-sm" type="button">입고완료</button>
 											                </c:when>
 											            </c:choose>
 											        </td>
