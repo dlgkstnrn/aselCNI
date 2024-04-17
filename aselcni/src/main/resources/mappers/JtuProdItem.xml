@@ -126,7 +126,7 @@
 	    <if test="itemNoAndNameKeyword != null and itemNoAndNameKeyword != ''">
 	        and (p.ITEM_CD like '%' + #{itemNoAndNameKeyword} + '%' or i.ITEM_NM like '%' + #{itemNoAndNameKeyword} + '%')
 	    </if>
-	    ORDER BY p.PRODITEM_NO ASC
+	    ORDER BY p.PRODITEM_NO DESC
 	    OFFSET (#{currentPage}-1)* #{rowPage} ROWS
 	    FETCH NEXT #{rowPage} ROWS ONLY
 	</select>	
