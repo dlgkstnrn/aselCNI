@@ -123,7 +123,32 @@
 			WHERE order_no = #{order_no}
 		]]> 
 	</select>
-
 	
+	<select id="ujmCheckOrderCancelChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT order_status_chk
+			FROM tb_order
+			WHERE order_no = #{order_no}
+		]]> 
+	</select>
+	
+	<select id="ujmOutitemItemJoinOrderNoChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT count(*)
+			FROM TB_OUTITEM_ITEM as oui
+			join TB_ORDER as ord on ord.order_no = oui.ORDER_NO 
+			WHERE oui.order_no = #{order_no}
+		]]> 
+	</select>
+	
+	<update id="ujmChangeOrderStatusChkZero" parameterType="String">
+		<![CDATA[
+			UPDATE TB_order
+			SET order_status_chk = 0
+			WHERE order_no = #{order_no}
+		]]> 
+	</update>
+	
+
 	
 </mapper>

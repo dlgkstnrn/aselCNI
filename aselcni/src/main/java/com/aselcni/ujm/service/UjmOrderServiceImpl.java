@@ -63,4 +63,18 @@ public class UjmOrderServiceImpl implements UjmOrderService {
 		int ujmCheckOrderDeleteChk=uord.ujmCheckOrderDeleteChk(order_no); 
 		return ujmCheckOrderDeleteChk;
 	}
+
+	@Override
+	public int ujmUpdateOrderStatusChk(String order_no) {
+		System.out.println(order_no);
+		int ujmUpdateOrderStatusChk=uord.ujmUpdateOrderStatusChk(order_no); 
+		return ujmUpdateOrderStatusChk;
+	}
+
+	@Override
+	public int ujmCheckOrderCancelChk(String order_no) {
+		System.out.println(order_no);
+		int ujmCheckOrderCancelChk=uord.ujmCheckOrderCancelChk(order_no); 
+		return ujmCheckOrderCancelChk;
+	}
 }

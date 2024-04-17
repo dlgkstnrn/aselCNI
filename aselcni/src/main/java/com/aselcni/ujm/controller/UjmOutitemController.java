@@ -139,13 +139,12 @@ public class UjmOutitemController {
 			System.out.println("컨트롤러UjmOutitem updateOutitemResult:"+updateOutitemResult);
 			
 			
-			int insertOutitemItemResult=uos.ujmInsertOutitemItem(updateData); //출고품목을 등록, 품목개수 리턴
-			System.out.println("컨트롤러UjmOutitem insertOutitemItemResult"+insertOutitemItemResult);
+			int updateOutitemItemResult=uos.ujmUpdateOutitemItem(updateData); //출고품목을 수정, 품목개수 리턴
+			System.out.println("컨트롤러UjmOutitem updateOutitemItemResult"+updateOutitemItemResult);
 			
-			int ujmChangeOrderStatusChk=uor.ujmChangeOrderStatusChk(updateData.getOutitemData().getOrder_no()); 
 			//주문의 상태 변경하기
-			
-			System.out.println("ujmChangeOrderStatusChk"+ujmChangeOrderStatusChk);
+			int ujmUpdateOrderStatusChk=uor.ujmUpdateOrderStatusChk(updateData.getOutitemData().getOrder_no()); 
+			System.out.println("컨트롤러UjmOutitem updateOutitem에서 서비스 거쳐 가져온 ujmUpdateOrderStatusChk:"+ujmUpdateOrderStatusChk);
 			
 		
 		return "ujm/ujmOutitem";

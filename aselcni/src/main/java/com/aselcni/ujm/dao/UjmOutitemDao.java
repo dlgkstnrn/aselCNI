@@ -29,4 +29,10 @@ public interface UjmOutitemDao {
 
 	int ujmUpdateOutitem(UjmOutitem outitem);
 
+	int ujmitemNotNullCheck(UjmOutitemItem item);
+
+	int ujmUpdateOutitemItem(UjmOutitemItem item);
+
+	int ujmDeleteOutitemItem(UjmOutitemItem item);
+
 }

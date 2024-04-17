@@ -66,6 +66,15 @@ public class UjmOrderController {
 		return ujmCheckOrderDeleteChk;
 	}
 	
+	@RequestMapping(value = "ujmCheckOrderCancelChk")
+	@ResponseBody
+	public int ujmCheckOrderCancelChk(@RequestParam("order_no") String order_no) {
+		System.out.println("ujmOrder 컨트롤러 ujmCheckOrderCancelChk 시작");
+		int ujmCheckOrderCancelChk=uor.ujmCheckOrderCancelChk(order_no);
+		System.out.println("ujmOrder 컨트롤러 ujmCheckOrderCancelChk:"+ujmCheckOrderCancelChk);
+		return ujmCheckOrderCancelChk;
+	}
+	
 	
 		
 }

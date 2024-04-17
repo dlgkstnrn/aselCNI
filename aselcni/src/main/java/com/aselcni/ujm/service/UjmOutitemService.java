@@ -26,4 +26,6 @@ public interface UjmOutitemService {
 
 	int ujmUpdateOutitem(UjmOutitemParent updateData, String userId);
 
+	int ujmUpdateOutitemItem(UjmOutitemParent updateData);
+
 }

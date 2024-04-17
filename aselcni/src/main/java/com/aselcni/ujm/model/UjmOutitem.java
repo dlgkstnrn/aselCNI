@@ -48,4 +48,5 @@ public class UjmOutitem { //출고
 	private int old_order_qty; //주문수량
 	private int old_qty; //기존에 출고했던 수량, 상세에서의 outitem_qty와 같음
 	private int outitem_sum_qty; //같은 주문번호의 품목에서 출고되었던 수량의 합, 상세에서의 order_qty와 같음
+	private String item_cd;
 }

@@ -500,6 +500,7 @@ let detail_remark;
                   value: item.item_cd,
                   'data-qty': item.qty 
               });
+              console.log('ujmGetOutitemToUpdate each:'+item.item_cd,);
 
               var qtyValue;
               var maxQty;
@@ -525,11 +526,11 @@ let detail_remark;
                 console.log('qtyValue:'+qtyValue);
                 console.log('maxQty:'+maxQty);
                 console.log('minQty:'+minQty);
-                console.log(item.nm +'의 old_qty(출고한 수량):'+item.old_qty);
-                console.log(item.nm +'의 stock:'+item.stock);
-                console.log(item.nm +'의 outitem_sum_qty(지금까지 주문한 수량):'+item.outitem_sum_qty);
-                console.log(item.nm +'의 old_order_qty(총 주문 수량):'+item.old_order_qty);
-                console.log(item.nm +'의 checkQty(총 주문 수량):'+item.old_order_qty);
+                console.log(item.item_nm +'의 old_qty(출고한 수량):'+item.old_qty);
+                console.log(item.item_nm +'의 stock:'+item.stock);
+                console.log(item.item_nm +'의 outitem_sum_qty(지금까지 주문한 수량):'+item.outitem_sum_qty);
+                console.log(item.item_nm +'의 old_order_qty(총 주문 수량):'+item.old_order_qty);
+                console.log(item.item_nm +'의 checkQty(총 주문 수량):'+item.old_order_qty);
       
                 console.log(Boolean(qtyValue > maxQty)); //재고보다 많으면 안됨
                 console.log(Boolean(qtyValue < 0)); //0보다 작으면 안됨
@@ -548,8 +549,8 @@ let detail_remark;
                   console.log(checkQty>item.stock);
                   console.log(checkQty>item.old_order_qty);
 
-                  //출고버튼 비활성화 조건
-                  if (qtyValue > maxQty || qtyValue < 0 || qtyValue <= minQty 
+                  //수정완료버튼 비활성화 조건
+                  if (qtyValue > maxQty || qtyValue < 0 
                     || isNaN(qtyValue) || checkedCount == 0
                     || checkQty>item.stock || checkQty > item.old_order_qty) { 
                       qtyChk=0;
@@ -670,6 +671,24 @@ let detail_remark;
             console.error('에러:', error);
         });
 
+
+
+      //주문이 취소되었는지 체크후 취소되었다면 출고 수정이 안 되도록
+      fetch('/ujmCheckOrderCancelChk?order_no=' + orderNo)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+          if (data.result === 1) { //주문이 취소됨
+            alert('해당 출고의 주문이 취소되었으므로 출고를 수정할 수 없습니다.');
+            return false; 
+          } 
+      })
+      .catch(error => {
+          console.error('에러:', error);
+      });
+
+    
+
       //반품이 되었는지 체크 후, 반품이 된 상태라면 출고 수정이 안 되도록
       fetch('/ujmReturnChk?outitem_no=' + outitemNo)
       .then(response => response.json())
@@ -728,19 +747,6 @@ let detail_remark;
        }); 
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-
   }) //수정완료 끝
 
 

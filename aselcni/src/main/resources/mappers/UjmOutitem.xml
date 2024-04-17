@@ -238,18 +238,41 @@
 	<update id="ujmUpdateOutitem" parameterType="UjmOutitem" >
 		UPDATE TB_outitem
 		SET 
-		m_name = NVL(#{m_name}, m_name),
-		m_age = NVL(#{m_age}, m_age),
-		m_phone = NVL(#{m_phone}, m_phone),
-		m_email = NVL(#{m_email}, m_email),
-		m_address = NVL(#{m_address}, m_address),
-		m_update= sysdate
-		WHERE order_status_chk = 2
+		cust_emp = ISNULL(#{cust_emp}, cust_emp),
+		remark = ISNULL(#{remark}, remark),
+		outitem_emp_id = ISNULL(#{outitem_emp_id}, outitem_emp_id),
+		outitem_dt = ISNULL(#{outitem_dt}, outitem_dt)
 		WHERE outitem_no = #{outitem_no}
-		and outitem_delete_chk=0
-		
+		and outitem_delete_chk=0	
 	</update>
 	
+	<select id="ujmitemNotNullCheck" parameterType="UjmOutitemItem" resultType="int">
+		<![CDATA[
+			select count(*)
+			from TB_OUTITEM_ITEM as oui
+			join TB_OUTITEM as ou on oui.OUTITEM_NO = ou.OUTITEM_NO 
+			where oui.outitem_no=#{outitem_no}
+			and oui.order_no=#{order_no}
+			and oui.ITEM_CD =#{item_cd}
+			and ou.OUTITEM_DELETE_CHK =0
+		]]> 
+	</select>
 	
+	<update id="ujmUpdateOutitemItem" parameterType="UjmOutitemItem" >
+		UPDATE TB_outitem_item
+		SET 
+		qty = ISNULL(#{qty}, qty)
+		WHERE outitem_no = #{outitem_no}	
+		and order_no=#{order_no}
+		and item_cd=#{item_cd}
+	</update>
+	
+	<delete id="ujmDeleteOutItemItem" parameterType="UjmOutitemItem">
+	  DELETE FROM tb_outitem_item 
+	  WHERE outitem_no = #{outitem_no} 
+	    AND order_no = #{order_no} 
+	    AND item_cd = #{item_cd}
+	</delete>
+
 	
 </mapper>

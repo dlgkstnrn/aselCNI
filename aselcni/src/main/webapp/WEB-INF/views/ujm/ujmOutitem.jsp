@@ -582,7 +582,7 @@ pageEncoding="UTF-8"%>
                     <button type="submit" id="updateOutitemBtn" class="btn btn-primary">수정</button>
 
                     <button type="submit" id="updateOutitemSubmitBtn" class="btn btn-primary" 
-                    style="display: none;">수정완료</button>
+                    disabled style="display: none;">수정완료</button>
 
 
 
