@@ -61,27 +61,43 @@
 		<section class="section dashboard">
 			<div class="card">
 				<div class="card-body">
-				  <div class="controller">
-					<div class="search-bar">
-					  <div class="search-form">
-						<input id="search-text" type="text" placeholder="검색어를 입력하세요">
-						<button id="search-btn"><i class="bi bi-search"></i></button>
-					  </div>
-					  <select name="search-filter" class="search-filter form-select">
-						<option value="all" selected>전체</option>
-						<option value="return_no">반품번호</option>
-						<option value="outitem_no">출고번호</option>
-						<option value="cust_nm">고객사</option>
-						<option value="item_nm">제품명</option>
-						<option value="user_nm">담당자명</option>
-					  </select>
-					  <div class="start-end-day">
-						<input type="date" class="start-day form-control">
-						<span>~</span>
-					  	<input type="date" class="end-day form-control">
-					  </div>
-					</div>
+				  <div class="top">
+					<div class="top-title">출고 관리</div>
 					<button type="button" id="return-add" class="return-add btn btn-primary">신규</button>
+				  </div>
+				  <div class="search">
+					<div>
+						<div class="input-group day-box">
+							<span class="input-group-text">조회기간</span>
+							<input type="date" class="start-day form-control" value="${start_day }">
+							<input type="date" class="end-day form-control" value="${end_day }">
+						</div>
+						<div class="input-group return-no-box">
+							<span class="input-group-text">반품번호</span>
+							<input type="text" class="return-no-text form-control" placeholder="반품번호를 입력하세요" value="${return_no }" />
+						</div>
+						<div class="input-group outitem-no-box">
+							<span class="input-group-text">출고번호</span>
+							<input type="text" class="outitem-no-text form-control" placeholder="출고번호를 입력하세요" value="${outitem_no }" />
+						</div>
+					</div>
+					<div>
+						<div class="input-group cust-nm-box">
+							<span class="input-group-text">고객사명</span>
+							<input type="text" class="cust-nm-text form-control" placeholder="고객사명을 입력하세요" value="${cust_nm }" />
+						</div>
+						<div class="input-group item-nm-box">
+							<span class="input-group-text">제품명</span>
+							<input type="text" class="item-nm-text form-control" placeholder="제품명을 입력하세요" value="${item_nm }" />
+						</div>
+						<div class="input-group user-nm-box">
+							<span class="input-group-text">담당자명</span>
+							<input type="text" class="return-emp-nm-text form-control" placeholder="담당자명을 입력하세요" value="${return_emp_nm }" />
+						</div>
+					</div>
+					<div class="search-btn-box">
+						<button type="button" id="search-btn" class="search-btn btn btn-primary">조회</button>
+					</div>
 				  </div>
 				  <div class="table-nav">
 					<table class="table table-hover">
@@ -95,45 +111,62 @@
 								<th>반품사유</th>
 								<th>반품등록일</th>
 								<th>담당자</th>
-								<th>삭제</th>
+								<th>반품수량</th>
 							</tr>
 						</thead>
+						<c:set var="num" value="${paging.start }"></c:set>
 						<tbody>
-							<tr>
-								<th>1</th>
-								<td><a class="return-no" href="#">RET2403200001</a></td>
-								<td>OUT2403200001</td>
-								<td>(주)농심</td>
-								<td>라면땅</td>
-								<td>맛이없음</td>
-								<td>2024-12-31</td>
-								<td>김평화</td>
-								<td><button type="button" class="return-delete btn btn-danger">삭제</button></td>
-							</tr>
+							<c:forEach var="returnObj" items="${returnList }">
+								<tr>
+									<th>${num}</th>
+									<td><div class="return-no" >${returnObj.return_no }</div></td>
+									<td>${returnObj.outitem_no }</td>
+									<td>${returnObj.cust_nm }</td>
+									<td>${returnObj.item_nm }</td>
+									<td>${returnObj.res_rtn }</td>
+									<c:choose>
+										<c:when test="${returnObj.return_update != null }">
+											<td>${returnObj.return_update }</td>	
+										</c:when>
+										<c:otherwise>
+											<td>${returnObj.return_dt }</td>
+										</c:otherwise>
+									</c:choose>
+									<td>${returnObj.return_emp_nm }</td>
+									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
+								</tr>
+								<c:set var="num" value="${num + 1 }"></c:set>
+							</c:forEach>
 						</tbody>
 					</table>
 					<nav class="page-navigation">
 					  <ul class="pagination">
-						<li class="page-item">
-						  <a class="page-link" href="#">
-							<span>&laquo;</span>
-						  </a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-						  <a class="page-link" href="#">
-							<span>&raquo;</span>
-						  </a>
-						</li>
+						<c:if test="${paging.startPage > paging.pageBlock }">
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&laquo;</span></a></li>
+						</c:if>
+						<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}">${i}</a></li>
+						</c:forEach>
+						<c:if test="${paging.endPage < paging.totalPage }">
+							<li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&raquo;</span></a></li>
+						</c:if>
 					  </ul>
 					</nav>
 				  </div>
 				</div>
 			  </div>
 		</section>
-        
+        <div class="return-detail">
+			<div class="return-detail-title">반품 상세</div>
+			<div class="return-detail-body">
+			
+			</div>
+			<div class="return-detail-btn-list text-center">
+				<button id="return-detail-update" type="button" class="btn btn-primary">수정</button>
+				<button id="return-detail-delete" type="button" class="btn btn-danger">삭제</button>
+				<button id="return-detail-cancle" type="button" class="btn btn-secondary">닫기</button>
+			</div>
+		</div>
     </main>
     <!-- End #main -->
 

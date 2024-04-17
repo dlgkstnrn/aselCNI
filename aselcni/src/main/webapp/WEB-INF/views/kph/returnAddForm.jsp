@@ -64,7 +64,7 @@
 				<p>반품 정보 입력</p>
 				<form action="/returnAdd" method="post">
 					<div>
-						<p>출고번호</p>
+						<p>출고번호<span class="color-red">*</span></p>
 						<div class="outitem-box box">
 							<input name="outitem_no" type="text" class="box-input outitem-no form-control readonly" readonly />
 							<button id="outitem-choice-btn" type="button" class="chk btn btn-secondary">출고 번호 조회</button>
@@ -72,18 +72,18 @@
 						<p class="return-alert outitem-no-alert">출고 번호를 조회하세요</p>
 					</div>
 					<div>
-						<p>고객사</p>
+						<p>고객사<span class="color-red">*</span></p>
                         <input name="cust_cd" type="hidden" class="cust-cd form-control" />
 						<input name="cust_nm" type="text" class="cust-nm form-control readonly" readonly />
 						<p class="return-alert cust-cd-alert">출고 번호를 조회하세요</p>
 					</div>
 					<div>
-						<p>고객사 담당자</p>
+						<p>고객사 담당자<span class="color-red">*</span></p>
 						<input name="cust_emp" type="text" class="form-control" />
 						<p class="return-alert cust-emp-alert">고객사 담당자를 입력하세요</p>
 					</div>
 					<div>
-						<p>제품코드</p>
+						<p>제품코드<span class="color-red">*</span></p>
 						<div class="item-box box">
 							<input name="item_cd" type="text" class="box-input item-cd form-control readonly" readonly/>
 							<button id="choose-item-btn" type="button" class="chk btn btn-secondary">제품 선택</button>
@@ -91,18 +91,18 @@
 						<p class="return-alert item-cd-alert">제품코드를 선택하세요</p>
 					</div>
 					<div class="item-nm-box">
-						<p>제품명</p>
+						<p>제품명<span class="color-red">*</span></p>
 						<input name="item_nm" type="text" class="form-control readonly" readonly/>
 						<p class="return-alert item-cd-alert">제품코드를 선택하세요</p>
 					</div>
 					<div>
-						<p>반품수량</p>
+						<p>반품수량<span class="color-red">*</span></p>
 						<input name="max_qty" type="hidden" class="max-qty form-control" value="0" />
 						<input name="qty" type="text" class="item_qty form-control readonly" readonly />
 						<p class="return-alert qty-alert">반품 수량을 입력하세요</p>
 					</div>
 					<div>
-						<p>반품 사유</p>
+						<p>반품 사유<span class="color-red">*</span></p>
 						<input name="res_rtn" type="text" class="form-control" />
 						<p class="return-alert res-rtn-alert">반품 사유를 입력하세요</p>
 					</div>

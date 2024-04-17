@@ -3,7 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <header id="header" class="header fixed-top d-flex align-items-center">
-
+<script type="text/javascript">
+	let loginChk = '${user_id}';
+	if(loginChk== null || loginChk == ""){
+		location.href="/";
+	}
+</script>
         <div class="d-flex align-items-center justify-content-between">
             <a href="main" class="logo d-flex align-items-center">
                 <span class="d-none d-lg-block">스마트 제조 시스템</span>

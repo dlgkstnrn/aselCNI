@@ -69,7 +69,7 @@ body {
 
 /* 일요일 빨간색 */
 .fc-day-sun a {
-	color: red !important;
+	color: red;
 }
 /* 토요일 파란색 */
 .fc-day-sat a {
@@ -117,6 +117,7 @@ body {
 	margin-left: 10px;
 	height: 20px; /* 이벤트 막대 높이 조정 */
 	font-size: 12px; /* 이벤트 제목 글꼴 크기 조정 */
+	cursor: default !important;
 }
 
 .event-title {
@@ -130,6 +131,14 @@ body {
 	margin-left: 550px;
 	width: 95px;
 }
+/* 막대 셀 스타일 */
+.clicked-cell-style {
+	color: skyblue !important;
+}
+/* 셀에만 적용되는 클래스에 cursor: pointer를 설정 */
+.clicked-cell-style {
+	cursor: pointer;
+}
 /* 막대 호버시 툴팁창 */
 .event-tooltip {
 	width: auto;
@@ -139,7 +148,8 @@ body {
 	border: 2px solid #0d6efd;
 	border-radius: 5px;
 	padding: 15px;
-	font-weight: 500; color : white;
+	font-weight: 500;
+	color: white;
 	z-index: 999;
 	overflow: hidden; /* 텍스트가 넘칠 경우 숨김 처리 */
 	white-space: nowrap;
@@ -271,11 +281,15 @@ body {
 }
 
 .orderList-table thead th:nth-child(2) {
-	width: 45%; /* 제품명 */
+	width: 40%; /* 제품명 */
 }
 
 .orderList-table thead th:last-child {
-	width: 9%; /* 수량 */
+	width: 17%; /* 수량 */
+}
+
+.orderList-item td {
+	padding: 0 7px;
 }
 /* =========== End 주문내역 ========== */
 
@@ -314,33 +328,60 @@ body {
 }
 
 .prodPlanList-table thead th:nth-child(2) {
-	width: 42%; /* 수량 */
+	width: 40%; /* 수량 */
 }
 
 .prodPlanList-table thead th:last-child {
-	width: 12%; /* 작업일수 */
+	width: 17%; /* 작업일수 */
 }
 
+.prodPlanList-item td {
+	padding: 0 7px;
+}
 /* =========== End 생산계획 ========== */
 
 /* ============ 등록 모달창 =========== */
-.custom-modal-css {
+.insert-modal-css .modal-content {
 	max-width: 800px;
 	min-width: 800px;
+	max-height: 700px;
+	min-height: 700px;
 	margin-top: -20px;
+	margin-left: -150px;
 }
 
 .modal-content {
 	padding: 0 15px;
 }
-/* 생산계획번호 */
-.prodPlanNoInput {
-	width: 400px;
+/* 주문번호 */
+.oderCodeInput {
+	width: 305px;
 }
-
+/* 담당자 */
+.productEmpInput {
+	width: 100px;
+	margin-left: -60px;
+	border: 1px solid #dee2e6;
+}
+.productEmpInput:focus {
+	border: 1px solid #dee2e6;
+	box-shadow: none;
+}
+.productEmpLabel {
+	margin-left: -1px;
+}
+/* 생산시작일자 */
+.productStartDateInput {
+	width: 401px;
+}
+/* 생산완료일자 */
+.productEndDateInput {
+	width: 401px;
+}
 /* 작업일수 */
 .prodPlanWorkingDaysLabel {
-	margin-left: 0;
+	margin-left: -15px;
+	margin-right: 15px;
 }
 
 .prodPlanWorkingDays {
@@ -353,11 +394,16 @@ body {
 
 /* 제품 등록 */
 .form-control.productNameInput {
-	width: 310px;
+	width: 510px;
 }
 
-.btn.btn-secondary.productSelect {
-	margin-left: 0px;
+.btn.btn-primary.productSelect {
+	margin-left: 16px;
+}
+/* 생산 수량 */
+.prodCount {
+	margin-left: 111px;
+	margin-right: -111px;
 }
 
 .prodCount-input-class {
@@ -366,8 +412,14 @@ body {
 
 .prodCount-input {
 	width: 100px;
+	margin-left: 0px;
 }
 
+.prodCount-text {
+	margin-top: 30px;
+	margin-left: 85px;
+	font-weight: 700;
+}
 /* 투입자재 등록 */
 .form-control.productItemNameInput {
 	width: 310px;
@@ -397,16 +449,48 @@ body {
 	flex-direction: column;
 	overflow-y: auto;
 }
+/* 분류된 자재 리스트 상단바 */
+.prodItem-bar {
+	width: 100%;
+	padding: 0 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f9f9f9;
+	border-bottom: 1px solid #dddddd;
+	height: 30px;
+}
+
+.prodItem-list {
+	list-style-type: none; /* 불릿 포인트(li 앞에 점) 제거 */
+	padding: 0 10px;
+	font-size: 15px;
+}
+
+.prodItem-list li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px; /* 항목 사이의 여백 */
+	padding: 0, 10px;
+}
+
+.delete-selected-material {
+	cursor: pointer;
+	color: red;
+	margin-right: 10px;
+}
+
 /* ========== End 등록 모달창 ========= */
 
 /* ========= 제품 품목선택 모달창 ======== */
-.custom-nestedModal-css {
+.custom-nestedModal-css .modal-content {
 	max-width: 800px;
 	min-width: 800px;
-	margin-top: 100px;
-	max-height: 500px;
-	min-height: 500px;
-	overflow-y: auto
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
+	margin-left: -150px;
 }
 
 .select-container {
@@ -416,23 +500,47 @@ body {
 .select2-selection__clear {
 	color: red;
 }
-
+/* 제품 대 중 소 셀렉트박스 */
 .select2-container .select2-selection--single {
-	max-width: 160px !important;
-	min-width: 160px !important;
+	max-width: 170px !important;
+	min-width: 170px !important;
+	max-height: 35px !important;
+	min-height: 35px !important;
+	font-size: 14px;
 }
 
+.select2-selection__rendered {
+	line-height: 35px !important;
+}
+
+.select2-selection__arrow {
+	max-height: 35px !important;
+	min-height: 35px !important;
+}
+
+.select2-selection__arrow b {
+	margin-top: -3px !important;
+}
+
+.select2-results__option {
+	font-size: 14px;
+}
+
+.category-search-list-container {
+	margin-top: 15px;
+}
 /* ====== End 제품 품목선택 모달창 ======= */
 
 /* ======= 투입자재 품목선택 모달창 ======= */
 /* 모달 내부의 스크롤을 방지하고, Select2 드롭다운만 스크롤되도록 설정 */
 /* 적용 안되는 중 */
-.custom-nestedItemModal-css {
+.custom-nestedItemModal-css .modal-content {
 	max-width: 800px;
 	min-width: 800px;
-	max-height: 500px;
-	min-height: 500px;
-	overflow-y: auto
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
+	margin-left: -150px;
 }
 /* 분류된 투입자재 항목 개수 */
 .prodPlanItemCount {
@@ -490,3 +598,353 @@ body {
 	width: 120px;
 }
 /* ===== End 투입자재 품목선택 모달창 ===== */
+
+/* ========= 주문번호 선택 모달창 ======== */
+#oderModal .custom-oderModal-css .modal-content {
+	max-width: 800px;
+	min-width: 800px;
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
+}
+
+.input-group-text.date {
+	width: 50px;
+	height: 50px;
+	border-top-left-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
+}
+
+#dateIcon {
+	margin-left: 5px;
+}
+
+#orderListTable {
+	font-size: 15px;
+	margin-top: 10px;
+}
+
+#orderListTable tbody {
+	display: block;
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+#orderListTable thead, #orderListTable tbody tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+#orderListTable thead th:first-child, #orderListTable tbody td:first-child
+	{
+	width: 60px;
+}
+
+#orderListTable thead th:nth-child(2), #orderListTable tbody td:nth-child(2)
+	{
+	width: 250px;
+}
+
+#orderListTable tbody td, #orderListTable thead th {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.modal-footer.oderModal {
+	padding: 0px 3px;
+}
+
+.oderModal-search {
+	width: 250px;
+	margin-right: 374px;
+	margin-top: 17px;
+}
+
+.oderModal-search-input {
+	width: 100%;
+}
+/* ======= End 주문번호 선택 모달창 ======= */
+/* ======= 수정 모달창 ======= */
+.insert-modal-css-update .modal-content {
+	max-width: 800px;
+	min-width: 800px;
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
+	margin-left: -150px;
+}
+/* 주문번호 */
+.oderCodeInput-update {
+	width: 400px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+
+.oderCodeInput-update:focus {
+	border: 1px solid transparent;
+	box-shadow: none;
+}
+/* 작업일수 */
+.prodPlanWorkingDaysLabel-update {
+	margin-left: 115px;
+}
+
+.prodPlanWorkingDaysInput-update {
+	margin-left: -48px;
+	width: 100px;
+}
+/* 담당자 */
+.productEmpInput-update {
+	margin-left: -60px;
+	width: 100px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+
+.productEmpInput-update:focus {
+	border: 1px solid transparent;
+	box-shadow: none;
+}
+/* 시작예정일자 */
+.productStartDateInput-update {
+	width: 400px;
+}
+/* 완료예정일자 */
+.productEndDateInput-update {
+	width: 400px;
+}
+/* 생산수량 */
+.prodCount-update {
+	margin-left: -14px;
+}
+
+.prodCount-input-update {
+	margin-left: -47px;
+	width: 100px;
+}
+/* 제품 */
+.productNameInput-update {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	border-radius: 0;
+}
+
+.productNameInput-update:focus {
+	border: 1px solid transparent;
+	box-shadow: none;
+}
+/* 투입자재 */
+.prodItem-update {
+	height: 150px;
+	width: 610px;
+	margin-top: -2px;
+	margin-left: 127px;
+	border: 1px solid #dee2e6;
+	border-radius: 7px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+}
+/* 분류된 자재 리스트 상단바 */
+.prodItem-bar-update {
+	width: 100%;
+	padding: 0 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f9f9f9;
+	border-bottom: 1px solid #dddddd;
+	height: 30px;
+}
+/* 분류된 자재 리스트 */
+.prodItem-list-update {
+	list-style-type: none; /* 불릿 포인트(li 앞에 점) 제거 */
+	padding: 0 10px;
+	font-size: 15px;
+}
+
+.prodItem-list-update li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px; /* 항목 사이의 여백 */
+	padding: 0, 10px;
+}
+/* 등록되어있는 기존 투입자재 */
+.material-remove {
+	cursor: pointer;
+	color: red;
+	margin-right: 10px;
+}
+/* 수정 신규 투입자재 */
+.remove-material {
+	cursor: pointer;
+	color: red;
+	margin-right: 10px;
+}
+/* ========= 상세 모달창 ========== */
+.insert-modal-css-read .modal-content {
+	max-width: 800px;
+	min-width: 800px;
+	max-height: 700px;
+	min-height: 700px;
+	margin-top: -20px;
+	margin-left: -150px;
+}
+
+/* 주문번호 */
+.oderCodeInput-read {
+	width: 400px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+
+.oderCodeInput-read:focus {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	box-shadow: none;
+}
+/* 작업일수 */
+.prodPlanWorkingDaysLabel-read {
+	margin-left: 115px;
+}
+
+.prodPlanWorkingDaysInput-read {
+	margin-left: -48px;
+	width: 100px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+
+.prodPlanWorkingDaysInput-read:focus {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	box-shadow: none;
+}
+/* 담당자 */
+.productEmpInput-read {
+	margin-left: -60px;
+	width: 100px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+
+.productEmpInput-read:focus {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	box-shadow: none;
+}
+/* 시작예정일자 */
+.productStartDateInput-read {
+	width: 400px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+.productStartDateInput-read:focus {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	box-shadow: none;
+}
+/* 완료예정일자 */
+.productEndDateInput-read {
+	width: 400px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+.productEndDateInput-read:focus {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	box-shadow: none;
+}
+/* 생산수량 */
+.prodCount-read {
+	margin-left: -14px;
+}
+
+.prodCount-input-read {
+	margin-left: -47px;
+	width: 100px;
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+}
+.prodCount-input-read:focus {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	box-shadow: none;
+}
+/* 제품 */
+.productNameInput-read {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	border-radius: 0;
+}
+
+.productNameInput-read:focus {
+	border: none;
+	border-bottom: 1px solid #dee2e6;
+	box-shadow: none;
+}
+
+/* 투입자재 */
+.prodItem-read {
+	height: 150px;
+	width: 610px;
+	margin-top: -2px;
+	border: 1px solid #dee2e6;
+	border-radius: 7px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+}
+/* 분류된 자재 리스트 상단바 */
+.prodItem-bar-read {
+	width: 100%;
+	padding: 0 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f9f9f9; border-bottom : 1px solid #dddddd;
+	height: 30px;
+	border-bottom: 1px solid #dddddd;
+}
+
+.prodItem-list-read {
+	list-style-type: none; /* 불릿 포인트(li 앞에 점) 제거 */
+	padding: 0 10px;
+	font-size: 15px;
+}
+
+.prodItem-list-read li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px; /* 항목 사이의 여백 */
+	padding: 0, 10px;
+}
+.remark-read:focus {
+	box-shadow: none;
+	border: 1px solid #dee2e6;
+}
+/* 수정 투입자재 개수 인풋 */
+.material-quantity {
+	max-width: 100px;
+	min-width: 100px;
+	max-height: 40px;
+	min-height: 40px;
+	font-size: 13px;
+	margin-top: 5px;
+	margin-bottom: -20px;
+}
+.material-quantity-input {
+	border: 1px solid #dee2e6;
+	border-radius: 5px;
+	padding-left: 5px;
+}
+.material-code {
+	margin-left: 60px;
+	margin-top: 4px;
+}

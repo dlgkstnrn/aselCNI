@@ -277,7 +277,6 @@ $(document).ready(function(){
 	});
 
 
-
 		
 	// 모달이 닫힐 때 선택된 옵션 초기화
 	function resetVal(){

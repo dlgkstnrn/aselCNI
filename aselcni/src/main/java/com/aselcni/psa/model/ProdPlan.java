@@ -21,6 +21,8 @@ public class ProdPlan {
 	private String item_cd;
 	// 생산수량
 	private Integer qty;
+	// 비고
+	private String remark;
 	// 작업일수
 	private Integer work_dt;
 	// 생산계획 담당자 코드
@@ -33,5 +35,9 @@ public class ProdPlan {
 	// 조회용 (TB_USERMST)
 	// 생산계획 담당자명
 	private String user_nm;
+	
+	// 조회용 (TB_WORKPROD)
+	// 지시총량
+	private int work_total_qty;
 
 }

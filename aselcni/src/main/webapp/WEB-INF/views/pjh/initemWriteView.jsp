@@ -77,7 +77,7 @@
 	              	<div class="row">
 	              		<div class="col-md-8">
 	              			<div class="input-group">
-							  <span class="input-group-text">입고일자</span>
+							  <span class="input-group-text" style="width:106px">입고일자<span class="color-red">*</span></span>
 							  <input id="initem_dt" name="initem_dt" type="date" aria-label="initem_dt" class="form-control">
 							</div>
 	              		</div>
@@ -86,14 +86,14 @@
 	              	<div class="row mt-1">
 	              		<div class="col-md-8">
 	              			<div class="input-group">
-							  <span class="input-group-text">발주번호</span>
+							  <span class="input-group-text" style="width:106px">발주번호<span class="color-red">*</span></span>
 							  <input id="purc_no" type="text" class="form-control" placeholder="발주번호" aria-label="발주번호" aria-describedby="button-addon1" readonly>
 							  <button class="btn btn-outline-secondary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable"><i class="bi bi-search"></i></button>
 							</div>
 	              		</div>
 	              	</div>
 	              	
-	              <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
+	              <div class="modal fade" id="modalDialogScrollable" data-bs-backdrop="static" tabindex="-1">
 	                <div class="modal-dialog modal-dialog-scrollable">
 	                  <div class="modal-content">
 	                    <div class="modal-header">
@@ -156,13 +156,13 @@
 	              	<div class="row mt-1">
 	              		<div class="col-md-4">
 	              			<div class="input-group">
-							  <span class="input-group-text">매입처</span>
+							  <span class="input-group-text" style="width:106px">매입처</span>
 							  <input id="cust_nm" type="text" class="form-control" placeholder="매입처명" readonly="readonly">
 							</div>
 	              		</div>
 	              		<div class="col-md-4">
 	              			<div class="input-group">
-							  <span class="input-group-text">담당자</span>
+							  <span class="input-group-text">담당자(매입처)<span class="color-red">*</span></span>
 							  <input id="cust_emp" type="text" class="form-control" placeholder="담당자명">
 							</div>
 	              		</div>
@@ -171,7 +171,16 @@
 	              	<div class="row mt-1">
 	              		<div class="col-md-8">
 	              			<div class="input-group">
-							  <span class="input-group-text">창고</span>
+							  <span class="input-group-text">입고담당자</span>
+							  <input  type="text" value="${sessionScope.user_nm}" class="form-control" readonly>
+							</div>
+	              		</div>
+	              	</div>
+	              	
+	              	<div class="row mt-1">
+	              		<div class="col-md-8">
+	              			<div class="input-group">
+							  <span class="input-group-text" style="width:106px">창고<span class="color-red">*</span></span>
 							  <select id="wh_cd" class="form-select">
 							  	<c:forEach var="wh" items="${whs}">
 								  	<option value="${wh.wh_cd}">${wh.wh_nm}</option>
@@ -181,15 +190,26 @@
 	              		</div>
 	              	</div>
 	              	
+	              	
 	              	<div class="row mt-1">
 	              		<div class="col-md-8">
 	              			<div class="input-group">
-							  <span class="input-group-text">비고</span>
+							  <span class="input-group-text" style="width:106px">비고</span>
 							  <textarea id="remark" rows="4" class="form-control"></textarea>
 							</div>
 	              		</div>
 	              	</div>
 	              	
+	              	<div class="row mt-1">
+	              		<div class="col-md-8">
+	              			<div class="input-group">
+							  <span class="input-group-text" style="width:106px">입고종결</span>
+							  <div class="form-control form-switch px-0" style="text-align: left;">
+							  	<input class="form-check-input" onchange="changeEndState(this)" id="initem_end" value="0" type="checkbox" style="margin-left:12px;">
+							  </div>
+							</div>
+	              		</div>
+	              	</div>
 	              	
 	              </div>
 	              
@@ -208,10 +228,13 @@
 	                    <th scope="col">단위</th>
 	                    <th scope="col">수량</th>
 	                    <th scope="col">단가</th>
+	                    <th scope="col">금액</th>
 	                  </tr>
 	                </thead>
 	                <tbody id="itemTableBody">
 	                </tbody>
+	                <tfoot id="itemTableFoot">
+	                </tfoot>
 	              </table>
 	            </div>
 	        </div>

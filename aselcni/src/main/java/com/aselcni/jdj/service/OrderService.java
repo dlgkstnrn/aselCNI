@@ -9,6 +9,8 @@ import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
+import com.aselcni.jdj.model.SavingOrd;
+
 
 
 public interface OrderService {

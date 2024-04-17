@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aselcni.UjmOrderMapper">
+
+	<select id="ujmListOrderNo" resultType="UjmOrderNoDto">
+	<![CDATA[
+		SELECT
+	    ord.order_no,
+	    custmst.cust_nm AS customer_name,
+	    STUFF((
+	        SELECT ', ' + itemmst.item_nm + ' (' + CAST(order_item.qty AS VARCHAR(10)) + '개)'
+	        FROM tb_order_item AS order_item
+	        JOIN tb_itemmst AS itemmst ON order_item.item_cd = itemmst.item_cd
+	        WHERE ord.order_no = order_item.order_no
+	        FOR XML PATH('')), 1, 2, '') AS items
+		FROM
+	    	tb_order AS ord
+		JOIN
+	    	tb_custmst AS custmst ON ord.cust_cd = custmst.cust_cd
+	    WHERE
+			ord.order_status_chk IN (0, 2) -- 주문 상태가 0 또는 2인 경우에만 가져옴
+		and ord.order_delete_chk=0
+		GROUP BY
+	    	ord.order_no,
+	    	custmst.cust_nm
+	 ]]>
+	</select>
+	
+	<select id="ujmGetOrderInfoFromOrderNo" parameterType="String" resultType="UjmOrderInfoToInsertDto">
+		select 
+			ord.order_dt,
+			cust.cust_nm,
+			ord.order_status_chk,
+			ord.order_end_dt
+	
+		from tb_order as ord
+		join tb_custmst as cust on ord.cust_cd=cust.cust_cd
+
+		where ord.ORDER_NO = #{order_no}
+		and ord.order_delete_chk=0
+	</select>
+	
+	
+	<select id="ujmGetOrderItemList" parameterType="String" resultType="UjmOrderItem">
+		SELECT ori.order_no,
+	       ori.item_cd,
+	       ori.qty,
+	       ori.qty - ISNULL(oi.qty, 0) AS remain_qty,
+	       i.item_nm,
+	       dbo.FN_CURRENT_STOCK(ori.item_cd) AS stock
+		FROM TB_ORDER_ITEM AS ori
+		JOIN TB_ITEMMST AS i ON ori.item_cd = i.item_cd
+		JOIN TB_ORDER AS ord ON ori.ORDER_NO = ord.ORDER_NO
+		LEFT JOIN (
+		    SELECT oi.order_no,
+		           oi.item_cd,
+		           SUM(oi.qty) AS qty
+		    FROM TB_OUTITEM_ITEM AS oi
+		    JOIN TB_OUTITEM AS o ON oi.outitem_no = o.outitem_no
+		    WHERE o.outitem_delete_chk = 0
+		    GROUP BY oi.order_no, oi.item_cd
+		) AS oi ON ori.order_no = oi.order_no AND ori.item_cd = oi.item_cd
+		WHERE ord.ORDER_DELETE_CHK = 0
+		and ori.ORDER_NO = #{order_no}
+	</select>
+	
+	<select id="ujmGetCustCd" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT cust_cd
+			FROM tb_order
+			WHERE order_no = #{order_no}
+		]]> 
+	</select>
+	
+	<select id="ujmChangeOrderStatusChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT 
+		    CASE 
+		        WHEN EXISTS (
+		            SELECT A.item_cd
+		            FROM (
+		                SELECT item_cd, SUM(qty) AS qty
+		                FROM TB_ORDER_ITEM AS ori 
+		                JOIN tb_order AS ord ON ori.order_no = ord.order_no 
+		                WHERE ori.ORDER_NO = #{order_no}
+		                AND ord.order_delete_chk = 0
+		                GROUP BY item_cd
+		            ) AS A
+		            WHERE NOT EXISTS (
+		                SELECT 1
+		                FROM (
+		                    SELECT item_cd, SUM(qty) AS qty
+		                    FROM TB_OUTITEM_ITEM AS outi
+		                    JOIN tb_outitem AS ou ON outi.outitem_no = ou.outitem_no 
+		                    WHERE outi.order_no = #{order_no}
+		                    AND ou.outitem_delete_chk = 0
+		                    GROUP BY item_cd
+		                ) AS B
+		                WHERE A.item_cd = B.item_cd AND A.qty = B.qty
+		            )
+		        ) THEN 0
+		        ELSE 1
+		    END AS result
+		]]> 
+	</select>
+	
+	<update id="ujmChangeOrderStatusChkTwo" parameterType="String">
+		UPDATE TB_order
+		SET order_status_chk = 2
+		WHERE order_no = #{order_no}
+	</update>
+	
+	<update id="ujmChangeOrderStatusChkThree" parameterType="String">
+		UPDATE TB_order
+		SET order_status_chk = 3
+		WHERE order_no = #{order_no}
+	</update>
+	
+	<select id="ujmCheckOrderDeleteChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT order_delete_chk
+			FROM tb_order
+			WHERE order_no = #{order_no}
+		]]> 
+	</select>
+
+	
+	
+</mapper>

@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
     <!-- Script -->
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/main.js"></script>
-    <script src="assets/js/psa/workProd.js"></script>
+    <script defer src="assets/js/psa/workProd.js"></script>
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
   </head>
 
@@ -58,92 +58,97 @@ pageEncoding="UTF-8"%>
 
       <section class="section dashboard">
 
-        <form action="workprod">
+        <div class="card">
+
           <!-- 조회할 생산일자 -->
           <div class="position-relative d-flex align-items-center p-3">
             생산시작일자
             <!-- name 값이 컨트롤러에서 받는 param 된다. -->
-            <input class="mx-2" type="date" id="currentDate" name="prodplan_dt"/>
+            <input class="mx-2" type="date" onchange="setWorkprod_dt()" id="currentDate" name="prodplan_dt" min="2000-01-01"/>
+            <!-- <button type="submit">조회</button> -->
             <!-- yesterday -->
-            <button onclick="addDays(today, -1)" type="submit" class="btn btn-success mx-2">
+            <!-- <button onclick="addDays(-1)" type="button" class="btn btn-primary mx-2">
               <i class="bi bi-arrow-left"></i>
-            </button>
+            </button> -->
             <!-- tomorrow -->
-            <button onclick="addDays(today, 1)" type="submit" class="btn btn-success">
+            <!-- <button onclick="addDays(1)" type="button" class="btn btn-primary">
               <i class="bi bi-arrow-right"></i>
-            </button>
+            </button> -->
           </div>
-        </form>
 
-        <div class="d-flex justify-content-between">
-          
-          <!-- 등록된 생산계획 리스트 -->
-          <div class="card-body border border-black border-opacity-50">
-            <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산계획내역</h5>
-            <table class="table table-hover p-2 text-center" id="prodplanTB">
+          <div class="d-flex justify-content-between">
 
-              <thead class="p-2">
-                <tr>
-                  <!-- <th scope="col">#</th> -->
-                  <th scope="col">생산계획번호</th>
-                  <th scope="col">동일 계획번호 내 순번</th>
-                  <th scope="col">제품명</th>
-                  <th scope="col">생산수량</th>
-                  <th scope="col">작업일수</th>
-                </tr>
-              </thead>
+            <!-- 등록된 생산계획 리스트 -->
+            <div class="card-body border-black border-opacity-50">
+              <h5 class="card-title p-3 mb-3 bg-primary-subtle">지시 대기중인 생산계획</h5>
+              <table class="table table-hover p-2 text-center" id="prodplanTB">
 
-              <tbody class="p-2">
-                <c:forEach var="planList" varStatus="planStat" items="${planList}">
-
-                  <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
-                  <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}">
-                    <!-- <th scope="row">${planStat.count}</th> -->
-                    <th scope="row">${planList.prodplan_no}</th>
-                    <td>${planList.seq_no}</td>
-                    <td>${planList.item_nm}</td>
-                    <td>${planList.qty}</td>
-                    <td>${planList.work_dt}</td>
+                <thead class="p-2">
+                  <tr>
+                    <th scope="col">생산계획번호</th>
+                    <th scope="col">순번</th>
+                    <th scope="col">제품명</th>
+                    <th scope="col">계획수량</th>
+                    <th scope="col">지시총량</th>
+                    <th scope="col">계획작업일수</th>
                   </tr>
-                </c:forEach>
-              </tbody>
+                </thead>
 
-            </table>
-          </div>
+                <tbody class="p-2">
+                  <c:forEach var="planList" varStatus="planStat" items="${planList}">
 
-          <!-- 등록된 생산지시 리스트 -->
-          <div class="card-body border border-black border-opacity-50">
-            <h5 class="card-title p-3 mb-3 bg-primary-subtle">생산지시내역</h5>
-            <table class="table table-hover p-2 text-center" id="workprodTB">
+                    <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
+                    <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}" style="cursor:pointer;">
+                      <th scope="row">${planList.prodplan_no}</th>
+                      <td>${planList.seq_no}</td>
+                      <td>${planList.item_nm}</td>
+                      <td><fmt:formatNumber value="${planList.qty}" pattern="#,###"/></td>
+                      <td><fmt:formatNumber value="${planList.work_total_qty}" pattern="#,###"/></td>
+                      <td>${planList.work_dt}</td>
+                    </tr>
 
-              <thead class="p-2">
-                <tr>
-                  <th scope="col">생산지시번호</th>
-                  <th scope="col">동일 지시번호 내 순번</th>
-                  <th scope="col">제품명</th>
-                  <th scope="col">생산수량</th>
-                  <th scope="col">작업일수</th>
-                </tr>
-              </thead>
+                  </c:forEach>
+                </tbody>
 
-              <tbody class="p-2">
-                <c:forEach var="workList" varStatus="workStat" items="${workList}">
+              </table>
+            </div>
 
-                  <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
-                  <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" >
-                    <th scope="row">${workList.workprod_no}</th>
-                    <td>${workList.seq_no}</td>
-                    <td>${workList.item_nm}</td>
-                    <td>${workList.qty}</td>
-                    <td>${workList.work_dt}</td>
+            <!-- 등록된 생산지시 리스트 -->
+            <div class="card-body border-black border-opacity-50">
+              <h5 class="card-title p-3 mb-3 bg-primary-subtle">등록된 생산지시 내역</h5>
+              <table class="table table-hover p-2 text-center" id="workprodTB">
+
+                <thead class="p-2">
+                  <tr>
+                    <th scope="col">생산지시번호</th>
+                    <th scope="col">순번</th>
+                    <th scope="col">제품명</th>
+                    <th scope="col">생산수량</th>
+                    <th scope="col">작업일수</th>
                   </tr>
-                </c:forEach>
-              </tbody>
+                </thead>
 
-            </table>
+                <tbody class="p-2">
+                  <c:forEach var="workList" varStatus="workStat" items="${workList}">
+
+                    <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
+                    <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" style="cursor:pointer;">
+                    <!-- <tr onclick="showWprModal()" data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" > -->
+                      <th scope="row">${workList.workprod_no}</th>
+                      <td>${workList.seq_no}</td>
+                      <td>${workList.item_nm}</td>
+                      <td><fmt:formatNumber value="${workList.qty}" pattern="#,###"/></td>
+                      <td>${workList.work_dt}</td>
+                    </tr>
+                  </c:forEach>
+                </tbody>
+
+              </table>
+            </div>
+
           </div>
-
         </div>
+        <!-- End card  -->
 
 
 
@@ -164,14 +169,20 @@ pageEncoding="UTF-8"%>
 
               <!-- 모달 내용 작성부분 -->
               <!-- Form -->
-              <form action="workprodInsert">
+              <form action="workprodInsert" method="post">
                 <div class="modal-body">
 
                   <!-- 생산지시 담당자 ID -->
+                  <input type="hidden" name="workprod_emp_id" id="workprod_emp_id">
+
+                  <!-- 생산지시번호 -->
+                  <input type="hidden" name="workprod_no">
+
+                  <!-- 생산계획 담당자 ID -->
                   <div class="row mb-3 d-flex">
-                    <label class="col-sm-3 col-form-label">지시 담당자</label>
+                    <label class="col-sm-3 col-form-label">생산계획 담당자</label>
                     <div class="col-sm-9">
-                      <input type="hidden" class="form-control" id="prodplan_emp_id" name="${prodplan_emp_id}" readonly/>
+                      <input type="hidden" class="form-control" id="prodplan_emp_id" value="${prodplan_emp_id}" readonly/>
                       <input type="text" class="form-control" id="prp_user_nm" readonly/>
                     </div>
                   </div>
@@ -180,20 +191,25 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3 d-flex">
                     <label class="col-sm-3 col-form-label">생산계획번호</label>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" id="prodplan_no" name="${prodplan_no}" readonly/>
+                      <input type="text" class="form-control" id="prodplan_no" name="prodplan_no" readonly/>
                     </div>
                   </div>
 
                   <!-- 생산일자 -->
                   <div class="row mb-3">
-                    <label for="workprod_dt" class="col-sm-3 col-form-label">생산시작일자</label>
+                    <label for="workprod_dt" class="col-sm-3 col-form-label">
+                      생산시작일자
+                      <span class="color-red">*</span>
+                    </label>
                     <div class="col-sm-9">
-                      <input type="date" class="form-control" id="prp_prodplan_dt" name="prodplan_dt"/>
+                      <input type="date" class="form-control" id="prp_prodplan_dt" name="workprod_dt" required/>
                     </div>
                   </div>
 
                   <!-- 제품 -->
                   <div class="row mb-3">
+                    <!-- 제품코드 -->
+                    <input type="hidden" id="prp_item_cd" name="item_cd">
                     <label for="item_nm" class="col-sm-3 col-form-label">제품명</label>
                     <div class="d-flex justify-content-between col-sm-9">
                       <!-- 제품명 -->
@@ -202,9 +218,12 @@ pageEncoding="UTF-8"%>
                       </div>
                       <!-- 제품 생산수량 -->
                       <div class="d-flex mb-3">
-                        <label for="qty" class="col-sm-3 col-form-label">생산수량</label>
-                        <div class="col-sm-3 mx-2">
-                          <input type="number" class="form-control" id="prp_qty" name="qty" />
+                        <label for="qty" class="col-sm-4 col-form-label">
+                          생산수량
+                          <span class="color-red">*</span>
+                        </label>
+                        <div class="col-sm-7 mx-2">
+                          <input type="number" class="form-control" id="prp_qty" name="qty" required/>
                         </div>
                       </div>
                     </div>
@@ -212,32 +231,46 @@ pageEncoding="UTF-8"%>
 
                   <!-- 공정 -->
                   <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">공정</label>
+                    <label class="col-sm-3 col-form-label">
+                      공정
+                      <span class="color-red">*</span>
+                    </label>
                     <div class="col-sm-9">
-                      <select name="proc_nm" id="proc_nm" class="form-select" aria-label="Default select example">
+
+                      <!-- select box -->
+                      <!-- select tag form = 셀렉트박스가 포함될 form tag id -->
+                      <!-- <select id="selectProc" name="proc_nm" form="prodplan" class="form-select" aria-label="Default select example">
                         <option selected>적용할 공정을 선택하세요.</option>
-                        <option value="1">반죽</option>
-                        <option value="2">튀김</option>
-                        <option value="3">분쇄</option>
-                      </select>
+                        <c:forEach var="procList" items="${procList }">
+                          <option value="${procList.proc_cd}">${procList.proc_nm}</option>
+                        </c:forEach>
+                      </select> -->
+
+                      <!-- check box -->
+                      <c:forEach var="procList" items="${procList }">
+                        <!-- name = key, value = value -->
+                        <input type="checkbox" name="procList" id="" value="${procList.proc_cd}">${procList.proc_nm}
+                      </c:forEach>
                     </div>
                   </div>
                   
                   <!-- 투입품 -->
                   <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">투입품</label>
+                    <label class="col-sm-3 col-form-label">
+                      투입품
+                      <span class="color-red">*</span>
+                    </label>
 
-                    <!-- 중첩모달 띄우는 버튼 -->
+                    <!-- 투입품 선택 모달 띄우는 버튼 -->
                     <div class="col-sm-9 mb-3">
-                      <button type="button" class="btn btn-outline-success mb-3" 
+                      <button type="button" class="btn btn-outline-primary mb-3" 
                         id="btn-submit"
                         data-bs-toggle="modal"
                         data-bs-target="#addItem">투입품 추가</button>
                     </div>
 
                     <!-- 선택된 투입품 리스트 테이블 -->
-                    <div class="card-body mb-3">
-                      <h5 class="card-title mb-2">선택한 투입품 목록</h5>
+                    <div class="card-body mx-3 mb-3">
                       <table class="table">
                         <thead>
                           <tr>
@@ -249,10 +282,6 @@ pageEncoding="UTF-8"%>
                         </thead>
                         <tbody id="prp_item_tbody">
                           <tr id="prp_item_tr">
-                            <th scope="row"></th>
-                            <td></td>
-                            <td></td>
-                            <td><input type="number" class="form-control" id="in_qty"/></td>
                           </tr>
                         </tbody>
                       </table>
@@ -260,12 +289,14 @@ pageEncoding="UTF-8"%>
                       
                   </div>
                   
-                  
                   <!-- 작업일수 -->
                   <div class="row mb-3">
-                    <label for="work_dt" class="col-sm-3 col-form-label">작업일수</label>
+                    <label for="work_dt" class="col-sm-3 col-form-label">
+                      작업일수
+                      <span class="color-red">*</span>
+                    </label>
                     <div class="col-sm-9">
-                      <input type="number" id="prp_work_dt" class="form-control"/>
+                      <input type="number" id="prp_work_dt" name="work_dt" class="form-control" required/>
                     </div>
                   </div>
 
@@ -273,7 +304,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="work_cmd" class="col-sm-6 col-form-label">작업시 주의사항</label>
                     <div class="col-sm-12">
-                      <textarea name="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
+                      <textarea id="prp_work_cmd" name="work_cmd" cols="30" rows="10" class="form-control" style="height: 100px"></textarea>
                     </div>
                   </div>
 
@@ -286,11 +317,15 @@ pageEncoding="UTF-8"%>
                   </div>
                 </div>
 
+                <div class="color-red text-lg-center">
+                  등록 버튼 클릭 후 수정할 수 없습니다.
+                </div>
+
                 <!-- 모달 버튼 -->
                 <div class="modal-footer">
-                  <button id="cancle" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-                  <button type="submit" class="btn btn-success">등록</button>
-                  <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                  <button id="cancle" type="reset" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
+                  <button type="submit" id="insertDataBtn" class="btn btn-primary">등록</button>
+                  <!-- <button type="reset" class="btn btn-outline-primary">Reset</button> -->
                 </div>
 
               </form>
@@ -303,13 +338,8 @@ pageEncoding="UTF-8"%>
 
 
 
-        <!-- 2. 중첩모달 (투입품 선택) -->
-        <!-- Vertically centered Modal -->
-        <div class="modal fade"
-          id="addItem"
-          tabindex="-1"
-          aria-hidden="true"
-          style="display: none;">
+        <!-- 2. 투입품 선택 모달 -->
+        <div class="modal fade" id="addItem" tabindex="-1" aria-hidden="true" style="display: none;">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
@@ -323,80 +353,52 @@ pageEncoding="UTF-8"%>
                   <div class="d-flex justify-content-around w-auto text-center align-items-center">
                     <div>
                       <p>대분류</p> 
-                      <input type="text" name="st_department" list="big_no">
+                      <select name="big_no" id="big_no" class="form-select" aria-label="Default select example">
+                        <option selected>대분류 선택</option>
+                        <c:forEach var="big" items="${bigList}">
+                          <option value="${big.big_no}">${big.big_content}</option>
+                        </c:forEach>
+                      </select>
                     </div>
 
                     <div>
                       <p>중분류</p> 
-                      <input type="text" name="st_department" list="mid_no">
+                      <select name="mid_no" id="mid_no" class="form-select" aria-label="Default select example">
+                        <option selected>중분류 선택</option>
+                      </select>
                     </div>
 
                     <div>
                       <p>소분류</p> 
-                      <input type="text" name="st_department" list="sml_no">
+                      <select name="sml_no" id="sml_no" class="form-select" aria-label="Default select example">
+                        <option selected>소분류 선택</option>
+                      </select>
                     </div>
                   </div>
-
-                  <!-- 대분류 리스트 -->
-                  <datalist id="big_no" class="w-auto">
-                    <!-- <option value="select">대분류</option> -->
-                    <option value="포장재"></option>
-                    <option value="식재료"></option>
-                  </datalist>
-
-                  <!-- 중분류 리스트 -->
-                  <datalist id="mid_no" class="w-auto">
-                    <option value="컵"></option>
-                    <option value="봉지"></option>
-                    <option value="면"></option>
-                    <option value="스프"></option>
-                  </datalist>
-                  
-                  <!-- 소분류 리스트 -->
-                  <datalist id="sml_no" class="w-auto">
-                    <option value="밀가루"></option>
-                    <option value="물"></option>
-                    <option value="기름"></option>
-                    <option value="버섯"></option>
-                    <option value="대파"></option>
-                    <option value="마늘"></option>
-                    <option value="고춧가루"></option>
-                  </datalist>
 
                   <!-- 조회된 품목 리스트 -->
                   <div class="card-body mt-3">
                     <h5 class="card-title mb-2">품목 선택</h5>
-      
-                    <!-- List group With Checkboxes and radios -->
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        First checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Second checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Third checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Fourth checkbox
-                      </li>
-                      <li class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                        Fifth checkbox
-                      </li>
-                    </ul><!-- End List Checkboxes and radios -->
-      
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col">품목코드</th>
+                          <th scope="col">품목명</th>
+                          <!-- <th scope="col">투입수량</th> -->
+                        </tr>
+                      </thead>
+                      <tbody id="addItem_tbody">
+                        <tr id="addItem_tr">
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
 
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="submit" class="btn btn-success">등록</button>
-                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" id="addItemSave">등록</button>
+                    <button type="reset" class="btn btn-outline-primary">Reset</button>
                   </div>
 
                 </form>
@@ -404,8 +406,7 @@ pageEncoding="UTF-8"%>
             </div>
           </div>
         </div>
-        <!-- 중첩모달 끝 -->
-        <!-- End Vertically centered Modal -->
+        <!-- 투입품 선택 모달 끝 -->
         
 
 
@@ -414,8 +415,6 @@ pageEncoding="UTF-8"%>
           
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
-
-              <!-- WorkProdModal.jsp 호출 -->
 
               <!-- 3. 생산지시내역 조회 모달 내용 -->
               <div class="modal-header">
@@ -469,7 +468,7 @@ pageEncoding="UTF-8"%>
 
                   <!-- 공정 -->
                   <div class="card-body mb-3">
-                    <h5 class="card-title">등록된 공정 목록</h5>
+                    <h5 class="card-title">공정</h5>
                     <table class="table">
                       <thead>
                         <tr>
@@ -480,9 +479,6 @@ pageEncoding="UTF-8"%>
                       </thead>
                       <tbody id="proc_tbody">
                         <tr id="proc_tr">
-                          <th scope="row"></th>
-                          <td></td>
-                          <td></td>
                         </tr>
                       </tbody>
                     </table>
@@ -490,7 +486,7 @@ pageEncoding="UTF-8"%>
                 
                   <!-- 투입품 -->
                   <div class="card-body mb-3">
-                    <h5 class="card-title">투입품 목록</h5>
+                    <h5 class="card-title">투입품</h5>
                     <table class="table">
                       <thead>
                         <tr>
@@ -502,10 +498,6 @@ pageEncoding="UTF-8"%>
                       </thead>
                       <tbody id="in_item_tbody">
                         <tr id="in_item_tr">
-                          <th scope="row"></th>
-                          <td></td>
-                          <td></td>
-                          <td></td>
                         </tr>
                       </tbody>
                     </table>
@@ -532,7 +524,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label for="remark" class="col-sm-3 col-form-label">비고</label>
                     <div class="col-sm-12">
-                      <textarea id="remark" cols="30" rows="10" class="form-control" style="height: 100px" disabled>
+                      <textarea id="remark" cols="30" rows="10" class="form-control" style="height: 100px">
                       </textarea>
                     </div>
                   </div>
@@ -540,7 +532,9 @@ pageEncoding="UTF-8"%>
               <!-- End modal-body -->
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" id="updateWorkBtn" class="btn btn-primary" data-bs-dismiss="modal">수정</button>
+                <!-- <button type="button" id="deleteWorkBtn" class="btn btn-outline-primary" data-bs-dismiss="modal">삭제</button> -->
               </div>
               <!-- End modal-footer -->
 
@@ -554,157 +548,7 @@ pageEncoding="UTF-8"%>
     </main>
     <!-- End #main -->
 
-    <script>
-
-      // 생산계획내역 조회 모달 이벤트
-      // tr 클릭했을때 이벤트 발생
-      $('#prodplanTB tbody tr').click(function() {
-
-        let prodplan_emp_id = document.getElementById('prodplan_emp_id');
-        let prp_user_nm = document.getElementById('prp_user_nm');
-        let prodplan_no = document.getElementById('prodplan_no');
-        let prp_prodplan_dt = document.getElementById('prp_prodplan_dt');
-        let prp_item_nm = document.getElementById('prp_item_nm');
-        let prp_qty = document.getElementById('prp_qty');
-        let prp_work_dt = document.getElementById('prp_work_dt');
-        let prp_remark = document.getElementById('prp_remark');
-
-        // 공정 select box
-        let proc_nm = document.getElementById('proc_nm');
-
-        // 투입품
-        let in_item_nm = document.getElementById('in_item_nm');
-        let in_item_cd = document.getElementById('in_item_cd');
-        let in_qty = document.getElementById('in_qty');
-
-        const prpParam = {
-          prodplan_no : $(this).data().index
-        }
-
-        console.log(prpParam);
-
-        // ajax 1
-        // 생산계획번호별 상세내용 조회 (공정, 투입품 제외)
-        $.ajax({
-          url: "prpInfoModal",
-          type: 'post',
-          data: JSON.stringify(prpParam),
-          contentType: 'application/json; charset=utf-8',
-          success: function(result) {
-            console.log(result);
-
-            prodplan_emp_id.value = result.prodplan_emp_id;
-            prp_user_nm.value = result.user_nm;
-            prodplan_no.value = result.prodplan_no;
-            prp_prodplan_dt.value = result.prodplan_dt;
-            prp_item_nm.value = result.item_nm;
-            prp_qty.value = result.qty;
-            prp_work_dt.value = result.work_dt;
-            prp_remark.value = result.remark;
-          }
-        });
-
-        // ajax 2 ?? 공정???
-
-        // ajax 3
-        // 생산계획에서 등록해둔 투입품 리스트 조회
-      });
-
-
-     
-      // 생산지시내역 조회 모달 이벤트
-      // tr 클릭했을때 이벤트 발생
-      $('#workprodTB tbody tr').click(function() {
-
-        let user_nm = document.getElementById('user_nm');
-        let workprod_no = document.getElementById('workprod_no');
-        let workprod_dt = document.getElementById('workprod_dt');
-        let item_nm = document.getElementById('item_nm');
-        let qty = document.getElementById('qty');
-        let work_dt = document.getElementById('work_dt');
-        let work_cmd = document.getElementById('work_cmd');
-        let remark = document.getElementById('remark');
-
-        const wprParam = {
-          workprod_no : $(this).data().index
-        }
-
-        console.log(wprParam);
-
-        // ajax 1
-        // 등록된 지시내역의 생산지시번호별 상세내용 조회 (공정, 투입품 제외)
-        $.ajax({
-          url: 'wprInfoModal',
-          type: 'POST',
-          data: JSON.stringify(wprParam),
-          contentType: 'application/json; charset=utf-8',
-          success : function(result) {
-            console.log(result);
-
-            user_nm.value = result.user_nm;
-            workprod_no.value = result.workprod_no;
-            workprod_dt.value = result.workprod_dt;
-            item_nm.value = result.item_nm;
-            qty.value = result.qty;
-            work_dt.value = result.work_dt;
-            work_cmd.value = result.work_cmd;
-            remark.value = result.remark;
-          }
-        });
-
-        // ajax 2
-	      // 등록된 지시내역의 생산지시번호별 공정 리스트 조회
-        $.ajax({
-          url: 'workProcList',
-          type: 'POST',
-          data: JSON.stringify(wprParam),
-          contentType: 'application/json; charset=utf-8',
-          success : function(result) {
-            console.log(result);
-
-            $("#proc_tr").each(function(index, element){
-
-              for(let i=0; i<result.length; i++) {
-
-                console.log(result[i]);
-
-                $('#proc_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
-                                        result[i].proc_cd+'</td><td>'+
-                                          result[i].proc_nm+'</td></tr>');
-
-              }
-            })
-          }
-        });
-
-        // ajax 3
-	      // 등록된 지시내역의 생산지시번호별 투입품 리스트 조회
-        $.ajax({
-          url: 'workItemList',
-          type: 'POST',
-          data: JSON.stringify(wprParam),
-          contentType: 'application/json; charset=utf-8',
-          success : function(result) {
-            console.log(result);
-
-            $("#in_item_tr").each(function(index, element){
-
-              for(let i=0; i<result.length; i++) {
-              
-                console.log(result[i]);
-              
-                $('#in_item_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
-                                          result[i].item_cd+'</td><td>'+
-                                            result[i].item_nm+'</td><td>'+
-                                              result[i].in_qty+'</td></tr>');
-                                      
-              }
-            })
-          }
-        });
-
-      });
-    </script>
+    
     <!-- ======= Footer ======= -->
     <%@ include file="../footer.jsp" %>
     <!-- End Footer -->

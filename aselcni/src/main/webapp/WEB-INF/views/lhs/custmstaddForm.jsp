@@ -80,30 +80,30 @@
                 <h5 class="card-title">신규 등록</h5>
 
                 <!-- Horizontal Form -->
-                <form action="custmstAdd" method="post">
+                <form action="custmstAdd" method="post" onsubmit="return submitChk()">
                 <input type="hidden" name="biz_flag" value="${biz_flag}">
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
-                      >업체 명</label
+                      >업체 명<span class="text-danger">*</span></label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="cust_nm" />
+                      <input type="text" class="form-control" name="cust_nm" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
-                      >대표자명</label
+                      >대표자명<span class="text-danger">*</span></label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="president_nm" />
+                      <input type="text" class="form-control" name="president_nm" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"
-                      >사업자 번호</label
+                      >사업자 번호<span class="text-danger">*</span></label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_no" />
+                      <input type="text" required="required" placeholder="000-00-00000" class="form-control" name="biz_no" id="biz_no" />
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -124,26 +124,26 @@
                   </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >주소</label
+                      >주소<span class="text-danger">*</span></label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_addr" />
+                      <input type="text" class="form-control" name="biz_addr" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >전화번호</label
+                      >전화번호<span class="text-danger">*</span></label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_tel" />
+                      <input type="text" placeholder="000-0000-0000" class="form-control" name="biz_tel" id="biz_tel" required="required"/>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-2 col-form-label"
-                      >팩스</label
+                      >팩스<span class="text-danger">*</span></label
                     >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="biz_fax" />
+                      <input type="text" placeholder="000-0000-0000" class="form-control" name="biz_fax" id="biz_fax" required="required"/>
                     </div>
                   </div>
 

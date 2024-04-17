@@ -13,20 +13,13 @@ pageEncoding="UTF-8"%>
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"/>
 
     <!-- Vendor CSS Files -->
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"
     />
-    <link
-      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"/>
     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
     <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
@@ -39,10 +32,7 @@ pageEncoding="UTF-8"%>
 
     <!-- Script -->
     <script defer src="assets/js/main.js"></script>
-    <script
-      src="https://kit.fontawesome.com/0b22ed6a9d.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/ujm/outitem.js"></script>
   </head>
@@ -58,7 +48,7 @@ pageEncoding="UTF-8"%>
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>출고 관리</h1>
+        <h1>구매/영업 관리</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">구매/영업 관리</li>
@@ -68,32 +58,29 @@ pageEncoding="UTF-8"%>
       </div>
       <!-- End Page Title -->
 
-      <section class="section">
+      <section class="section" id="section">
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">
-
+              <h5 class="card-title" style="margin: 0;">
+                
                   <!-- 출고 등록 -->
                   <div id="upper-btn" style="float: right">
 
+                    <!-- 등록버튼 (등록폼을 띄우는 버튼) -->
                     <button
                       type="button"
                       class="btn btn-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#outitem_insert" 
-                    > <!-- 등록버튼 -->
+                      id="outitem_insert_btn"
+                      style=" margin: 10px;"> 
                       등록
                     </button>
 
                     <!-- 등록 Modal -->
-                    <div
-                      class="modal fade"
-                      id="outitem_insert"
-                      tabindex="-1"
-                      aria-hidden="true"
-                      style="display: none"> 
+                    <div class="modal fade" id="outitem_insert" tabindex="-1" 
+                    aria-hidden="true" style="display: none"> 
                       <!-- 등록모달 -->
                       
                     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -106,69 +93,54 @@ pageEncoding="UTF-8"%>
 
                           <div class="modal-header">
                             <h5 class="modal-title">출고등록</h5>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
 
-                            <!-- 등록 폼 -->
-                          <form action="insertOutitem">
+                            <button type="button" class="btn-close" 
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                              <!-- 좌측 상단의 닫기버튼(X) -->
 
-                            <div class="modal-body">
+                          </div> <!-- modal-header -->
+
+                            <!-- 등록 폼 form -->
+                          <form action="insertOutitem" method="get" id="insertOutitemForm">
+
+                            <div class="modal-body detail">
 
                               <!-- 주문번호 -->
                               <div class="row mb-3 d-flex">
-                                <label class="col-sm-3 col-form-label"
-                                  >주문번호</label
-                                >
+                                <label class="col-sm-3 col-form-label">주문번호</label>
                                 <div class="col-sm-9">
                                   <select
-                                    class="form-select"
-                                    id="floatingSelect"
-                                    aria-label="Floating label select example"
-                                  style="width: 200px"
-                                  name="${order.no}"
-                                  >
+                                    class="form-select" id="selectOrderNo" name="order_no">
+                                      <option value="">주문 선택</option>
+                                        <!-- ajax로 선택할 수 있는 주문번호 추가됨  -->
+                                
+                                  </select>
 
-                                  <option selected>선택</option>
-                                  <option value="1">${order.order_no} (제품:${item_nm}, 기업:${cust_nm})</option>
-                                  <option value="2">Two</option>
-                                  <option value="3">Three</option>
+                                  <input type="hidden" name="order_no" id="insertOrderNo"
+                                  required="required">
+                                  <!-- form에 들어가는 값 -->
+
                                 </div>
                               </div>
 
                               <!-- 주문일자(단순조회) -->
                               <div class="row mb-3 d-flex">
-                                <label class="col-sm-3 col-form-label"
-                                  >주문일자(단순조회)</label
-                                >
-                                <div class="col-sm-9">
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    value="${order_dt}"
-                                    readonly
-                                  />
+                                <label class="col-sm-3 col-form-label">주문일자
+                                  </label>
+                                <div class="col-sm-9" id="orderInfo_order_dt" >
+                                  <!-- ajax로 -->
                                 </div>
+                                
                               </div>
 
                               <!-- 출고일자 -->
                               <div class="row mb-3">
                                 <label
                                   for="outitem_dt"
-                                  class="col-sm-3 col-form-label"
-                                  >출고일자(달력)-주문일자보다 늦어야함</label
-                                >
+                                  class="col-sm-3 col-form-label">출고일자</label>
                                 <div class="col-sm-9">
-                                  <input
-                                    type="date"
-                                    class="form-control"
-                                    id="outitem_dt"
-                                    name="outitem_dt"
-                                  />
+                                  <input type="date" class="form-control" id="insert_outitem_dt" 
+                                    name="outitem_dt" style="width: 200px;" required="required"/>
                                 </div>
                               </div>
 
@@ -176,31 +148,30 @@ pageEncoding="UTF-8"%>
                               <div class="row mb-3">
                                 <label
                                   for="cust_nm"
-                                  class="col-sm-3 col-form-label"
-                                  >매입처이름</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">거래처이름 ${cust_nm}</p>
+                                  class="col-sm-3 col-form-label">매입처</label>
+                                <div class="col-sm-9 orderInfo_cust_nm" id="orderInfo_cust_nm">
+                                  <!-- ajax -->
                                 </div>
+
+                                <input type="hidden" class="orderInfo_cust_nm" name="cust_nm"
+                                required="required"> 
+                                  <!-- form에 들어가는값 -->
                               </div>
 
                               <!-- 거래처담당자 -->
                               <div class="row mb-3">
                                 <label
                                   for="outitem.cust_emp"
-                                  class="col-sm-3 col-form-label"
-                                  >거래처담당자이름</label
-                                >
+                                  class="col-sm-3 col-form-label">거래처 담당자</label>
                                 <div class="col-sm-9">
                                   <input
                                     type="text"
                                     class="form-control"
-                                    id="cust_emp"
-                                    placeholder="거래처담당자명 임의로 입력"
+                                    id="insert_cust_emp"
+                                    placeholder="거래처 담당자명 입력"
                                     name="cust_emp"
                                     autocomplete="off"
-                                    required="required"
-                                  />
+                                    required="required"/>
                                 </div>
                               </div>
 
@@ -208,333 +179,177 @@ pageEncoding="UTF-8"%>
                               <div class="row mb-3">
                                 <label
                                   for="order_status_chk"
-                                  class="col-sm-3 col-form-label"
-                                  >주문상태</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">
-                                    <c:if test="${order_status_chk==0}">미출고</c:if>
-                                    <c:if test="${order_status_chk==1}">일부 출고</c:if>
-                                    <c:if test="${order_status_chk==2}">출고완료</c:if>
-                                  </p>
+                                  class="col-sm-3 col-form-label">주문상태</label>
+                                <div class="col-sm-9" 
+                                id="orderInfo_order_status_chk">   
+                                  <!-- ajax -->
                                 </div>
+
                               </div>
 
                               <!-- 주문마감일 -->
                               <div class="row mb-3">
-                                <label
-                                  for="order_end_dt"
-                                  class="col-sm-3 col-form-label"
-                                  >주문마감일</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">주문마감일 ${order_end_dt}</p>
+                                <label for="order_end_dt"
+                                  class="col-sm-3 col-form-label">주문납기일</label>
+                                <div class="col-sm-9 orderInfo_order_end_dt" 
+                                id="orderInfo_order_end_dt">
+                                  <!-- ajax -->
                                 </div>
                               </div>
 
+
+
+
                               <!-- 출고할 제품 선택-->
                               <div class="row mb-3">
-                                <label class="col-sm-3 col-form-label"
-                                  >제품명(거래처cd 가져와서)</label
-                                >
+                                <label class="col-sm-3 col-form-label">
+                                  제품명</label>
 
                                 <div class="col-sm-9 mb-3">
-                                  <!-- 중첩모달 띄우는 버튼 -->
                                   <!-- Vertically centered Modal -->
 
                                   <!-- 선택된 투입품 리스트 -->
                                   <div class="card-body">
                                     <h5 class="card-title mb-1"></h5>
 
-                                    <!-- List group with custom content -->
-                                    <ol class="list-group list-group-numbered">
-                                      <li
-                                        class="list-group-item d-flex justify-content-between align-items-start"
-                                      >
-                                        <div class="ms-2 me-auto">
-                                          <div class="fw-bold">제품명</div>
-                                          ${item_nm}
-                                        </div>
-                                        <!-- 현재재고 -->
-                                        <div class="d-flex">
-                                          <label
-                                            for="stock"
-                                            class="col-sm-3 col-form-label"
-                                            >현재재고</label
-                                          >
-                                          <div class="col-sm-3 mx-2">
-                                            <input
-                                              type="number"
-                                              class="form-control"
-                                              id="stock"
-                                              name="stock"
-                                              readonly
-                                            />
-                                          </div>
-                                        </div>
-                                        <div class="d-flex">
-                                          <label
-                                            for="order_item_qty"
-                                            class="col-sm-3 col-form-label"
-                                            >주문수량</label
-                                          >
-                                          <div class="col-sm-3 mx-2">
-                                            <input
-                                              type="number"
-                                              class="form-control"
-                                              id="qty"
-                                            />
-                                          </div>
-                                        </div>
-                                        <div class="d-flex">
-                                          <label
-                                            for="qty"
-                                            class="col-sm-3 col-form-label"
-                                            >출고수량(재고, 주문보다 많으면
-                                            안됨)</label
-                                          >
-                                          <div class="col-sm-3 mx-2">
-                                            <input
-                                              type="number"
-                                              class="form-control"
-                                              id="qty"
-                                            />
-                                          </div>
-                                        </div>
+                                    <table class="table table-hover" id="outitem_item_list">
+                                      <thead>
+                                        <tr>
+                                          <th></th> <!-- 체크박스 공간 -->
+                                          <th>제품명</th>
+                                          <th>현재 재고</th>
+                                          <th>주문수량</th>
+                                          <th>남은 주문 수량</th>
+                                          <th>출고수량</th>
+                                        </tr>
+                                      </thead>
+                    
+                                      <tbody>
+                                    <!-- ajax로 들어감 -->
+                                      
+                    
+                                      </tbody>
+                                    </table>
 
-                                        <div class="d-flex">
-                                          <label
-                                            for="qty"
-                                            class="col-sm-3 col-form-label"
-                                            >단가</label
-                                          >
-                                          <div class="col-sm-3 mx-2">
-                                            <input
-                                              type="number"
-                                              class="form-control"
-                                              id="qty"
-                                            />
-                                          </div>
-                                        </div>
-                                        
-                                      </li>
-                                    </ol>
+
+
+
+
+
+
                                     <!-- End with custom content -->
-                                  </div>
-                                </div>
-                              </div>
+
+
+                                  </div> <!-- 투입품 card body -->
+                                </div> <!-- col-sm-9 mb-3 -->
+                              </div> <!-- row mb-3 -->
+
+
+
+
 
                               <!-- 비고 -->
                               <div class="row mb-3">
                                 <label
                                   for="outitem.remark"
-                                  class="col-sm-3 col-form-label"
-                                  >비고</label
-                                >
+                                  class="col-sm-3 col-form-label">비고</label>
                                 <div class="col-sm-9">
                                   <input
                                     type="text"
                                     class="form-control"
-                                    id="outitem.remark"
-                                    name="outitem.remark"
-                                  />
+                                    id="insert_remark"
+                                    name="remark"/>
                                 </div>
                               </div>
 
-                              <!-- 출고삭제여부 -->
-                              <div class="row mb-3">
-                                <label
-                                  for="outitem_delete_chk"
-                                  class="col-sm-3 col-form-label"
-                                  >출고삭제여부</label
-                                >
-                                <div class="col-sm-9">
-                                  <p style="color: black">
-                                    출고삭제여부(단순조회)
-                                    ${outitem_delete_chk}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
+                              
+                            </div> <!-- modal-body detail -->
 
                             <!-- 신규버튼 modal의 하단 버튼 -->
                             <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn btn-outline-secondary"
-                                data-bs-dismiss="modal"
-                              >
+                              <button type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
                                 닫기
                               </button>
-                              <button type="submit" class="btn btn-success">
+
+                              <button type="submit" class="btn btn-primary"
+                              form="insertOutitemForm" id="insertOutitemBtn" disabled>
                                 등록
-                              </button>
-                              <button
-                                type="reset"
-                                class="btn btn-outline-secondary"
-                              >
-                                Reset
-                              </button>
-                            </div>
+                              </button> <!-- form으로 이어지는 실제 출고등록 버튼 -->
+
+                            </div> <!-- footer -->
                           </form>
-                          <!-- End Horizontal Form -->
-                        </div>
-                      </div>
-                    </div>
+
+
+                        </div> <!-- modal-content -->
+
+                    </div> <!-- modal-xl -->
                     <!-- 등록 모달 끝 -->
-                  </div>
-                </h5>
 
 
+
+                  </div> <!-- upper-btn -->
+
+
+
+              </h5> <!-- card title -->
+              </div>
+
+
+
+              <div class="card-body">
+                
 
 
 
                 <!-- 일반페이지(조회페이지). 하단 출력 조건 걸어주는 곳 -->
 
                 <!-- 주문번호로 검색 -->
-                <p style="display: inline">주문번호</p>
-                <form
-                  class="search-form d-flex align-items-center"
-                  method="POST"
-                  action="#"
-                >
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="width: 200px"
-                    name="order_no"
-                  />
-                  <button class="btn" type="submit" title="Search">
-                    <i class="bi bi-search"></i>
-                  </button>
-                </form>
-
-                <!-- 출고번호로 검색 -->
-                <p style="display: inline">출고번호</p>
-
-                <form
-                  class="search-form d-flex align-items-center"
-                  method="POST"
-                  action="#"
-                >
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="width: 200px"
-                  />
-                  <button class="btn" type="submit" title="Search">
-                    <i class="bi bi-search"></i>
-                  </button>
-                </form>
-
-          
-                <br />
-
-                <!-- 매입처(이름)로 검색 -->
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="floatingInput"
-                    placeholder="1"
-                    style="width: 200px"
-                    name="cust_nm"
-                  />
-                  <label for="floatingInput"
-                    >매입처</label
-                  >
-                </div>
-
-                <!-- 제품/자재명으로 검색 -->
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="item_nm"
-                    name="item_nm"
-                    placeholder="1"
-                    style="width: 200px"
-                    
-                  />
-                  <label for="floatingTextarea"
-                    >제품/자재명</label
-                  >
-                </div>
-
-                <div class="form-floating mb-3">
-                  <select
-                    class="form-select"
-                    id="floatingSelect"
-                    aria-label="Floating label select example"
-                    style="width: 200px"
-                  >
-                    <option selected>선택</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                  <label for="floatingSelect">출고관리자</label>
-                </div>
-
-                <br />
-
-
-
-
-                <!-- 날짜 -->
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 20px;
-                    margin: 20px 50px;
-                  "
-                >
-                  <button
-                    id="dateLeftBtn"
-                    type="button"
-                    class="btn btn-primary"
-                  >
-                    <i class="bi bi-caret-left-fill"></i>
-                  </button>
+                <div class="search">
                   <div>
-                    <label for="start"></label>
-                    <input
-                      type="date"
-                      class="prodItemDate"
-                      id="startDate"
-                      value="2024-03-01"
-                    />&nbsp;&nbsp;~&nbsp;&nbsp;<label for="end"></label>
-                    <input
-                      type="date"
-                      class="prodItemDate"
-                      id="endDate"
-                      value="2024-03-07"
-                    />
+                    <div class="input-group day-box">
+                      <span class="input-group-text">조회기간</span>
+                      <input type="date" class="start-day form-control" value="${start_day }">
+                      <input type="date" class="end-day form-control" value="${end_day }">
+                    </div>
+                    <div class="input-group return-no-box">
+                      <span class="input-group-text">출고번호</span>
+                      <input type="text" class="return-no-text form-control" placeholder="반품번호를 입력하세요" value="${return_no }" />
+                    </div>
+                    <div class="input-group outitem-no-box">
+                      <span class="input-group-text">주문번호</span>
+                      <input type="text" class="outitem-no-text form-control" placeholder="출고번호를 입력하세요" value="${outitem_no }" />
+                    </div>
                   </div>
+                  <div>
+                    <div class="input-group cust-nm-box">
+                      <span class="input-group-text">매입처</span>
+                      <input type="text" class="cust-nm-text form-control" placeholder="고객사명을 입력하세요" value="${cust_nm }" />
+                    </div>
+                    <div class="input-group item-nm-box">
+                      <span class="input-group-text">제품명</span>
+                      <input type="text" class="item-nm-text form-control" placeholder="제품명을 입력하세요" value="${item_nm }" />
+                    </div>
+                    <div class="input-group user-nm-box">
+                      <span class="input-group-text">담당자명</span>
+                      <input type="text" class="return-emp-nm-text form-control" placeholder="담당자명을 입력하세요" value="${return_emp_nm }" />
+                      &nbsp;
+                      <button type="button" id="search-btn" class="search-btn btn btn-primary">검색</button>
+                    </div>
+                  </div>
+                  <!-- <div class="search-btn-box">
+                  </div> -->
 
-                  <button
-                    id="dateRightBtn"
-                    type="button"
-                    class="btn btn-primary"
-                  >
-                    <i class="bi bi-caret-right-fill"></i>
-                  </button>
-                </div>
 
 
 
-
-                <!-- 테이블 -->
+                <!-- 테이블, 조회 -->
                 <c:set var="num" value="${page.total-page.start+1 }"></c:set>
                 <!-- Table with stripped rows -->
                 <table class="table table-hover">
                   <thead>
                     <tr>
-  <!--                     <th scope="col">
-                        <b>출고번호</b>
-                      </th> -->
                       <th scope="col">출고번호</th>
                       <th scope="col">순번</th>
                       <th scope="col">주문번호</th>
@@ -542,11 +357,11 @@ pageEncoding="UTF-8"%>
                       <th scope="col">주문납기일</th>
                       <th scope="col">출고일자</th>
                       <th scope="col">매입처</th>
-                      <th scope="col">제품명</th>
-                      <th scope="col">주문상태</th>
-                      <th scope="col">출고수량</th>
+                      <th scope="col">출고제품</th>
                       <th scope="col">비고</th>
                       <th scope="col">출고관리자</th>
+                      <th scope="col">출고상태</th>
+
                     </tr>
                   </thead>
 
@@ -564,15 +379,15 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.order_end_dt}</td>
                       <td>${outitem.outitem_dt}</td>
                       <td>${outitem.cust_nm}</td>
-                      <td>${outitem.item_nm}</td>
-                      <td>
-                        <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
-                        <c:if test="${outitem.order_status_chk==1}">일부 출고</c:if>
-                        <c:if test="${outitem.order_status_chk==2}">전체 출고 완료</c:if>
-                      </td>
-                      <td>${outitem.qty}</td>
+                      <td>${outitem.items}</td>
                       <td>${outitem.remark}</td>
                       <td>${outitem.user_nm}</td>
+                      <td>
+                        <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
+                        <c:if test="${outitem.order_status_chk==1}">취소됨</c:if>
+                        <c:if test="${outitem.order_status_chk==2}">일부 출고</c:if>
+                        <c:if test="${outitem.order_status_chk==3}">전체 출고 완료</c:if>
+                      </td>
                     </tr>
                     <c:set var="num" value="${num - 1 }"></c:set>
 
@@ -580,43 +395,29 @@ pageEncoding="UTF-8"%>
 
                   </tbody>
                 </table>
-
-                <c:if test="${page.startPage > page.pageBlock }">
-                  <a href="listOutitem?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
-                </c:if>
-                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                  <a href="listOutitem?currentPage=${i}">[${i}]</a>
-                </c:forEach>
-                <c:if test="${page.endPage < page.totalPage }">
-                  <a href="listOutitem?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-                </c:if>
-
-
-
+               
                 <!-- End Table with stripped rows -->
               </div>
 
+
+              
+                
+             
+
+
+
+
+
               <!-- 번호디자인 -->
-              <!-- Disabled and active states -->
-              <nav aria-label="..." style="margin: auto">
+              <nav class="page-navigation">
                 <ul class="pagination">
-                  <li class="page-item disabled">
-                    <a
-                      class="page-link"
-                      href="#"
-                      tabindex="-1"
-                      aria-disabled="true"
-                      >Previous</a
-                    >
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">2</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                  <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
                   <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                    <a class="page-link" href="outitem?currentPage=${i}">${i}</a>
                   </li>
+                  </c:forEach>
+
                 </ul>
               </nav>
               <!-- End Disabled and active states -->
@@ -640,213 +441,127 @@ pageEncoding="UTF-8"%>
           id="outitemDetailModal"
           tabindex="-1"
           style="display: none"
-          aria-hidden="true"
-        > <!-- 상세 부분.. (수정,삭제에도 사용) -->
+          aria-hidden="true"> <!-- 상세 부분.. (수정,삭제에도 사용) -->
 
           <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
+            <div class="modal-content" data-backdrop="static"> <!-- 닫기버튼 눌렀을 때 
+              이 부분의 input과 textarea의 val이 초기화 -->
               <div class="modal-header">
-                <h1 class="modal-title">출고 상세</h1>
+                <h5 class="modal-title">출고 상세</h5>
                 <button
                   type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                ></button>
+                ></button> <!-- 닫기 버튼 -->
               </div>
 
 
-              <div class="modal-body"> <!-- Start modal body -->
-                <form>
+              <div class="modal-body detail"> <!-- Start modal body -->
+                <form action="updateOutitem" method="get" id="updateOutitemForm">
     
-                    <!-- 주문번호 -->
+                    <!-- 출고번호 -->
                     <div class="row mb-3 d-flex">
-                      <label class="col-sm-3 col-form-label"
-                        >주문번호(주문 테이블에서 가져와서 선택할 수
-                        있게)</label
-                      >
-                      <div class="col-sm-9">
-                        <input
-                          type="text"
-                          class="form-control"
-                          value="${order_no}"
-                          readonly
-                          id="order_no_modal" 
-                        /> <!-- 닫기버튼 눌렀을때 이 부분이 주문번호 선택으로 변경 -->
+                      <label class="col-sm-3 col-form-label">출고번호</label>
+                      <div class="col-sm-9" id="detail_outitem_no">
+                        <!-- ajax로 소환 -->
                       </div>
                     </div>
 
-                    <!-- 주문일자(단순조회) -->
+                    <!-- 주문번호 -->
                     <div class="row mb-3 d-flex">
-                      <label class="col-sm-3 col-form-label"
-                        >주문일자(단순조회)</label
-                      >
-                      <div class="col-sm-9">
-                        <input
-                          type="text"
-                          class="form-control"
-                          value="${order_dt}"
-                          readonly
-                        />
+                      <label class="col-sm-3 col-form-label">주문번호</label>
+                      <div class="col-sm-9" id="detail_order_no">
+                        <!-- ajax -->
+                      </div>
+                    </div>
+
+                    <!-- 주문일자 -->
+                    <div class="row mb-3 d-flex">
+                      <label class="col-sm-3 col-form-label">주문일자</label>
+                      <div class="col-sm-9" id="detail_order_dt">
+                       
                       </div>
                     </div>
 
                     <!-- 출고일자 -->
                     <div class="row mb-3">
-                      <label for="outitem_dt" class="col-sm-3 col-form-label"
-                        >출고일자(달력)-주문일자보다 늦어야함</label
-                      >
-                      <div class="col-sm-9">
-                        <input
-                          type="date"
-                          class="form-control"
-                          id="outitem_dt"
-                          name="outitem_dt"
-                        />
+                      <label for="outitem_dt" class="col-sm-3 col-form-label">출고일자</label>
+                      <div class="col-sm-9" id="detail_outitem_dt">
                       </div>
                     </div>
 
-                    <!-- 매입처이름 -->
+                    <!-- 매입처 -->
                     <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label"
-                        >매입처이름</label
-                      >
-                      <div class="col-sm-9">
-                        <p style="color: black">거래처이름 ${cust_nm}</p>
+                      <label for="workprod_dt" class="col-sm-3 col-form-label">매입처</label>
+                      <div class="col-sm-9" id="detail_cust_nm">
                       </div>
                     </div>
 
                     <!-- 거래처담당자 -->
                     <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label"
-                        >거래처담당자이름</label
-                      >
-                      <div class="col-sm-9">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="거래처담당자명 임의로 입력"
-                          name="cust_emp"
-                          autocomplete="off"
-                          required="required"
-                        />
+                      <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자</label>
+                      <div class="col-sm-9" id="detail_cust_emp">
                       </div>
                     </div>
 
                     <!-- 주문상태 -->
                     <div class="row mb-3">
-                      <label for="order_status_chk" class="col-sm-3 col-form-label"
-                        >주문상태</label
-                      >
-                      <div class="col-sm-9">
-                        <p style="color: black">
-                          <c:if test="${order_status_chk==0}">미출고</c:if>
-                          <c:if test="${order_status_chk==1}">일부 출고</c:if>
-                          <c:if test="${order_status_chk==2}">출고완료</c:if>
-                        </p>
+                      <label for="order_status_chk" class="col-sm-3 col-form-label">주문상태</label>
+                      <div class="col-sm-9" id="detail_order_status_chk">
+                        
                       </div>
                     </div>
 
-                    <!-- 주문마감일 -->
+                    <!-- 주문마감일-->
                     <div class="row mb-3">
-                      <label for="order_end_dt" class="col-sm-3 col-form-label"
-                        >주문마감일</label
-                      >
-                      <div class="col-sm-9">
-                        <p style="color: black">주문마감일 ${order_end_dt}</p>
+                      <label for="order_end_dt" class="col-sm-3 col-form-label">주문납기일</label>
+                      <div class="col-sm-9" id="detail_order_end_dt">
                       </div>
                     </div>
 
                     <!-- 출고할 제품 선택-->
                     <div class="row mb-3">
-                      <label class="col-sm-3 col-form-label"
-                        >제품명(거래처cd 가져와서)</label
-                      >
+                      <label class="col-sm-3 col-form-label">제품명</label>
 
                       <div class="col-sm-9 mb-3">
-                        <!-- 중첩모달 띄우는 버튼 -->
-                        <!-- Vertically centered Modal -->
 
                         <!-- 선택된 투입품 리스트 -->
                         <div class="card-body">
                           <h5 class="card-title mb-1"></h5>
 
-                          <!-- List group with custom content -->
-                          <ol class="list-group list-group-numbered">
-                            <li
-                              class="list-group-item d-flex justify-content-between align-items-start"
-                            >
-                              <div class="ms-2 me-auto">
-                                <div class="fw-bold">제품명</div>
-                                품목CD에서..
-                              </div>
-                              <!-- 현재재고 -->
-                              <div class="d-flex">
-                                <label for="qty" class="col-sm-3 col-form-label"
-                                  >현재재고</label
-                                >
-                                <div class="col-sm-3 mx-2">
-                                  <input
-                                    type="number"
-                                    class="form-control"
-                                    id="qty"
-                                    readonly
-                                  />
-                                </div>
-                              </div>
-                              <div class="d-flex">
-                                <label for="qty" class="col-sm-3 col-form-label"
-                                  >주문수량</label
-                                >
-                                <div class="col-sm-3 mx-2">
-                                  <input
-                                    type="number"
-                                    class="form-control"
-                                    id="qty"
-                                  />
-                                </div>
-                              </div>
-                              <div class="d-flex">
-                                <label for="qty" class="col-sm-3 col-form-label"
-                                  >출고수량(재고, 주문보다 많으면 안됨)</label
-                                >
-                                <div class="col-sm-3 mx-2">
-                                  <input
-                                    type="number"
-                                    class="form-control"
-                                    id="qty"
-                                  />
-                                </div>
-                              </div>
-                              그 외 품목cd, 품목명, 분류번호, 규격, 단위, 수량,
-                              단가 등을 가져옴 (단순조회)
-                            </li>
-                          </ol>
-                          <!-- End with custom content -->
-                        </div>
-                      </div>
-                    </div>
+                          <table class="table table-hover" id="detail_outitem_item_list">
+                            <thead>
+                              <tr>
+                                <th></th> <!-- 체크박스 공간 -->
+                                <th>제품명</th>
+                                <th>현재 재고</th>
+                                <th>주문수량</th>
+                                <th>남은 주문 수량</th>
+                                <th>출고한 수량</th>
+                              </tr>
+                            </thead>
+          
+                            <tbody>
+                           <!-- ajax로 들어감 -->
+                            </tbody>
+
+                          </table>
+
+                        </div> <!-- 투입품 card body -->
+                          
+                      </div> <!-- col-sm-9 mb-3 -->
+                    </div> <!-- row mb-3 -->
+
 
                     <!-- 비고 -->
                     <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label"
-                        >비고</label
-                      >
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" id="" />
+                      <label for="detail_remark" class="col-sm-3 col-form-label">비고</label>
+                      <div class="col-sm-9" id="detail_remark">
+
                       </div>
                     </div>
 
-                    <!-- 출고삭제여부 -->
-                    <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label"
-                        >출고삭제여부</label
-                      >
-                      <div class="col-sm-9">
-                        <p style="color: black">출고삭제여부(단순조회)</p>
-                      </div>
-                    </div>
-                  </div>
 
                   <!-- 신규버튼 modal의 하단 버튼 -->
                   <div class="modal-footer">
@@ -855,32 +570,33 @@ pageEncoding="UTF-8"%>
                     <!-- 닫기버튼 -->
                     <button
                       type="button"
-                      class="btn btn-outline-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      닫기버튼
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal">
+                      닫기
                     </button>
 
-
-
-
-                    <button type="submit" class="btn btn-success">수정</button>
-
-
-
-                    <button type="submit" class="btn btn-outline-secondary">
+                    <button type="submit" class="btn btn-danger">
                       삭제
                     </button>
 
+                    <button type="submit" id="updateOutitemBtn" class="btn btn-primary">수정</button>
+
+                    <button type="submit" id="updateOutitemSubmitBtn" class="btn btn-primary" 
+                    style="display: none;">수정완료</button>
 
 
-                  </div>
+
+
+
+
+
+                  </div> <!-- modal-footer -->
                 </form>
               </div> <!-- End modal body -->
 
 
 
-            </div>
+            </div> <!-- modal-content -->
           </div>
         </div>
         <!-- End modal -->
@@ -892,11 +608,9 @@ pageEncoding="UTF-8"%>
     <%@ include file="../footer.jsp" %>
     <!-- End Footer -->
 
-    <a
-      href="#"
+    <a href="#"
       class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+      ><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

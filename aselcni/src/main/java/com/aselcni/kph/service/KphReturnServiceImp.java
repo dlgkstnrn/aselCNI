@@ -30,8 +30,35 @@ public class KphReturnServiceImp implements KphReturnService {
 
 	@Override
 	public void returnAdd(KphReturn kphReturn) {
-		
 		kphReturnDao.returnAdd(kphReturn);
+	}
+	
+	@Override
+	public int totalReturnCount(KphReturn kphReturn) {
+		return kphReturnDao.totalReturnCount(kphReturn);
+	}
+	
+	@Override
+	public List<KphReturn> returnList(KphReturn kphReturn) {
+		return kphReturnDao.returnList(kphReturn);
+	}
+	
+	@Override
+	public KphReturn getReturn(KphReturn kphReturn) {
+		KphReturn returnObj = kphReturnDao.getReturn(kphReturn);
+		int maxQty = kphReturnDao.getUsableOutItemQty(returnObj);
+		returnObj.setMax_qty(maxQty);
+		return returnObj;
+	}
+	
+	@Override
+	public void returnDelete(KphReturn kphReturn) {
+		kphReturnDao.returnDelete(kphReturn);
+	}
+	
+	@Override
+	public void returnUpdate(KphReturn kphReturn) {
+		kphReturnDao.returnUpdate(kphReturn);
 	}
 	
 }

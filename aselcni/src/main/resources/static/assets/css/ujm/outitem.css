@@ -1,4 +1,51 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+
+.body {
+  font-family: 'NanumSquare', sans-serif;
+}
 
 .table-hover:hover {
   cursor: pointer;
+}
+
+/* search */
+.search {
+	border: 1px solid #dee2e6;
+	padding: 10px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+}
+
+.search> div {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.search> div:last-child {
+	margin-bottom: 0;
+}
+
+.search div div {
+	width: 33%;
+}
+
+.search .search-btn-box {
+	display: flex;
+	justify-content: center;
+}
+
+.search-btn-box .search-btn {
+	width: 70px;
+	font-family: 'NanumSquare', sans-serif;
+}
+
+.page-navigation {
+  display: flex;
+  justify-content: center;
+}
+
+.page-navigation .pagination {
+  margin-bottom: 0;
 }

@@ -2,26 +2,147 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.KdwProdPlanMapper">
 
-	<!-- 생산계획 제품리스트 -->		
+	<!-- 생산계획 제품리스트 -->
 	<select id="kdwProdPlanList" resultType="KdwProdPlan">
 		SELECT
-			pp.*,
-	        im.ITEM_NM AS item_nm, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
-	        im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS cust_nm
-	    FROM TB_PRODPLAN pp
-	    INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
-	    LEFT JOIN TB_ORDER od ON pp.ORDER_NO  = od.ORDER_NO
-	    LEFT JOIN TB_CUSTMST cm ON od.CUST_CD = cm.CUST_CD
-	    ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO
+		pp.*,
+		im.ITEM_NM AS item_nm, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
+		im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS cust_nm,
+		um.USER_NM AS prodplan_emp_name
+		FROM TB_PRODPLAN pp
+		INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
+		LEFT JOIN TB_ORDER od ON pp.ORDER_NO = od.ORDER_NO
+		LEFT JOIN TB_CUSTMST cm ON od.CUST_CD = cm.CUST_CD
+		LEFT JOIN TB_USERMST um ON pp.prodplan_emp_id = um.user_id
+		WHERE pp.prodPlan_delete_chk = 0
+		ORDER BY pp.PRODPLAN_DT, pp.SEQ_NO
 	</select>
-	
-	<!-- 생산계획 자재리스트 -->		
+
+	<!-- 생산계획 자재리스트 -->
 	<select id="kdwProdPlanItemList" resultType="KdwProdPlanItem">
 		SELECT
-		    ip.*,
-		    im.ITEM_NM AS item_nm, im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost
+		ip.*,
+		im.ITEM_NM AS item_nm, im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost
 		FROM TB_ITEM_PROD ip
 		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
 	</select>
+
+	<!-- 주문 리스트: 등록할때 주문당 생산계획짜야됨 -->
+	<select id="kdwProdPlanOrderList" resultType="KdwProdOrder">
+		SELECT od.*,
+		tc.CUST_NM AS cust_nm
+		FROM TB_ORDER od
+		INNER JOIN TB_CUSTMST tc ON
+		od.CUST_CD = tc.CUST_CD
+	</select>
+	<select id="kdwProdPlanOrderItemList" resultType="KdwProdOrderItem">
+		SELECT toi.*, ti.ITEM_NM AS item_nm
+		FROM TB_ORDER_ITEM toi
+		INNER JOIN TB_ITEMMST ti ON toi.ITEM_CD = ti.ITEM_CD
+	</select>
+
+	<!-- 대중소 분류 -->
+	<select id="kdwProdPlanItemTypeBigList" resultType="KdwProdItemTypeBig">
+		SELECT *
+		FROM TB_TYPE_BIG
+	</select>
+	<select id="kdwProdPlanItemTypeMidList" resultType="KdwProdItemTypeMid">
+		SELECT *
+		FROM TB_TYPE_MID
+	</select>
+	<select id="kdwProdPlanItemTypeSmlList" resultType="KdwProdItemTypeSml">
+		SELECT *
+		FROM TB_TYPE_SML
+	</select>
+
+	<!-- 아이템 리스트 -->
+	<select id="kdwProdItemCategoriesSearchList" resultType="KdwProdItemList">
+		SELECT *
+		FROM TB_ITEMMST
+		WHERE item_delete_chk = 0
+		AND big_no = #{bigNo}
+		AND mid_no = #{midNo}
+		AND sml_no = #{smlNo}
+	</select>
 	
+	<!-- 생산계획 등록 -->
+	
+	<!-- SEQ_NO 생성을 위한 쿼리: 주문 상태 업데이트를 위함 -->
+	<select id="kdwGenerateSeqNo" parameterType="map" resultType="int">
+	    SELECT COALESCE(MAX(seq_no), 0) + 1 FROM TB_PRODPLAN WHERE order_no = #{order_no}
+	</select>
+	
+	<!-- PRODPLAN_NO 생성을 위한 쿼리: 투입자재에서 사용하기 위함(PK위반) -->
+	<select id="kdwGenerateProdPlanNo" parameterType="map" resultType="String">
+	    SELECT CONCAT(
+	        'PRP',
+	        CONVERT(CHAR(6), GETDATE(), 12),
+	        FORMAT((SELECT COUNT(*) FROM TB_PRODPLAN WHERE SUBSTRING(prodPlan_no, 4, 6) = CONVERT(CHAR(6), GETDATE(), 12)) + 1, '0000')
+	    ) AS prodPlan_no
+	</select>
+
+	<insert id="kdwSaveProdPlan" parameterType="map">
+	    INSERT INTO TB_PRODPLAN (prodPlan_no, prodPlan_dt, seq_no, order_no,
+	    prodplan_emp_id, work_dt, prodPlan_end_dt, item_cd, qty, remark, prodPlan_update, prodPlan_delete_chk)
+	    VALUES (
+	    #{tbProdPlan.prodPlan_no},
+	    #{tbProdPlan.prodPlan_dt}, #{tbProdPlan.seq_no}, #{tbProdPlan.order_no}, 
+	    #{prodplan_emp_id}, #{tbProdPlan.work_dt}, #{tbProdPlan.prodPlan_end_dt}, 
+	    #{tbProdPlan.item_cd}, #{tbProdPlan.qty}, #{tbProdPlan.remark}, NULL, 0)
+	</insert>
+
+	<!-- 투입 자재 등록 --> <!-- 수정 시 신규 투입 자재 등록 -->
+	<insert id="kdwSaveItemProd" parameterType="KdwProdPlanItem">
+		INSERT INTO TB_ITEM_PROD (prodPlan_no, item_cd, in_qty, cost)
+		VALUES (
+		#{prodPlan_no}, #{item_cd}, #{in_qty},
+		(SELECT item_cost FROM TB_ITEMMST WHERE item_cd = #{item_cd})
+		)
+	</insert>
+	<!-- SEQ_NO가 1인 경우 주문 상태 업데이트 -->
+	<update id="kdwUpdateOrderStatus">
+	    UPDATE TB_ORDER
+	    SET ORDER_STATUS_CHK = 2
+	    WHERE ORDER_NO = #{order_no}
+	</update>
+	
+	<!-- 생산계획수정 -->
+	<update id="kdwUpdateProdPlan" parameterType="KdwProdPlan">
+	    UPDATE TB_PRODPLAN
+	    SET order_no = #{order_no}, work_dt = #{work_dt}, prodPlan_dt = #{prodPlan_dt},
+	        prodPlan_end_dt = #{prodPlan_end_dt}, item_cd = #{item_cd}, 
+	        qty = #{qty}, remark = #{remark}, prodPlan_update = CONVERT(DATE, GETDATE())
+	    WHERE prodPlan_no = #{prodPlan_no}
+	</update>
+	
+	<!-- 삭제할 기존 투입자재 -->
+	<delete id="kdwDeleteItemProd" parameterType="KdwProdPlanItem">
+	    DELETE FROM TB_ITEM_PROD
+	    WHERE prodPlan_no = #{prodPlan_no} AND item_cd = #{item_cd}
+	</delete>
+	
+	<!-- 기존 투입 자재 개수 수정 -->
+	<update id="kdwUpdateItemProdQuantity" parameterType="KdwProdPlanItem">
+	    UPDATE TB_ITEM_PROD
+	    SET in_qty = #{in_qty}
+	    WHERE prodPlan_no = #{prodPlan_no} AND item_cd = #{item_cd}
+	</update>
+	<!-- 자재 업데이트 시 생산계획의 prodPlan_update 필드도 현재 날짜로 업데이트 -->
+	<update id="kdwUpdateProdPlanUpdateDate" parameterType="KdwProdPlan">
+	    UPDATE TB_PRODPLAN
+	    SET prodPlan_update = CONVERT(DATE, GETDATE())
+	    WHERE prodPlan_no = #{prodPlan_no}
+	</update>
+	<!-- 생산계획삭제 prodPlan_delete_chk 값을 1로 업데이트 -->
+	<update id="kdwUpdateProdPlanDeleteChk" parameterType="KdwProdPlan">
+	    UPDATE TB_PRODPLAN
+	    SET prodPlan_delete_chk = 1
+	    WHERE prodPlan_no = #{prodPlanNo}
+	</update>
+	
+	<!-- 자재 존재 여부 확인 -->
+	<select id="checkMaterialExists" parameterType="map" resultType="int">
+	    SELECT COUNT(*) FROM TB_ITEM_PROD
+	    WHERE prodPlan_no = #{prodPlan_no} AND item_cd = #{item_cd}
+	</select>
 </mapper>

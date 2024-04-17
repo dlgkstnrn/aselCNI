@@ -2,15 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.JtumProdItemMapper">
 
+	<select id="jtuCreatePriNo" parameterType="JtuProdItem" resultType="String">
+		SELECT CONCAT('PRI', RIGHT(REPLACE(#{proditem_end_dt},'-',''),6) , FORMAT(ISNULL(COUNT(ti.PRODITEM_END_DT),0)+1, '0000')) AS PRODITEM_END_DT
+		FROM TB_PRODITEM ti
+		WHERE ti.PRODITEM_END_DT = #{proditem_end_dt};
+	</select>
+
 	<insert id="jtuInsertPri" parameterType="JtuProdItem">
 		insert into TB_PRODITEM
-		(WORKPROD_NO, PRODITEM_END_DT, ITEM_CD, PLN_QTY, PROD_QTY, BAD_QTY, BAD_RES, 
+		(PRODITEM_NO, WORKPROD_NO, PRODITEM_END_DT, ITEM_CD, PLN_QTY, PROD_QTY, BAD_QTY, 
 					REMARK, WH_CD, PRODITEM_EMP_ID, PRODITEM_UPDATE, PRODITEM_DELETE_CHK)
 					
-		values(#{workprod_no}, #{proditem_end_dt}, #{item_cd}, #{pln_qty}, #{prod_qty}, #{bad_qty}, #{bad_res}, 
+		values(#{proditem_no}, #{workprod_no}, #{proditem_end_dt}, #{item_cd}, #{pln_qty}, #{prod_qty}, #{bad_qty}, 
 					#{remark}, #{wh_cd}, #{proditem_emp_id}, CONVERT(CHAR(10),GETDATE(), 23), 0)
-		
 	</insert>
+	
+	<insert id="jtuInsertPriBad" parameterType="JtuProdItemBad">
+		insert into TB_PRODITEM_BAD
+			(PRODITEM_NO, BAD_CD)
+		values (#{proditem_no}, #{bad_cd})
+	</insert>
+	
+	<delete id="jtuDeletePriBad" parameterType="JtuProdItemBad">
+		delete from TB_PRODITEM_BAD
+		where PRODITEM_NO = #{proditem_no} 
+		and BAD_CD = #{bad_cd}
+	</delete>
 	
 
 	<resultMap id="WHResultMap"
@@ -37,13 +54,144 @@
 		where WH_DELETE_CHK=0
 	</select>
 	
-	<select id="JtuGetPriList" parameterType="JtuProdItem" resultType="JtuProdItem">
+	
+	<select id="jtuGetBadList" parameterType="JtuBad" resultType="JtuBad">
+		select * 
+		from TB_BAD
+		where (bad_cd like '%' + #{badCdKeyword} + '%'
+			and bad_res like '%' + #{badResKeyword} + '%')
+	</select>
+	
+	<insert id="jtuInsertBadOne" parameterType="JtuBad">
+		insert into TB_BAD
+			(BAD_CD, BAD_RES)
+		values(#{bad_cd}, #{bad_res})
+	</insert>
+	
+	
+	
+<!-- 	<select id="JtuGetPriList" parameterType="map" resultType="JtuProdItem">
+	    WITH OrderedItems AS (
+	        SELECT 
+	            ROW_NUMBER() OVER (ORDER BY p.PRODITEM_NO ASC) AS rownum,
+	            p.*, i.ITEM_NM, w.WH_NM
+	        FROM TB_PRODITEM p 
+	        JOIN TB_ITEMMST i ON p.ITEM_CD = i.ITEM_CD
+	        JOIN TB_WHMST w ON p.WH_CD = w.WH_CD
+	        WHERE p.PRODITEM_DELETE_CHK=0
+	        AND CONVERT(DATE, p.PRODITEM_END_DT, 23) BETWEEN CONVERT(DATE, #{startDate}, 23) AND CONVERT(DATE, #{endDate}, 23)
+	        <if test="proditem_emp_id != null and proditem_emp_id != ''">
+	            AND p.PRODITEM_EMP_ID LIKE '%' + #{proditem_emp_id} + '%'
+	        </if>
+	        <if test="proditem_no != null and proditem_no != ''">
+	            AND p.PRODITEM_NO LIKE '%' + #{proditem_no} + '%'
+	        </if>
+	        <if test="workprod_no != null and workprod_no != ''">
+	            AND p.WORKPROD_NO LIKE '%' + #{workprod_no} + '%'
+	        </if>
+	        <if test="whNoAndNameKeyword != null and whNoAndNameKeyword != ''">
+	            AND (p.WH_CD LIKE '%' + #{whNoAndNameKeyword} + '%' OR w.WH_NM LIKE '%' + #{whNoAndNameKeyword} + '%')
+	        </if>
+	        <if test="itemNoAndNameKeyword != null and itemNoAndNameKeyword != ''">
+	            AND (p.ITEM_CD LIKE '%' + #{itemNoAndNameKeyword} + '%' OR i.ITEM_NM LIKE '%' + #{itemNoAndNameKeyword} + '%')
+	        </if>
+	    )
+	    SELECT * FROM OrderedItems
+	    WHERE rownum BETWEEN #{start} AND #{end}
+	</select> -->
+	
+	
+	
+	
+	
+	<select id="JtuGetPriList" parameterType="map" resultType="JtuProdItem">
+	    select * 
+	    from TB_PRODITEM p 
+	    join TB_ITEMMST i on p.ITEM_CD = i.ITEM_CD
+	    join TB_WHMST w on p.WH_CD = w.WH_CD
+	    where p.PRODITEM_DELETE_CHK=0
+	    and CONVERT(DATE, p.PRODITEM_END_DT, 23) between CONVERT(DATE, #{startDate}, 23) and CONVERT(DATE, #{endDate}, 23)
+	    <if test="proditem_emp_id != null and proditem_emp_id != ''">
+	        and p.PRODITEM_EMP_ID like '%' + #{proditem_emp_id} + '%'
+	    </if>
+	    <if test="proditem_no != null and proditem_no != ''">
+	        and p.PRODITEM_NO like '%' + #{proditem_no} + '%'
+	    </if>
+	    <if test="workprod_no != null and workprod_no != ''">
+	        and p.WORKPROD_NO like '%' + #{workprod_no} + '%'
+	    </if>
+	    <if test="whNoAndNameKeyword != null and whNoAndNameKeyword != ''">
+	        and (p.WH_CD like '%' + #{whNoAndNameKeyword} + '%' or w.WH_NM like '%' + #{whNoAndNameKeyword} + '%')
+	    </if>
+	    <if test="itemNoAndNameKeyword != null and itemNoAndNameKeyword != ''">
+	        and (p.ITEM_CD like '%' + #{itemNoAndNameKeyword} + '%' or i.ITEM_NM like '%' + #{itemNoAndNameKeyword} + '%')
+	    </if>
+	    ORDER BY p.PRODITEM_NO DESC
+	    OFFSET (#{currentPage}-1)* #{rowPage} ROWS
+	    FETCH NEXT #{rowPage} ROWS ONLY
+	</select>	
+
+	<select id="jtuGetJpriTotalCnt" parameterType="JtuProdItem" resultType='int'>
+	    select  count(*)
+	    from TB_PRODITEM p 
+	    join TB_ITEMMST i on p.ITEM_CD = i.ITEM_CD
+	    join TB_WHMST w on p.WH_CD = w.WH_CD
+	    where p.PRODITEM_DELETE_CHK=0
+	    and CONVERT(DATE, p.PRODITEM_END_DT, 23) between CONVERT(DATE, #{startDate}, 23) and CONVERT(DATE, #{endDate}, 23)
+	    <if test="proditem_emp_id != null and proditem_emp_id != ''">
+	        and p.PRODITEM_EMP_ID like '%' + #{proditem_emp_id} + '%'
+	    </if>
+	    <if test="proditem_no != null and proditem_no != ''">
+	        and p.PRODITEM_NO like '%' + #{proditem_no} + '%'
+	    </if>
+	    <if test="workprod_no != null and workprod_no != ''">
+	        and p.WORKPROD_NO like '%' + #{workprod_no} + '%'
+	    </if>
+	    <if test="whNoAndNameKeyword != null and whNoAndNameKeyword != ''">
+	        and (p.WH_CD like '%' + #{whNoAndNameKeyword} + '%' or w.WH_NM like '%' + #{whNoAndNameKeyword} + '%')
+	    </if>
+	    <if test="itemNoAndNameKeyword != null and itemNoAndNameKeyword != ''">
+	        and (p.ITEM_CD like '%' + #{itemNoAndNameKeyword} + '%' or i.ITEM_NM like '%' + #{itemNoAndNameKeyword} + '%')
+	    </if>
+	</select>
+	
+	
+	<select id="jtuGetPriOne" parameterType="JtuProdItem" resultType="JtuProdItem">
 		select * 
 		from TB_PRODITEM p 
 		join TB_ITEMMST i on p.ITEM_CD = i.ITEM_CD
 		join TB_WHMST w	on p.WH_CD = w.WH_CD
 		where p.PRODITEM_DELETE_CHK=0
-		and CONVERT(DATE, p.PRODITEM_END_DT, 23) between CONVERT(DATE, #{startDate}, 23) and CONVERT(DATE, #{endDate}, 23)
+		and p.PRODITEM_NO = #{proditem_no}
+	</select>
+	
+	<update id="jtuUpdatePriOne" parameterType="JtuProdItem">
+		update TB_PRODITEM
+		set PRODITEM_END_DT = #{proditem_end_dt}, 
+		    ITEM_CD = #{item_cd}, 
+		    PLN_QTY = #{pln_qty}, 
+		    PROD_QTY = #{prod_qty}, 
+		    BAD_QTY = #{bad_qty}, 
+		    REMARK = #{remark}, 
+		    WH_CD = #{wh_cd}, 
+		    PRODITEM_EMP_ID = #{proditem_emp_id}, 
+		    PRODITEM_UPDATE = CONVERT(CHAR(10), GETDATE(), 23), 
+		    PRODITEM_DELETE_CHK = 0
+		where PRODITEM_NO = #{proditem_no}
+
+	</update>
+	
+	<update id="jtuDeletePriOne" parameterType="JtuProdItem">
+		update TB_PRODITEM
+		set PRODITEM_DELETE_CHK = 1 
+		where PRODITEM_NO = #{proditem_no}
+	</update>
+	
+	<select id="JtuGetPriBadList" parameterType="JtuProdItem" resultType="JtuProdItemBad">
+		select * 
+		from TB_PRODITEM_BAD pb
+		join TB_BAD b on pb.BAD_CD = b.BAD_CD
+		where pb.PRODITEM_NO =#{proditem_no}
 	</select>
 
 

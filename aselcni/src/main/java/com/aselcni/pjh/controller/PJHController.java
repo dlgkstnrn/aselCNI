@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.main.model.MenuMst;
 import com.aselcni.pjh.model.PJHInitem;
 import com.aselcni.pjh.model.PJHPurchase;
 import com.aselcni.pjh.model.PJHPurchaseItem;
@@ -38,16 +41,45 @@ public class PJHController {
 			return "redirect:/";
 		}
 		
+		System.out.println(request.getSession().getAttribute("menuListGroupByMenu"));
+		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)request.getSession().getAttribute("menuListGroupByMenu");
+		List<MenuMst> menus = menuListGroupByMenu.stream().flatMap(List<MenuMst>::stream).collect(Collectors.toList());
+		
+		if(menus.size()>0) {
+			byte flag = 0;
+			for(MenuMst menu : menus) {
+				System.out.println(menu.getUrl());
+				if("initem".equals(menu.getUrl()))
+						flag++;
+			}
+			if(flag == 0)
+				return "redirect:main";
+		}
+		
+		
 		PJHInitem initem = new PJHInitem();
 		Paging page = pagination(initem);
 		
-		List<PJHInitem> initems = service.getInitemList(initem);
-		System.out.println("PJHController initemView initems->"+ initems);
-		
-		model.addAttribute("initems", initems);
+		model.addAttribute("initems",getInItemList(initem, page));
 		model.addAttribute("page",page);
 		
 		return "pjh/initemView";
+	}
+	
+	
+	@ResponseBody
+	@GetMapping("searchInitems")
+	public Map<String, Object> searchInitems(PJHInitem initem){
+		System.out.println("PJHController searchInitems start...");
+		System.out.println("PJHController searchInitems param->"+ initem);
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		Paging page = pagination(initem);
+		response.put("page", page);
+		response.put("initems", getInItemList(initem, page));
+		
+		System.out.println("PJHController searchInitems response->"+ response);
+		return response;
 	}
 	
 	private Paging pagination(PJHInitem initem) {
@@ -68,6 +100,27 @@ public class PJHController {
 		
 		return page;
 	}
+	
+	private List<PJHInitem> getInItemList(PJHInitem initem, Paging page){
+		System.out.println("PJHController getInItemList start...");
+		List<PJHInitem> initems = new ArrayList<PJHInitem>();
+		if(page.getTotal() != 0)
+			initems = service.getInitemList(initem);
+		System.out.println("PJHController getInItemList initems->"+ initems);
+		return initems;
+	}
+	
+	@ResponseBody
+	@GetMapping("/detailInitem")
+	public PJHInitem detailInitem(PJHInitem initem) {
+		System.out.println("PJHController detailInitem start...");
+		System.out.println("PJHController detailInitem param->"+ initem);
+		PJHInitem resultInitem = service.detailInitem(initem);
+		System.out.println("PJHController detailInitem result->"+ resultInitem);
+		System.out.println("PJHController detailInitem items.size->"+ resultInitem.getInItems().size());
+		return resultInitem;
+	}
+	
 	
 	@RequestMapping("/initemWrite")
 	public String initemWriteView(HttpServletRequest request, Model model) {
@@ -128,4 +181,36 @@ public class PJHController {
 		return response;
 	}
 	
+	
+	@ResponseBody
+	@PostMapping("/updateInitem")
+	public String updateInitem(@RequestBody PJHInitem initem,HttpServletRequest request) {
+		System.out.println("PJHController updateInitem start...");
+		initem.setInitem_emp_id((String)request.getSession().getAttribute("user_id"));
+		System.out.println("PJHController updateInitem param->"+ initem);
+		
+		int result = service.updateInitem(initem);
+		
+		if(result <= 0) {
+			return "fail";
+		}
+		return "success";
+	}
+	
+	@ResponseBody
+	@DeleteMapping("deleteInitem")
+	public String deleteInitem(HttpServletRequest request,PJHInitem initem) {
+		System.out.println("PJHController deleteInitem start...");
+		initem.setInitem_emp_id((String)request.getSession().getAttribute("user_id"));
+		System.out.println("PJHController deleteInitem param->"+ initem);
+		
+		int result = service.deleteInitem(initem);
+		
+		if(result <= 0) {
+			return "fail";
+		}
+		return "success";
+	}
+	
 }
+

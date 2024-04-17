@@ -26,6 +26,9 @@ spring:
     showsql : true
     hibernate:
       ddl-auto: none
+      
+  transaction:
+    platform: org.springframework.transaction.PlatformTransactionManager
 
 mybatis:
   config-location: classpath:configuration.xml

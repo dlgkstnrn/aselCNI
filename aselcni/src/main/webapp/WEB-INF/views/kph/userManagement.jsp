@@ -64,15 +64,29 @@
 					<div class="controller">
 						<div class="search-bar">
 							<div class="search-form">
-								<input id="search-text" type="text" placeholder="검색어를 입력하세요">
+								<input id="search-text" type="text" placeholder="검색어를 입력하세요" value="${keyword }">
 								<button id="search-btn">
 									<i class="bi bi-search"></i>
 								</button>
 							</div>
 							<select name="search-filter" class="search-filter form-select">
-								<option value="all" selected>전체</option>
-								<option value="user_nm">유저명</option>
-								<option value="user_id">유저아이디</option>
+								<c:choose>
+									<c:when test="${searchFilter == 'user_nm'}">
+										<option value="all">전체</option>
+										<option value="user_nm" selected>유저명</option>
+										<option value="user_id">유저아이디</option>
+									</c:when>
+									<c:when test="${searchFilter == 'user_id'}">
+										<option value="all">전체</option>
+										<option value="user_nm">유저명</option>
+										<option value="user_id" selected>유저아이디</option>
+									</c:when>
+									<c:otherwise>
+										<option value="all" selected>전체</option>
+										<option value="user_nm">유저명</option>
+										<option value="user_id">유저아이디</option>
+									</c:otherwise>
+								</c:choose>
 							</select>
 						</div>
 						<button type="button" id="user-add"

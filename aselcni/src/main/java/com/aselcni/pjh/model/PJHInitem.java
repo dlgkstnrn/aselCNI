@@ -20,13 +20,15 @@ public class PJHInitem {
 	
 	// 정보 전달용
 	private List<PJHInitemItem> inItems;
+	private List<PJHWhmst> whs;
 	private int status;
 	private String cust_nm;
 	private String item_nm;
 	private String start_date;
 	private String end_date;
-	private String searchItemNm;
-	private String searchCustNm;
+	private String initem_emp_nm;
+	private String purc_emp_nm;
+	private int initem_end;
 	
 	// page 정보
 	private int startPage; // 시작 페이지

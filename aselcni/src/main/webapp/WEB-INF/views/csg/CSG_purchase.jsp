@@ -20,7 +20,7 @@
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<!--     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
     <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
@@ -34,6 +34,10 @@
     <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+  	<script defer src="assets/js/csg/modalCategory.js"></script> <!-- 모달 대중소분류 -->
+  	<script defer src="assets/js/csg/purchaseCategory.js"></script> <!-- 모달 대중소분류 -->
+
+	
   </head>
 
   <body>
@@ -47,95 +51,170 @@
         <!-- End Sidebar-->
 
         <main id="main" class="main ">
-
-          <div class="pagetitle">
-            <h1>구매 / 영업 관리</h1>
-            <nav>
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">구매 / 영업 관리</a></li>
-                <li class="breadcrumb-item active">발주 관리</li>
-              </ol>
-            </nav>
-          </div><!-- End Page Title -->
-
-          <section class="section dashboard">
-		    <div class="container-fluid">
-		        <!-- Navbar -->
-		        <nav class="navbar navbar-light bg-light shadow-sm rounded-lg">
-		            <div class="container-fluid">
-		                <span class="navbar-brand mb-0 h1">
-		                    <i class="fas fa-clipboard-list fa-lg text-primary"></i>
-		                    발주 관리
-		                </span>
-		            </div>
-		        </nav>
+   		 <form id="deleteForm" method="post" action="/deleteSelectedPurchases"> <!-- 삭제를 처리할 URL로 수정하세요 -->
+			<input type="hidden" id="selectedIds" name="selectedIds" value="">
+	          <div class="pagetitle">
+	            <h1>발주 관리</h1>
+	            <nav>
+	              <ol class="breadcrumb">
+	                <li class="breadcrumb-item"><a href="#">구매 / 영업 관리</a></li>
+	                <li class="breadcrumb-item active">발주 관리</li>
+	              </ol>
+	            </nav>
+	          </div><!-- End Page Title -->
+			<!-- <form action="/searchPurchases" method="POST">-->
+	          <section class="section dashboard">
+			    <div class="container-fluid bg-white p-4 shadow-lg">
+			
+			        <!-- Main Content -->
+			        <main class="flex-grow-1">
+				            <div class="col d-flex justify-content-end flex-wrap">
+							    <a href="/purchaseItemForm" class="btn btn-success mb-3">신규</a>
+							    <button class="btn btn-danger ms-2 mb-3" onclick="deleteSelected()">삭제</button>
+							</div>
+	
+				  	      <!-- 검색창과 검색 버튼을 포함하는 row @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+							<div id="searchInput" class="col d-flex justify-content-end mb-4">
+								<div class="input-group mb-3 me-3" style="width: auto;">
+							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">매입처</span>
+							        <input id="cust_nm" name="cust_nm" type="text" class="form-control" placeholder="매입처명" aria-label="매입처명">
+							    </div>
+							
+							    <div class="input-group mb-3 me-3" style="width: auto;">
+							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">발주번호</span>
+							        <input id="purc_no" name="purc_no" type="text" class="form-control" placeholder="발주번호" aria-label="발주번호">
+							    </div>
+							
+							    <div class="input-group mb-3 me-3" style="width: auto;">
+							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">자재명</span>
+							        <input id="item_nm" name="item_nm" type="text" class="form-control" placeholder="자재명" aria-label="자재명">
+							    </div>
+							    
+							     <!-- 시작일자 입력란 -->
+							    <div class="input-group mb-3 me-3" style="width: auto;">
+							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">시작일자</span>
+							        <input type="date" id="start_date" name="start_date" class="form-control">
+							    </div>
+							
+							    <!-- 마감일자 입력란 -->
+							    <div class="input-group mb-3 me-3" style="width: auto;">
+							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">마감일자</span>
+							        <input type="date" id="end_date" name="end_date" class="form-control">
+							    </div>
+							    
+							    	<button id="searchButton" class="btn btn-primary ms-4 mb-3 me-3" type="button">검색</button>
+							</div>
+							
+			        		<!-- Table -->
+				            <div class="card shadow-sm rounded-lg">
+				                <div class="card-body">
+				                    <table class="table table-striped" id="jajeinsertTable">
+				                        <thead>
+				                            <tr>
+				                                <th>선택</th>
+				                                <th>번호</th>
+				                                <th>발주번호</th>
+				                                <th>매입처</th>
+				                                <th>자재명</th>
+				                                <th>개수</th>
+				                                <th>단가 </th>
+				                                <th>공급가액</th>
+				                                <th>발주등록일자</th>
+				                                <th>발주현황</th>
+				                            </tr>
+				                        </thead>
+				                        <tbody id = "searchPurchase">
+											<c:forEach var="purchase" items="${purchaseList}" varStatus="status">
+												    <tr>
+												        <!-- 체크박스를 포함하는 셀 -->
+												        <td><input type="checkbox" id="itemSelect${status.index + 1}" name="itemSelect"></td>
+												        <!-- 다른 데이터를 포함하는 셀들 -->
+												        <td>${status.index + 1}</td> <!-- 행 번호를 동적으로 생성 -->
+												        <td>${purchase.purc_no}</td>
+												        <td>${purchase.cust_nm}</td>
+												        <td>${purchase.item_nm}</td>
+														<td><fmt:formatNumber value="${purchase.qty}" pattern="#,##0'개'"/></td>
+			   											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.item_cost}</fmt:formatNumber></td>
+			   											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.purc_cost}</fmt:formatNumber></td>
+												        <td>${purchase.purc_dt}</td>
+														<td>
+											            <c:choose>
+											                <c:when test="${purchase.purc_status_chk == 0}">
+											                    <button class="btn btn-warning btn-sm" type="button">발주진행중</button>
+											                </c:when>
+											                <c:when test="${purchase.purc_status_chk == 1}">
+											                    <button class="btn btn-info btn-sm" type="button">입고진행중</button>
+											                </c:when>
+											                <c:when test="${purchase.purc_status_chk == 2}">
+											                    <button class="btn btn-success btn-sm" type="button">입고완료</button>
+											                </c:when>
+											            </c:choose>
+											        </td>
+												    </tr>
+											</c:forEach>
 		
-		        <!-- Main Content -->
-		        <main class="flex-grow-1">
-		            <div class="row align-items-center py-3">
-		                <div class="col-md-6">
-		                    <input type="search" placeholder="검색" class="form-control">
-		                </div>
-		                <div class="col-md-6">
-		                    <button class="btn btn-primary">검색</button>
-		                    <a href="/purchaseItemForm" class="btn btn-success">신규등록</a>
-		                    <button class="btn btn-danger">삭제</button>
-		                </div>
-		            </div>
-		
-		            <!-- Table -->
-		            <div class="card shadow-sm rounded-lg">
-		                <div class="card-body">
-		                    <table class="table table-striped">
-		                        <thead>
-		                            <tr>
-		                                <th>선택</th>
-		                                <th>발주번호 TB_PURCHASE PURC_NO</th>
-		                                <th>발주번호 TB_PURCHASED에서 PURC_NO</th>
-		                                <th>매입처(거래처)TB_CUSTMST-TB_PURCHASED조인 CUST_CD로 CUST_NM불러오기</th>
-		                                <th>자재명 TB_ITEMMST에서 ITEM_NM불러오는데 ITEM_FLAG가 01인애들</th>
-		                                <th>발주일자 TB_PURCHASE의 PURC_DT</th>
-		                            </tr>
-		                        </thead>
-		                        <tbody>
-		                            <tr>
-		                                <td><input type="checkbox" id="itemSelect1" name="itemSelect"></td>
-		                                <td>1</td>
-		                                <td>11012ba</td>
-		                                <td>우리상사</td>
-		                                <td>비닐봉지(소분류?)</td>
-		                                <td>2024-04-01</td>
-		                            </tr>
-		                            <tr>
-		                                <td><input type="checkbox" id="itemSelect2" name="itemSelect"></td>
-		                                <td>2</td>
-		                                <td>11012bb</td>
-		                                <td>너네리상사</td>
-		                                <td>스프용 버섯(소분류?)</td>
-		                                <td>2024-04-01</td>
-		                            </tr>
-		                            <tr>
-		                                <td><input type="checkbox" id="itemSelect3" name="itemSelect"></td>
-		                                <td>3</td>
-		                                <td>11012bc</td>
-		                                <td>하늘공사</td>
-		                                <td>물감(소분류?)</td>
-		                                <td>2024-04-01</td>
-		                            </tr>
-		                        </tbody>
-		                    </table>
-		                </div>
-		            </div>
-		
-		            <!-- Pagination -->
-		            <div class="d-flex justify-content-end mt-4">
-		                <button class="btn btn-outline-primary ml-2">이전</button>
-		                <button class="btn btn-outline-primary ml-2">다음</button>
-		            </div>
+				                        </tbody>
+				                    </table>
+				                </div>
+				            </div>
+						
+			            <!-- Pagination -->
+			            <div class="d-flex justify-content-center mt-4">
+			            
+						    <nav aria-label="Page navigation">
+						        <ul id="pagination" class="pagination">
+						            <c:if test="${page.startPage > 1}">
+						                <li class="page-item">
+						                    <a class="page-link" href="purchase?currentPage=${page.startPage - 1}" aria-label="Previous">
+						                        <span aria-hidden="true">&laquo;</span>
+						                    </a>
+						                </li>
+						            </c:if>
+						            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						                <li class="page-item ${page.currentPage == i ? 'active' : ''}">
+						                    <a class="page-link" href="purchase?currentPage=${i}">${i}</a>
+						                </li>
+						            </c:forEach>
+						            <c:if test="${page.endPage < page.totalPage}">
+						                <li class="page-item">
+						                    <a class="page-link" href="purchase?currentPage=${page.startPage + page.pageBlock}" aria-label="Next">
+						                        <span aria-hidden="true">&raquo;</span>
+						                    </a>
+						                </li>
+						            </c:if>
+						        </ul>
+						    </nav>
+						    
+						    
+							 <!-- 
+							<nav aria-label="Page navigation example">
+								<ul class="pagination justify-content-center">
+									<li class="page-item">
+										<button class="page-link" onclick="prevPage()" aria-label="Previous">
+											<span aria-hidden="true">«</span>
+										</button>
+									</li>
+									<c:forEach var="i" begin="${page.startPage}" end="${page.endPage }">
+										<li class="page-item pageNum"><button class="page-link"
+												onclick="goPage('${i}')">${i }</button></li>
+									</c:forEach>
+									<li id="nextPageLi" class="page-item">
+										<button id="nextPageBtn" class="page-link" onclick="nextPage(this)"
+											data-total-page="${page.totalPage }" aria-label="Next">
+											<span aria-hidden="true">»</span>
+										</button>
+									</li>
+								</ul>
+							</nav>
+						     -->   
+						    
+						    
+						</div>
+						
 		        </main>
 		    </div>
 		</section>
-
+		</form>
 
         </main>
         <!-- End #main -->

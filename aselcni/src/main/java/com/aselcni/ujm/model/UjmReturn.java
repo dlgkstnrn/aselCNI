@@ -13,7 +13,7 @@ public class UjmReturn { //반품
 	private String item_cd; //품목CD, fk
 	private String res_rtn; //반품사유
 	private String remark; //비고
-	private String return_emp_id; //반품당ㅁ당자ID
+	private String return_emp_id; //반품담당자ID
 	private int    qty; //수량
 	private String return_update; //반품수정일
 	private int    return_delete_chk; //반품삭제여부

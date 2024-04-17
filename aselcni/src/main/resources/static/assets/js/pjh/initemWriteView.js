@@ -1,14 +1,32 @@
 const offset = new Date().getTimezoneOffset() * 60000;
 $('#initem_dt').val(new Date(Date.now() - offset).toISOString().substring(0, 10));
 
-// 발주번호 선택 시
+/**
+ * 
+ */
+const changeEndState = function (item) {
+    if (item.checked) {
+        item.value = 1;
+    } else {
+        item.value = 0;
+    }
+}
+
 // 전역변수에 해당 정보 저장
 let purcNo = '';
+/**
+ * 발주번호 선택 시 실행(선택된 발주번호 전역변수에 저장)
+ * @param {HTMLSelectElement} item 
+ */
 const selectPurc = function (item) {
     console.log(item.value);
     purcNo = item.value;
 }
 // 발주번호 select 선택 및 모달 창 선택 클릭 시 호출
+/**
+ * 발주번호 select에서 더블클릭 및 모달 선택 클릭 시 호출하는 함수,
+ * 선택된 발주번호의 정보를 메인화면에 넣어줌
+ */
 const pickPurcNo = function () {
     if (purcNo == '') {
         alert("발주번호를 선택해주세요");
@@ -24,7 +42,9 @@ const pickPurcNo = function () {
     $('#modalDialogScrollable').modal('hide');
 }
 
-// 서버와 통신하여 자제 목록 가져오는 함수
+/**
+ * 발주번호에 해당하는 정보를 서버에서 가져와 테이블에 넣어주는 함수
+ */
 const getItemList = function () {
     console.log($('#purc_no').val());
     $.ajax({
@@ -50,11 +70,13 @@ const getItemList = function () {
 	                    <td>${ele['item_nm']}</td>
 	                    <td>${ele['item_spec']}</td>
 	                    <td>${ele['item_unit']}</td>
-	                    <td><input id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" placeholder="입고수량" style="width: 75px"></td>
-	                    <td>${ele['purc_cost']}</td>
+	                    <td><input class="initemQty" id="initemQty${idx}" onchange="checkItemQty(this,${ele['qty']})" type="number" value="${ele['qty']}" data-cost="${ele.purc_cost}" min="1" placeholder="입고수량" style="width: 75px"></td>
+	                    <td>${ele['purc_cost'].toLocaleString()}</td>
+                        <td>${(ele['purc_cost'] * ele['qty']).toLocaleString()}</td>
 	                  </tr>`
                 )
             });
+            calcTotalAmount();
         },
         beforeSend: () => {
             $('body').append(
@@ -72,9 +94,36 @@ const getItemList = function () {
 
 }
 
+/**
+ * 입력된 수량의 소계와 합계를 변경하는 함수
+ */
+const calcTotalAmount = function () {
+    $('#itemTableFoot').empty();
+    let totalCost = 0;
+    let totalAmount = 0;
+    [...document.getElementsByClassName('initemQty')].forEach(item => {
+        const qty = item.value * 1;
+        const cost = item.dataset.cost * 1;
+        const subTotal = qty * cost;
+        item.parentNode.parentNode.lastElementChild.textContent = subTotal.toLocaleString();
+        totalCost += subTotal;
+        totalAmount += qty;
+    });
+    $('#itemTableFoot').append(`
+        <tr>
+            <th colspan="5">합계</th>
+            <td id="totalQuantity">${totalAmount.toLocaleString()}</td>
+            <td></td>
+            <td id="totalAmount">${totalCost.toLocaleString()}</td>
+        </tr>
+    `);
+}
 
-// 조회 버튼 클릭 시 서버에서 발주번호들 받아와 select에 입력
+// 조회된 발주번호 저장 변수
 let purcData = {};
+/**
+ * 발주조회 창에서 조회 버튼 클릭 시 서버에서 정보를 받아 Select List에 넣는 함수
+ */
 const searchPurc = function () {
     $.ajax({
         type: "GET",
@@ -95,7 +144,7 @@ const searchPurc = function () {
             purcData = {};
             res.forEach(ele => {
                 purcSelect.append(
-                    `<option value="${ele['purc_no']}">${ele['purc_no'] + '/' + ele['cust_nm'] + '/' + ele['cust_emp'] + '/' + ele['purc_dt']}</option>`
+                    `<option ondblclick="pickPurcNo()" value="${ele['purc_no']}">${ele['purc_no'] + '/' + ele['cust_nm'] + '/' + ele['cust_emp'] + '/' + ele['purc_dt']}</option>`
                 )
                 purcData[ele['purc_no']] = ele;
             });
@@ -119,22 +168,32 @@ const searchPurc = function () {
 
 
 
-// 입고품목 수량 수정 시 발주 수량보다 많은지 체크
+/**
+ * 입고품목 수량 입력 시 발주 수량(잔여량)보다 많은지 체크하는 함수
+ * @param {HTMLInputElement} item 수량입력 input element
+ * @param {Number} num 최대 수량
+ */
 const checkItemQty = function (item, num) {
     if (item.value > num) {
         alert('발주수량 보다 큰 값을 입력할 수 없습니다.\n발주수량:' + num);
         item.value = num;
     }
+    calcTotalAmount();
 }
 
-// 입고품목리스트에서 체크된 품목 지우기
+/**
+ * 입고품목리스트에서 체크된 항목 지우는 함수
+ */
 const deleteRow = function () {
     $("#itemTableBody input[type='checkbox']:checked").each((idx, item) => {
         $(item).parent().parent().remove();
     })
+    calcTotalAmount();
 }
 
-// 입력된 정보 DB에 저장하기
+/**
+ * 입고 데이터 서버에 등록
+ */
 const regInitem = function () {
     // 테이블에 품목이 있는지 체크
     if ($('#itemTableBody tr').length == 0) {
@@ -167,6 +226,7 @@ const regInitem = function () {
             cust_emp: $('#cust_emp').val(),
             wh_cd: $('#wh_cd').val(),
             remark: $('#remark').val(),
+            initem_end: $('#initem_end').val(),
             inItems
         }),
         success: (res) => {
@@ -204,7 +264,10 @@ const regInitem = function () {
 
 }
 
-// 필수 입력 사항이 다 입력되었으면 true리턴
+/**
+ * 필수 입력 항목 입력되어있는 체크하는 함수
+ * @returns {Boolean} true: 필수 입력사항 모두 입력, false: 미입력
+ */
 const requieredInputCheck = function () {
     const initemDt = $('#initem_dt');
     if (initemDt.val() == '' || initemDt.val() == null) {

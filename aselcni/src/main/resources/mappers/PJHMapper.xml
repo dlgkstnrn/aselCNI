@@ -7,6 +7,7 @@
 		FROM TB_PURCHASE purc
 		INNER JOIN TB_CUSTMST cus ON purc.CUST_CD = cus.CUST_CD
 		WHERE purc.PURC_STATUS_CHK IN (0,1)
+		AND purc.PURC_DELETE_CHK != 1
 		<if test="period != 0">
 			AND purc.PURC_DT >= #{purc_dt}
 		</if>
@@ -25,6 +26,8 @@
 		LEFT JOIN 
 			(SELECT tii.PURC_NO, tii.ITEM_CD, ISNULL(SUM(ISNULL(tii.QTY,0)),0) AS QTY
 			FROM TB_INITEM_ITEM tii 
+			INNER JOIN TB_INITEM ti ON tii.INITEM_NO = ti.INITEM_NO
+			WHERE ti.INITEM_DELETE_CHK != 1
 			GROUP BY tii.PURC_NO,tii.ITEM_CD
 			) AS ii
 		ON (tpi.PURC_NO = ii.PURC_NO AND tpi.ITEM_CD = ii.ITEM_CD)
@@ -90,6 +93,11 @@
 		WHERE PURC_NO = #{purc_no}
 	</update>
 	
+	<update id="pjhEndPurcStatus" parameterType="String">
+		UPDATE  TB_PURCHASE
+		SET PURC_STATUS_CHK = 2
+		WHERE PURC_NO = #{purc_no}
+	</update>
 	
 	<select id="pjhTotalInitem" parameterType="PJHInitem" resultType="int">
 		SELECT COUNT(DISTINCT ti.INITEM_NO)
@@ -98,33 +106,142 @@
 		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO
 		INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
+		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
+		INNER JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
-		<if test="searchItemNm != null and searchItemNm != ''">
-			AND ti2.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
+		AND ti.INITEM_DELETE_CHK != 1
+		<if test="initem_no != null and initem_no != ''">
+			AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
 		</if>
-		<if test="searchCustNm != null and searchCustNm != ''">
-			AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
+		<if test="cust_nm != null and cust_nm != ''">
+			AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
 		</if>
+		<if test="purc_no != null and purc_no != ''">
+			AND ti.PURC_NO LIKE '%'+#{purc_no}+'%'
+		</if>
+		<if test="purc_emp_nm != null and purc_emp_nm != ''">
+			AND puser.USER_NM LIKE '%'+#{purc_emp_nm}+'%'
+		</if>
+		<if test="initem_emp_nm != null and initem_emp_nm != ''">
+			AND inuser.USER_NM LIKE '%'+#{initem_emp_nm}+'%'
+		</if>
+		<if test="item_nm != null and item_nm != ''">
+			AND ti2.ITEM_NM LIKE '%'+#{item_nm}+'%'
+		</if>
+		
 	</select>
 	
 	<select id="pjhInitemList" parameterType="PJHInitem" resultType="PJHInitem">
-		SELECT ti.*,tc.CUST_NM  , (SELECT STRING_AGG(ti2.ITEM_NM, ',') FROM TB_INITEM_ITEM tii INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD WHERE ti.INITEM_NO = tii.INITEM_NO) AS ITEM_NM
+		SELECT ti.*,tc.CUST_NM,inuser.USER_NM AS INITEM_EMP_NM,puser.USER_NM AS PURC_EMP_NM 
+					, (SELECT STRING_AGG(ti2.ITEM_NM, ',') FROM TB_INITEM_ITEM tii INNER JOIN TB_ITEMMST ti2 ON tii.ITEM_CD = ti2.ITEM_CD WHERE ti.INITEM_NO = tii.INITEM_NO) AS ITEM_NM
 		FROM TB_INITEM ti
 		INNER JOIN TB_PURCHASE tp ON tp.PURC_NO = ti.PURC_NO 
 		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD
 		INNER JOIN (SELECT DISTINCT tii2.INITEM_NO
 							FROM TB_INITEM_ITEM tii2
 							INNER JOIN TB_ITEMMST ti4 ON ti4.ITEM_CD = tii2.ITEM_CD
-							<if test="searchItemNm != null and searchItemNm != ''">
-							WHERE ti4.ITEM_NM LIKE '%'+#{searchItemNm}+'%'
+							<if test="item_nm != null and item_nm != ''">
+							WHERE ti4.ITEM_NM LIKE '%'+#{item_nm}+'%'
 							</if>
 							) AS sub ON ti.INITEM_NO = sub.INITEM_NO
+		INNER JOIN TB_USERMST inuser ON ti.INITEM_EMP_ID = inuser.USER_ID
+		LEFT JOIN TB_USERMST puser ON tp.PURC_EMP_ID = puser.USER_ID
 		WHERE ti.INITEM_DT BETWEEN #{start_date} AND #{end_date}
-		<if test="searchCustNm != null and searchCustNm != ''">
-		AND tc.CUST_NM LIKE '%'+#{searchCustNm}+'%'
+		AND ti.INITEM_DELETE_CHK != 1
+		<if test="initem_no != null and initem_no != ''">
+		AND ti.INITEM_NO LIKE '%'+#{initem_no}+'%'
+		</if>
+		<if test="cust_nm != null and cust_nm != ''">
+		AND tc.CUST_NM LIKE '%'+#{cust_nm}+'%'
+		</if>
+		<if test="purc_no != null and purc_no != ''">
+		AND ti.PURC_NO LIKE '%'+#{purc_no}+'%'
+		</if>
+		<if test="purc_emp_nm != null and purc_emp_nm != ''">
+		AND puser.USER_NM LIKE '%'+#{purc_emp_nm}+'%'
+		</if>
+		<if test="initem_emp_nm != null and initem_emp_nm != ''">
+		AND inuser.USER_NM LIKE '%'+#{initem_emp_nm}+'%'
 		</if>
 		ORDER BY ti.INITEM_DT DESC
 		OFFSET #{start} ROW FETCH NEXT #{rowPage} ROW ONLY	
+	</select>
+	
+	<select id="pjhInitemByNo" parameterType="String" resultType="PJHInitem">
+		SELECT ti.*, tc.CUST_NM , iu.USER_NM AS initem_emp_nm, pu.USER_NM AS purc_emp_nm, tp.PURC_STATUS_CHK AS INITEM_END
+		FROM TB_INITEM ti
+		INNER JOIN TB_PURCHASE tp ON ti.PURC_NO = tp.PURC_NO 
+		LEFT JOIN TB_USERMST iu ON ti.INITEM_EMP_ID = iu.USER_ID
+		LEFT JOIN TB_USERMST pu ON  tp.PURC_EMP_ID = pu.USER_ID 
+		INNER JOIN TB_CUSTMST tc ON tp.CUST_CD = tc.CUST_CD 
+		WHERE ti.INITEM_NO = #{initem_no}
+	</select>
+	
+	<select id="pjhInitems" parameterType="String" resultType="PJHInitemItem">
+		SELECT ti.*, ISNULL((SELECT tii2.QTY FROM TB_INITEM_ITEM tii2 WHERE tii2.INITEM_NO = #{initem_no} AND tii2.ITEM_CD = ti.ITEM_CD),0) AS QTY
+					,ISNULL(
+								(SELECT SUM(ISNULL(twi.IN_QTY,0))
+								FROM TB_WORK_ITEM twi 
+								WHERE twi.WORKPROD_NO NOT IN 
+										(SELECT WORKPROD_NO FROM TB_PRODITEM WHERE PRODITEM_DELETE_CHK != 1) 
+								AND twi.ITEM_CD = tpi2.ITEM_CD)
+								,0) 
+					- dbo.FN_CURRENT_STOCK(tpi2.ITEM_CD) AS REQUIRED_STOCK
+					, ISNULL((SELECT QTY FROM TB_PURCHASE_ITEM tpi WHERE tpi.PURC_NO = tpi2.PURC_NO AND tpi.ITEM_CD = tpi2.ITEM_CD)
+								  - (SELECT ISNULL(SUM(ISNULL(QTY,0)),0) 
+								 	FROM TB_INITEM_ITEM tii2 
+								 	INNER JOIN TB_INITEM ti3 ON ti3.INITEM_NO = tii2.INITEM_NO
+								 	WHERE tii2.PURC_NO = tpi2.PURC_NO 
+								 	AND ti3.INITEM_DELETE_CHK != 1
+								 	AND tii2.ITEM_CD = tpi2.ITEM_CD)
+								 ,0) AS ADD_MAX
+		FROM TB_PURCHASE_ITEM tpi2
+		INNER JOIN TB_ITEMMST ti ON tpi2.ITEM_CD = ti.ITEM_CD
+		WHERE tpi2.PURC_NO  = (SELECT ti2.PURC_NO FROM TB_INITEM ti2 WHERE ti2.INITEM_NO = #{initem_no})		
+	</select>
+
+	<update id="pjhUpdateInitem" parameterType="PJHInitem">
+		UPDATE TB_INITEM
+		SET INITEM_UPDATE = (SELECT CONVERT(CHAR(10),GETDATE() , 23)),
+			  INITEM_EMP_ID = #{ initem_emp_id},
+			  WH_CD = #{wh_cd},
+			  REMARK = #{remark},
+			  CUST_EMP = #{cust_emp},
+			  INITEM_DT = #{initem_dt}
+		WHERE INITEM_NO = #{initem_no}
+	</update>
+	
+	<update id="pjhUpdateInitemItem" parameterType="java.util.List">
+		MERGE INTO TB_INITEM_ITEM tii
+		USING (
+			SELECT * FROM (
+				VALUES
+				<foreach collection="list" item="item" separator=",">
+					(#{item.initem_no},#{item.purc_no},#{item.item_cd},#{item.qty})
+				</foreach>
+			) AS tempTable(INITEM_NO,PURC_NO,ITEM_CD,QTY)
+		) AS temp
+		ON (tii.INITEM_NO = temp.INITEM_NO AND tii.ITEM_CD = temp.ITEM_CD)
+		WHEN MATCHED THEN
+			UPDATE SET tii.QTY = temp.QTY
+		WHEN NOT MATCHED THEN
+			INSERT (INITEM_NO,PURC_NO,ITEM_CD,QTY)
+			VALUES (temp.INITEM_NO,temp.PURC_NO,temp.ITEM_CD,temp.QTY);
+	</update>
+	
+	<update id="pjhDeleteInitem" parameterType="PJHInitem">
+		UPDATE TB_INITEM
+		SET INITEM_UPDATE = (SELECT CONVERT(CHAR(10),GETDATE() , 23)),
+			  INITEM_EMP_ID = #{ initem_emp_id},
+			  INITEM_DELETE_CHK = 1
+		WHERE INITEM_NO = #{initem_no}
+	</update>
+	
+	<select id="pjhInitemCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_INITEM
+		WHERE INITEM_DELETE_CHK != 1
+		AND PURC_NO = #{purc_no} 
 	</select>
 	
 </mapper>

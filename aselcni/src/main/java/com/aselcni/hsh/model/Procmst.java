@@ -13,5 +13,19 @@ public class Procmst {
     private String proc_Regdate; // 공정등록일
     private String proc_Update; // 공정수정일
     private Integer proc_Delete_Chk; // 공정삭제여부
+
 	
+    // 조회용
+    private String 	search;        		private String 	keyword;
+    private String 	pageNum;  			private String jjcategory;
+    private int 	start;              private int 	end;
+  	private int 	prevPage;			private int 	nextPage;
+
+  	private int		report_id;// report
+  	private String  reportSelect;
+	private String searchFilter;
+
+  	// Page 정보
+    private String currentPage;
+    
 }
