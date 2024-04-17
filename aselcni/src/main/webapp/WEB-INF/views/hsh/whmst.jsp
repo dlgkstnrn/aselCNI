@@ -90,7 +90,7 @@
 						<div class="card-body">
 
 							<div class="d-flex align-items-center">
-								<span class="h5 me-auto card-header-title">창고 관리</span>
+								<span class="h5 me-auto card-header-title">기준 정보 관리</span>
 								<div>
 									<button type="button" class="btn btn-primary"
 									data-bs-toggle="modal" data-bs-target="#verticalycentered">신규</button>
