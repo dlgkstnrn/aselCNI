@@ -104,15 +104,15 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>#</th>
+								<th>No</th>
 								<th>반품번호</th>
 								<th>출고번호</th>
 								<th>고객사</th>
 								<th>제품명</th>
 								<th>반품사유</th>
+								<th>반품수량</th>
 								<th>반품등록일</th>
 								<th>담당자</th>
-								<th>반품수량</th>
 							</tr>
 						</thead>
 						<c:set var="num" value="${paging.start }"></c:set>
@@ -125,9 +125,9 @@
 									<td>${returnObj.cust_nm }</td>
 									<td>${returnObj.item_nm }</td>
 									<td>${returnObj.res_rtn }</td>
+									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
 									<td>${returnObj.return_dt }</td>
 									<td>${returnObj.return_emp_nm }</td>
-									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
 								</tr>
 								<c:set var="num" value="${num + 1 }"></c:set>
 							</c:forEach>
