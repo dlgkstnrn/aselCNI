@@ -2,6 +2,7 @@ package com.aselcni.main.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -72,6 +73,23 @@ public class MainController {
 		}
 		
 		return resultPage;
+	}
+
+
+
+	
+	public boolean authorityChk(HttpSession session ,String url){
+		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)session.getAttribute("menuListGroupByMenu");
+		List<MenuMst> menus = menuListGroupByMenu.stream().flatMap(List<MenuMst>::stream).collect(Collectors.toList());
+		
+		if(menus.size()>0) {
+			for(MenuMst menu : menus) {
+				if("initem".equals(menu.getUrl()))
+						return true;
+			}
+			
+		}
+		return false;
 	}
 	
 }

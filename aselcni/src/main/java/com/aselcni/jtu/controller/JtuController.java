@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import com.aselcni.jtu.service.JtuServiceInterface;
 import com.aselcni.main.model.MenuMst;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,15 +37,7 @@ public class JtuController {
 			return "redirect:/";
 		}
 		
-		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)request.getSession().getAttribute("menuListGroupByMenu");
-		for (List<MenuMst> menuMstList : menuListGroupByMenu) {
-			for (List<MenuMst> menuMst : menuListGroupByMenu) {
-				System.out.println();
-			}
-		}
-		
-		
-
+		if(authorityChk(request.getSession(),"proditem")) {
 		
 		System.out.println("JtuController getMethodName Start... ");
 		String todayStr=LocalDate.now().toString();
@@ -69,8 +63,25 @@ public class JtuController {
 		model.addAttribute("jpriList", jpriList);
 		
 		return "jtu/jtuProdItemView";
+		}
+		return "redirect:main";
 	}
 
+	public boolean authorityChk(HttpSession session ,String url){
+		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)session.getAttribute("menuListGroupByMenu");
+		List<MenuMst> menus = menuListGroupByMenu.stream().flatMap(List<MenuMst>::stream).collect(Collectors.toList());
+		
+		if(menus.size()>0) {
+			for(MenuMst menu : menus) {
+				System.out.println(menu.getUrl());
+				if("initem".equals(menu.getUrl()))
+						return true;
+			}
+			
+		}
+		return false;
+	}
+	
 	@ResponseBody
 	@RequestMapping("getPriListAjax")
 	// 생산 실적 리스트 불러오기

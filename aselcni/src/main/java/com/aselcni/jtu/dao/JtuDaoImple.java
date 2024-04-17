@@ -86,6 +86,7 @@ public class JtuDaoImple implements JtuDaoInterface{
 	}
 
 
+	
 	@Override
 	public JtuProdItem getPriOneAjax(JtuProdItem paraJpri) {
 		System.out.println("JtuDaoImple getPriOneAjax Start... ");
