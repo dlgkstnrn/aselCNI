@@ -89,13 +89,16 @@
 
 						<div class="card-body">
 
-								<div class="topdiv d-flex justify-content-end">
-							<div>
-						
-							<button type="button" class="btn btn-primary"
-								data-bs-toggle="modal" data-bs-target="#verticalycentered">신규</button>
+							<div class="d-flex align-items-center">
+								<span class="h5 me-auto card-header-title">창고 관리</span>
+								<div>
+									<button type="button" class="btn btn-primary"
+									data-bs-toggle="modal" data-bs-target="#verticalycentered">신규</button>
+								</div>
 							</div>
-							          </div>
+							<hr>
+								
+								
 							<div class="modal fade" id="verticalycentered" tabindex="-1">
 								<div class="modal-dialog modal-dialog-centered">
 									<div class="modal-content">
