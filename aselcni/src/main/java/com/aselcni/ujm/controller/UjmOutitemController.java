@@ -70,7 +70,6 @@ public class UjmOutitemController {
 		System.out.println("ujmOutItem 컨트롤러 insertOutitem 시작");
 		if(session.getAttribute("user_id")!=null) {
 			String userId=(String)session.getAttribute("user_id");
-			// service, dao, mapper명(insertEmp)까지->insert
 			
 			insertData.getOutitemData().setOutitem_no(uos.ujmSetOutitemNo(insertData.getOutitemData().getOutitem_no())); 
 			//가져온 날짜형태의 출고번호(2024-04-13)을 제대로 만들기
@@ -126,10 +125,36 @@ public class UjmOutitemController {
 	
 	//출고 수정
 	@RequestMapping(value = "updateOutitem") 
-	public String ujmUpdateOutitem(HttpSession session) {
+	public String ujmUpdateOutitem(@RequestBody UjmOutitemParent updateData, HttpSession session) {
 		System.out.println("컨트롤러UjmOutitem : updateOutitem 시작");
 		
-		return "ujm/ujmOutitem"; 
+		if(session.getAttribute("user_id")!=null) {
+			String userId=(String)session.getAttribute("user_id");
+			
+	        System.out.println(updateData.getOutitemData());
+	        
+	        System.out.println(updateData.getSelectedItems());
+			
+	        //출고테이블 수정, 정상등록시 1 비정상 -1 리턴
+			int updateOutitemResult = uos.ujmUpdateOutitem(updateData, userId); 
+			System.out.println("컨트롤러UjmOutitem updateOutitemResult:"+updateOutitemResult);
+			
+			
+			int insertOutitemItemResult=uos.ujmInsertOutitemItem(updateData); //출고품목을 등록, 품목개수 리턴
+			System.out.println("컨트롤러UjmOutitem insertOutitemItemResult"+insertOutitemItemResult);
+			
+			int ujmChangeOrderStatusChk=uor.ujmChangeOrderStatusChk(updateData.getOutitemData().getOrder_no()); 
+			//주문의 상태 변경하기
+			
+			System.out.println("ujmChangeOrderStatusChk"+ujmChangeOrderStatusChk);
+			
+		
+		return "ujm/ujmOutitem";
+		 
+		} else {
+			System.out.println("로그인 안됨");
+			return "redirect:/";
+			}
 	}
 	
 	

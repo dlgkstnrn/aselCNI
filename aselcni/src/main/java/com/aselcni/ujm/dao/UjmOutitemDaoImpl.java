@@ -188,6 +188,19 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 		return ujmListOutitem;
 	}
 
+	@Override
+	public int ujmUpdateOutitem(UjmOutitem outitem) {
+		System.out.println("UjmOutitemDaoImpl ujmUpdateOutitem 시작 ...");
+		System.out.println(outitem);
+		try {
+			int updateOutitemResult=session.update("ujmUpdateOutitem",outitem);
+			return updateOutitemResult;
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmUpdateOutitem 오류:"+e.getMessage());
+			return -1;
+		}
+	}
+
 		
 }
 

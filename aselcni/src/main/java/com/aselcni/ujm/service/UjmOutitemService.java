@@ -24,4 +24,6 @@ public interface UjmOutitemService {
 
 	List<UjmOutitem> ujmGetOutitemToUpdate(String order_no, String outitem_no);
 
+	int ujmUpdateOutitem(UjmOutitemParent updateData, String userId);
+
 }

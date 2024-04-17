@@ -235,7 +235,20 @@
 		]]> 
 	</select>
 	
-	
+	<update id="ujmUpdateOutitem" parameterType="UjmOutitem" >
+		UPDATE TB_outitem
+		SET 
+		m_name = NVL(#{m_name}, m_name),
+		m_age = NVL(#{m_age}, m_age),
+		m_phone = NVL(#{m_phone}, m_phone),
+		m_email = NVL(#{m_email}, m_email),
+		m_address = NVL(#{m_address}, m_address),
+		m_update= sysdate
+		WHERE order_status_chk = 2
+		WHERE outitem_no = #{outitem_no}
+		and outitem_delete_chk=0
+		
+	</update>
 	
 	
 	

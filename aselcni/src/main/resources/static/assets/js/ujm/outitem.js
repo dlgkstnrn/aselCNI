@@ -593,7 +593,7 @@ let detail_remark;
 
 
       
-
+        //출고일자 변경
         $('#calendar_outitem_dt').on('change', function() {
           outitemDt = $(this).val();
           console.log('outitemDt:'+outitemDt);
@@ -718,7 +718,6 @@ let detail_remark;
           success: function(response){
               alert('출고 수정 완료.');
               modalContentClear();
-              $('#outitem_insert').modal('hide');
                 location.reload();
           }
           
