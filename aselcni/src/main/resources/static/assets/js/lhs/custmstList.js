@@ -52,3 +52,13 @@ const submitChk = function(){
 	}
 	return true;
 }
+
+const searchsubmitChk = function(){
+	if($("#keyword").val() !== '' || $("#keyword").val() !== null){
+		if($("#searchFilter").val() == '' || $("#searchFilter").val() == null){
+			alert("검색옵션을 선택해주세요");
+			return false;
+		}
+	}
+	return true;
+}

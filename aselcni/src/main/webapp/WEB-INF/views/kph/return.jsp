@@ -62,9 +62,10 @@
 			<div class="card">
 				<div class="card-body">
 				  <div class="top">
-					<div class="top-title">출고 관리</div>
+					<div class="card-header-title">반품 관리</div>
 					<button type="button" id="return-add" class="return-add btn btn-primary">신규</button>
 				  </div>
+				  <hr />
 				  <div class="search">
 					<div>
 						<div class="input-group day-box">
@@ -103,15 +104,15 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>#</th>
+								<th>No</th>
 								<th>반품번호</th>
 								<th>출고번호</th>
 								<th>고객사</th>
 								<th>제품명</th>
 								<th>반품사유</th>
+								<th>반품수량</th>
 								<th>반품등록일</th>
 								<th>담당자</th>
-								<th>반품수량</th>
 							</tr>
 						</thead>
 						<c:set var="num" value="${paging.start }"></c:set>
@@ -124,16 +125,9 @@
 									<td>${returnObj.cust_nm }</td>
 									<td>${returnObj.item_nm }</td>
 									<td>${returnObj.res_rtn }</td>
-									<c:choose>
-										<c:when test="${returnObj.return_update != null }">
-											<td>${returnObj.return_update }</td>	
-										</c:when>
-										<c:otherwise>
-											<td>${returnObj.return_dt }</td>
-										</c:otherwise>
-									</c:choose>
-									<td>${returnObj.return_emp_nm }</td>
 									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
+									<td>${returnObj.return_dt }</td>
+									<td>${returnObj.return_emp_nm }</td>
 								</tr>
 								<c:set var="num" value="${num + 1 }"></c:set>
 							</c:forEach>

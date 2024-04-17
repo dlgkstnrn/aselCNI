@@ -80,11 +80,14 @@
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>품목관리</h1>
+        <h1>기준 정보 관리</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item active">
-              품목관리
+              기준정보 관리
+            </li>
+            <li class="breadcrumb-item active">
+              품목 관리
             </li>
           </ol>
         </nav>
@@ -94,6 +97,13 @@
       <section class="section">
         <div class="maindiv card">
 	        <div class="card-body">
+	        <div class="d-flex align-items-end justify-content-between">
+				<span class="h5 d-flex align-items-center card-header-title">품목 관리</span>
+                <a href="itemmstAddForm?item_flag=${itemMst.item_flag }">
+	                <button class="btn btn-primary">신규</button>
+	            </a>
+            </div>
+            <hr>
 	          <div class="selectbtndiv d-flex justify-content-between">
 		          <div>
 		            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -108,11 +118,6 @@
 		                </a>
 		              </li>
 		            </ul>
-	            </div>
-	            <div>
-	              <a href="itemmstAddForm?item_flag=${itemMst.item_flag }">
-	                <button class="btn btn-primary">신규</button>
-	              </a>
 	            </div>
 	          </div>
 	          <div class="searchdiv">

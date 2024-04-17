@@ -85,11 +85,11 @@
 	<main id="main" class="main">
 		<!-- Page Title -->
 		<div class="pagetitle">
-			<h1>생산 계획</h1>
+			<h1>생산 관리</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="productionPlanning">생산
-							관리</a></li>
+					<li class="breadcrumb-item">생산
+							관리</li>
 					<li class="breadcrumb-item active">생산 계획</li>
 				</ol>
 			</nav>
@@ -101,7 +101,7 @@
 				<div class="form-container">
 					<form id="productionPlanning-form" action="/prodplan" method="get">
 						<div class="calendar-group-title">
-							<span class="calendar-group-title-text">생산계획표</span>
+							<span class="calendar-group-title-text">생산 계획</span>
 						</div>
 						<div class="btn-container">
 							<div class="prodPlan-read">
@@ -651,6 +651,46 @@
 						<!-- Calendar -->
 						<div class="calendar-group">
 							<div id='calendar'></div>
+							<!-- 주문내역 & 생산계획 리스트 -->
+							<div class="prodPlan-info">
+								<div class="referenceDate-group">
+									<div class="referenceDate-prepend-text">기준일자</div>
+									<div class="referenceDate"></div>
+								</div>
+								<div class="orderDetails-info">
+									<div id='orderList-group'>
+										<div class="orderList-title">주문내역</div>
+										<table class="orderList-table">
+											<thead>
+												<tr>
+													<th>고객사</th>
+													<th>제품명</th>
+													<th>수 량</th>
+												</tr>
+											</thead>
+											<tbody class="orderList-item">
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="prodPlanDetails-info">
+									<div id='prodPlanList-group'>
+										<div class="prodPlanList-title">생산계획</div>
+										<table class="prodPlanList-table">
+											<thead>
+												<tr>
+													<th>제품명</th>
+													<th>수 량</th>
+													<th>작업일수</th>
+												</tr>
+											</thead>
+											<tbody class="prodPlanList-item">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- End 주문내역 & 생산계획 리스트 -->
 						</div>
 						<div class="colorPicker-group">
 							<!-- 캘린더 각 이벤트 컬러피커 -->
@@ -667,46 +707,6 @@
 							<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
 						</div>
 						<!-- End Calendar -->
-						<!-- 주문내역 & 생산계획 리스트 -->
-						<div class="prodPlan-info">
-							<div class="referenceDate-group">
-								<div class="referenceDate-prepend-text">기준일자</div>
-								<div class="referenceDate"></div>
-							</div>
-							<div class="orderDetails-info">
-								<div id='orderList-group'>
-									<div class="orderList-title">주문내역</div>
-									<table class="orderList-table">
-										<thead>
-											<tr>
-												<th>고객사</th>
-												<th>제품명</th>
-												<th>수 량</th>
-											</tr>
-										</thead>
-										<tbody class="orderList-item">
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="prodPlanDetails-info">
-								<div id='prodPlanList-group'>
-									<div class="prodPlanList-title">생산계획</div>
-									<table class="prodPlanList-table">
-										<thead>
-											<tr>
-												<th>제품명</th>
-												<th>수 량</th>
-												<th>작업일수</th>
-											</tr>
-										</thead>
-										<tbody class="prodPlanList-item">
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<!-- End 주문내역 & 생산계획 리스트 -->
-						</div>
 					</form>
 				</div>
 			</section>

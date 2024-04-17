@@ -46,7 +46,7 @@ pageEncoding="UTF-8"%>
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>생산 지시</h1>
+        <h1>생산 관리</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">생산 관리</a></li>
@@ -59,94 +59,108 @@ pageEncoding="UTF-8"%>
       <section class="section dashboard">
 
         <div class="card">
+          <div class="card-body">
 
-          <!-- 조회할 생산일자 -->
-          <div class="position-relative d-flex align-items-center p-3">
-            생산시작일자
-            <!-- name 값이 컨트롤러에서 받는 param 된다. -->
-            <input class="mx-2" type="date" onchange="setWorkprod_dt()" id="currentDate" name="prodplan_dt" min="2000-01-01"/>
-            <!-- <button type="submit">조회</button> -->
-            <!-- yesterday -->
-            <!-- <button onclick="addDays(-1)" type="button" class="btn btn-primary mx-2">
-              <i class="bi bi-arrow-left"></i>
-            </button> -->
-            <!-- tomorrow -->
-            <!-- <button onclick="addDays(1)" type="button" class="btn btn-primary">
-              <i class="bi bi-arrow-right"></i>
-            </button> -->
-          </div>
-
-          <div class="d-flex justify-content-between">
-
-            <!-- 등록된 생산계획 리스트 -->
-            <div class="card-body border-black border-opacity-50">
-              <h5 class="card-title p-3 mb-3 bg-primary-subtle">지시 대기중인 생산계획</h5>
-              <table class="table table-hover p-2 text-center" id="prodplanTB">
-
-                <thead class="p-2">
-                  <tr>
-                    <th scope="col">생산계획번호</th>
-                    <th scope="col">순번</th>
-                    <th scope="col">제품명</th>
-                    <th scope="col">계획수량</th>
-                    <th scope="col">지시총량</th>
-                    <th scope="col">계획작업일수</th>
-                  </tr>
-                </thead>
-
-                <tbody class="p-2">
-                  <c:forEach var="planList" varStatus="planStat" items="${planList}">
-
-                    <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
-                    <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}" style="cursor:pointer;">
-                      <th scope="row">${planList.prodplan_no}</th>
-                      <td>${planList.seq_no}</td>
-                      <td>${planList.item_nm}</td>
-                      <td><fmt:formatNumber value="${planList.qty}" pattern="#,###"/></td>
-                      <td><fmt:formatNumber value="${planList.work_total_qty}" pattern="#,###"/></td>
-                      <td>${planList.work_dt}</td>
-                    </tr>
-
-                  </c:forEach>
-                </tbody>
-
-              </table>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="h-5 d-flex align-items-center card-header-title">생산 지시</span>
+              <button type="button" class="btn btn-primary">지시 등록할 생산 계획을 클릭하세요.</button>
             </div>
 
-            <!-- 등록된 생산지시 리스트 -->
-            <div class="card-body border-black border-opacity-50">
-              <h5 class="card-title p-3 mb-3 bg-primary-subtle">등록된 생산지시 내역</h5>
-              <table class="table table-hover p-2 text-center" id="workprodTB">
+            <!-- 제목 아래 밑줄 -->
+            <hr>
 
-                <thead class="p-2">
-                  <tr>
-                    <th scope="col">생산지시번호</th>
-                    <th scope="col">순번</th>
-                    <th scope="col">제품명</th>
-                    <th scope="col">생산수량</th>
-                    <th scope="col">작업일수</th>
-                  </tr>
-                </thead>
+            <!-- 조회할 생산일자 -->
+            <div class="position-relative d-flex align-items-center p-3">
+              생산시작일자
+              <!-- name 값이 컨트롤러에서 받는 param 된다. -->
+              <input class="mx-2" type="date" onchange="setWorkprod_dt()" id="currentDate" name="prodplan_dt" min="2000-01-01"/>
+              <!-- <button type="submit">조회</button> -->
+              <!-- yesterday -->
+              <!-- <button onclick="addDays(-1)" type="button" class="btn btn-primary mx-2">
+                <i class="bi bi-arrow-left"></i>
+              </button> -->
+              <!-- tomorrow -->
+              <!-- <button onclick="addDays(1)" type="button" class="btn btn-primary">
+                <i class="bi bi-arrow-right"></i>
+              </button> -->
+            </div>
 
-                <tbody class="p-2">
-                  <c:forEach var="workList" varStatus="workStat" items="${workList}">
+            <!-- <div class="ms-3 color-red">지시 등록할 생산 계획을 클릭하세요.</div> -->
 
-                    <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
-                    <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" style="cursor:pointer;">
-                    <!-- <tr onclick="showWprModal()" data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" > -->
-                      <th scope="row">${workList.workprod_no}</th>
-                      <td>${workList.seq_no}</td>
-                      <td>${workList.item_nm}</td>
-                      <td><fmt:formatNumber value="${workList.qty}" pattern="#,###"/></td>
-                      <td>${workList.work_dt}</td>
+            <div class="d-flex justify-content-between">
+
+              <!-- 등록된 생산계획 리스트 -->
+              <div class="card-body border-black border-opacity-50">
+                <h5 class="card-title p-3 mb-3 bg-primary-subtle">지시 대기중인 생산계획</h5>
+                <table class="table table-hover p-2 text-center" id="prodplanTB">
+
+                  <thead class="p-2">
+                    <tr>
+                      <th scope="col">생산계획번호</th>
+                      <th scope="col">순번</th>
+                      <th scope="col">제품명</th>
+                      <th scope="col">계획수량</th>
+                      <th scope="col">지시총량</th>
+                      <th scope="col">계획작업일수</th>
                     </tr>
-                  </c:forEach>
-                </tbody>
+                  </thead>
 
-              </table>
+                  <tbody class="p-2">
+                    <c:forEach var="planList" varStatus="planStat" items="${planList}">
+
+                      <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
+                      <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}" style="cursor:pointer;">
+                        <th scope="row">${planList.prodplan_no}</th>
+                        <td>${planList.seq_no}</td>
+                        <td>${planList.item_nm}</td>
+                        <td><fmt:formatNumber value="${planList.qty}" pattern="#,###"/></td>
+                        <td><fmt:formatNumber value="${planList.work_total_qty}" pattern="#,###"/></td>
+                        <td>${planList.work_dt}</td>
+                      </tr>
+
+                    </c:forEach>
+                  </tbody>
+
+                </table>
+              </div>
+
+              <!-- 등록된 생산지시 리스트 -->
+              <div class="card-body border-black border-opacity-50">
+                <h5 class="card-title p-3 mb-3 bg-primary-subtle">등록된 생산지시 내역</h5>
+                <table class="table table-hover p-2 text-center" id="workprodTB">
+
+                  <thead class="p-2">
+                    <tr>
+                      <th scope="col">생산지시번호</th>
+                      <th scope="col">순번</th>
+                      <th scope="col">제품명</th>
+                      <th scope="col">생산수량</th>
+                      <th scope="col">작업일수</th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="p-2">
+                    <c:forEach var="workList" varStatus="workStat" items="${workList}">
+
+                      <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
+                      <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" style="cursor:pointer;">
+                      <!-- <tr onclick="showWprModal()" data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" > -->
+                        <th scope="row">${workList.workprod_no}</th>
+                        <td>${workList.seq_no}</td>
+                        <td>${workList.item_nm}</td>
+                        <td><fmt:formatNumber value="${workList.qty}" pattern="#,###"/></td>
+                        <td>${workList.work_dt}</td>
+                      </tr>
+                    </c:forEach>
+                  </tbody>
+
+                </table>
+              </div>
+
             </div>
 
           </div>
+          <!-- End card-body  -->
         </div>
         <!-- End card  -->
 
@@ -317,14 +331,14 @@ pageEncoding="UTF-8"%>
                   </div>
                 </div>
 
-                <div class="color-red text-lg-center">
+                <div class="color-red text-lg-center mb-3">
                   등록 버튼 클릭 후 수정할 수 없습니다.
                 </div>
 
                 <!-- 모달 버튼 -->
                 <div class="modal-footer">
                   <button id="cancle" type="reset" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
-                  <button type="submit" id="insertDataBtn" class="btn btn-primary">등록</button>
+                  <button type="submit" id="insertDataBtn" class="btn btn-primary">지시 등록</button>
                   <!-- <button type="reset" class="btn btn-outline-primary">Reset</button> -->
                 </div>
 
@@ -532,7 +546,7 @@ pageEncoding="UTF-8"%>
               <!-- End modal-body -->
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
                 <button type="button" id="updateWorkBtn" class="btn btn-primary" data-bs-dismiss="modal">수정</button>
                 <!-- <button type="button" id="deleteWorkBtn" class="btn btn-outline-primary" data-bs-dismiss="modal">삭제</button> -->
               </div>

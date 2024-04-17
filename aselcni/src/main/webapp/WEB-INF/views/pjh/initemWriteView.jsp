@@ -48,7 +48,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>입고 등록</h1>
+            <h1>자재 관리</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">자재관리</li>
@@ -63,13 +63,13 @@
         		<!-- 제목 탭  -->
 	            <div class="card-body">
 	              <div class="d-flex align-items-center">
-		              <span class="h5 align-baseline me-auto">입고 등록</span>
+		              <span class="h5 me-auto card-header-title">입고 등록</span>
 		              <div>
-		              	<button onclick="regInitem()" type="button" class="btn btn-primary btn-sm">저장</button>
-		              	<a href="/initem" type="button" class="btn btn-primary btn-sm">취소</a>
+		              	<button onclick="regInitem()" type="button" class="btn btn-primary">저장</button>
+		              	<a href="/initem" type="button" class="btn btn-primary">취소</a>
 		              </div>
 	              </div>
-	              <hr class="my-3">
+	              <hr>
 	              
 	              
 	              <!-- 입고정보 입력부  -->
@@ -171,7 +171,7 @@
 	              	<div class="row mt-1">
 	              		<div class="col-md-8">
 	              			<div class="input-group">
-							  <span class="input-group-text">입고담당자</span>
+							  <span class="input-group-text" style="width:106px">입고담당자</span>
 							  <input  type="text" value="${sessionScope.user_nm}" class="form-control" readonly>
 							</div>
 	              		</div>
