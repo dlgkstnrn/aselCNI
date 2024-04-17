@@ -1,53 +1,128 @@
 $(document).ready(function(){
-	const curr_dt = new Date();
+	var selCusts;
+	var selUsers;
+	var order_no;
+	var seltDT;
+	console.log("main");
 	
-	const year = curr_dt.getFullYear();
-	const month = ('0' + curr_dt.getMonth()).slice(-2); // 10월부터는 010이 되기 때문에 마지막 두 자리를 가져옴
-	const date = ('0' + curr_dt.getDate()).slice(-2);
-	const order_dt = year + '-' + month + '-' + date;
+	// 체크박스 선택 -> 배열 저장
+	$(function() {
+	    // 매입처 체크박스 처리
+	    $('.custCheckbox').change(function() {
+	        selCusts = $('.custCheckbox:checked').map(function() {
+	            return $(this).val();
+	        }).get();
+	        console.log('고객사 선택 값: ', selCusts);
+	    });
 	
-	var order_end_dt = '';
+	    // 담당자 체크박스 처리
+	    $('.userCheckbox').change(function() {
+	        selUsers = $('.userCheckbox:checked').map(function() {
+	            return $(this).val();
+	        }).get();
+	        console.log('담당자 선택 값: ', selUsers);
+	    });
+	});
 	
-	const order_items = [];
 	
-	console.log("order_dt -> " + order_dt );
-
-	$('#ord_save').click(function(){
+	// 리셋 버튼 눌렀을때 
+	$("#resetBtn").click(function() {
+	    $("#input_order_no").val("");
+	    $("#input_start_dt").val("");
+	    $("#input_end_dt").val("");
+	
+	    $("#selectDT").text("기간 선택");
+	    $(".custCheckbox").prop("checked", false);
+	    $(".userCheckbox").prop("checked", false);
 		
-		if(order_dt > order_end_dt){
-			alert("납기일을 확인해주세요");
-			$('#order_end_dt').val(''); 
+		selCusts = [];
+		selUsers = [];
+		order_no = "";
+		seltDT = "";
+	});
+
+
+	// 선택한 착수일보다 무조건 이후만 선택가능
+	$("#input_start_dt").change(function(){
+		input_start_dt = $("#input_start_dt").val();			// 착수일
+		$("#input_end_dt").attr('min', input_start_dt);
+	})
+	
+	$("#serachBtn").click(async function(){  // async 키워드 추가
+	    console.log("----- searchBtn -----")
+	    order_no = $("#input_order_no").val();
+	    console.log(seltDT + "00000000000000")
+		
+	        try{
+			    let response = await $.ajax({
+			        url: "/order",
+			        type: "POST",
+			        contentType: "application/json", 
+			        data: JSON.stringify({  // 데이터를 JSON 형식으로 변환
+			            order_no : order_no,
+			            seltDT : seltDT,
+			            selUsers : selUsers,
+			            selCusts : selCusts,
+			            input_start_dt : $("#input_start_dt").val(),
+			            input_end_dt : $("#input_end_dt").val()
+			        })
+			    });
+			   	
+	            $("#table_body").empty(); // 기존 테이블 내용 제거
+				if(response.length == 0){
+					alert("조회 결과가 없습니다");
+					window.location.href = "/order";
+
+				}
+			    $.each(response, function(index, order) {
+			        var newRow = "<tr>" +
+			            "<th scope='row' class='text-center'>" + (index + 1) + "</th>" +
+			            "<td><a href='/orderSpec?detailView=" + order.order_sec_no + "' class='text-center'>" + order.order_no + "</a></td>" +
+			            "<td>" + order.cust_nm + "</td>" +
+			            "<td>" + order.user_nm + "</td>" +
+			            "<td class='datatable'>" + order.order_dt + "</td>" +
+			            "<td class='datatable'>" + order.order_end_dt + "</td>" +
+			            "<td class='blue'><span class='badge " + getStatusClass(order.order_status_chk) + "'>" + getStatusText(order.order_status_chk) + "</span></td>" +
+			            "</tr>";
+			
+			        $("#table_body").append(newRow); // 새로운 행 추가
+			    });
+	        }
+	        catch (error){
+	            console.error(error);
+	        }
+			
+		function getStatusClass(status) {
+		    switch(status) {
+		        case 1: return "bg-secondary";
+		        case 2: return "bg-primary";
+		        case 3: return "bg-secondary";
+		        default: return "bg-warning text-dark";
+		    }
+		}
+			
+		function getStatusText(status) {
+		    switch(status) {
+		        case 1: return "주문 취소";
+		        case 2: return "진행중";
+		        case 3: return "출고 완료";
+		        default: return "주문 완료";
+		    }
 		}
 
-		console.log("order_end_date => " + order_end_dt);
-	});
+		console.log("input_start_dt : ", $("#input_end_dt").val());
+		console.log("input_end_dt : ", $("#input_end_dt").val());
+		console.log("selectDT : ", seltDT);
+		console.log(selCusts + " : checkedCustValues");
+		console.log(selUsers + " : checkedUserValues");
+		
+	})
 	
-	// 모달속 아이템 선택후
-	$('#item_nm').change(function(){
-		console.log("dd")
-		/*var selectedItem_cd = $(this).val();
-		
-		var selItem_unit = $('#item_unit').val();
-		var selItem_cost = $('#item_cost').val();
-		var selItem_total = $('#ord_item_cost').val();
-		
-		$('#selItem_cd').val(selectedItem_cd);
-		
-		fetch('/orderReg', {
-			method:'POST',
-			headers:{
-		      'Content-Type': 'application/json' // 본문의 내용 형식 지정
-			}, 
-			body:JSON.stringify({
-				item_cd : selectedItem_cd	
-			})
-		})
-		.then(res => res.json())
-		.then (data => {
-			selItem_unit = data.item_unit;
-			selItem_cost = data.item_cost;
-			selItem_total = selItem_cost * selItem_unit;
-		})	
-		.catch(error => console.log(error));*/
+	$(".dropdown-menu .dropdown-item").click(function(){
+	  var selText = $(this).text();
+	  seltDT = $(this).val();
+	  $(this).parents('.input-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
 	});
+
 })
+// 직원, 고객사 선택 후 검색버튼 눌ㄹ렀을때 

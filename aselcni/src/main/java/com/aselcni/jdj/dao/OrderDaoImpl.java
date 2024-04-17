@@ -11,14 +11,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer.UserInfoEndpointConfig;
 import org.springframework.stereotype.Repository;
 
 import com.aselcni.jdj.model.CustMst;
+import com.aselcni.jdj.model.FindOrd;
 import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
-import com.aselcni.jdj.model.SavingOrd;
 import com.aselcni.jdj.model.UserMst;
 
 import lombok.RequiredArgsConstructor;
@@ -28,21 +29,113 @@ import lombok.RequiredArgsConstructor;
 public class OrderDaoImpl implements OrderDao {
 
 	private final SqlSession session;
-
-	@Override
-	public List<Order> getOrders() {
-		List<Order> orders = null;
-		System.out.println("od_getOrders start!");
-		
+	
+	// 주문 조회 main페이지 //
+	@Override			// 주문 조회
+	public List<Order> getOrderLi() {
+		List<Order> orderLi = null;		
+		System.out.println("[Dao - getOrderLi Start");
 		try {
-			orders = session.selectList("getOrders");
-			System.out.println("od_getOrders -> " + orders);
+			orderLi = session.selectList("getOrderLi");
+			System.out.println("[Dao - getOrderLi Fin");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		return orders;
+		return orderLi;
 	}
-
+	
+	@Override						// 고객사 리스트
+	public List<CustMst> getCustMstLi() {
+		List<CustMst> custMstLi = null;		
+		System.out.println("[Dao - getCustMstLi Start");	
+		try {
+			custMstLi = session.selectList("getCustMstLi");
+			System.out.println("[Dao - getCustMstLi Fin");	
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return custMstLi;
+	}
+	
+	@Override			// 영업부 사원 리스트
+	public List<UserMst> getUserMstLi(int user_comm_code) {
+		System.out.println("[Dao - getUserMstLi Start");
+		List<UserMst> userMstLi = null;
+		try {
+			userMstLi = session.selectList("getUserMstLi", user_comm_code);
+			System.out.println("[Dao - getUserMstLi Fin");			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return userMstLi;
+	}
+	
+	// -----------------------------------------------------
+	
+	// 신규 주문 등록 //
+	@Override
+	public List<ItemMst> getItemMstLi() {
+		List<ItemMst> itemMstLi = null;
+		System.out.println("[Dao - getItemMstLi Start");
+		try {
+			itemMstLi = session.selectList("getItemMstLi");
+			System.out.println("[Dao - getItemMstLi Fin");
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return itemMstLi;
+	}
+	
+	// 들어온 주문 날짜로 주문번호 생성후 전달받음
+	@Override
+	public String createOrdNo(String order_dt) {
+		String order_no = "";
+		try {
+			order_no = session.selectOne("createOrdNo", order_dt);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return order_no;
+	}
+	
+	// 주문 저장
+	@Override
+	public int regOrder(Order savingOrd) {
+		int result = 0;
+		try {
+			result = session.insert("regOrder", savingOrd);
+			if(result == 0) {
+				System.out.println("insert 실패");
+			}else {
+				System.out.println("insert성공인듯");
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	// 주문 아이템들 저장
+	@Override
+	public int regOrderItems(OrderItem orderItem) {
+		System.out.println("-------------regOrderItem 다오~");
+		int result = 0;
+		try {
+			result = session.insert("regOrderItems", orderItem);
+			if(result == 0) {
+				System.out.println("insert 실패");
+			}else {
+				System.out.println("insert성공인듯");
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+//	-----------------------------------------------------
 	@Override
 	public Order getOrdSpec(String order_sec_num) {
 		Order orderSpec = null;
@@ -75,52 +168,6 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public List<CustMst> getCustLi() {
-		List<CustMst> custMsts = null;
-		
-		try {
-			System.out.println("dao_ getCstLi");
-			custMsts = session.selectList("getCustLi", custMsts);
-			
-			System.out.println("dao_getCstLi -> " + custMsts);
-			
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-		return custMsts;
-	}
-
-	@Override
-	public List<ItemMst> getItemLi() {
-		List<ItemMst> itemMsts = null;
-		
-		try {
-			System.out.println("dao_ getItemLi");
-			itemMsts = session.selectList("geItemLi", itemMsts);
-			
-			System.out.println("dao_itemMsts -> " + itemMsts);
-			
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-		return itemMsts;
-	}
-
-	@Override
-	public List<UserMst> getUserLi(int user_comm_code) {
-		System.out.println("[OS_getUserLi Start...");
-		List<UserMst> userMsts = null;
-		try {
-			userMsts = session.selectList("getUserLi", user_comm_code);
-			System.out.println("OD_getUserLi -> " + userMsts);
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return userMsts;
-	}
-
-	@Override
 	public ItemMst getItemInfo(String item_cd) {
 		System.out.println("[OS_getItemInfo Start...");
 		ItemMst itemMst = null;
@@ -135,59 +182,121 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public int savingOrd(SavingOrd savingOrd) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delOrd(String order_no) {
+		System.out.println("[Dao_ delOrd");
+		int result=0;
+		try {
+			result = session.update("delOrd",order_no);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public void editOrd(Order editOrd) {
+		System.out.println("[DAO] editOrd _ Start");
+		try {
+		    // 해당 주문 상품이 있으면 수량 업데이트
+		    int result = session.update("updateOrd",editOrd);
+		    // 없데이트된 행이 0개 즉, 없는 주문 상품이면
+		    if (result == 0) {
+		    	System.out.println("없는디?");
+		    }   
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println("[DAO] editOrd _ End");
 	}
 	
-	// 들어온 주문 날짜로 주문번호 생성후 전달받음
 	@Override
-	public String createOrdNo(String order_dt) {
-		System.out.println("[Dao - create order_no] ---");
-		String order_no = "";
+	public int editOrdItems(OrderItem editOrdItems) {
+		System.out.println("[DAO] editOrdItems _ Start");
+		System.out.println("[DAO] editOrdItems _" + editOrdItems.getQty() + " - name :" + editOrdItems.getItem_nm());
+		System.out.println("[DAO] editOrdItems _" + editOrdItems.getItem_cd() + " - cost :" + editOrdItems.getCost());
+		int result = 0;
 		try {
-			order_no = session.selectOne("createOrdNo", order_dt);
-			System.out.println("----- new order_no : " + order_no);
+		    // 해당 주문 상품이 있으면 수량 업데이트
+		    result = session.update("checkOrdItem",editOrdItems);
+
+		    // 없데이트된 행이 0개 즉, 없는 주문 상품이면
+		    if (result == 0) {
+		    	session.insert("regOrderItems", editOrdItems);
+		    }
+		}catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println("[DAO] editOrdItems _ Fin");
+		return result;
+	}
+
+	@Override
+	public Order findOrdByNum(String order_no) {
+		System.out.println("---- [Dao] findOrdByNum");
+		Order findOrder = null;
+		try {
+			findOrder = session.selectOne("findOrdByNum", order_no);
 			
+			System.out.println("findOrder -> " + findOrder);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			
 		}
-		return order_no;
+		return findOrder;
 	}
 
 	@Override
-	public int regOrder(Order savingOrd) {
-		int result = 0;
+	public List<Order> findOrd(FindOrd findOrd) {
+		System.out.println("[Dao findOrd --> " + findOrd);
+		String order_no = findOrd.getOrder_no();
+		String input_start_dt =findOrd.getInput_start_dt();
+		String input_end_dt = findOrd.getInput_end_dt();
+		String seltDT = findOrd.getSeltDT();
+		List<String> selUsers = findOrd.getSelUsers();
+		List<String> selCusts = findOrd.getSelCusts();
+		
+		
+		System.out.println("order_no : " + order_no);
+		System.out.println("input_start_dt : " + input_start_dt);
+		System.out.println("input_end_dt : " + input_end_dt);
+		System.out.println("seltDT : " + seltDT);
+		System.out.println("selUsers : " + selUsers);
+		System.out.println("selCusts : " + selCusts);
+		List<Order> findOrders =null;
+		
 		try {
-			result = session.insert("regOrder", savingOrd);
-			if(result == 0) {
-				System.out.println("insert 실패");
-			}else {
-				System.out.println("insert성공인듯");
-			}
+			Map<String, Object> params = new HashMap<>();
+			params.put("order_no", order_no);
+			params.put("input_start_dt", input_start_dt);
+			params.put("input_end_dt", input_end_dt);
+			params.put("seltDT", seltDT);
+			params.put("selUsers", selUsers);
+			params.put("selCusts", selCusts);
+			
+			findOrders = session.selectList("findOrd",params);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 		
-		return result;
+		return findOrders;
 	}
 
 	@Override
-	public int regOrderItem(OrderItem orderItem) {
-		System.out.println("-------------regOrderItem 다오~");
-		int result = 0;
+	public UserMst getUserInfo(String user_id) {
+		System.out.println("---- [Dao] getUserInfo >>>> " + user_id);
+		UserMst regUserInfo = null;
 		try {
-			result = session.insert("regOrderItem", orderItem);
-			if(result == 0) {
-				System.out.println("insert 실패");
-			}else {
-				System.out.println("insert성공인듯");
-			}
+			regUserInfo = session.selectOne("getUserInfo", user_id);
+			
+			System.out.println("!!!!!!!!! -> " + regUserInfo);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		
-		return result;
+		return regUserInfo;
 	}
+
+	
+
+
+	
 
 }

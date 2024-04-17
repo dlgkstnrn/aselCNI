@@ -12,10 +12,13 @@
 	
 	<!-- Google Fonts -->
 	<link href="https://fonts.gstatic.com" rel="preconnect">
+	
 	<link
 		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 		rel="stylesheet">
 	
+	<script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<!-- Vendor CSS Files -->
 	<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
 		rel="stylesheet">
@@ -33,13 +36,7 @@
 	
 	<!-- Script -->
 	<script defer src="assets/js/main.js"></script>
-	<script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-		
-	
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	
+	<script src="assets/js/jdj/jdjOrder.js"></script>
 	
 	
 	<style>
@@ -68,99 +65,72 @@
 	</style>
 </head>
 <body>
-	<!-- ======= Header ======= -->
-    <%@ include file="../header.jsp" %>
-    <!-- ======= Sidebar ======= -->
-    <%@ include file="../asidebar.jsp" %>
+<!-- ======= Header ======= -->
+<%@ include file="../header.jsp" %>
+<!-- ======= Sidebar ======= -->
+<%@ include file="../asidebar.jsp" %>
     <main id="main" class="main">
-    	 <div class="pagetitle">
-            <h1>주문 조회</h1>
-            <nav>
+		<div class="pagetitle">
+			<h1>주문 조회</h1>
+			<nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">주문 관리</a></li>
                     <li class="breadcrumb-item active">주문 조회</li>
                 </ol>
             </nav>
-        </div>
-		<!-- 본문 -->
-		<section class="section dashboard">		
-		<div class="card">
-			
-		    <div class="d-grid gap-2 d-md-flex justify-content-md-end p-4">
 <!--         				<p class="fs-5">주문 검색</p> -->
-			  <button class="btn btn-primary me-md-2" type="button" onclick="location.href='/orderReg'">신규 등록</button>
-			  
-			</div>
-			
-        	<div class="card-body">
-				<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
-					<div class="row datatable-top">
-					    <div class="row mb-2">
-					       <!-- 검색 -->
-					      <div class="col-md-4 d-flex flex-column position-static" style="padding-bottom: 1px">
-					        <div class="mb-3">
-					         <div class="input-group">
-					            <span class="input-group-text" id="basic-addon3">주문번호</span>
-					              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
-					         </div>
-					       </div>					        	
-					      </div>
-					       
-					       <!-- 기간 검색 -->
-					      <div class="col-md-8 d-flex flex-column position-static" style="padding-bottom: 1px">
-					        <div class="row mb-4">
-					         <!-- Example single danger button -->
-					          <!-- <div class="col-md-1"> -->
-					            <div class="btn-group col-2">
-					              <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-					             기간 선택 </button>
-					              <ul class="dropdown-menu">
-					                <li><a class="dropdown-item" href="#">주문 일자</a></li>
-					                <li><a class="dropdown-item" href="#">마감 일자</a></li>
-					              </ul>
-					            </div>
-					          <!-- </div> -->
-					
-					          <div class="col-3">
-					            <input type="date" class="form-control">
-					          </div>
-					          <label for="inputDate" class="col-sm-1 col-form-label" style="width: auto" > ~</label>
-					          <div class="col-3">
-					            <input type="date" class="form-control">
-					          </div>
-					          <button class="btn btn-primary col-3" type="submit">
-					            <i class="bi bi-search"></i> 검색 
-					          </button>
-					        </div>
-					      </div>
-					     </div>
-					  </div>
-				    	
-				    	
-						 <div class="row mb-2">
-								 <!-- 매입처 drop -->
-							<div class="col-md-6 ">
-						        <div class="row g-0  overflow-hidden flex-md-row mb-4  h-md-250 position-relative">
-									<div class="col d-flex flex-column position-static">
-							            <p>
-							              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCust" aria-expanded="false" aria-controls="collapseUser">
-							                매입처 <i class="bi bi-caret-down-fill"></i>
-							              </button>
-							            </p>
-										<div class="collapse border" id="collapseCust">
-							              <div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 overflow-hidden w-280px" data-bs-theme="light">
-							                
-							                <form class="p-2 mb-2 bg-body-tertiary border-bottom">
-							                  <input type="search" class="form-control" autocomplete="false" placeholder="회사명">
-							                </form>
-							                
-							                <ul class="list-unstyled mb-0 ">
-								                <c:forEach var = "custMst" items="${custMsts}" varStatus="status">
+			  <button class="btn btn-primary d-md-flex justify-content-md-end" type="button" onclick="location.href='/orderReg'">신규 등록</button>
+        </div>
+		<!-- 본문 -->	
+		<section class="section dashboard">		
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="input-group">
+								<span class="input-group-text">주문번호</span>
+					            <input id="input_order_no" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+							</div>
+				        </div> <!-- 주문번호 -->
+				        <div class="col-md-6">
+							<div class="input-group">
+								<button id="selectDT" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">기간 선택</button>
+								<ul class="dropdown-menu">
+									<li><button class="dropdown-item" value="order_dt">주문 일자</button></li>
+									<li><button class="dropdown-item" value="order_end_dt">마감 일자</button></li>
+								</ul>
+								<input id="input_start_dt" type="date" aria-label="start-dt" class="form-control">
+								<input id="input_end_dt" type="date" aria-label="end-dt" class="form-control">
+							</div>
+						</div> <!-- 검색 기간 -->
+						<div class="col-md-3">
+							<button type="button" id="serachBtn" class="btn btn-primary">검색</button>
+							<button type="reset" id="resetBtn" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></button>
+						</div> <!-- 검색 버튼 -->	
+						<div class="col-md-3">
+						</div> <!-- 검색 버튼 -->	
+					</div> <!--첫번째 row -->
+					<p />
+					<div class="row">
+						<div class="col-md-6">
+							<div class="row g-0  overflow-hidden flex-md-row mb-4  h-md-250 position-relative">
+								<div class="col d-flex flex-column position-static">
+									<p>
+						            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCust" aria-expanded="false" aria-controls="collapseUser">
+			            				고객사 <i class="bi bi-caret-down-fill"></i></button>
+			            			</p> <!-- 고객사 collapse 여는 버튼 -->
+									<div class="collapse border" id="collapseCust">
+										<div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 overflow-hidden w-280px" data-bs-theme="light">  
+											<div class="p-2 mb-2 bg-body-tertiary border-bottom">
+												<input type="search" class="form-control" autocomplete="false" placeholder="회사명">
+											</div>  <!-- 고객사 검색 -->
+											<ul class="list-unstyled mb-0 ">
+												<c:forEach var = "custMst" items="${custMsts}" varStatus="status">
 								                  <li>
 								                    <div class="dropdown-item d-flex align-items-center gap-2 py-2">
 								                      <div class="form-check">
-								                        <input class="form-check-input" type="checkbox" value="${custMst.cust_cd}" id="custMst_nm">
-								                        <label class="form-check-label" for="flexCheckDefault">
+								                        <input class="custCheckbox form-check-input" type="checkbox" value="${custMst.cust_cd}" id="${custMst.cust_cd}">
+								                        <label class="form-check-label" for="${custMst.cust_cd}"">
 								                          ${custMst.cust_nm}
 								                        </label>
 								                      </div>
@@ -168,70 +138,62 @@
 								                  </li>
 								                </c:forEach>
 											</ul>
-							              </div> <!-- dropdown-menu -->
-										</div> <!-- collapse -->
-						        	</div> <!-- col p-4 -->
-								</div> <!-- row -->
-							</div> <!-- col-md-6 -->
-			    			
-			    				<!-- 영업 사원 -->
-							<div class="col-md-6">
-						        <div class="row g-0 rounded overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
-						          <div class="col d-flex flex-column position-static">
-						            <p>
-						              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseExample">
-						                담당자 <i class="bi bi-caret-down-fill"></i>
-						              </button>
-						            </p>
-						            
-						            <div class="collapse border" id="collapseUser">
-						              <div class="dropdown-menu d-block position-static pt-0 mx-0 overflow-hidden w-280px" data-bs-theme="light">
-										<form class="p-2 mb-2 bg-body-tertiary border-bottom">
-						                  <input type="search" class="form-control" autocomplete="false" placeholder="담당자명">
-						                </form>
-						                <ul class="list-unstyled mb-0">
-											<c:forEach var = "userMst" items="${userMsts}" varStatus="status">
-												<li>
-													<div class="dropdown-item d-flex align-items-center gap-2 py-2">
+										</div> <!-- dropdown-menu -->
+									</div> <!-- collapse -->
+								</div> <!-- col d-flex -->
+							</div> <!-- row g-0  -->
+						</div> <!-- col-md-6 -->
+						
+						<div class="col-md-6">
+							<div class="row g-0  overflow-hidden flex-md-row mb-4  h-md-250 position-relative">
+								<div class="col d-flex flex-column position-static">
+									<p>
+						            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+			            				담당자 <i class="bi bi-caret-down-fill"></i></button>
+			            			</p> <!-- 고객사 collapse 여는 버튼 -->
+									<div class="collapse border" id="collapseUser">
+										<div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 overflow-hidden w-280px" data-bs-theme="light">  
+											<div class="p-2 mb-2 bg-body-tertiary border-bottom">
+												<input type="search" class="form-control" autocomplete="false" placeholder="담당자명">
+											</div>  <!-- 고객사 검색 -->
+											<ul class="list-unstyled mb-0 ">
+												<c:forEach var = "userMst" items="${userMsts}" varStatus="status">
+								                  <li>
+								                    <div class="dropdown-item d-flex align-items-center gap-2 py-2">
 								                      <div class="form-check">
-								                        <input class="form-check-input" type="checkbox" value="${userMst.user_id}" id="user_id">
-								                        <label class="form-check-label" for="flexCheckDefault">
-								                          ${userMst.user_nm}
-								                        </label>
+															<input class="userCheckbox form-check-input" type="checkbox" value="${userMst.user_id}" id="${userMst.user_id}">
+									                        <label class="form-check-label" for="${userMst.user_id}">
+									                          ${userMst.user_nm}
+									                        </label>
 								                      </div>
 								                    </div>
-												</li>
-						                  	</c:forEach>
-						                </ul>
-						              </div>  <!-- collapseCust, dropdown-menu -->
-						        	</div> <!-- collapseCust -->
-						        	
-							      </div> <!--col p-4  -->
-							    </div> <!-- row g-0 -->
-				    		</div> <!-- col-md-6 -->
-	        			</div> <!-- row mb-2 -->
-										
-					</div> <%-- table-top --%>
-					
-					<table class="table table-borderless datatable datatable-table text-center">
-					
-						<thead><tr>
-							<th scope="col" class="text-center">No</th>
-							<th scope="col" class="text-center" id="order_no">주문번호</th>
-							<th scope="col" class="text-center" id="cust_nm">고객사</th>
-							<!-- <th scope="col" class="text-center" id="">제품명</th> -->
-							<th scope="col" class="text-center">담당자</th>
-							<th scope="col" data-sortable="true">
-								<button class="datatable-sorter text-center"> 주문 일자 </button></th>
-							<th scope="col" data-sortable="true">
-								<button class="datatable-sorter text-center"> 마감 기한 </button></th>
-							<th scope="col" class="text-center">진행상태</th>
-						</tr></thead>
-						<tbody>
-							<c:forEach var = "order" items="${orders}" varStatus="status">
-								<tr>
-									<th scope="row" class="text-center">${status.index + 1}</th>
-									<%-- <td class="text-center">${order.order_no}</td> --%>  <!-- ORD20240330222 -->
+								                  </li>
+								                </c:forEach>
+											</ul>
+										</div> <!-- dropdown-menu -->
+									</div> <!-- collapse -->
+								</div> <!-- col d-flex -->
+							</div> <!-- row g-0  -->
+						</div> <!-- col-md-6 -->
+						
+					</div> <!-- 두번째 체크박스 row -->
+				
+				<table class="table table-borderless datatable datatable-table text-center">
+					<thead><tr>
+						<th scope="col" class="text-center">No</th>
+						<th scope="col" class="text-center" id="order_no">주문번호</th>
+						<th scope="col" class="text-center" id="cust_nm">고객사</th>
+						<th scope="col" class="text-center">담당자</th>
+						<th scope="col" data-sortable="true">
+							<button class="datatable-sorter text-center"> 주문 일자 </button></th>
+						<th scope="col" data-sortable="true">
+							<button class="datatable-sorter text-center"> 마감 기한 </button></th>
+						<th scope="col" class="text-center">진행상태</th>
+					</tr></thead>
+					<tbody id="table_body">
+						<c:forEach var = "order" items="${orders}" varStatus="status">
+							<tr>
+								<th scope="row" class="text-center">${status.index + 1}</th>
 									<td><a href="/orderSpec?detailView=${order.order_sec_no}" <%-- %>data-bs-toggle="modal" --%>   data-bs-target="#ExtralargeModal" class="text-center">${order.order_no}</a></td>
 									<td> ${order.cust_nm} </td><!-- 대한식품 -->
 									<td>${order.user_nm}</td> <!-- 담당 직원 -->
@@ -241,36 +203,18 @@
 										<c:choose>
 											<c:when test="${order.order_status_chk == 1}"><span class="badge bg-secondary">주문 취소</span></c:when>
 											<c:when test="${order.order_status_chk == 2}"><span class="badge bg-primary">진행중</span></c:when>
-											<c:when test="${order.order_status_chk == 3}"><span class="badge bg-secondary">출고 완료</span></c:when>
+											<c:when test="${order.order_status_chk == 3}"><span class="badge bg-success">출고 완료</span></c:when>
 											<c:otherwise><span class="badge bg-warning text-dark">주문 완료 </span></c:otherwise>
 										</c:choose>
 									</td>								
 								</tr>
 							</c:forEach>
 						</tbody>
-					</table>
-					<nav class="mt-0" aria-label="Page navigation example">
-						<ul class="pagination">
-						<li class="page-item">
-							<a class="page-link" href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
-						</ul>
-					</nav>
-				</div> <!-- datatable -->
-			
+				</table>
 				
-				</div> <!-- card-body --> 
-			</div>			  
+				
+				</div> <!-- card-body -->
+			</div><!-- card -->		  
         </section>
     </main>
 

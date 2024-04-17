@@ -20,10 +20,13 @@ function decreaseCnt(order_item_cd){
 		$(`#${order_item_cd}`).text(find_item.order_qty);
 	}
 };
+// null여부 확인
+function isNotNull(key){
+	console.log("isNotNull check")
+	return $(`#${key}`).val() != null && $(`#${key}`).val() !== "";
+}
 
-$(document).ready(function(){
-	// var itemMsts = ${itemMsts}
-	
+$(document).ready(function(){	
 	console.log("hhh")
 	var order_dt;
 	var order_end_dt;
@@ -129,6 +132,11 @@ $(document).ready(function(){
 
 		
 	});
+	
+	// null여부 확인
+	function isNotNull(key){
+		return $(`#${key}`).val() != null && $(`#${key}`).val() !== "";
+	}
 	
 	// option 선택했을때 텍스트박스에 해당 물품의 가격 및 제품코드, 단위를 나타나게함
 	$("#item_nm").change(function(){
@@ -269,10 +277,6 @@ $(document).ready(function(){
 	});
 
 
-	// null여부 확인
-	function isNotNull(key){
-		return $(`#${key}`).val() != null && $(`#${key}`).val() !== "";
-	}
 		
 	// 모달이 닫힐 때 선택된 옵션 초기화
 	function resetVal(){
