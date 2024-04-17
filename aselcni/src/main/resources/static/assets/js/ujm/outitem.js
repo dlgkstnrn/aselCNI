@@ -346,32 +346,32 @@ let detail_remark;
       modalContentClear(); //초기화
       
 
-      outitemNo = $(this).find("td:nth-child(1)").text(); //출고번호
+      outitemNo = $(this).find("td:nth-child(2)").text(); //출고번호
       $("#detail_outitem_no").html(outitemNo);
 
       orderNo = $(this).find("td:nth-child(3)").text(); //주문번호
       $("#detail_order_no").html(orderNo);
 
-      orderDt = $(this).find("td:nth-child(4)").text(); //주문일자
+      orderDt = $(this).find("td:nth-child(6)").text(); //주문일자
       $("#detail_order_dt").html(orderDt);
 
-      let orderEndDt = $(this).find("td:nth-child(5)").text(); //주문 마감일(납기일)
+      let orderEndDt = $(this).find("td:nth-child(7)").text(); //주문 마감일(납기일)
       $("#detail_order_end_dt").html(orderEndDt);
 
-      outitemDt = $(this).find("td:nth-child(6)").text(); //출고일자
+      outitemDt = $(this).find("td:nth-child(8)").text(); //출고일자
       $("#detail_outitem_dt").html(outitemDt);
 
-      let custNm = $(this).find("td:nth-child(7)").text(); //매입처
+      let custNm = $(this).find("td:nth-child(4)").text(); //매입처
       $("#detail_cust_nm").html(custNm);
 
 
 
-      detail_remark = $(this).find("td:nth-child(9)").text(); //비고
-      $("#detail_remark").html(detail_remark);
+/*       detail_remark = $(this).find(".invisibleRemark").text(); //비고
+      $("#detail_remark").html(detail_remark); */
 
 
 
-      let orderStatusChk = $(this).find("td:nth-child(11)").text(); //출고 상태
+      let orderStatusChk = $(this).find("td:nth-child(10)").text(); //출고 상태
       $("#detail_order_status_chk").html(orderStatusChk);
 
 
