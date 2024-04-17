@@ -427,7 +427,7 @@ function getPriListAjax(page) {
 
 			$.each(jpriMap.priList, function(index, pri) {
 				$("#prodItemTbody").append(
-					'<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal">' +
+					'<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal" style="cursor:pointer;">' +
 					'<th scope="row">' + pri.proditem_no + '</th>' +
 					'<td>' + pri.workprod_no + '</td>' +
 					'<td>' + pri.proditem_end_dt + '</td>' +
@@ -557,7 +557,7 @@ function getBadList(prodItemNo, badCd, badRes) {
 
 			$.each(badList, function(index, bad) {
 
-				let trTag = $("<tr></tr>");
+				let trTag = $("<tr style='cursor:pointer;'></tr>");
 				trTag.append('<td class="checkbox-center"><input class="badCheckBox" type="checkbox"></td>');
 				trTag.append("<td>" + bad.bad_cd + "</td>");
 				trTag.append("<td>" + bad.bad_res + "</td>");

@@ -66,11 +66,11 @@
 	<main id="main" class="main">
 
 		<div class="pagetitle">
-			<h1>생산 실적 조회</h1>
+			<h1>생산 관리</h1>
 			<nav>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="#">생산 관리</a></li>
-					<li class="breadcrumb-item active">생산 실적 조회</li>
+					<li class="breadcrumb-item active">생산 실적</li>
 				</ol>
 			</nav>
 		</div>
@@ -82,7 +82,7 @@
 					<!--등록  버튼  -->
 					<div class="d-flex align-items-end justify-content-between">
 						<h4>
-							<span class="d-flex align-items-center">생산 실적 조회</span>
+							<span class="d-flex align-items-center card-header-title">생산 실적</span>
 						</h4>
 						<div
 							class="col-sm-2 d-flex align-items-center justify-content-end"
@@ -202,7 +202,7 @@
 							<c:choose>
 								<c:when test="${jpriList.size() != 0}">
 									<c:forEach var="pri" items="${jpriList}">
-										<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal">
+										<tr data-bs-toggle="modal" data-bs-target="#prodItemEditModal" style="cursor:pointer;">
 											<th scope="row">${pri.proditem_no}</th>
 											<td>${pri.workprod_no}</td>
 											<td>${pri.proditem_end_dt}</td>
@@ -760,7 +760,7 @@
 													</tr>
 												</thead>
 												<tbody id="badListBadModal">
-													<tr id="trowBadModal">
+													<tr id="trowBadModal" style="cursor:pointer;">
 														<td class="checkbox-center"><input class="badCheckBox" type="checkbox"
 															name="selectedBad"
 														></td>

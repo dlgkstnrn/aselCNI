@@ -98,7 +98,7 @@ pageEncoding="UTF-8"%>
                   <c:forEach var="planList" varStatus="planStat" items="${planList}">
 
                     <!-- 생산지시 등록 모달 띄우기 : tr 클릭 시 -->
-                    <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}">
+                    <tr data-bs-toggle="modal" data-bs-target="#prodplan" data-index="${planList.prodplan_no}" style="cursor:pointer;">
                       <th scope="row">${planList.prodplan_no}</th>
                       <td>${planList.seq_no}</td>
                       <td>${planList.item_nm}</td>
@@ -132,7 +132,7 @@ pageEncoding="UTF-8"%>
                   <c:forEach var="workList" varStatus="workStat" items="${workList}">
 
                     <!-- 생산지시내역 조회 모달 띄우기 : tr 클릭 시 -->
-                    <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" >
+                    <tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" style="cursor:pointer;">
                     <!-- <tr onclick="showWprModal()" data-bs-toggle="modal" data-bs-target="#workprod" data-index="${workList.workprod_no}" > -->
                       <th scope="row">${workList.workprod_no}</th>
                       <td>${workList.seq_no}</td>
