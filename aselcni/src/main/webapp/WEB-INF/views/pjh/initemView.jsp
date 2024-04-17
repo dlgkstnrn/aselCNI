@@ -48,7 +48,7 @@
 				<main id="main" class="main">
 
 					<div class="pagetitle">
-						<h1>입고 관리</h1>
+						<h1>자재 관리</h1>
 						<nav>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item">자재관리</li>
@@ -62,12 +62,12 @@
 							<div class="card-body">
 								<!-- 카드 제목 부  -->
 								<div class="d-flex align-items-center">
-									<span class="h5 align-baseline me-auto">입고 관리</span>
+									<span class="h5 me-auto card-header-title">입고 관리</span>
 									<div>
-										<a href="/initemWrite" type="button" class="btn btn-primary btn-sm">신규</a>
+										<a href="/initemWrite" type="button" class="btn btn-primary ">신규</a>
 									</div>
 								</div>
-								<hr class="my-3">
+								<hr>
 
 								<!-- 필터 입력 부 -->
 								<div class="container text-center">
