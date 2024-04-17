@@ -1,7 +1,6 @@
 package com.aselcni.jtu.dao;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JtuDaoImple implements JtuDaoInterface{
 	private final SqlSession session;
+
 	
 	@Override
 	public List<JtuProdItem> getPriList(JtuProdItem jpri) {
@@ -208,6 +208,7 @@ public class JtuDaoImple implements JtuDaoInterface{
 		
 		return jpriTotalCnt;
 	}
+
 
 
 

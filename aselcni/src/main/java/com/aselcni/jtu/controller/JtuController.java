@@ -19,6 +19,7 @@ import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
 import com.aselcni.jtu.service.JtuPaging;
 import com.aselcni.jtu.service.JtuServiceInterface;
+import com.aselcni.main.model.MenuMst;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -29,9 +30,20 @@ public class JtuController {
 
 	@RequestMapping("proditem")
 	public String proditem(Model model, HttpServletRequest request) {
-//		if(request.getSession().getAttribute("user_id") == null) {
-//			return "redirect:/";
-//		}
+		
+		if(request.getSession().getAttribute("user_id") == null) {
+			return "redirect:/";
+		}
+		
+		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)request.getSession().getAttribute("menuListGroupByMenu");
+		for (List<MenuMst> menuMstList : menuListGroupByMenu) {
+			for (List<MenuMst> menuMst : menuListGroupByMenu) {
+				System.out.println();
+			}
+		}
+		
+		
+
 		
 		System.out.println("JtuController getMethodName Start... ");
 		String todayStr=LocalDate.now().toString();
@@ -41,8 +53,7 @@ public class JtuController {
 		JtuProdItem jpri = new JtuProdItem();
 		jpri.setStartDate(todayStr);
 		jpri.setEndDate(afterDayStr);
-//		jpri.setStartDate(afterDayStr=LocalDate.now().plusDays(30).toString());
-//		jpri.setEndDate(afterDayStr=LocalDate.now().plusDays(30).toString());
+
 
 		int jpriTotalCnt = js.getJpriTotalCnt(jpri);
 		System.out.println("JtuController proditem jpriTotalCnt --> " + jpriTotalCnt);

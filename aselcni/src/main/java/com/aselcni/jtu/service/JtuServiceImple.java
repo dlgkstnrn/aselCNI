@@ -20,8 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class JtuServiceImple implements JtuServiceInterface{
 	private final JtuDaoInterface jd;
-	
-	
+
 	@Override
 	public List<JtuProdItem> getPriList(JtuProdItem jpri, JtuPaging jPaging) {
 		System.out.println("JtuServiceImple getPriList Start... ");
@@ -126,7 +125,6 @@ public class JtuServiceImple implements JtuServiceInterface{
 		
 		return jpriTotalCnt;
 	}
-
 
 
 }
