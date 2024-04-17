@@ -133,17 +133,16 @@ pageEncoding="UTF-8"%>
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">출고번호</th>
                       <th scope="col">순번</th>
+                      <th scope="col">출고번호</th>
                       <th scope="col">주문번호</th>
+                      <th scope="col">고객사</th>
+                      <th scope="col">제품명</th>
                       <th scope="col">주문일자</th>
-                      <th scope="col">주문납기일</th>
+                      <th scope="col">납기일자</th>
                       <th scope="col">출고일자</th>
-                      <th scope="col">매입처</th>
-                      <th scope="col">출고제품</th>
-                      <th scope="col">비고</th>
-                      <th scope="col">출고관리자</th>
-                      <th scope="col">출고상태</th>
+                      <th scope="col">담당자</th>
+                      <th scope="col">진행</th>
 
                     </tr>
                   </thead>
@@ -151,19 +150,16 @@ pageEncoding="UTF-8"%>
                   <tbody>
                     <c:forEach var="outitem" items="${listOutitem}">
                   
-                    <tr
-                      data-bs-toggle="modal"
-                      data-bs-target="#outitemDetailModal"
-                    >
-                      <td>${outitem.outitem_no}</td>
+                    <tr data-bs-toggle="modal"
+                      data-bs-target="#outitemDetailModal">
                       <td>${outitem.seq_no}</td>
+                      <td>${outitem.outitem_no}</td>
                       <td>${outitem.order_no}</td>
+                      <td>${outitem.cust_nm}</td>
+                      <td>${outitem.items}</td>
                       <td>${outitem.order_dt}</td>
                       <td>${outitem.order_end_dt}</td>
                       <td>${outitem.outitem_dt}</td>
-                      <td>${outitem.cust_nm}</td>
-                      <td>${outitem.items}</td>
-                      <td>${outitem.remark}</td>
                       <td>${outitem.user_nm}</td>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
@@ -171,6 +167,8 @@ pageEncoding="UTF-8"%>
                         <c:if test="${outitem.order_status_chk==2}">일부 출고</c:if>
                         <c:if test="${outitem.order_status_chk==3}">전체 출고 완료</c:if>
                       </td>
+                      <span class="invisibleRemark" style="display: none;">${outitem.remark}</span>
+                      
                     </tr>
                     <c:set var="num" value="${num - 1 }"></c:set>
 
@@ -226,7 +224,7 @@ pageEncoding="UTF-8"%>
               이 부분의 input과 textarea의 val이 초기화 -->
               
               <div class="modal-header">
-                <h5 class="modal-title">출고등록</h5>
+                <h5 class="modal-title" >출고등록</h5>
                 <button type="button" class="btn-close" 
                 data-bs-dismiss="modal" aria-label="Close"></button>
                   <!-- 좌측 상단의 닫기버튼(X) -->
@@ -250,26 +248,8 @@ pageEncoding="UTF-8"%>
                       <!-- form에 들어가는 값 -->
                     </div>
                   </div>
-                  <!-- 주문일자(단순조회) -->
-                  <div class="row mb-3 d-flex">
-                    <label class="col-sm-3 col-form-label">주문일자
-                      </label>
-                    <div class="col-sm-9" id="orderInfo_order_dt" >
-                      <!-- ajax로 -->
-                    </div>
-                    
-                  </div>
-                  <!-- 출고일자 -->
-                  <div class="row mb-3">
-                    <label
-                      for="outitem_dt"
-                      class="col-sm-3 col-form-label">출고일자</label>
-                    <div class="col-sm-9">
-                      <input type="date" class="form-control" id="insert_outitem_dt" 
-                        name="outitem_dt" style="width: 200px;" required="required"/>
-                    </div>
-                  </div>
-                  <!-- 매입처이름 -->
+
+                  <!-- 고객사 -->
                   <div class="row mb-3">
                     <label
                       for="cust_nm"
@@ -281,11 +261,44 @@ pageEncoding="UTF-8"%>
                     required="required"> 
                       <!-- form에 들어가는값 -->
                   </div>
+
+
+                  <!-- 주문일자(단순조회) -->
+                  <div class="row mb-3 d-flex">
+                    <label class="col-sm-3 col-form-label">주문일자
+                      </label>
+                    <div class="col-sm-9" id="orderInfo_order_dt" >
+                      <!-- ajax로 -->
+                    </div>
+                  </div>
+
+                  <!-- 납기일자 -->
+                  <div class="row mb-3">
+                    <label for="order_end_dt"
+                      class="col-sm-3 col-form-label">납기일자</label>
+                    <div class="col-sm-9 orderInfo_order_end_dt" 
+                    id="orderInfo_order_end_dt">
+                      <!-- ajax -->
+                    </div>
+                  </div>
+
+
+                  <!-- 출고일자 -->
+                  <div class="row mb-3">
+                    <label
+                      for="outitem_dt"
+                      class="col-sm-3 col-form-label">출고일자<span class="color-red">*</span></label>
+                    <div class="col-sm-9">
+                      <input type="date" class="form-control" id="insert_outitem_dt" 
+                        name="outitem_dt" style="width: 200px;" required="required"/>
+                    </div>
+                  </div>
+                  
                   <!-- 거래처담당자 -->
                   <div class="row mb-3">
                     <label
                       for="outitem.cust_emp"
-                      class="col-sm-3 col-form-label">거래처 담당자</label>
+                      class="col-sm-3 col-form-label">거래처 담당자<span class="color-red">*</span></label>
                     <div class="col-sm-9">
                       <input
                         type="text"
@@ -301,21 +314,13 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label
                       for="order_status_chk"
-                      class="col-sm-3 col-form-label">주문상태</label>
+                      class="col-sm-3 col-form-label">진행상태</label>
                     <div class="col-sm-9" 
                     id="orderInfo_order_status_chk">   
                       <!-- ajax -->
                     </div>
                   </div>
-                  <!-- 주문마감일 -->
-                  <div class="row mb-3">
-                    <label for="order_end_dt"
-                      class="col-sm-3 col-form-label">주문납기일</label>
-                    <div class="col-sm-9 orderInfo_order_end_dt" 
-                    id="orderInfo_order_end_dt">
-                      <!-- ajax -->
-                    </div>
-                  </div>
+                  
                   <!-- 출고할 제품 선택-->
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">
@@ -397,12 +402,10 @@ pageEncoding="UTF-8"%>
               이 부분의 input과 textarea의 val이 초기화 -->
               <div class="modal-header">
                 <h5 class="modal-title">출고 상세</h5>
-                <button
-                  type="button"
+                <button type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button> <!-- 닫기 버튼 -->
+                  aria-label="Close"></button> <!-- 닫기 버튼 -->
               </div>
 
 
@@ -425,6 +428,13 @@ pageEncoding="UTF-8"%>
                       </div>
                     </div>
 
+                    <!-- 고객사 -->
+                    <div class="row mb-3">
+                      <label for="workprod_dt" class="col-sm-3 col-form-label">고객사</label>
+                      <div class="col-sm-9" id="detail_cust_nm">
+                      </div>
+                    </div>
+
                     <!-- 주문일자 -->
                     <div class="row mb-3 d-flex">
                       <label class="col-sm-3 col-form-label">주문일자</label>
@@ -433,41 +443,35 @@ pageEncoding="UTF-8"%>
                       </div>
                     </div>
 
-                    <!-- 출고일자 -->
+                    <!-- 주문마감일-->
                     <div class="row mb-3">
-                      <label for="outitem_dt" class="col-sm-3 col-form-label">출고일자</label>
-                      <div class="col-sm-9" id="detail_outitem_dt">
+                      <label for="order_end_dt" class="col-sm-3 col-form-label">납기일자</label>
+                      <div class="col-sm-9" id="detail_order_end_dt">
                       </div>
                     </div>
 
-                    <!-- 매입처 -->
+                    <!-- 출고일자 -->
                     <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label">매입처</label>
-                      <div class="col-sm-9" id="detail_cust_nm">
+                      <label for="outitem_dt" class="col-sm-3 col-form-label">출고일자<span class="color-red">*</span></label>
+                      <div class="col-sm-9" id="detail_outitem_dt">
                       </div>
                     </div>
 
                     <!-- 거래처담당자 -->
                     <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자</label>
+                      <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자<span class="color-red">*</span></label>
                       <div class="col-sm-9" id="detail_cust_emp">
                       </div>
                     </div>
 
                     <!-- 주문상태 -->
                     <div class="row mb-3">
-                      <label for="order_status_chk" class="col-sm-3 col-form-label">주문상태</label>
+                      <label for="order_status_chk" class="col-sm-3 col-form-label">진행 상태</label>
                       <div class="col-sm-9" id="detail_order_status_chk">
                         
                       </div>
                     </div>
 
-                    <!-- 주문마감일-->
-                    <div class="row mb-3">
-                      <label for="order_end_dt" class="col-sm-3 col-form-label">주문납기일</label>
-                      <div class="col-sm-9" id="detail_order_end_dt">
-                      </div>
-                    </div>
 
                     <!-- 출고할 제품 선택-->
                     <div class="row mb-3">
