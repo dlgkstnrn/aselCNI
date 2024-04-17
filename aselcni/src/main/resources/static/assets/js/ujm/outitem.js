@@ -355,20 +355,24 @@ let detail_remark;
       orderDt = $(this).find("td:nth-child(4)").text(); //주문일자
       $("#detail_order_dt").html(orderDt);
 
+      let orderEndDt = $(this).find("td:nth-child(5)").text(); //주문 마감일(납기일)
+      $("#detail_order_end_dt").html(orderEndDt);
+
       outitemDt = $(this).find("td:nth-child(6)").text(); //출고일자
       $("#detail_outitem_dt").html(outitemDt);
 
       let custNm = $(this).find("td:nth-child(7)").text(); //매입처
       $("#detail_cust_nm").html(custNm);
 
-      let orderStatusChk = $(this).find("td:nth-child(9)").text(); //출고 상태
-      $("#detail_order_status_chk").html(orderStatusChk);
 
-      detail_remark = $(this).find("td:nth-child(10)").text(); //비고
+
+      detail_remark = $(this).find("td:nth-child(9)").text(); //비고
       $("#detail_remark").html(detail_remark);
 
-      let orderEndDt = $(this).find("td:nth-child(5)").text(); //주문 마감일(납기일)
-      $("#detail_order_end_dt").html(orderEndDt);
+
+
+      let orderStatusChk = $(this).find("td:nth-child(11)").text(); //출고 상태
+      $("#detail_order_status_chk").html(orderStatusChk);
 
 
       // 현재 날짜 생성
