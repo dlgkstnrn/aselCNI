@@ -175,10 +175,6 @@ tbody tr td, tbody tr th {
 	justify-content: space-between;
 }
 
-.return-detail-body> div:last-child {
-	display: block;
-}
-
 .return-detail-body> div> .return-detail-content:first-child {
 	margin-right: 10px;
 }

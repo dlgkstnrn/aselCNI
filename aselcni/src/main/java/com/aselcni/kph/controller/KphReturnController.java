@@ -40,7 +40,7 @@ public class KphReturnController {
 			resultPage = "redirect:/main";
 		}
 		
-		if(user_comm_code == 10030) {
+		if(user_comm_code == 10030 || user_comm_code == 10010) {
 			System.out.println(kphReturn);
 			int totalReturnCount = kphReturnService.totalReturnCount(kphReturn);
 			KphPaging paging = new KphPaging(totalReturnCount, kphReturn.getCurrentPage());
@@ -118,7 +118,7 @@ public class KphReturnController {
 			resultPage = "redirect:/main";
 		}
 		
-		if(user_comm_code == 10030) {
+		if(user_comm_code == 10030 || user_comm_code == 10010) {
 			resultPage = "kph/returnAddForm"; 
 		}
 		
@@ -152,7 +152,7 @@ public class KphReturnController {
 			resultPage = "redirect:/main";
 		}
 		
-		if(user_comm_code == 10030) {
+		if(user_comm_code == 10030 || user_comm_code == 10010) {
 			kphReturn.setReturn_emp_id((String)session.getAttribute("user_id"));
 			kphReturnService.returnAdd(kphReturn);
 			resultPage = "redirect:/return"; 
@@ -186,7 +186,7 @@ public class KphReturnController {
 			resultPage = "redirect:/main";
 		}
 		
-		if(user_comm_code == 10030) {
+		if(user_comm_code == 10030 || user_comm_code == 10010) {
 			KphReturn returnObj = kphReturnService.getReturn(kphReturn);
 			model.addAttribute("returnObj", returnObj);
 			model.addAttribute("url", "returnUpdateForm");
@@ -207,7 +207,7 @@ public class KphReturnController {
 			resultPage = "redirect:/main";
 		}
 		
-		if(user_comm_code == 10030) {
+		if(user_comm_code == 10030 || user_comm_code == 10010) {
 			System.out.println(kphReturn);
 			kphReturn.setReturn_emp_id((String)session.getAttribute("user_id"));
 			kphReturnService.returnUpdate(kphReturn);
