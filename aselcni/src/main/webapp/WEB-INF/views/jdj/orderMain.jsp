@@ -79,12 +79,20 @@
                 </ol>
             </nav>
 <!--         				<p class="fs-5">주문 검색</p> -->
-			  <button class="btn btn-primary d-md-flex justify-content-md-end" type="button" onclick="location.href='/orderReg'">신규 등록</button>
+			  <!-- <button class="btn btn-primary d-md-flex justify-content-md-end" type="button" onclick="location.href='/orderReg'">신규 등록</button> -->
         </div>
 		<!-- 본문 -->	
 		<section class="section dashboard">		
 			<div class="card">
 				<div class="card-body">
+									<!-- 카드 제목 부  -->
+					<div class="d-flex align-items-center">
+						<span class="h5 me-auto card-header-title">입고 관리</span>
+						<div>
+							<a href="/orderReg" type="button" class="btn btn-primary ">신규</a>
+						</div>
+					</div>
+					<hr>
 					<div class="row">
 						<div class="col-md-3">
 							<div class="input-group">

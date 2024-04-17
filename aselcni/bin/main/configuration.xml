@@ -11,6 +11,7 @@
 		<typeAlias alias="LhsTypeBig" type="com.aselcni.lhs.model.TypeBig" />
 		<typeAlias alias="LhsTypeMid" type="com.aselcni.lhs.model.TypeMid" />
 		<typeAlias alias="LhsTypeSml" type="com.aselcni.lhs.model.TypeSml" />
+		
 		<typeAlias alias="UserMst" type="com.aselcni.main.model.UserMst" />
 		<typeAlias alias="Common" type="com.aselcni.main.model.Common" />
 		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst" />
@@ -19,11 +20,15 @@
 		<typeAlias alias="Whmst" type="com.aselcni.hsh.model.Whmst"/>
 		
 		<typeAlias alias="PJHInitem" type="com.aselcni.pjh.model.PJHInitem" />
-		<typeAlias alias="PJHInitemItem" type="com.aselcni.pjh.model.PJHInitemItem" />
+		<typeAlias alias="PJHInitemItem"
+			type="com.aselcni.pjh.model.PJHInitemItem" />
 		<typeAlias alias="PJHPurchase" type="com.aselcni.pjh.model.PJHPurchase" />
-		<typeAlias alias="PJHPurchaseItem" type="com.aselcni.pjh.model.PJHPurchaseItem" />
+		<typeAlias alias="PJHPurchaseItem"
+			type="com.aselcni.pjh.model.PJHPurchaseItem" />
 		<typeAlias alias="PJHWhmst" type="com.aselcni.pjh.model.PJHWhmst" />
-		<typeAlias alias="MenuMst" type="com.aselcni.main.model.MenuMst" />
+		
+
+		
 		<typeAlias alias="Order" type="com.aselcni.jdj.model.Order" />
 		<typeAlias alias="ItemMst" type="com.aselcni.jdj.model.ItemMst" />
 		<typeAlias alias="OrderItem" type="com.aselcni.jdj.model.OrderItem" />
