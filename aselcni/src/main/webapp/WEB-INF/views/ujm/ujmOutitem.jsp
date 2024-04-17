@@ -48,11 +48,11 @@ pageEncoding="UTF-8"%>
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>구매/영업 관리</h1>
+        <h1>영업 관리</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item">구매/영업 관리</li>
-            <li class="breadcrumb-item active">출고 관리</li>
+            <li class="breadcrumb-item">영업 관리</li>
+            <li class="breadcrumb-item active"><a href="/#">출고 관리</a></li>
           </ol>
         </nav>
       </div>

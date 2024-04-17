@@ -54,12 +54,12 @@
    		 <form id="deleteForm" method="post" action="/deleteSelectedPurchases"> <!-- 삭제를 처리할 URL로 수정하세요 -->
 			<input type="hidden" id="selectedIds" name="selectedIds" value="">
 	          <div class="pagetitle">
-	            <h1>구매 / 영업 관리</h1>
+	            <h1>구매 관리</h1>
 	            <nav>
-	              <ol class="breadcrumb">
-	                <li class="breadcrumb-item"><a href="#">구매 / 영업 관리</a></li>
-	                <li class="breadcrumb-item active">발주 관리</li>
-	              </ol>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">구매 관리</li>
+						<li class="breadcrumb-item active"><a href="/#">발주 관리</a></li>
+					</ol>
 	            </nav>
 	          </div><!-- End Page Title -->
 			<!-- <form action="/searchPurchases" method="POST">-->
@@ -125,21 +125,21 @@
 							</div>
 							
 			        		<!-- Table -->
-				            <div class="card shadow-sm rounded-lg">
-				                <div class="card-body">
-				                    <table class="table table-striped" id="jajeinsertTable">
+				            <!-- <div class="card shadow-sm rounded-lg"> -->
+				                <!-- <div class="card-body"> -->
+				                    <table class="table table-hover  text-center" id="jajeinsertTable">
 				                        <thead>
 				                            <tr>
-				                                <th>선택</th>
-				                                <th>번호</th>
+				                                <th></th>
+				                                <th>No</th>
 				                                <th>발주번호</th>
 				                                <th>매입처</th>
 				                                <th>자재명</th>
-				                                <th>개수</th>
+				                                <th>수량</th>
 				                                <th>단가 </th>
 				                                <th>공급가액</th>
-				                                <th>발주등록일자</th>
-				                                <th>발주현황</th>
+				                                <th>발주일자</th>
+				                                <th>진행상태</th>
 				                            </tr>
 				                        </thead>
 				                        <tbody id = "searchPurchase">
@@ -159,13 +159,17 @@
 														<td>
 											            <c:choose>
 											                <c:when test="${purchase.purc_status_chk == 0}">
-											                    <button class="btn btn-warning btn-sm" type="button">발주진행중</button>
+											                    <!-- <button class="btn btn-warning btn-sm" type="button">발주 완료</button> -->
+											                    <span class="badge bg-success">발주 완료</span>
+											                    
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 1}">
-											                    <button class="btn btn-info btn-sm" type="button">입고진행중</button>
+											                    <!-- <button class="btn btn-info btn-sm" type="button">입고중</button> -->
+											                    <span class="badge bg-primary">입고중</span>
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 2}">
-											                    <button class="btn btn-success btn-sm" type="button">입고완료</button>
+											                    <!-- <button class="btn btn-success btn-sm" type="button">입고완료</button> -->
+											                    <span class="badge bg-warning text-dark">입고 완료</span>
 											                </c:when>
 											            </c:choose>
 											        </td>
@@ -174,7 +178,7 @@
 		
 				                        </tbody>
 				                    </table>
-				                </div>
+				                <!-- </div> -->
 				            </div>
 						
 			            <!-- Pagination -->

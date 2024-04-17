@@ -8,6 +8,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>주문 등록</title>
+	<!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+  
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  
+    <!-- DataTables -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+	
 	<!-- Favicons -->
 	<link href="assets/img/favicon.png" rel="icon">
 	
@@ -81,7 +90,7 @@
         	<div class="card">
         		<div class="card-body"><form action="/saveOrd" method="post"><p>
 					<div class="row mb-3">
-						<label for="cust_cd" class="col-sm-1 col-form-label">매입처</label>
+						<label for="cust_cd" class="col-sm-1 col-form-label">고객사<span class="color-red">*</span></label>
 						<div class="col-sm-3">
 							<select id="cust_cd" class="form-select" aria-label="주문을 의뢰한 거래처">
 								<c:forEach var = "custMst" items = "${custMsts}">
@@ -90,11 +99,11 @@
 
 							</select>
 						</div>
-						<label for="cust_emp" class="col-sm-2 col-form-label text-end">거래처 담당자명</label>
+						<label for="cust_emp" class="col-sm-2 col-form-label text-end">고객사 담당자<span class="color-red">*</span></label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="cust_emp">
 						</div>
-						<label for="order_emp_id" class="col-sm-2 col-form-label text-end">담당자명</label>
+						<label for="order_emp_id" class="col-sm-2 col-form-label text-end">담당자<span class="color-red">*</span></label>
 						<div class="col-sm-2">
 							<!-- <input type="text" class="form-control" id="order_emp_id" value="jdj" text="정다진"> -->
 							<select id="order_emp_id" class="form-control" disabled="disabled"><option value="${regUserInfo.user_id}">${regUserInfo.user_nm}</option></select>
@@ -103,11 +112,11 @@
 					</div>
 					
 					<div class="row mb-3">
-						<label for="order_dt" class="col-sm-1 col-form-label ">착수일</label>
+						<label for="order_dt" class="col-sm-1 col-form-label ">주문일자<span class="color-red">*</span></label>
 						<div class="col-sm-4">
 							<input type="date" class="form-control" id="order_dt">
 						</div>
-						<label for="order_end_dt" class="col-sm-1 col-form-label">납기일</label>
+						<label for="order_end_dt" class="col-sm-1 col-form-label">납기일자<span class="color-red">*</span></label>
 						<div class="col-sm-4">
 							<input type="date" class="form-control" id="order_end_dt">
 						</div>
@@ -136,15 +145,19 @@
 								<th scope="col">단위</th>
 								<th scope="col">수량</th>
 								<th scope="col">단가</th>
-								<th scope="col">합계</th>
+								<th scope="col">금액</th>
 							</tr></thead>
 							<tbody  id="itemTB">
 								<!-- 모달에서 저장된 내용이 출력됨 -->
 							</tbody>
 						</table>
+						<div id="totalAmount" style="margin-top: 20px;">
+						    합계 금액 : <span id="totalPrice"></span> 원
+						</div>
+						
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 							<button id="deleteBtn" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
-							<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
+							<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop" id="addItemLi">
 								<i class="bi bi-bag-plus-fill"></i> 추가
               				</button>
 						</div>
@@ -181,15 +194,15 @@
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="inputCity" class="form-label">수량</label>
-						                  <input type="number" class="form-control" id="order_qty">
+						                  <input type="number" class="form-control" id="order_qty" pattern="#,##0">
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="item_cost" class="form-label">단가</label>
-						                  <input type="number" disabled class="form-control" id="item_cost">
+						                  <input type="number" disabled class="form-control" id="item_cost" pattern="#,##0">
 						                </div>
 						                <div class="col-md-3">
-						                  <label for="order_item_cost" class="form-label">합계</label>
-						                  <input type="number"class="form-control" disabled="disabled" id="order_item_cost">
+						                  <label for="order_item_cost" class="form-label">금액</label>
+						                  <input type="number"class="form-control" disabled="disabled" id="order_item_cost" pattern="#,##0">
 						                </div>
 						                
 
