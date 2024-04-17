@@ -13,20 +13,13 @@ pageEncoding="UTF-8"%>
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"/>
 
     <!-- Vendor CSS Files -->
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"
     />
-    <link
-      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"/>
     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
     <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
@@ -39,10 +32,7 @@ pageEncoding="UTF-8"%>
 
     <!-- Script -->
     <script defer src="assets/js/main.js"></script>
-    <script
-      src="https://kit.fontawesome.com/0b22ed6a9d.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/0b22ed6a9d.js" crossorigin="anonymous"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script defer src="assets/js/ujm/outitem.js"></script>
   </head>
@@ -58,7 +48,7 @@ pageEncoding="UTF-8"%>
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>출고 관리</h1>
+        <h1>구매/영업 관리</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">구매/영업 관리</li>
@@ -68,22 +58,23 @@ pageEncoding="UTF-8"%>
       </div>
       <!-- End Page Title -->
 
-      <section class="section">
+      <section class="section" id="section">
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">
-
+              <h5 class="card-title" style="margin: 0;">
+                
                   <!-- 출고 등록 -->
                   <div id="upper-btn" style="float: right">
 
+                    <!-- 등록버튼 (등록폼을 띄우는 버튼) -->
                     <button
                       type="button"
                       class="btn btn-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#outitem_insert" 
-                      id="outitem_insert_btn"> <!-- 등록버튼 (등록폼을 띄우는 버튼) -->
+                      id="outitem_insert_btn"
+                      style=" margin: 10px;"> 
                       등록
                     </button>
 
@@ -234,8 +225,8 @@ pageEncoding="UTF-8"%>
                                       </thead>
                     
                                       <tbody>
-                                     <!-- ajax로 들어감 -->
-                                       
+                                    <!-- ajax로 들어감 -->
+                                      
                     
                                       </tbody>
                                     </table>
@@ -277,20 +268,16 @@ pageEncoding="UTF-8"%>
                             <!-- 신규버튼 modal의 하단 버튼 -->
                             <div class="modal-footer">
                               <button type="button"
-                                class="btn btn-outline-secondary"
+                                class="btn btn-secondary"
                                 data-bs-dismiss="modal">
                                 닫기
                               </button>
 
-                              <button type="submit" class="btn btn-success"
-                              form="insertOutitemForm" id="insertOutitemBtn">
+                              <button type="submit" class="btn btn-primary"
+                              form="insertOutitemForm" id="insertOutitemBtn" disabled>
                                 등록
                               </button> <!-- form으로 이어지는 실제 출고등록 버튼 -->
 
-                              <button type="reset"
-                                class="btn btn-outline-secondary">
-                                Reset
-                              </button>
                             </div> <!-- footer -->
                           </form>
 
@@ -303,144 +290,56 @@ pageEncoding="UTF-8"%>
 
 
                   </div> <!-- upper-btn -->
-                </h5>
 
 
+
+              </h5> <!-- card title -->
+              </div>
+
+
+
+              <div class="card-body">
+                
 
 
 
                 <!-- 일반페이지(조회페이지). 하단 출력 조건 걸어주는 곳 -->
 
                 <!-- 주문번호로 검색 -->
-                <p style="display: inline">주문번호</p>
-                <form
-                  class="search-form d-flex align-items-center"
-                  method="POST"
-                  action="#">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="width: 200px"
-                    name="order_no"
-                  />
-                  <button class="btn" type="submit" title="Search">
-                    <i class="bi bi-search"></i>
-                  </button>
-                </form>
-
-                <!-- 출고번호로 검색 -->
-                <p style="display: inline">출고번호</p>
-
-                <form
-                  class="search-form d-flex align-items-center"
-                  method="POST"
-                  action="#"
-                >
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="width: 200px"
-                  />
-                  <button class="btn" type="submit" title="Search">
-                    <i class="bi bi-search"></i>
-                  </button>
-                </form>
-
-          
-                <br />
-
-                <!-- 매입처(이름)로 검색 -->
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="floatingInput"
-                    placeholder="1"
-                    style="width: 200px"
-                    name="cust_nm"
-                  />
-                  <label for="floatingInput"
-                    >매입처</label
-                  >
-                </div>
-
-                <!-- 제품/자재명으로 검색 -->
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="item_nm"
-                    name="item_nm"
-                    placeholder="1"
-                    style="width: 200px"
-                    
-                  />
-                  <label for="floatingTextarea"
-                    >제품/자재명</label
-                  >
-                </div>
-
-                <div class="form-floating mb-3">
-                  <select
-                    class="form-select"
-                    id="floatingSelect"
-                    aria-label="Floating label select example"
-                    style="width: 200px"
-                  >
-                    <option selected>선택</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                  <label for="floatingSelect">출고관리자</label>
-                </div>
-
-                <br />
-
-
-
-
-                <!-- 날짜 -->
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 20px;
-                    margin: 20px 50px;
-                  "
-                >
-                  <button
-                    id="dateLeftBtn"
-                    type="button"
-                    class="btn btn-primary"
-                  >
-                    <i class="bi bi-caret-left-fill"></i>
-                  </button>
+                <div class="search">
                   <div>
-                    <label for="start"></label>
-                    <input
-                      type="date"
-                      class="prodItemDate"
-                      id="startDate"
-                      value="2024-03-01"
-                    />&nbsp;&nbsp;~&nbsp;&nbsp;<label for="end"></label>
-                    <input
-                      type="date"
-                      class="prodItemDate"
-                      id="endDate"
-                      value="2024-03-07"
-                    />
+                    <div class="input-group day-box">
+                      <span class="input-group-text">조회기간</span>
+                      <input type="date" class="start-day form-control" value="${start_day }">
+                      <input type="date" class="end-day form-control" value="${end_day }">
+                    </div>
+                    <div class="input-group return-no-box">
+                      <span class="input-group-text">출고번호</span>
+                      <input type="text" class="return-no-text form-control" placeholder="반품번호를 입력하세요" value="${return_no }" />
+                    </div>
+                    <div class="input-group outitem-no-box">
+                      <span class="input-group-text">주문번호</span>
+                      <input type="text" class="outitem-no-text form-control" placeholder="출고번호를 입력하세요" value="${outitem_no }" />
+                    </div>
                   </div>
-
-                  <button
-                    id="dateRightBtn"
-                    type="button"
-                    class="btn btn-primary"
-                  >
-                    <i class="bi bi-caret-right-fill"></i>
-                  </button>
-                </div>
+                  <div>
+                    <div class="input-group cust-nm-box">
+                      <span class="input-group-text">매입처</span>
+                      <input type="text" class="cust-nm-text form-control" placeholder="고객사명을 입력하세요" value="${cust_nm }" />
+                    </div>
+                    <div class="input-group item-nm-box">
+                      <span class="input-group-text">제품명</span>
+                      <input type="text" class="item-nm-text form-control" placeholder="제품명을 입력하세요" value="${item_nm }" />
+                    </div>
+                    <div class="input-group user-nm-box">
+                      <span class="input-group-text">담당자명</span>
+                      <input type="text" class="return-emp-nm-text form-control" placeholder="담당자명을 입력하세요" value="${return_emp_nm }" />
+                      &nbsp;
+                      <button type="button" id="search-btn" class="search-btn btn btn-primary">검색</button>
+                    </div>
+                  </div>
+                  <!-- <div class="search-btn-box">
+                  </div> -->
 
 
 
@@ -459,10 +358,10 @@ pageEncoding="UTF-8"%>
                       <th scope="col">출고일자</th>
                       <th scope="col">매입처</th>
                       <th scope="col">출고제품</th>
-                      <th scope="col">출고상태</th>
-
                       <th scope="col">비고</th>
                       <th scope="col">출고관리자</th>
+                      <th scope="col">출고상태</th>
+
                     </tr>
                   </thead>
 
@@ -481,15 +380,14 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.outitem_dt}</td>
                       <td>${outitem.cust_nm}</td>
                       <td>${outitem.items}</td>
+                      <td>${outitem.remark}</td>
+                      <td>${outitem.user_nm}</td>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
                         <c:if test="${outitem.order_status_chk==1}">취소됨</c:if>
                         <c:if test="${outitem.order_status_chk==2}">일부 출고</c:if>
                         <c:if test="${outitem.order_status_chk==3}">전체 출고 완료</c:if>
                       </td>
-
-                      <td>${outitem.remark}</td>
-                      <td>${outitem.user_nm}</td>
                     </tr>
                     <c:set var="num" value="${num - 1 }"></c:set>
 
@@ -497,7 +395,6 @@ pageEncoding="UTF-8"%>
 
                   </tbody>
                 </table>
-${page}
                
                 <!-- End Table with stripped rows -->
               </div>
@@ -512,8 +409,7 @@ ${page}
 
 
               <!-- 번호디자인 -->
-              <!-- Disabled and active states -->
-              <nav aria-label="..." style="margin: auto">
+              <nav class="page-navigation">
                 <ul class="pagination">
 
                   <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
@@ -545,11 +441,10 @@ ${page}
           id="outitemDetailModal"
           tabindex="-1"
           style="display: none"
-          aria-hidden="true"
-        > <!-- 상세 부분.. (수정,삭제에도 사용) -->
+          aria-hidden="true"> <!-- 상세 부분.. (수정,삭제에도 사용) -->
 
           <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content"> <!-- 닫기버튼 눌렀을 때 
+            <div class="modal-content" data-backdrop="static"> <!-- 닫기버튼 눌렀을 때 
               이 부분의 input과 textarea의 val이 초기화 -->
               <div class="modal-header">
                 <h5 class="modal-title">출고 상세</h5>
@@ -607,7 +502,6 @@ ${page}
                     <div class="row mb-3">
                       <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자</label>
                       <div class="col-sm-9" id="detail_cust_emp">
-                        <!-- 새로 가져와야함 -->
                       </div>
                     </div>
 
@@ -644,7 +538,7 @@ ${page}
                                 <th>현재 재고</th>
                                 <th>주문수량</th>
                                 <th>남은 주문 수량</th>
-                                <th>출고수량</th>
+                                <th>출고한 수량</th>
                               </tr>
                             </thead>
           
@@ -676,23 +570,23 @@ ${page}
                     <!-- 닫기버튼 -->
                     <button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-secondary"
                       data-bs-dismiss="modal">
                       닫기
                     </button>
 
-
-
-
-                    <button type="submit" id="updateOutitemBtn" class="btn btn-success">수정하기</button>
-
-                    <button type="submit" id="updateOutitemSubmitBtn" class="btn btn-success" hidden>수정완료</button>
-
-
-
-                    <button type="submit" class="btn btn-outline-secondary">
+                    <button type="submit" class="btn btn-danger">
                       삭제
                     </button>
+
+                    <button type="submit" id="updateOutitemBtn" class="btn btn-primary">수정</button>
+
+                    <button type="submit" id="updateOutitemSubmitBtn" class="btn btn-primary" 
+                    style="display: none;">수정완료</button>
+
+
+
+
 
 
 
@@ -714,11 +608,9 @@ ${page}
     <%@ include file="../footer.jsp" %>
     <!-- End Footer -->
 
-    <a
-      href="#"
+    <a href="#"
       class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+      ><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

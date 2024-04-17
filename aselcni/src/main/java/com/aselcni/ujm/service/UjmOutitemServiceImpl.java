@@ -1,5 +1,7 @@
 package com.aselcni.ujm.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -112,6 +114,54 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		List<UjmOutitem> ujmListOutitemDetail=null;
 		ujmListOutitemDetail=uod.ujmGetOutitemDetail(outitem_no, order_no);
 		return ujmListOutitemDetail;
+	}
+
+	@Override
+	public List<UjmOutitem> ujmGetOutitemToUpdate(String order_no, String outitem_no) {
+		System.out.println("UjmOutitemServiceImpl : ujmGetOutitemToUpdate Start...");
+		List<UjmOutitem> ujmListOutitem=null;
+		ujmListOutitem=uod.ujmGetOutitemToUpdate(order_no, outitem_no);
+		return ujmListOutitem;
+	}
+
+	@Override
+	public int ujmUpdateOutitem(UjmOutitemParent updateData, String userId) {
+		System.out.println("UjmOutitemServiceImpl ujmUpdateOutitem Start..." );
+		UjmOutitem outitem=new UjmOutitem(); //등록할 출고 객체
+		
+		System.out.println(userId);
+		outitem.setOutitem_emp_id(userId); //로그인된 유저id로 담당자id 설정(변경)
+		System.out.println(outitem.getOutitem_emp_id());
+		
+        System.out.println(updateData.getOutitemData());
+        UjmOutitem outitemData=updateData.getOutitemData(); //가져온 출고 객체
+        
+        //수정일자 추가
+        LocalDateTime currentTime = LocalDateTime.now();
+        String outitem_update=currentTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        System.out.println("outitem_update:"+outitem_update);
+        outitem.setOutitem_update(outitem_update);
+        
+        //단순변환
+        outitem.setOutitem_no(outitemData.getOutitem_no());
+        outitem.setOrder_no(outitemData.getOrder_no());
+        
+        System.out.println("outitemData.getOutitem_dt():"+outitemData.getOutitem_dt());
+        outitem.setOutitem_dt(outitemData.getOutitem_dt());
+        
+        System.out.println("outitemData.getCust_emp():"+outitemData.getCust_emp());
+        outitem.setCust_emp(outitemData.getCust_emp());
+        
+        System.out.println("outitemData.getRemark():"+outitemData.getRemark());
+        outitem.setRemark(outitemData.getRemark());
+        
+        System.out.println("넣을 outitem:"+outitem);
+        
+        int updateOutitemResult = uod.ujmUpdateOutitem(outitem); //위에서 조정한 outitem(출고)를 등록
+        
+		System.out.println(updateOutitemResult);
+		
+		return updateOutitemResult;
 	}
 
 

@@ -197,7 +197,6 @@ body {
 	margin-left: 500px;
 	margin-top: -20px;
 }
-
 .form-check-label {
 	margin-left: -35px;
 	margin-top: 10px;
@@ -205,7 +204,6 @@ body {
 	font-weight: 600;
 	font-size: 14px;
 }
-
 .form-check-input {
 	margin-top: 30px;
 	width: 40px !important;
@@ -709,7 +707,6 @@ body {
 	border: 1px solid transparent;
 	box-shadow: none;
 }
-
 /* 시작예정일자 */
 .productStartDateInput-update {
 	width: 400px;

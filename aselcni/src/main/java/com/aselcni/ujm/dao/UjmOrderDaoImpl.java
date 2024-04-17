@@ -81,13 +81,36 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 	@Override
 	public int ujmChangeOrderStatusChk(String order_no) {
 		System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk start..");
+		System.out.println(order_no);
 		int ujmChangeOrderStatusChk= 0;
-		try {	
-			ujmChangeOrderStatusChk = session.update("ujmChangeOrderStatusChk",order_no);
-			System.out.println(ujmChangeOrderStatusChk);
+		try {	//주문한 상품의 일부만 출고되었을 시 0이, 모두 출고했을 경우 1이 select됨
+			ujmChangeOrderStatusChk = session.selectOne("ujmChangeOrderStatusChk",order_no);
+			System.out.println("ujmChangeOrderStatusChk:"+ujmChangeOrderStatusChk);
+			
+			if(ujmChangeOrderStatusChk==0) { //주문한 상품의 일부만 출고되었을 시, order_status_chk을 3으로 변경(또는 유지)
+				ujmChangeOrderStatusChk = session.update("ujmChangeOrderStatusChkTwo",order_no);
+				System.out.println("ujmChangeOrderStatusChk2:"+ujmChangeOrderStatusChk);
+			} 
+			else if(ujmChangeOrderStatusChk==1) { //주문한 상품 모두 출고되었을 시, order_status_chk을 3으로 변경
+				ujmChangeOrderStatusChk = session.update("ujmChangeOrderStatusChkThree",order_no);
+				System.out.println("ujmChangeOrderStatusChk3:"+ujmChangeOrderStatusChk); 
+			}
 		} catch (Exception e) {
 			System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk Exception->"+e.getMessage());
 		}
 		return ujmChangeOrderStatusChk;
+	}
+
+	@Override
+	public int ujmCheckOrderDeleteChk(String order_no) {
+		System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk start..");
+		System.out.println(order_no);
+		int ujmCheckOrderDeleteChk= 0;
+		try {
+			ujmCheckOrderDeleteChk=session.selectOne("ujmCheckOrderDeleteChk",order_no);
+		} catch (Exception e) {
+			System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChk Exception->"+e.getMessage());
+		}
+		return ujmCheckOrderDeleteChk;
 	}
 }

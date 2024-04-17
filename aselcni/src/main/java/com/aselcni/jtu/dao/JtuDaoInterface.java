@@ -29,5 +29,4 @@ public interface JtuDaoInterface {
 
 	int getJpriTotalCnt(JtuProdItem jpri);
 
-
 }

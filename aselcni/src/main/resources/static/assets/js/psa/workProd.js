@@ -681,7 +681,6 @@ $('#workprodTB tbody tr').click(function() {
 	  type: 'POST',
 	  data: JSON.stringify(wprParam),
 	  contentType: 'application/json; charset=utf-8',
-
 	  success : function(result) {
 		console.log(result);
 

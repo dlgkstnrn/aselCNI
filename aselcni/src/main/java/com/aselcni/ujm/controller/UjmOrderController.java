@@ -50,12 +50,22 @@ public class UjmOrderController {
 	//출고등록 페이지에 조회용으로 뿌릴 주문품목 OrderItem 정보들
 	@RequestMapping(value = "ujmGetOrderItem")
 	@ResponseBody
-	public List<UjmOrderItem> ujmGetOrderItem(@RequestParam("order_no") String order_no, Model model) {
+	public List<UjmOrderItem> ujmGetOrderItem(@RequestParam("order_no") String order_no) {
 		System.out.println("ujmOrder 컨트롤러 ujmGetOrderItem 시작");
 		List<UjmOrderItem> ujmListOrderItem=uor.ujmGetOrderItem(order_no);
-//		model.addAttribute("listOrderItem", ujmListOrderItem);
 		System.out.println(ujmListOrderItem);
 		return ujmListOrderItem;
 	}
+	
+	@RequestMapping(value = "ujmCheckOrderDeleteChk")
+	@ResponseBody
+	public int ujmCheckOrderDeleteChk(@RequestParam("order_no") String order_no) {
+		System.out.println("ujmOrder 컨트롤러 ujmCheckOrderDeleteChk 시작");
+		int ujmCheckOrderDeleteChk=uor.ujmCheckOrderDeleteChk(order_no);
+		System.out.println("ujmOrder 컨트롤러 ujmCheckOrderDeleteChk:"+ujmCheckOrderDeleteChk);
+		return ujmCheckOrderDeleteChk;
+	}
+	
+	
 		
 }

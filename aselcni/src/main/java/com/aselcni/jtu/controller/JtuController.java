@@ -48,7 +48,6 @@ public class JtuController {
 		jpri.setStartDate(todayStr);
 		jpri.setEndDate(afterDayStr);
 
-
 		int jpriTotalCnt = js.getJpriTotalCnt(jpri);
 		System.out.println("JtuController proditem jpriTotalCnt --> " + jpriTotalCnt);
 		

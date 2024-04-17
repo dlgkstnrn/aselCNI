@@ -1179,7 +1179,6 @@ $(document).ready(function() {
 
 			console.log('삭제 대기열:', materialsToDelete);
 		});
-
 		// 수정모달 꺼질때 이벤트 핸들러
 		$('#verticalycentered-update').on('hidden.bs.modal', function() {
 			materialsToDelete = []; // 삭제 대기 목록 초기화

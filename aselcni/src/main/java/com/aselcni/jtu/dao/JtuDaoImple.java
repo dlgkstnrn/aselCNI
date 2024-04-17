@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JtuDaoImple implements JtuDaoInterface{
 	private final SqlSession session;
-
 	
 	@Override
 	public List<JtuProdItem> getPriList(JtuProdItem jpri) {
@@ -209,7 +208,6 @@ public class JtuDaoImple implements JtuDaoInterface{
 		
 		return jpriTotalCnt;
 	}
-
 
 
 
