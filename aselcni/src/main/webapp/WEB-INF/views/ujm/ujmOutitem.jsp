@@ -162,10 +162,10 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.outitem_dt}</td>
                       <td>${outitem.user_nm}</td>
                       <td>
-                        <c:if test="${outitem.order_status_chk==0}">주문완료</c:if>
-                        <c:if test="${outitem.order_status_chk==1}">취소됨</c:if>
-                        <c:if test="${outitem.order_status_chk==2}">일부 출고</c:if>
-                        <c:if test="${outitem.order_status_chk==3}">전체 출고 완료</c:if>
+                        <c:if test="${outitem.order_status_chk==0}"><span class="badge bg-warning text-dark">주문 완료</span></c:if>
+                        <c:if test="${outitem.order_status_chk==1}"><span class="badge bg-secondary">주문 취소</span></c:if>
+                        <c:if test="${outitem.order_status_chk==2}"><span class="badge bg-primary">출고 진행</span></c:if>
+                        <c:if test="${outitem.order_status_chk==3}"><span class="badge bg-secondary">전체 출고 완료</span></c:if>
                       </td>
                       <span class="invisibleRemark" style="display: none;">${outitem.remark}</span>
                       
