@@ -171,7 +171,7 @@
 	              	<div class="row mt-1">
 	              		<div class="col-md-8">
 	              			<div class="input-group">
-							  <span class="input-group-text">입고담당자</span>
+							  <span class="input-group-text" style="width:106px">입고담당자</span>
 							  <input  type="text" value="${sessionScope.user_nm}" class="form-control" readonly>
 							</div>
 	              		</div>

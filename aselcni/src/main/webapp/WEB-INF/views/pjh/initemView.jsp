@@ -74,7 +74,7 @@
 									<div class="row">
 										<div class="col-md-7">
 											<div class="input-group">
-												<span class="input-group-text">조회기간</span>
+												<span class="input-group-text" style="width:90px">조회기간</span>
 												<input id="start_date" type="date" aria-label="startDate"
 													class="form-control">
 												<input id="end_date" type="date" aria-label="endDate"
@@ -93,7 +93,7 @@
 									<div class="row mt-1">
 										<div class="col-md-6">
 											<div class="input-group">
-												<span class="input-group-text">발주번호</span>
+												<span class="input-group-text" style="width:90px">발주번호</span>
 												<input id="purc_no" type="text" class="form-control"
 													placeholder="발주번호" aria-label="발주번호">
 											</div>
@@ -110,7 +110,7 @@
 									<div class="row mt-1">
 										<div class="col-md-6">
 											<div class="input-group">
-												<span class="input-group-text">입고번호</span>
+												<span class="input-group-text" style="width:90px">입고번호</span>
 												<input id="initem_no" type="text" class="form-control"
 													placeholder="입고번호" aria-label="입고번호">
 											</div>
@@ -127,7 +127,7 @@
 									<div class="row mt-1">
 										<div class="col-md-11">
 											<div class="input-group">
-												<span class="input-group-text">자재명</span>
+												<span class="input-group-text" style="width:90px">자재명</span>
 												<input id="item_nm" type="text" class="form-control" placeholder="자재명"
 													aria-label="자재명">
 											</div>
@@ -208,14 +208,14 @@
 								<div class="row mb-1">
 									<div class="col">
 										<div class="input-group">
-											<span class="input-group-text">입고번호</span>
+											<span class="input-group-text" style="width:90px">입고번호</span>
 											<input id="modal_initem_no" type="text" class="form-control"
 												placeholder="입고번호" aria-label="입고번호" readonly>
 										</div>
 									</div>
 									<div class="col">
 										<div class="input-group">
-											<span class="input-group-text">담당자(입고)</span>
+											<span class="input-group-text" style="width:125px">담당자(입고)</span>
 											<input id="modal_initem_emp_nm" data-user-nm="${sessionScope.user_nm }" type="text" class="form-control" placeholder="입고 담당자"
 												aria-label="입고담당자" readonly>
 										</div>
@@ -224,14 +224,14 @@
 								<div class="row mb-1">
 									<div class="col">
 										<div class="input-group">
-											<span class="input-group-text">발주번호</span>
+											<span class="input-group-text" style="width:90px">발주번호</span>
 											<input id="modal_purc_no" type="text" class="form-control"
 												placeholder="발주번호" aria-label="발주번호" readonly>
 										</div>
 									</div>
 									<div class="col">
 										<div class="input-group">
-											<span class="input-group-text">담당자(발주)</span>
+											<span class="input-group-text" style="width:125px">담당자(발주)</span>
 											<input id="modal_purc_emp_nm" type="text" class="form-control" placeholder="발주 담당자"
 												aria-label="발주담당자" readonly>
 										</div>
@@ -240,7 +240,7 @@
 								<div class="row mb-1">
 									<div class="col">
 										<div class="input-group">
-											<span class="input-group-text">입고일자</span>
+											<span class="input-group-text" style="width:90px">입고일자</span>
 											<input id="modal_initem_dt" type="date" class="form-control"
 												placeholder="입고일" aria-label="입고일">
 										</div>
@@ -256,7 +256,7 @@
 									</div>
 									<div class="col mb-1">
 										<div class="input-group">
-											<span class="input-group-text">담당자(매입처)</span>
+											<span class="input-group-text" style="width:125px">담당자(매입처)</span>
 											<input id="modal_cust_emp" type="text" class="form-control"
 												placeholder="매입처 담당자" aria-label="매입처담당자">
 										</div>
@@ -284,7 +284,7 @@
 								<div class="row mt-1">
 				              		<div class="col">
 				              			<div class="input-group">
-										  <span class="input-group-text">입고종결</span>
+										  <span class="input-group-text" style="width:90px">입고종결</span>
 										  <div class="form-control form-switch px-0" style="text-align: left;">
 										  	<input class="form-check-input" onchange="changeEndState(this)" id="modal_initem_end" value="0" type="checkbox" style="margin-left:12px;">
 										  </div>
