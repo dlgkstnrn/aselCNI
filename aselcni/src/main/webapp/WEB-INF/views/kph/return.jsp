@@ -62,9 +62,10 @@
 			<div class="card">
 				<div class="card-body">
 				  <div class="top">
-					<div class="top-title">출고 관리</div>
+					<div class="card-header-title">반품 관리</div>
 					<button type="button" id="return-add" class="return-add btn btn-primary">신규</button>
 				  </div>
+				  <hr />
 				  <div class="search">
 					<div>
 						<div class="input-group day-box">
