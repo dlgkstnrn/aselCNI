@@ -64,7 +64,7 @@
 	<main id="main" class="main">
 
 		<div class="pagetitle">
-			<h1>공정 관리</h1>
+			<h1>기준 정보 관리</h1>
 			<nav>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="#">기준 정보 관리</a></li>
@@ -88,14 +88,14 @@
 					<div class="card">
 
 						<div class="card-body">
-							<div class="topdiv d-flex justify-content-end">
-							<div>
-						
-							<button type="button" class="btn btn-primary"
+							<div class="d-flex align-items-center">
+									<span class="h5 me-auto card-header-title">공정 관리</span>
+									<div>
+										<button type="button" class="btn btn-primary"
 								data-bs-toggle="modal" data-bs-target="#verticalycentered">신규</button>
+									</div>
 							</div>
-							          </div>
-							
+							<hr>
 
 							<div class="modal fade" id="verticalycentered" tabindex="-1">
 								<div class="modal-dialog modal-dialog-centered">

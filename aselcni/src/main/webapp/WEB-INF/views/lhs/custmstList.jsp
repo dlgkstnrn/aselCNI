@@ -77,9 +77,12 @@
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>거래처 관리</h1>
+        <h1>기준 정보 관리</h1>
         <nav>
           <ol class="breadcrumb">
+            <li class="breadcrumb-item active">
+              기준정보 관리
+            </li>
             <li class="breadcrumb-item active">
               거래처 관리
             </li>
@@ -91,7 +94,14 @@
       <section class="section">
         <div class="maindiv card">
 	        <div class="card-body">
-	          <div class="selectbtndiv d-flex justify-content-between">
+	        <div class="d-flex align-items-end justify-content-between">
+				<span class="h5 d-flex align-items-center card-header-title">거래처 관리</span>
+                <a href="custmstAddForm?biz_flag=${custMst.biz_flag}">
+	              		<button class="btn btn-primary">신규</button>
+	             </a>
+            </div>
+            <hr>
+	          <div class="selectbtndiv">
 		          <div>
 			          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 			              <li class="nav-item" role="presentation">
@@ -110,22 +120,18 @@
 			              </li>
 			           </ul>
 	               </div>
-	            <div>
-	            	<a href="custmstAddForm?biz_flag=${custMst.biz_flag}">
-	              		<button class="btn btn-primary">신규</button>
-	              	</a>
-	            </div>
 	          </div>
 	          <div class="searchdiv d-flex justify-content-end">
 	          	<div>
-		            <form action="custmst">
+		            <form action="custmst" onsubmit="return searchsubmitChk()">
 		              <div class="d-flex">
 		                <select
 		                  class="form-select searchselect"
 		                  aria-label="Default select example"
 		                  name="searchFilter"
+		                  id="searchFilter"
 		                >
-		                  <option selected="">검색옵션선택</option>
+		                  <option value="">검색옵션선택</option>
 		                  <option value="cust_cd">코드</option>
 		                  <option value="cust_nm">이름</option>
 		                </select>
