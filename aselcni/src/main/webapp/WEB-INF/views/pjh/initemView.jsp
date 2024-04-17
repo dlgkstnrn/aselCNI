@@ -133,7 +133,7 @@
 											</div>
 										</div>
 										<div class="col-md-1 text-end">
-											<button class="btn btn-primary btn-sm w-100 px-0" style="height:100%;"
+											<button class="btn btn-primary w-100 px-0" style="height:100%;"
 												onclick="searchInitem()">조회</button>
 										</div>
 									</div>
