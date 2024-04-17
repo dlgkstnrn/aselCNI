@@ -1,15 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.JdjOrderMapper">
-	<select id="getOrders" resultType="Order">
+
+	<select id="getOrderLi" resultType="Order">
 		SELECT to2.order_no, to2.order_dt, to2.CUST_EMP , to2.REMARK , to2.ORDER_STATUS_CHK , to2.ORDER_END_DT , to2.ORDER_SEC_NO , tc.CUST_NM , tu.USER_NM 
 		from TB_ORDER to2
 		inner join TB_CUSTMST tc on to2.CUST_CD = tc.CUST_CD 
 		inner join TB_USERMST tu on to2.ORDER_EMP_ID = tu.USER_ID
 	</select>
 	
+	<select id="getCustMstLi" resultType = "CustMst">
+		SELECT tc.CUST_NM, tc.CUST_CD 
+		from TB_CUSTMST tc 
+		WHERE tc.BIZ_FLAG = 2
+	</select>
+	
+	<select id="getUserMstLi" parameterType="int" resultType = "UserMst">
+		SELECT *  from TB_USERMST tu WHERE USER_COMM_CODE = #{user_comm_code};
+	</select>
+		
+	<select id="getItemMstLi" parameterType="String" resultType = "ItemMst">
+		select * 
+		from TB_ITEMMST ti 
+		WHERE ti.ITEM_FLAG = 2
+	</select>	
+<!-- 주문번호 생성, 주문 등록, 주문 아이템 등록 -->	
+	<select id="createOrdNo" parameterType="String" resultType="String">
+		SELECT CONCAT('ORD', RIGHT(REPLACE(#{order_dt},'-',''),6) , FORMAT(ISNULL(COUNT(to2.order_dt),0)+1, '0000')) AS order_no
+		FROM TB_ORDER to2
+		WHERE to2.order_dt = #{order_dt}
+	</select>
+	<insert id="regOrder" parameterType="Order">
+		INSERT into tb_order (order_no,ORDER_DT, CUST_CD , CUST_EMP,REMARK , ORDER_EMP_ID, ORDER_DELETE_CHK, ORDER_STATUS_CHK, ORDER_END_DT, ORDER_SEC_NO)
+		values(#{order_no}, #{order_dt},#{cust_cd}, #{cust_emp},#{remark}, #{order_emp_id}, 0,0, #{order_end_dt}, #{order_sec_no});
+	</insert>
+	<insert id="regOrderItems" parameterType="OrderItem">
+		INSERT into tb_order_item (order_no,item_cd, qty , cost)
+		values(#{order_no}, #{item_cd},#{qty}, #{cost})
+	</insert>
+	
+	<update id="delOrd" parameterType="String">
+		UPDATE TB_ORDER 
+		set ORDER_STATUS_CHK = 1, ORDER_DELETE_CHK = 1
+		WHERE order_no = #{order_no}
+	</update>
+	
+	<!-- 주문 업데이트 -->
+	<update id="updateOrd" parameterType="Order">
+	    UPDATE TB_ORDER 
+	    SET cust_emp = #{cust_emp}, remark = #{remark},order_end_dt=#{order_end_dt}
+	    WHERE order_no = #{order_no}
+	</update>
+	
+	<!-- 이미 가지고 있는 아이템인지 확인 -->
+	<update id="checkOrdItem" parameterType="OrderItem">
+	    UPDATE TB_ORDER_ITEM 
+		SET QTY  = #{qty}, COST = #{cost}
+		WHERE ITEM_CD  = #{item_cd} and ORDER_NO = #{order_no}
+	</update>
+	
+	
+	<!-- 기존 아이템 삭제플래그, regOrderItems실행 -->
+	<update id="delOrdItem" parameterType="OrderItem">
+		UPDATE TB_ORDER_ITEM
+		set ORDER_ITEM_DELETE_CHK = 1
+		WHERE order_no = #{order_no};
+	</update>
+	
+
+	
+	
+	
 	<select id="getOrdSpec" parameterType="String" resultType="Order">
-		SELECT to2.ORDER_NO , to2.ORDER_DT , to2.ORDER_END_DT , tc.CUST_NM, to2.REMARK , tu.USER_NM, to2.cust_emp
+		SELECT to2.ORDER_NO ,to2.cust_cd, to2.ORDER_DT , to2.ORDER_END_DT , tc.CUST_NM, to2.REMARK , tu.USER_NM, to2.cust_emp, to2.order_status_chk
 		from TB_ORDER to2 
 		inner join TB_CUSTMST tc on to2.CUST_CD = tc.CUST_CD 
 		inner join TB_USERMST tu on to2.ORDER_EMP_ID = tu.USER_ID
@@ -21,8 +84,10 @@
 		from TB_ORDER_ITEM toi 
 		inner join TB_ITEMMST ti 
 		on toi.ITEM_CD = ti.ITEM_CD 
-		WHERE toi.order_no = #{order_no}
+		WHERE toi.order_no = #{order_no} AND toi.qty > 0
 	</select>
+
+
 
 	<select id="getItemLi" parameterType="String" resultType = "Order">
 		SELECT *
@@ -30,40 +95,55 @@
 		WHERE ORDER_NO = #{order_no}
 	</select>
 	
-	
-	<select id="getCustLi" parameterType="String" resultType = "CustMst">
-		SELECT tc.CUST_NM, tc.CUST_CD 
-		from TB_CUSTMST tc 
-		WHERE tc.BIZ_FLAG = 2
+	<select id="findOrdByNum" parameterType="String" resultType = "Order">
+		SELECT to2.order_no, to2.cust_cd, to2.order_emp_id,  to2.order_dt, to2.CUST_EMP , to2.REMARK , to2.ORDER_STATUS_CHK , to2.ORDER_END_DT , to2.ORDER_SEC_NO , tc.CUST_NM , tu.USER_NM 
+		from TB_ORDER to2
+		inner join TB_CUSTMST tc on to2.CUST_CD = tc.CUST_CD 
+		inner join TB_USERMST tu on to2.ORDER_EMP_ID = tu.USER_ID
+		WHERE ORDER_NO = #{order_no}
 	</select>
 	
-	<select id="geItemLi" parameterType="String" resultType = "ItemMst">
-		select * 
-		from TB_ITEMMST ti 
-		WHERE ti.ITEM_FLAG = 2
-	</select>	
 	
-	<select id="getUserLi" parameterType="int" resultType = "UserMst">
-		SELECT *  from TB_USERMST tu WHERE USER_COMM_CODE = #{user_comm_code};
-	</select>	
 	
+	<select id="findOrd" parameterType="JdjFindOrd" resultType="Order">
+	    SELECT to2.order_no, to2.cust_cd, to2.order_emp_id,  to2.order_dt, to2.CUST_EMP , to2.REMARK , to2.ORDER_STATUS_CHK , to2.ORDER_END_DT , to2.ORDER_SEC_NO , tc.CUST_NM , tu.USER_NM 
+		from TB_ORDER to2
+		inner join TB_CUSTMST tc on to2.CUST_CD = tc.CUST_CD 
+		inner join TB_USERMST tu on to2.ORDER_EMP_ID = tu.USER_ID
+	    where 1 = 1
+	     <if test="order_no != null and order_no != ''">
+			AND order_no = #{order_no}
+	    </if>
+	    
+	    <if test="selUsers != null and selUsers.size() > 0">
+	        AND order_emp_id IN
+	        <foreach item="item" index="index" collection="selUsers" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+	    </if>
+	    
+	    <if test="selCusts != null and selCusts.size() > 0">
+	        AND to2.cust_cd IN
+	        <foreach item="item" index="index" collection="selCusts" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+	    </if>
+
+	    <if test="input_end_dt != null and input_end_dt != '' and input_start_dt != null and input_start_dt != ''">
+	        AND ${seltDT} BETWEEN #{input_start_dt} AND #{input_end_dt}
+	    </if>
+	</select>
+	<select id="getUserInfo" parameterType="String" resultType = "JdjUserMst">
+			SELECT tu.USER_ID, USER_NM 
+			from TB_USERMST tu 
+			WHERE  tu.USER_ID  = #{user_id};
+	</select>
+
+
 	<select id="getItemInfo" parameterType="String" resultType = "ItemMst">
 		SELECT * from TB_ITEMMST ti where ti.ITEM_CD = #{item_cd} 
 	</select>
 	
 	
-	<select id="createOrdNo" parameterType="String" resultType="String">
-		SELECT CONCAT('ORD', RIGHT(REPLACE(#{order_dt},'-',''),6) , FORMAT(ISNULL(COUNT(to2.order_dt),0)+1, '0000')) AS order_no
-		FROM TB_ORDER to2
-		WHERE to2.order_dt = #{order_dt};
-	</select>
-	<insert id="regOrder" parameterType="Order">
-		INSERT into tb_order (order_no,ORDER_DT, CUST_CD , CUST_EMP,REMARK , ORDER_EMP_ID, ORDER_DELETE_CHK, ORDER_STATUS_CHK, ORDER_END_DT, ORDER_SEC_NO)
-		values(#{order_no}, #{order_dt},#{cust_cd}, #{cust_emp},#{remark}, #{order_emp_id}, 0,0, #{order_end_dt}, #{order_sec_no});
-	</insert>
-	<insert id="regOrderItem" parameterType="OrderItem">
-		INSERT into tb_order_item (order_no,item_cd, qty , cost)
-		values(#{order_no}, #{item_cd},#{qty}, #{cost});
-	</insert>
 	
 </mapper>

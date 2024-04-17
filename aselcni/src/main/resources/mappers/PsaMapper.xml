@@ -7,16 +7,24 @@
 		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tp.ITEM_CD = ti.ITEM_CD
 		AND tp.PRODPLAN_EMP_ID = tu.USER_ID
-		AND tp.PRODPLAN_DT >= CONVERT (DATE, CONVERT(CHAR(10), #{prodplan_dt},
-		23))
+		AND tp.PRODPLAN_DT >= CONVERT (DATE, CONVERT(CHAR(10), #{prodplan_dt}, 23))
 		AND tp.PRODPLAN_DELETE_CHK = 0
 	</select>
 
-	<select id="psaGetPlanList" parameterType="PsaProdPlan" resultType="PsaProdPlan">
+	<select id="XXXXXXXXXXXXXpsaGetPlanList" parameterType="PsaProdPlan" resultType="PsaProdPlan">
 		SELECT *
 		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tp.PRODPLAN_DELETE_CHK = 0
 		AND tp.PRODPLAN_NO NOT IN (SELECT tw.PRODPLAN_NO FROM TB_WORKPROD tw)
+		AND tp.ITEM_CD = ti.ITEM_CD
+		AND tp.PRODPLAN_EMP_ID = tu.USER_ID
+	</select>
+	
+	<select id="psaGetPlanList" parameterType="PsaProdPlan" resultType="PsaProdPlan">
+		SELECT *, dbo.WorkProdSum(tp.PRODPLAN_NO) AS 'work_total_qty'
+		FROM TB_PRODPLAN tp , TB_ITEMMST ti , TB_USERMST tu
+		WHERE tp.PRODPLAN_DELETE_CHK = 0
+		AND tp.QTY > dbo.WorkProdSum(tp.PRODPLAN_NO)
 		AND tp.ITEM_CD = ti.ITEM_CD
 		AND tp.PRODPLAN_EMP_ID = tu.USER_ID
 	</select>
@@ -34,8 +42,7 @@
 		SELECT *
 		FROM TB_WORKPROD tw , TB_ITEMMST ti , TB_USERMST tu
 		WHERE tw.WORKPROD_DELETE_CHK = 0
-		AND tw.WORKPROD_DT >= CONVERT (DATE, CONVERT(CHAR(10), #{workprod_dt},
-		23))
+		AND tw.WORKPROD_DT >= CONVERT (DATE, CONVERT(CHAR(10), #{workprod_dt}, 23))
 		AND tw.ITEM_CD = ti.ITEM_CD
 		AND tw.WORKPROD_EMP_ID = tu.USER_ID
 	</select>
@@ -145,8 +152,21 @@
 	</insert>
 	
 	<insert id="psaInsertWorkItem" parameterType="PsaWorkItem">
-		INSERT INTO TB_WORK_ITEM (WORKPROD_NO, ITEM_CD, IN_QTY)
-		VALUES (#{workprod_no}, #{item_cd}, #{in_qty})
+		INSERT INTO TB_WORK_ITEM (WORKPROD_NO, ITEM_CD, IN_QTY, COST)
+		VALUES (
+						#{workprod_no}, 
+						#{item_cd}, 
+						#{in_qty}, 
+						(SELECT ti.ITEM_COST 
+						FROM TB_ITEMMST ti 
+						WHERE ti.ITEM_CD = #{item_cd})
+					)
 	</insert>
+	
+	<update id="psaUpdateWork" parameterType="PsaWorkProd">
+		UPDATE TB_WORKPROD 
+		SET REMARK = #{remark}, WORKPROD_UPDATE = #{workprod_update}
+		WHERE WORKPROD_NO = #{workprod_no}
+	</update>
 
 </mapper>

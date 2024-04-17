@@ -34,7 +34,6 @@ public class UjmOutitemController {
 	private final UjmOutitemService uos;
 	
 	private final UjmOrderService uor;
-
 	
 	@RequestMapping(value = "outitem") 
 	public String ujmOutitemForm(UjmOutitem outitem, HttpServletRequest request, Model model, HttpSession session) {

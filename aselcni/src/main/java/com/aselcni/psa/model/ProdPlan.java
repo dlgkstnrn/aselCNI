@@ -35,5 +35,9 @@ public class ProdPlan {
 	// 조회용 (TB_USERMST)
 	// 생산계획 담당자명
 	private String user_nm;
+	
+	// 조회용 (TB_WORKPROD)
+	// 지시총량
+	private int work_total_qty;
 
 }

@@ -31,18 +31,130 @@ function setWorkprod_dt() {
 
 			array.forEach(element => {
 
-				console.log('element: ' + element);
+				console.log('date onchange: ' + element.workprod_no);
 
 			  	$('#workprodTB tbody').append(
-					`<tr data-bs-toggle="modal" data-bs-target="#workprod" data-index="${element.workprod_no}" >
+					`<tr data-bs-toggle="modal" data-bs-target="#workprod" data-index=${element.workprod_no} >
 						<th scope="row">${element.workprod_no}</th>
 						<td>${element.seq_no}</td>
 						<td>${element.item_nm}</td>
-						<td>${element.qty}</td>
+						<td>${element.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
 						<td>${element.work_dt}</td>
 					</tr>`
 			  	);
 		  	});
+
+			// showWprModal();
+
+			// script 파일을 읽는 시점 차이의 문제로,
+			// ajax로 페이지 변경 후에
+			// 클릭 이벤트를 다시 입혀줘야 함.
+
+			// 생산지시내역 조회 모달 이벤트
+			// tr 클릭했을때 이벤트 발생
+			$('#workprodTB tbody tr').click(function() {
+
+				let user_nm = document.getElementById('user_nm');
+				let workprod_no = document.getElementById('workprod_no');
+				let workprod_dt = document.getElementById('workprod_dt');
+				let item_nm = document.getElementById('item_nm');
+				let qty = document.getElementById('qty');
+				let work_dt = document.getElementById('work_dt');
+				let work_cmd = document.getElementById('work_cmd');
+				let remark = document.getElementById('remark');
+			
+				const wprParam = {
+				  workprod_no : $(this).data().index
+				}
+			
+				console.log('wprParam.workprod_no: ' + wprParam.workprod_no);
+			
+				// ajax 1
+				// 등록된 지시내역의 생산지시번호별 상세내용 조회 (공정, 투입품 제외)
+				$.ajax({
+				  url: 'wprInfoModal',
+				  type: 'POST',
+				  data: JSON.stringify(wprParam),
+				  contentType: 'application/json; charset=utf-8',
+			
+				  success : function(result) {
+					console.log(result);
+			
+					user_nm.value = result.user_nm;
+					workprod_no.value = result.workprod_no;
+					workprod_dt.value = result.workprod_dt;
+					item_nm.value = result.item_nm;
+					qty.value = result.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+					work_dt.value = result.work_dt;
+					work_cmd.value = result.work_cmd;
+					remark.value = result.remark;
+				  }
+				});
+			
+				// ajax 2
+				// 등록된 지시내역의 생산지시번호별 공정 리스트 조회
+				$.ajax({
+				  url: 'workProcList',
+				  type: 'POST',
+				  data: JSON.stringify(wprParam),
+				  contentType: 'application/json; charset=utf-8',
+			
+				  success : function(array) {
+					console.log(array);
+			
+					$('#proc_tr').empty();
+					$('#proc_tbody').empty();
+			
+					array.forEach((element, index) => {
+			
+						console.log(element);
+			
+						$('#proc_tbody').append(
+							`<tr>
+								<th>${index + 1}</th>
+								<td>${element.proc_cd}</td>
+								<td>${element.proc_nm}</td>
+							</tr>`
+						);
+			
+					});
+				  }
+				});
+			
+				// ajax 3
+				// 등록된 지시내역의 생산지시번호별 투입품 리스트 조회
+				$.ajax({
+				  url: 'workItemList',
+				  type: 'POST',
+				  data: JSON.stringify(wprParam),
+				  contentType: 'application/json; charset=utf-8',
+			
+				  success : function(array) {
+					console.log(array);
+			
+					$('#in_item_tr').empty();
+					$('#in_item_tbody').empty();
+			
+					array.forEach((element, index) => {
+			
+						console.log(element);
+			
+						$('#in_item_tbody').append(
+							`<tr>
+								<th>${index + 1}</th>
+								<td>${element.item_cd}</td>
+								<td>${element.item_nm}</td>
+								<td>${element.in_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+							</tr>`
+						);
+			
+					});
+			
+				  }
+				});
+			
+			});
+			//
 
 		},
 		fail: function() {
@@ -54,30 +166,6 @@ function setWorkprod_dt() {
 	});
 
 	// $('#FormWorkProd').submit();
-}
-
-
-
-// 날짜 계산 함수
-function addDays(days) {
-	
-	alert(today); // string
-	alert('prodplanDate: ' + prodplanDate);	// == today
-	alert(typeof prodplanDate);	// string
-
-
-
-
-	// let currDate = new Date(today);	// 문자열을 Date 타입으로 변환
-	// let setDate = currDate.setDate(currDate.getDate() + days);
-	// alert('setDate: ' +setDate);	// 이상한 숫자???
-
-
-	// 페이지 reload
-	window.location.href = 'workprod';
-
-	
-  	
 }
 
 
@@ -132,11 +220,6 @@ $('#prodplanTB tbody tr').click(function() {
 	let prp_work_dt = document.getElementById('prp_work_dt');
 	let prp_remark = document.getElementById('prp_remark');
 
-	// 투입품
-	let in_item_nm = document.getElementById('in_item_nm');
-	let in_item_cd = document.getElementById('in_item_cd');
-	let in_qty = document.getElementById('in_qty');
-
 	const prpParam = {
 	  prodplan_no : $(this).data().index
 	}
@@ -179,9 +262,10 @@ $('#prodplanTB tbody tr').click(function() {
 		$('#prp_item_tbody').empty();
 		
 		// 테이블에 추가
-		result.forEach(element => {
+		result.forEach((element, index) => {
 			$('#prp_item_tbody').append(
 				`<tr class="inItemList">
+					<td>${index + 1}</td>
 					<td class="inItemCd">${element.item_cd}</td>
 					<td>${element.item_nm}</td>
 					<td><input type="number" name="in_qty" value=${element.in_qty}>
@@ -220,13 +304,14 @@ $('#big_no').on('change', function() {
 
 		$('#mid_no').empty().append('<option>중분류 선택</option>');
 
-		result.forEach((element) => {
+		result.forEach(element => {
 
 		  console.log(element);
 		  console.log(element.mid_content);
 
-		  $('#mid_no').append('<option value="' + element.mid_no + '">' +
-							  element.mid_content + "</option>");
+		  $('#mid_no').append(
+			`<option value=${element.mid_no}>${element.mid_content}</option>`
+		  );
 		  
 		});
 
@@ -261,15 +346,16 @@ $('#mid_no').on('change',(event) => {
 	  success : function(result) {
 		console.log('result: ' + result);
 
-		$('#sml_no').empty().append('<option>소분류 선택</option>');;
+		$('#sml_no').empty().append('<option>소분류 선택</option>');
 
 		result.forEach(element => {
 
-		  console.log(element);
-		  console.log(element.sml_content);
+		  	console.log(element);
+		  	console.log(element.sml_content);
 
-		  $('#sml_no').append('<option value="' + element.sml_no + '">' +
-							  element.sml_content + "</option>");
+			$('#sml_no').append(
+				`<option value=${element.sml_no}>${element.sml_content}</option>`
+			);
 
 		});
 
@@ -381,6 +467,7 @@ $('#addItemSave').click(function() {
 
 		$('#prp_item_tbody').append(
 			`<tr class="inItemList">
+				<td>+</td>
 				<td class="inItemCd">${element.item_cd}</td>
 				<td>${element.item_nm}</td>
 				<td><input type="number" name="in_qty">
@@ -406,6 +493,8 @@ $('#insertDataBtn').on('click', function(e){
 
 	// form 전송 막기
 	e.preventDefault(); 
+
+	alert('수정할 수 없습니다. 등록 하시겠습니까?');
 
 	// 1. 일단 투입품, 공정 제외
 	// 생산지시번호도 제외하고 - 컨트롤러 처리
@@ -478,7 +567,7 @@ $('#insertDataBtn').on('click', function(e){
 				console.log(result);
 				succ(result);
 			},
-			fail: function(result) {
+			fail: function(error) {
 				fail(error);
 				alert('ajax 1단계 실패');
 			},
@@ -568,6 +657,7 @@ $('#insertDataBtn').on('click', function(e){
 // 생산지시내역 조회 모달 이벤트
 // tr 클릭했을때 이벤트 발생
 $('#workprodTB tbody tr').click(function() {
+// function showWprModal() {
 
 	let user_nm = document.getElementById('user_nm');
 	let workprod_no = document.getElementById('workprod_no');
@@ -582,7 +672,7 @@ $('#workprodTB tbody tr').click(function() {
 	  workprod_no : $(this).data().index
 	}
 
-	console.log(wprParam);
+	console.log('wprParam.workprod_no: ' + wprParam.workprod_no);
 
 	// ajax 1
 	// 등록된 지시내역의 생산지시번호별 상세내용 조회 (공정, 투입품 제외)
@@ -598,7 +688,7 @@ $('#workprodTB tbody tr').click(function() {
 		workprod_no.value = result.workprod_no;
 		workprod_dt.value = result.workprod_dt;
 		item_nm.value = result.item_nm;
-		qty.value = result.qty;
+		qty.value = result.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		work_dt.value = result.work_dt;
 		work_cmd.value = result.work_cmd;
 		remark.value = result.remark;
@@ -606,27 +696,32 @@ $('#workprodTB tbody tr').click(function() {
 	});
 
 	// ajax 2
-	  // 등록된 지시내역의 생산지시번호별 공정 리스트 조회
+	// 등록된 지시내역의 생산지시번호별 공정 리스트 조회
 	$.ajax({
 	  url: 'workProcList',
 	  type: 'POST',
 	  data: JSON.stringify(wprParam),
 	  contentType: 'application/json; charset=utf-8',
-	  success : function(result) {
-		console.log(result);
 
-		$("#proc_tr").each(function(index, element){
+	  success : function(array) {
+		console.log(array);
 
-		  for(let i=0; i<result.length; i++) {
+		$('#proc_tr').empty();
+		$('#proc_tbody').empty();
 
-			console.log(result[i]);
+		array.forEach((element, index) => {
 
-			$('#proc_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
-									result[i].proc_cd+'</td><td>'+
-									  result[i].proc_nm+'</td></tr>');
+			console.log(element);
 
-		  }
-		})
+			$('#proc_tbody').append(
+				`<tr>
+					<th>${index + 1}</th>
+					<td>${element.proc_cd}</td>
+					<td>${element.proc_nm}</td>
+				</tr>`
+			);
+
+		});
 	  }
 	});
 
@@ -637,26 +732,103 @@ $('#workprodTB tbody tr').click(function() {
 	  type: 'POST',
 	  data: JSON.stringify(wprParam),
 	  contentType: 'application/json; charset=utf-8',
-	  success : function(result) {
-		console.log(result);
 
-		$("#in_item_tr").each(function(index, element){
+	  success : function(array) {
+		console.log(array);
 
-		  for(let i=0; i<result.length; i++) {
-		  
-			console.log(result[i]);
-		  
-			$('#in_item_tbody').append('<tr><th>'+(i+1)+'</th><td>'+
-									  result[i].item_cd+'</td><td>'+
-										result[i].item_nm+'</td><td>'+
-										  result[i].in_qty+'</td></tr>');
-								  
-		  }
-		})
+		$('#in_item_tr').empty();
+		$('#in_item_tbody').empty();
+
+		array.forEach((element, index) => {
+
+			console.log(element);
+
+			$('#in_item_tbody').append(
+				`<tr>
+					<th>${index + 1}</th>
+					<td>${element.item_cd}</td>
+					<td>${element.item_nm}</td>
+					<td>${element.in_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+				</tr>`
+			);
+
+		});
+
 	  }
 	});
+
+});
+// };
+
+
+
+// 생산지시 내용 중 '비고' 수정
+$('#updateWorkBtn').on('click', function() {
+
+	let param = {
+		workprod_no : $('#workprod_no').val(),
+		remark : $('#remark').val()
+	}
+
+	let workprod_dt = $('#workprod_dt').val();
+	
+	// 문자열인 생산시작일을 yyyymmdd 형식의 number 타입으로 변환
+	let date = new Date(workprod_dt);
+
+	// yyyy
+	let year = date.getFullYear();
+
+	// mm
+	let month = (date.getMonth() + 1).toString().padStart(2, '0');
+
+	// dd
+	let day = date.getDate().toString().padStart(2, '0');
+
+	// yyyymmdd
+	const yyyymmdd = `${year}${month}${day}`;
+	const numTypeDate = Number(yyyymmdd);
+
+
+	// 오늘 날짜를 yyyymmdd 형식의 number 타입으로 변환
+	let today = new Date();
+
+	// yyyy
+	let today_year = today.getFullYear();
+
+	// mm
+	let today_month = (today.getMonth() + 1).toString().padStart(2, '0');
+
+	// dd
+	let today_day = today.getDate().toString().padStart(2, '0');
+
+	// yyyymmdd
+	const today_yyyymmdd = `${today_year}${today_month}${today_day}`;
+	const today_numTypeDate = Number(today_yyyymmdd);
+
+	// 생산시작일이 오늘 날짜 후일 때만 수정 가능함
+	if (numTypeDate > today_numTypeDate) {
+
+		$.ajax({
+
+			url: 'updateWork',
+			type: 'post',
+			data: JSON.stringify(param),
+			contentType: 'application/json; charset=utf-8',
+
+			success: function() {
+				alert('수정 완료!');
+			}
+		});
+
+	} else {
+		alert('생산시작일이 오늘 날짜 후인 것만 수정 할 수 있습니다.');
+	}
 
 });
 
 
 
+// 등록된 지시 내역 삭제
+$('#deleteWorkBtn').on('click', function() {
+	// 삭제 해야할까??
+});

@@ -50,7 +50,7 @@ $("#search-btn").on("click", () => {
 						<td>${returnObj.res_rtn }</td>
 						<td>${returnObj.return_dt }</td>
 						<td>${returnObj.return_emp_nm }</td>
-						<td>${returnObj.qty }</td>
+						<td>${returnObj.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</td>
 	                </tr>
            	 	`);
 				num = num + 1;
@@ -151,7 +151,7 @@ $('.table tbody').on('click', '.return-no', function () {
 						<span>담당자 : </span><span>${returnObj.return_emp_nm}</span>
 					</div>
 					<div class="return-detail-content">
-						<span>반품 수량 : </span><span>${returnObj.qty}</span>
+						<span>반품 수량 : </span><span>${returnObj.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
 					</div>
 				</div>
 			`);

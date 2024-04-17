@@ -48,7 +48,7 @@
 				<main id="main" class="main">
 
 					<div class="pagetitle">
-						<h1>입고 관리</h1>
+						<h1>자재 관리</h1>
 						<nav>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item">자재관리</li>
@@ -62,12 +62,12 @@
 							<div class="card-body">
 								<!-- 카드 제목 부  -->
 								<div class="d-flex align-items-center">
-									<span class="h5 align-baseline me-auto">입고 관리</span>
+									<span class="h5 me-auto card-header-title">입고 관리</span>
 									<div>
-										<a href="/initemWrite" type="button" class="btn btn-primary btn-sm">신규</a>
+										<a href="/initemWrite" type="button" class="btn btn-primary ">신규</a>
 									</div>
 								</div>
-								<hr class="my-3">
+								<hr>
 
 								<!-- 필터 입력 부 -->
 								<div class="container text-center">
@@ -216,7 +216,7 @@
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text">담당자(입고)</span>
-											<input id="modal_initem_emp_nm" type="text" class="form-control" placeholder="입고 담당자"
+											<input id="modal_initem_emp_nm" data-user-nm="${sessionScope.user_nm }" type="text" class="form-control" placeholder="입고 담당자"
 												aria-label="입고담당자" readonly>
 										</div>
 									</div>
@@ -249,7 +249,7 @@
 				                 <div class="row mb-1">
 									<div class="col">
 										<div class="input-group">
-											<span class="input-group-text">매입처</span>
+											<span class="input-group-text" style="width:90px">매입처</span>
 											<input id="modal_cust_nm" type="text" class="form-control"
 												placeholder="매입처" aria-label="매입처" readonly>
 										</div>
@@ -265,7 +265,7 @@
 								<div class="row mt-1">
 				              		<div class="col">
 				              			<div class="input-group">
-										  <span class="input-group-text">창고</span>
+										  <span class="input-group-text" style="width:90px">창고</span>
 										  <select id="modal_wh_cd" class="form-select">
 											  	<option value="${wh.wh_cd}">${wh.wh_nm}</option>
 										  </select>
@@ -276,8 +276,18 @@
 				              	<div class="row mt-1">
 				              		<div class="col">
 				              			<div class="input-group">
-										  <span class="input-group-text">비고</span>
+										  <span class="input-group-text" style="width:90px">비고</span>
 										  <textarea id="modal_remark" rows="4" class="form-control"></textarea>
+										</div>
+				              		</div>
+				              	</div>
+								<div class="row mt-1">
+				              		<div class="col">
+				              			<div class="input-group">
+										  <span class="input-group-text">입고종결</span>
+										  <div class="form-control form-switch px-0" style="text-align: left;">
+										  	<input class="form-check-input" onchange="changeEndState(this)" id="modal_initem_end" value="0" type="checkbox" style="margin-left:12px;">
+										  </div>
 										</div>
 				              		</div>
 				              	</div>
@@ -293,11 +303,13 @@
 					                    <th scope="col">단위</th>
 					                    <th scope="col">수량</th>
 					                    <th scope="col">단가</th>
-					                    <th scope="col">합계</th>
+					                    <th scope="col">금액</th>
 					                  </tr>
 					                </thead>
 					                <tbody id="modal_itemTableBody">
 					                </tbody>
+					                <tfoot id="modal_itemTableFoot">
+	               	 				</tfoot>
 					            </table>
 								
 							</div>

@@ -3,13 +3,13 @@ $(document).ready(function() {
 	var selectedEventId = null;
 	var eventColors = {};
 	var responseProdPlans;
-	var isTooltipEnabled = true; // 툴팁 기본 활성상태
-	var lastClickedCell = null; // 마지막으로 클릭된 셀을 저장할 변수
+	var isTooltipEnabled = true; 	// 툴팁 기본 활성상태
+	var lastClickedCell = null; 	// 마지막으로 클릭된 셀을 저장할 변수
 	var selectedMaterialsInfo = []; // 선택된 자재 정보를 저장할 배열
-	var activeModal = null; // 현재 활성화된 모달 추적
-	var selectedOrderEndDt = ''; // 선택된 주문의 주문종료일
-	var selectedEvent = null; // 선택된 이벤트막대 정보저장
-	var materialsToDelete = []; // 수정모달 자재삭제 대기 목록
+	var activeModal = null; 		// 현재 활성화된 모달 추적
+	var selectedOrderEndDt = ''; 	// 선택된 주문의 주문종료일
+	var selectedEvent = null; 		// 선택된 이벤트막대 정보저장
+	var materialsToDelete = []; 	// 수정모달 자재삭제 대기 목록
 
 	// 기본 이벤트막대 색상 정의
 	var baseColors = [
@@ -43,7 +43,7 @@ $(document).ready(function() {
 						var eventColor = baseColors[colorIndex];
 						return {
 							id: plan.prodPlan_no,
-							title: plan.prodPlan_no + ' (' + plan.remark + ')',
+							title: plan.prodPlan_no + ' (' + formatNumbersInText(plan.remark) + ')',
 							start: plan.prodPlan_dt,
 							end: endDate.toISOString().split('T')[0],
 							backgroundColor: eventColors[plan.prodPlan_no] || eventColor,
@@ -111,6 +111,7 @@ $(document).ready(function() {
 						// 자재 합계 금액 계산 (전체 자재에 대한 합계)
 						var totalMaterialCost = prodItems.reduce((total, item) => total + (item.in_qty * item.item_cost), 0);
 			*/
+			// ============= 툴팁 정보 뿌리기 ===========
 			var eventInfo = `
 			  <div>
 			    <div class="tooltip-title">[ 생산 계획 ]</div>
@@ -118,16 +119,16 @@ $(document).ready(function() {
 			    <p>생산계획코드: ${prodPlan.prodPlan_no}[${prodPlan.seq_no}]</p>
 			    <p>시작 일자: ${prodPlan.prodPlan_dt}</p>
 			    <p>완료 일자: ${prodPlan.prodPlan_end_dt}</p>
-			    <p>작업 일수: ${prodPlan.work_dt} 일</p>
+			    <p>작업 일수: ${formatNumber(prodPlan.work_dt)} 일</p>
 			    <p>비고: ${prodPlan.remark}</p>
 			    <li class="tooltip-section-title">제 품</li>
 			    <div class="prod-info">
 				    <p>제품 코드: ${prodPlan.item_cd}</p>
 				    <p>제품 명: ${prodPlan.item_nm}</p>
-				    <p>제품 수량: ${prodPlan.qty} 개</p>
-				    <p>제품 단가: ${prodPlan.item_cost} 원</p>
+				    <p>제품 수량: ${formatNumber(prodPlan.qty)} 개</p>
+				    <p>제품 단가: ${formatNumber(prodPlan.item_cost)} 원</p>
 			    </div><p>
-			    <p>제품 합계 금액: ${prodPlan.qty * prodPlan.item_cost} 원</p>
+			    <p>제품 합계 금액: ${formatNumber(prodPlan.qty * prodPlan.item_cost)} 원</p>
 			  </div>
 			`;
 
@@ -194,8 +195,8 @@ $(document).ready(function() {
 				var prodPlanListItem = document.createElement('tr');
 				prodPlanListItem.innerHTML = `
 			        <td>${event.item_nm}</td>
-			        <td>${event.qty}</td>
-			        <td>${event.work_dt} 일</td>`;
+			        <td>${formatNumber(event.qty)} 개</td>
+			        <td>${formatNumber(event.work_dt)} 일</td>`;
 				prodPlanListElement.appendChild(prodPlanListItem);
 
 				// 주문에 해당하는 아이템 리스트와 수량 찾기
@@ -209,7 +210,7 @@ $(document).ready(function() {
 						orderListItem.innerHTML = `
 			                <td>${event.cust_nm}</td>
 			                <td>${item.item_nm}</td>
-			                <td>${item.qty} 개</td>`;
+			                <td>${formatNumber(item.qty)} 개</td>`;
 						orderListElement.appendChild(orderListItem);
 					});
 				}
@@ -247,7 +248,7 @@ $(document).ready(function() {
 
 	calendar.render();
 
-	// 해당 이벤트 상세정보 조회
+	// ============== 상세 모달 정보 뿌리기 ==============
 	function showEventDetails(event) {
 		// 이벤트에 해당하는 상세 정보 찾기
 		var selectedEvent = responseProdPlans.prodPlans.find(plan => plan.prodPlan_no === event.id);
@@ -259,15 +260,15 @@ $(document).ready(function() {
 		var productNameWithCode = selectedEvent.item_nm + ' (' + selectedEvent.item_cd + ')';
 
 		if (selectedEvent) {
-			$('#verticalycentered-read .modal-title').text(modalTitle);
-			$('#prodPlanNoInput-read').val(selectedEvent.order_no);
-			$('#prodPlanWorkingDaysInput-read').val(selectedEvent.work_dt);
-			$('#productStartDateInput-read').val(selectedEvent.prodPlan_dt);
-			$('#productEndDateInput-read').val(selectedEvent.prodPlan_end_dt);
-			$('#productionQuantity-read').val(selectedEvent.qty);
-			$('#productName-read').val(productNameWithCode);
-			$('#productEmp-read').val(selectedEvent.prodplan_emp_name);
-			$('textarea#remark-read').val(selectedEvent.remark);
+			$('#verticalycentered-read .modal-title').text(modalTitle); 	   			  // 생산계획번호
+			$('#prodPlanNoInput-read').val(selectedEvent.order_no);			   			  // 주문번호
+			$('#prodPlanWorkingDaysInput-read').val(formatNumber(selectedEvent.work_dt)); // 작업일수
+			$('#productStartDateInput-read').val(selectedEvent.prodPlan_dt);   			  // 시작예정일자
+			$('#productEndDateInput-read').val(selectedEvent.prodPlan_end_dt); 			  // 완료예정일자
+			$('#productionQuantity-read').val(formatNumber(selectedEvent.qty));			  // 제품생산수량
+			$('#productName-read').val(productNameWithCode);				   			  // 제품명,제품코드
+			$('#productEmp-read').val(selectedEvent.prodplan_emp_name);		   			  // 담당자
+			$('textarea#remark-read').val(formatNumbersInText(selectedEvent.remark)); 	  // 비고
 
 			// 투입자재 리스트 처리
 			var materialsList = $('#prodItem-list-read');
@@ -281,9 +282,9 @@ $(document).ready(function() {
 				materialsList.append(`<li>
 				<span class="material-index-read">${index + 1}</span>
 				<span class="material-code-read">${material.item_cd}
-					<span class="material-name-read">(${material.item_nm})</span>
+					<span class="material-name-read">(${material.item_nm})</span>	
 				</span>  
-				<span class="material-quantity-read">${material.in_qty} 개</span>`);
+				<span class="material-quantity-read">${formatNumber(material.in_qty)} 개</span>`);
 			});
 
 			console.log('상세모달표시');
@@ -990,29 +991,36 @@ $(document).ready(function() {
 		var isFormValid = true;
 		var errorMessage = '';
 
+		// 주문번호 검증
 		if ($('#prodPlanNoInput').val() === '') {
-			isFormValid = false;
-			errorMessage += '주문번호를 선택해주세요.\n';
+			alert('주문번호를 선택해주세요.');
+			return;
 		}
+		// 작업일수 검증
 		if ($('#prodPlanWorkingDaysInput').val() === '') {
-			isFormValid = false;
-			errorMessage += '작업일수를 입력해주세요.\n';
+			alert('작업일수를 입력해주세요.');
+			return;
 		}
+		// 시작예정일자 검증
 		if ($('.productStartDateInput').val() === '') {
-			isFormValid = false;
-			errorMessage += '시작예정일자를 선택해주세요.\n';
+			alert('시작예정일자를 선택해주세요.');
+			return;
 		}
+
+		// 완료예정일자 검증
 		if ($('.productEndDateInput').val() === '') {
-			isFormValid = false;
-			errorMessage += '완료예정일자를 선택해주세요.\n';
+			alert('완료예정일자를 선택해주세요.');
+			return;
 		}
+		// 제품 선택 검증
 		if ($('.productNameInput').val() === '') {
-			isFormValid = false;
-			errorMessage += '제품을 선택해주세요.\n';
+			alert('제품을 선택해주세요.');
+			return;
 		}
+		// 투입자재 선택 검증
 		if (selectedMaterialsInfo.length === 0) {
-			isFormValid = false;
-			errorMessage += '투입자재를 선택해주세요.\n';
+			alert('투입자재를 선택해주세요.');
+			return;
 		}
 
 		// 입력 값이 유효한 경우, AJAX 요청 실행
@@ -1171,7 +1179,6 @@ $(document).ready(function() {
 
 			console.log('삭제 대기열:', materialsToDelete);
 		});
-		
 		// 수정모달 꺼질때 이벤트 핸들러
 		$('#verticalycentered-update').on('hidden.bs.modal', function() {
 			materialsToDelete = []; // 삭제 대기 목록 초기화
@@ -1306,4 +1313,14 @@ $(document).ready(function() {
 			});
 		}
 	});
+	// 숫자 포멧팅 작업(3자리마다 콤마)
+	function formatNumber(num) {
+		return Number(num).toLocaleString();
+	}
+
+	function formatNumbersInText(text) {
+    return text.replace(/\d+/g, function(match) { // 전역으로 하나이상의 숫자를 연속으로 찾아냄(replace: 정규표현식에 해당하는 부분만 교체)
+        return parseInt(match).toLocaleString();  // 정규표현식에 매치되는 문자열을찾아 3자리마다 콤마찍음
+    });
+}
 }); // !! 건들지말것 !!

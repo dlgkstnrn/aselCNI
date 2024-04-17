@@ -70,7 +70,8 @@
             <h1>주문 등록</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/orderList">주문 관리</a></li>
+	                <li class="breadcrumb-item">주문 관리</li>
+                    <li class="breadcrumb-item active"><a href="/order">주문 조회</a></li>
                     <li class="breadcrumb-item active">주문 등록</li>
                 </ol>
             </nav>
@@ -96,7 +97,7 @@
 						<label for="order_emp_id" class="col-sm-2 col-form-label text-end">담당자명</label>
 						<div class="col-sm-2">
 							<!-- <input type="text" class="form-control" id="order_emp_id" value="jdj" text="정다진"> -->
-							<select id="order_emp_id" class="form-control" disabled="disabled"><option value="jdj">정다진</option></select>
+							<select id="order_emp_id" class="form-control" disabled="disabled"><option value="${regUserInfo.user_id}">${regUserInfo.user_nm}</option></select>
 					
 						</div>
 					</div>

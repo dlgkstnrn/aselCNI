@@ -502,7 +502,6 @@ pageEncoding="UTF-8"%>
                     <div class="row mb-3">
                       <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자</label>
                       <div class="col-sm-9" id="detail_cust_emp">
-
                       </div>
                     </div>
 

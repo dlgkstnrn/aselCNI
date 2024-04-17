@@ -1,19 +1,16 @@
 package com.aselcni.jtu.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.hibernate.engine.jdbc.internal.DDLFormatterImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,6 +20,10 @@ import com.aselcni.jtu.model.JtuWH;
 import com.aselcni.jtu.model.JtuWorkProd;
 import com.aselcni.jtu.service.JtuPaging;
 import com.aselcni.jtu.service.JtuServiceInterface;
+import com.aselcni.main.model.MenuMst;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,7 +31,14 @@ public class JtuController {
 	private final JtuServiceInterface js;
 
 	@RequestMapping("proditem")
-	public String proditem(Model model) {
+	public String proditem(Model model, HttpServletRequest request) {
+		
+		if(request.getSession().getAttribute("user_id") == null) {
+			return "redirect:/";
+		}
+		
+		if(authorityChk(request.getSession(),"proditem")) {
+		
 		System.out.println("JtuController getMethodName Start... ");
 		String todayStr=LocalDate.now().toString();
 		String afterDayStr=LocalDate.now().plusDays(7).toString();
@@ -39,8 +47,6 @@ public class JtuController {
 		JtuProdItem jpri = new JtuProdItem();
 		jpri.setStartDate(todayStr);
 		jpri.setEndDate(afterDayStr);
-//		jpri.setStartDate(afterDayStr=LocalDate.now().plusDays(30).toString());
-//		jpri.setEndDate(afterDayStr=LocalDate.now().plusDays(30).toString());
 
 		int jpriTotalCnt = js.getJpriTotalCnt(jpri);
 		System.out.println("JtuController proditem jpriTotalCnt --> " + jpriTotalCnt);
@@ -56,8 +62,25 @@ public class JtuController {
 		model.addAttribute("jpriList", jpriList);
 		
 		return "jtu/jtuProdItemView";
+		}
+		return "redirect:main";
 	}
 
+	public boolean authorityChk(HttpSession session ,String url){
+		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)session.getAttribute("menuListGroupByMenu");
+		List<MenuMst> menus = menuListGroupByMenu.stream().flatMap(List<MenuMst>::stream).collect(Collectors.toList());
+		
+		if(menus.size()>0) {
+			for(MenuMst menu : menus) {
+				System.out.println(menu.getUrl());
+				if("initem".equals(menu.getUrl()))
+						return true;
+			}
+			
+		}
+		return false;
+	}
+	
 	@ResponseBody
 	@RequestMapping("getPriListAjax")
 	// 생산 실적 리스트 불러오기
@@ -142,20 +165,17 @@ public class JtuController {
 	}
 	
 	
-	@ResponseBody
-	@RequestMapping("deleteBadModal")
-	// 불량 코드 등록
-	public String deleteJabadOne(Model model, JtuBad jbad) {
-		System.out.println("JtuController deleteJabadOne Start... ");
-		System.out.println("JtuController deleteJabadOne jbad --> " + jbad);
-		
-		
-		return "";
-	}
-	
-
-	
-	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("deleteBadModal") // 불량 코드 삭제 public String
+	 * deleteJabadOne(Model model, JtuBad jbad) {
+	 * System.out.println("JtuController deleteJabadOne Start... ");
+	 * System.out.println("JtuController deleteJabadOne jbad --> " + jbad);
+	 * 
+	 * 
+	 * return ""; }
+	 */
 	
 	
 	
@@ -179,6 +199,7 @@ public class JtuController {
 		return "redirect:/proditem";
 	}
 	
+	@ResponseBody
 	@RequestMapping("deleteProdItemEditModal")
 	// 생산 실적 삭제 업데이트
 	public String deletePriOne(Model model, JtuProdItem jpri) {

@@ -33,4 +33,6 @@ public class Order {
 	
 //  클라이언트한테 받을때 한 주문에 해당하는 아이들의 정보
 	private List<HashMap<String, OrderItem>> order_items;
+
+
 }

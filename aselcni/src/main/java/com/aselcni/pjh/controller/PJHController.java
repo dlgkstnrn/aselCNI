@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aselcni.main.model.MenuMst;
 import com.aselcni.pjh.model.PJHInitem;
 import com.aselcni.pjh.model.PJHPurchase;
 import com.aselcni.pjh.model.PJHPurchaseItem;
@@ -38,6 +40,22 @@ public class PJHController {
 		if(request.getSession().getAttribute("user_id") == null) {
 			return "redirect:/";
 		}
+		
+		System.out.println(request.getSession().getAttribute("menuListGroupByMenu"));
+		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)request.getSession().getAttribute("menuListGroupByMenu");
+		List<MenuMst> menus = menuListGroupByMenu.stream().flatMap(List<MenuMst>::stream).collect(Collectors.toList());
+		
+		if(menus.size()>0) {
+			byte flag = 0;
+			for(MenuMst menu : menus) {
+				System.out.println(menu.getUrl());
+				if("initem".equals(menu.getUrl()))
+						flag++;
+			}
+			if(flag == 0)
+				return "redirect:main";
+		}
+		
 		
 		PJHInitem initem = new PJHInitem();
 		Paging page = pagination(initem);

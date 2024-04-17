@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aselcni.jdj.model.CustMst;
+import com.aselcni.jdj.model.FindOrd;
 import com.aselcni.jdj.model.Item;
 import com.aselcni.jdj.model.ItemMst;
 import com.aselcni.jdj.model.Order;
 import com.aselcni.jdj.model.OrderItem;
-import com.aselcni.jdj.model.SavingOrd;
 import com.aselcni.jdj.model.UserMst;
 import com.aselcni.jdj.service.OrderService;
 
@@ -34,6 +34,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.jsp.jstl.sql.Result;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bind.annotation.Pipe;
+import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -45,61 +48,97 @@ public class OrderController {
 //	조회
 	@GetMapping("/order")
 	public String order(Model model) {
-		System.out.println("[Order_Controller] start..");
-		List<CustMst> custMsts = null;
-		List<Order> orders = null;		
-		List<UserMst>  userMsts = null;
-		int comm_code = 10030;
+		System.out.println("[Controller - orderMain.jsp / order @GetMapping Start");
+		List<CustMst> custMstLi = null;	// 매입처 리스트
+		List<Order> orderLi = null;		// 주문 조회
+		List<UserMst>  userMstLi = null;	// 매입처 리스트
+		int comm_code = 10030;			// 
 		try {
-			orders = os.getOrders();
-			custMsts = os.getCustLi();
-			userMsts = os.getUserLi(10030);
+			orderLi = os.getOrderLi();	
+			custMstLi = os.getCustMstLi();
+			userMstLi = os.getUserMstLi(comm_code); 
+			System.out.println("[order_ orderLi]" + orderLi);
+			System.out.println("[order_ custMstLi]" + custMstLi);
+			System.out.println("[order_ userMstLi]" + userMstLi);
 			
+			System.out.println("---------------------------------");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 
-		model.addAttribute("orders", orders);
-		model.addAttribute("custMsts", custMsts);
-		model.addAttribute("userMsts", userMsts);
+		model.addAttribute("orders", orderLi);
+		model.addAttribute("custMsts", custMstLi);
+		model.addAttribute("userMsts", userMstLi);
 
 		return "jdj/orderMain";
 	}
-	
-//	등록
-	@GetMapping("/orderReg")
-	public String orderReg(Model model) {
+	@PostMapping("/order")
+	@ResponseBody
+	public List<Order> findOrd(@RequestBody FindOrd findOrd) {
+		System.out.println("[Controller - findOrdByNum Start :" + findOrd);
 		
-		List<CustMst> custMsts = null;
-		List<ItemMst> itemMsts = null;
+
 		
+		List<Order> findOrder = null;
 		try {
-			custMsts = os.getCustLi();
-			itemMsts = os.getItemLi();
-			System.out.println("controller -> " + custMsts);
-				
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
+			findOrder = os.findOrd(findOrd);
+//			findOrder = os.findOrdByNum(order_no);
+		}catch(Exception e){
+			System.err.println(e.getMessage());
 		}
 		
-		model.addAttribute("custMsts", custMsts);
-		model.addAttribute("itemMsts", itemMsts);
+		return findOrder;
+	}
+	
+	
+// -----------------------------------------------
+//	등록
+	@GetMapping("/orderReg")
+	public String orderReg(Model model, HttpSession session) {
 		
+		System.out.println("[Controller - orderReg.jsp / orderReg @GetMapping Start");
+		List<CustMst> custMstLi = null;	// 고객사 리스트
+		List<ItemMst> itemMstLi = null;	// 제품 모달용 리스트;
+		UserMst regUserInfo = null;
+		String user_id = "";
+		
+		if(session.getAttribute("user_id") != null) {
+			user_id = (String)session.getAttribute("user_id");
+		}
+		System.out.println("user_id : " + user_id);
+		try {
+			// user_comm_code로 user 정보 가져와야함
+			regUserInfo = os.getUserInfo(user_id);
+			custMstLi = os.getCustMstLi();
+			itemMstLi = os.getItemMstLi();
+			
+			
+			System.out.println("[orderReg_ custMstLi]" + custMstLi);
+			System.out.println("[orderReg_ itemMstLi]" + itemMstLi);
+			System.out.println("---------------------------------");
+		}catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		model.addAttribute("regUserInfo", regUserInfo);
+		model.addAttribute("custMsts", custMstLi);
+		model.addAttribute("itemMsts", itemMstLi);
 		
 		return "jdj/orderReg";
 	}
+	
+	// 제품 등록 모달
 	@PostMapping("/orderReg")
 	@ResponseBody
 	public ItemMst itemAdd(@RequestParam("order_item_cd") String order_item_cd) {
-		System.out.println("ItemMst === controller");
 		ItemMst itemMst = null;
-//		List<ItemMst> itemMsts = null;
+		System.out.println("[Controller - orderReg.jsp / 모달  @PostMapping Start");
 		
 		try {
-//			custMsts = os.getCustLi();
-//			itemMsts = os.getItemLi();
+
 			itemMst = os.getItemInfo(order_item_cd);
-//			System.out.println("controller -> " + custMsts);
+			System.out.println("[orderReg_ itemMst]" + itemMst);
+			System.out.println("---------------------------------");
 			
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -108,41 +147,100 @@ public class OrderController {
 		return itemMst;
 	}
 	
+	// 주문 등록 버튼, 저장
 	@PostMapping("/saveOrd")
 	public String saveOrd(@RequestBody Order savingOrd) {
+		System.out.println("[Controller - orderReg.jsp / 주문 저장 버튼  @PostMapping Start");
 		int result;
 		try {
-			System.out.println("[Controller = SavingOrd");
-			System.out.println("savingOrd -> " + savingOrd.getOrder_items());
-			System.out.println("savingOrd -> " + savingOrd);
-			
 			// oder table 저장하는 서비스 호출
 			result = os.regOrder(savingOrd);
+			System.out.println("[orderReg_ saveOrd]" + result);
+			System.out.println("---------------------------------");
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 		
 		return "redirect:order";
 	}
 	
+	
+	
+//	-----------------------------------------------
+//	제품 상세
+	
 	@GetMapping("/orderSpec")
-	public String orderSpecString(@RequestParam(value = "detailView") String order_sec_num, Model model) {
+	public String orderSpec(@RequestParam(value = "detailView") String order_sec_num, Model model) {
 		Order orderSpec = null;
 		List<OrderItem> orderItems = null;
+		List<ItemMst> itemMstLi = null;
 		try {
 			System.out.println("controller, spec value ->  " + order_sec_num);
 			
 			orderSpec = os.getOrdSpec(order_sec_num);
 			orderItems = os.getOrdItems(orderSpec.getOrder_no());
-	
+			itemMstLi = os.getItemMstLi();
+			
+			System.out.println(" -- orderSpec [cnotroller]" + orderSpec.getOrder_no());
 		}catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 		
 		model.addAttribute("orderSpec", orderSpec);
 		model.addAttribute("orderItems", orderItems);
+		model.addAttribute("itemMsts", itemMstLi);
 		
 		return "jdj/orderSpec";
+	}
+
+	@PostMapping("/orderSpec")
+	@ResponseBody
+	public List<OrderItem> orderSpecItems(Order order){
+		List<OrderItem> orderItems = null;
+		try {
+			orderItems = os.getOrdItems(order.getOrder_no());
+			System.out.println("[ Controller ] - orderSpecItmes" + orderItems);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			
+		}
+		return orderItems;
+	}
+	
+	@PostMapping("/delOrd")
+	public String delOrd(@RequestBody Order delOrd) {
+		String order_no = delOrd.getOrder_no();
+		int result = 0;
+		try {
+			result = os.delOrd(order_no);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		System.out.println("order_no : " + order_no);
+		return "redirect:order";
+	}
+	
+	@PostMapping("/editOrd")
+	public String editOrd(@RequestBody Order editOrd) {
+		String order_no = editOrd.getOrder_no();	
+		System.out.println("[Controller - editOrd]" + editOrd.getRemark());
+		System.out.println("[Controller - editOrd]" + editOrd.getOrder_end_dt());
+		System.out.println("[Controller - editOrd]" + editOrd.getCust_nm());
+		System.out.println("[Controller - editOrd]" + editOrd.getOrder_items());
+		System.out.println("===================================");
+	
+		
+//		int result = 0;
+		try {
+			
+			os.editOrd(editOrd);
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return "redirect:order";
 	}
 }

@@ -18,6 +18,16 @@ body {
 	font-family: "Open Sans", sans-serif;
 	background: #f6f9ff;
 	color: #444444;
+	
+}
+body *{
+	font-family: 'NanumSquare', sans-serif !important;
+}
+
+.card-header-title{
+    margin-top: 5px;
+    font-size: 25px;
+    font-weight: 600;
 }
 
 a {

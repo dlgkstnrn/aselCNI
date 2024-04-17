@@ -133,7 +133,7 @@
 										</c:otherwise>
 									</c:choose>
 									<td>${returnObj.return_emp_nm }</td>
-									<td>${returnObj.qty }</td>
+									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
 								</tr>
 								<c:set var="num" value="${num + 1 }"></c:set>
 							</c:forEach>
