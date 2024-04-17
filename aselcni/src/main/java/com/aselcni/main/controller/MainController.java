@@ -76,7 +76,6 @@ public class MainController {
 	}
 
 
-
 	
 	public boolean authorityChk(HttpSession session ,String url){
 		List<List<MenuMst>> menuListGroupByMenu = (List<List<MenuMst>>)session.getAttribute("menuListGroupByMenu");
