@@ -124,14 +124,7 @@
 									<td>${returnObj.cust_nm }</td>
 									<td>${returnObj.item_nm }</td>
 									<td>${returnObj.res_rtn }</td>
-									<c:choose>
-										<c:when test="${returnObj.return_update != null }">
-											<td>${returnObj.return_update }</td>	
-										</c:when>
-										<c:otherwise>
-											<td>${returnObj.return_dt }</td>
-										</c:otherwise>
-									</c:choose>
+									<td>${returnObj.return_dt }</td>
 									<td>${returnObj.return_emp_nm }</td>
 									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
 								</tr>
