@@ -341,7 +341,7 @@ $(document).ready(function(){
 					})
 				})
 				.then(response => {
-						alert("주문이 완료되었습니다")
+						alert("수정이 완료되었습니다")
 				    // 리다이렉트된 URL 확인
 				    if (response.redirected) {
 				        window.location.href = response.url; // 리다이렉트된 URL로 페이지 리로드
