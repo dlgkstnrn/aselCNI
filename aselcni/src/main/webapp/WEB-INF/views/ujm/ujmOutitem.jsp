@@ -528,7 +528,8 @@ pageEncoding="UTF-8"%>
                       닫기
                     </button>
 
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit" class="btn btn-danger"
+                    id="deleteOutitemSubmitBtn">
                       삭제
                     </button>
 
