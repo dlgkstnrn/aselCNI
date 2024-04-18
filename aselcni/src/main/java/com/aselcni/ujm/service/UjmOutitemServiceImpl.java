@@ -201,7 +201,14 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		return outitemItemCnt;
 	}
 
-
+	@Override
+	public String ujmFindOutitemRemark(String outitem_no) {
+		System.out.println("UjmOutitemServiceImpl : ujmFindOutitemRemark Start...");
+		String outitemRemark=null;
+		outitemRemark=uod.ujmFindOutitemRemark(outitem_no);
+		System.out.println(outitemRemark);
+		return outitemRemark;
+	}
 
 
 

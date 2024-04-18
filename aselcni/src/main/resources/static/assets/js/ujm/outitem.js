@@ -1,4 +1,5 @@
 
+
 $(document).ready(function () {
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   function modalContentClear() {
@@ -364,10 +365,18 @@ let detail_remark;
       let custNm = $(this).find("td:nth-child(4)").text(); //매입처
       $("#detail_cust_nm").html(custNm);
 
-
-
-/*       detail_remark = $(this).find(".invisibleRemark").text(); //비고
-      $("#detail_remark").html(detail_remark); */
+      //remark는 컨트롤러를 통해 가져옴
+      $.ajax({
+        url: "ujmFindOutitemRemark",
+        method: "POST", 
+        data: { outitem_no: outitemNo },
+        success: function(response){
+            $("#detail_remark").html(response);
+        },
+        error: function(xhr, status, error){
+          $("#detail_remark").html("");
+        }
+      })
 
 
 
@@ -389,7 +398,7 @@ let detail_remark;
       var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
       console.log('수정 전 outitemDtValue:'+outitemDtValue);
 
-      if(currentDateValue >= outitemDtValue) { //이미 출고가 되었다면
+      if(currentDateValue > outitemDtValue) { //이미 출고가 되었다면
         $('#updateOutitemBtn').prop('disabled', true); 
       } else {
         $('#updateOutitemBtn').prop('disabled', false); 

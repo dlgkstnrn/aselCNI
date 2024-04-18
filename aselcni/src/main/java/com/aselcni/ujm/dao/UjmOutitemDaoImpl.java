@@ -241,6 +241,21 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 		}
 	}
 
+	@Override
+	public String ujmFindOutitemRemark(String outitem_no) {
+		System.out.println("UjmOutitemDaoImpl ujmFindOutitemRemark 시작 ...");
+		System.out.println(outitem_no);
+		String outitemRemark=null;
+		try {
+			outitemRemark=session.selectOne("ujmFindOutitemRemark",outitem_no);
+			System.out.println("outitemRemark:"+outitemRemark);
+			return outitemRemark;
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmFindOutitemRemark 오류:"+e.getMessage());
+			return "";
+		}
+	}
+
 		
 }
 

@@ -155,6 +155,16 @@ public class UjmOutitemController {
 			}
 	}
 	
+	//상세에서 remark 가져오기
+	@RequestMapping(value = "ujmFindOutitemRemark")
+	@ResponseBody
+	public String ujmFindOutitemRemark(@RequestParam("outitem_no") String outitem_no) {
+		System.out.println("컨트롤러UjmOutitem : ujmFindOutitemRemark 시작");
+		String outitemRemark=uos.ujmFindOutitemRemark(outitem_no);
+		System.out.println(outitemRemark);
+		return outitemRemark;
+	}
+	
 	
 
 	

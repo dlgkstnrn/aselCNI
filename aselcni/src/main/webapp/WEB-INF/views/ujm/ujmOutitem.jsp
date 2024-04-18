@@ -452,14 +452,14 @@ pageEncoding="UTF-8"%>
 
                     <!-- 출고일자 -->
                     <div class="row mb-3">
-                      <label for="outitem_dt" class="col-sm-3 col-form-label">출고일자<span class="color-red">*</span></label>
+                      <label for="outitem_dt" class="col-sm-3 col-form-label">출고일자</label>
                       <div class="col-sm-9" id="detail_outitem_dt">
                       </div>
                     </div>
 
                     <!-- 거래처담당자 -->
                     <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자<span class="color-red">*</span></label>
+                      <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자</label>
                       <div class="col-sm-9" id="detail_cust_emp">
                       </div>
                     </div>

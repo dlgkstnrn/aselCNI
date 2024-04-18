@@ -28,4 +28,6 @@ public interface UjmOutitemService {
 
 	int ujmUpdateOutitemItem(UjmOutitemParent updateData);
 
+	String ujmFindOutitemRemark(String outitem_no);
+
 }

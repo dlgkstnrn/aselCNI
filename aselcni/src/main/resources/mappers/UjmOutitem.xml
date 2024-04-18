@@ -290,5 +290,14 @@
 	    AND item_cd = #{item_cd}
 	</delete>
 
+	<select id="ujmFindOutitemRemark" parameterType="String" resultType="String">
+		<![CDATA[
+			select remark
+			from tb_outitem
+			where OUTITEM_NO =#{outitem_no}
+			and OUTITEM_DELETE_CHK =0
+		]]> 
+	</select>
+
 	
 </mapper>
