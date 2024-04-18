@@ -15,3 +15,4 @@ org.eclipse.jdt.core.compiler.problem.potentialNullReference=warning
 org.eclipse.jdt.core.compiler.problem.syntacticNullAnalysisForFields=enabled
 org.eclipse.jdt.core.compiler.processAnnotations=enabled
 org.eclipse.jdt.core.compiler.source=17
+>>>>>>> branch 'master' of https://github.com/dlgkstnrn/aselCNI.git
