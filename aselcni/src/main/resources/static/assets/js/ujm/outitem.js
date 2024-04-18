@@ -750,7 +750,17 @@ let detail_remark;
   }) //수정완료 끝
 
 
+  //삭제버튼 누를시
+  $('#deleteOutitemSubmitBtn').click(function(e){ 
+    e.preventDefault(); // 기본 이벤트 동작 방지
 
+    var delChk=confirm('정말 삭제하시겠습니까?');
+
+    if(delChk) {
+      console.log(delChk);
+    }
+
+  }) //삭제버튼 끝
 
 
 }); //js 끝
