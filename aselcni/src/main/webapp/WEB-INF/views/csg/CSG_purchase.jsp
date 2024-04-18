@@ -20,7 +20,7 @@
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<!--     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
     <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
@@ -54,73 +54,92 @@
    		 <form id="deleteForm" method="post" action="/deleteSelectedPurchases"> <!-- 삭제를 처리할 URL로 수정하세요 -->
 			<input type="hidden" id="selectedIds" name="selectedIds" value="">
 	          <div class="pagetitle">
-	            <h1>발주 관리</h1>
+	            <h1>구매 관리</h1>
 	            <nav>
-	              <ol class="breadcrumb">
-	                <li class="breadcrumb-item"><a href="#">구매 / 영업 관리</a></li>
-	                <li class="breadcrumb-item active">발주 관리</li>
-	              </ol>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">구매 관리</li>
+						<li class="breadcrumb-item active"><a href="/#">발주 관리</a></li>
+					</ol>
 	            </nav>
 	          </div><!-- End Page Title -->
 			<!-- <form action="/searchPurchases" method="POST">-->
 	          <section class="section dashboard">
-			    <div class="container-fluid bg-white p-4 shadow-lg">
+			    <div class="card">
 			
 			        <!-- Main Content -->
-			        <main class="flex-grow-1">
-				            <div class="col d-flex justify-content-end flex-wrap">
-							    <a href="/purchaseItemForm" class="btn btn-success mb-3">신규등록</a>
-							    <button class="btn btn-danger ms-2 mb-3" onclick="deleteSelected()">삭제</button>
-							</div>
+			        <main class="card-body">
+	     				<div class="d-flex align-items-end justify-content-between">
+							<span class="h5 d-flex align-items-center card-header-title me-auto">발주 관리</span>
+	                     								    <a href="/purchaseItemForm" class="btn btn-success">신규</a>
+							    <button class="btn btn-danger ms-2" onclick="deleteSelected()">삭제</button>
+	               		</div>
+						<hr>
+
 	
 				  	      <!-- 검색창과 검색 버튼을 포함하는 row @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-							<div id="searchInput" class="col d-flex justify-content-end mb-4">
-								<div class="input-group mb-3 me-3" style="width: auto;">
-							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">매입처</span>
-							        <input id="cust_nm" name="cust_nm" type="text" class="form-control" placeholder="매입처명" aria-label="매입처명">
-							    </div>
+							<div id="searchInput" class="container text-center">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="input-group mb-3" style="width: auto;">
+								        	<span class="input-group-text" style="min-width: 90px; justify-content: center;">매입처</span>
+								        	<input id="cust_nm" name="cust_nm" type="text" class="form-control" placeholder="매입처명" aria-label="매입처명">
+							    		</div>
+							    	</div>
+							    	
+									<div class="col-md-4">
+							   			 <div class="input-group mb-3" style="width: auto;">
+								        	<span class="input-group-text" style="min-width: 90px; justify-content: center;">발주번호</span>
+								        	<input id="purc_no" name="purc_no" type="text" class="form-control" placeholder="발주번호" aria-label="발주번호">
+							    		</div>
+							    	</div>
+							    	<div class="col-md-4">
+									    <div class="input-group mb-3" style="width: auto;">
+									        <span class="input-group-text" style="min-width: 90px; justify-content: center;">자재명</span>
+									        <input id="item_nm" name="item_nm" type="text" class="form-control" placeholder="자재명" aria-label="자재명">
+									    </div>
+								     </div>
+							     </div>
+							    	
+							    <div class="row">
+									
+								     <!-- 시작일자 입력란 -->
+							    	<div class="col-md-5">
+									    <div class="input-group mb-3" style="width: auto;">
+									        <span class="input-group-text" style="min-width: 90px; justify-content: center;">시작일자</span>
+									        <input type="date" id="start_date" name="start_date" class="form-control">
+									    </div>
+								    </div>
 							
-							    <div class="input-group mb-3 me-3" style="width: auto;">
-							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">발주번호</span>
-							        <input id="purc_no" name="purc_no" type="text" class="form-control" placeholder="발주번호" aria-label="발주번호">
-							    </div>
-							
-							    <div class="input-group mb-3" style="width: auto;">
-							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">자재명</span>
-							        <input id="item_nm" name="item_nm" type="text" class="form-control" placeholder="자재명" aria-label="자재명">
-							    </div>
-							    
-							     <!-- 시작일자 입력란 -->
-							    <div class="input-group mb-3 me-3" style="width: auto;">
-							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">시작일자</span>
-							        <input type="date" id="start_date" name="start_date" class="form-control">
-							    </div>
-							
-							    <!-- 마감일자 입력란 -->
-							    <div class="input-group mb-3 me-3" style="width: auto;">
-							        <span class="input-group-text" style="min-width: 90px; justify-content: center;">마감일자</span>
-							        <input type="date" id="end_date" name="end_date" class="form-control">
-							    </div>
-							    
-							    	<button id="searchButton" class="btn btn-primary ms-4" type="button">검색</button>
+								    <!-- 마감일자 입력란 -->
+								    <div class="col-md-5">
+									    <div class="input-group mb-3" style="width: auto;">
+									        <span class="input-group-text" style="min-width: 90px; justify-content: center;">마감일자</span>
+									        <input type="date" id="end_date" name="end_date" class="form-control">
+									    </div>
+							        </div>
+							    	<div class="col-md-2 text-end">
+								    	<button id="searchButton" class="btn btn-primary ms-4 mb-3" type="button">검색</button>
+							    	</div>
+						    	</div>
+						    	
 							</div>
 							
 			        		<!-- Table -->
-				            <div class="card shadow-sm rounded-lg">
-				                <div class="card-body">
-				                    <table class="table table-striped" id="jajeinsertTable">
+				            <!-- <div class="card shadow-sm rounded-lg"> -->
+				                <!-- <div class="card-body"> -->
+				                    <table class="table table-hover  text-center" id="jajeinsertTable">
 				                        <thead>
 				                            <tr>
-				                                <th>선택</th>
-				                                <th>번호</th>
+				                                <th></th>
+				                                <th>No</th>
 				                                <th>발주번호</th>
 				                                <th>매입처</th>
 				                                <th>자재명</th>
-				                                <th>개수</th>
+				                                <th>수량</th>
 				                                <th>단가 </th>
 				                                <th>공급가액</th>
-				                                <th>발주등록일자</th>
-				                                <th>발주현황</th>
+				                                <th>발주일자</th>
+				                                <th>진행상태</th>
 				                            </tr>
 				                        </thead>
 				                        <tbody id = "searchPurchase">
@@ -140,13 +159,17 @@
 														<td>
 											            <c:choose>
 											                <c:when test="${purchase.purc_status_chk == 0}">
-											                    <button class="btn btn-warning btn-sm">발주진행중</button>
+											                    <!-- <button class="btn btn-warning btn-sm" type="button">발주 완료</button> -->
+											                    <span class="badge bg-success">발주 완료</span>
+											                    
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 1}">
-											                    <button class="btn btn-info btn-sm">입고진행중</button>
+											                    <!-- <button class="btn btn-info btn-sm" type="button">입고중</button> -->
+											                    <span class="badge bg-primary">입고중</span>
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 2}">
-											                    <button class="btn btn-success btn-sm">입고완료</button>
+											                    <!-- <button class="btn btn-success btn-sm" type="button">입고완료</button> -->
+											                    <span class="badge bg-warning text-dark">입고 완료</span>
 											                </c:when>
 											            </c:choose>
 											        </td>
@@ -155,7 +178,7 @@
 		
 				                        </tbody>
 				                    </table>
-				                </div>
+				                <!-- </div> -->
 				            </div>
 						
 			            <!-- Pagination -->

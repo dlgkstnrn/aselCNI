@@ -95,7 +95,6 @@
                              <div class="input-group border border-green-500">
 								<input id="com_manager-name" type="text" class="form-control" placeholder="발주 담당자 입력" value="${sessionScope.user_id}" hidden >
 								<input id="com_manager-name-display" type="text" class="form-control" placeholder="발주 담당자 입력" value="${sessionScope.user_nm}" readonly>
-								
                              </div>
                          </div>
                      
