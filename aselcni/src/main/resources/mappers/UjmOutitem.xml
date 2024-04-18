@@ -31,44 +31,61 @@
 			    sub.order_end_dt,
 			    sub.order_status_chk,
 			    sub.remark,
-	            sub.outitem_dt,
-	            sub.user_nm,
-	            
+			    sub.outitem_dt,
+			    sub.user_nm,
+			    
 			    STUFF((
 			        SELECT ', ' + itemmst.item_nm + ' (' + CAST(oi.qty AS VARCHAR(10)) + '개)'
 			        FROM TB_OUTITEM_ITEM oi
 			        JOIN TB_ITEMMST itemmst ON oi.item_cd = itemmst.item_cd
 			        WHERE sub.outitem_no = oi.outitem_no AND sub.order_no = oi.order_no
 			        FOR XML PATH('')), 1, 2, '') AS items
-	
+			
 			FROM (
-		    	SELECT 
-			        ROW_NUMBER() OVER (ORDER BY CAST
-			        	(SUBSTRING(ou.outitem_no, PATINDEX('%[0-9]%', ou.outitem_no), 
-			        							  LEN(ou.outitem_no)) AS BIGINT) DESC) AS rn, 
-			        							  
-			        ou.outitem_no,
-			        ou.cust_cd, 
-			        ou.seq_no,
-			        c.cust_nm, 
-			        ou.order_no, 
-			        ord.order_dt, 
-			        ord.order_end_dt, 
-			        ord.order_status_chk, 
-			        u.user_nm,
-			        ou.remark,
-	        		ou.outitem_dt
-	        		
-		    	FROM 
-			        TB_OUTITEM ou
-			        INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
-			        INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
-			        INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
-		    	WHERE 
-		        	ou.outitem_delete_chk = 0
+				SELECT 
+				    ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING(ou.outitem_no, PATINDEX('%[0-9]%', ou.outitem_no), LEN(ou.outitem_no)) AS BIGINT) DESC) AS rn, 
+				    ou.outitem_no,
+				    ou.cust_cd, 
+				    ou.seq_no,
+				    c.cust_nm, 
+				    ou.order_no, 
+				    ord.order_dt, 
+				    ord.order_end_dt, 
+				    ord.order_status_chk, 
+				    u.user_nm,
+				    ou.remark,
+				    ou.outitem_dt
+				FROM 
+				    TB_OUTITEM ou
+				    INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
+				    INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
+				    INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID = u.user_id
+				    INNER JOIN TB_OUTITEM_ITEM toi ON ou.OUTITEM_NO = toi.OUTITEM_NO 
+				    INNER JOIN TB_ITEMMST itm ON toi.item_cd = itm.item_cd
+				WHERE 
+				    ou.outitem_delete_chk = 0
+				    <if test="item_nm != '' and item_nm != null">
+				    AND itm.item_nm  LIKE '%' #{item_nm} + '%'
+				    </if>
 			) AS sub
 			WHERE 
-		    	sub.rn >= ${start} AND sub.rn <= ${end}
+				sub.rn >= #{start} AND sub.rn <= #{end}
+				
+		    	<if test="start_day != null and end_day !=null">
+						AND sub.outitem_DT BETWEEN #{start_day} AND #{end_day}
+					</if>
+					<if test="outitem_no != '' and outitem_no != null">
+						AND sub.outitem_no LIKE '%' + #{outitem_no} + '%'
+					</if>
+					<if test="order_no != '' and order_no != null">
+						AND sub.order_no LIKE  '%' + #{order_no} + '%'
+				</if>
+					<if test="cust_nm != '' and cust_nm != null">
+						AND sub.CUST_NM LIKE '%' + #{cust_nm} + '%'
+					</if>
+					<if test="user_nm != '' and user_nm != null">
+						AND sub.USER_NM LIKE '%' + #{user_nm} + '%'
+					</if>
 		]]> 
 	</select>
 	

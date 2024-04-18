@@ -19,12 +19,16 @@ public class UjmOutitem { //출고
 	// 조회용
 	private String 	search;
 	private String 	keyword;
+	private String searchFilter;
 	private String 	pageNum;
 	private int 	start;
 	private int 	end;
 	
 	// Page 정보
-	private String 	currentPage; //유일하게 Page 객체에도
+	private String currentPage; //Page 객체에도
+	private String start_day; //조회에서 조회할 첫 날 
+	private String end_day; //조회에서 조회할 마지막 날
+	
 	
 	//조인
 	private String cust_nm; //고객사이름
@@ -33,7 +37,7 @@ public class UjmOutitem { //출고
 	private int    order_status_chk; //주문상태
 	private String item_nm; //품목명 (출고품목)
 	private int    qty; //출고하는 상품별 수량
-	private String user_nm; //출고담당자(입력)
+	private String user_nm; //출고담당자
 	
 	//상품명과 주문개수 중복표시
 	private String items; //출고제품

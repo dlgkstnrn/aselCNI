@@ -93,37 +93,35 @@ pageEncoding="UTF-8"%>
                 <div>
                   <div class="input-group day-box">
                     <span class="input-group-text">조회기간</span>
-                    <input type="date" class="start-day form-control" value="${start_day }">
-                    <input type="date" class="end-day form-control" value="${end_day }">
+                    <input type="date" class="start-day form-control" value="${start_day}">
+                    <input type="date" class="end-day form-control" value="${end_day}">
                   </div>
                   <div class="input-group return-no-box">
                     <span class="input-group-text">출고번호</span>
-                    <input type="text" class="return-no-text form-control" placeholder="반품번호를 입력하세요" value="${return_no }" />
+                    <input type="text" class="outitem-no-text form-control" placeholder="출고번호를 입력하세요" value="${outitem_no}" />
                   </div>
                   <div class="input-group outitem-no-box">
                     <span class="input-group-text">주문번호</span>
-                    <input type="text" class="outitem-no-text form-control" placeholder="출고번호를 입력하세요" value="${outitem_no }" />
+                    <input type="text" class="order-no-text form-control" placeholder="주문번호를 입력하세요" value="${order_no}" />
                   </div>
                 </div>
                 <div>
                   <div class="input-group cust-nm-box">
-                    <span class="input-group-text">매입처</span>
-                    <input type="text" class="cust-nm-text form-control" placeholder="고객사명을 입력하세요" value="${cust_nm }" />
+                    <span class="input-group-text">고객사</span>
+                    <input type="text" class="cust-nm-text form-control" placeholder="고객사명을 입력하세요" value="${cust_nm}" />
                   </div>
                   <div class="input-group item-nm-box">
                     <span class="input-group-text">제품명</span>
-                    <input type="text" class="item-nm-text form-control" placeholder="제품명을 입력하세요" value="${item_nm }" />
+                    <input type="text" class="item-nm-text form-control" placeholder="제품명을 입력하세요" value="${item_nm}" />
                   </div>
                   <div class="input-group user-nm-box">
-                    <span class="input-group-text">담당자명</span>
-                    <input type="text" class="return-emp-nm-text form-control" placeholder="담당자명을 입력하세요" value="${return_emp_nm }" />
+                    <span class="input-group-text">담당자</span>
+                    <input type="text" class="user-nm-text form-control" placeholder="담당자명을 입력하세요" value="${user_nm}" />
                     &nbsp;
                     <button type="button" id="search-btn" class="search-btn btn btn-primary">검색</button>
                   </div>
                 </div>
-                <!-- <div class="search-btn-box">
-                </div> -->
-
+                <!-- 검색 끝 -->
 
 
 
@@ -133,7 +131,7 @@ pageEncoding="UTF-8"%>
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">순번</th>
+                      <th scope="col">No</th>
                       <th scope="col">출고번호</th>
                       <th scope="col">주문번호</th>
                       <th scope="col">고객사</th>
@@ -147,7 +145,7 @@ pageEncoding="UTF-8"%>
                     </tr>
                   </thead>
 
-                  <tbody>
+                  <tbody id="outitemList">
                     <c:forEach var="outitem" items="${listOutitem}">
                   
                     <tr data-bs-toggle="modal"
@@ -167,7 +165,6 @@ pageEncoding="UTF-8"%>
                         <c:if test="${outitem.order_status_chk==2}"><span class="badge bg-primary">출고 진행</span></c:if>
                         <c:if test="${outitem.order_status_chk==3}"><span class="badge bg-secondary">전체 출고 완료</span></c:if>
                       </td>
-                      <span class="invisibleRemark" style="display: none;">${outitem.remark}</span>
                       
                     </tr>
                     <c:set var="num" value="${num - 1 }"></c:set>
@@ -187,18 +184,23 @@ pageEncoding="UTF-8"%>
             
 
 
-
+${page}
 
 
               <!-- 번호디자인 -->
               <nav class="page-navigation">
                 <ul class="pagination">
-
+                  <c:if test="${page.startPage > page.pageBlock }">
+                    <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a></li>
+                  </c:if>
                   <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                  <li class="page-item">
-                    <a class="page-link" href="outitem?currentPage=${i}">${i}</a>
-                  </li>
+                    <li class="page-item">
+                      <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}">${i}</a>
+                    </li>
                   </c:forEach>
+                  <c:if test="${page.endPage < page.totalPage }">
+							      <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a></li>
+						      </c:if>
 
                 </ul>
               </nav>

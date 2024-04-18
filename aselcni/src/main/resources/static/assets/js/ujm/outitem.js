@@ -18,66 +18,102 @@ $(document).ready(function () {
     );
   
 
-  //검색
-  //날짜
-  //시작 날짜와 종료 날짜 논리 일관성
-    $("#startDate").on("input", function () {
-      let startDate = $("#startDate").val();
-      let endDate = $("#endDate").val();
+  /* 검색 */
 
-      // 시작 날짜가 종료 날짜보다 뒤에 있는 경우
-      if (startDate > endDate) {
-        // 시작 날짜를 종료 날짜와 동일하게 설정
-        $("#startDate").val(endDate);
+  //검색버튼 클릭 시
+  $("#search-btn").on("click", () => {
+    const start_day = $('.start-day').val();
+    const end_day = $('.end-day').val();
+    const outitem_no = $('.outitem-no-text').val();
+    const order_no = $('.order-no-text').val();
+    const cust_nm = $('.cust-nm-text').val();
+    const item_nm = $('.item-nm-text').val();
+    const user_nm = $('.user-nm-text').val();
+  
+    $("#outitemList").empty();
+    $(".pagination").empty();
+  
+    $.ajax({
+      type: "get",
+      url: "/ujmOutitemSearch",
+      data: {
+        start_day : start_day,
+        end_day : end_day,
+        outitem_no : outitem_no,
+        order_no : order_no,
+        cust_nm : cust_nm,
+        item_nm : item_nm,
+        user_nm : user_nm
+      },
+      dataType: 'json',
+      success: function(response) {
+  
+        let returnList = response.returnList;
+        let page = response.page;
+        let num = page.start;
+  
+        returnList.forEach((returnObj) => {
+          $(".table-nav .table tbody").append(`
+                    <tr>
+              <th>${num}</th>
+              <td><div class="return-no">${returnObj.return_no }</div></td>
+              <td>${returnObj.outitem_no }</td>
+              <td>${returnObj.cust_nm }</td>
+              <td>${returnObj.item_nm }</td>
+              <td>${returnObj.res_rtn }</td>
+              <td>${returnObj.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</td>
+              <td>${returnObj.return_dt }</td>
+              <td>${returnObj.return_emp_nm }</td>
+                    </tr>
+                  `);
+          num = num + 1;
+        });
+  
+        if (page.startPage > page.pageBlock) {
+          $(".pagination").append(`
+            <li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&laquo;</span></a></li>
+                `);
+        }
+  
+        for (let i = page.startPage; i <= page.endPage; i++) {
+          $(".pagination").append(`
+            <li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}">${i}</a></li>
+                `);
+        }
+  
+        if (paging.endPage < paging.totalPage) {
+          $(".pagination").append(`
+            <li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&raquo;</span></a></li>
+                 `);
+        }
+        
       }
     });
-
-    $("#endDate").on("input", function () {
-      let startDate = $("#startDate").val();
-      let endDate = $("#endDate").val();
-
-      // 시작 날짜가 종료 날짜보다 뒤에 있는 경우
-      if (startDate > endDate) {
-        // 시작 날짜를 종료 날짜와 동일하게 설정
-        $("#endDate").val(startDate);
-      }
-    });
+  
+  });
 
 
-  // 좌우 버튼 누를 때마다 날짜 7일 단위로 바뀜
-    $("#dateRightBtn").click(function () {
-      dateShift("right");
-    });
-
-    $("#dateLeftBtn").click(function () {
-      dateShift("left");
-    });
-
-  // 날짜 조정 함수
-  function dateShift(direction) {
-    let startDateVal = $("#startDate").val();
-    let endDateVal = $("#endDate").val();
-
-    // Date 객체로 변환
-    let startDate = new Date(startDateVal);
-    let endDate = new Date(endDateVal);
-
-    // 방향에 따라 날짜를 조정
-    if (direction === "right") {
-      startDate.setDate(startDate.getDate() + 7);
-      endDate.setDate(endDate.getDate() + 7);
-    } else if (direction === "left") {
-      startDate.setDate(startDate.getDate() - 7);
-      endDate.setDate(endDate.getDate() - 7);
+  //메인화면에서 검색에 사용하는 날짜 선택 논리성
+  let start_day_pre = $('.start-day').val();;
+  let end_day_pre = $('.end-day').val();
+  
+  $('.day-box').on('change', function () {  
+    
+    const start_day_string = $('.start-day').val();
+    const end_day_string = $('.end-day').val();
+    const start_day = new Date(start_day_string);
+    const end_day = new Date(end_day_string);
+  
+    if(start_day > end_day) {
+      alert('조회기간 설정이 부적합 합니다.');
+      $('.start-day').val(start_day_pre);
+      $('.end-day').val(end_day_pre);
+    } else {
+      start_day_pre = start_day_string;
+      end_day_pre = end_day_string;
     }
-
-    // 새로운 날짜를 입력 필드에 설정
-    $("#startDate").val(startDate.toISOString().slice(0, 10));
-    $("#endDate").val(endDate.toISOString().slice(0, 10));
-  }
-
-
-
+  
+  });
 
 
 

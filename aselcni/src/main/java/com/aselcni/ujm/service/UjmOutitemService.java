@@ -30,4 +30,6 @@ public interface UjmOutitemService {
 
 	String ujmFindOutitemRemark(String outitem_no);
 
+	UjmOutitem ujmDateLogic(UjmOutitem outitem);
+
 }

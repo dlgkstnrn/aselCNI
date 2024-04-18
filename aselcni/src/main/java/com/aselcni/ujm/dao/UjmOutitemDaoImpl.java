@@ -7,8 +7,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.aselcni.ujm.model.UjmOrderItem;
-import com.aselcni.ujm.model.UjmOrderNoDto;
 import com.aselcni.ujm.model.UjmOutitem;
 import com.aselcni.ujm.model.UjmOutitemItem;
 
