@@ -180,13 +180,14 @@
 								</tbody>
 							</table>
 		                </div> <!-- col-12, 품목 리스트 -->
-		                
-						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-							<button id="itemDel2" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
-							<button id="itemAdd2" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
-								<i class="bi bi-bag-plus-fill"></i> 추가
-              				</button>
-						</div>
+		                <c:if test="${orderSpec.order_status_chk == 0}">
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<button id="itemDel2" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
+								<button id="itemAdd2" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop">
+									<i class="bi bi-bag-plus-fill"></i> 추가
+	              				</button>
+							</div>
+						</c:if>
 					</div>  <!-- card-body1 -->	
 						
 					<!-- 제품 입력 모달 -->

@@ -104,6 +104,9 @@ const getTableRow = function () {
                 `
             )
         },
+        error : (request, status, error) => {
+			alert('잘못된 요청입니다.\n다시 확인해 주세요.');
+		},
         complete: () => {
             $('#ajaxLoadingImg').remove();
         }
@@ -173,6 +176,9 @@ const detailView = function (initem_no) {
                 `
             )
         },
+        error : (request, status, error) => {
+			alert('잘못된 요청입니다.\n다시 확인해 주세요.');
+		},
         complete: () => {
             $('#ajaxLoadingImg').remove();
         }
@@ -313,6 +319,9 @@ const updateInitem = function () {
                 `
             )
         },
+        error : (request, status, error) => {
+			alert('잘못된 요청입니다.\n다시 확인해 주세요.');
+		},
         complete: () => {
             $('#ajaxLoadingImg').remove();
         }
@@ -340,7 +349,10 @@ const detailDelete = function () {
             } else {
                 alert('삭제실패');
             }
-        }
+        },
+        error : (request, status, error) => {
+			alert('잘못된 요청입니다.\n다시 확인해 주세요.');
+		}
     });
 }
 

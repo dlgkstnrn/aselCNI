@@ -62,6 +62,9 @@
 	        border: 1px solid #ccc;
 	        cursor: pointer;
 	    }
+	    .hidden {
+	    	display: none != important;
+	    }
 	</style>
 </head>
 <body>
@@ -71,20 +74,28 @@
 <%@ include file="../asidebar.jsp" %>
     <main id="main" class="main">
 		<div class="pagetitle">
-			<h1>주문 조회</h1>
+			<h1>영업 관리</h1>
 			<nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">주문 관리</a></li>
-                    <li class="breadcrumb-item active">주문 조회</li>
+                    <li class="breadcrumb-item">영업 관리</li>
+                    <li class="breadcrumb-item active"><a href="#">주문 관리</a></li>
                 </ol>
             </nav>
 <!--         				<p class="fs-5">주문 검색</p> -->
-			  <button class="btn btn-primary d-md-flex justify-content-md-end" type="button" onclick="location.href='/orderReg'">신규 등록</button>
+			  <!-- <button class="btn btn-primary d-md-flex justify-content-md-end" type="button" onclick="location.href='/orderReg'">신규 등록</button> -->
         </div>
 		<!-- 본문 -->	
 		<section class="section dashboard">		
 			<div class="card">
 				<div class="card-body">
+									<!-- 카드 제목 부  -->
+					<div class="d-flex align-items-center">
+						<span class="h5 me-auto card-header-title">주문 관리</span>
+						<div>
+							<a href="/orderReg" type="button" class="btn btn-success ">신규</a>
+						</div>
+					</div>
+					<hr>
 					<div class="row">
 						<div class="col-md-3">
 							<div class="input-group">
@@ -94,10 +105,10 @@
 				        </div> <!-- 주문번호 -->
 				        <div class="col-md-6">
 							<div class="input-group">
-								<button id="selectDT" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">기간 선택</button>
+								<button style="border-color: #dee2e6 " id="selectDT" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">기간 선택</button>
 								<ul class="dropdown-menu">
-									<li><button class="dropdown-item" value="order_dt">주문 일자</button></li>
-									<li><button class="dropdown-item" value="order_end_dt">마감 일자</button></li>
+									<li><button class="dropdown-item" value="order_dt">주문일자</button></li>
+									<li><button class="dropdown-item" value="order_end_dt">납기일자</button></li>
 								</ul>
 								<input id="input_start_dt" type="date" aria-label="start-dt" class="form-control">
 								<input id="input_end_dt" type="date" aria-label="end-dt" class="form-control">
@@ -116,7 +127,7 @@
 							<div class="row g-0  overflow-hidden flex-md-row mb-4  h-md-250 position-relative">
 								<div class="col d-flex flex-column position-static">
 									<p>
-						            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCust" aria-expanded="false" aria-controls="collapseUser">
+						            <button style="border-color: #dee2e6 " class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCust" aria-expanded="false" aria-controls="collapseUser">
 			            				고객사 <i class="bi bi-caret-down-fill"></i></button>
 			            			</p> <!-- 고객사 collapse 여는 버튼 -->
 									<div class="collapse border" id="collapseCust">
@@ -130,7 +141,7 @@
 								                    <div class="dropdown-item d-flex align-items-center gap-2 py-2">
 								                      <div class="form-check">
 								                        <input class="custCheckbox form-check-input" type="checkbox" value="${custMst.cust_cd}" id="${custMst.cust_cd}">
-								                        <label class="form-check-label" for="${custMst.cust_cd}"">
+								                        <label class="form-check-label" for="${custMst.cust_cd}">
 								                          ${custMst.cust_nm}
 								                        </label>
 								                      </div>
@@ -148,18 +159,18 @@
 							<div class="row g-0  overflow-hidden flex-md-row mb-4  h-md-250 position-relative">
 								<div class="col d-flex flex-column position-static">
 									<p>
-						            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
-			            				담당자 <i class="bi bi-caret-down-fill"></i></button>
+						            <button style="border-color: #dee2e6 " class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+			            				담당자명 <i class="bi bi-caret-down-fill"></i></button>
 			            			</p> <!-- 고객사 collapse 여는 버튼 -->
 									<div class="collapse border" id="collapseUser">
 										<div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 overflow-hidden w-280px" data-bs-theme="light">  
 											<div class="p-2 mb-2 bg-body-tertiary border-bottom">
-												<input type="search" class="form-control" autocomplete="false" placeholder="담당자명">
+												<input id="searchUserName" type="search" class="form-control" autocomplete="false" placeholder="담당자명">
 											</div>  <!-- 고객사 검색 -->
 											<ul class="list-unstyled mb-0 ">
 												<c:forEach var = "userMst" items="${userMsts}" varStatus="status">
 								                  <li>
-								                    <div class="dropdown-item d-flex align-items-center gap-2 py-2">
+								                    <div class="userDrop dropdown-item d-flex align-items-center gap-2 py-2">
 								                      <div class="form-check">
 															<input class="userCheckbox form-check-input" type="checkbox" value="${userMst.user_id}" id="${userMst.user_id}">
 									                        <label class="form-check-label" for="${userMst.user_id}">
@@ -178,16 +189,16 @@
 						
 					</div> <!-- 두번째 체크박스 row -->
 				
-				<table class="table table-borderless datatable datatable-table text-center">
+				<table class="table table-hover datatable datatable-table text-center" id="orderTable">
 					<thead><tr>
 						<th scope="col" class="text-center">No</th>
 						<th scope="col" class="text-center" id="order_no">주문번호</th>
 						<th scope="col" class="text-center" id="cust_nm">고객사</th>
-						<th scope="col" class="text-center">담당자</th>
 						<th scope="col" data-sortable="true">
-							<button class="datatable-sorter text-center"> 주문 일자 </button></th>
+							<button class="datatable-sorter text-center"> 주문일자 </button></th>
 						<th scope="col" data-sortable="true">
-							<button class="datatable-sorter text-center"> 마감 기한 </button></th>
+							<button class="datatable-sorter text-center"> 납기일자 </button></th>
+						<th scope="col" class="text-center">담당자명</th>
 						<th scope="col" class="text-center">진행상태</th>
 					</tr></thead>
 					<tbody id="table_body">
@@ -196,15 +207,15 @@
 								<th scope="row" class="text-center">${status.index + 1}</th>
 									<td><a href="/orderSpec?detailView=${order.order_sec_no}" <%-- %>data-bs-toggle="modal" --%>   data-bs-target="#ExtralargeModal" class="text-center">${order.order_no}</a></td>
 									<td> ${order.cust_nm} </td><!-- 대한식품 -->
-									<td>${order.user_nm}</td> <!-- 담당 직원 -->
 									<td class="datatable"> ${order.order_dt} </td> <!-- 2016-05-25 -->
 									<td class="datatable"> ${order.order_end_dt} </td>
+									<td>${order.user_nm}</td> <!-- 담당 직원 -->
 									<td class="blue">
 										<c:choose>
 											<c:when test="${order.order_status_chk == 1}"><span class="badge bg-secondary">주문 취소</span></c:when>
 											<c:when test="${order.order_status_chk == 2}"><span class="badge bg-primary">진행중</span></c:when>
 											<c:when test="${order.order_status_chk == 3}"><span class="badge bg-success">출고 완료</span></c:when>
-											<c:otherwise><span class="badge bg-warning text-dark">주문 완료 </span></c:otherwise>
+											<c:otherwise><span class="badge bg-warning text-dark">주문 완료</span></c:otherwise>
 										</c:choose>
 									</td>								
 								</tr>

@@ -112,7 +112,7 @@
 							<div class="prodPlan-write">
 								<button type="button" class="btn btn-secondary"
 									data-bs-toggle="modal" data-bs-target="#verticalycentered">
-									등록
+									신규
 								</button>
 							</div>
 							<div class="prodPlan-update">
@@ -641,7 +641,7 @@
 						                    </div>
 						                </div>
 						                <div class="modal-footer">
-						                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 						                </div>
 						            </div>
 						        </div>

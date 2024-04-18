@@ -78,6 +78,9 @@ const getItemList = function () {
             });
             calcTotalAmount();
         },
+        error : (request, status, error) => {
+			alert('잘못된 요청입니다.\n다시 확인해 주세요.');
+		},
         beforeSend: () => {
             $('body').append(
                 `
@@ -151,6 +154,9 @@ const searchPurc = function () {
 
             purcSelect.focus();
         },
+        error : (request, status, error) => {
+			alert('잘못된 요청입니다.\n다시 확인해 주세요.');
+		},
         beforeSend: () => {
             $('body').append(
                 `
@@ -248,6 +254,9 @@ const regInitem = function () {
 
             location.href = '/initem';
         },
+        error : (request, status, error) => {
+			alert('잘못된 요청입니다.\n다시 확인해 주세요.');
+		},
         beforeSend: () => {
             $('body').append(
                 `
