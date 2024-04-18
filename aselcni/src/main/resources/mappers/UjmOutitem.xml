@@ -213,20 +213,36 @@
 			) AS oi ON ori.item_cd = oi.item_cd
 			JOIN
 						    (
-						        SELECT
-								    o.ORDER_NO,
-								    o.ITEM_CD,
-								    SUM(o.qty) AS outitem_sum_qty
+						       SELECT 
+								    ti.order_no,
+								    COALESCE(ti.item_cd, oi.item_cd) AS item_cd,
+								    oi.outitem_sum_qty
 								FROM
-								    TB_OUTITEM_ITEM o
-								JOIN
-								    TB_OUTITEM i ON o.outitem_no = i.outitem_no
-								WHERE
-								    o.ORDER_NO = #{order_no}
-								    AND i.outitem_delete_chk = 0
-								GROUP BY
-								    o.ORDER_NO,
-								    o.ITEM_CD
+								    (SELECT 
+								        oi.item_cd,
+								        SUM(oi.qty) AS outitem_sum_qty
+								    FROM 
+								        tb_outitem_item oi
+								        JOIN tb_outitem oo ON oi.outitem_no = oo.outitem_no
+								        join tb_order ord on oi.order_no=ord.order_no
+								    WHERE 
+								        oo.outitem_delete_chk = 0
+								        and oi.order_no=#{order_no}
+								        and ord.order_delete_chk=0
+								    GROUP BY 
+								        oi.item_cd) AS oi
+									RIGHT JOIN
+									    (SELECT 
+									        o.order_no,
+									        ti.item_cd
+									    FROM 
+									        tb_order_item ti
+									        JOIN tb_order o ON ti.order_no = o.order_no
+									    WHERE 
+									        ti.order_no = #{order_no}
+									        AND o.order_delete_chk = 0) AS ti
+									ON 
+									    oi.item_cd = ti.item_cd
 						    ) AS outitem_sum_qty_table ON ori.ORDER_NO = outitem_sum_qty_table.ORDER_NO 
 						    AND ori.ITEM_CD = outitem_sum_qty_table.ITEM_CD
 			WHERE 

@@ -618,8 +618,8 @@ let detail_remark;
           var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
           var orderDtValue =  Number(orderDt.replace(/-/g, ''));
 
-        //출고일자가 현재시간 및 주문일자보다 늦어야함
-        if (outitemDtValue > currentDateValue && outitemDtValue>orderDtValue) { 
+        //출고일자가 현재시간 및 주문일자보다 같거나 늦어야 수정 가능
+        if (outitemDtValue >= currentDateValue && outitemDtValue>=orderDtValue) { 
               dtChk=1;
         } else {
               dtChk=0;
@@ -662,7 +662,7 @@ let detail_remark;
         .then(response => response.json())
         .then(data => {
           console.log(data);
-            if (data.result === 1) { //주문이 삭제됨
+            if (data.result === 1) { //주문이 삭제됨 (order_delete_chk이 1)
               alert('해당 출고의 주문이 삭제되었으므로 출고를 수정할 수 없습니다.');
               return false; 
             } 
