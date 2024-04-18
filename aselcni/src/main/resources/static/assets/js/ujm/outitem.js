@@ -764,5 +764,3 @@ let detail_remark;
 
 
 }); //js 끝
-
-
