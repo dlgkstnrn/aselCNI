@@ -5,7 +5,6 @@
 
 <configuration>
 	<typeAliases>
-
 		<typeAlias alias="LhsCustMst" type="com.aselcni.lhs.model.CustMst" />
 		<typeAlias alias="LhsCompMst" type="com.aselcni.lhs.model.Compmst" />
 		<typeAlias alias="LhsItemMst" type="com.aselcni.lhs.model.ItemMst" />
