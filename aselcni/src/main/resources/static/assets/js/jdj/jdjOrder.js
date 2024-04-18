@@ -4,6 +4,8 @@ $(document).ready(function(){
 	var order_no;
 	var seltDT;
 	console.log("main");
+
+	
 	
 	// 체크박스 선택 -> 배열 저장
 	$(function() {
@@ -79,9 +81,9 @@ $(document).ready(function(){
 			            "<th scope='row' class='text-center'>" + (index + 1) + "</th>" +
 			            "<td><a href='/orderSpec?detailView=" + order.order_sec_no + "' class='text-center'>" + order.order_no + "</a></td>" +
 			            "<td>" + order.cust_nm + "</td>" +
-			            "<td>" + order.user_nm + "</td>" +
 			            "<td class='datatable'>" + order.order_dt + "</td>" +
 			            "<td class='datatable'>" + order.order_end_dt + "</td>" +
+			            "<td>" + order.user_nm + "</td>" +
 			            "<td class='blue'><span class='badge " + getStatusClass(order.order_status_chk) + "'>" + getStatusText(order.order_status_chk) + "</span></td>" +
 			            "</tr>";
 			
@@ -117,6 +119,24 @@ $(document).ready(function(){
 		console.log(selUsers + " : checkedUserValues");
 		
 	})
+	var curr_sort;
+	
+
+	
+	$("#searchUserName").on('input', function(){
+        var input = $(this).val().toLowerCase();
+        $(".userDrop").each(function(){
+            var label = $(this).find('.form-check-label').text().toLowerCase();
+            if (label.includes(input)) {
+	            console.log(label + " label");
+	            $(this).css('display', 'block')
+                
+            } else {
+	            $(this).css('display', 'none')
+            }
+        });
+    });
+
 	
 	$(".dropdown-menu .dropdown-item").click(function(){
 	  var selText = $(this).text();

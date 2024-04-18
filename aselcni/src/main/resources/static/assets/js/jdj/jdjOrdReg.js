@@ -1,23 +1,27 @@
 var order_items = new Map(); // 전역 변수로 선언
-
+var totalPrice = 0;
 function increaseCnt(order_item_cd){
 	// 인자로 들어온 코드의 value를 찾음
 	let find_item = order_items.get(order_item_cd);
-	
+	console.log("increse--------")
 	// 수량을 증가
-	find_item.order_qty++;
-	
+	find_item.qty++;
+	find_item.cost = find_item.item_cost * find_item.qty;
+	console.log(find_item.cost + " : cost , "+ find_item.index + "  : index");
 	// 텍스트값 변경
-	$(`#${order_item_cd}`).text(find_item.order_qty);
+	$(`#${order_item_cd}`).text(find_item.qty);
+	$(`#${find_item.index}`).text(find_item.cost);
 };
 function decreaseCnt(order_item_cd){
 	
 	let find_item = order_items.get(order_item_cd);
-	if(find_item.order_qty == 1){
+	if(find_item.qty == 1){
 		alert("최소 주문 수량은 1개입니다");	
 	}else{
-		find_item.order_qty--;
-		$(`#${order_item_cd}`).text(find_item.order_qty);
+		find_item.qty--;
+		find_item.cost = find_item.item_cost * find_item.qty;
+		$(`#${order_item_cd}`).text(find_item.qty);
+		$(`#${find_item.index}`).text(find_item.cost);
 	}
 };
 // null여부 확인
@@ -196,6 +200,10 @@ $(document).ready(function(){
 		$("#order_item_cost").val(order_item_cost);
 		
 	})
+	$("#addItemLi").click(function(){
+		item_cost = 0;
+		order_qty = 0;
+	})
 	
 	// 모달을 닫을 때 - value 초기화
 	$("#closeBtn").click(resetVal);
@@ -228,12 +236,14 @@ $(document).ready(function(){
 				qty : order_qty,
 				item_cost : item_cost,			
 				cost : order_item_cost, 
+				index : index
 			}
 			
 				// 이미 존재하는지 확인
 			if(order_items.has(order_item_cd)){
 				alert("이미 존재하는 상품입니다.");
 			}else{
+				index++;
 				// 없으면 추가
 				order_items.set(order_item_cd, item);
 				
@@ -249,8 +259,10 @@ $(document).ready(function(){
 				                <button type="button" class="btn btn-light" onclick="increaseCnt('${order_item_cd}')"><i class="bi bi-plus"></i></button>
 	 						</div></td>
 						<td>${item_cost}</td>
-						<td>${order_item_cost}</td>
+						<td id="${index}">${order_item_cost}</td>
 				</tr>`)
+				
+				totalPrice += order_item_cost;
 				
 				// 모달이 닫힐 때 선택된 옵션 초기화
 				// select 초기화 시키는 법??
@@ -261,6 +273,7 @@ $(document).ready(function(){
 				// 모달 닫기
 				$('#disablebackdrop').modal('hide');
 				
+				$("#totalPrice").text(totalPrice);
 	
 			}
 			}else{
