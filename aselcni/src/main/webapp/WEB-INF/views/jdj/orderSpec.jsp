@@ -159,10 +159,10 @@
 									<th scope="col">단위</th>
 									<th scope="col">수량</th>
 									<th scope="col">단가</th>
-									<th scope="col">합계</th>
+									<th scope="col">금액</th>
 								</tr></thead>
 								<tbody  id="itemTB2">
-									<c:forEach var = "orderItem" items = "${orderItems}">
+									<c:forEach var = "orderItem" items = "${orderItems}" varStatus="status">
 									<tr class="${orderItem.item_cd}">
 										<td><input class="checkBox form-check-input" type="checkbox" id="chkBtn" style="display: none"></td>
 										<td id="item_cd">${orderItem.item_cd}</td>
@@ -174,7 +174,8 @@
 							                <button onclick="increaseCnt2('${orderItem.item_cd}')" id="increaseBtn2" type="button" class="increaseBtn2 btn btn-light" style="display: none"><i class="bi bi-plus"></i></button>
 	             						</div></td>
 										<td id="item_cost">${orderItem.item_cost}</td>
-										<td id="${orderItem.item_cd}_Cost">${orderItem.cost}</td>
+										<td id="${orderItem.item_cd}_cost">${orderItem.cost}</td>
+										<%-- <td id="'${orderItem.item_cd}'_cost">${orderItem.cost}</td> --%>
 									</tr>									
 									</c:forEach>
 								</tbody>
@@ -195,7 +196,7 @@
 	                	<div class="modal-dialog modal-dialog-centered">
 	                  		<div class="modal-content">
 	                    		<div class="modal-header">
-									<h5 class="modal-title"> 주문 상품 등록</h5>
+									<h5 class="modal-title"> 주문 제품 등록</h5>
 									<button type="button" id="closeBtn2" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                    		</div> <!-- modal-header -->
 	                    		<div class="modal-body">
