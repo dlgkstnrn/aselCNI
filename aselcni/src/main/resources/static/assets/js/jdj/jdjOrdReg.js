@@ -7,10 +7,10 @@ function increaseCnt(order_item_cd){
 	// 수량을 증가
 	find_item.qty++;
 	find_item.cost = find_item.item_cost * find_item.qty;
-	console.log(find_item.cost + " : cost , "+ find_item.index + "  : index");
+
 	// 텍스트값 변경
 	$(`#${order_item_cd}`).text(find_item.qty);
-	$(`#${find_item.index}`).text(find_item.cost);
+	$(`#${order_item_cd}_cost`).text(find_item.cost);
 };
 function decreaseCnt(order_item_cd){
 	
@@ -21,7 +21,8 @@ function decreaseCnt(order_item_cd){
 		find_item.qty--;
 		find_item.cost = find_item.item_cost * find_item.qty;
 		$(`#${order_item_cd}`).text(find_item.qty);
-		$(`#${find_item.index}`).text(find_item.cost);
+		$(`#${order_item_cd}_cost`).text(find_item.cost);
+
 	}
 };
 // null여부 확인
@@ -259,7 +260,7 @@ $(document).ready(function(){
 				                <button type="button" class="btn btn-light" onclick="increaseCnt('${order_item_cd}')"><i class="bi bi-plus"></i></button>
 	 						</div></td>
 						<td>${item_cost}</td>
-						<td id="${index}">${order_item_cost}</td>
+						<td id="${order_item_cd}_cost">${order_item_cost}</td>
 				</tr>`)
 				
 				totalPrice += order_item_cost;

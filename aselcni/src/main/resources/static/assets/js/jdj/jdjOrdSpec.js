@@ -189,8 +189,9 @@ $(document).ready(function(){
 				item_cost : item_cost,
 			}
 			
+			let find_item = order_items.get(order_item_cd);
 				// 이미 존재하는지 확인
-			if(order_items.has(order_item_cd)){
+			if(order_items.has(order_item_cd) && find_item.qty != 0){
 				alert("이미 존재하는 상품입니다.");
 			}else{
 				// 없으면 추가
@@ -203,16 +204,15 @@ $(document).ready(function(){
 						<td>${item_nm}</td>
 						<td>${item_unit}</td>
 						<td><div class="btn-group border-1" role="group">
-								<button type="button" class="btn btn-light" onclick="decreaseCnt('${order_item_cd}')"><i class="bi bi-dash"></i></button>
+								<button type="button" class="btn btn-light" onclick="decreaseCnt2('${order_item_cd}')"><i class="bi bi-dash"></i></button>
 								<button type="button" class="btn btn-light" id="${order_item_cd}" disabled>${order_qty}</button>
-				                <button type="button" class="btn btn-light" onclick="increaseCnt('${order_item_cd}')"><i class="bi bi-plus"></i></button>
+				                <button type="button" class="btn btn-light" onclick="increaseCnt2('${order_item_cd}')"><i class="bi bi-plus"></i></button>
 	 						</div></td>
 						<td id="item_cost2">${item_cost}</td>
-						<td id="${index}">${total}</td>
+						<td id="${order_item_cd}_cost">${total}</td>
 				</tr>`)
 				
 				// 모달이 닫힐 때 선택된 옵션 초기화
-				// select 초기화 시키는 법??
 				resetVal();
 				
 				alert("추가 되었습니다.")

@@ -151,9 +151,9 @@
 								<!-- 모달에서 저장된 내용이 출력됨 -->
 							</tbody>
 						</table>
-						<div id="totalAmount" style="margin-top: 20px;">
+<!-- 						<div id="totalAmount" style="margin-top: 20px;">
 						    합계 금액 : <span id="totalPrice"></span> 원
-						</div>
+						</div> -->
 						
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 							<button id="deleteBtn" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
