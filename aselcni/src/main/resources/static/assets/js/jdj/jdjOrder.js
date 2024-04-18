@@ -15,6 +15,7 @@ $(document).ready(function(){
 	            return $(this).val();
 	        }).get();
 	        console.log('고객사 선택 값: ', selCusts);
+	        console.log("=-==> " + seltDT)
 	    });
 	
 	    // 담당자 체크박스 처리
@@ -53,6 +54,7 @@ $(document).ready(function(){
 	$("#serachBtn").click(async function(){  // async 키워드 추가
 	    console.log("----- searchBtn -----")
 	    order_no = $("#input_order_no").val();
+	    order_no = $("#input_order_no").val();
 	    console.log(seltDT + "00000000000000")
 		
 	        try{
@@ -88,6 +90,19 @@ $(document).ready(function(){
 			            "</tr>";
 			
 			        $("#table_body").append(newRow); // 새로운 행 추가
+			        
+			        $("#input_order_no").val("");
+				    $("#input_start_dt").val("");
+				    $("#input_end_dt").val("");
+				
+				    $("#selectDT").text("기간 선택");
+				    $(".custCheckbox").prop("checked", false);
+				    $(".userCheckbox").prop("checked", false);
+					
+					selCusts = [];
+					selUsers = [];
+					order_no = "";
+					seltDT = "";
 			    });
 	        }
 	        catch (error){

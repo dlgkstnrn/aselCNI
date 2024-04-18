@@ -90,7 +90,7 @@
 				<div class="card-body">
 									<!-- 카드 제목 부  -->
 					<div class="d-flex align-items-center">
-						<span class="h5 me-auto card-header-title">주문 관리</span>
+						<span class="h5 me-auto card-header-title">주문 조회</span>
 						<div>
 							<a href="/orderReg" type="button" class="btn btn-success ">신규</a>
 						</div>

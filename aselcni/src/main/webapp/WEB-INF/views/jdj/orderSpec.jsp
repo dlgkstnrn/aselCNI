@@ -68,7 +68,7 @@
             <h1>주문 상세</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">주문 관리</li>
+                    <li class="breadcrumb-item">영업 관리</li>
                     <li class="breadcrumb-item active"><a href="/order">주문 조회</a></li>
                     <li class="breadcrumb-item active">주문 상세</li>
                 </ol>
