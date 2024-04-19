@@ -28,6 +28,8 @@ public class UjmOutitem { //출고
 	private String currentPage; //Page 객체에도
 	private String start_day; //조회에서 조회할 첫 날 
 	private String end_day; //조회에서 조회할 마지막 날
+	private String outitem_user_nm; //검색에서 사용하는 출고담당자이름, 로그인시 ${user_nm}이 세션에 저장되어 
+	//${user_nm}을 사용하면 담당자명을 입력하지 않아도 자동으로 입력되므로 outitem_user_nm으로 별도로 분리  
 	
 	
 	//조인

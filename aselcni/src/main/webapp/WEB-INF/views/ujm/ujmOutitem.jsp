@@ -116,7 +116,7 @@ pageEncoding="UTF-8"%>
                   </div>
                   <div class="input-group user-nm-box">
                     <span class="input-group-text">담당자</span>
-                    <input type="text" class="user-nm-text form-control" placeholder="담당자명을 입력하세요" value="${user_nm}" />
+                    <input type="text" class="outitem-user-nm-text form-control" placeholder="담당자명을 입력하세요" value="${outitem_user_nm}" />
                     &nbsp;
                     <button type="button" id="search-btn" class="search-btn btn btn-primary">검색</button>
                   </div>
@@ -191,15 +191,15 @@ ${page}
               <nav class="page-navigation">
                 <ul class="pagination">
                   <c:if test="${page.startPage > page.pageBlock }">
-                    <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a></li>
+                    <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&laquo;</span></a></li>
                   </c:if>
                   <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                    <li class="page-item">
-                      <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}">${i}</a>
+                    <li class="page-item ${page.currentPage == i ? 'active' : ''}">
+                      <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}">${i}</a>
                     </li>
                   </c:forEach>
                   <c:if test="${page.endPage < page.totalPage }">
-							      <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a></li>
+							      <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&raquo;</span></a></li>
 						      </c:if>
 
                 </ul>

@@ -67,7 +67,7 @@ public class UjmOutitemController {
 		model.addAttribute("order_no", outitem.getOrder_no());
 		model.addAttribute("cust_nm", outitem.getCust_nm());
 		model.addAttribute("item_nm", outitem.getItem_nm());
-		model.addAttribute("user_nm", outitem.getUser_nm());
+		model.addAttribute("user_nm", outitem.getOutitem_user_nm());
 		
 		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
 		model.addAttribute("listOutitem", ujmListOutitems);

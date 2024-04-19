@@ -28,7 +28,7 @@ $(document).ready(function () {
     const order_no = $('.order-no-text').val();
     const cust_nm = $('.cust-nm-text').val();
     const item_nm = $('.item-nm-text').val();
-    const user_nm = $('.user-nm-text').val();
+    const outitem_user_nm = $('.outitem-user-nm-text').val(); //검색에 사용할 user_nm
   
     $("#outitemList").empty();
     $(".pagination").empty();
@@ -43,7 +43,7 @@ $(document).ready(function () {
         order_no : order_no,
         cust_nm : cust_nm,
         item_nm : item_nm,
-        user_nm : user_nm
+        user_nm : outitem_user_nm
       },
       dataType: 'json',
       success: function(response) {
@@ -89,7 +89,7 @@ $(document).ready(function () {
         if (page.startPage > page.pageBlock) {
           $(".pagination").append(`
           <li class="page-item">
-            <a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a>
+            <a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&laquo;</span></a>
           </li>
                 `);
         }
@@ -97,7 +97,7 @@ $(document).ready(function () {
         for (let i = page.startPage; i <= page.endPage; i++) {
           $(".pagination").append(`
           <li class="page-item">
-            <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}">${i}</a>
+            <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}">${i}</a>
           </li>
                 `);
         }
@@ -105,7 +105,7 @@ $(document).ready(function () {
         if (page.endPage < page.totalPage) {
           $(".pagination").append(`
           <li class="page-item">
-            <a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a>
+            <a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&raquo;</span></a>
           </li>
                  `);
         }
