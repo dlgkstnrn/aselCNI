@@ -689,15 +689,21 @@ $(document).ready(function() {
 		var selectedMaterials = $("input[type='checkbox'][name='materialSelect']:checked");
 
 		if (selectedMaterials.length > 0) {
-			// 선택된 자재 정보를 임시 배열에 저장
 			var tempSelectedMaterialsInfo = [];
+			var allQuantitiesEntered = true; // 모든 수량 입력 확인 변수
+
 			selectedMaterials.each(function() {
 				var tr = $(this).closest('tr');
 				var materialCode = tr.find("th").text();
 				var materialName = tr.find("td").eq(1).text();
 				var quantity = tr.find("input[type='number']").val();
 
-				// 임시 배열에 선택된 자재 정보 추가
+				// 수량이 입력되지 않았을 경우 반복 종료
+				if (quantity === "") {
+					allQuantitiesEntered = false;
+					return false;
+				}
+
 				tempSelectedMaterialsInfo.push({
 					code: materialCode,
 					name: materialName,
@@ -705,17 +711,22 @@ $(document).ready(function() {
 				});
 			});
 
+			// 모든 자재의 수량이 입력되지 않았다면 경고 출력 후 함수 종료
+			if (!allQuantitiesEntered) {
+				alert('모든 선택된 자재의 수량을 입력해야 합니다.');
+				return; // 함수 실행 종료
+			}
+
+			// 정상적인 경우의 로직 처리
 			if (activeModal === 'update') {
-				// 수정 모달에서의 처리 로직
 				appendMaterialsToUpdateModal(tempSelectedMaterialsInfo);
 				$('#nestedItemModal').modal('hide');
-				$('#verticalycentered-update').modal('show'); // 수정 모달로 다시 이동
+				$('#verticalycentered-update').modal('show');
 			} else {
-				// 등록 모달에서의 처리 로직
 				tempSelectedMaterialsInfo.forEach(function(materialInfo) {
 					selectedMaterialsInfo.push(materialInfo);
 				});
-				displaySelectedMaterials(); // 등록 모달에 선택된 자재 정보 표시
+				displaySelectedMaterials();
 				$('#nestedItemModal').modal('hide');
 			}
 		} else {
