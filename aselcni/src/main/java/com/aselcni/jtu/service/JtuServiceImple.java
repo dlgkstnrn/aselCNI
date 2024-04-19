@@ -52,7 +52,6 @@ public class JtuServiceImple implements JtuServiceInterface {
 	public List<JtuWH> getWhCode() {
 		System.out.println("JtuServiceImple getWhCode Start... ");
 		List<JtuWH> jwhList = jd.getWhCode();
-
 		return jwhList;
 	}
 
@@ -60,7 +59,6 @@ public class JtuServiceImple implements JtuServiceInterface {
 	public JtuProdItem getPriOneAjax(JtuProdItem paraJpri) {
 		System.out.println("JtuServiceImple getPriOneAjax Start... ");
 		JtuProdItem jpri = jd.getPriOneAjax(paraJpri);
-
 		return jpri;
 	}
 

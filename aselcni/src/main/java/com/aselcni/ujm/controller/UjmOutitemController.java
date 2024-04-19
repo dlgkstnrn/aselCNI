@@ -46,7 +46,7 @@ public class UjmOutitemController {
 			outitem.setCurrentPage("1");
 		}
 		
-		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt();
+		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt(outitem);
 		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
 		model.addAttribute("totalOutitemCnt", ujmTotalOutitemCnt);
 		
@@ -55,7 +55,7 @@ public class UjmOutitemController {
 		outitem.setStart(page.getStart());
 		outitem.setEnd(page.getEnd());
 		
-		//날짜 설정되지 않았을 때(=최초 조회시) 날짜 설정
+		// 날짜 설정
 		outitem=uos.ujmDateLogic(outitem);
 		System.out.println("날짜 처리 후:"+outitem);
 		
@@ -67,7 +67,7 @@ public class UjmOutitemController {
 		model.addAttribute("order_no", outitem.getOrder_no());
 		model.addAttribute("cust_nm", outitem.getCust_nm());
 		model.addAttribute("item_nm", outitem.getItem_nm());
-		model.addAttribute("user_nm", outitem.getOutitem_user_nm());
+		model.addAttribute("outitem_user_nm", outitem.getOutitem_user_nm());
 		
 		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
 		model.addAttribute("listOutitem", ujmListOutitems);
@@ -75,40 +75,40 @@ public class UjmOutitemController {
 		return "ujm/ujmOutitem"; 
 	}
 	
-	@RequestMapping(value = "ujmOutitemSearch") 
-	@ResponseBody
-	public Map<String, Object> ujmOutitemSearch(UjmOutitem outitem, HttpServletRequest request, HttpSession session) {
-		System.out.println("출고 검색 시작");
-		
+//	@RequestMapping(value = "ujmOutitemSearch") 
+//	@ResponseBody
+//	public Map<String, Object> ujmOutitemSearch(UjmOutitem outitem, HttpServletRequest request, HttpSession session) {
+//		System.out.println("출고 검색 시작");
+//		
 //		//페이지 설정
 //		if(outitem.getCurrentPage()==null) {
 //			outitem.setCurrentPage("1");
 //		}
-		
-		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt();
-		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
-		
-		UjmPaging page=new UjmPaging(ujmTotalOutitemCnt, outitem.getCurrentPage());
-		
-		outitem.setStart(page.getStart());
-		outitem.setEnd(page.getEnd());
-		
-		outitem=uos.ujmDateLogic(outitem);
-		System.out.println(outitem);
-		
-		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
-		System.out.println(ujmListOutitems);
-		
-		//model 대신 map을 사용
-		Map<String, Object> response=new HashMap<String, Object>();
-		System.out.println(page);
-		
-		response.put("page", page);
-		response.put("ujmListOutitems",ujmListOutitems);
-		System.out.println("response:"+response);
-		
-		return response;
-	}
+//		
+//		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt(outitem);
+//		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
+//		
+//		UjmPaging page=new UjmPaging(ujmTotalOutitemCnt, outitem.getCurrentPage());
+//		
+//		outitem.setStart(page.getStart()); //1
+//		outitem.setEnd(page.getEnd()); //5
+//		
+//		outitem=uos.ujmDateLogic(outitem);
+//		System.out.println(outitem);
+//		
+//		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
+//		System.out.println(ujmListOutitems);
+//		
+//		//model 대신 map을 사용
+//		Map<String, Object> response=new HashMap<String, Object>();
+//		System.out.println(page);
+//		
+//		response.put("page", page);
+//		response.put("ujmListOutitems",ujmListOutitems);
+//		System.out.println("response:"+response);
+//		
+//		return response;
+//	}
 	
 	
 

@@ -9,7 +9,7 @@ import com.aselcni.ujm.model.UjmOutitemItem;
 
 public interface UjmOutitemDao {
 
-	int ujmTotalOutitemCnt();
+	int ujmTotalOutitemCnt(UjmOutitem outitem);
 
 	List<UjmOutitem> ujmListOutiem(UjmOutitem outitem);
 

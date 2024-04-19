@@ -29,9 +29,9 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 	private final UjmOrderDao uord;
 
 	@Override
-	public int ujmTotalOutitemCnt() {
-		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt..." );
-		int ujmTotalOutitemCnt = uod.ujmTotalOutitemCnt();
+	public int ujmTotalOutitemCnt(UjmOutitem outitem) {
+		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt...(검색용)" );
+		int ujmTotalOutitemCnt = uod.ujmTotalOutitemCnt(outitem);
 		System.out.println("UjmOutitemServiceImpl ujmTotalOutitemCnt->" + ujmTotalOutitemCnt);
 		return ujmTotalOutitemCnt;
 	}
@@ -216,11 +216,12 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		System.out.println(outitem);
 		if(outitem.getStart_day() == null && outitem.getEnd_day() == null) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			String today = LocalDate.now().format(formatter);
+//			String today = LocalDate.now().format(formatter);
 			String oneMonthAgo = LocalDate.now().minusMonths(1).format(formatter); 
+			String oneMonthAfter = LocalDate.now().plusMonths(1).format(formatter);
 			
 			outitem.setStart_day(oneMonthAgo);
-			outitem.setEnd_day(today);
+			outitem.setEnd_day(oneMonthAfter);
 		} 
 		return outitem;
 	}

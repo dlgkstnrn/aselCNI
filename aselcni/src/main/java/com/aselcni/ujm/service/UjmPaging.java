@@ -16,21 +16,21 @@ public class UjmPaging {
 	private int total;				private int totalPage;
     
 	public UjmPaging(int total, String currentPage1) {
-		this.total = total;  
-		if (currentPage1 != null) {
+		this.total = total;  //7
+		if (currentPage1 != null) { //1
 			this.currentPage = Integer.parseInt(currentPage1);	
 		}
 
-		start = (currentPage - 1) * rowPage + 1;  
-		end   = start + rowPage - 1;            
+		start = (currentPage - 1) * rowPage + 1;  //1
+		end   = start + rowPage - 1;            //5
          
-		totalPage = (int) Math.ceil((double)total / rowPage);  
+		totalPage = (int) Math.ceil((double)total / rowPage);   //2
 
-		startPage = currentPage - (currentPage - 1) % pageBlock; 
-		endPage = startPage + pageBlock - 1;  
+		startPage = currentPage - (currentPage - 1) % pageBlock; //1
+		endPage = startPage + pageBlock - 1;  //5
 
 		if (endPage > totalPage) {
-			endPage = totalPage;
+			endPage = totalPage; //2
 		}
 	}
 

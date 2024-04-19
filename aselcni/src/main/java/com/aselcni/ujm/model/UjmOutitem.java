@@ -16,20 +16,19 @@ public class UjmOutitem { //출고
 	private int    outitem_delete_chk; //출고삭제여부
 	
 	
-	// 조회용
+	// 조회, 페이지
 	private String 	search;
 	private String 	keyword;
 	private String searchFilter;
 	private String 	pageNum;
 	private int 	start;
 	private int 	end;
-	
-	// Page 정보
+	private int     num; //임의로 매긴 조회한 행 번호..
 	private String currentPage; //Page 객체에도
 	private String start_day; //조회에서 조회할 첫 날 
 	private String end_day; //조회에서 조회할 마지막 날
 	private String outitem_user_nm; //검색에서 사용하는 출고담당자이름, 로그인시 ${user_nm}이 세션에 저장되어 
-	//${user_nm}을 사용하면 담당자명을 입력하지 않아도 자동으로 입력되므로 outitem_user_nm으로 별도로 분리  
+	//${user_nm}을 사용하면 담당자명을 입력하지 않아도 자동으로 입력되므로 검색용만 outitem_user_nm으로 별도로 분리
 	
 	
 	//조인
