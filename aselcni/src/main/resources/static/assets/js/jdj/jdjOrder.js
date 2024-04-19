@@ -1,4 +1,8 @@
 $(document).ready(function(){
+	function getParameterByName(name) {
+	    let url = new URL(window.location.href);
+	    return url.searchParams.get(name);
+	}
 	var selCusts;
 	var selUsers;
 	var order_no;
@@ -55,8 +59,10 @@ $(document).ready(function(){
 	    console.log("----- searchBtn -----")
 	    order_no = $("#input_order_no").val();
 	    order_no = $("#input_order_no").val();
-	    console.log(seltDT + "00000000000000")
-		
+		let pageValue = getParameterByName('page');
+		if(pageValue == null){
+			pageValue = 1;
+		}
 	        try{
 			    let response = await $.ajax({
 			        url: "/order",
@@ -68,11 +74,13 @@ $(document).ready(function(){
 			            selUsers : selUsers,
 			            selCusts : selCusts,
 			            input_start_dt : $("#input_start_dt").val(),
-			            input_end_dt : $("#input_end_dt").val()
+			            input_end_dt : $("#input_end_dt").val(),
+			            currPage : pageValue
 			        })
 			    });
 			   	
 	            $("#table_body").empty(); // 기존 테이블 내용 제거
+	            console.log("----", response)
 				if(response.length == 0){
 					alert("조회 결과가 없습니다");
 					window.location.href = "/order";
@@ -134,8 +142,6 @@ $(document).ready(function(){
 		console.log(selUsers + " : checkedUserValues");
 		
 	})
-	var curr_sort;
-	
 
 	
 	$("#searchUserName").on('input', function(){

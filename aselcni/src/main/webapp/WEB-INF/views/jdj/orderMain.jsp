@@ -209,8 +209,39 @@
 							</c:forEach>
 						</tbody>
 				</table>
+				<div class="d-flex justify-content-center mt-4">
+					<nav aria-label="Page navigation example">
+					<c:set var = "startPage" value="${((currentPage - 1) div 5) * 5 + 1}"></c:set>
+					<c:set var = "endPage" value="${startPage + 4 }" />
+					<c:if test = "${endPage  > totalPage}">
+						<c:set var = "endPage" value="${totalPage}" />
+					</c:if>
+					  <ul class="pagination">
+					    	<c:if test="${startPage > 1}">
+								<li class="page-item">
+					      		<a class="page-link" href="?page=${startPage - 5}" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+					      		</a>
+								</li>
+					      	</c:if>
+					        <c:if test="${totalPage > 0}">
+					            <c:forEach var="page" begin="${startPage}" end="${endPage - 1}"  varStatus="status">
+					                <li class="page-item"><a class="${page == currentPage ? 'active' : ''} page-link" href="?page=${page + 1}">${status.index+1 }</a></li>
+					            </c:forEach>
+					        </c:if>
+					    <c:if test="${endPage < totalPage}">
+					    <li class="page-item">
+					      <a class="page-link" href="?page=${startPage + 5}" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					    </c:if>
+					  </ul>
+					</nav>
+				</div>
+				<p>${totalPage} : 총 페이지 수</p>
 				
-				
+
 				</div> <!-- card-body -->
 			</div><!-- card -->		  
         </section>
