@@ -79,9 +79,9 @@ function updateTable(items) {
                 <td>${Number(item.purc_cost).toLocaleString()}원</td>
                 <td>${item.purc_dt}</td>
                 <td>
-                    ${item.purc_status_chk === 0 ? '<button class="btn btn-warning btn-sm">발주진행중</button>' :
-                    item.purc_status_chk === 1 ? '<button class="btn btn-info btn-sm">입고진행중</button>' :
-                    '<button class="btn btn-success btn-sm">입고완료</button>'}
+                    ${item.purc_status_chk === 0 ? '<span class="badge bg-success">발주진행</span>' :
+                    item.purc_status_chk === 1 ? '<span class="badge bg-primary">입고진행</span>' :
+                    '<span class="badge bg-warning">입고완료</span>'}
                 </td>
             </tr>`
         );
