@@ -48,9 +48,9 @@ $("#search-btn").on("click", () => {
 						<td>${returnObj.cust_nm }</td>
 						<td>${returnObj.item_nm }</td>
 						<td>${returnObj.res_rtn }</td>
+						<td>${returnObj.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</td>
 						<td>${returnObj.return_dt }</td>
 						<td>${returnObj.return_emp_nm }</td>
-						<td>${returnObj.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</td>
 	                </tr>
            	 	`);
 				num = num + 1;

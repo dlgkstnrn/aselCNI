@@ -2,20 +2,18 @@ var order_items = new Map(); // 전역 변수로 선언
 function increaseCnt2(order_item_cd){
 	// 인자로 들어온 코드의 value를 찾음
 	let find_item = order_items.get(order_item_cd);
-	
-	console.log("increase");
+
 	// 수량을 증가
 	find_item.qty++;
 	let t = find_item.qty * find_item.item_cost;
 	find_item.cost = t;
-	
+		
 	// 텍스트값 변경
 	$(`#${order_item_cd}`).text(find_item.qty);
-	$(`#${order_item_cd}_Cost`).text(find_item.cost);
+	$(`#${order_item_cd}_cost`).text(t);
 };
-function decreaseCnt2(order_item_cd){
-	console.log("decrease" + order_item_cd);
-	
+
+function decreaseCnt2(order_item_cd){	
 	let find_item = order_items.get(order_item_cd);
 	if(find_item.qty == 1){
 		alert("최소 주문 수량은 1개입니다");	
@@ -23,13 +21,14 @@ function decreaseCnt2(order_item_cd){
 		find_item.qty--;
 		let t = find_item.qty * find_item.item_cost;
 		find_item.cost = t;
+		
 		$(`#${order_item_cd}`).text(find_item.qty);
-		$(`#${order_item_cd}_Cost`).text(find_item.cost);
+		$(`#${order_item_cd}_cost`).text(t);
 	}
 };
 $(document).ready(function(){
 	const order_no = $("#order_no").val();
-	const order_emp_id = $("#order_emp_id");
+//	const order_emp_id = $("#order_emp_id");
 	const cust_cd = $("#cust_cd");
 	const cust_emp = $("#cust_emp");
 	const order_dt = $("#order_dt");
@@ -40,7 +39,7 @@ $(document).ready(function(){
 	
 	const delOrdBtn = $("#delOrd");
 	const modiOrdBtn = $("#modiOrd");
-	// ?? ajaX로 다시 받아야할지도
+
 	var item_cd;
 	var item_nm;
 	var qty;
@@ -53,6 +52,8 @@ $(document).ready(function(){
     var order_item_cd;
 	var total;
 	var checkBoxs = $(".checkBox");
+	
+	var index = 1;
 	
 	cust_emp.attr("disabled", true)
 	order_end_dt.attr("disabled", true);
@@ -178,6 +179,7 @@ $(document).ready(function(){
 			console.log($("#order_qty2").text() + " order order_qty2")
 			// item 객체로 만든 후 Map에 저장 (key값은 제품 코드)
 			let item = {
+				index : index,
 				item_cd : order_item_cd,
 				item_nm :  item_nm,
 				item_unit : item_unit,
@@ -186,13 +188,14 @@ $(document).ready(function(){
 				item_cost : item_cost,
 			}
 			
+			let find_item = order_items.get(order_item_cd);
 				// 이미 존재하는지 확인
-			if(order_items.has(order_item_cd)){
+			if(order_items.has(order_item_cd) && find_item.qty != 0){
 				alert("이미 존재하는 상품입니다.");
 			}else{
 				// 없으면 추가
 				order_items.set(order_item_cd, item);
-				
+				index ++;
 				$("#itemTB2").append(
 				`<tr class="${order_item_cd}">
 					<td><input class="form-check-input" type="checkbox"required=""></td>
@@ -200,16 +203,15 @@ $(document).ready(function(){
 						<td>${item_nm}</td>
 						<td>${item_unit}</td>
 						<td><div class="btn-group border-1" role="group">
-								<button type="button" class="btn btn-light" onclick="decreaseCnt('${order_item_cd}')"><i class="bi bi-dash"></i></button>
+								<button type="button" class="btn btn-light" onclick="decreaseCnt2('${order_item_cd}')"><i class="bi bi-dash"></i></button>
 								<button type="button" class="btn btn-light" id="${order_item_cd}" disabled>${order_qty}</button>
-				                <button type="button" class="btn btn-light" onclick="increaseCnt('${order_item_cd}')"><i class="bi bi-plus"></i></button>
+				                <button type="button" class="btn btn-light" onclick="increaseCnt2('${order_item_cd}')"><i class="bi bi-plus"></i></button>
 	 						</div></td>
 						<td id="item_cost2">${item_cost}</td>
-						<td>${total}</td>
+						<td id="${order_item_cd}_cost">${total}</td>
 				</tr>`)
 				
 				// 모달이 닫힐 때 선택된 옵션 초기화
-				// select 초기화 시키는 법??
 				resetVal();
 				
 				alert("추가 되었습니다.")
@@ -294,6 +296,7 @@ $(document).ready(function(){
 							cost : orderItem.cost, 
 						}
 						order_items.set(orderItem.item_cd, item);
+						index++;
 						for (let [key, value] of order_items) {
 						  console.log(`Key: ${key}`);
 						  for (let prop in value) {
@@ -341,7 +344,7 @@ $(document).ready(function(){
 					})
 				})
 				.then(response => {
-						alert("주문이 완료되었습니다")
+						alert("수정이 완료되었습니다")
 				    // 리다이렉트된 URL 확인
 				    if (response.redirected) {
 				        window.location.href = response.url; // 리다이렉트된 URL로 페이지 리로드

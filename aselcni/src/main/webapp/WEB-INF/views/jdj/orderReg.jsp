@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>주문 등록</title>
+	<title>스마트 제조 시스템</title>
 	<!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
   
@@ -49,21 +49,7 @@
 	<script src="assets/js/jdj/jdjOrdReg.js"></script>
 	
 	<style>
-		@font-face {
-		    font-family: 'Dovemayo_gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		@font-face {
-		    font-family: 'NEXON Lv2 Gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff') format('woff');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		body {
-			font-family: 'NEXON Lv2 Gothic';
-		}
+
 	</style>
 		
 </head>
@@ -76,11 +62,11 @@
     
     <main id="main" class="main">
     	 <div class="pagetitle">
-            <h1>주문 등록</h1>
+            <h1>영업 관리</h1>
             <nav>
                 <ol class="breadcrumb">
-	                <li class="breadcrumb-item">주문 관리</li>
-                    <li class="breadcrumb-item active"><a href="/order">주문 조회</a></li>
+	                <li class="breadcrumb-item">영업 관리</li>
+                    <li class="breadcrumb-item active"><a href="/order">주문 관리</a></li>
                     <li class="breadcrumb-item active">주문 등록</li>
                 </ol>
             </nav>
@@ -88,7 +74,11 @@
         
         <section class="section dashboard">
         	<div class="card">
-        		<div class="card-body"><form action="/saveOrd" method="post"><p>
+        		<div class="card-body">
+        			<div class="d-flex align-items-center">
+						<span class="h5 me-auto card-header-title">주문 등록</span>
+					</div><hr>
+        		<p>
 					<div class="row mb-3">
 						<label for="cust_cd" class="col-sm-1 col-form-label">고객사<span class="color-red">*</span></label>
 						<div class="col-sm-3">
@@ -129,7 +119,7 @@
 					</div><p>
 					<div class="d-flex gap-2 justify-content-center py-2">
 						<button class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button" id="ord_saveBtn">저장</button>
-						<button class="btn btn-outline-secondary btn px-4 rounded-pill" type="button" id="cancelBtn">취소</button>
+						<button class="btn btn-secondary btn px-4 rounded-pill" onclick="removeInsert()" type="button" id="cancelBtn">취소</button>
 					</div>
 					<hr>
 					
@@ -151,9 +141,9 @@
 								<!-- 모달에서 저장된 내용이 출력됨 -->
 							</tbody>
 						</table>
-						<div id="totalAmount" style="margin-top: 20px;">
+<!-- 						<div id="totalAmount" style="margin-top: 20px;">
 						    합계 금액 : <span id="totalPrice"></span> 원
-						</div>
+						</div> -->
 						
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 							<button id="deleteBtn" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
@@ -216,7 +206,7 @@
 	                		</div>  <!-- modal-dialog -->
                 		</div> <!-- modal fade -->
 					</div>  <!-- card-body 2 -->
-       			</form></div>  <!-- card-body -->
+       			</div>  <!-- card-body -->
         	</div> <!-- card -->
         </section>
     </main>   

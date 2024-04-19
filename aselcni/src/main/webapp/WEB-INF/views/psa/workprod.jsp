@@ -62,9 +62,7 @@ pageEncoding="UTF-8"%>
           <div class="card-body">
 
             <div class="d-flex align-items-center justify-content-between">
-              <h4>
-                <span class="d-flex align-items-center card-header-title">생산 지시</span>
-              </h4>
+              <span class="h-5 d-flex align-items-center card-header-title">생산 지시</span>
               <button type="button" class="btn btn-primary">지시 등록할 생산 계획을 클릭하세요.</button>
             </div>
 

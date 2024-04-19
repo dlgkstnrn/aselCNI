@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>주문 조회</title>
+	<title>스마트 제조 시스템</title>
 	<!-- Favicons -->
 	<link href="assets/img/favicon.png" rel="icon">
 	
@@ -40,21 +40,6 @@
 	
 	
 	<style>
-		@font-face {
-		    font-family: 'Dovemayo_gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		@font-face {
-		    font-family: 'NEXON Lv2 Gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff') format('woff');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		body {
-			font-family: 'NEXON Lv2 Gothic';
-		}
 		.button {
         	display: inline-block;
 	        padding: 10px 20px;
@@ -74,11 +59,11 @@
 <%@ include file="../asidebar.jsp" %>
     <main id="main" class="main">
 		<div class="pagetitle">
-			<h1>주문 조회</h1>
+			<h1>영업 관리</h1>
 			<nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">주문 관리</a></li>
-                    <li class="breadcrumb-item active">주문 조회</li>
+                    <li class="breadcrumb-item"> 영업 관리</li>
+                    <li class="breadcrumb-item active"><a href="#">주문 관리</a></li>
                 </ol>
             </nav>
 <!--         				<p class="fs-5">주문 검색</p> -->
@@ -90,7 +75,7 @@
 				<div class="card-body">
 									<!-- 카드 제목 부  -->
 					<div class="d-flex align-items-center">
-						<span class="h5 me-auto card-header-title">입고 관리</span>
+						<span class="h5 me-auto card-header-title">주문 조회</span>
 						<div>
 							<a href="/orderReg" type="button" class="btn btn-success ">신규</a>
 						</div>
@@ -189,15 +174,17 @@
 						
 					</div> <!-- 두번째 체크박스 row -->
 				
-				<table class="table table-borderless datatable datatable-table text-center" id="orderTable">
+				<table class="table table-hover datatable datatable-table text-center" id="orderTable">
 					<thead><tr>
 						<th scope="col" class="text-center">No</th>
 						<th scope="col" class="text-center" id="order_no">주문번호</th>
 						<th scope="col" class="text-center" id="cust_nm">고객사</th>
-						<th scope="col" data-sortable="true">
+						<th scope="col" class="text-center">주문일자</th>
+						<th scope="col" class="text-center">납기일자</th>
+						<!-- <th scope="col" data-sortable="false">
 							<button class="datatable-sorter text-center"> 주문일자 </button></th>
-						<th scope="col" data-sortable="true">
-							<button class="datatable-sorter text-center"> 납기일자 </button></th>
+						<th scope="col" class="text-center" data-sortable="true">
+							<button class="datatable-sorter text-center"> 납기일자 </button></th>-->
 						<th scope="col" class="text-center">담당자명</th>
 						<th scope="col" class="text-center">진행상태</th>
 					</tr></thead>

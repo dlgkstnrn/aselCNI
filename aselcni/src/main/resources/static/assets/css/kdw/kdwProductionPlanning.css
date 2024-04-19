@@ -116,7 +116,7 @@ body {
 .form-container .calendar-group-title {
 	position: absolute;
 	width: 98%;
-	margin-top: 5px;
+	margin-top: 0px;
 	margin-left: -15px;
 	border-bottom: 1px solid #ced4da;
 }
@@ -132,8 +132,8 @@ body {
 /* 캘린더 타이틀 텍스트 (생산계획표)*/
 .form-container .calendar-group-title .calendar-group-title-text {
 	position: absolute;
-	margin-top: -57px;
-	margin-left: 0px;
+	margin-top: -51px;
+	margin-left: 1px;
 	font-size: 20px;
 	font-weight: 600;
 }

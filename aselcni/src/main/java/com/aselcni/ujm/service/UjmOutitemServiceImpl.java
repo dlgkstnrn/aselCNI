@@ -96,9 +96,9 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 			 item.setOrder_no(outitemData.getOrder_no());
 			 uod.ujmInsertOutitemItem(item); //하나씩 추가
          }
-		 int OutitemItemCnt=uod.ujmOutitemItemCnt(outitemData); //추가된 행 개수 찾기
+		 int outitemItemCnt=uod.ujmOutitemItemCnt(outitemData); //추가된 행 개수 찾기
 		 
-		return OutitemItemCnt;
+		return outitemItemCnt;
 	}
 
 	@Override
@@ -125,6 +125,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 	}
 
 	@Override
+	@Transactional
 	public int ujmUpdateOutitem(UjmOutitemParent updateData, String userId) {
 		System.out.println("UjmOutitemServiceImpl ujmUpdateOutitem Start..." );
 		UjmOutitem outitem=new UjmOutitem(); //등록할 출고 객체
@@ -157,11 +158,47 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
         
         System.out.println("넣을 outitem:"+outitem);
         
-        int updateOutitemResult = uod.ujmUpdateOutitem(outitem); //위에서 조정한 outitem(출고)를 등록
+        int updateOutitemResult = uod.ujmUpdateOutitem(outitem); //위에서 조정한 outitem(출고)를 수정
         
-		System.out.println(updateOutitemResult);
+		System.out.println("서비스에서 수정된 updateOutitemResult:"+updateOutitemResult);
 		
 		return updateOutitemResult;
+	}
+
+	@Override
+	@Transactional
+	public int ujmUpdateOutitemItem(UjmOutitemParent updateData) {
+		System.out.println("UjmOutitemServiceImpl ujmUpdateOutitemItem Start..." );
+		UjmOutitem outitemData=updateData.getOutitemData(); //가져온 출고 객체
+		System.out.println(outitemData);
+		
+		System.out.println(updateData.getSelectedItems());
+		 for (UjmOutitemItem item : updateData.getSelectedItems()) { //출고품목 테이블에서 행 하나마다
+			 
+			 item.setOutitem_no(outitemData.getOutitem_no()); 
+			 item.setOrder_no(outitemData.getOrder_no());
+			 
+			 //수정할때 가져온 품목 코드가 기존에 (등록에) 있었던 출고품목 테이블에 있는지 체크 
+			 int itemNotNullCheck=uod.ujmitemNotNullCheck(item);
+			 
+			 //있으면
+			 if(itemNotNullCheck>0) {
+				 
+				//qty가 0인지 체크
+				 if(item.getQty()==0) { //출고품목에서 삭제
+				 int ujmDeleteOutitemItem=uod.ujmDeleteOutitemItem(item);
+				 System.out.println("UjmOutitemServiceImpl ujmUpdateOutitemItem ujmDeleteOutitemItem:"+ujmDeleteOutitemItem);
+				 } else { //정상적인 수정
+				 int ujmUpdateOutitemItem =uod.ujmUpdateOutitemItem(item); //해당 item의 qty를 수정
+				 System.out.println("UjmOutitemServiceImpl ujmUpdateOutitemItem ujmUpdateOutitemItem:"+ujmUpdateOutitemItem);
+				 }
+			 } else { //없으면(itemNotNullCheck=0이면), 신규 등록
+				 uod.ujmInsertOutitemItem(item);
+			 } 
+         }
+		 int outitemItemCnt=uod.ujmOutitemItemCnt(outitemData); //출고품목 개수 리턴
+		 
+		return outitemItemCnt;
 	}
 
 

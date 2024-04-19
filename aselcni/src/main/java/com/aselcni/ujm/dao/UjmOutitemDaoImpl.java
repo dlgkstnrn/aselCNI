@@ -201,6 +201,46 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 		}
 	}
 
+	@Override
+	public int ujmitemNotNullCheck(UjmOutitemItem item) {
+		System.out.println("UjmOutitemDaoImpl ujmitemNotNullCheck 시작 ...");
+		System.out.println(item); 
+		int cnt=0;
+		
+		try {
+			cnt=session.selectOne("ujmitemNotNullCheck", item); //있으면 1 없으면 0이 나와야 함
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmitemNotNullCheck 오류:"+e.getMessage());
+		} 			
+		return cnt;
+	}
+
+	@Override
+	public int ujmUpdateOutitemItem(UjmOutitemItem item) {
+		System.out.println("UjmOutitemDaoImpl ujmUpdateOutitemItem 시작 ...");
+		System.out.println(item);
+		try {
+			int updateOutitemItemResult=session.update("ujmUpdateOutitemItem",item);
+			return updateOutitemItemResult;
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl updateOutitemItemResult 오류:"+e.getMessage());
+			return -1;
+		}
+	}
+
+	@Override
+	public int ujmDeleteOutitemItem(UjmOutitemItem item) {
+		System.out.println("UjmOutitemDaoImpl ujmDeleteOutitemItem 시작 ...");
+		System.out.println(item);
+		try {
+			int deleteOutitemItemResult=session.delete("ujmDeleteOutItemItem",item);
+			return deleteOutitemItemResult;
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmDeleteOutitemItem 오류:"+e.getMessage());
+			return -1;
+		}
+	}
+
 		
 }
 

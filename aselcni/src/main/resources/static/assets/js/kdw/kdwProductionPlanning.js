@@ -959,7 +959,7 @@ $(document).ready(function() {
 	// 모달 닫기시 초기화
 	$('#verticalycentered').on('hidden.bs.modal', function() {
 		if (activeModal === null) { // 어떤 모달도 활성화되지 않았을 때만 초기화
-			$(this).find('input[type="text"], input[type="number"], textarea').val('');
+			$(this).find('input[type="text"], input[type="number"], textarea').not('#productEmp').val('');
 			$(this).find('input[type="date"]').val('');
 			selectedMaterialsInfo = []; // 선택된 자재 정보 배열 초기화
 			$('#prodItem-list').empty();

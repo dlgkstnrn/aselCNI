@@ -5,24 +5,26 @@
 	<select id="ujmListOrderNo" resultType="UjmOrderNoDto">
 	<![CDATA[
 		SELECT
-	    ord.order_no,
-	    custmst.cust_nm AS customer_name,
-	    STUFF((
-	        SELECT ', ' + itemmst.item_nm + ' (' + CAST(order_item.qty AS VARCHAR(10)) + '개)'
-	        FROM tb_order_item AS order_item
-	        JOIN tb_itemmst AS itemmst ON order_item.item_cd = itemmst.item_cd
-	        WHERE ord.order_no = order_item.order_no
-	        FOR XML PATH('')), 1, 2, '') AS items
+		    ord.order_no,
+		    custmst.cust_nm AS customer_name,
+		    STUFF((
+		        SELECT ', ' + itemmst.item_nm + ' (' + CAST(order_item.qty AS VARCHAR(10)) + '개)'
+		        FROM tb_order_item AS order_item
+		        JOIN tb_itemmst AS itemmst ON order_item.item_cd = itemmst.item_cd
+		        WHERE ord.order_no = order_item.order_no
+		        FOR XML PATH('')), 1, 2, '') AS items
 		FROM
-	    	tb_order AS ord
+		    tb_order AS ord
 		JOIN
-	    	tb_custmst AS custmst ON ord.cust_cd = custmst.cust_cd
-	    WHERE
-			ord.order_status_chk IN (0, 2) -- 주문 상태가 0 또는 2인 경우에만 가져옴
-		and ord.order_delete_chk=0
+		    tb_custmst AS custmst ON ord.cust_cd = custmst.cust_cd
+		WHERE
+		    ord.order_status_chk IN (0, 2) -- 주문 상태가 0 또는 2인 경우에만 가져옴
+		    AND ord.order_delete_chk = 0
 		GROUP BY
-	    	ord.order_no,
-	    	custmst.cust_nm
+		    ord.order_no,
+		    custmst.cust_nm
+		ORDER BY
+		    CAST(SUBSTRING(ord.order_no, PATINDEX('%[0-9]%', ord.order_no), LEN(ord.order_no)) AS BIGINT) DESC
 	 ]]>
 	</select>
 	
@@ -123,7 +125,32 @@
 			WHERE order_no = #{order_no}
 		]]> 
 	</select>
-
 	
+	<select id="ujmCheckOrderCancelChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT order_status_chk
+			FROM tb_order
+			WHERE order_no = #{order_no}
+		]]> 
+	</select>
+	
+	<select id="ujmOutitemItemJoinOrderNoChk" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT count(*)
+			FROM TB_OUTITEM_ITEM as oui
+			join TB_ORDER as ord on ord.order_no = oui.ORDER_NO 
+			WHERE oui.order_no = #{order_no}
+		]]> 
+	</select>
+	
+	<update id="ujmChangeOrderStatusChkZero" parameterType="String">
+		<![CDATA[
+			UPDATE TB_order
+			SET order_status_chk = 0
+			WHERE order_no = #{order_no}
+		]]> 
+	</update>
+	
+
 	
 </mapper>

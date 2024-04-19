@@ -50,11 +50,14 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>반품 관리</h1>
+            <h1>영업 관리</h1>
             <nav>
                 <ol class="breadcrumb">
+                    <li class="breadcrumb-item">영업 관리</li>
                     <li class="breadcrumb-item active"><a href="/return">반품 관리</a></li>
                 </ol>
+                <nav>
+            </nav>
             </nav>
         </div><!-- End Page Title -->
 
@@ -66,6 +69,8 @@
 					<button type="button" id="return-add" class="return-add btn btn-primary">신규</button>
 				  </div>
 				  <hr />
+				  
+				  
 				  <div class="search">
 					<div>
 						<div class="input-group day-box">
@@ -94,25 +99,27 @@
 						<div class="input-group user-nm-box">
 							<span class="input-group-text">담당자명</span>
 							<input type="text" class="return-emp-nm-text form-control" placeholder="담당자명을 입력하세요" value="${return_emp_nm }" />
+							&nbsp;
+		                    <button type="button" id="search-btn" class="search-btn btn btn-primary">조회</button>
 						</div>
 					</div>
-					<div class="search-btn-box">
+<!-- 					<div class="search-btn-box">
 						<button type="button" id="search-btn" class="search-btn btn btn-primary">조회</button>
-					</div>
+					</div> -->
 				  </div>
 				  <div class="table-nav">
-					<table class="table table-hover">
+					<table class="table table-hover text-center">
 						<thead>
 							<tr>
-								<th>#</th>
+								<th>No</th>
 								<th>반품번호</th>
 								<th>출고번호</th>
 								<th>고객사</th>
 								<th>제품명</th>
 								<th>반품사유</th>
+								<th>반품수량</th>
 								<th>반품등록일</th>
 								<th>담당자</th>
-								<th>반품수량</th>
 							</tr>
 						</thead>
 						<c:set var="num" value="${paging.start }"></c:set>
@@ -125,9 +132,9 @@
 									<td>${returnObj.cust_nm }</td>
 									<td>${returnObj.item_nm }</td>
 									<td>${returnObj.res_rtn }</td>
+									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
 									<td>${returnObj.return_dt }</td>
 									<td>${returnObj.return_emp_nm }</td>
-									<td><fmt:formatNumber value="${returnObj.qty }" pattern="#,###" /></td>
 								</tr>
 								<c:set var="num" value="${num + 1 }"></c:set>
 							</c:forEach>
