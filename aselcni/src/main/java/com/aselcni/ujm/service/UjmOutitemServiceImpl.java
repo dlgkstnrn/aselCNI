@@ -1,5 +1,6 @@
 package com.aselcni.ujm.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -201,7 +202,28 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		return outitemItemCnt;
 	}
 
+	@Override
+	public String ujmFindOutitemRemark(String outitem_no) {
+		System.out.println("UjmOutitemServiceImpl : ujmFindOutitemRemark Start...");
+		String outitemRemark=null;
+		outitemRemark=uod.ujmFindOutitemRemark(outitem_no);
+		System.out.println(outitemRemark);
+		return outitemRemark;
+	}
 
+	@Override
+	public UjmOutitem ujmDateLogic(UjmOutitem outitem) {
+		System.out.println(outitem);
+		if(outitem.getStart_day() == null && outitem.getEnd_day() == null) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String today = LocalDate.now().format(formatter);
+			String oneMonthAgo = LocalDate.now().minusMonths(1).format(formatter); 
+			
+			outitem.setStart_day(oneMonthAgo);
+			outitem.setEnd_day(today);
+		} 
+		return outitem;
+	}
 
 
 

@@ -17,66 +17,125 @@ $(document).ready(function () {
     );
   
 
-  //검색
-  //날짜
-  //시작 날짜와 종료 날짜 논리 일관성
-    $("#startDate").on("input", function () {
-      let startDate = $("#startDate").val();
-      let endDate = $("#endDate").val();
+  /* 검색 */
 
-      // 시작 날짜가 종료 날짜보다 뒤에 있는 경우
-      if (startDate > endDate) {
-        // 시작 날짜를 종료 날짜와 동일하게 설정
-        $("#startDate").val(endDate);
+  //검색버튼 클릭 시
+  $("#search-btn").on("click", () => {
+    const start_day = $('.start-day').val();
+    const end_day = $('.end-day').val();
+    const outitem_no = $('.outitem-no-text').val();
+    const order_no = $('.order-no-text').val();
+    const cust_nm = $('.cust-nm-text').val();
+    const item_nm = $('.item-nm-text').val();
+    const outitem_user_nm = $('.outitem-user-nm-text').val(); //검색에 사용할 user_nm
+  
+    $("#outitemList").empty();
+    $(".pagination").empty();
+  
+    $.ajax({
+      type: "get",
+      url: "ujmOutitemSearch",
+      data: {
+        start_day : start_day,
+        end_day : end_day,
+        outitem_no : outitem_no,
+        order_no : order_no,
+        cust_nm : cust_nm,
+        item_nm : item_nm,
+        user_nm : outitem_user_nm
+      },
+      dataType: 'json',
+      success: function(response) {
+  
+        
+			let listOutitem = response.ujmListOutitems;
+			let page = response.page;
+			let num = page.start;
+
+      //리스트 새롭게 넣기
+			listOutitem.forEach((outitem) => { //리스트에서 가져온 각각의 outitem 객체
+        let osc=outitem.order_status_chk; //가져온 주문상태(숫자)
+          let oscDisplay; //표시할 주문상태
+        if(osc==0) {
+          oscDisplay='<span class="badge bg-warning text-dark">주문 완료</span>'
+        }  else if (osc==1) {
+          oscDisplay='<span class="badge bg-secondary">주문 취소</span>';
+        } else if (osc==2) { 
+          oscDisplay='<span class="badge bg-primary">출고 진행</span>'
+        } else if (osc==3) {
+          oscDisplay='<span class="badge bg-secondary">전체 출고 완료</span>'
+        }
+
+          $("#outitemList").append(`
+                    <tr data-bs-toggle="modal"
+                    data-bs-target="#outitemDetailModal">
+                    <td>${outitem.seq_no}</td>
+                    <td>${outitem.outitem_no}</td>
+                    <td>${outitem.order_no}</td>
+                    <td>${outitem.cust_nm}</td>
+                    <td>${outitem.items}</td>
+                    <td>${outitem.order_dt}</td>
+                    <td>${outitem.order_end_dt}</td>
+                    <td>${outitem.outitem_dt}</td>
+                    <td>${outitem.user_nm}</td>
+                    <td> ${oscDisplay}</td>
+                  </tr>
+                  `);
+          num = num + 1;
+        });
+  
+        //아래 페이지 버튼 다시
+        if (page.startPage > page.pageBlock) {
+          $(".pagination").append(`
+          <li class="page-item">
+            <a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&laquo;</span></a>
+          </li>
+                `);
+        }
+  
+        for (let i = page.startPage; i <= page.endPage; i++) {
+          $(".pagination").append(`
+          <li class="page-item">
+            <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}">${i}</a>
+          </li>
+                `);
+        }
+  
+        if (page.endPage < page.totalPage) {
+          $(".pagination").append(`
+          <li class="page-item">
+            <a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&raquo;</span></a>
+          </li>
+                 `);
+        }
+        
       }
     });
-
-    $("#endDate").on("input", function () {
-      let startDate = $("#startDate").val();
-      let endDate = $("#endDate").val();
-
-      // 시작 날짜가 종료 날짜보다 뒤에 있는 경우
-      if (startDate > endDate) {
-        // 시작 날짜를 종료 날짜와 동일하게 설정
-        $("#endDate").val(startDate);
-      }
-    });
+  
+  });
 
 
-  // 좌우 버튼 누를 때마다 날짜 7일 단위로 바뀜
-    $("#dateRightBtn").click(function () {
-      dateShift("right");
-    });
-
-    $("#dateLeftBtn").click(function () {
-      dateShift("left");
-    });
-
-  // 날짜 조정 함수
-  function dateShift(direction) {
-    let startDateVal = $("#startDate").val();
-    let endDateVal = $("#endDate").val();
-
-    // Date 객체로 변환
-    let startDate = new Date(startDateVal);
-    let endDate = new Date(endDateVal);
-
-    // 방향에 따라 날짜를 조정
-    if (direction === "right") {
-      startDate.setDate(startDate.getDate() + 7);
-      endDate.setDate(endDate.getDate() + 7);
-    } else if (direction === "left") {
-      startDate.setDate(startDate.getDate() - 7);
-      endDate.setDate(endDate.getDate() - 7);
+  //메인화면에서 검색에 사용하는 날짜 선택 논리성
+  let start_day_pre = $('.start-day').val();;
+  let end_day_pre = $('.end-day').val();
+  
+  $('.day-box').on('change', function () {  
+    
+    const start_day_string = $('.start-day').val();
+    const end_day_string = $('.end-day').val();
+    const start_day = new Date(start_day_string);
+    const end_day = new Date(end_day_string);
+  
+    if(start_day > end_day) {
+      alert('날짜를 제대로 설정해주세요.');
+      $('.start-day').val(start_day_pre);
+      $('.end-day').val(end_day_pre);
+    } else {
+      start_day_pre = start_day_string;
+      end_day_pre = end_day_string;
     }
-
-    // 새로운 날짜를 입력 필드에 설정
-    $("#startDate").val(startDate.toISOString().slice(0, 10));
-    $("#endDate").val(endDate.toISOString().slice(0, 10));
-  }
-
-
-
+  
+  });
 
 
 
@@ -364,10 +423,18 @@ let detail_remark;
       let custNm = $(this).find("td:nth-child(4)").text(); //매입처
       $("#detail_cust_nm").html(custNm);
 
-
-
-/*       detail_remark = $(this).find(".invisibleRemark").text(); //비고
-      $("#detail_remark").html(detail_remark); */
+      //remark는 컨트롤러를 통해 가져옴
+      $.ajax({
+        url: "ujmFindOutitemRemark",
+        method: "POST", 
+        data: { outitem_no: outitemNo },
+        success: function(response){
+            $("#detail_remark").html(response);
+        },
+        error: function(xhr, status, error){
+          $("#detail_remark").html("");
+        }
+      })
 
 
 
@@ -389,7 +456,7 @@ let detail_remark;
       var outitemDtValue = Number(outitemDt.replace(/-/g, ''));
       console.log('수정 전 outitemDtValue:'+outitemDtValue);
 
-      if(currentDateValue >= outitemDtValue) { //이미 출고가 되었다면
+      if(currentDateValue > outitemDtValue) { //이미 출고가 되었다면
         $('#updateOutitemBtn').prop('disabled', true); 
       } else {
         $('#updateOutitemBtn').prop('disabled', false); 

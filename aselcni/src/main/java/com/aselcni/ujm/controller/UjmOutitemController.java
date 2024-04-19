@@ -1,6 +1,8 @@
 package com.aselcni.ujm.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,8 @@ public class UjmOutitemController {
 	@RequestMapping(value = "outitem") 
 	public String ujmOutitemForm(UjmOutitem outitem, HttpServletRequest request, Model model, HttpSession session) {
 		System.out.println("출고페이지 접근");
+		
+		//페이지 설정
 		if(outitem.getCurrentPage()==null) {
 			outitem.setCurrentPage("1");
 		}
@@ -51,13 +55,59 @@ public class UjmOutitemController {
 		outitem.setStart(page.getStart());
 		outitem.setEnd(page.getEnd());
 		
-		model.addAttribute("page", page);
+		//날짜 설정되지 않았을 때(=최초 조회시) 날짜 설정
+		outitem=uos.ujmDateLogic(outitem);
+		System.out.println("날짜 처리 후:"+outitem);
 		
+		//페이지용
+		model.addAttribute("page", page);
+		model.addAttribute("start_day", outitem.getStart_day());
+		model.addAttribute("end_day", outitem.getEnd_day());
+		model.addAttribute("outitem_no", outitem.getOutitem_no());
+		model.addAttribute("order_no", outitem.getOrder_no());
+		model.addAttribute("cust_nm", outitem.getCust_nm());
+		model.addAttribute("item_nm", outitem.getItem_nm());
+		model.addAttribute("user_nm", outitem.getOutitem_user_nm());
 		
 		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
 		model.addAttribute("listOutitem", ujmListOutitems);
 		
 		return "ujm/ujmOutitem"; 
+	}
+	
+	@RequestMapping(value = "ujmOutitemSearch") 
+	@ResponseBody
+	public Map<String, Object> ujmOutitemSearch(UjmOutitem outitem, HttpServletRequest request, HttpSession session) {
+		System.out.println("출고 검색 시작");
+		
+//		//페이지 설정
+//		if(outitem.getCurrentPage()==null) {
+//			outitem.setCurrentPage("1");
+//		}
+		
+		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt();
+		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
+		
+		UjmPaging page=new UjmPaging(ujmTotalOutitemCnt, outitem.getCurrentPage());
+		
+		outitem.setStart(page.getStart());
+		outitem.setEnd(page.getEnd());
+		
+		outitem=uos.ujmDateLogic(outitem);
+		System.out.println(outitem);
+		
+		List<UjmOutitem> ujmListOutitems=uos.ujmListOutitem(outitem);
+		System.out.println(ujmListOutitems);
+		
+		//model 대신 map을 사용
+		Map<String, Object> response=new HashMap<String, Object>();
+		System.out.println(page);
+		
+		response.put("page", page);
+		response.put("ujmListOutitems",ujmListOutitems);
+		System.out.println("response:"+response);
+		
+		return response;
 	}
 	
 	
@@ -153,6 +203,16 @@ public class UjmOutitemController {
 			System.out.println("로그인 안됨");
 			return "redirect:/";
 			}
+	}
+	
+	//상세에서 remark 가져오기
+	@RequestMapping(value = "ujmFindOutitemRemark")
+	@ResponseBody
+	public String ujmFindOutitemRemark(@RequestParam("outitem_no") String outitem_no) {
+		System.out.println("컨트롤러UjmOutitem : ujmFindOutitemRemark 시작");
+		String outitemRemark=uos.ujmFindOutitemRemark(outitem_no);
+		System.out.println(outitemRemark);
+		return outitemRemark;
 	}
 	
 	
