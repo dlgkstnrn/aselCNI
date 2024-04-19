@@ -167,7 +167,7 @@ pageEncoding="UTF-8"%>
                       </td>
                       
                     </tr>
-                    <c:set var="num" value="${num - 1 }"></c:set>
+                    <c:set var="num" value="${num + 1 }"></c:set>
 
                   </c:forEach>
 

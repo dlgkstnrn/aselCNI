@@ -35,7 +35,7 @@ $(document).ready(function () {
   
     $.ajax({
       type: "get",
-      url: "/ujmOutitemSearch",
+      url: "ujmOutitemSearch",
       data: {
         start_day : start_day,
         end_day : end_day,
@@ -48,42 +48,69 @@ $(document).ready(function () {
       dataType: 'json',
       success: function(response) {
   
-        let returnList = response.returnList;
-        let page = response.page;
-        let num = page.start;
-  
-        returnList.forEach((returnObj) => {
-          $(".table-nav .table tbody").append(`
-                    <tr>
-              <th>${num}</th>
-              <td><div class="return-no">${returnObj.return_no }</div></td>
-              <td>${returnObj.outitem_no }</td>
-              <td>${returnObj.cust_nm }</td>
-              <td>${returnObj.item_nm }</td>
-              <td>${returnObj.res_rtn }</td>
-              <td>${returnObj.qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</td>
-              <td>${returnObj.return_dt }</td>
-              <td>${returnObj.return_emp_nm }</td>
-                    </tr>
+        
+			let listOutitem = response.ujmListOutitems;
+			let page = response.page;
+			let num = page.start;
+
+      //리스트 새롭게 넣기
+			listOutitem.forEach((outitem) => { //리스트에서 가져온 각각의 outitem 객체
+
+        if(outitem.order_status_chk==0) {
+          let osc='<span class="badge bg-warning text-dark">주문 완료</span>'
+        }  else 
+
+          $("#outitemList").append(`
+                    <tr data-bs-toggle="modal"
+                    data-bs-target="#outitemDetailModal">
+                    <td>${outitem.seq_no}</td>
+                    <td>${outitem.outitem_no}</td>
+                    <td>${outitem.order_no}</td>
+                    <td>${outitem.cust_nm}</td>
+                    <td>${outitem.items}</td>
+                    <td>${outitem.order_dt}</td>
+                    <td>${outitem.order_end_dt}</td>
+                    <td>${outitem.outitem_dt}</td>
+                    <td>${outitem.user_nm}</td>
+                    <td>`osc`
+                    <c:when test="${outitem.order_status_chk == 1}">
+                      <span class="badge bg-secondary">주문 취소</span>
+                    </c:when>
+                    <c:when test="${outitem.order_status_chk == 2}">
+                      <span class="badge bg-primary">출고 진행</span>
+                    </c:when>
+                    <c:when test="${outitem.order_status_chk == 3}">
+                      <span class="badge bg-secondary">전체 출고 완료</span>
+                    </c:when>
+                  </c:choose>
+                    </td>
+                  </tr>
                   `);
           num = num + 1;
         });
   
+        //아래 페이지 버튼 다시
         if (page.startPage > page.pageBlock) {
           $(".pagination").append(`
-            <li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage-paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&laquo;</span></a></li>
+          <li class="page-item">
+            <a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&laquo;</span></a>
+          </li>
                 `);
         }
   
         for (let i = page.startPage; i <= page.endPage; i++) {
           $(".pagination").append(`
-            <li class="page-item"><a class="page-link" href="/return?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}">${i}</a></li>
+          <li class="page-item">
+            <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}">${i}</a>
+          </li>
                 `);
         }
   
-        if (paging.endPage < paging.totalPage) {
+        if (page.endPage < page.totalPage) {
           $(".pagination").append(`
-            <li class="page-item"><a class="page-link" href="/return?currentPage=${paging.startPage+paging.pageBlock }&start_day=${start_day}&end_day=${end_day}&return_no=${return_no}&outitem_no=${outitem_no}&cust_nm=${cust_nm}&item_no=${item_nm}&return_emp_nm=${return_emp_nm}"><span>&raquo;</span></a></li>
+          <li class="page-item">
+            <a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${user_nm}"><span>&raquo;</span></a>
+          </li>
                  `);
         }
         
@@ -105,7 +132,7 @@ $(document).ready(function () {
     const end_day = new Date(end_day_string);
   
     if(start_day > end_day) {
-      alert('조회기간 설정이 부적합 합니다.');
+      alert('날짜를 제대로 설정해주세요.');
       $('.start-day').val(start_day_pre);
       $('.end-day').val(end_day_pre);
     } else {

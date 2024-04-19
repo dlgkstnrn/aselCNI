@@ -19,7 +19,6 @@
 	</select>
 	
 	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
-		<![CDATA[
 			SELECT 
 			    sub.rn,
 			    sub.outitem_no,
@@ -65,28 +64,27 @@
 				WHERE 
 				    ou.outitem_delete_chk = 0
 				    <if test="item_nm != '' and item_nm != null">
-				    AND itm.item_nm  LIKE '%' #{item_nm} + '%'
+				    AND itm.item_nm  LIKE '%' + #{item_nm} + '%'
 				    </if>
 			) AS sub
 			WHERE 
-				sub.rn >= #{start} AND sub.rn <= #{end}
+				sub.rn >= #{start} AND sub.rn &lt;= #{end}
 				
 		    	<if test="start_day != null and end_day !=null">
-						AND sub.outitem_DT BETWEEN #{start_day} AND #{end_day}
-					</if>
-					<if test="outitem_no != '' and outitem_no != null">
+						AND sub.outitem_dt BETWEEN #{start_day} AND #{end_day}
+				</if>
+				<if test="outitem_no != '' and outitem_no != null">
 						AND sub.outitem_no LIKE '%' + #{outitem_no} + '%'
-					</if>
-					<if test="order_no != '' and order_no != null">
+				</if>
+				<if test="order_no != '' and order_no != null">
 						AND sub.order_no LIKE  '%' + #{order_no} + '%'
 				</if>
-					<if test="cust_nm != '' and cust_nm != null">
+				<if test="cust_nm != '' and cust_nm != null">
 						AND sub.CUST_NM LIKE '%' + #{cust_nm} + '%'
-					</if>
-					<if test="user_nm != '' and user_nm != null">
+				</if>
+				<if test="user_nm != '' and user_nm != null">
 						AND sub.USER_NM LIKE '%' + #{user_nm} + '%'
-					</if>
-		]]> 
+				</if> 
 	</select>
 	
 	<select id="outitemNoCnt" parameterType="String" resultType="int">
