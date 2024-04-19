@@ -55,10 +55,17 @@ $(document).ready(function () {
 
       //리스트 새롭게 넣기
 			listOutitem.forEach((outitem) => { //리스트에서 가져온 각각의 outitem 객체
-
-        if(outitem.order_status_chk==0) {
-          let osc='<span class="badge bg-warning text-dark">주문 완료</span>'
-        }  else 
+        let osc=outitem.order_status_chk; //가져온 주문상태(숫자)
+          let oscDisplay; //표시할 주문상태
+        if(osc==0) {
+          oscDisplay='<span class="badge bg-warning text-dark">주문 완료</span>'
+        }  else if (osc==1) {
+          oscDisplay='<span class="badge bg-secondary">주문 취소</span>';
+        } else if (osc==2) { 
+          oscDisplay='<span class="badge bg-primary">출고 진행</span>'
+        } else if (osc==3) {
+          oscDisplay='<span class="badge bg-secondary">전체 출고 완료</span>'
+        }
 
           $("#outitemList").append(`
                     <tr data-bs-toggle="modal"
@@ -72,18 +79,7 @@ $(document).ready(function () {
                     <td>${outitem.order_end_dt}</td>
                     <td>${outitem.outitem_dt}</td>
                     <td>${outitem.user_nm}</td>
-                    <td>`osc`
-                    <c:when test="${outitem.order_status_chk == 1}">
-                      <span class="badge bg-secondary">주문 취소</span>
-                    </c:when>
-                    <c:when test="${outitem.order_status_chk == 2}">
-                      <span class="badge bg-primary">출고 진행</span>
-                    </c:when>
-                    <c:when test="${outitem.order_status_chk == 3}">
-                      <span class="badge bg-secondary">전체 출고 완료</span>
-                    </c:when>
-                  </c:choose>
-                    </td>
+                    <td> ${oscDisplay}</td>
                   </tr>
                   `);
           num = num + 1;
