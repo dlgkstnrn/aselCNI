@@ -193,9 +193,10 @@ const detailView = function (initem_no) {
 const detailUpdate = function (insertFlag = false) {
     if (!insertFlag) {
         //조회화면
-        $('#modal_initem_dt').attr('readonly', 'true');
-        $('#modal_cust_emp').attr('readonly', 'true');
-        $('#modal_remark').attr('readonly', 'true');
+        $('#modal_initem_dt').attr('disabled', 'true');
+        $('#modal_cust_emp').attr('disabled', 'true');
+        $('#modal_remark').attr('disabled', 'true');
+        $('#modal_wh_cd').attr('disabled', 'true');
         $('#cancleBtn').attr('hidden', 'true');
         $('#submitBtn').attr('hidden', 'true');
         $('#modifyBtn').removeAttr('hidden');
@@ -204,9 +205,10 @@ const detailUpdate = function (insertFlag = false) {
         $('#modal_initem_emp_nm').val(responseData.initem_emp_nm);
     } else {
         //수정화면
-        $('#modal_initem_dt').removeAttr('readonly');
-        $('#modal_cust_emp').removeAttr('readonly');
-        $('#modal_remark').removeAttr('readonly');
+        $('#modal_initem_dt').removeAttr('disabled');
+        $('#modal_cust_emp').removeAttr('disabled');
+        $('#modal_remark').removeAttr('disabled');
+        $('#modal_wh_cd').removeAttr('disabled');
         $('#cancleBtn').removeAttr('hidden');
         $('#submitBtn').removeAttr('hidden');
         $('#modal_initem_end').removeAttr('disabled');
@@ -371,7 +373,7 @@ const checkItemQty = function (item) {
         return;
     }
     calcTotalAmount();
-    alert('수량 오류 최소:' + item.min + ', 최대: ' + item.max);
+    alert('사용 중인 재고는 변경할 수 없으며, 발주 수량보다 높은 값은 입력할 수 없음 \n수량 오류 최소:' + item.min + ', 최대: ' + item.max);
 }
 
 

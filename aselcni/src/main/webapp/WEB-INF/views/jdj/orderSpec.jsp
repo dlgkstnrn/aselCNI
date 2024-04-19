@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>주문 상세</title>
+	<title>스마트 제조 시스템</title>
 	<!-- Favicons -->
 	<link href="assets/img/favicon.png" rel="icon">
 	
@@ -38,23 +38,6 @@
 	<script type="module" src="assets/js/jdj/jdjOrdModule.js"></script>
 	<script  src="assets/js/jdj/jdjOrdReg.js"></script>
 	<script src="assets/js/jdj/jdjOrdSpec.js"></script>
-	<style>
-		@font-face {
-		    font-family: 'Dovemayo_gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		@font-face {
-		    font-family: 'NEXON Lv2 Gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff') format('woff');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		body {
-			font-family: 'NEXON Lv2 Gothic';
-		}
-	</style>
 
 </head>
 <body>
@@ -65,10 +48,10 @@
     
     <main id="main" class="main">
     	<div class="pagetitle">
-            <h1>주문 상세</h1>
+            <h1>영업 관리</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">주문 관리</li>
+                    <li class="breadcrumb-item">영업 관리</li>
                     <li class="breadcrumb-item active"><a href="/order">주문 조회</a></li>
                     <li class="breadcrumb-item active">주문 상세</li>
                 </ol>
@@ -79,6 +62,9 @@
         	<div class="card">		
 		        <div class="container">
 	        		<div class="card-body">
+		        		<div class="d-flex align-items-center">
+							<span class="h5 me-auto card-header-title">주문 상세</span>
+						</div><hr>
         				<!--<c:if test="${orderSpec.order_status_chk == 0}"> -->
 	        				<!-- 수정 버튼  -->
 			        		<!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end  py-2"> -->
@@ -159,10 +145,10 @@
 									<th scope="col">단위</th>
 									<th scope="col">수량</th>
 									<th scope="col">단가</th>
-									<th scope="col">합계</th>
+									<th scope="col">금액</th>
 								</tr></thead>
 								<tbody  id="itemTB2">
-									<c:forEach var = "orderItem" items = "${orderItems}">
+									<c:forEach var = "orderItem" items = "${orderItems}" varStatus="status">
 									<tr class="${orderItem.item_cd}">
 										<td><input class="checkBox form-check-input" type="checkbox" id="chkBtn" style="display: none"></td>
 										<td id="item_cd">${orderItem.item_cd}</td>
@@ -174,7 +160,8 @@
 							                <button onclick="increaseCnt2('${orderItem.item_cd}')" id="increaseBtn2" type="button" class="increaseBtn2 btn btn-light" style="display: none"><i class="bi bi-plus"></i></button>
 	             						</div></td>
 										<td id="item_cost">${orderItem.item_cost}</td>
-										<td id="${orderItem.item_cd}_Cost">${orderItem.cost}</td>
+										<td id="${orderItem.item_cd}_cost">${orderItem.cost}</td>
+										<%-- <td id="'${orderItem.item_cd}'_cost">${orderItem.cost}</td> --%>
 									</tr>									
 									</c:forEach>
 								</tbody>
@@ -195,7 +182,7 @@
 	                	<div class="modal-dialog modal-dialog-centered">
 	                  		<div class="modal-content">
 	                    		<div class="modal-header">
-									<h5 class="modal-title"> 주문 상품 등록</h5>
+									<h5 class="modal-title"> 주문 제품 등록</h5>
 									<button type="button" id="closeBtn2" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                    		</div> <!-- modal-header -->
 	                    		<div class="modal-body">

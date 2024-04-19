@@ -210,14 +210,14 @@
 										<div class="input-group">
 											<span class="input-group-text" style="width:90px">입고번호</span>
 											<input id="modal_initem_no" type="text" class="form-control"
-												placeholder="입고번호" aria-label="입고번호" readonly>
+												placeholder="입고번호" aria-label="입고번호" disabled>
 										</div>
 									</div>
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text" style="width:125px">담당자(입고)</span>
 											<input id="modal_initem_emp_nm" data-user-nm="${sessionScope.user_nm }" type="text" class="form-control" placeholder="입고 담당자"
-												aria-label="입고담당자" readonly>
+												aria-label="입고담당자" disabled>
 										</div>
 									</div>
 								</div>
@@ -226,14 +226,14 @@
 										<div class="input-group">
 											<span class="input-group-text" style="width:90px">발주번호</span>
 											<input id="modal_purc_no" type="text" class="form-control"
-												placeholder="발주번호" aria-label="발주번호" readonly>
+												placeholder="발주번호" aria-label="발주번호" disabled>
 										</div>
 									</div>
 									<div class="col">
 										<div class="input-group">
 											<span class="input-group-text" style="width:125px">담당자(발주)</span>
 											<input id="modal_purc_emp_nm" type="text" class="form-control" placeholder="발주 담당자"
-												aria-label="발주담당자" readonly>
+												aria-label="발주담당자" disabled>
 										</div>
 									</div>
 								</div>
@@ -251,7 +251,7 @@
 										<div class="input-group">
 											<span class="input-group-text" style="width:90px">매입처</span>
 											<input id="modal_cust_nm" type="text" class="form-control"
-												placeholder="매입처" aria-label="매입처" readonly>
+												placeholder="매입처" aria-label="매입처" disabled>
 										</div>
 									</div>
 									<div class="col mb-1">

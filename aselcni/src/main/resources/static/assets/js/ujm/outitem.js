@@ -1,5 +1,4 @@
 
-
 $(document).ready(function () {
   //닫기 버튼 클릭시 modal 입력 내용 클리어
   function modalContentClear() {
