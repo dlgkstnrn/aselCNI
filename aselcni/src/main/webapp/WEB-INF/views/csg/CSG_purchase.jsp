@@ -58,7 +58,7 @@
 	            <nav>
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">구매 관리</li>
-						<li class="breadcrumb-item active"><a href="/#">발주 관리</a></li>
+						<li class="breadcrumb-item active">발주 관리</li>
 					</ol>
 	            </nav>
 	          </div><!-- End Page Title -->
@@ -156,8 +156,7 @@
 			   											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.item_cost}</fmt:formatNumber></td>
 			   											<td><fmt:formatNumber type="number" pattern="#,##0원">${purchase.purc_cost}</fmt:formatNumber></td>
 												        <td>${purchase.purc_dt}</td>
-														<td>
-											            <c:choose>
+														<td><c:choose>
 											                <c:when test="${purchase.purc_status_chk == 0}">
 											                    <!-- <button class="btn btn-warning btn-sm" type="button">발주 완료</button> -->
 											                    <span class="badge bg-success">발주 완료</span>
@@ -171,11 +170,9 @@
 											                    <!-- <button class="btn btn-success btn-sm" type="button">입고완료</button> -->
 											                    <span class="badge bg-warning text-dark">입고 완료</span>
 											                </c:when>
-											            </c:choose>
-											        </td>
+											            </c:choose></td>
 												    </tr>
 											</c:forEach>
-		
 				                        </tbody>
 				                    </table>
 				                <!-- </div> -->

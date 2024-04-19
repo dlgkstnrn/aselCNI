@@ -26,7 +26,6 @@ function decreaseCnt2(order_item_cd){
 		$(`#${order_item_cd}_cost`).text(t);
 	}
 };
-
 $(document).ready(function(){
 	const order_no = $("#order_no").val();
 //	const order_emp_id = $("#order_emp_id");

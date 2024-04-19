@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>주문 상세</title>
+	<title>스마트 제조 시스템</title>
 	<!-- Favicons -->
 	<link href="assets/img/favicon.png" rel="icon">
 	
@@ -38,23 +38,6 @@
 	<script type="module" src="assets/js/jdj/jdjOrdModule.js"></script>
 	<script  src="assets/js/jdj/jdjOrdReg.js"></script>
 	<script src="assets/js/jdj/jdjOrdSpec.js"></script>
-	<style>
-		@font-face {
-		    font-family: 'Dovemayo_gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		@font-face {
-		    font-family: 'NEXON Lv2 Gothic';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff') format('woff');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		body {
-			font-family: 'NEXON Lv2 Gothic';
-		}
-	</style>
 
 </head>
 <body>
@@ -65,7 +48,7 @@
     
     <main id="main" class="main">
     	<div class="pagetitle">
-            <h1>주문 상세</h1>
+            <h1>영업 관리</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">영업 관리</li>
@@ -79,6 +62,9 @@
         	<div class="card">		
 		        <div class="container">
 	        		<div class="card-body">
+		        		<div class="d-flex align-items-center">
+							<span class="h5 me-auto card-header-title">주문 상세</span>
+						</div><hr>
         				<!--<c:if test="${orderSpec.order_status_chk == 0}"> -->
 	        				<!-- 수정 버튼  -->
 			        		<!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end  py-2"> -->

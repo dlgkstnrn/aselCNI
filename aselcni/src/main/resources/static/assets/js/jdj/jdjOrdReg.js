@@ -30,7 +30,11 @@ function isNotNull(key){
 	console.log("isNotNull check")
 	return $(`#${key}`).val() != null && $(`#${key}`).val() !== "";
 }
-
+function removeInsert(){
+	if(confirm("작성하신 내용은 지워집니다. 진행하시겠습니까?")){
+		window.location.href = "/order";
+	}
+}
 $(document).ready(function(){	
 	console.log("hhh")
 	var order_dt;

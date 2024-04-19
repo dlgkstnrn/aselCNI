@@ -62,13 +62,14 @@ prefix="c" %>
 
     <main id="main" class="main">
       <div class="pagetitle">
-        <h1>기준 정보 관리</h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">기준 정보 관리</a></li>
-            <li class="breadcrumb-item active">사업장 관리</li>
-          </ol>
-        </nav>
+        <h1>구매 관리</h1>
+            <nav>
+                <ol class="breadcrumb">
+	                <li class="breadcrumb-item">구매 관리</li>
+                    <li class="breadcrumb-item"><a href="/purchase">발주 관리</a></li>
+                    <li class="breadcrumb-item active">발주 등록</li>
+                </ol>
+            </nav>
       </div>
       <!-- End Page Title -->
 
