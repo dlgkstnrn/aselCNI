@@ -52,6 +52,7 @@
 		select * 
 		from TB_WHMST
 		where WH_DELETE_CHK=0
+		and USE_FLAG = 1
 	</select>
 	
 	
