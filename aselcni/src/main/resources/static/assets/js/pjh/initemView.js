@@ -371,7 +371,7 @@ const checkItemQty = function (item) {
         return;
     }
     calcTotalAmount();
-    alert('수량 오류 최소:' + item.min + ', 최대: ' + item.max);
+    alert('사용 중인 재고는 변경할 수 없으며, 발주 수량보다 높은 값은 입력할 수 없음 \n수량 오류 최소:' + item.min + ', 최대: ' + item.max);
 }
 
 
