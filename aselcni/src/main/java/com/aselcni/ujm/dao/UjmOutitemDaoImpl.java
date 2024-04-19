@@ -36,6 +36,7 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 	public List<UjmOutitem> ujmListOutiem(UjmOutitem outitem) {
 		List<UjmOutitem> ujmListOutitems = null;
 		System.out.println("UjmOutitemDaoImpl ujmListOutiem 시작 ..." );
+		System.out.println("UjmOutitemDaoImpl ujmListOutiem : try 넣기 전 outitem:"+outitem);
 		try {
 			//
 			ujmListOutitems = session.selectList("ujmListOutitemAll", outitem);

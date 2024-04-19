@@ -30,89 +30,13 @@ $(document).ready(function () {
     const item_nm = $('.item-nm-text').val();
     const outitem_user_nm = $('.outitem-user-nm-text').val(); //검색에 사용할 user_nm
   
-    $("#outitemList").empty();
-    $(".pagination").empty();
-  
-    $.ajax({
-      type: "get",
-      url: "ujmOutitemSearch",
-      data: {
-        start_day : start_day,
-        end_day : end_day,
-        outitem_no : outitem_no,
-        order_no : order_no,
-        cust_nm : cust_nm,
-        item_nm : item_nm,
-        user_nm : outitem_user_nm
-      },
-      dataType: 'json',
-      success: function(response) {
-  
-        
-			let listOutitem = response.ujmListOutitems;
-			let page = response.page;
-			let num = page.start;
+ /*    $("#outitemList").empty();
+    $(".pagination").empty(); */
 
-      //리스트 새롭게 넣기
-			listOutitem.forEach((outitem) => { //리스트에서 가져온 각각의 outitem 객체
-        let osc=outitem.order_status_chk; //가져온 주문상태(숫자)
-          let oscDisplay; //표시할 주문상태
-        if(osc==0) {
-          oscDisplay='<span class="badge bg-warning text-dark">주문 완료</span>'
-        }  else if (osc==1) {
-          oscDisplay='<span class="badge bg-secondary">주문 취소</span>';
-        } else if (osc==2) { 
-          oscDisplay='<span class="badge bg-primary">출고 진행</span>'
-        } else if (osc==3) {
-          oscDisplay='<span class="badge bg-secondary">전체 출고 완료</span>'
-        }
+    var url = `outitem?currentPage=1&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&outitem_user_nm=${outitem_user_nm}`;
+  
+    window.location.href = url;
 
-        /* 비운 outitemList 항목 추가 */
-          $("#outitemList").append(`
-                    <tr data-bs-toggle="modal"
-                    data-bs-target="#outitemDetailModal">
-                    <td>${outitem.num}</td>
-                    <td>${outitem.outitem_no}</td>
-                    <td>${outitem.order_no}</td>
-                    <td>${outitem.cust_nm}</td>
-                    <td>${outitem.items}</td>
-                    <td>${outitem.order_dt}</td>
-                    <td>${outitem.order_end_dt}</td>
-                    <td>${outitem.outitem_dt}</td>
-                    <td>${outitem.user_nm}</td>
-                    <td> ${oscDisplay}</td>
-                  </tr>
-                  `);
-          num = num + 1;
-        });
-  
-        //비운 페이지버튼 다시
-        if (page.startPage > page.pageBlock) {
-          $(".pagination").append(`
-          <li class="page-item">
-            <a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&laquo;</span></a>
-          </li>
-                `);
-        }
-  
-        for (let i = page.startPage; i <= page.endPage; i++) {
-          $(".pagination").append(`
-          <li class="page-item ${page.currentPage == i ? 'active' : ''}">
-            <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}">${i}</a>
-          </li>
-                `);
-        }
-  
-        if (page.endPage < page.totalPage) {
-          $(".pagination").append(`
-          <li class="page-item">
-            <a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&raquo;</span></a>
-          </li>
-                 `);
-        }
-        
-      }
-    });
   
   }); /* 검색 클릭 function 끝 */
 
@@ -377,7 +301,8 @@ $(document).ready(function () {
                 alert('출고 등록 완료.');
                 modalContentClear();
                 $('#outitem_insert').modal('hide');
-                location.reload();
+                /* location.reload(); */
+                window.location.href='outitem';
             }
         });
 
@@ -810,7 +735,8 @@ let detail_remark;
           success: function(response){
               alert('출고 수정 완료.');
               modalContentClear();
-                location.reload();
+              /* location.reload(); */
+              window.location.href='outitem';
           }
           
        }); 

@@ -158,7 +158,7 @@ pageEncoding="UTF-8"%>
                       <td>${outitem.order_dt}</td>
                       <td>${outitem.order_end_dt}</td>
                       <td>${outitem.outitem_dt}</td>
-                      <td>${outitem.user_nm}</td>
+                      <td>${outitem.outitem_user_nm}</td>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}"><span class="badge bg-warning text-dark">주문 완료</span></c:if>
                         <c:if test="${outitem.order_status_chk==1}"><span class="badge bg-secondary">주문 취소</span></c:if>
@@ -191,15 +191,15 @@ pageEncoding="UTF-8"%>
               <nav class="page-navigation">
                 <ul class="pagination">
                   <c:if test="${page.startPage > page.pageBlock }">
-                    <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&laquo;</span></a></li>
+                    <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage-page.pageBlock}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&outitem_user_nm=${outitem_user_nm}"><span>&laquo;</span></a></li>
                   </c:if>
                   <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
                     <li class="page-item ${page.currentPage == i ? 'active' : ''}">
-                      <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}">${i}</a>
+                      <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&outitem_user_nm=${outitem_user_nm}">${i}</a>
                     </li>
                   </c:forEach>
                   <c:if test="${page.endPage < page.totalPage }">
-							      <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}"><span>&raquo;</span></a></li>
+							      <li class="page-item"><a class="page-link" href="outitem?currentPage=${page.startPage+page.pageBlock }&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&outitem_user_nm=${outitem_user_nm}"><span>&raquo;</span></a></li>
 						      </c:if>
 
                 </ul>

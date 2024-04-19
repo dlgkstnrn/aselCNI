@@ -216,11 +216,12 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		System.out.println(outitem);
 		if(outitem.getStart_day() == null && outitem.getEnd_day() == null) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			String today = LocalDate.now().format(formatter);
+//			String today = LocalDate.now().format(formatter);
 			String oneMonthAgo = LocalDate.now().minusMonths(1).format(formatter); 
+			String oneMonthAfter = LocalDate.now().plusMonths(1).format(formatter);
 			
 			outitem.setStart_day(oneMonthAgo);
-			outitem.setEnd_day(today);
+			outitem.setEnd_day(oneMonthAfter);
 		} 
 		return outitem;
 	}
