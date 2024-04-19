@@ -21,6 +21,7 @@ $(document).ready(function () {
 
   //검색버튼 클릭 시
   $("#search-btn").on("click", () => {
+
     const start_day = $('.start-day').val();
     const end_day = $('.end-day').val();
     const outitem_no = $('.outitem-no-text').val();
@@ -66,10 +67,11 @@ $(document).ready(function () {
           oscDisplay='<span class="badge bg-secondary">전체 출고 완료</span>'
         }
 
+        /* 비운 outitemList 항목 추가 */
           $("#outitemList").append(`
                     <tr data-bs-toggle="modal"
                     data-bs-target="#outitemDetailModal">
-                    <td>${outitem.seq_no}</td>
+                    <td>${outitem.num}</td>
                     <td>${outitem.outitem_no}</td>
                     <td>${outitem.order_no}</td>
                     <td>${outitem.cust_nm}</td>
@@ -84,7 +86,7 @@ $(document).ready(function () {
           num = num + 1;
         });
   
-        //아래 페이지 버튼 다시
+        //비운 페이지버튼 다시
         if (page.startPage > page.pageBlock) {
           $(".pagination").append(`
           <li class="page-item">
@@ -95,7 +97,7 @@ $(document).ready(function () {
   
         for (let i = page.startPage; i <= page.endPage; i++) {
           $(".pagination").append(`
-          <li class="page-item">
+          <li class="page-item ${page.currentPage == i ? 'active' : ''}">
             <a class="page-link" href="outitem?currentPage=${i}&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&user_nm=${outitem_user_nm}">${i}</a>
           </li>
                 `);
@@ -112,7 +114,7 @@ $(document).ready(function () {
       }
     });
   
-  });
+  }); /* 검색 클릭 function 끝 */
 
 
   //메인화면에서 검색에 사용하는 날짜 선택 논리성

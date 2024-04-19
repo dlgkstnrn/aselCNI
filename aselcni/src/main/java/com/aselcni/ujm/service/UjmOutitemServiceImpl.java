@@ -29,9 +29,9 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 	private final UjmOrderDao uord;
 
 	@Override
-	public int ujmTotalOutitemCnt() {
-		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt..." );
-		int ujmTotalOutitemCnt = uod.ujmTotalOutitemCnt();
+	public int ujmTotalOutitemCnt(UjmOutitem outitem) {
+		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt...(검색용)" );
+		int ujmTotalOutitemCnt = uod.ujmTotalOutitemCnt(outitem);
 		System.out.println("UjmOutitemServiceImpl ujmTotalOutitemCnt->" + ujmTotalOutitemCnt);
 		return ujmTotalOutitemCnt;
 	}

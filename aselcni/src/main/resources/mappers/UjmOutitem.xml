@@ -4,66 +4,56 @@
 
 	<!-- 소문자 사용 -->
 	
-	<select id="ujmTotalOutitemCnt" resultType="int">
-		<![CDATA[
-		SELECT COUNT(*)
-		FROM TB_OUTITEM ou
-    		INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
-    		INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
-    		INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID  = u.user_id
-		WHERE ou.outitem_delete_chk = 0
-		]]> 
-
-
-
-	</select>
 	
-	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
-			SELECT 
-			    sub.rn,
-			    sub.outitem_no,
-			    sub.seq_no,
-			    sub.cust_cd,
-			    sub.cust_nm,
-			    sub.order_no,
-			    sub.order_dt,
-			    sub.order_end_dt,
-			    sub.order_status_chk,
-			    sub.remark,
-			    sub.outitem_dt,
-			    sub.user_nm,
-			    sub.items
-			FROM (
-			    SELECT 
-			        ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING(ou.outitem_no, PATINDEX('%[0-9]%', ou.outitem_no), LEN(ou.outitem_no)) AS BIGINT) DESC) AS rn, 
-			        ou.outitem_no,
-			        ou.cust_cd, 
-			        ou.seq_no,
-			        c.cust_nm, 
-			        ou.order_no, 
-			        ord.order_dt, 
-			        ord.order_end_dt, 
-			        ord.order_status_chk, 
-			        u.user_nm,
-			        ou.remark,
-			        ou.outitem_dt,
-			        STUFF((
-			            SELECT ', ' + itemmst.item_nm + ' (' + CAST(oi.qty AS VARCHAR(10)) + '개)'
-			            FROM TB_OUTITEM_ITEM oi
-			            JOIN TB_ITEMMST itemmst ON oi.item_cd = itemmst.item_cd
-			            WHERE ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
-			            FOR XML PATH('')), 1, 2, '') AS items
-			    FROM 
-			        TB_OUTITEM ou
-			        INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
-			        INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
-			        INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID = u.user_id
-			    WHERE 
-			        ou.outitem_delete_chk = 0
-			) AS sub
-			WHERE 
-			    sub.rn >= #{start} AND sub.rn &lt;= #{end}
-			    <if test="item_nm != '' and item_nm != null">
+	<select id="ujmTotalOutitemCnt" parameterType="UjmOutitem" resultType="int">
+		select 
+			count(*) 
+			FROM 
+			(	SELECT 
+				ROW_NUMBER() OVER (ORDER BY rn ) AS num ,
+				    sub.rn,
+				    sub.outitem_no,
+				    sub.seq_no,
+				    sub.cust_cd,
+				    sub.cust_nm,
+				    sub.order_no,
+				    sub.order_dt,
+				    sub.order_end_dt,
+				    sub.order_status_chk,
+				    sub.remark,
+				    sub.outitem_dt,
+				    sub.user_nm,
+				    sub.items
+				FROM (
+				    SELECT 
+				        ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING(ou.outitem_no, PATINDEX('%[0-9]%', ou.outitem_no), LEN(ou.outitem_no)) AS BIGINT) DESC) AS rn, 
+				        ou.outitem_no,
+				        ou.cust_cd, 
+				        ou.seq_no,
+				        c.cust_nm, 
+				        ou.order_no, 
+				        ord.order_dt, 
+				        ord.order_end_dt, 
+				        ord.order_status_chk, 
+				        u.user_nm,
+				        ou.remark,
+				        ou.outitem_dt,
+				        STUFF((
+				            SELECT ', ' + itemmst.item_nm + ' (' + CAST(oi.qty AS VARCHAR(10)) + '개)'
+				            FROM TB_OUTITEM_ITEM oi
+				            JOIN TB_ITEMMST itemmst ON oi.item_cd = itemmst.item_cd
+				            WHERE ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
+				            FOR XML PATH('')), 1, 2, '') AS items
+				    FROM 
+				        TB_OUTITEM ou
+				        INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
+				        INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
+				        INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID = u.user_id
+				    WHERE 
+				        ou.outitem_delete_chk = 0
+				) AS sub
+				where 1=1
+				<if test="item_nm != '' and item_nm != null">
 			    AND sub.items LIKE '%' + #{item_nm} + '%'
 			    </if>
 			    <if test="start_day != null and end_day !=null">
@@ -81,6 +71,91 @@
 				<if test="user_nm != '' and user_nm != null">
 						AND sub.USER_NM LIKE '%' +  CAST(#{outitem_user_nm} AS VARCHAR) + '%'
 				</if> 
+			) as rt2
+			WHERE 
+				1=1
+			<if test="start != '' and start != null">
+			and rt2.num>=#{start} 
+			</if> 
+			<if test="end != '' and end != null">
+			and rt2.num&lt;=#{end} 
+			</if> 
+	</select>
+	
+	<select id="ujmListOutitemAll" parameterType="UjmOutitem" resultType="UjmOutitem">
+			select *
+			FROM 
+			(	SELECT 
+				ROW_NUMBER() OVER (ORDER BY rn ) AS num ,
+				    sub.rn,
+				    sub.outitem_no,
+				    sub.seq_no,
+				    sub.cust_cd,
+				    sub.cust_nm,
+				    sub.order_no,
+				    sub.order_dt,
+				    sub.order_end_dt,
+				    sub.order_status_chk,
+				    sub.remark,
+				    sub.outitem_dt,
+				    sub.user_nm,
+				    sub.items
+				FROM (
+				    SELECT 
+				        ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING(ou.outitem_no, PATINDEX('%[0-9]%', ou.outitem_no), LEN(ou.outitem_no)) AS BIGINT) DESC) AS rn, 
+				        ou.outitem_no,
+				        ou.cust_cd, 
+				        ou.seq_no,
+				        c.cust_nm, 
+				        ou.order_no, 
+				        ord.order_dt, 
+				        ord.order_end_dt, 
+				        ord.order_status_chk, 
+				        u.user_nm,
+				        ou.remark,
+				        ou.outitem_dt,
+				        STUFF((
+				            SELECT ', ' + itemmst.item_nm + ' (' + CAST(oi.qty AS VARCHAR(10)) + '개)'
+				            FROM TB_OUTITEM_ITEM oi
+				            JOIN TB_ITEMMST itemmst ON oi.item_cd = itemmst.item_cd
+				            WHERE ou.outitem_no = oi.outitem_no AND ou.order_no = oi.order_no
+				            FOR XML PATH('')), 1, 2, '') AS items
+				    FROM 
+				        TB_OUTITEM ou
+				        INNER JOIN TB_CUSTMST c ON ou.cust_cd = c.cust_cd
+				        INNER JOIN TB_ORDER ord ON ou.order_no = ord.order_no
+				        INNER JOIN TB_USERMST u ON ou.OUTITEM_EMP_ID = u.user_id
+				    WHERE 
+				        ou.outitem_delete_chk = 0
+				) AS sub
+				where 1=1
+				<if test="item_nm != '' and item_nm != null">
+			    AND sub.items LIKE '%' + #{item_nm} + '%'
+			    </if>
+			    <if test="start_day != null and end_day !=null">
+						AND sub.outitem_dt BETWEEN #{start_day} AND #{end_day}
+				</if>
+				<if test="outitem_no != '' and outitem_no != null">
+						AND sub.outitem_no LIKE '%' + #{outitem_no} + '%'
+				</if>
+				<if test="order_no != '' and order_no != null">
+						AND sub.order_no LIKE  '%' + #{order_no} + '%'
+				</if>
+				<if test="cust_nm != '' and cust_nm != null">
+						AND sub.CUST_NM LIKE '%' + #{cust_nm} + '%'
+				</if>
+				<if test="user_nm != '' and user_nm != null">
+						AND sub.USER_NM LIKE '%' +  CAST(#{outitem_user_nm} AS VARCHAR) + '%'
+				</if> 
+			) as rt2
+			WHERE 
+				1=1
+			<if test="start != '' and start != null">
+			and rt2.num>=#{start} 
+			</if> 
+			<if test="end != '' and end != null">
+			and rt2.num&lt;=#{end} 
+			</if> 
 
 	</select>
 	

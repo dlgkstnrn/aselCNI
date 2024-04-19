@@ -150,7 +150,7 @@ pageEncoding="UTF-8"%>
                   
                     <tr data-bs-toggle="modal"
                       data-bs-target="#outitemDetailModal">
-                      <td>${outitem.seq_no}</td>
+                      <td>${outitem.num}</td>
                       <td>${outitem.outitem_no}</td>
                       <td>${outitem.order_no}</td>
                       <td>${outitem.cust_nm}</td>
@@ -184,7 +184,7 @@ pageEncoding="UTF-8"%>
             
 
 
-${page}
+
 
 
               <!-- 번호디자인 -->

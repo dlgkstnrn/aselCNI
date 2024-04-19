@@ -19,12 +19,12 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 	private final SqlSession session;
 	
 	@Override
-	public int ujmTotalOutitemCnt() {
+	public int ujmTotalOutitemCnt(UjmOutitem outitem) {
 		int ujmTotalOutitemCnt=0;
-		System.out.println("ujmOutitemDaoImpl에서 ujmTotalOutitemCnt");
+		System.out.println("ujmOutitemDaoImpl에서 ujmTotalOutitemCnt (객체)");
 		try {
-			ujmTotalOutitemCnt=session.selectOne("ujmTotalOutitemCnt");
-			System.out.println("ujmOutitemDaoImpl에서 ujmTotalOutitemCnt한 값:"+ujmTotalOutitemCnt);
+			ujmTotalOutitemCnt=session.selectOne("ujmTotalOutitemCnt", outitem);
+			System.out.println("ujmOutitemDaoImpl에서 ujmTotalOutitemCnt한 값(객체):"+ujmTotalOutitemCnt);
 		} catch (Exception e) {
 			System.out.println("ujmOutitemDaoImpl에서 ujmTotalOutitemCnt 도중 실패:"+e.getMessage());
 		}
@@ -253,6 +253,7 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 			return "";
 		}
 	}
+
 
 		
 }

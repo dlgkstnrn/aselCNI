@@ -10,7 +10,7 @@ import com.aselcni.ujm.model.UjmOutitemParent;
 
 public interface UjmOutitemService {
 
-	int ujmTotalOutitemCnt();
+	int ujmTotalOutitemCnt(UjmOutitem outitem);
 
 	List<UjmOutitem> ujmListOutitem(UjmOutitem outitem);
 
@@ -31,5 +31,7 @@ public interface UjmOutitemService {
 	String ujmFindOutitemRemark(String outitem_no);
 
 	UjmOutitem ujmDateLogic(UjmOutitem outitem);
+
+
 
 }

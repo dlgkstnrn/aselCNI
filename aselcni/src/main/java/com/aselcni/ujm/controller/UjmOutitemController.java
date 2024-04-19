@@ -46,7 +46,7 @@ public class UjmOutitemController {
 			outitem.setCurrentPage("1");
 		}
 		
-		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt();
+		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt(outitem);
 		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
 		model.addAttribute("totalOutitemCnt", ujmTotalOutitemCnt);
 		
@@ -80,18 +80,18 @@ public class UjmOutitemController {
 	public Map<String, Object> ujmOutitemSearch(UjmOutitem outitem, HttpServletRequest request, HttpSession session) {
 		System.out.println("출고 검색 시작");
 		
-//		//페이지 설정
-//		if(outitem.getCurrentPage()==null) {
-//			outitem.setCurrentPage("1");
-//		}
+		//페이지 설정
+		if(outitem.getCurrentPage()==null) {
+			outitem.setCurrentPage("1");
+		}
 		
-		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt();
+		int ujmTotalOutitemCnt=uos.ujmTotalOutitemCnt(outitem);
 		System.out.println("가져온 출고 개수:"+ujmTotalOutitemCnt);
 		
 		UjmPaging page=new UjmPaging(ujmTotalOutitemCnt, outitem.getCurrentPage());
 		
-		outitem.setStart(page.getStart());
-		outitem.setEnd(page.getEnd());
+		outitem.setStart(page.getStart()); //1
+		outitem.setEnd(page.getEnd()); //5
 		
 		outitem=uos.ujmDateLogic(outitem);
 		System.out.println(outitem);
