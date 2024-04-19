@@ -827,28 +827,35 @@ $(document).ready(function() {
 		var selectedMonth = e.format(0, "yyyy-mm");
 		updateOrderList(selectedMonth);
 	});
+
 	// 페이지 로드 시 현재 월에 해당하는 주문 리스트 표시
 	function updateOrderList(selectedMonth) {
-		// 주문번호 중첩 모달 내 주문 리스트를 나타낼 테이블의 tbody 찾기
-		var $orderListTbody = $("#orderListTable tbody");
-		$orderListTbody.empty();
+		var orderListTbody = $("#orderListTable tbody");
+		orderListTbody.empty(); // 테이블 내용 초기화
 
-		// responseProdPlans 내에서 해당 월에 해당하는 주문 데이터 필터링
+		// 해당 월에 해당하는 주문 데이터 필터링
 		var filteredOrders = responseProdPlans.prodOrderList.filter(function(order) {
 			return order.order_dt.startsWith(selectedMonth);
 		});
 
 		// 필터링된 주문 데이터를 테이블에 추가
 		filteredOrders.forEach(function(order) {
-			var $row = $('<tr>').append(
+			// 해당 주문번호에 해당하는 제품 목록 필터링
+			var orderItems = responseProdPlans.prodOrderItemList.filter(item => item.order_no === order.order_no);
+			var productDetails = orderItems.map(item => item.item_nm + ' (' + item.qty + '개)').join(", "); // 제품명+수량
+			var customerName = order.cust_nm; // 고객사 처리
+			var displayCustomerName = customerName.length > 20 ? customerName.substr(0, 20) + '...' : customerName; // 고객사 툴팁처리
+
+			var row = $('<tr>').append(
 				$('<td>').append($('<input>').attr({ type: 'radio', name: 'selectedOrder', value: order.order_no })),
 				$('<td>').text(order.order_no),
-				$('<td>').text(order.cust_nm),
-				$('<td>').text(order.remark),
+				$('<td>').text(productDetails.length > 50 ? productDetails.substr(0, 50) + '...' : productDetails)
+					.attr('title', productDetails), // 제품명 툴팁 추가
+				$('<td>').text(displayCustomerName).attr('title', customerName), // 고객사 이름에 툴팁 추가
 				$('<td>').text(order.order_dt),
 				$('<td>').text(order.order_end_dt)
 			);
-			$orderListTbody.append($row);
+			orderListTbody.append(row);
 		});
 	}
 
@@ -865,7 +872,6 @@ $(document).ready(function() {
 			}
 			// 선택된 주문번호를 이전 모달의 주문번호 입력 필드에 설정
 			$('#prodPlanNoInput').val(selectedOrderNo);
-			// 주문번호 선택 모달 닫기
 			$('#oderModal').modal('hide');
 		} else {
 			alert('주문번호를 선택해주세요.');
@@ -1319,8 +1325,8 @@ $(document).ready(function() {
 	}
 
 	function formatNumbersInText(text) {
-    return text.replace(/\d+/g, function(match) { // 전역으로 하나이상의 숫자를 연속으로 찾아냄(replace: 정규표현식에 해당하는 부분만 교체)
-        return parseInt(match).toLocaleString();  // 정규표현식에 매치되는 문자열을찾아 3자리마다 콤마찍음
-    });
-}
+		return text.replace(/\d+/g, function(match) { // 전역으로 하나이상의 숫자를 연속으로 찾아냄(replace: 정규표현식에 해당하는 부분만 교체)
+			return parseInt(match).toLocaleString();  // 정규표현식에 매치되는 문자열을찾아 3자리마다 콤마찍음
+		});
+	}
 }); // !! 건들지말것 !!
