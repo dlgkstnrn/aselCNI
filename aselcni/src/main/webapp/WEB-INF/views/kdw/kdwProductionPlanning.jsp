@@ -204,7 +204,7 @@
 												</label>
 												<div class="col-sm-8">
 													<input type="text" class="form-control productNameInput"
-														id="productName">
+														id="productName" readonly>
 												</div>
 												<!-- 품목선택 버튼 -->
 												<div class="col-sm-2">
