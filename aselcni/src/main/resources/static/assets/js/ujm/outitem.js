@@ -1,6 +1,7 @@
 
 $(document).ready(function () {
-  //닫기 버튼 클릭시 modal 입력 내용 클리어
+
+  //modal 입력 내용 클리어
   function modalContentClear() {
     $(".modal-content input").val("");
     $(".modal-content textarea").val("");
@@ -10,12 +11,63 @@ $(document).ready(function () {
     $('#detail_outitem_item_list tbody').empty();
   }
 
-    $('button[data-bs-dismiss="modal"]').on("click", //닫기버튼 누르면
-      function () {
-        modalContentClear(); 
-      }
-    );
+  //현재 날짜 설정
+  let currentDate;
+
+  function nowDate() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = (now.getMonth() + 1).toString();
+    if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경
+
+    var day = now.getDate();
+    currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+
+  }
+
   
+
+  function redStar() { // 필수 입력란에 * 추가
+    var redStarLabels = document.querySelectorAll('label.red-star');
+
+    redStarLabels.forEach(function(labelElement) {
+          // 이미 '*'이 추가되어 있는지 확인하고 초기화
+          if (!labelElement.querySelector('.color-red')) {
+            
+            var spanElement = document.createElement('span');
+            spanElement.className = 'color-red';
+            spanElement.innerText = '*';
+
+            labelElement.appendChild(spanElement);
+        }
+    });
+  }
+
+  function resetStar() { // * 삭제
+    
+    var starElements = document.querySelectorAll('.color-red');
+
+    // 각 '*' 요소를 제거
+    starElements.forEach(function(starElement) {
+        starElement.parentNode.removeChild(starElement);
+    });
+  }
+
+  //페이지 이동시
+  window.addEventListener('beforeunload', resetStar);
+
+  //모달 바깥을 클릭해 모달 밖 페이지로 벗어나왔을 시
+  var modalElement = document.getElementById('outitemDetailModal');
+  modalElement.addEventListener('hidden.bs.modal', resetStar);
+
+
+  //닫기버튼 눌렀을 때
+  $('button[data-bs-dismiss="modal"]').on("click", 
+    function () {
+      modalContentClear(); 
+      resetStar();
+    }
+  );
 
   /* 검색 */
 
@@ -28,9 +80,6 @@ $(document).ready(function () {
     const cust_nm = $('.cust-nm-text').val();
     const item_nm = $('.item-nm-text').val();
     const outitem_user_nm = $('.outitem-user-nm-text').val(); //검색에 사용할 user_nm
-  
- /*    $("#outitemList").empty();
-    $(".pagination").empty(); */
 
     var url = `outitem?currentPage=1&start_day=${start_day}&end_day=${end_day}&outitem_no=${outitem_no}&order_no=${order_no}&cust_nm=${cust_nm}&item_nm=${item_nm}&outitem_user_nm=${outitem_user_nm}`;
   
@@ -70,6 +119,7 @@ $(document).ready(function () {
       
       //모달 초기화
       modalContentClear();
+      redStar();
 
       //주문번호와 그에 해당하는 제품명(item_nm), 수량(qty), 기업명(cust_nm)을 주문품목과 주문 테이블에서 가져옴
       $.ajax({
@@ -234,13 +284,7 @@ $(document).ready(function () {
   }
 
     // 현재 날짜 생성
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = (now.getMonth() + 1).toString();
-    if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경
-
-    var day = now.getDate();
-    var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+    nowDate();
     console.log('currentDate:'+currentDate);
     
     var outitemDt = $('#insert_outitem_dt').val(); //출고일자 : 달력으로 선택
@@ -329,6 +373,7 @@ let detail_remark;
     $('tr[data-bs-toggle="modal"]').on("click", function () {
 
       modalContentClear(); //초기화
+      resetStar();
       
 
       outitemNo = $(this).find("td:nth-child(2)").text(); //출고번호
@@ -368,14 +413,7 @@ let detail_remark;
       $("#detail_order_status_chk").html(orderStatusChk);
 
 
-      // 현재 날짜 생성
-      var now = new Date();
-      var year = now.getFullYear();
-      var month = (now.getMonth() + 1).toString();
-      if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경
-  
-      var day = now.getDate();
-      var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+      nowDate();
       console.log('currentDate:'+currentDate);
 
       var currentDateValue = Number(currentDate.replace(/-/g, ''));
@@ -432,6 +470,7 @@ let detail_remark;
 
 
       modalContentClear(); //초기화
+      redStar(); // 별 달기
 
 
       $("#updateOutitemSubmitBtn").show();
@@ -599,12 +638,7 @@ let detail_remark;
           console.log('orderDt:'+orderDt);
     
           // 현재 날짜 생성
-          var now = new Date();
-          var year = now.getFullYear();
-          var month = (now.getMonth() + 1).toString();
-          if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경    
-          var day = now.getDate();
-          var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+          nowDate();
           console.log('currentDate:'+currentDate);
 
           var currentDateValue = Number(currentDate.replace(/-/g, ''));
@@ -761,13 +795,7 @@ let detail_remark;
       console.log('outitemDt'+outitemDt);
 
       // 현재 날짜 생성
-      var now = new Date();
-      var year = now.getFullYear();
-      var month = (now.getMonth() + 1).toString();
-      if(month.length===1) {month="0"+month;} //1월-9월일 경우 01 - 09로 변경
-
-      var day = now.getDate();
-      var currentDate = year + "-" + month + "-" + day; // ex 2024-04-07
+      nowDate();
       console.log('currentDate:'+currentDate);
 
       var currentDateValue = Number(currentDate.replace(/-/g, ''));
