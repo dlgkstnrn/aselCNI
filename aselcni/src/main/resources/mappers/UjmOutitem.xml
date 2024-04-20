@@ -259,7 +259,6 @@
 			WHERE
 			    ou.outitem_no = #{outitem_no}
 			    AND ori.ORDER_NO = #{order_no}
-			    AND ord.ORDER_DELETE_CHK = 0
 			    AND ou.outitem_delete_chk = 0
 		]]> 
 	</select>
@@ -312,7 +311,7 @@
 								    WHERE 
 								        oo.outitem_delete_chk = 0
 								        and oi.order_no=#{order_no}
-								        and ord.order_delete_chk=0
+								        
 								    GROUP BY 
 								        oi.item_cd) AS oi
 									RIGHT JOIN
@@ -324,14 +323,13 @@
 									        JOIN tb_order o ON ti.order_no = o.order_no
 									    WHERE 
 									        ti.order_no = #{order_no}
-									        AND o.order_delete_chk = 0) AS ti
+									        ) AS ti
 									ON 
 									    oi.item_cd = ti.item_cd
 						    ) AS outitem_sum_qty_table ON ori.ORDER_NO = outitem_sum_qty_table.ORDER_NO 
 						    AND ori.ITEM_CD = outitem_sum_qty_table.ITEM_CD
 			WHERE 
-			    ord.ORDER_DELETE_CHK = 0
-			    AND ori.ORDER_NO = #{order_no}
+				ori.ORDER_NO = #{order_no}
 		]]> 
 	</select>
 	
