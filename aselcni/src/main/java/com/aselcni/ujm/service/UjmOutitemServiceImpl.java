@@ -235,7 +235,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 		int ujmDeleteOutitemCnt = uod.ujmDeleteOutitem(outitem_no);
 		System.out.println("UjmOutitemServiceImpl ujmDeleteOutitemCnt->" + ujmDeleteOutitemCnt);
 		
-		//주문의 상태가 2 또는 3이고, 해당 주문번호를 가지는 출고가 하나도 없을 때, 주문의 order_status_chk을 0으로 변경
+		//주문의 order_status_chk를 변경
 		int ujmUpdateOrderStatusChkAtDelete = uord.ujmUpdateOrderStatusChkAtDelete(order_no);
 		System.out.println("UjmOutitemServiceImpl ujmUpdateOrderStatusChkAtDelete->" + ujmUpdateOrderStatusChkAtDelete);
 		

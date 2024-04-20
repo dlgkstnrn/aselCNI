@@ -162,7 +162,7 @@ pageEncoding="UTF-8"%>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}"><span class="badge bg-warning text-dark">주문 완료</span></c:if>
                         <c:if test="${outitem.order_status_chk==1}"><span class="badge bg-secondary">주문 취소</span></c:if>
-                        <c:if test="${outitem.order_status_chk==2}"><span class="badge bg-primary">출고 진행</span></c:if>
+                        <c:if test="${outitem.order_status_chk==2}"><span class="badge bg-primary">일부 출고</span></c:if>
                         <c:if test="${outitem.order_status_chk==3}"><span class="badge bg-secondary">전체 출고 완료</span></c:if>
                       </td>
                       

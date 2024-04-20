@@ -186,9 +186,7 @@ public class UjmOutitemController {
 	//출고 삭제
 	@RequestMapping(value = "deleteOutitem") 
 	@ResponseBody
-    public int ujmDeleteOutitem(
-    		@RequestParam("outitem_no") String outitem_no,
-    		@RequestParam("order_no") String order_no) {
+    public int ujmDeleteOutitem(@RequestParam("outitem_no") String outitem_no, @RequestParam("order_no") String order_no) {
 		System.out.println("UjmOutitem 컨트롤러 ujmDeleteOutitem 시작");
 		
 		int ujmDeleteCount=uos.ujmDeleteOutitem(outitem_no, order_no);
