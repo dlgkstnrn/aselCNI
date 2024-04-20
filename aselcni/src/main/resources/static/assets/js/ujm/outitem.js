@@ -643,103 +643,104 @@ let detail_remark;
       var detail_cust_emp_value = document.getElementById('change_cust_emp').value;
       console.log(detail_cust_emp_value);
 
-      if (detail_cust_emp_value === '') {
-      // 입력란이 비어 있으면 경고 메시지를 표시하고 클릭 이벤트를 취소
+      console.log(orderNo);
+
+       // form으로 제출할 outitem데이터들
+       var updateOutitemData = {
+        outitem_no : outitemNo, 
+        order_no: orderNo,
+        outitem_dt: $('#calendar_outitem_dt').val(),
+        cust_emp: $('#change_cust_emp').val(),
+        remark: $('#change_remark').val()
+    };
+
+    console.log(updateOutitemData);
+
+    // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
+    var selectedItems = [];
+    $('input[name="selectedItems"]:checked').each(function() {
+        var itemCd = $(this).val();
+        var qty = $(this).closest('tr').find('.updateQty').val(); 
+        selectedItems.push({ item_cd: itemCd, qty: qty });
+    });
+
+    console.log(selectedItems);
+
+    // 데이터 조합
+    var updateData = {
+        outitemData: updateOutitemData,
+        selectedItems: selectedItems
+    };
+
+    console.log(updateData);
+
+    if (detail_cust_emp_value === '') {
+      // 담당자 입력란이 비어 있으면 경고 메시지를 표시하고 클릭 이벤트를 취소
       alert('거래처 담당자명을 입력해주세요.');
       return false; 
-      }
-
-      console.log(orderNo);
+      } else { //담당자 입력란이 비어잇지 않으면
 
       //주문이 삭제되었는지 체크후 삭제되었다면 출고 수정이 안 되도록
       fetch('/ujmCheckOrderDeleteChk?order_no=' + orderNo)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
-            if (data.result === 1) { //주문이 삭제됨 (order_delete_chk이 1)
+          console.log('주문 삭제 체크:'+data);
+            if (data.result == 1) { //주문이 삭제됨 (order_delete_chk이 1)
               alert('해당 출고의 주문이 삭제되었으므로 출고를 수정할 수 없습니다.');
               return false; 
-            } 
+            } else { //주문 삭제가 되지 않았을 때
+
+                    //주문이 취소되었는지 체크후 취소되었다면 출고 수정이 안 되도록
+                    fetch('/ujmCheckOrderCancelChk?order_no=' + orderNo)
+                    .then(response => response.json())
+                    .then(data => {
+                      console.log('주문 취소 체크: '+data);
+                        if (data.result == 1) { //주문이 취소됨 (order_status_chk이 1)
+                          alert('해당 출고의 주문이 취소되었으므로 출고를 수정할 수 없습니다.');
+                          return false; 
+                        } else { //주문 취소가 되지 않았을 때
+
+                                  //반품이 되었는지 체크 후, 반품이 된 상태라면 출고 수정이 안 되도록
+                                  fetch('/ujmReturnChk?outitem_no=' + outitemNo)
+                                  .then(response => response.json())
+                                  .then(data => {
+                                    console.log('반품 체크:'+data);
+                                      if (data.result >0) { //해당 주문번호로 반품이 되었음 (반품 삭제 아닌 반품만 체크)
+                                        alert('해당 출고가 이미 전달되어 반품된 상태이므로 출고를 수정할 수 없습니다.');
+                                        return false; 
+                                      } else { //반품이 되지 않았다면
+                                 
+                                         // 조합한 updateData를 서버로 전송
+                                        $.ajax({
+                                          url: 'updateOutitem',
+                                          type: 'POST',
+                                          contentType: 'application/json',
+                                          data: JSON.stringify(updateData),
+                                          success: function(response){
+                                              alert('출고 수정 완료.');
+                                              modalContentClear();
+                                              window.location.href='outitem';
+                                          }
+                                          
+                                      }); 
+                                      }
+                                  })
+                                  .catch(error => {
+                                      console.error('반품 체크 에러:', error);
+                                  });
+
+                        }
+                    })
+                    .catch(error => { 
+                        console.error('주문 취소 체크 에러:', error);
+                    });
+            }
         })
         .catch(error => {
-            console.error('에러:', error);
+            console.error('주문 삭제 체크 에러:', error);
         });
 
-
-
-      //주문이 취소되었는지 체크후 취소되었다면 출고 수정이 안 되도록
-      fetch('/ujmCheckOrderCancelChk?order_no=' + orderNo)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-          if (data.result === 1) { //주문이 취소됨
-            alert('해당 출고의 주문이 취소되었으므로 출고를 수정할 수 없습니다.');
-            return false; 
-          } 
-      })
-      .catch(error => {
-          console.error('에러:', error);
-      });
-
-    
-
-      //반품이 되었는지 체크 후, 반품이 된 상태라면 출고 수정이 안 되도록
-      fetch('/ujmReturnChk?outitem_no=' + outitemNo)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-          if (data.result >0) { //해당 주문번호로 반품이 되었음
-            alert('해당 출고가 이미 전달되어 반품된 상태이므로 출고를 수정할 수 없습니다.');
-            return false; 
-          } 
-      })
-      .catch(error => {
-          console.error('에러:', error);
-      });
-        
-      // form으로 제출할 outitem데이터들
-      var updateOutitemData = {
-          outitem_no : outitemNo, 
-          order_no: orderNo,
-          outitem_dt: $('#calendar_outitem_dt').val(),
-          cust_emp: $('#change_cust_emp').val(),
-          remark: $('#change_remark').val()
-      };
-
-      console.log(updateOutitemData);
-
-      // 선택된 주문품목 -> 출고품목으로 : 출고품목 테이블에 insert
-      var selectedItems = [];
-      $('input[name="selectedItems"]:checked').each(function() {
-          var itemCd = $(this).val();
-          var qty = $(this).closest('tr').find('.updateQty').val(); 
-          selectedItems.push({ item_cd: itemCd, qty: qty });
-      });
-
-      console.log(selectedItems);
-
-      // 데이터 조합
-      var updateData = {
-          outitemData: updateOutitemData,
-          selectedItems: selectedItems
-      };
-
-      console.log(updateData);
-
-      // 조합한 updateData를 서버로 전송
-      $.ajax({
-          url: 'updateOutitem',
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(updateData),
-          success: function(response){
-              alert('출고 수정 완료.');
-              modalContentClear();
-              /* location.reload(); */
-              window.location.href='outitem';
-          }
-          
-       }); 
+      }
 
   
   }) //수정완료 끝
