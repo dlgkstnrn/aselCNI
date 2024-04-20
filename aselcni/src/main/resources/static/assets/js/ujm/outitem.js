@@ -684,7 +684,7 @@ let detail_remark;
         .then(response => response.json())
         .then(data => {
           console.log('주문 삭제 체크:'+data);
-            if (data.result == 1) { //주문이 삭제됨 (order_delete_chk이 1)
+            if (data == 1) { //주문이 삭제됨 (order_delete_chk이 1)
               alert('해당 출고의 주문이 삭제되었으므로 출고를 수정할 수 없습니다.');
               return false; 
             } else { //주문 삭제가 되지 않았을 때
@@ -694,7 +694,7 @@ let detail_remark;
                     .then(response => response.json())
                     .then(data => {
                       console.log('주문 취소 체크: '+data);
-                        if (data.result == 1) { //주문이 취소됨 (order_status_chk이 1)
+                        if (data == 1) { //주문이 취소됨 (order_status_chk이 1)
                           alert('해당 출고의 주문이 취소되었으므로 출고를 수정할 수 없습니다.');
                           return false; 
                         } else { //주문 취소가 되지 않았을 때
@@ -704,7 +704,7 @@ let detail_remark;
                                   .then(response => response.json())
                                   .then(data => {
                                     console.log('반품 체크:'+data);
-                                      if (data.result >0) { //해당 주문번호로 반품이 되었음 (반품 삭제 아닌 반품만 체크)
+                                      if (data >0) { //해당 주문번호로 반품이 되었음 (반품 삭제 아닌 반품만 체크)
                                         alert('해당 출고가 이미 전달되어 반품된 상태이므로 출고를 수정할 수 없습니다.');
                                         return false; 
                                       } else { //반품이 되지 않았다면
@@ -719,24 +719,27 @@ let detail_remark;
                                               alert('출고 수정 완료.');
                                               modalContentClear();
                                               window.location.href='outitem';
-                                          }
+                                          },
                                           
                                       }); 
                                       }
                                   })
                                   .catch(error => {
                                       console.error('반품 체크 에러:', error);
+                                      return false; 
                                   });
 
                         }
                     })
                     .catch(error => { 
                         console.error('주문 취소 체크 에러:', error);
+                        return false; 
                     });
             }
         })
         .catch(error => {
             console.error('주문 삭제 체크 에러:', error);
+            return false; 
         });
 
       }
