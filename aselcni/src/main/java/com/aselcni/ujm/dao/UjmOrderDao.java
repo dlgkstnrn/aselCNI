@@ -23,5 +23,7 @@ public interface UjmOrderDao {
 	int ujmUpdateOrderStatusChk(String order_no);
 
 	int ujmCheckOrderCancelChk(String order_no);
+
+	int ujmUpdateOrderStatusChkAtDelete(String order_no);
 	
 }

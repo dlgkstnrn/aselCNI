@@ -705,7 +705,7 @@ let detail_remark;
                                   .then(data => {
                                     console.log('반품 체크:'+data);
                                       if (data >0) { //해당 주문번호로 반품이 되었음 (반품 삭제 아닌 반품만 체크)
-                                        alert('해당 출고가 이미 전달되어 반품된 상태이므로 출고를 수정할 수 없습니다.');
+                                        alert('해당 출고 상품이 이미 전달되어 반품된 상태이므로 출고를 수정할 수 없습니다.');
                                         return false; 
                                       } else { //반품이 되지 않았다면
                                  
@@ -755,7 +755,74 @@ let detail_remark;
     var delChk=confirm('정말 삭제하시겠습니까?');
 
     if(delChk) {
-      console.log(delChk);
+      console.log('delChk"'+delChk);
+      console.log('outitemNo'+outitemNo);
+      console.log('orderNo'+orderNo);
+      {
+          //주문이 삭제되었는지 체크후 삭제되었다면 출고 삭제가 안 되도록
+        fetch('/ujmCheckOrderDeleteChk?order_no=' +orderNo)
+        .then(response => response.json())
+        .then(data => {
+          console.log('주문 삭제 체크:'+data);
+            if (data == 1) { //주문이 삭제됨 (order_delete_chk이 1)
+              alert('해당 출고의 주문이 삭제되었으므로 출고를 삭제할 수 없습니다.');
+              return false; 
+            } else { //주문 삭제가 되지 않았을 때
+
+                    //주문이 취소되었는지 체크후 취소되었다면 출고 삭제가 안 되도록
+                    fetch('/ujmCheckOrderCancelChk?order_no=' + orderNo)
+                    .then(response => response.json())
+                    .then(data => {
+                      console.log('주문 취소 체크: '+data);
+                        if (data == 1) { //주문이 취소됨 (order_status_chk이 1)
+                          alert('해당 출고의 주문이 취소되었으므로 출고를 삭제할 수 없습니다.');
+                          return false; 
+                        } else { //주문 취소가 되지 않았을 때
+
+                                  //반품이 되었는지 체크 후, 반품이 된 상태라면 출고 삭제가 안 되도록
+                                  fetch('/ujmReturnChk?outitem_no=' + outitemNo)
+                                  .then(response => response.json())
+                                  .then(data => {
+                                    console.log('반품 체크:'+data);
+                                      if (data >0) { //해당 주문번호로 반품이 되었음 (반품 삭제 아닌 반품만 체크)
+                                        alert('해당 출고 상품이 이미 전달되어 반품된 상태이므로 출고를 삭제할 수 없습니다.');
+                                        return false; 
+                                      } else { //반품이 되지 않았다면
+    
+                                        $.ajax({
+                                          url: 'deleteOutitem',
+                                          type: 'GET',
+                                          data: { order_no: orderNo, outitem_no: outitemNo},
+                                          success: function(response){
+                                              alert('출고 삭제 완료.');
+                                              modalContentClear();
+                                              window.location.href='outitem';
+                                          },
+                                          
+                                      }); 
+                                      }
+                                  })
+                                  .catch(error => {
+                                      console.error('반품 체크 에러:', error);
+                                      return false; 
+                                  });
+
+                        }
+                    })
+                    .catch(error => { 
+                        console.error('주문 취소 체크 에러:', error);
+                        return false; 
+                    });
+            }
+        })
+        .catch(error => {
+            console.error('주문 삭제 체크 에러:', error);
+            return false; 
+        });
+        }
+
+
+
     }
 
   }) //삭제버튼 끝

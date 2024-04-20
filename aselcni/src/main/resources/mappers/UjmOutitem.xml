@@ -380,6 +380,26 @@
 			and OUTITEM_DELETE_CHK =0
 		]]> 
 	</select>
+	
+	<update id="ujmDeleteOutitem" parameterType="String" >
+		UPDATE TB_outitem
+		SET 
+		outitem_delete_chk=1
+		WHERE outitem_no = #{outitem_no}
+	</update>
+	
+	
+	<select id="outitemCntAtChangeOrderStatusChkAtDelete" parameterType="String" resultType="int">
+		select count(*)
+		from TB_OUTITEM as ou
+		join tb_order as ord on ou.ORDER_NO = ord.ORDER_NO 
+		where ou.ORDER_NO =#{order_no}
+		and ou.OUTITEM_DELETE_CHK =0
+		and ord.ORDER_DELETE_CHK =0
+		and ord.ORDER_STATUS_CHK in (2,3)
+	</select>
+	
+
 
 	
 </mapper>

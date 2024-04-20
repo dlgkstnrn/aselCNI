@@ -164,4 +164,36 @@ public class UjmOrderDaoImpl implements UjmOrderDao {
 		}
 		return ujmCheckOrderCancelChk;
 	}
+
+	@Override
+	public int ujmUpdateOrderStatusChkAtDelete(String order_no) {
+		System.out.println("UjmOrderDaoImpl ujmUpdateOrderStatusChkAtDelete start..");
+		System.out.println(order_no);
+		
+		int ujmUpdateOrderStatusChkAtDelete= 0; 
+		try {	
+			//주문의 상태가 2또는 3이고, 해당 주문번호에 종속된 출고가 있는지 체크
+			//삭제하려는 출고는 이미 outitem_delete_chk이 1로 된 상태
+			int outitemCntAtChangeOrderStatusChkAtDelete = session.selectOne("outitemCntAtChangeOrderStatusChkAtDelete",order_no);
+			System.out.println("outitemCntAtChangeOrderStatusChkAtDelete:"+outitemCntAtChangeOrderStatusChkAtDelete);
+			
+			if(outitemCntAtChangeOrderStatusChkAtDelete==0) { //0이면, 해당 주문이 출고되지 않은 것이므로 order_status_chk을 0으로 변경
+			
+				try {
+					System.out.println("outitemCntAtChangeOrderStatusChkAtDelete가 0이므로 ujmChangeOrderStatusChkZero를 사용함");
+					
+					ujmUpdateOrderStatusChkAtDelete = session.update("ujmChangeOrderStatusChkZero",order_no); 
+					//order_status_chk을 0으로 변경. 
+					//변경되었으면 1이 나와야함
+					System.out.println("ujmChangeOrderStatusChkZero을 거친 ujmUpdateOrderStatusChkAtDelete:"+ujmUpdateOrderStatusChkAtDelete);
+				} catch (Exception e) {
+					System.out.println("UjmOrderDaoImpl ujmChangeOrderStatusChkZero Exception->"+e.getMessage());
+				}
+				
+			} 
+		} catch (Exception e) {
+			System.out.println("UjmOrderDaoImpl outitemCntAtChangeOrderStatusChkAtDelete Exception->"+e.getMessage());
+		}
+		return ujmUpdateOrderStatusChkAtDelete;
+	}
 }

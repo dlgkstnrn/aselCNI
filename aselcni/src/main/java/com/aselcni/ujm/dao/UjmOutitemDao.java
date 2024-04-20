@@ -37,4 +37,6 @@ public interface UjmOutitemDao {
 
 	String ujmFindOutitemRemark(String outitem_no);
 
+	int ujmDeleteOutitem(String outitem_no);
+
 }

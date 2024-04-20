@@ -32,6 +32,8 @@ public interface UjmOutitemService {
 
 	UjmOutitem ujmDateLogic(UjmOutitem outitem);
 
+	int ujmDeleteOutitem(String outitem_no, String order_no);
+
 
 
 }

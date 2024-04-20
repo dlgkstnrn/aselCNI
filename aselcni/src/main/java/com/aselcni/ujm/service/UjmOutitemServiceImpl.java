@@ -30,7 +30,7 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 
 	@Override
 	public int ujmTotalOutitemCnt(UjmOutitem outitem) {
-		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt...(검색용)" );
+		System.out.println("UjmOutitemServiceImpl Start ujmTotalOutitemCnt" );
 		int ujmTotalOutitemCnt = uod.ujmTotalOutitemCnt(outitem);
 		System.out.println("UjmOutitemServiceImpl ujmTotalOutitemCnt->" + ujmTotalOutitemCnt);
 		return ujmTotalOutitemCnt;
@@ -224,6 +224,22 @@ public class UjmOutitemServiceImpl implements UjmOutitemService {
 			outitem.setEnd_day(oneMonthAfter);
 		} 
 		return outitem;
+	}
+
+	@Override
+	@Transactional
+	public int ujmDeleteOutitem(String outitem_no, String order_no) {
+		System.out.println("UjmOutitemServiceImpl ujmDeleteOutitem" );
+		
+		//outitem_delete_chk을 1로 변경
+		int ujmDeleteOutitemCnt = uod.ujmDeleteOutitem(outitem_no);
+		System.out.println("UjmOutitemServiceImpl ujmDeleteOutitemCnt->" + ujmDeleteOutitemCnt);
+		
+		//주문의 상태가 2 또는 3이고, 해당 주문번호를 가지는 출고가 하나도 없을 때, 주문의 order_status_chk을 0으로 변경
+		int ujmUpdateOrderStatusChkAtDelete = uord.ujmUpdateOrderStatusChkAtDelete(order_no);
+		System.out.println("UjmOutitemServiceImpl ujmUpdateOrderStatusChkAtDelete->" + ujmUpdateOrderStatusChkAtDelete);
+		
+		return ujmDeleteOutitemCnt;
 	}
 
 
