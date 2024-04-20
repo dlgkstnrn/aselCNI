@@ -74,7 +74,7 @@
 		]]> 
 	</select>
 	
-	<select id="ujmChangeOrderStatusChk" parameterType="String" resultType="int">
+	<select id="ujmSelectAllOrderOutitemChk" parameterType="String" resultType="int">
 		<![CDATA[
 			SELECT 
 		    CASE 
@@ -106,17 +106,12 @@
 		]]> 
 	</select>
 	
-	<update id="ujmChangeOrderStatusChkTwo" parameterType="String">
+	<update id="ujmChangeOrderStatusChk" parameterType="UjmOrder">
 		UPDATE TB_order
-		SET order_status_chk = 2
+		SET order_status_chk = #{order_status_chk}
 		WHERE order_no = #{order_no}
 	</update>
 	
-	<update id="ujmChangeOrderStatusChkThree" parameterType="String">
-		UPDATE TB_order
-		SET order_status_chk = 3
-		WHERE order_no = #{order_no}
-	</update>
 	
 	<select id="ujmCheckOrderDeleteChk" parameterType="String" resultType="int">
 		<![CDATA[
@@ -142,15 +137,6 @@
 			WHERE oui.order_no = #{order_no}
 		]]> 
 	</select>
-	
-	<update id="ujmChangeOrderStatusChkZero" parameterType="String">
-		<![CDATA[
-			UPDATE TB_order
-			SET order_status_chk = 0
-			WHERE order_no = #{order_no}
-		]]> 
-	</update>
-	
 
 	
 </mapper>

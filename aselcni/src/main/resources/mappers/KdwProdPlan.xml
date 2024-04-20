@@ -5,10 +5,10 @@
 	<!-- 생산계획 제품리스트 -->
 	<select id="kdwProdPlanList" resultType="KdwProdPlan">
 		SELECT
-		pp.*,
-		im.ITEM_NM AS item_nm, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
-		im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS cust_nm,
-		um.USER_NM AS prodplan_emp_name
+			pp.*,
+			im.ITEM_NM AS item_nm, im.ITEM_FLAG, im.BIG_NO, im.MID_NO, im.SML_NO,
+			im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost, cm.CUST_NM AS cust_nm,
+			um.USER_NM AS prodplan_emp_name
 		FROM TB_PRODPLAN pp
 		INNER JOIN TB_ITEMMST im ON pp.ITEM_CD = im.ITEM_CD
 		LEFT JOIN TB_ORDER od ON pp.ORDER_NO = od.ORDER_NO
@@ -21,19 +21,20 @@
 	<!-- 생산계획 자재리스트 -->
 	<select id="kdwProdPlanItemList" resultType="KdwProdPlanItem">
 		SELECT
-		ip.*,
-		im.ITEM_NM AS item_nm, im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost
+			ip.*,
+			im.ITEM_NM AS item_nm, im.ITEM_SPEC, im.ITEM_UNIT, im.ITEM_COST AS item_cost
 		FROM TB_ITEM_PROD ip
 		INNER JOIN TB_ITEMMST im ON ip.ITEM_CD = im.ITEM_CD
 	</select>
 
 	<!-- 주문 리스트: 등록할때 주문당 생산계획짜야됨 -->
 	<select id="kdwProdPlanOrderList" resultType="KdwProdOrder">
-		SELECT od.*,
-		tc.CUST_NM AS cust_nm
+		SELECT 
+			od.*,
+		    tc.CUST_NM AS cust_nm
 		FROM TB_ORDER od
-		INNER JOIN TB_CUSTMST tc ON
-		od.CUST_CD = tc.CUST_CD
+		INNER JOIN TB_CUSTMST tc ON od.CUST_CD = tc.CUST_CD
+		WHERE od.ORDER_STATUS_CHK IN (0, 2)
 	</select>
 	<select id="kdwProdPlanOrderItemList" resultType="KdwProdOrderItem">
 		SELECT toi.*, ti.ITEM_NM AS item_nm
@@ -82,8 +83,11 @@
 	</select>
 
 	<insert id="kdwSaveProdPlan" parameterType="map">
-	    INSERT INTO TB_PRODPLAN (prodPlan_no, prodPlan_dt, seq_no, order_no,
-	    prodplan_emp_id, work_dt, prodPlan_end_dt, item_cd, qty, remark, prodPlan_update, prodPlan_delete_chk)
+	    INSERT INTO TB_PRODPLAN (
+	    	prodPlan_no, prodPlan_dt, seq_no, order_no,
+	    	prodplan_emp_id, work_dt, prodPlan_end_dt, 
+	    	item_cd, qty, remark, prodPlan_update, prodPlan_delete_chk
+	    	)
 	    VALUES (
 	    #{tbProdPlan.prodPlan_no},
 	    #{tbProdPlan.prodPlan_dt}, #{tbProdPlan.seq_no}, #{tbProdPlan.order_no}, 

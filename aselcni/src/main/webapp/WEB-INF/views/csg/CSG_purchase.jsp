@@ -159,16 +159,16 @@
 														<td><c:choose>
 											                <c:when test="${purchase.purc_status_chk == 0}">
 											                    <!-- <button class="btn btn-warning btn-sm" type="button">발주 완료</button> -->
-											                    <span class="badge bg-success">발주 완료</span>
+											                    <span class="badge bg-success">발주진행</span>
 											                    
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 1}">
 											                    <!-- <button class="btn btn-info btn-sm" type="button">입고중</button> -->
-											                    <span class="badge bg-primary">입고중</span>
+											                    <span class="badge bg-primary">입고진행</span>
 											                </c:when>
 											                <c:when test="${purchase.purc_status_chk == 2}">
 											                    <!-- <button class="btn btn-success btn-sm" type="button">입고완료</button> -->
-											                    <span class="badge bg-warning text-dark">입고 완료</span>
+											                    <span class="badge bg-warning text-dark">입고완료</span>
 											                </c:when>
 											            </c:choose></td>
 												    </tr>

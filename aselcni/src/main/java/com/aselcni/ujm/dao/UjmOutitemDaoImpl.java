@@ -255,6 +255,18 @@ public class UjmOutitemDaoImpl implements UjmOutitemDao {
 		}
 	}
 
+	@Override
+	public int ujmDeleteOutitem(String outitem_no) {
+		System.out.println("UjmOutitemDaoImpl ujmDeleteOutitem 시작 ...");
+		System.out.println(outitem_no);
+		try {
+			int deleteOutitem=session.update("ujmDeleteOutitem",outitem_no);
+			return deleteOutitem;
+		} catch (Exception e) {
+			System.out.println("UjmOutitemDaoImpl ujmDeleteOutitem 오류:"+e.getMessage());
+			return -1;
+		}
+	}
 
 		
 }

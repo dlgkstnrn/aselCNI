@@ -15,53 +15,39 @@
 
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect">
-<link
-	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
 <!-- Vendor CSS Files -->
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-	rel="stylesheet">
-<link href="assets/vendor/boxicons/css/boxicons.min.css"
-	rel="stylesheet">
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
 <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
 <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 <!-- 제이쿼리에 의존하는 JS들이 있기 때문에 상단에 위치 해야함 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- 제이쿼리 UI(컬러피커에 사용) -->
-<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-	rel="stylesheet">
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- 주문선택 데이트피커 라이브러리 css, js, locale(한글)-->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"></script>
 
 <!-- 셀렉트박스에 Select2 CSS -->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
-	rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <!-- Select2 JS -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <!-- CSS File -->
 <link href="assets/css/style.css" rel="stylesheet" type="text/css">
 
 <!-- Script -->
 <script defer src="assets/js/main.js"></script>
-<script src="https://kit.fontawesome.com/0b22ed6a9d.js"
-	crossorigin="anonymous"></script>
+<!-- 폰트어썸 -->
+<script src="https://kit.fontawesome.com/b798aa0b92.js" crossorigin="anonymous"></script>
 <!-- 풀캘린더 API -->
 <script
 	src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
@@ -204,7 +190,7 @@
 												</label>
 												<div class="col-sm-8">
 													<input type="text" class="form-control productNameInput"
-														id="productName">
+														id="productName" readonly>
 												</div>
 												<!-- 품목선택 버튼 -->
 												<div class="col-sm-2">
@@ -444,10 +430,11 @@
 									<!-- 중첩 모달 내용 -->
 									<div class="modal-body">
 										<div class="input-group date" id="monthPicker">
-											<input type="text" class="form-control"> <span
-												class="input-group-append"> <span
-												class="input-group-text date"> <i
-													class="fa fa-calendar" id="dateIcon"></i></span>
+											<input type="text" class="form-control"> 
+											<span class="input-group-append"> 
+												<span class="input-group-text date"> 
+													<i class="fa fa-calendar" id="dateIcon"></i>
+												</span>
 											</span>
 										</div>
 										<!-- 주문번호 리스트 표시 테이블 -->

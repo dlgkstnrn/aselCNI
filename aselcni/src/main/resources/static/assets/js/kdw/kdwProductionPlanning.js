@@ -659,13 +659,24 @@ $(document).ready(function() {
 
 	// 자재 생상수량
 	$('.category-search-material-list').on('input', '.quantity-input', function() {
-		var value = parseInt($(this).val(), 10);
-		if (value > 999999) {
+		var originalValue = $(this).val();
+		var correctedValue = originalValue.replace(/[^\d-]/g, '');
+
+		// 숫자, 음수 부호 외의 문자가 입력되었는지 검사
+		if (originalValue !== correctedValue) {
+			$(this).val(correctedValue);
+		}
+
+		// 정수 범위를 확인하고 필요한 경우 최대 또는 최소값으로 설정
+		var intValue = parseInt(correctedValue, 10);
+		if (intValue > 999999) {
 			$(this).val(999999);
 			alert('수량은 최대 999999개까지입니다.');
-		} else if (value < -999999) {
+		} else if (intValue < -999999) {
 			$(this).val(-999999);
 			alert('수량은 최소 -999999개까지입니다.');
+		} else {
+			$(this).val(intValue);
 		}
 	});
 
@@ -689,15 +700,21 @@ $(document).ready(function() {
 		var selectedMaterials = $("input[type='checkbox'][name='materialSelect']:checked");
 
 		if (selectedMaterials.length > 0) {
-			// 선택된 자재 정보를 임시 배열에 저장
 			var tempSelectedMaterialsInfo = [];
+			var allQuantitiesEntered = true; // 모든 수량 입력 확인 변수
+
 			selectedMaterials.each(function() {
 				var tr = $(this).closest('tr');
 				var materialCode = tr.find("th").text();
 				var materialName = tr.find("td").eq(1).text();
 				var quantity = tr.find("input[type='number']").val();
 
-				// 임시 배열에 선택된 자재 정보 추가
+				// 수량이 입력되지 않았을 경우 반복 종료
+				if (quantity === "") {
+					allQuantitiesEntered = false;
+					return false;
+				}
+
 				tempSelectedMaterialsInfo.push({
 					code: materialCode,
 					name: materialName,
@@ -705,17 +722,22 @@ $(document).ready(function() {
 				});
 			});
 
+			// 모든 자재의 수량이 입력되지 않았다면 경고 출력 후 함수 종료
+			if (!allQuantitiesEntered) {
+				alert('모든 선택된 자재의 수량을 입력해야 합니다.');
+				return;
+			}
+
+			// 정상적인 경우의 로직 처리
 			if (activeModal === 'update') {
-				// 수정 모달에서의 처리 로직
 				appendMaterialsToUpdateModal(tempSelectedMaterialsInfo);
 				$('#nestedItemModal').modal('hide');
-				$('#verticalycentered-update').modal('show'); // 수정 모달로 다시 이동
+				$('#verticalycentered-update').modal('show');
 			} else {
-				// 등록 모달에서의 처리 로직
 				tempSelectedMaterialsInfo.forEach(function(materialInfo) {
 					selectedMaterialsInfo.push(materialInfo);
 				});
-				displaySelectedMaterials(); // 등록 모달에 선택된 자재 정보 표시
+				displaySelectedMaterials();
 				$('#nestedItemModal').modal('hide');
 			}
 		} else {
@@ -929,24 +951,46 @@ $(document).ready(function() {
 	});
 	// 작업일수
 	$('.prodPlanWorkingDaysInput').on('input', function() {
-		var value = parseInt($(this).val(), 10);
-		if (value > 999999) {
+		var originalValue = $(this).val();
+		var correctedValue = originalValue.replace(/[^\d-]/g, '');
+
+		// 숫자, 음수 부호 외의 문자가 입력되었는지 검사
+		if (originalValue !== correctedValue) {
+			$(this).val(correctedValue);
+		}
+
+		// 정수 범위를 확인하고 필요한 경우 최대 또는 최소값으로 설정
+		var intValue = parseInt(correctedValue, 10);
+		if (intValue > 999999) {
 			$(this).val(999999);
 			alert('작업일수는 최대 999999개까지입니다.');
-		} else if (value < -999999) {
+		} else if (intValue < -999999) {
 			$(this).val(-999999);
 			alert('작업일수는 최소 -999999개까지입니다.');
+		} else {
+			$(this).val(intValue);
 		}
 	});
 	// 생상수량
 	$('.prodCount-input').on('input', function() {
-		var value = parseInt($(this).val(), 10);
-		if (value > 999999) {
+		var originalValue = $(this).val();
+		var correctedValue = originalValue.replace(/[^\d-]/g, '');
+
+		// 숫자, 음수 부호 외의 문자가 입력되었는지 검사
+		if (originalValue !== correctedValue) {
+			$(this).val(correctedValue);
+		}
+
+		// 정수 범위를 확인하고 필요한 경우 최대 또는 최소값으로 설정
+		var intValue = parseInt(correctedValue, 10);
+		if (intValue > 999999) {
 			$(this).val(999999);
 			alert('생산수량은 최대 999999개까지입니다.');
-		} else if (value < -999999) {
+		} else if (intValue < -999999) {
 			$(this).val(-999999);
 			alert('생산수량은 최소 -999999개까지입니다.');
+		} else {
+			$(this).val(intValue);
 		}
 	});
 

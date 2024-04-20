@@ -98,7 +98,7 @@ $('#midType').on('change',(event) => {
     //const big_no = $('#midType').find(':selected').data('big-no');
     
    if(mid_no==null||mid_no==''){
-      alert("중분류 선택해");
+      alert("중분류 선택해주세요.");
       return;
    }
    $.ajax({
@@ -113,10 +113,15 @@ $('#midType').on('change',(event) => {
          console.log(rsp);
          $('#smlType').empty();
          $('#smlType').append(
-               '<option value="">소분류룰 선택하세요</option>'
+               '<option value="">소분류를 선택하세요</option>'
             )
-         rsp.forEach((item)=>{
-            $('#smlType').append(
+         rsp.forEach((item,idx)=>{
+			for(let i=0; i<idx; i++){
+				if(rsp[i].sml_no == item.sml_no&&rsp[i].mid_no == item.mid_no&&rsp[i].big_no == item.big_no){
+					return;
+				}
+			}
+			$('#smlType').append(
                `<option value="${item.sml_no}" data-mid-no="${item.mid_no}" data-big-no="${item.big_no}">${item.sml_content}</option>`
             )
          })
@@ -392,7 +397,7 @@ function deleteSelected() {
             let purcStatus = row.querySelector('td:nth-child(10)').textContent; // 발주현황 열 위치 변경에 따른 수정
 
             // 발주진행중인 항목만 삭제할 수 있도록 조건을 추가
-            if (purcStatus.trim() === '발주진행중') {
+            if (purcStatus.trim() === '발주진행') {
                 // 행에서 발주번호(purc_no)와 거래처 발주담당자(cust_emp)를 가져옴
                 let purc_no = row.querySelector('td:nth-child(3)').textContent;
                 selectedIds.push(purc_no); // 선택된 항목의 ID를 배열에 추가

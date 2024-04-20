@@ -162,7 +162,7 @@ pageEncoding="UTF-8"%>
                       <td>
                         <c:if test="${outitem.order_status_chk==0}"><span class="badge bg-warning text-dark">주문 완료</span></c:if>
                         <c:if test="${outitem.order_status_chk==1}"><span class="badge bg-secondary">주문 취소</span></c:if>
-                        <c:if test="${outitem.order_status_chk==2}"><span class="badge bg-primary">출고 진행</span></c:if>
+                        <c:if test="${outitem.order_status_chk==2}"><span class="badge bg-primary">일부 출고</span></c:if>
                         <c:if test="${outitem.order_status_chk==3}"><span class="badge bg-secondary">전체 출고 완료</span></c:if>
                       </td>
                       
@@ -182,7 +182,6 @@ pageEncoding="UTF-8"%>
             
               
             
-
 
 
 
@@ -289,7 +288,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label
                       for="outitem_dt"
-                      class="col-sm-3 col-form-label">출고일자<span class="color-red">*</span></label>
+                      class="col-sm-3 col-form-label red-star">출고일자</label>
                     <div class="col-sm-9">
                       <input type="date" class="form-control" id="insert_outitem_dt" 
                         name="outitem_dt" style="width: 200px;" required="required"/>
@@ -300,7 +299,7 @@ pageEncoding="UTF-8"%>
                   <div class="row mb-3">
                     <label
                       for="outitem.cust_emp"
-                      class="col-sm-3 col-form-label">거래처 담당자<span class="color-red">*</span></label>
+                      class="col-sm-3 col-form-label red-star">거래처 담당자</label>
                     <div class="col-sm-9">
                       <input
                         type="text"
@@ -454,14 +453,14 @@ pageEncoding="UTF-8"%>
 
                     <!-- 출고일자 -->
                     <div class="row mb-3">
-                      <label for="outitem_dt" class="col-sm-3 col-form-label">출고일자</label>
+                      <label for="outitem_dt" class="col-sm-3 col-form-label red-star">출고일자</label>
                       <div class="col-sm-9" id="detail_outitem_dt">
                       </div>
                     </div>
 
                     <!-- 거래처담당자 -->
                     <div class="row mb-3">
-                      <label for="workprod_dt" class="col-sm-3 col-form-label">거래처 담당자</label>
+                      <label for="workprod_dt" class="col-sm-3 col-form-label red-star">거래처 담당자</label>
                       <div class="col-sm-9" id="detail_cust_emp">
                       </div>
                     </div>

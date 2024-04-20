@@ -64,7 +64,7 @@
    <main id="main" class="main">
 
       <div class="pagetitle">
-         <h1>창고 관리</h1>
+         <h1>기준 정보 관리</h1>
          <nav>
             <ol class="breadcrumb">
                <li class="breadcrumb-item"><a href="#">기준 정보 관리</a></li>
@@ -88,14 +88,16 @@
                <div class="card">
 
                   <div class="card-body">
+                     <div class="d-flex align-items-center">
+									<span class="h5 me-auto card-header-title">창고 관리</span>
+									<div>
+										<button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#verticalycentered">신규</button>
+									</div>
+							
+							          </div>
 
-                        <div class="topdiv d-flex justify-content-end">
-                     <div>
-                  
-                     <button type="button" class="btn btn-primary"
-                        data-bs-toggle="modal" data-bs-target="#verticalycentered">신규</button>
-                     </div>
-                               </div>
+							<hr>
                      <div class="modal fade" id="verticalycentered" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                            <div class="modal-content">
@@ -299,20 +301,21 @@
 
                            <div class="searchdiv">
                                     <form action="/whmst">
-                                      <div class="d-flex">
+                                      <div class="d-flex" style="width: 600px;">
                                       <select class="form-select searchselect"
                                              aria-label="Default select example"
-                                             name="searchFilter" >
+                                             name="searchFilter" style="width: 200px;">
                                              <option selected="">검색옵션선택</option>
                                              <option value="wh_cd">코드</option>
                                              <option value="wh_nm">이름</option>
                                            </select>
                                       
-                                        <input type="text" name="keyword" class="form-control searchinput" />
+                                        <input type="text" name="keyword" class="form-control searchinput" style="width: 400px;"/>
                                         
-                                        <button type="submit" class="btn btn-primary">검색</button>
+                                        <button type="submit" class="btn btn-primary" style="width: 60px;">검색</button>
                                       </div>
                                     </form>
+                                    
                                   </div>
                            <!-- End Search Bar -->
 

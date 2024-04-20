@@ -33,7 +33,7 @@ function changeData(key, value) {
 	data[key] = value;
 	console.log(data[key], value);
 }
-
+//엔터키누르면 검색
 $(document).ready(function() {
 	$('.container.text-center.m-4 input').keypress(function(e) {
 
@@ -400,10 +400,10 @@ function disabledOnoff(list, isDisabled) {
 function getPriListAjax(page) {
 	data.startDate = $('#startDate').val();
 	data.endDate = $('#endDate').val();
-	data.proditem_no = ""; //리셋
+	data.proditem_no = $("#prodItemNoSearch").val(); //리셋
 	data.currentPage = page;
 
-	console.log("data", data);
+	console.log("getPriListAjax data", data);
 
 	$.ajax({
 		url: "getPriListAjax",

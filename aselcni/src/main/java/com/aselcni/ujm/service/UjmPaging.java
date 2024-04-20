@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class UjmPaging {
 	//초기값
-	private int currentPage = 1;	private int rowPage   = 5;
+	private int currentPage = 1;	private int rowPage   = 10;
 	private int pageBlock = 5;		
 	private int start;				private int end;
 	private int startPage;			private int endPage;

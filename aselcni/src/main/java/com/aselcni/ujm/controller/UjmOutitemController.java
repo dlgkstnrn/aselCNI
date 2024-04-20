@@ -185,10 +185,14 @@ public class UjmOutitemController {
 	
 	//출고 삭제
 	@RequestMapping(value = "deleteOutitem") 
-	public String ujmDeleteOutitem(HttpServletRequest request, Model model, HttpSession session) {
-		UjmOutitem outitem=new UjmOutitem();
+	@ResponseBody
+    public int ujmDeleteOutitem(@RequestParam("outitem_no") String outitem_no, @RequestParam("order_no") String order_no) {
+		System.out.println("UjmOutitem 컨트롤러 ujmDeleteOutitem 시작");
 		
+		int ujmDeleteCount=uos.ujmDeleteOutitem(outitem_no, order_no);
+		System.out.println("ujmDeleteCount:"+ujmDeleteCount); 
+		//삭제되었을 경우 1, 그렇지 않을 경우 0
 		
-		return "ujm/ujmOutitem"; 
+		return ujmDeleteCount;
 	}
 }

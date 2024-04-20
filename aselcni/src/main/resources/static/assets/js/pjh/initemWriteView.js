@@ -183,7 +183,10 @@ const checkItemQty = function (item, num) {
     if (item.value > num) {
         alert('발주수량 보다 큰 값을 입력할 수 없습니다.\n발주수량:' + num);
         item.value = num;
-    }
+    } else if(item.value == 0){
+		alert('0개를 입력할 수 없습니다. \n삭제 기능을 이용해주세요');
+        item.value = num;
+	}
     calcTotalAmount();
 }
 
