@@ -58,11 +58,15 @@ $(document).ready(function(){
 	$("#serachBtn").click(async function(){  // async 키워드 추가
 	    console.log("----- searchBtn -----")
 	    order_no = $("#input_order_no").val();
-	    order_no = $("#input_order_no").val();
+
 		let pageValue = getParameterByName('page');
 		if(pageValue == null){
 			pageValue = 1;
 		}
+		//if(seltDT == null || seltDT == ""){
+		//	alert("기간비었따")
+		//}
+		index = (pageValue * 10) - 9;
 	        try{
 			    let response = await $.ajax({
 			        url: "/order",
@@ -80,6 +84,7 @@ $(document).ready(function(){
 			    });
 			   	
 	            $("#table_body").empty(); // 기존 테이블 내용 제거
+	            $("#paging").empty();
 	            console.log("----", response)
 				if(response.length == 0){
 					alert("조회 결과가 없습니다");
@@ -96,22 +101,24 @@ $(document).ready(function(){
 			            "<td>" + order.user_nm + "</td>" +
 			            "<td class='blue'><span class='badge " + getStatusClass(order.order_status_chk) + "'>" + getStatusText(order.order_status_chk) + "</span></td>" +
 			            "</tr>";
-			
+					
 			        $("#table_body").append(newRow); // 새로운 행 추가
 			        
-			        $("#input_order_no").val("");
-				    $("#input_start_dt").val("");
-				    $("#input_end_dt").val("");
+			        // $("#input_order_no").val("");
+				    // $("#input_start_dt").val("");
+				    // $("#input_end_dt").val("");
 				
-				    $("#selectDT").text("기간 선택");
-				    $(".custCheckbox").prop("checked", false);
-				    $(".userCheckbox").prop("checked", false);
+				    // $("#selectDT").text("기간 선택");
+				    // $(".custCheckbox").prop("checked", false);
+				    // $(".userCheckbox").prop("checked", false);
 					
-					selCusts = [];
-					selUsers = [];
-					order_no = "";
-					seltDT = "";
+					// selCusts = [];
+					// selUsers = [];
+					// order_no = "";
+					// seltDT = "";
 			    });
+			    // var paging = "<p>거묘ㅐㄱ </p>"
+			    $("#paging").append(paging);
 	        }
 	        catch (error){
 	            console.error(error);

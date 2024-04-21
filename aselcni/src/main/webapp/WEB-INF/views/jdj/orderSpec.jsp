@@ -129,14 +129,15 @@
 						</div>
 						
         				<c:if test="${orderSpec.order_status_chk == 0}">
-						<div class="d-flex gap-2 justify-content-center py-2">
-							<button id="delOrd"  value="${ orderSpec.order_no}" class="btn btn-danger btn px-4 rounded-pill" type="button">주문 취소</button>
-							<button id="modiOrd" class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button">수정</button>
-						</div>
+							<div class="d-flex gap-2 justify-content-center py-2">
+								<button id="delOrd"  value="${ orderSpec.order_no}" class="btn btn-danger btn px-4 rounded-pill" type="button">주문 취소</button>
+								<button id="modiOrd" class="d-inline-flex align-items-center btn btn-primary btn px-4 rounded-pill" type="button">수정</button>
+							</div>
 						</c:if>
 					<p>
 						<div class="col-12">
 		                	<label for="inputNanme4" class="form-label">주문 품목 </label>
+		                	<%-- <c:set></c:set> --%>
 		                 	<table class="table table-hover text-center">
 								<thead><tr>
 									<th scope="col"></th>
@@ -159,13 +160,18 @@
 							                <button id="${orderItem.item_cd}" type="button" class="btn btn-light" disabled>${orderItem.qty}</button>
 							                <button onclick="increaseCnt2('${orderItem.item_cd}')" id="increaseBtn2" type="button" class="increaseBtn2 btn btn-light" style="display: none"><i class="bi bi-plus"></i></button>
 	             						</div></td>
-										<td id="item_cost">${orderItem.item_cost}</td>
-										<td id="${orderItem.item_cd}_cost">${orderItem.cost}</td>
+										<td id="$item_cost">${orderItem.item_cost}</td>
+										<td id="${orderItem.item_cd}_cost2">${orderItem.cost}</td>
 										<%-- <td id="'${orderItem.item_cd}'_cost">${orderItem.cost}</td> --%>
 									</tr>									
 									</c:forEach>
 								</tbody>
 							</table>
+							
+							<div id="totalAmount" style="margin-top: 20px;">
+						    	합계 금액 : <span id="totalPrice"></span>
+							</div>
+							
 		                </div> <!-- col-12, 품목 리스트 -->
 		                <c:if test="${orderSpec.order_status_chk == 0}">
 							<div class="d-grid gap-2 d-md-flex justify-content-md-end">

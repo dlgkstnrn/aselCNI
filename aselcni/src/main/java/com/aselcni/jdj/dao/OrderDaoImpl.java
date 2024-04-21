@@ -287,12 +287,12 @@ public class OrderDaoImpl implements OrderDao {
 		List<String> selCusts = findOrd.getSelCusts();
 		
 		
-		System.out.println("order_no : " + order_no);
-		System.out.println("input_start_dt : " + input_start_dt);
-		System.out.println("input_end_dt : " + input_end_dt);
-		System.out.println("seltDT : " + seltDT);
-		System.out.println("selUsers : " + selUsers);
-		System.out.println("selCusts : " + selCusts);
+//		System.out.println("order_no : " + order_no);
+//		System.out.println("input_start_dt : " + input_start_dt);
+//		System.out.println("input_end_dt : " + input_end_dt);
+//		System.out.println("seltDT : " + seltDT);
+//		System.out.println("selUsers : " + selUsers);
+//		System.out.println("selCusts : " + selCusts);
 		List<Order> findOrders =null;
 		
 		try {
@@ -304,8 +304,9 @@ public class OrderDaoImpl implements OrderDao {
 			params.put("selUsers", selUsers);
 			params.put("selCusts", selCusts);
 			
-			RowBounds rowBounds = new RowBounds(offset, limit);
-	        findOrders = session.selectList("findOrd", params, rowBounds);
+//			RowBounds rowBounds = new RowBounds(offset, limit);
+//	        findOrders = session.selectList("findOrd", params, rowBounds);
+	        findOrders = session.selectList("findOrd", params);
 	        
 	        System.out.println("==============================================");
 	        System.out.println("findOrders : " + findOrders);
