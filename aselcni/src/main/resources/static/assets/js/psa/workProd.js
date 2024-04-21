@@ -506,7 +506,7 @@ $('#insertDataBtn').on('click', function(e){
 		item_nm : $('#prp_item_nm').val(),
 		qty : $('#prp_qty').val(),
 		work_dt : $('#prp_work_dt').val(),
-		work_cmd : $('#work_cmd').val(),
+		work_cmd : $('#prp_work_cmd').val(),
 		remark : $('#prp_remark').val()
 	}
 
