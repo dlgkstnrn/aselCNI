@@ -3,7 +3,7 @@
 <mapper namespace="com.aselcni.HshProcmstMapper">
 
 	<select id="procmstTotal" resultType="int">
-		select Count(*) FROM TB_PROCMST
+		select Count(*) FROM TB_PROCMST where   PROC_DELETE_CHK = 0
 	</select>
 
 	<select id="HshgetProcmst" resultType="Procmst" parameterType="Procmst">

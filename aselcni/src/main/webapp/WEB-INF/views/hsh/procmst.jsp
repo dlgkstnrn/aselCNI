@@ -345,13 +345,14 @@
 														href="/procmst?currentPage=${page.startPage-page.pageBlock}"
 													>이전</a></li>
 												</c:if>
+												
 												<c:forEach var="i" begin="${page.startPage}"
 													end="${page.endPage}"
 												>
 													<li class="page-item"><a class="page-link"
-														href="/procmst?currentPage=${i}&searchFilter=${Procmst.searchFilter}&keyword=${Procmst.keyword}"
-													>${i}</a></li>
+														href="/procmst?currentPage=${i}&searchFilter=${Procmst.searchFilter}&keyword=${Procmst.keyword}">${i}</a></li>
 												</c:forEach>
+												
 												<c:if test="${page.endPage < page.totalPage }">
 													<li class="page-item"><a class="page-link"
 														href="/procmst?currentPage=${page.startPage+page.pageBlock}"
@@ -623,6 +624,9 @@
 					} else if (response === 'error1') {
 						alert('공정 코드 또는 공정 이름이 비어 있습니다');
 					} else if (response === 'error2') {
+						alert('중복된 공정코드입니다!');
+					}
+					 else if (response === 'error3') {
 						alert('존재하지않는 담당자입니다!');
 					}
 				},

@@ -53,29 +53,30 @@ public class SH_Controller {
       
       return "hsh/procmst";
    }
-   //공정관리 페이지 다음칸
-   @RequestMapping("/nextProcmst")
-   public String nextProcmst(Procmst procmst, Model model) {
-      System.out.println("SH_Controller requestMethodName start...");
-      
-      int totalprocmst = sh.totalprocmst();
-      HshPaging page = new HshPaging(totalprocmst, procmst.getCurrentPage());
-      
-      procmst.setStart(page.getStart());
-      procmst.setEnd(page.getEnd());
-      
-      List<Procmst> procmsts = sh.getProcmst(procmst);
-      
-      
-      model.addAttribute("Procmst", procmst);
-      model.addAttribute("processList", procmsts);
-      model.addAttribute("page", page);
-      
-      System.out.println("SH_Controller requestMethodName procmsts->"+" "+procmsts);
-      
-      
-      return "hsh/procmst";
-   }
+	/*
+	 * //공정관리 페이지 다음칸
+	 * 
+	 * @RequestMapping("/nextProcmst") public String nextProcmst(Procmst procmst,
+	 * Model model) {
+	 * System.out.println("SH_Controller requestMethodName start...");
+	 * 
+	 * int totalprocmst = sh.totalprocmst(); HshPaging page = new
+	 * HshPaging(totalprocmst, procmst.getCurrentPage());
+	 * 
+	 * procmst.setStart(page.getStart()); procmst.setEnd(page.getEnd());
+	 * 
+	 * List<Procmst> procmsts = sh.getProcmst(procmst);
+	 * 
+	 * 
+	 * model.addAttribute("Procmst", procmst); model.addAttribute("processList",
+	 * procmsts); model.addAttribute("page", page);
+	 * 
+	 * System.out.println("SH_Controller requestMethodName procmsts->"+" "+procmsts)
+	 * ;
+	 * 
+	 * 
+	 * return "hsh/procmst"; }
+	 */
    
    //공정상세정보
    @ResponseBody
@@ -137,8 +138,15 @@ public class SH_Controller {
             sh.NewProc(procmst);
             String status = "success";
             return status;
-         }else {
-            String status = "error2";
+         }
+         
+         if(!sh.same_pro_cd(procd)) {
+             String status = "error2";
+        	 return status;
+         }
+         
+         else {
+            String status = "error3";
             System.out.println("SH_Controller NewProc error...");
 
             return status;
@@ -174,6 +182,12 @@ System.out.println("SH_Controller requestMethodName start...");
       
       return "hsh/whmst";
    }
+ 
+   
+   
+   
+   
+   
    
    //창고상세정보
       @ResponseBody
