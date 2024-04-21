@@ -34,8 +34,11 @@ public interface OrderDao {
 	void editOrd(Order editOrd);
 	int editOrdItems(OrderItem editOrdItems);
 	Order  findOrdByNum(String order_no);
-	List<Order> findOrd(FindOrd findOrd);
+	List<Order> findOrd(FindOrd findOrd, int offset, int limit);
+//	List<Order> findOrd(FindOrd findOrd);
 	UserMst getUserInfo(String user_id);
+	List<Order> getOrderLi(int offset, int limit);
+	int getOrdersLen();
 
 //	int savingOrd(SavingOrd savingOrd);
 

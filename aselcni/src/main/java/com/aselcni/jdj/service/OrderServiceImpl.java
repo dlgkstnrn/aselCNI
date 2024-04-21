@@ -42,7 +42,21 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return orderLi;
 	}
-	
+
+	@Override
+	public List<Order> getOrderLi(int offset, int limit) {
+		System.out.println("[Service - getOrderLi :주문조회 리스트 전체");
+		List<Order> orderLi = null;
+		
+		try {
+			orderLi = od.getOrderLi(offset, limit);
+			System.out.println("[Service - getOrderLi :주문조회 결과 사이즈" + orderLi.size());
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return orderLi;
+	}
 	@Override
 	public List<CustMst> getCustMstLi() {		// 고객사 전체 조회
 		System.out.println("[Service - getCustMstLi Start");
@@ -163,6 +177,8 @@ public class OrderServiceImpl implements OrderService {
 		return items;
 	}
 	
+
+	
 	
 	
 //	seq_no 만드는거
@@ -268,12 +284,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> findOrd(FindOrd findOrd) {
+//	public List<Order> findOrd(FindOrd findOrd) {
+	public List<Order> findOrd(FindOrd findOrd, int offset, int limit) {
 		System.out.println("[Service - findOrd Start...");
 		List<Order> findOrders = null;
 		try {
-			findOrders = od.findOrd(findOrd);
-			System.out.println("[Service -findOrd Fin... " + findOrders);
+			findOrders = od.findOrd(findOrd, offset, limit);
+//			findOrders = od.findOrd(findOrd);
+			System.out.println("[Service -findOrd Fin... " + findOrders.size() + "findOrder size -----여기다!@#!#@#!3");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -292,6 +310,18 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return regUserInfo;
 	}
+
+	@Override
+	public int getOrdersLen() {
+		try {
+			return od.getOrdersLen();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return 0;
+	}
+
 
 
 

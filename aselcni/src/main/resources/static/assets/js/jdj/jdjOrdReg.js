@@ -1,5 +1,8 @@
 var order_items = new Map(); // 전역 변수로 선언
 var totalPrice = 0;
+function addCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 function increaseCnt(order_item_cd){
 	// 인자로 들어온 코드의 value를 찾음
 	let find_item = order_items.get(order_item_cd);
@@ -251,7 +254,7 @@ $(document).ready(function(){
 				index++;
 				// 없으면 추가
 				order_items.set(order_item_cd, item);
-				
+				let c_ic = addCommas(order_item_cost);
 				$("#itemTB").append(
 				`<tr class="${order_item_cd}">
 					<td><input class="form-check-input" type="checkbox" value="${index}" id="items_index" required=""></td>
@@ -264,7 +267,7 @@ $(document).ready(function(){
 				                <button type="button" class="btn btn-light" onclick="increaseCnt('${order_item_cd}')"><i class="bi bi-plus"></i></button>
 	 						</div></td>
 						<td>${item_cost}</td>
-						<td id="${order_item_cd}_cost">${order_item_cost}</td>
+						<td id="${order_item_cd}_cost">${c_ic}</td>
 				</tr>`)
 				
 				totalPrice += order_item_cost;

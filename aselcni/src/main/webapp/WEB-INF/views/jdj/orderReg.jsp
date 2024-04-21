@@ -49,6 +49,7 @@
 	<script src="assets/js/jdj/jdjOrdReg.js"></script>
 	
 	<style>
+
 	</style>
 		
 </head>
@@ -143,7 +144,9 @@
 <!-- 						<div id="totalAmount" style="margin-top: 20px;">
 						    합계 금액 : <span id="totalPrice"></span> 원
 						</div> -->
-						
+						<div id="totalAmount2" style="margin-top: 20px;">
+						    	합계 금액 : <span id="totalPrice2"></span>
+							</div>
 						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 							<button id="deleteBtn" class="btn btn-danger me-md-2" type="button"><i class="bi bi-trash3-fill"></i> 삭제</button>
 							<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop" id="addItemLi">
@@ -183,15 +186,15 @@
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="inputCity" class="form-label">수량</label>
-						                  <input type="number" class="form-control" id="order_qty" pattern="#,##0">
+						                  <input type="number" class="form-control" id="order_qty">
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="item_cost" class="form-label">단가</label>
-						                  <input type="number" disabled class="form-control" id="item_cost" pattern="#,##0">
+						                  <input type="number" disabled class="form-control" id="item_cost">
 						                </div>
 						                <div class="col-md-3">
 						                  <label for="order_item_cost" class="form-label">금액</label>
-						                  <input type="number"class="form-control" disabled="disabled" id="order_item_cost" pattern="#,##0">
+						                  <input type="number"class="form-control" disabled="disabled" id="order_item_cost">
 						                </div>
 						                
 

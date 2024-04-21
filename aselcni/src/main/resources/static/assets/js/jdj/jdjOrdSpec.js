@@ -1,4 +1,16 @@
-var order_items = new Map(); // 전역 변수로 선언
+var order_items = new Map(); // 전역 변수로 선언\
+var total_items_cost = 0;
+//function updateTotal(){
+	//for (let value of order_items.values()) {
+    //	totalCost += value.cost;
+	//}
+	//console.log("totla")
+	
+//}
+function addCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function increaseCnt2(order_item_cd){
 	// 인자로 들어온 코드의 value를 찾음
 	let find_item = order_items.get(order_item_cd);
@@ -10,7 +22,8 @@ function increaseCnt2(order_item_cd){
 		
 	// 텍스트값 변경
 	$(`#${order_item_cd}`).text(find_item.qty);
-	$(`#${order_item_cd}_cost`).text(t);
+	$(`#${order_item_cd}_cost2`).text(addCommas(t));
+	//updateTotal();
 };
 
 function decreaseCnt2(order_item_cd){	
@@ -23,10 +36,27 @@ function decreaseCnt2(order_item_cd){
 		find_item.cost = t;
 		
 		$(`#${order_item_cd}`).text(find_item.qty);
-		$(`#${order_item_cd}_cost`).text(t);
+		$(`#${order_item_cd}_cost2`).text(addCommas(t));
+		//updateTotal();
 	}
 };
 $(document).ready(function(){
+        $('#itemTB2 tr').each(function() {
+			var cd = $(this).attr('class'); 
+    		var cost = $(`#${cd}_cost2`).text();
+    		//var i_cost = $(`#${cd}_item_cost`).text();
+    		var i_qty = $(`#${cd}`).text();
+    		
+			$(`#${cd}_cost2`).text(addCommas(cost));
+			//$("#item_cost").text(addCommas(i_cost));
+			$(`#${cd}`).text(addCommas(i_qty));
+            console.log(cd +" ----- cd ")
+            console.log(cost +" ----- cost ")
+            
+            total_items_cost += Number(cost);
+        });
+        $('#totalPrice').text(total_items_cost.toLocaleString() + " 원");
+        
 	const order_no = $("#order_no").val();
 //	const order_emp_id = $("#order_emp_id");
 	const cust_cd = $("#cust_cd");
@@ -175,8 +205,7 @@ $(document).ready(function(){
 	})
 	$("#ord_item_saveBtn2").click(function(){
 		if(isNotNull("order_qty2") && isNotNull("order_item_cost2")){
-			console.log($("#order_item_cost2").text() + " order cost")
-			console.log($("#order_qty2").text() + " order order_qty2")
+			//console.log($("#order_qty2").text() + " order order_qty2")
 			// item 객체로 만든 후 Map에 저장 (key값은 제품 코드)
 			let item = {
 				index : index,
@@ -187,7 +216,7 @@ $(document).ready(function(){
 				cost : total,
 				item_cost : item_cost,
 			}
-			
+
 			let find_item = order_items.get(order_item_cd);
 				// 이미 존재하는지 확인
 			if(order_items.has(order_item_cd) && find_item.qty != 0){
@@ -196,6 +225,9 @@ $(document).ready(function(){
 				// 없으면 추가
 				order_items.set(order_item_cd, item);
 				index ++;
+				item_cost = Number(item_cost);
+				order_qty = Number(order_qty);
+				// console.log(order_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
 				$("#itemTB2").append(
 				`<tr class="${order_item_cd}">
 					<td><input class="form-check-input" type="checkbox"required=""></td>
@@ -204,11 +236,11 @@ $(document).ready(function(){
 						<td>${item_unit}</td>
 						<td><div class="btn-group border-1" role="group">
 								<button type="button" class="btn btn-light" onclick="decreaseCnt2('${order_item_cd}')"><i class="bi bi-dash"></i></button>
-								<button type="button" class="btn btn-light" id="${order_item_cd}" disabled>${order_qty}</button>
+								<button type="button" class="btn btn-light" id="${order_item_cd}" disabled>${order_qty.toLocaleString()}</button>
 				                <button type="button" class="btn btn-light" onclick="increaseCnt2('${order_item_cd}')"><i class="bi bi-plus"></i></button>
 	 						</div></td>
-						<td id="item_cost2">${item_cost}</td>
-						<td id="${order_item_cd}_cost">${total}</td>
+						<td id="item_cost">${item_cost.toLocaleString()}</td>
+						<td id="${order_item_cd}_cost2">${total.toLocaleString()}</td>
 				</tr>`)
 				
 				// 모달이 닫힐 때 선택된 옵션 초기화
@@ -216,6 +248,8 @@ $(document).ready(function(){
 				
 				alert("추가 되었습니다.")
 				
+				//updateTotal(); // 주문한 물품 총합 업데이트
+				 
 				// 모달 닫기
 				$('#disablebackdrop').modal('hide');
 				
@@ -224,12 +258,12 @@ $(document).ready(function(){
 				alert("필수 입력란을 확인해주세요!")
 			}
 		// 출력 확인용		
-		for (let [key, value] of order_items) {
-		  console.log(`Key: ${key}`);
-		  for (let prop in value) {
-		    console.log(`  ${prop}: ${value[prop]}`);
-		  }
-		}
+//		for (let [key, value] of order_items) {
+//		  console.log(`Key: ${key}`);
+//		  for (let prop in value) {
+//		    console.log(`  ${prop}: ${value[prop]}`);
+//		  }
+//		}
 	})
 	
 	// 수량 입력하면 합계 변함
@@ -266,6 +300,7 @@ $(document).ready(function(){
 			$("#itemAdd2").attr("disabled", false);
 			$("#itemDel2").attr("disabled", false);
 			
+			$("#totalAmount").empty();
 			 checkBoxs.each(function(){
     	        $(this).css('display', 'block');
 	        })

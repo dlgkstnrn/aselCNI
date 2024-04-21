@@ -117,9 +117,9 @@
 			            			</p> <!-- 고객사 collapse 여는 버튼 -->
 									<div class="collapse border" id="collapseCust">
 										<div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 overflow-hidden w-280px" data-bs-theme="light">  
-											<div class="p-2 mb-2 bg-body-tertiary border-bottom">
+											<!-- <div class="p-2 mb-2 bg-body-tertiary border-bottom">
 												<input type="search" class="form-control" autocomplete="false" placeholder="회사명">
-											</div>  <!-- 고객사 검색 -->
+											</div> -->  <!-- 고객사 검색 -->
 											<ul class="list-unstyled mb-0 ">
 												<c:forEach var = "custMst" items="${custMsts}" varStatus="status">
 								                  <li>
@@ -149,9 +149,9 @@
 			            			</p> <!-- 고객사 collapse 여는 버튼 -->
 									<div class="collapse border" id="collapseUser">
 										<div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 overflow-hidden w-280px" data-bs-theme="light">  
-											<div class="p-2 mb-2 bg-body-tertiary border-bottom">
+											<!-- <div class="p-2 mb-2 bg-body-tertiary border-bottom">
 												<input id="searchUserName" type="search" class="form-control" autocomplete="false" placeholder="담당자명">
-											</div>  <!-- 고객사 검색 -->
+											</div> -->  <!-- 고객사 검색 -->
 											<ul class="list-unstyled mb-0 ">
 												<c:forEach var = "userMst" items="${userMsts}" varStatus="status">
 								                  <li>
@@ -209,8 +209,39 @@
 							</c:forEach>
 						</tbody>
 				</table>
+				<div class="d-flex justify-content-center mt-4">
+					<nav aria-label="Page navigation" id="paging">
+					<c:set var = "startPage" value="${((currentPage - 1) div 5) * 5 + 1}"></c:set>
+					<c:set var = "endPage" value="${startPage + 4 }" />
+					<c:if test = "${endPage  > totalPage}">
+						<c:set var = "endPage" value="${totalPage}" />
+					</c:if>
+					  <ul class="pagination">
+					    	<c:if test="${startPage > 1}">
+								<li class="page-item">
+					      		<a class="page-link" href="?page=${startPage - 5}" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+					      		</a>
+								</li>
+					      	</c:if>
+					        <c:if test="${totalPage > 0}">
+					            <c:forEach var="page" begin="${startPage}" end="${endPage - 1}"  varStatus="status">
+					                <li class="page-item"><a class="${page == currentPage ? 'active' : ''} page-link" href="?page=${page + 1}">${status.index+1 }</a></li>
+					            </c:forEach>
+					        </c:if>
+					    <c:if test="${endPage < totalPage}">
+					    <li class="page-item">
+					      <a class="page-link" href="?page=${startPage + 5}" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					    </c:if>
+					  </ul>
+					</nav>
+				</div>
+				<%-- <p>${totalPage} : 총 페이지 수</p> --%>
 				
-				
+
 				</div> <!-- card-body -->
 			</div><!-- card -->		  
         </section>

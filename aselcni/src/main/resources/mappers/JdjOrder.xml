@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aselcni.JdjOrderMapper">
-
 	<select id="getOrderLi" resultType="Order">
+    	SELECT to2.order_no, to2.order_dt, to2.CUST_EMP, to2.REMARK, to2.ORDER_STATUS_CHK,
+			to2.ORDER_END_DT, to2.ORDER_SEC_NO, tc.CUST_NM, tu.USER_NM
+    	FROM TB_ORDER to2
+    	INNER JOIN TB_CUSTMST tc ON to2.CUST_CD = tc.CUST_CD
+    	INNER JOIN TB_USERMST tu ON to2.ORDER_EMP_ID = tu.USER_ID
+    	ORDER BY to2.order_no
+    	OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+	</select>
+	<select id="getOrderLen" resultType="Order">
 		SELECT to2.order_no, to2.order_dt, to2.CUST_EMP , to2.REMARK , to2.ORDER_STATUS_CHK , to2.ORDER_END_DT , to2.ORDER_SEC_NO , tc.CUST_NM , tu.USER_NM 
 		from TB_ORDER to2
 		inner join TB_CUSTMST tc on to2.CUST_CD = tc.CUST_CD 
@@ -112,7 +120,7 @@
 		inner join TB_USERMST tu on to2.ORDER_EMP_ID = tu.USER_ID
 	    where 1 = 1
 	     <if test="order_no != null and order_no != ''">
-			AND order_no = #{order_no}
+			AND order_no LIKE '%' + #{order_no} + '%'
 	    </if>
 	    
 	    <if test="selUsers != null and selUsers.size() > 0">
@@ -145,5 +153,8 @@
 	</select>
 	
 	
+	
+	
+
 	
 </mapper>

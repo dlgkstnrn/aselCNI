@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.hibernate.Length;
+import org.hibernate.query.spi.Limit;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage.ItemsBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,20 +49,28 @@ public class OrderController {
 	
 //	조회
 	@GetMapping("/order")
-	public String order(Model model) {
-		System.out.println("[Controller - orderMain.jsp / order @GetMapping Start");
+	public String order(Model model, @RequestParam(value="page", defaultValue = "1") int currPage) {
+		System.out.println("[curr페이지는 이거아아ㅏㅇ아ㅏㅇ아 " + currPage);
 		List<CustMst> custMstLi = null;	// 매입처 리스트
 		List<Order> orderLi = null;		// 주문 조회
 		List<UserMst>  userMstLi = null;	// 매입처 리스트
-		int comm_code = 10030;			// 
+		int comm_code = 10030;			// 영업사원 코드
+		int totalPage = 0;
+		int limit = 10;
+		int offset = (currPage -1) * limit;
 		try {
-			orderLi = os.getOrderLi();	
+			orderLi = os.getOrderLi(offset, limit);	
+			
 			custMstLi = os.getCustMstLi();
 			userMstLi = os.getUserMstLi(comm_code); 
+			totalPage = (int)Math.ceil((double)os.getOrdersLen() /  limit);
+			System.err.println("토탈이 이거다ㅏ아앙 -> " + totalPage);
+			
+			System.out.println("--------------------------------");
+			System.out.println("list 길이는 ->>>>>>> " + totalPage);
 			System.out.println("[order_ orderLi]" + orderLi);
 			System.out.println("[order_ custMstLi]" + custMstLi);
 			System.out.println("[order_ userMstLi]" + userMstLi);
-			
 			System.out.println("---------------------------------");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -69,23 +79,30 @@ public class OrderController {
 		model.addAttribute("orders", orderLi);
 		model.addAttribute("custMsts", custMstLi);
 		model.addAttribute("userMsts", userMstLi);
+		model.addAttribute("totalPage", totalPage);
+//		model.addAttribute()
 
 		return "jdj/orderMain";
 	}
 	@PostMapping("/order")
 	@ResponseBody
-	public List<Order> findOrd(@RequestBody FindOrd findOrd) {
+	public List<Order> findOrd(Model model, @RequestBody FindOrd findOrd) {
 		System.out.println("[Controller - findOrdByNum Start :" + findOrd);
-		
-
-		
+//		int offset = 1;
+		int limit = 10;
+		int offset = ((findOrd.getCurrPage()-1) * limit);
+		int totalPage;
 		List<Order> findOrder = null;
 		try {
-			findOrder = os.findOrd(findOrd);
+			findOrder = os.findOrd(findOrd, offset, limit);
+//			findOrder = os.findOrd(findOrd);
 //			findOrder = os.findOrdByNum(order_no);
 		}catch(Exception e){
 			System.err.println(e.getMessage());
 		}
+		totalPage = (int)Math.ceil((double)findOrder.size() /  limit);
+		System.out.println("findOrder ->>> " + totalPage);
+		model.addAttribute("totalPage", totalPage);
 		
 		return findOrder;
 	}

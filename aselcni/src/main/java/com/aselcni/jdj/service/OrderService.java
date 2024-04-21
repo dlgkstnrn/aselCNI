@@ -12,10 +12,13 @@ import com.aselcni.jdj.model.OrderItem;
 import com.aselcni.jdj.model.SavingOrd;
 
 
+
 public interface OrderService {
 
 //	주문 조회
 	List<Order> getOrderLi();
+	List<Order> getOrderLi(int offset, int limit);
+	
 	List<CustMst> getCustMstLi();
 	List<UserMst> getUserMstLi(int comm_cd);
 
@@ -34,7 +37,8 @@ public interface OrderService {
 	int delOrd(String order_no);
 	void editOrd(Order editOrd);
 	Order  findOrdByNum(String order_no);
-	List<Order> findOrd(FindOrd findOrd);
+//	List<Order> findOrd(FindOrd findOrd);
+	List<Order> findOrd(FindOrd findOrd, int offset, int limit);
 	UserMst getUserInfo(String user_id);
-
+	int getOrdersLen();
 }

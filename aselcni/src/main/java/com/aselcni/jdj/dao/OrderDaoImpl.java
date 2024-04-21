@@ -2,10 +2,10 @@ package com.aselcni.jdj.dao;
 
 
 import org.antlr.v4.runtime.misc.Pair;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.eclipse.jdt.internal.compiler.env.IRecordComponent;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +42,34 @@ public class OrderDaoImpl implements OrderDao {
 			System.err.println(e.getMessage());
 		}
 		return orderLi;
+	}
+	
+	@Override
+	public List<Order> getOrderLi(int offset, int limit) {
+		System.err.println("offset -> " + offset + " limit -> "+limit);
+		List<Order> orderLi = null;		
+		System.out.println("[Dao - getOrderLi Start");
+		try {
+			RowBounds rowBounds = new RowBounds(offset, limit);
+			orderLi = session.selectList("getOrderLi",rowBounds);
+			System.out.println("[Dao - getOrderLi Fin");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return orderLi;
+	}
+	
+	@Override
+	public int getOrdersLen() {
+		int size = 0;
+		List<Order> orderLi = null;
+		try {
+			orderLi = session.selectList("getOrderLen");
+			size = orderLi.size();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return size;
 	}
 	
 	@Override						// 고객사 리스트
@@ -86,6 +114,8 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		return itemMstLi;
 	}
+	
+	
 	
 	// 들어온 주문 날짜로 주문번호 생성후 전달받음
 	@Override
@@ -245,8 +275,10 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public List<Order> findOrd(FindOrd findOrd) {
-		System.out.println("[Dao findOrd --> " + findOrd);
+	public List<Order> findOrd(FindOrd findOrd, int offset, int limit) {
+//	public List<Order> findOrd(FindOrd findOrd) {
+  		System.err.println("[Dao findOrd --> " + findOrd + " : " + offset + " : " + limit);
+
 		String order_no = findOrd.getOrder_no();
 		String input_start_dt =findOrd.getInput_start_dt();
 		String input_end_dt = findOrd.getInput_end_dt();
@@ -255,12 +287,12 @@ public class OrderDaoImpl implements OrderDao {
 		List<String> selCusts = findOrd.getSelCusts();
 		
 		
-		System.out.println("order_no : " + order_no);
-		System.out.println("input_start_dt : " + input_start_dt);
-		System.out.println("input_end_dt : " + input_end_dt);
-		System.out.println("seltDT : " + seltDT);
-		System.out.println("selUsers : " + selUsers);
-		System.out.println("selCusts : " + selCusts);
+//		System.out.println("order_no : " + order_no);
+//		System.out.println("input_start_dt : " + input_start_dt);
+//		System.out.println("input_end_dt : " + input_end_dt);
+//		System.out.println("seltDT : " + seltDT);
+//		System.out.println("selUsers : " + selUsers);
+//		System.out.println("selCusts : " + selCusts);
 		List<Order> findOrders =null;
 		
 		try {
@@ -272,7 +304,15 @@ public class OrderDaoImpl implements OrderDao {
 			params.put("selUsers", selUsers);
 			params.put("selCusts", selCusts);
 			
-			findOrders = session.selectList("findOrd",params);
+//			RowBounds rowBounds = new RowBounds(offset, limit);
+//	        findOrders = session.selectList("findOrd", params, rowBounds);
+	        findOrders = session.selectList("findOrd", params);
+	        
+	        System.out.println("==============================================");
+	        System.out.println("findOrders : " + findOrders);
+	        System.out.println("==============================================");
+//	        findOrders = session.selectList("findOrd", params);
+//			findOrders = session.selectList("findOrd",params);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -293,6 +333,8 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		return regUserInfo;
 	}
+
+
 
 	
 
