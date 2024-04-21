@@ -119,20 +119,20 @@
                                        <div class="col-sm-10">
                      
                                          <div class="form-check">
-                                           <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                           <input class="form-check-input" type="checkbox" id="gridCheck1" name="wh_type1">
                                            <label class="form-check-label" for="gridCheck1">
                                              자재
                                            </label>
                                          </div>
                      
                                          <div class="form-check">
-                                           <input class="form-check-input" type="checkbox" id="gridCheck2">
+                                           <input class="form-check-input" type="checkbox" id="gridCheck2" name="wh_type2">
                                            <label class="form-check-label" for="gridCheck2">
                                              출고
                                            </label>
                                          </div>
                                          <div class="form-check">
-                                           <input class="form-check-input" type="checkbox" id="gridCheck3">
+                                           <input class="form-check-input" type="checkbox" id="gridCheck3" name="wh_type3">
                                            <label class="form-check-label" for="gridCheck3">
                                              입고
                                            </label>
@@ -380,10 +380,12 @@
                                     <li class="page-item"><a class="page-link"
                                        href="/whmst?currentPage=${page.startPage-page.pageBlock}">이전</a></li>
                                  </c:if>
+                                 
                                  <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
                                     <li class="page-item"><a class="page-link"
                                        href="/whmst?currentPage=${i}&searchFilter=${whmst.searchFilter}&keyword=${whmst.keyword}">${i}</a></li>
                                  </c:forEach>
+                                 
                                  <c:if test="${page.endPage < page.totalPage }">
                                     <li class="page-item"><a class="page-link"
                                        href="/whmst?currentPage=${page.startPage+page.pageBlock}">다음</a></li>
@@ -653,9 +655,9 @@
             $(document).on('click','#NewWhmst', function() {
               // 사용여부
             var use_flag = $('input[name="USE_FLAG"]').is(':checked') ? 1 : 0;
-            var wh_type1 = $('#verticalycentered1 input[name="wh_type1"]').is(':checked') ? 1 : 0;
-            var wh_type2 = $('#verticalycentered1 input[name="wh_type2"]').is(':checked') ? 1 : 0;
-            var wh_type3 = $('#verticalycentered1 input[name="wh_type3"]').is(':checked') ? 1 : 0;
+            var wh_type1 = $('#verticalycentered input[name="wh_type1"]').is(':checked') ? 1 : 0;
+            var wh_type2 = $('#verticalycentered input[name="wh_type2"]').is(':checked') ? 1 : 0;
+            var wh_type3 = $('#verticalycentered input[name="wh_type3"]').is(':checked') ? 1 : 0;
               var wh_cd = $('input[name="WH_CD"]').val();
               var wh_nm = $('input[name="WH_NM"]').val();
               var remark = $('textarea[name="REMARK"]').val();

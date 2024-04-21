@@ -4,10 +4,10 @@
 
 
 	<select id="totalwhmst" resultType="int">
-	select Count(*) FROM TB_WHMST
+	select Count(*) FROM TB_WHMST where   WH_DELETE_CHK = 0
 	</select>
 
-	<select id="HshgetWhmst" resultType="Whmst">
+	<select id="HshgetWhmst" resultType="Whmst" parameterType="Whmst">
 		select a.*
 		from (select ROW_NUMBER() over(order by (select 1)) as rn
 						,tc.*
@@ -82,7 +82,7 @@
     </insert>
 
  	<select id="hshCheckCd" parameterType = "String" resultType = "int">
- 	 	SELECT COUNT(*) FROM TB_WHMST WHERE WH_CD = #{m_id} and WH_DELETE_CHK=0
+ 	 	SELECT COUNT(*) FROM TB_WHMST WHERE WH_CD = #{m_id}
  	 </select>
 <!-- 	<select id="same_Whcode" resultType="string" parameterType="string">
 		SELECT CASE
