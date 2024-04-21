@@ -339,7 +339,10 @@
 		cust_emp = ISNULL(#{cust_emp}, cust_emp),
 		remark = ISNULL(#{remark}, remark),
 		outitem_emp_id = ISNULL(#{outitem_emp_id}, outitem_emp_id),
-		outitem_dt = ISNULL(#{outitem_dt}, outitem_dt),
+		outitem_dt= CASE 
+            WHEN #{outitem_dt} IS NOT NULL AND #{outitem_dt} != '' THEN #{outitem_dt} 
+            ELSE outitem_dt 
+        END,
 		outitem_update = ISNULL(#{outitem_update}, outitem_update)
 		WHERE outitem_no = #{outitem_no}
 		and outitem_delete_chk=0	

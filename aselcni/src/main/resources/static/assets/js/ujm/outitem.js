@@ -256,9 +256,9 @@ $(document).ready(function () {
                 $('<tr>').append(
                     $('<td>').append(checkbox),
                     $('<td>').text(item.item_nm),
-                    $('<td>').text(item.stock),
-                    $('<td>').text(item.qty),
-                    $('<td>').text(item.remain_qty),
+                    $('<td>').text((item.stock).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+                    $('<td>').text((item.qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+                    $('<td>').text((item.remain_qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
                     $('<td>').append(insertQtyInput),
                 )
             );
@@ -304,7 +304,7 @@ $(document).ready(function () {
 
         // form으로 제출할 outitem데이터들
         var insertOutitemData = {
-            outitem_no : outitemDt, //일단 2024-04-07 그대로 보내고, OUT2404070001..으로의 변환은 자바에서, seq_no와 같이.
+            outitem_no : outitemDt, //일단 2024-04-07 그대로 보내고, OUT2404070001..으로의 변환은 자바에서
             order_no: $('#insertOrderNo').val(),
             outitem_dt: $('#insert_outitem_dt').val(),
             cust_emp: $('#insert_cust_emp').val(),
@@ -445,10 +445,10 @@ let detail_remark;
                 $('<tr>').append(
                     $('<td>').text(''),
                     $('<td>').text(item.item_nm),
-                    $('<td>').text(item.stock), 
-                    $('<td>').text(item.qty),
-                    $('<td>').text(item.qty - item.order_qty),
-                    $('<td>').text(item.outitem_qty),
+                    $('<td>').text((item.stock).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")), 
+                    $('<td>').text((item.qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+                    $('<td>').text((item.qty - item.order_qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+                    $('<td>').text((item.outitem_qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
                 )
             );
           }); //each 주문품목
@@ -603,10 +603,10 @@ let detail_remark;
               $('#detail_outitem_item_list tbody').append(
                   $('<tr>').append(
                       $('<td>').append(checkbox),
-                      $('<td>').text(item.item_nm),
-                      $('<td>').text(item.stock),
-                      $('<td>').text(item.old_order_qty),
-                      $('<td>').text(item.old_order_qty - item.outitem_sum_qty),
+                      $('<td>').text((item.item_nm).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+                      $('<td>').text((item.stock).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+                      $('<td>').text((item.old_order_qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+                      $('<td>').text((item.old_order_qty - item.outitem_sum_qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
                       $('<td>').append(updateQtyInput),
                   )
               );
