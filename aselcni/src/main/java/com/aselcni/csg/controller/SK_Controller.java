@@ -75,7 +75,6 @@ public class SK_Controller {
         // 페이징 객체 생성
         csg_Paging paging = new csg_Paging(fiterPurchase, csg_TB_PURCHASE.getCurrentPage());
         System.out.println(paging);
-        //위에 paging이 좆같음 씨발
         
         csg_TB_PURCHASE.setStart(paging.getStart());//1
         csg_TB_PURCHASE.setEnd(paging.getEnd());//5
@@ -88,7 +87,7 @@ public class SK_Controller {
         // 응답 객체에 페이징 정보와 검색 결과 목록 추가
         response.put("page", paging);
         response.put("items", purchaseList);
-        System.out.println("씨발 너 지금 몇개야 : "+csg_TB_PURCHASE);
+        System.out.println("너 지금 몇개야 ??? : "+csg_TB_PURCHASE);
 
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@page에 들어가는  paging: "+ paging);
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@items에 들어가는  purchaseList: "+ purchaseList);
