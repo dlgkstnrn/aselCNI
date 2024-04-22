@@ -66,11 +66,11 @@ public class SK_Controller {
     @GetMapping("/searchPurchases")
     public Map<String, Object> searchPurchases(CSG_TB_PURCHASE csg_TB_PURCHASE) {
         Map<String, Object> response = new HashMap<String, Object>();
-        System.out.println("도대체 뭘 넘겨주는데 개씨잇파알 ==> " + csg_TB_PURCHASE);
+        System.out.println("무슨값이 넘어오니 ㅎㅎ? ==> " + csg_TB_PURCHASE);
         
         // 전체 발주 개수 계산
 		int fiterPurchase = sk_ServicInterface.totalPurchase(csg_TB_PURCHASE);
-		System.out.println("도대체 왜 자꾸 토탈페이지를 쳐 넘겨 ==> " + fiterPurchase);
+		System.out.println("토탈페이지를 넘기고 있쪄? ==> " + fiterPurchase);
 		
         // 페이징 객체 생성
         csg_Paging paging = new csg_Paging(fiterPurchase, csg_TB_PURCHASE.getCurrentPage());
@@ -87,11 +87,11 @@ public class SK_Controller {
         // 응답 객체에 페이징 정보와 검색 결과 목록 추가
         response.put("page", paging);
         response.put("items", purchaseList);
-        System.out.println("너 지금 몇개야 : "+csg_TB_PURCHASE);
+        System.out.println("너 지금 몇개니 ? : "+csg_TB_PURCHASE);
 
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@page에 들어가는  paging: "+ paging);
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@items에 들어가는  purchaseList: "+ purchaseList);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@response 씨비언ㅇㄹ미ㅓㅁ니;ㄹ : "+ response);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@response  : "+ response);
         return response;
         
     }

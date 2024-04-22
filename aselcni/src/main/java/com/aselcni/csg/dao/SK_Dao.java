@@ -33,7 +33,7 @@ public class SK_Dao implements SK_Dao_Interface {
 		purchaseList = session.selectList("SK_findAllPurchase",csg_TB_PURCHASE);
 		System.out.println("DAO + DB : 확실히 purchaseList를 잘 가져온거니??==>"+purchaseList);
 		} catch (Exception e) {
-			System.out.println("왜 또 오류가 쳐 나는거야.. + e 나 먹어라"+e);
+			System.out.println("왜 또 오류가 나는거야.. + e 나 먹어라"+e);
 		}
 		
 		return purchaseList;
@@ -89,7 +89,7 @@ public class SK_Dao implements SK_Dao_Interface {
 	public List<CSG_TB_TYPE_SML> CSG_SmlType(CSG_TB_TYPE_SML csgSml) {
 		
 		List<CSG_TB_TYPE_SML> smlTypeList = null;
-		System.out.println("2가 나오는게 너냐?"+csgSml.getBig_no());
+		System.out.println("2가 나오는게 너니?"+csgSml.getBig_no());
 		try {
 			smlTypeList = session.selectList("SK_smlTypeList", csgSml);
 		} catch (Exception e) {
